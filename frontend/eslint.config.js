@@ -8,6 +8,8 @@ const browserGlobals = {
   AbortController: 'readonly',
   DOMException: 'readonly',
   Response: 'readonly',
+  URL: 'readonly',
+  URLSearchParams: 'readonly',
   document: 'readonly',
   fetch: 'readonly',
   window: 'readonly',

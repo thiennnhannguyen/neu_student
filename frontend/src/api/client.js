@@ -1,5 +1,20 @@
 const WRITE_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
+// Trang đăng nhập tự hiện lỗi; AuthContext coi 401 của me là "chưa đăng nhập".
+const PATHS_HANDLING_OWN_401 = new Set(['/api/auth/login', '/api/auth/me']);
+
+let unauthorizedHandler = null;
+
+/** Trả về hàm hủy đăng ký. */
+export function setUnauthorizedHandler(handler) {
+  unauthorizedHandler = handler;
+  return () => {
+    if (unauthorizedHandler === handler) {
+      unauthorizedHandler = null;
+    }
+  };
+}
+
 export class ApiError extends Error {
   constructor({ status, code, message, details = {} }) {
     super(message);
@@ -70,6 +85,9 @@ export async function apiRequest(path, { method = 'GET', body, signal } = {}) {
   }
   const data = await readJson(response);
   if (!response.ok) {
+    if (response.status === 401 && !PATHS_HANDLING_OWN_401.has(path)) {
+      unauthorizedHandler?.();
+    }
     throw toApiError(response, data);
   }
   return data;

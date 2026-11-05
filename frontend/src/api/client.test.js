@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { ApiError, apiRequest } from './client';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { ApiError, apiRequest, setUnauthorizedHandler } from './client';
 
 function jsonResponse(status, body) {
   return new Response(JSON.stringify(body), {
@@ -98,5 +98,81 @@ describe('apiRequest', () => {
     fetchMock.mockResolvedValue(new Response(null, { status: 204 }));
 
     await expect(apiRequest('/api/x', { method: 'DELETE' })).resolves.toBeNull();
+  });
+});
+
+describe('xử lý 401 toàn cục', () => {
+  let handler;
+  let unregister;
+
+  function respondWith(status) {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () =>
+        status === 204
+          ? new Response(null, { status })
+          : jsonResponse(status, { error: { code: 'X', message: 'lỗi', details: {} } }),
+      ),
+    );
+  }
+
+  beforeEach(() => {
+    handler = vi.fn();
+    unregister = setUnauthorizedHandler(handler);
+  });
+
+  afterEach(() => unregister());
+
+  it('401 của API thường gọi bộ xử lý và vẫn ném lỗi', async () => {
+    respondWith(401);
+
+    await expect(apiRequest('/api/students/me')).rejects.toMatchObject({ status: 401 });
+
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+
+  it.each(['/api/auth/login', '/api/auth/me'])('401 của %s không gọi bộ xử lý', async (path) => {
+    respondWith(401);
+
+    await expect(apiRequest(path)).rejects.toMatchObject({ status: 401 });
+
+    expect(handler).not.toHaveBeenCalled();
+  });
+
+  it('401 của logout có gọi bộ xử lý', async () => {
+    respondWith(401);
+
+    await expect(apiRequest('/api/auth/logout', { method: 'POST' })).rejects.toBeDefined();
+
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([403, 404, 422, 500])('%s không gọi bộ xử lý', async (status) => {
+    respondWith(status);
+
+    await expect(apiRequest('/api/x')).rejects.toMatchObject({ status });
+
+    expect(handler).not.toHaveBeenCalled();
+  });
+
+  it('sau khi hủy đăng ký thì không gọi nữa', async () => {
+    unregister();
+    respondWith(401);
+
+    await expect(apiRequest('/api/x')).rejects.toBeDefined();
+
+    expect(handler).not.toHaveBeenCalled();
+  });
+
+  it('hủy đăng ký cũ không xóa bộ xử lý mới', async () => {
+    const newer = vi.fn();
+    const unregisterNewer = setUnauthorizedHandler(newer);
+    unregister();
+    respondWith(401);
+
+    await expect(apiRequest('/api/x')).rejects.toBeDefined();
+
+    expect(newer).toHaveBeenCalledTimes(1);
+    unregisterNewer();
   });
 });
