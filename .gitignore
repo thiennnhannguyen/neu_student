@@ -29,3 +29,6 @@ coverage/
 .DS_Store
 .vscode/
 .idea/
+
+# Ảnh bộ nhận diện chỉ để tham chiếu, không đưa lên repo public (Q71)
+docs/brand/reference/*.png

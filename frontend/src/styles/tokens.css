@@ -1,19 +1,24 @@
 :root {
-  /* Lấy mẫu từ keyvisual NEU 2026 (docs/brand/reference). Đối chiếu mã màu chính thức khi nhóm có file brand guideline. */
-  --neu-primary: #245890;
-  --neu-primary-dark: #204d7f; /* Tối hơn primary 12%, dùng cho hover và active. */
+  /* Theo trang "Màu sắc, kiểu chữ thương hiệu" (docs/brand/reference). */
+  --neu-primary: #00528c;
+  --neu-primary-dark: #00487b; /* Mỗi kênh của primary nhân 0,88, dùng cho hover và active. */
+  --neu-red: #c41212;
+  --neu-gray: #828282; /* Chỉ dùng cho viền và trạng thái vô hiệu, không dùng cho chữ. */
+
+  /* Lấy mẫu từ keyvisual NEU 2026, không phải mã màu trong trang màu chính thức. */
   --neu-tint: #daecf9;
   --neu-mid: #78a5c7; /* Chỉ dùng trang trí, không dùng cho chữ. */
   --neu-accent: #3e8ccf;
+
   --neu-white: #ffffff;
 
   --color-text: #1b2733;
   --color-text-muted: #4d5b69;
   --color-surface: #ffffff;
   --color-border: #c9d6e2;
-  --color-error: #b3261e;
+  --color-error: var(--neu-red);
   --color-error-bg: #fdecea;
-  --shadow-card: 0 8px 24px rgb(32 77 127 / 18%);
+  --shadow-card: 0 8px 24px rgb(0 72 123 / 18%);
   --color-success: #1b6e3c;
 
   --space-1: 4px;

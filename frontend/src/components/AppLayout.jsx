@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router';
+import MockNotice from './MockNotice';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 
@@ -16,6 +17,7 @@ export default function AppLayout() {
         <Sidebar open={menuOpen} onNavigate={() => setMenuOpen(false)} />
         <main id="main" className="app-main">
           <Outlet />
+          <MockNotice className="app-main__notice" />
         </main>
       </div>
     </>

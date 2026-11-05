@@ -35,6 +35,9 @@ export default function LoginForm() {
 
   return (
     <section className="login-card">
+      <div className="login-card__badge">
+        <span className="mock-badge">Dữ liệu mẫu</span>
+      </div>
       <div className="login-card__brand">
         <BrandLogo />
         <p className="login-card__school">

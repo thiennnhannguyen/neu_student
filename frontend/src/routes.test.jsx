@@ -19,6 +19,11 @@ describe('khung ứng dụng', () => {
     const banner = await screen.findByRole('banner');
     expect(within(banner).getByText('Dữ liệu mẫu')).toBeInTheDocument();
     expect(within(banner).getByRole('img')).toHaveAttribute('src', '/images/brand/logo_neu.svg');
+    expect(
+      screen.getByText(
+        'Sản phẩm bài tập lớn – không phải hệ thống chính thức của Đại học Kinh tế Quốc dân.',
+      ),
+    ).toBeInTheDocument();
     await screen.findByText('Backend đang hoạt động.');
   });
 

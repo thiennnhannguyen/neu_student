@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from 'react-router';
 import BrandLogo from '../../components/BrandLogo';
+import MockNotice from '../../components/MockNotice';
 import MotifMosaic from '../../components/brand/MotifMosaic';
 import {
   LEFT_STRIP,
@@ -43,6 +44,7 @@ export default function LoginPage() {
       </div>
       <div className="login-panel">
         <LoginForm />
+        <MockNotice />
       </div>
     </main>
   );

@@ -38,11 +38,12 @@ function isChecked(path) {
 }
 
 function token(name) {
-  const match = tokensCss.match(new RegExp(`--${name}:\\s*(#[0-9a-f]{6})`, 'i'));
+  const match = tokensCss.match(new RegExp(`--${name}:\\s*(#[0-9a-f]{6}|var\\(--[\\w-]+\\))`, 'i'));
   if (!match) {
     throw new Error(`Không thấy token ${name}`);
   }
-  return match[1];
+  const alias = match[1].match(/^var\(--([\w-]+)\)$/);
+  return alias ? token(alias[1]) : match[1];
 }
 
 function luminance(hex) {
@@ -99,12 +100,29 @@ describe('mã màu', () => {
     expect(globalCss).not.toMatch(/(?:^|[\s;{])color:\s*var\(--neu-mid\)/);
   });
 
+  it('--neu-gray không được dùng cho chữ', () => {
+    expect(globalCss).not.toMatch(/(?:^|[\s;{])color:\s*var\(--neu-gray\)/);
+  });
+
+  it('dùng đúng màu trên trang màu chính thức', () => {
+    expect(token('neu-primary').toLowerCase()).toBe('#00528c');
+    expect(token('neu-red').toLowerCase()).toBe('#c41212');
+    expect(token('neu-gray').toLowerCase()).toBe('#828282');
+    expect(token('color-error').toLowerCase()).toBe('#c41212');
+  });
+
   it('primary-dark tối hơn primary khoảng 12%', () => {
     const primary = token('neu-primary');
     const dark = token('neu-primary-dark');
     for (const start of [1, 3, 5]) {
-      const ratio =
-        parseInt(dark.slice(start, start + 2), 16) / parseInt(primary.slice(start, start + 2), 16);
+      const base = parseInt(primary.slice(start, start + 2), 16);
+      const darker = parseInt(dark.slice(start, start + 2), 16);
+      if (base === 0) {
+        // Kênh 0 thì nhân bao nhiêu vẫn là 0, không tính được tỷ lệ.
+        expect(darker).toBe(0);
+        continue;
+      }
+      const ratio = darker / base;
       expect(ratio).toBeGreaterThan(0.86);
       expect(ratio).toBeLessThan(0.9);
     }
@@ -123,6 +141,7 @@ describe('tỷ lệ tương phản', () => {
     ['lỗi trên nền đỏ nhạt', 'color-error', 'color-error-bg'],
     ['lỗi trên thẻ form', 'color-error', 'neu-white'],
     ['thành công trên thẻ', 'color-success', 'color-surface'],
+    ['chú thích mẫu trên tint', 'color-text-muted', 'neu-tint'],
   ])('%s đạt từ 4,5:1', (_name, foreground, background) => {
     expect(contrast(token(foreground), token(background))).toBeGreaterThanOrEqual(4.5);
   });

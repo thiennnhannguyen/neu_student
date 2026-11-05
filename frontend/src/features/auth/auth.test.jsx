@@ -168,13 +168,18 @@ describe('đăng nhập', () => {
     expect(await screen.findByRole('heading', { name: 'Tổng quan' })).toBeInTheDocument();
   });
 
-  it('trang đăng nhập không còn badge "Dữ liệu mẫu" (quản lý dự án yêu cầu xóa)', async () => {
+  it('trang đăng nhập luôn có badge "Dữ liệu mẫu" và dòng không phải hệ thống chính thức', async () => {
     anonymousApi();
 
     renderApp('/login');
 
     await screen.findByLabelText('Mật khẩu');
-    expect(screen.queryByText('Dữ liệu mẫu')).not.toBeInTheDocument();
+    expect(screen.getByText('Dữ liệu mẫu')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Sản phẩm bài tập lớn – không phải hệ thống chính thức của Đại học Kinh tế Quốc dân.',
+      ),
+    ).toBeInTheDocument();
   });
 
   it('lỗi kết nối khi kiểm tra phiên thì hiện lỗi và thử lại được', async () => {
