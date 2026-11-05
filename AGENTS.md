@@ -94,6 +94,9 @@ KHÔNG ĐƯỢC
 - Không dùng courses.id thay cho courses.code để so sánh hoặc hiển thị mã môn. API và UI luôn hiển thị code; code null thì hiện "Chưa có mã".
 - Chỉ đọc file trong repo. Cần file bên ngoài thì hỏi quản lý dự án; không tự tìm trong Downloads/Desktop/Documents, không mở hay liệt kê file zip. Đặc tả đọc ở docs/spec/spec.md.
 
+LỊCH SỬ HỌC LẠI
+- attempt_no chỉ là số nội bộ. Mọi API và UI hiển thị lịch sử học lại theo thứ tự semesters.order; "lần thứ N" tính từ thứ tự đó.
+
 QUY TẮC MIGRATION
 - Schema tạo bằng migration, test dùng DB từ migration, không dùng db.create_all(). Thay đổi model phải kèm migration.
 - Trigger không nằm trong model nên autogenerate không thấy, và autogenerate không so điều kiện của partial index. Migration mới không được xóa hay đổi trigger, trừ khi có test thay thế. Danh sách trigger phải khớp EXPECTED_TRIGGERS trong tests/unit/db/test_schema.py.
