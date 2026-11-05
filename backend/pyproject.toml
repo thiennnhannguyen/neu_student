@@ -1,0 +1,18 @@
+[project]
+name = "neu-student-backend"
+version = "0.1.0"
+description = "Backend M11, M12 - bai tap lon, du lieu mau"
+requires-python = ">=3.11"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "--cov=app --cov-report=term-missing"
