@@ -90,7 +90,13 @@ KHÔNG ĐƯỢC
 - Không commit secret, file .db, node_modules.
 - Gặp mơ hồ ảnh hưởng tới dữ liệu hoặc công thức: dừng lại hỏi. Mơ hồ nhỏ về giao diện: chọn phương án đơn giản nhất và ghi vào DECISIONS.md.
 - Service ở giai đoạn 05 và sau đó KHÔNG được import, gọi hay chép lại các hàm tính lại tham chiếu trong backend/tests/reference/; phải tự viết từ quy tắc trong AGENTS.md và docs/DECISIONS.md.
+- Cấm SUM/AVG trên cột điểm (score_10, grade_4 và các cột điểm khác) trong SQL. Mọi phép tính điểm, GPA làm trong Python bằng Decimal.
+- Không dùng courses.id thay cho courses.code để so sánh hoặc hiển thị mã môn. API và UI luôn hiển thị code; code null thì hiện "Chưa có mã".
 - Chỉ đọc file trong repo. Cần file bên ngoài thì hỏi quản lý dự án; không tự tìm trong Downloads/Desktop/Documents, không mở hay liệt kê file zip. Đặc tả đọc ở docs/spec/spec.md.
+
+QUY TẮC MIGRATION
+- Schema tạo bằng migration, test dùng DB từ migration, không dùng db.create_all(). Thay đổi model phải kèm migration.
+- Trigger không nằm trong model nên autogenerate không thấy, và autogenerate không so điều kiện của partial index. Migration mới không được xóa hay đổi trigger, trừ khi có test thay thế. Danh sách trigger phải khớp EXPECTED_TRIGGERS trong tests/unit/db/test_schema.py.
 
 MẪU BÁO CÁO GIAI ĐOẠN (dùng cho mọi giai đoạn)
 BÁO CÁO GIAI ĐOẠN <NN> – <tên>
