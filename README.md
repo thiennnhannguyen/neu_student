@@ -6,7 +6,7 @@ Bài tập lớn: M11 Phân tích học tập và M12 Hỗ trợ người học.
 
 ## Trạng thái
 
-Giai đoạn 01 chỉ có khung dự án: backend có `GET /api/health`, frontend có trang khung, chưa có đăng nhập và chức năng M11, M12. Xem [docs/PROGRESS.md](docs/PROGRESS.md).
+Đã có schema, migration và dữ liệu mẫu. Backend mới có `GET /api/health`, frontend có trang khung, chưa có đăng nhập và chức năng M11, M12. Xem [docs/PROGRESS.md](docs/PROGRESS.md).
 
 ## Yêu cầu
 
@@ -32,7 +32,28 @@ Cấu hình cục bộ là tùy chọn: sao chép `backend/.env.example` thành 
 | `make test` | Chạy pytest (kèm coverage) và Vitest |
 | `make lint` | Chạy ruff, ESLint và Prettier |
 | `make build` | Build frontend |
-| `make seed` | Nạp dữ liệu mẫu (hiện để trống) |
+| `make db-upgrade` | Tạo hoặc nâng cấp schema bằng migration |
+| `make seed` | Nâng cấp schema rồi xóa và nạp lại dữ liệu mẫu (`flask seed --reset`) |
+
+Các lệnh chạy trong thư mục `backend`:
+
+```bash
+.venv/bin/flask --app app seed --check     # So số bản ghi từng bảng với fixture
+.venv/bin/flask --app app grades add --student SV05 --course CNT101 --semester S3 --score 7.0
+```
+
+`flask seed --reset` xóa cả nhật ký thay đổi và từ chối chạy ở production.
+
+## Tài khoản demo (dữ liệu mẫu)
+
+Mọi tài khoản dùng mật khẩu `Demo@12345`. Đây là dữ liệu mẫu, chỉ dùng để demo. Đăng nhập sẽ có từ giai đoạn 04.
+
+| Vai trò | Tên đăng nhập |
+|---------|---------------|
+| Quản trị | `admin` |
+| Cố vấn | `gv1`, `gv2` |
+| Nhân sự hỗ trợ | `ht1`, `ht2` |
+| Sinh viên | `sv01` đến `sv07` |
 
 Backend mặc định dùng cổng 5001 vì macOS thường chiếm cổng 5000 cho AirPlay. Đổi cổng bằng biến `BACKEND_PORT`, ví dụ `make dev BACKEND_PORT=5055`; Vite đọc cùng biến này để chuyển `/api` sang backend, nên frontend và backend cùng origin.
 
@@ -46,5 +67,7 @@ Backend mặc định dùng cổng 5001 vì macOS thường chiếm cổng 5000 
 - [AGENTS.md](AGENTS.md): quy tắc dự án
 - [docs/spec/spec.md](docs/spec/spec.md): đặc tả
 - [docs/API.md](docs/API.md): API
+- [docs/DATA_MODEL.md](docs/DATA_MODEL.md): mô hình dữ liệu
+- [docs/DATA_MOCK.md](docs/DATA_MOCK.md): dữ liệu mẫu và số tính tay
 - [docs/TEST_MATRIX.md](docs/TEST_MATRIX.md): ma trận kiểm thử
 - [docs/DECISIONS.md](docs/DECISIONS.md): quyết định

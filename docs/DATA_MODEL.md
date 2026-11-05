@@ -1,0 +1,171 @@
+# Mô hình dữ liệu
+
+Có 42 bảng, toàn bộ là dữ liệu mẫu. Model trong `backend/app/models/` là nguồn của schema, tạo qua migration `backend/migrations/`. Mọi khóa ngoại dùng `ON DELETE RESTRICT`, `PRAGMA foreign_keys=ON` bật cho mọi kết nối SQLite. Mọi bảng có `is_mock`, trừ `audit_logs` và `notifications`. Khóa chính kiểu chuỗi, giữ id của fixture; bản ghi tạo khi chạy dùng UUID; `audit_logs` và `notifications` dùng số nguyên tự tăng.
+
+Điểm, GPA và ngưỡng dùng `Numeric` tỷ lệ cố định, đọc ra `Decimal`. SQLite lưu chúng dưới dạng số thực, nên cấm `SUM`, `AVG` trên cột điểm trong SQL.
+
+## ERD
+
+Sơ đồ chỉ gồm các quan hệ chính.
+
+```mermaid
+erDiagram
+    roles ||--o{ users : role_id
+    users ||--o| students : user_id
+    programs ||--o{ program_versions : program_id
+    program_versions ||--o{ students : program_version_id
+    program_versions ||--o{ curriculum_requirements : program_version_id
+    program_versions ||--o{ elective_groups : program_version_id
+    elective_groups ||--o{ curriculum_requirements : elective_group_id
+    courses ||--o{ curriculum_requirements : course_id
+    course_groups ||--o{ courses : course_group_id
+    courses ||--o{ course_prerequisites : course_id
+    courses ||--o{ course_equivalencies : course_a_id
+    course_equivalencies ||--o{ course_equivalency_scopes : equivalency_id
+    courses ||--o{ course_offerings : course_id
+    semesters ||--o{ course_offerings : semester_id
+    students ||--o{ enrollments : student_id
+    courses ||--o{ enrollments : course_id
+    semesters ||--o{ enrollments : semester_id
+    enrollments ||--o| grade_attempts : enrollment_id
+    grade_scales ||--o{ grade_scale_levels : grade_scale_id
+    grade_scales ||--o{ academic_rules : grade_scale_id
+    users ||--o{ advisor_assignments : advisor_user_id
+    students ||--o{ advisor_assignments : student_id
+    careers ||--o{ career_versions : career_id
+    career_versions ||--o{ career_nodes : career_version_id
+    career_nodes ||--o{ career_requirements : career_node_id
+    courses ||--o{ career_requirements : course_id
+    skills ||--o{ career_requirements : skill_id
+    courses ||--o{ course_skill_mappings : course_id
+    skills ||--o{ course_skill_mappings : skill_id
+    students ||--o{ student_career_goals : student_id
+    careers ||--o{ student_career_goals : career_id
+    students ||--o{ skill_evidences : student_id
+    skills ||--o{ skill_evidences : skill_id
+    students ||--o{ learning_roadmaps : student_id
+    careers ||--o{ learning_roadmaps : career_id
+    learning_roadmaps ||--o{ roadmap_versions : roadmap_id
+    roadmap_versions ||--o{ roadmap_items : roadmap_version_id
+    programs ||--o{ learning_resources : scope_program_id
+    students ||--o{ improvement_plans : student_id
+    improvement_plans ||--o{ improvement_plan_items : plan_id
+    students ||--o{ support_requests : student_id
+    support_categories ||--o{ support_requests : category_id
+    support_categories ||--o{ support_staff_categories : category_id
+    users ||--o{ support_staff_categories : user_id
+    support_requests ||--o{ support_messages : request_id
+    support_messages ||--o{ support_attachments : message_id
+    users ||--o{ notifications : user_id
+    users ||--o{ audit_logs : actor_id
+```
+
+## Bảng
+
+### Shared (16)
+
+| Bảng | Mô tả |
+|------|-------|
+| `roles` | Bốn vai trò: student, advisor, support_staff, admin. |
+| `users` | Tài khoản, mật khẩu băm. Có `failed_login_count`, `locked_until`, `last_login_at`, `is_active`; **các cột này chưa dùng tới GĐ04**. |
+| `students` | Hồ sơ sinh viên: mã, khóa, phiên bản CTĐT, kỳ nhập học. |
+| `programs` | Chương trình đào tạo mẫu. |
+| `program_versions` | Phiên bản CTĐT theo khóa (`version`, `effective_cohort`). |
+| `semesters` | Học kỳ theo thứ tự, tối đa một kỳ hiện tại. |
+| `course_groups` | Nhóm môn cho phân tích mạnh/yếu. |
+| `courses` | Học phần. Khóa chính là `id`; `code` có thể null. |
+| `course_prerequisites` | Tiên quyết, là đồ thị có hướng không chu trình. |
+| `course_equivalencies` | Cặp tương đương có người duyệt. |
+| `course_equivalency_scopes` | Phiên bản CTĐT mà cặp tương đương có hiệu lực. |
+| `elective_groups` | Nhóm tự chọn, có tín chỉ tối thiểu. |
+| `curriculum_requirements` | Học phần thuộc CTĐT, bắt buộc hoặc tự chọn. |
+| `course_offerings` | Lịch mở lớp. Không có bản ghi nghĩa là không có dữ liệu. |
+| `enrollments` | Mỗi lần đăng ký học, giữ trạng thái `in_progress`, `final`, `withdrawn`, `exempt`. |
+| `advisor_assignments` | Sinh viên do cố vấn phụ trách. |
+
+### M11 (4)
+
+| Bảng | Mô tả |
+|------|-------|
+| `grade_scales` | Thang điểm theo khóa (`version`, `effective_cohort`). |
+| `grade_scale_levels` | Các mức của thang: chữ, điểm tối thiểu, hệ 4, đạt. |
+| `academic_rules` | Quy chế theo khóa: `retake_policy`, ngưỡng cảnh báo, ngưỡng nhóm môn. |
+| `grade_attempts` | Kết quả một lần học. Là nguồn sự thật của trạng thái đạt. Chỉ đăng ký `final`, `exempt` mới có attempt. |
+
+### M12 (20)
+
+| Bảng | Mô tả |
+|------|-------|
+| `careers` | Danh mục nghề. |
+| `career_versions` | Phiên bản nghề `draft` hoặc `published`; bản published không sửa được. **API quản trị chưa dùng tới GĐ07.** |
+| `career_nodes` | Nhóm năng lực của một phiên bản nghề. |
+| `career_requirements` | Yêu cầu học phần, kỹ năng hoặc dự án, có nguồn và người duyệt. |
+| `skills` | Kỹ năng và dự án. |
+| `course_skill_mappings` | Ánh xạ môn và kỹ năng, chỉ để hiển thị và gợi ý. |
+| `student_career_goals` | Nghề chính của sinh viên, giữ lịch sử bằng `ended_at`. |
+| `skill_evidences` | Minh chứng kỹ năng. **Luồng nộp và duyệt chưa dùng tới GĐ10**; đã có dữ liệu mẫu. |
+| `learning_roadmaps` | Lộ trình của sinh viên theo nghề. **Chưa dùng tới GĐ09.** |
+| `roadmap_versions` | Phiên bản lộ trình `active`, `proposal`, `archived`. **Chưa dùng tới GĐ09.** |
+| `roadmap_items` | Môn hoặc kỹ năng theo kỳ, độ chắc chắn, phụ thuộc kết quả, ngoài CTĐT. **Chưa dùng tới GĐ09.** |
+| `learning_resources` | Quy định, FAQ, học liệu, kỹ năng, có nguồn và phạm vi. **Chưa dùng tới GĐ10.** |
+| `risk_action_templates` | Mẫu việc cho mỗi quy tắc cảnh báo, đã có dữ liệu mẫu. **Chưa dùng tới GĐ10.** |
+| `improvement_plans` | Kế hoạch cải thiện. **Chưa dùng tới GĐ10.** |
+| `improvement_plan_items` | Việc trong kế hoạch. **Chưa dùng tới GĐ10.** |
+| `support_categories` | Nhóm vấn đề hỗ trợ. |
+| `support_staff_categories` | Nhóm vấn đề được gán cho nhân sự hỗ trợ. |
+| `support_requests` | Ticket, mã dạng `HT-YYYYMM-0001`. **API chưa dùng tới GĐ10.** |
+| `support_messages` | Phản hồi trong ticket. **API chưa dùng tới GĐ10.** |
+| `support_attachments` | Tệp đính kèm, tên lưu duy nhất, có `sha256`. **Chưa dùng tới GĐ10.** |
+
+### System (2)
+
+| Bảng | Mô tả |
+|------|-------|
+| `notifications` | Thông báo trong hệ thống. **Chưa dùng tới GĐ10.** |
+| `audit_logs` | Nhật ký thay đổi, chỉ thêm, không sửa. Đã dùng cho `flask grades add`. |
+
+## Ràng buộc yêu cầu
+
+| Ràng buộc | Bảng | Cách làm |
+|-----------|------|----------|
+| `code` nullable, UNIQUE khi khác null | `courses` | Partial unique `uq_courses_code_not_null` |
+| `status` thuộc {in_progress, final, withdrawn, exempt} | `enrollments` | CHECK `status_valid` |
+| UNIQUE(id, student_id, course_id, semester_id) | `enrollments` | UNIQUE, đích của khóa ngoại phức hợp |
+| Tối đa 1 attempt mỗi đăng ký | `grade_attempts` | UNIQUE `enrollment_id` |
+| Attempt khớp đăng ký | `grade_attempts` | Khóa ngoại phức hợp `fk_grade_attempts_enrollment_consistent` |
+| Điểm hệ 10 trong [0, 10] | `grade_attempts` | CHECK `score_range` |
+| Không tạo attempt khi `in_progress`, `withdrawn` | `grade_attempts` | Trigger `trg_grade_attempts_status_on_insert`, `_on_update` |
+| Attempt miễn có điểm null, `passed = 1` | `grade_attempts` | Trigger `trg_grade_attempts_exempt_on_insert`, `_on_update` |
+| Tối đa 1 nghề chính đang hiệu lực | `student_career_goals` | Partial unique `uq_student_career_goals_one_primary` |
+| `status` thuộc {draft, published} | `career_versions` | CHECK `status_valid` |
+| Bản published không sửa được | `career_versions` | Trigger `trg_career_versions_no_update_published`, `_no_delete_published`, `_no_insert_published` |
+| Nội dung bản published không sửa được | `career_nodes`, `career_requirements` | Trigger `no_insert`, `no_update`, `no_delete` trên mỗi bảng |
+| `kind` thuộc {course, skill, project} | `career_requirements` | CHECK `kind_valid` |
+| `weight > 0` | `career_requirements` | CHECK `weight_positive` |
+| `status` thuộc {draft, approved} | `career_requirements` | CHECK `status_valid` |
+| Có `source`, `approved_by`, `approved_at` | `career_requirements` | Cột; `source` NOT NULL |
+| `approved` thì `approved_by` khác null | `career_requirements` | CHECK `approved_has_approver` |
+| UNIQUE(course_id, semester_id), `status` thuộc {open, closed} | `course_offerings` | UNIQUE, CHECK `status_valid` |
+| Tối đa 1 kỳ hiện tại | `semesters` | Partial unique `uq_semesters_one_current` |
+| Có `version`, `effective_cohort` | `grade_scales`, `academic_rules`, `program_versions` | Cột và UNIQUE |
+| Chỉ thêm, không sửa | `audit_logs` | Trigger `trg_audit_logs_no_update`, `_no_delete` |
+| Tối đa 1 bản active mỗi lộ trình | `roadmap_versions` | Partial unique `uq_roadmap_versions_one_active` |
+
+## Ràng buộc bổ sung
+
+| Ràng buộc | Bảng | Cách làm |
+|-----------|------|----------|
+| Đăng ký `final` phải có điểm | `grade_attempts` | Trigger `trg_grade_attempts_final_on_insert`, `_on_update` |
+| Đổi trạng thái không được trái với attempt đã có | `enrollments` | Trigger `trg_enrollments_status_matches_attempt` |
+| Một đăng ký cho mỗi môn và kỳ | `enrollments` | UNIQUE(student_id, course_id, semester_id) |
+| `attempt_no` không trùng trong một môn | `grade_attempts` | UNIQUE(student_id, course_id, attempt_no) |
+| Yêu cầu khớp phiên bản của nút | `career_requirements` | Khóa ngoại phức hợp `fk_career_requirements_node_consistent` |
+| Bản published phải có `published_at` | `career_versions` | CHECK `published_has_time` |
+
+## Index truy vấn chính
+
+`enrollments(student_id, semester_id)`, `grade_attempts(student_id, semester_id)`, `career_requirements(career_version_id)`, `course_skill_mappings(course_id)`, `notifications(user_id, read_at)`.
+
+## Trigger và migration
+
+Có 18 trigger, nằm trong migration `0001`, không nằm trong model. Autogenerate không thấy trigger và không so điều kiện của partial index. Xem "Quy tắc migration" trong `AGENTS.md`.

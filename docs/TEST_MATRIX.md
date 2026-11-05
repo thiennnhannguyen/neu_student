@@ -24,7 +24,7 @@
 
 ## Bộ dữ liệu mẫu
 
-File `backend/tests/unit/test_fixtures_integrity.py`, 63 test. Bản tính lại tham chiếu nằm ở `backend/tests/reference/fixture_reference_calc.py`.
+File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chiếu nằm ở `backend/tests/reference/fixture_reference_calc.py`.
 
 | Hạng mục | Test |
 |----------|------|
@@ -40,6 +40,18 @@ File `backend/tests/unit/test_fixtures_integrity.py`, 63 test. Bản tính lại
 | Mọi số có mục trong DATA_MOCK.md | `test_every_expected_number_has_entry_in_data_mock` |
 | Số tính tay khớp bản tham chiếu | `test_hand_numbers_match_independent_reference_calculation` |
 | Code `app/` không dùng bản tham chiếu | `test_application_code_does_not_use_reference_calculation` |
+
+## Schema, migration, seed
+
+| Hạng mục | File |
+|----------|------|
+| Migration khớp model, đủ bảng, trigger, partial index, index, khóa ngoại bật, không có Float, `is_mock`, downgrade rồi upgrade | `backend/tests/unit/db/test_schema.py` |
+| DB từ chối và chấp nhận, dùng SQL trực tiếp | `backend/tests/unit/db/test_constraints.py` |
+| `seed --reset` 2 lần, `--check`, rollback khi lỗi, trigger giữ nguyên, từ chối ở production | `backend/tests/unit/db/test_seed.py` |
+| Kiểm tra vòng: bản tham chiếu trên DB đã seed khớp 235 mục, mọi trường fixture lưu nguyên | `backend/tests/acceptance/test_seed_roundtrip.py` |
+| `flask grades add`: thêm CNT101 rồi CNT102 cho SV05, 2 dòng audit, sai đầu vào DB không đổi | `backend/tests/acceptance/test_grades_cli.py` |
+| Thang điểm tra theo `min_score`, kiểm tra đầu vào, luật nhập điểm | `backend/tests/unit/test_grades_service.py` |
+| Đọc mã nguồn: không dùng `courses.id` thay `code`, không `SUM`/`AVG` trên điểm, M11 và M12 không import chéo | `backend/tests/unit/test_source_rules.py` |
 
 ## Nghiệm thu TC01–TC14
 
