@@ -64,12 +64,13 @@ describe('nội dung trang đăng nhập', () => {
   it('cột thương hiệu có logo trang trí, xếp trên tiêu đề', async () => {
     await openLogin();
 
-    const copy = document.querySelector('.login-brand__copy');
-    const logo = copy.firstElementChild;
+    const center = document.querySelector('.login-brand__center');
+    const logo = center.firstElementChild;
     expect(logo.tagName).toBe('IMG');
     expect(logo).toHaveAttribute('src', '/images/brand/logo_neu.svg');
     expect(logo).toHaveAttribute('alt', '');
     expect(logo.nextElementSibling).toHaveTextContent('Nền tảng học tập sinh viên NEU');
+    expect(logo.closest('.login-brand__copy')).toBeNull();
   });
 
   it('mosaic không nằm trong thẻ form', async () => {

@@ -504,14 +504,21 @@ body {
     height: 100%;
   }
 
+  /* Khối chữ ở giữa cột theo chiều dọc; logo căn giữa trong khoảng trống phía trên. */
   .login-brand__center {
-    display: flex;
+    display: grid;
     flex: 1;
+    grid-template-rows: 1fr auto 1fr;
+    min-width: 0;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .login-brand__headline {
+    display: flex;
+    grid-row: 2;
     align-items: center;
-    justify-content: center;
     gap: var(--space-3);
     min-width: 0;
-    padding: var(--space-4);
   }
 
   .login-brand__word {
@@ -527,14 +534,16 @@ body {
   .login-brand__copy {
     flex: 1;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: var(--space-3);
     min-width: 0;
-    text-align: center;
   }
 
   .login-brand__logo {
     display: block;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
     width: auto;
     height: clamp(120px, 26vh, 260px);
     max-width: 100%;

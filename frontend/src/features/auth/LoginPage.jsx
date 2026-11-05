@@ -26,13 +26,15 @@ export default function LoginPage() {
         <MotifMosaic {...MOBILE_BAND} className="login-brand__band login-brand__band--mobile" />
         <MotifMosaic {...LEFT_STRIP} className="login-brand__strip" />
         <div className="login-brand__center">
-          <span className="login-brand__word" aria-hidden="true">
-            NEU
-          </span>
-          <div className="login-brand__copy">
-            <BrandLogo decorative className="login-brand__logo" />
-            <p className="login-brand__title">Nền tảng học tập sinh viên NEU</p>
-            <p className="login-brand__subtitle">Phân tích học tập&nbsp;· Hỗ trợ người học</p>
+          <BrandLogo decorative className="login-brand__logo" />
+          <div className="login-brand__headline">
+            <span className="login-brand__word" aria-hidden="true">
+              NEU
+            </span>
+            <div className="login-brand__copy">
+              <p className="login-brand__title">Nền tảng học tập sinh viên NEU</p>
+              <p className="login-brand__subtitle">Phân tích học tập&nbsp;· Hỗ trợ người học</p>
+            </div>
           </div>
         </div>
         <MotifMosaic {...RIGHT_STRIP} className="login-brand__strip" />
