@@ -34,16 +34,20 @@ TC khác: TC11 dùng tiên quyết; TC12 dùng `course_offerings`; TC13 dùng ti
 
 Giá trị mẫu – cần đối chiếu quy chế NEU.
 
-| Chữ | Hệ 10 | Hệ 4 | Đạt |
+Mỗi mức chỉ lưu điểm tối thiểu. Tra cứu: lấy mức có điểm tối thiểu lớn nhất không vượt quá điểm, nên thang không có khoảng trống. Điểm ngoài [0, 10] bị từ chối. Quy ước nhập liệu mẫu: `flask grades add --score` nhận tối đa 1 chữ số thập phân, nhưng logic tra cứu không phụ thuộc quy ước này.
+
+| Chữ | Từ điểm | Hệ 4 | Đạt |
 |---|---|---|---|
-| A | 8,5–10 | 4,0 | Có |
-| B+ | 8,0–8,4 | 3,5 | Có |
-| B | 7,0–7,9 | 3,0 | Có |
-| C+ | 6,5–6,9 | 2,5 | Có |
-| C | 5,5–6,4 | 2,0 | Có |
-| D+ | 5,0–5,4 | 1,5 | Có |
-| D | 4,0–4,9 | 1,0 | Có |
-| F | Dưới 4,0 | 0 | Không |
+| A | 8,5 | 4,0 | Có |
+| B+ | 8,0 | 3,5 | Có |
+| B | 7,0 | 3,0 | Có |
+| C+ | 6,5 | 2,5 | Có |
+| C | 5,5 | 2,0 | Có |
+| D+ | 5,0 | 1,5 | Có |
+| D | 4,0 | 1,0 | Có |
+| F | 0 | 0 | Không |
+
+Ví dụ: 3,95 và 3,99 là F; 4,0 là D; 8,49 là B+; 8,5 và 10 là A.
 
 ### Ngưỡng cảnh báo
 
@@ -55,6 +59,12 @@ Giá trị mẫu – cần đối chiếu quy chế NEU. Ngưỡng K67 cố ý l
 | GPA tích lũy | Dưới 2,5 chú ý; dưới 2,0 cảnh báo | Dưới 1,5 chú ý; dưới 1,2 cảnh báo |
 | Tín chỉ nợ | Từ 3 chú ý; từ 6 cảnh báo | Từ 9 chú ý; từ 12 cảnh báo |
 | Tín chỉ đăng ký | Ngoài 10–25 chú ý | Ngoài 8–28 chú ý |
+
+### Điểm mạnh, yếu theo nhóm môn (M11-07)
+
+Giá trị mẫu, K66 và K67 cùng ngưỡng. Mỗi học phần thuộc 1 nhóm: Toán, Lập trình, Hệ thống, Dữ liệu, Kinh tế, Đại cương (đều có hậu tố "(mẫu)").
+
+GPA nhóm dùng attempt hiệu lực, chỉ gồm môn tính GPA đã có kết quả. Từ 3,2 là `strong` (mạnh), dưới 2,0 là `weak` (yếu), còn lại là `normal`. Nhóm có dưới 2 môn là `insufficient_data` (chưa đủ dữ liệu), không kết luận. Kết quả không suy ra năng lực nghề.
 
 ## 3. SV01
 
@@ -95,6 +105,35 @@ Giá trị mẫu – cần đối chiếu quy chế NEU. Ngưỡng K67 cố ý l
 | `SV01.career.backend.cnt303_status` | in_progress | CNT303 đang học ở S5, không tick xanh |
 | `SV01.career.backend.course_rate` | 7/8 | Đạt CNT101, CNT102, CNT202 (tương đương), CNT203, CNT204, CNT301, CNT302; chưa đạt CNT303 |
 | `SV01.career.backend.skill_rate` | 0/3 | Chưa có minh chứng cho Git, REST API, dự án web |
+
+### Nhóm môn của SV01
+
+| Khóa | Giá trị | Cách tính |
+|---|---|---|
+| `SV01.group.math.fraction` | 27/9 | A 12 + B 9 + C 6; không dưới 2,0 và không từ 3,2 |
+| `SV01.group.math.value` | 3.00 | Làm tròn half-up |
+| `SV01.group.math.level` | normal | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV01.group.math.courses` | MAU101, MAU102, MAU103 | Môn làm bằng chứng |
+| `SV01.group.prog.fraction` | 54/15 | B+ 10,5 + A 12 + B+ 10,5 + B 9 + A 12; từ 3,2 là mạnh |
+| `SV01.group.prog.value` | 3.60 | Làm tròn half-up |
+| `SV01.group.prog.level` | strong | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV01.group.prog.courses` | CNT101, CNT102, CNT201, CNT301, CNT302 | Môn làm bằng chứng |
+| `SV01.group.system.fraction` | 22.5/9 | B 9 + C 6 + C+ 7,5 |
+| `SV01.group.system.value` | 2.50 | Làm tròn half-up |
+| `SV01.group.system.level` | normal | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV01.group.system.courses` | CNT204, CNT205, CNT304 | Môn làm bằng chứng |
+| `SV01.group.data.fraction` | 9/3 | Chỉ 1 môn có kết quả, cần tối thiểu 2; KDL305 đang học không tính |
+| `SV01.group.data.value` | null | Chưa đủ dữ liệu: không kết luận |
+| `SV01.group.data.level` | insufficient_data | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV01.group.data.courses` | CNT203 | Môn làm bằng chứng |
+| `SV01.group.econ.fraction` | 9/3 | Chỉ 1 môn có kết quả, cần tối thiểu 2 |
+| `SV01.group.econ.value` | null | Chưa đủ dữ liệu: không kết luận |
+| `SV01.group.econ.level` | insufficient_data | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV01.group.econ.courses` | MAU104 | Môn làm bằng chứng |
+| `SV01.group.general.fraction` | 15.5/5 | C+ 7,5 + A 4×2 = 8; các môn không tính GPA bị loại |
+| `SV01.group.general.value` | 3.10 | Làm tròn half-up |
+| `SV01.group.general.level` | normal | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV01.group.general.courses` | MAU105, course-cd-a | Môn làm bằng chứng |
 
 ## 4. SV02
 
@@ -202,6 +241,35 @@ Giá trị mẫu – cần đối chiếu quy chế NEU. Ngưỡng K67 cố ý l
 | `SV04.risk.debt` | warning | 6 từ mức 6 (ngưỡng K66) |
 | `SV04.risk.registration` | normal | 15 trong khoảng 10–25 |
 | `SV04.risk.overall` | warning | Mức cao nhất trong ba quy tắc |
+
+### Nhóm môn của SV04
+
+| Khóa | Giá trị | Cách tính |
+|---|---|---|
+| `SV04.group.math.fraction` | 0/6 | F 0 + F 0; dưới 2,0 là yếu |
+| `SV04.group.math.value` | 0.00 | Làm tròn half-up |
+| `SV04.group.math.level` | weak | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV04.group.math.courses` | MAU101, MAU102 | Môn làm bằng chứng |
+| `SV04.group.prog.fraction` | 13.5/6 | B 9 + D+ 4,5 |
+| `SV04.group.prog.value` | 2.25 | Làm tròn half-up |
+| `SV04.group.prog.level` | normal | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV04.group.prog.courses` | CNT101, CNT102 | Môn làm bằng chứng |
+| `SV04.group.system.fraction` | 9/3 | Chỉ 1 môn có kết quả, cần tối thiểu 2 |
+| `SV04.group.system.value` | null | Chưa đủ dữ liệu: không kết luận |
+| `SV04.group.system.level` | insufficient_data | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV04.group.system.courses` | CNT204 | Môn làm bằng chứng |
+| `SV04.group.data.fraction` | 9/3 | Chỉ 1 môn có kết quả, cần tối thiểu 2 |
+| `SV04.group.data.value` | null | Chưa đủ dữ liệu: không kết luận |
+| `SV04.group.data.level` | insufficient_data | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV04.group.data.courses` | CNT203 | Môn làm bằng chứng |
+| `SV04.group.econ.fraction` | 6/3 | Chỉ 1 môn có kết quả, cần tối thiểu 2 |
+| `SV04.group.econ.value` | null | Chưa đủ dữ liệu: không kết luận |
+| `SV04.group.econ.level` | insufficient_data | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV04.group.econ.courses` | MAU104 | Môn làm bằng chứng |
+| `SV04.group.general.fraction` | 6/3 | MAU106 không tính GPA nên chỉ còn 1 môn |
+| `SV04.group.general.value` | null | Chưa đủ dữ liệu: không kết luận |
+| `SV04.group.general.level` | insufficient_data | Ngưỡng: từ 3,2 mạnh, dưới 2,0 yếu, tối thiểu 2 môn |
+| `SV04.group.general.courses` | MAU105 | Môn làm bằng chứng |
 
 ## 7. SV06
 

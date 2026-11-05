@@ -24,7 +24,7 @@
 
 ## Bộ dữ liệu mẫu
 
-File `backend/tests/unit/test_fixtures_integrity.py`, 51 test. Bản tính lại tham chiếu nằm ở `backend/tests/reference/fixture_reference_calc.py`.
+File `backend/tests/unit/test_fixtures_integrity.py`, 63 test. Bản tính lại tham chiếu nằm ở `backend/tests/reference/fixture_reference_calc.py`.
 
 | Hạng mục | Test |
 |----------|------|

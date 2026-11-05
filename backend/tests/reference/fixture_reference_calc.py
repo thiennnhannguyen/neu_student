@@ -43,6 +43,15 @@ class ReferenceData:
         return frozenset({course_id} | self.equivalent.get(course_id, set()))
 
 
+def reference_lookup_grade(bands: list[dict], score) -> dict:
+    """Mức có min_score lớn nhất không vượt quá điểm. Điểm ngoài [0, 10] bị từ chối."""
+    value = Decimal(str(score))
+    if value < 0 or value > 10:
+        raise ValueError(f"Điểm ngoài [0, 10]: {score}")
+    candidates = [b for b in bands if Decimal(str(b["min_score"])) <= value]
+    return max(candidates, key=lambda b: Decimal(str(b["min_score"])))
+
+
 def reference_format_points(value: Fraction) -> str:
     return f"{float(value):g}"
 
@@ -166,6 +175,34 @@ def reference_risk(data, student_id) -> dict:
         "registration": registration_level,
         "overall": overall,
     }
+
+
+def reference_course_group_strength(data, student_id, group_id, policy) -> dict:
+    rule = data.rules[data.students[student_id]["academic_rule_id"]]["course_group_rules"]
+    rows = reference_student_attempts(data, student_id, until=data.current)
+    effective = reference_effective_attempts(data, rows, policy).values()
+    in_group = [
+        a
+        for a in effective
+        if a["status"] == "final"
+        and data.courses[a["course_id"]]["counts_gpa"]
+        and data.courses[a["course_id"]]["course_group_id"] == group_id
+    ]
+    points, credits = reference_sum_gpa(data, in_group)
+    result = {
+        "fraction": f"{reference_format_points(points)}/{credits}",
+        "courses": ", ".join(sorted(a["course_id"] for a in in_group)),
+    }
+    if len(in_group) < rule["min_courses"]:
+        return result | {"value": None, "level": "insufficient_data"}
+    gpa = points / credits
+    if gpa >= Fraction(str(rule["strong_from"])):
+        level = "strong"
+    elif gpa < Fraction(str(rule["weak_below"])):
+        level = "weak"
+    else:
+        level = "normal"
+    return result | {"value": reference_round(points, credits), "level": level}
 
 
 def reference_course_status(data, student_id, course_id, policy, attempts=None) -> str:
@@ -306,6 +343,12 @@ def reference_all(tables: dict[str, list[dict]]) -> dict:
         out[f"SV07.career.{slug}.prj_data_status"] = reference_skill_status(
             data, "SV07", "prj-data"
         )
+
+    for sv in ("SV01", "SV04"):
+        for slug in ("math", "prog", "system", "data", "econ", "general"):
+            strength = reference_course_group_strength(data, sv, f"group-{slug}", "best")
+            for key, value in strength.items():
+                out[f"{sv}.group.{slug}.{key}"] = value
 
     for key, value in reference_risk(data, "SV05").items():
         out[f"SV05.risk.{key}"] = value

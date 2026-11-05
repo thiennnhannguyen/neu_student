@@ -7,56 +7,48 @@
         {
           "letter": "A",
           "min_score": 8.5,
-          "max_score": 10.0,
           "grade_4": 4.0,
           "passed": true
         },
         {
           "letter": "B+",
           "min_score": 8.0,
-          "max_score": 8.4,
           "grade_4": 3.5,
           "passed": true
         },
         {
           "letter": "B",
           "min_score": 7.0,
-          "max_score": 7.9,
           "grade_4": 3.0,
           "passed": true
         },
         {
           "letter": "C+",
           "min_score": 6.5,
-          "max_score": 6.9,
           "grade_4": 2.5,
           "passed": true
         },
         {
           "letter": "C",
           "min_score": 5.5,
-          "max_score": 6.4,
           "grade_4": 2.0,
           "passed": true
         },
         {
           "letter": "D+",
           "min_score": 5.0,
-          "max_score": 5.4,
           "grade_4": 1.5,
           "passed": true
         },
         {
           "letter": "D",
           "min_score": 4.0,
-          "max_score": 4.9,
           "grade_4": 1.0,
           "passed": true
         },
         {
           "letter": "F",
           "min_score": 0.0,
-          "max_score": 3.9,
           "grade_4": 0.0,
           "passed": false
         }
@@ -71,56 +63,48 @@
         {
           "letter": "A",
           "min_score": 8.5,
-          "max_score": 10.0,
           "grade_4": 4.0,
           "passed": true
         },
         {
           "letter": "B+",
           "min_score": 8.0,
-          "max_score": 8.4,
           "grade_4": 3.5,
           "passed": true
         },
         {
           "letter": "B",
           "min_score": 7.0,
-          "max_score": 7.9,
           "grade_4": 3.0,
           "passed": true
         },
         {
           "letter": "C+",
           "min_score": 6.5,
-          "max_score": 6.9,
           "grade_4": 2.5,
           "passed": true
         },
         {
           "letter": "C",
           "min_score": 5.5,
-          "max_score": 6.4,
           "grade_4": 2.0,
           "passed": true
         },
         {
           "letter": "D+",
           "min_score": 5.0,
-          "max_score": 5.4,
           "grade_4": 1.5,
           "passed": true
         },
         {
           "letter": "D",
           "min_score": 4.0,
-          "max_score": 4.9,
           "grade_4": 1.0,
           "passed": true
         },
         {
           "letter": "F",
           "min_score": 0.0,
-          "max_score": 3.9,
           "grade_4": 0.0,
           "passed": false
         }
@@ -153,7 +137,12 @@
       "notes": [
         "Giá trị mẫu – cần đối chiếu quy chế NEU"
       ],
-      "is_mock": true
+      "is_mock": true,
+      "course_group_rules": {
+        "strong_from": 3.2,
+        "weak_below": 2.0,
+        "min_courses": 2
+      }
     },
     {
       "id": "rule-k67",
@@ -179,7 +168,12 @@
         "Giá trị mẫu – cần đối chiếu quy chế NEU",
         "Ngưỡng cố ý lỏng để phục vụ kiểm thử TC05"
       ],
-      "is_mock": true
+      "is_mock": true,
+      "course_group_rules": {
+        "strong_from": 3.2,
+        "weak_below": 2.0,
+        "min_courses": 2
+      }
     }
   ]
 }

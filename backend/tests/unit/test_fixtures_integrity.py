@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from tests.reference.fixture_reference_calc import reference_all
+from tests.reference.fixture_reference_calc import reference_all, reference_lookup_grade
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
 FIXTURES_DIR = BACKEND_DIR / "app" / "seed" / "fixtures"
@@ -26,6 +26,7 @@ FOREIGN_KEYS = [
     ("course_equivalencies", "course_b_id", "courses"),
     ("course_equivalencies", "program_version_ids", "program_versions"),
     ("course_equivalencies", "approved_by", "users"),
+    ("courses", "course_group_id", "course_groups"),
     ("course_offerings", "course_id", "courses"),
     ("course_offerings", "semester_id", "semesters"),
     ("academic_rules", "grade_scale_id", "grade_scales"),
@@ -166,7 +167,7 @@ def test_every_record_is_mock(tables):
     assert missing == []
 
 
-@pytest.mark.parametrize("table", ["programs", "courses", "careers"])
+@pytest.mark.parametrize("table", ["programs", "courses", "careers", "course_groups"])
 def test_names_have_mock_suffix(tables, table):
     assert [r["name"] for r in tables[table] if not r["name"].endswith("(mẫu)")] == []
 
@@ -263,6 +264,47 @@ def test_grade_scales_have_mock_note_and_same_values(tables):
     assert k66["note"] == k67["note"] == "Giá trị mẫu – cần đối chiếu quy chế NEU"
 
 
+def test_grade_scale_levels_only_store_minimum_score(tables):
+    for scale in tables["grade_scales"]:
+        assert all("max_score" not in band for band in scale["bands"])
+        minimums = {band["letter"]: band["min_score"] for band in scale["bands"]}
+        assert minimums == {
+            "A": 8.5,
+            "B+": 8.0,
+            "B": 7.0,
+            "C+": 6.5,
+            "C": 5.5,
+            "D+": 5.0,
+            "D": 4.0,
+            "F": 0.0,
+        }
+
+
+@pytest.mark.parametrize(
+    ("score", "letter"),
+    [(3.95, "F"), (3.99, "F"), (4.0, "D"), (8.49, "B+"), (8.5, "A"), (10, "A"), (0, "F")],
+)
+def test_reference_grade_lookup_has_no_gaps(tables, score, letter):
+    assert reference_lookup_grade(tables["grade_scales"][0]["bands"], score)["letter"] == letter
+
+
+@pytest.mark.parametrize("score", [-0.1, 10.1])
+def test_reference_grade_lookup_rejects_out_of_range(tables, score):
+    with pytest.raises(ValueError):
+        reference_lookup_grade(tables["grade_scales"][0]["bands"], score)
+
+
+def test_every_course_has_one_group_and_rules_define_strength(tables):
+    assert all(course["course_group_id"] for course in tables["courses"])
+    assert {g["slug"] for g in tables["course_groups"]} >= {"math", "prog", "data", "econ"}
+    for rule in tables["academic_rules"]:
+        assert rule["course_group_rules"] == {
+            "strong_from": 3.2,
+            "weak_below": 2.0,
+            "min_courses": 2,
+        }
+
+
 def test_academic_rules_differ_between_cohorts(tables):
     rules = {r["cohort"]: r for r in tables["academic_rules"]}
     assert rules["K66"]["retake_policy"] == "best"
@@ -280,11 +322,7 @@ def test_grade_attempts_match_grade_scale(tables):
     for attempt in tables["grade_attempts"]:
         if attempt["status"] != "final":
             continue
-        band = next(
-            b
-            for b in scales[cohort[attempt["student_id"]]]
-            if b["min_score"] <= attempt["score_10"] <= b["max_score"]
-        )
+        band = reference_lookup_grade(scales[cohort[attempt["student_id"]]], attempt["score_10"])
         assert attempt["letter"] == band["letter"], attempt["id"]
         assert attempt["grade_4"] == band["grade_4"], attempt["id"]
         assert attempt["passed"] == band["passed"], attempt["id"]

@@ -1,4 +1,42 @@
 {
+  "course_groups": [
+    {
+      "id": "group-math",
+      "slug": "math",
+      "name": "Toán (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "group-prog",
+      "slug": "prog",
+      "name": "Lập trình (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "group-system",
+      "slug": "system",
+      "name": "Hệ thống (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "group-data",
+      "slug": "data",
+      "name": "Dữ liệu (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "group-econ",
+      "slug": "econ",
+      "name": "Kinh tế (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "group-general",
+      "slug": "general",
+      "name": "Đại cương (mẫu)",
+      "is_mock": true
+    }
+  ],
   "courses": [
     {
       "id": "MAU101",
@@ -6,7 +44,8 @@
       "name": "Giải tích (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-math"
     },
     {
       "id": "MAU102",
@@ -14,7 +53,8 @@
       "name": "Đại số tuyến tính (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-math"
     },
     {
       "id": "MAU103",
@@ -22,7 +62,8 @@
       "name": "Xác suất thống kê (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-math"
     },
     {
       "id": "MAU104",
@@ -30,7 +71,8 @@
       "name": "Kinh tế học đại cương (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-econ"
     },
     {
       "id": "MAU105",
@@ -38,7 +80,8 @@
       "name": "Tiếng Anh cơ bản (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-general"
     },
     {
       "id": "MAU106",
@@ -46,7 +89,8 @@
       "name": "Giáo dục thể chất 1 (mẫu)",
       "credits": 1,
       "counts_gpa": false,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-general"
     },
     {
       "id": "MAU107",
@@ -54,7 +98,8 @@
       "name": "Giáo dục thể chất 2 (mẫu)",
       "credits": 1,
       "counts_gpa": false,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-general"
     },
     {
       "id": "MAU108",
@@ -62,7 +107,8 @@
       "name": "Giáo dục quốc phòng (mẫu)",
       "credits": 2,
       "counts_gpa": false,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-general"
     },
     {
       "id": "CNT101",
@@ -70,7 +116,8 @@
       "name": "Nhập môn lập trình (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-prog"
     },
     {
       "id": "CNT102",
@@ -78,7 +125,8 @@
       "name": "Lập trình Python (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-prog"
     },
     {
       "id": "CNT201",
@@ -86,7 +134,8 @@
       "name": "Cấu trúc dữ liệu (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-prog"
     },
     {
       "id": "CNT202",
@@ -94,7 +143,8 @@
       "name": "Cấu trúc dữ liệu và giải thuật (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-prog"
     },
     {
       "id": "CNT203",
@@ -102,7 +152,8 @@
       "name": "Cơ sở dữ liệu (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "CNT204",
@@ -110,7 +161,8 @@
       "name": "Mạng máy tính (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-system"
     },
     {
       "id": "CNT205",
@@ -118,7 +170,8 @@
       "name": "Hệ điều hành (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-system"
     },
     {
       "id": "CNT301",
@@ -126,7 +179,8 @@
       "name": "Phát triển web backend (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-prog"
     },
     {
       "id": "CNT302",
@@ -134,7 +188,8 @@
       "name": "Công nghệ phần mềm (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-prog"
     },
     {
       "id": "CNT303",
@@ -142,7 +197,8 @@
       "name": "Hệ thống phân tán (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-system"
     },
     {
       "id": "CNT304",
@@ -150,7 +206,8 @@
       "name": "An toàn thông tin (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-system"
     },
     {
       "id": "CNT305",
@@ -158,7 +215,8 @@
       "name": "Điện toán đám mây (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-system"
     },
     {
       "id": "CNT306",
@@ -166,7 +224,8 @@
       "name": "Lập trình Java (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-prog"
     },
     {
       "id": "CNT401",
@@ -174,7 +233,8 @@
       "name": "Đồ án chuyên ngành (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-prog"
     },
     {
       "id": "KDL201",
@@ -182,7 +242,8 @@
       "name": "Nhập môn khoa học dữ liệu (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KDL202",
@@ -190,7 +251,8 @@
       "name": "Trực quan hóa dữ liệu (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KDL301",
@@ -198,7 +260,8 @@
       "name": "Học máy (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KDL302",
@@ -206,7 +269,8 @@
       "name": "Học sâu (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KDL303",
@@ -214,7 +278,8 @@
       "name": "Xử lý ngôn ngữ tự nhiên (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KDL304",
@@ -222,7 +287,8 @@
       "name": "Triển khai mô hình học máy (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KDL305",
@@ -230,7 +296,8 @@
       "name": "Kho dữ liệu (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KDL306",
@@ -238,7 +305,8 @@
       "name": "Phân tích dữ liệu lớn (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KDL307",
@@ -246,7 +314,8 @@
       "name": "Phân tích kinh doanh (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KDL401",
@@ -254,7 +323,8 @@
       "name": "Đồ án khoa học dữ liệu (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-data"
     },
     {
       "id": "KTE201",
@@ -262,7 +332,8 @@
       "name": "Nguyên lý kế toán (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-econ"
     },
     {
       "id": "KTE202",
@@ -270,7 +341,8 @@
       "name": "Tài chính doanh nghiệp (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-econ"
     },
     {
       "id": "KTE203",
@@ -278,7 +350,8 @@
       "name": "Marketing căn bản (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-econ"
     },
     {
       "id": "KTE301",
@@ -286,7 +359,8 @@
       "name": "Phân tích báo cáo tài chính (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-econ"
     },
     {
       "id": "KTE302",
@@ -294,7 +368,8 @@
       "name": "Marketing số (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-econ"
     },
     {
       "id": "KTE303",
@@ -302,7 +377,8 @@
       "name": "Phân tích hành vi khách hàng (mẫu)",
       "credits": 3,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-econ"
     },
     {
       "id": "course-cd-a",
@@ -310,7 +386,8 @@
       "name": "Chuyên đề thực tế (mẫu)",
       "credits": 2,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-general"
     },
     {
       "id": "course-cd-b",
@@ -318,7 +395,8 @@
       "name": "Chuyên đề thực tế (mẫu)",
       "credits": 2,
       "counts_gpa": true,
-      "is_mock": true
+      "is_mock": true,
+      "course_group_id": "group-general"
     }
   ],
   "course_prerequisites": [

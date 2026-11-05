@@ -6,19 +6,6 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 Không còn câu nào đang mở.
 
-## Đang áp dụng tạm
-
-Quản lý dự án tạm chấp nhận; có thể bác bất kỳ lúc nào.
-
-| Câu | Vấn đề | Phương án | Quyết định |
-|-----|--------|-----------|-----------|
-| Q07 | URL API lệch Blueprint và tên bảng | Giữ URL đặc tả; Blueprint `support` gắn vào `/api/m12/support-requests`; `/study-plans` là `improvement_plans`; `/roadmaps` là `learning_roadmaps` | D-23 |
-| Q09 | `m11.services` không khớp cấu trúc | `app/services/m11_public.py` là cổng duy nhất cho M12 | D-25 |
-| Q25 | Ai duyệt ánh xạ, tương đương | Admin duyệt, ghi `source`, `approved_by`, `approved_at` | D-26 |
-| Q28 | Nhắc nhở khi không có scheduler | Tạo khi tải trang, mỗi cặp việc và hạn tối đa một thông báo, không email | D-27 |
-| Q30 | Giới hạn tải tệp | PDF/PNG/JPG, 5 MB, 3 tệp; kiểm nội dung, đổi tên, lưu ngoài static, tải qua API có kiểm quyền | D-29 |
-| Q32 | Họa tiết khi chưa có bộ nhận diện | Họa tiết hình học chung, không gọi là keyvisual NEU; nhóm cấp bộ nhận diện trước GĐ11 | D-30 |
-
 ## Đã đóng
 
 Nội dung đầy đủ nằm trong [DECISIONS.md](DECISIONS.md).
@@ -67,3 +54,9 @@ Nội dung đầy đủ nằm trong [DECISIONS.md](DECISIONS.md).
 | Q46 | Bản tính lại tham chiếu | D-79 |
 | Q47 | Sinh viên chưa có dữ liệu | D-80 |
 | Q48 | Ngưỡng cảnh báo mẫu | D-81 |
+| Q07 | URL API | D-23 |
+| Q09 | Cổng M11 cho M12 | D-25 |
+| Q25 | Người duyệt ánh xạ, tương đương | D-26 |
+| Q28 | Nhắc nhở | D-27 |
+| Q30 | Giới hạn tải tệp | D-29 |
+| Q32 | Họa tiết | D-30 |
