@@ -126,7 +126,6 @@
       "student_code": "SV01",
       "cohort": "K66",
       "program_version_id": "pv-cntt-k66",
-      "academic_rule_id": "rule-k66",
       "entry_semester_id": "S1",
       "is_mock": true
     },
@@ -136,7 +135,6 @@
       "student_code": "SV02",
       "cohort": "K66",
       "program_version_id": "pv-cntt-k66",
-      "academic_rule_id": "rule-k66",
       "entry_semester_id": "S1",
       "is_mock": true
     },
@@ -146,7 +144,6 @@
       "student_code": "SV03",
       "cohort": "K67",
       "program_version_id": "pv-khdl-k67",
-      "academic_rule_id": "rule-k67",
       "entry_semester_id": "S3",
       "is_mock": true
     },
@@ -156,7 +153,6 @@
       "student_code": "SV04",
       "cohort": "K66",
       "program_version_id": "pv-cntt-k66",
-      "academic_rule_id": "rule-k66",
       "entry_semester_id": "S1",
       "is_mock": true
     },
@@ -166,7 +162,6 @@
       "student_code": "SV05",
       "cohort": "K67",
       "program_version_id": "pv-khdl-k67",
-      "academic_rule_id": "rule-k67",
       "entry_semester_id": "S3",
       "is_mock": true
     },
@@ -176,7 +171,6 @@
       "student_code": "SV06",
       "cohort": "K67",
       "program_version_id": "pv-cntt-k67",
-      "academic_rule_id": "rule-k67",
       "entry_semester_id": "S3",
       "is_mock": true
     },
@@ -186,7 +180,6 @@
       "student_code": "SV07",
       "cohort": "K67",
       "program_version_id": "pv-cntt-k67",
-      "academic_rule_id": "rule-k67",
       "entry_semester_id": "S3",
       "is_mock": true
     }

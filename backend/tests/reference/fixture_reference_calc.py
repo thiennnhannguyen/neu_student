@@ -15,9 +15,27 @@ class ReferenceData:
         self.courses = {row["id"]: row for row in tables["courses"]}
         self.semester_order = {row["id"]: row["order"] for row in tables["semesters"]}
         self.current = next(row["id"] for row in tables["semesters"] if row["is_current"])
-        self.attempts = tables["grade_attempts"]
+        enrollments = {row["id"]: row for row in tables["enrollments"]}
+        self.attempts = [
+            attempt | {"status": enrollments[attempt["enrollment_id"]]["status"]}
+            for attempt in tables["grade_attempts"]
+        ]
+        # Môn đang học chỉ có đăng ký, chưa có attempt.
+        self.attempts += [
+            {
+                "student_id": row["student_id"],
+                "course_id": row["course_id"],
+                "semester_id": row["semester_id"],
+                "status": row["status"],
+                "credits": self.courses[row["course_id"]]["credits"],
+                "grade_4": None,
+                "passed": None,
+            }
+            for row in tables["enrollments"]
+            if row["status"] == "in_progress"
+        ]
         self.students = {row["id"]: row for row in tables["students"]}
-        self.rules = {row["id"]: row for row in tables["academic_rules"]}
+        self.rules = tables["academic_rules"]
         self.curriculum = tables["curriculum_requirements"]
         self.evidences = tables["skill_evidences"]
         self.equivalent = {}
@@ -38,6 +56,11 @@ class ReferenceData:
             self.career_requirements[career["slug"]] = [
                 r for r in tables["career_requirements"] if r["career_node_id"] in node_ids
             ]
+
+    def rule_of(self, student_id: str) -> dict:
+        cohort = self.students[student_id]["cohort"]
+        rules = [r for r in self.rules if r["effective_cohort"] == cohort]
+        return max(rules, key=lambda r: r["version"])
 
     def group_of(self, course_id: str) -> frozenset:
         return frozenset({course_id} | self.equivalent.get(course_id, set()))
@@ -124,9 +147,7 @@ def reference_credits(data, student_id, policy) -> dict:
 
 
 def reference_risk(data, student_id) -> dict:
-    student = data.students[student_id]
-    rule = data.rules[student["academic_rule_id"]]
-    risk_rules = rule["risk_rules"]
+    rule = data.rule_of(student_id)
     policy = rule["retake_policy"]
     points, denominator = reference_cumulative_gpa(data, student_id, data.current, policy)
     credits = reference_credits(data, student_id, policy)
@@ -138,31 +159,32 @@ def reference_risk(data, student_id) -> dict:
         gpa_level = "insufficient_data"
     else:
         gpa = points / denominator
-        low = risk_rules["gpa_low"]
         gpa_level = (
             "warning"
-            if gpa < Fraction(str(low["warning_below"]))
+            if gpa < Fraction(str(rule["gpa_warning_below"]))
             else "watch"
-            if gpa < Fraction(str(low["watch_below"]))
+            if gpa < Fraction(str(rule["gpa_watch_below"]))
             else "normal"
         )
 
     if not has_result:
         debt_level = "insufficient_data"
     else:
-        debt = risk_rules["debt_credits"]
         debt_level = (
             "warning"
-            if credits["debt"] >= debt["warning_from"]
+            if credits["debt"] >= rule["debt_warning_from"]
             else "watch"
-            if credits["debt"] >= debt["watch_from"]
+            if credits["debt"] >= rule["debt_watch_from"]
             else "normal"
         )
 
-    registration = risk_rules["registration"]
     if credits["in_progress"] == 0:
         registration_level = "insufficient_data"
-    elif registration["min_credits"] <= credits["in_progress"] <= registration["max_credits"]:
+    elif (
+        rule["registration_min_credits"]
+        <= credits["in_progress"]
+        <= rule["registration_max_credits"]
+    ):
         registration_level = "normal"
     else:
         registration_level = "watch"
@@ -178,7 +200,7 @@ def reference_risk(data, student_id) -> dict:
 
 
 def reference_course_group_strength(data, student_id, group_id, policy) -> dict:
-    rule = data.rules[data.students[student_id]["academic_rule_id"]]["course_group_rules"]
+    rule = data.rule_of(student_id)
     rows = reference_student_attempts(data, student_id, until=data.current)
     effective = reference_effective_attempts(data, rows, policy).values()
     in_group = [
@@ -193,12 +215,12 @@ def reference_course_group_strength(data, student_id, group_id, policy) -> dict:
         "fraction": f"{reference_format_points(points)}/{credits}",
         "courses": ", ".join(sorted(a["course_id"] for a in in_group)),
     }
-    if len(in_group) < rule["min_courses"]:
+    if len(in_group) < rule["group_min_courses"]:
         return result | {"value": None, "level": "insufficient_data"}
     gpa = points / credits
-    if gpa >= Fraction(str(rule["strong_from"])):
+    if gpa >= Fraction(str(rule["group_strong_from"])):
         level = "strong"
-    elif gpa < Fraction(str(rule["weak_below"])):
+    elif gpa < Fraction(str(rule["group_weak_below"])):
         level = "weak"
     else:
         level = "normal"
@@ -230,9 +252,7 @@ def reference_skill_status(data, student_id, skill_id) -> str:
 
 
 def reference_course_rate(data, student_id, slug, policy, attempts=None) -> str:
-    required = {
-        r["course_id"] for r in data.career_requirements[slug] if r["requirement_type"] == "course"
-    }
+    required = {r["course_id"] for r in data.career_requirements[slug] if r["kind"] == "course"}
     done = sum(
         reference_course_status(data, student_id, c, policy, attempts)
         in ("done", "done_via_equivalency", "exempt")
@@ -242,9 +262,7 @@ def reference_course_rate(data, student_id, slug, policy, attempts=None) -> str:
 
 
 def reference_skill_rate(data, student_id, slug) -> str:
-    required = {
-        r["skill_id"] for r in data.career_requirements[slug] if r["requirement_type"] != "course"
-    }
+    required = {r["skill_id"] for r in data.career_requirements[slug] if r["kind"] != "course"}
     done = sum(reference_skill_status(data, student_id, s) == "done" for s in required)
     return f"{done}/{len(required)}"
 
@@ -252,9 +270,7 @@ def reference_skill_rate(data, student_id, slug) -> str:
 def reference_outside_curriculum(data, student_id, slug) -> int:
     version = data.students[student_id]["program_version_id"]
     inside = {c["course_id"] for c in data.curriculum if c["program_version_id"] == version}
-    required = {
-        r["course_id"] for r in data.career_requirements[slug] if r["requirement_type"] == "course"
-    }
+    required = {r["course_id"] for r in data.career_requirements[slug] if r["kind"] == "course"}
     return len(required - inside)
 
 
@@ -267,7 +283,7 @@ def _gpa_entries(prefix, sem, points_den) -> dict:
 
 
 def _common_entries(data, sv, terms) -> dict:
-    policy = data.rules[data.students[sv]["academic_rule_id"]]["retake_policy"]
+    policy = data.rule_of(sv)["retake_policy"]
     out = {}
     for sem in terms:
         out |= _gpa_entries(f"{sv}.gpa.term", sem, reference_term_gpa(data, sv, sem))

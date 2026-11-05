@@ -15,7 +15,8 @@
     {
       "id": "pv-cntt-k66",
       "program_id": "prog-cntt",
-      "cohort": "K66",
+      "version": 1,
+      "effective_cohort": "K66",
       "name": "CTĐT CNTT K66 (mẫu)",
       "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
       "is_mock": true
@@ -23,7 +24,8 @@
     {
       "id": "pv-cntt-k67",
       "program_id": "prog-cntt",
-      "cohort": "K67",
+      "version": 1,
+      "effective_cohort": "K67",
       "name": "CTĐT CNTT K67 (mẫu)",
       "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
       "is_mock": true
@@ -31,7 +33,8 @@
     {
       "id": "pv-khdl-k66",
       "program_id": "prog-khdl",
-      "cohort": "K66",
+      "version": 1,
+      "effective_cohort": "K66",
       "name": "CTĐT KHDL K66 (mẫu)",
       "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
       "is_mock": true
@@ -39,7 +42,8 @@
     {
       "id": "pv-khdl-k67",
       "program_id": "prog-khdl",
-      "cohort": "K67",
+      "version": 1,
+      "effective_cohort": "K67",
       "name": "CTĐT KHDL K67 (mẫu)",
       "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
       "is_mock": true

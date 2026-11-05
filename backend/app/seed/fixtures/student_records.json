@@ -5,6 +5,7 @@
       "student_id": "SV01",
       "course_id": "MAU101",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -12,6 +13,7 @@
       "student_id": "SV01",
       "course_id": "MAU104",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -19,6 +21,7 @@
       "student_id": "SV01",
       "course_id": "MAU105",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -26,6 +29,7 @@
       "student_id": "SV01",
       "course_id": "CNT101",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -33,6 +37,7 @@
       "student_id": "SV01",
       "course_id": "MAU106",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -40,6 +45,7 @@
       "student_id": "SV01",
       "course_id": "MAU102",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -47,6 +53,7 @@
       "student_id": "SV01",
       "course_id": "MAU103",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -54,6 +61,7 @@
       "student_id": "SV01",
       "course_id": "CNT102",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -61,6 +69,7 @@
       "student_id": "SV01",
       "course_id": "CNT203",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -68,6 +77,7 @@
       "student_id": "SV01",
       "course_id": "MAU107",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -75,6 +85,7 @@
       "student_id": "SV01",
       "course_id": "CNT201",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -82,6 +93,7 @@
       "student_id": "SV01",
       "course_id": "CNT204",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -89,6 +101,7 @@
       "student_id": "SV01",
       "course_id": "CNT205",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -96,6 +109,7 @@
       "student_id": "SV01",
       "course_id": "CNT302",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -103,6 +117,7 @@
       "student_id": "SV01",
       "course_id": "MAU108",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -110,6 +125,7 @@
       "student_id": "SV01",
       "course_id": "CNT301",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -117,6 +133,7 @@
       "student_id": "SV01",
       "course_id": "CNT304",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -124,6 +141,7 @@
       "student_id": "SV01",
       "course_id": "course-cd-a",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -131,6 +149,7 @@
       "student_id": "SV01",
       "course_id": "CNT303",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -138,6 +157,7 @@
       "student_id": "SV01",
       "course_id": "KDL305",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -145,6 +165,7 @@
       "student_id": "SV01",
       "course_id": "CNT401",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -152,6 +173,7 @@
       "student_id": "SV01",
       "course_id": "course-cd-b",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -159,6 +181,7 @@
       "student_id": "SV02",
       "course_id": "MAU101",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -166,6 +189,7 @@
       "student_id": "SV02",
       "course_id": "CNT101",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -173,6 +197,7 @@
       "student_id": "SV02",
       "course_id": "MAU104",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -180,6 +205,7 @@
       "student_id": "SV02",
       "course_id": "MAU106",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -187,6 +213,7 @@
       "student_id": "SV02",
       "course_id": "MAU101",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -194,6 +221,7 @@
       "student_id": "SV02",
       "course_id": "CNT102",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -201,6 +229,7 @@
       "student_id": "SV02",
       "course_id": "MAU102",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -208,6 +237,7 @@
       "student_id": "SV02",
       "course_id": "MAU101",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -215,6 +245,7 @@
       "student_id": "SV02",
       "course_id": "CNT201",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -222,6 +253,7 @@
       "student_id": "SV02",
       "course_id": "MAU103",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -229,6 +261,7 @@
       "student_id": "SV02",
       "course_id": "CNT202",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -236,6 +269,7 @@
       "student_id": "SV02",
       "course_id": "CNT203",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -243,6 +277,7 @@
       "student_id": "SV02",
       "course_id": "CNT204",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -250,6 +285,7 @@
       "student_id": "SV02",
       "course_id": "CNT205",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -257,6 +293,7 @@
       "student_id": "SV02",
       "course_id": "CNT301",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -264,6 +301,7 @@
       "student_id": "SV02",
       "course_id": "CNT302",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -271,6 +309,7 @@
       "student_id": "SV03",
       "course_id": "CNT101",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -278,6 +317,7 @@
       "student_id": "SV03",
       "course_id": "MAU101",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -285,6 +325,7 @@
       "student_id": "SV03",
       "course_id": "course-cd-a",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -292,6 +333,7 @@
       "student_id": "SV03",
       "course_id": "CNT102",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -299,6 +341,7 @@
       "student_id": "SV03",
       "course_id": "MAU102",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -306,6 +349,7 @@
       "student_id": "SV03",
       "course_id": "course-cd-b",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -313,6 +357,7 @@
       "student_id": "SV03",
       "course_id": "MAU103",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -320,6 +365,7 @@
       "student_id": "SV03",
       "course_id": "CNT203",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -327,6 +373,7 @@
       "student_id": "SV03",
       "course_id": "MAU104",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -334,6 +381,7 @@
       "student_id": "SV04",
       "course_id": "MAU101",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -341,6 +389,7 @@
       "student_id": "SV04",
       "course_id": "MAU104",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -348,6 +397,7 @@
       "student_id": "SV04",
       "course_id": "MAU105",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -355,6 +405,7 @@
       "student_id": "SV04",
       "course_id": "CNT101",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -362,6 +413,7 @@
       "student_id": "SV04",
       "course_id": "MAU106",
       "semester_id": "S1",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -369,6 +421,7 @@
       "student_id": "SV04",
       "course_id": "MAU102",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -376,6 +429,7 @@
       "student_id": "SV04",
       "course_id": "CNT102",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -383,6 +437,7 @@
       "student_id": "SV04",
       "course_id": "CNT203",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -390,6 +445,7 @@
       "student_id": "SV04",
       "course_id": "CNT204",
       "semester_id": "S2",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -397,6 +453,7 @@
       "student_id": "SV04",
       "course_id": "CNT205",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -404,6 +461,7 @@
       "student_id": "SV04",
       "course_id": "CNT302",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -411,6 +469,7 @@
       "student_id": "SV04",
       "course_id": "CNT301",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -418,6 +477,7 @@
       "student_id": "SV04",
       "course_id": "CNT304",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -425,6 +485,7 @@
       "student_id": "SV04",
       "course_id": "MAU107",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -432,6 +493,7 @@
       "student_id": "SV04",
       "course_id": "MAU108",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -439,6 +501,7 @@
       "student_id": "SV06",
       "course_id": "MAU101",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -446,6 +509,7 @@
       "student_id": "SV06",
       "course_id": "MAU104",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -453,6 +517,7 @@
       "student_id": "SV06",
       "course_id": "MAU105",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -460,6 +525,7 @@
       "student_id": "SV06",
       "course_id": "CNT101",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -467,6 +533,7 @@
       "student_id": "SV06",
       "course_id": "MAU106",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -474,6 +541,7 @@
       "student_id": "SV06",
       "course_id": "MAU102",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -481,6 +549,7 @@
       "student_id": "SV06",
       "course_id": "CNT102",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -488,6 +557,7 @@
       "student_id": "SV06",
       "course_id": "CNT203",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -495,6 +565,7 @@
       "student_id": "SV06",
       "course_id": "CNT204",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -502,6 +573,7 @@
       "student_id": "SV06",
       "course_id": "CNT205",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -509,6 +581,7 @@
       "student_id": "SV06",
       "course_id": "CNT302",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -516,6 +589,7 @@
       "student_id": "SV06",
       "course_id": "CNT301",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -523,6 +597,7 @@
       "student_id": "SV06",
       "course_id": "CNT304",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -530,6 +605,7 @@
       "student_id": "SV06",
       "course_id": "MAU107",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -537,6 +613,7 @@
       "student_id": "SV06",
       "course_id": "MAU108",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -544,6 +621,7 @@
       "student_id": "SV07",
       "course_id": "CNT101",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -551,6 +629,7 @@
       "student_id": "SV07",
       "course_id": "MAU105",
       "semester_id": "S3",
+      "status": "exempt",
       "is_mock": true
     },
     {
@@ -558,6 +637,7 @@
       "student_id": "SV07",
       "course_id": "MAU101",
       "semester_id": "S3",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -565,6 +645,7 @@
       "student_id": "SV07",
       "course_id": "CNT102",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -572,6 +653,7 @@
       "student_id": "SV07",
       "course_id": "MAU104",
       "semester_id": "S4",
+      "status": "final",
       "is_mock": true
     },
     {
@@ -579,6 +661,7 @@
       "student_id": "SV07",
       "course_id": "CNT203",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     },
     {
@@ -586,6 +669,7 @@
       "student_id": "SV07",
       "course_id": "MAU102",
       "semester_id": "S5",
+      "status": "in_progress",
       "is_mock": true
     }
   ],
@@ -598,7 +682,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 8.6,
       "letter": "A",
       "grade_4": 4.0,
@@ -613,7 +696,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.2,
       "letter": "B",
       "grade_4": 3.0,
@@ -628,7 +710,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 6.8,
       "letter": "C+",
       "grade_4": 2.5,
@@ -643,7 +724,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 8.2,
       "letter": "B+",
       "grade_4": 3.5,
@@ -658,7 +738,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 1,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
@@ -673,7 +752,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.5,
       "letter": "B",
       "grade_4": 3.0,
@@ -688,7 +766,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 6.0,
       "letter": "C",
       "grade_4": 2.0,
@@ -703,7 +780,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 8.7,
       "letter": "A",
       "grade_4": 4.0,
@@ -718,7 +794,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.8,
       "letter": "B",
       "grade_4": 3.0,
@@ -733,7 +808,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 1,
-      "status": "final",
       "score_10": 6.5,
       "letter": "C+",
       "grade_4": 2.5,
@@ -748,7 +822,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 8.1,
       "letter": "B+",
       "grade_4": 3.5,
@@ -763,7 +836,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
@@ -778,7 +850,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 5.6,
       "letter": "C",
       "grade_4": 2.0,
@@ -793,7 +864,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 8.5,
       "letter": "A",
       "grade_4": 4.0,
@@ -808,7 +878,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 2,
-      "status": "final",
       "score_10": 8.0,
       "letter": "B+",
       "grade_4": 3.5,
@@ -823,7 +892,6 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.4,
       "letter": "B",
       "grade_4": 3.0,
@@ -838,7 +906,6 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 6.6,
       "letter": "C+",
       "grade_4": 2.5,
@@ -853,71 +920,10 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 2,
-      "status": "final",
       "score_10": 9.0,
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV01-CNT303-S5",
-      "enrollment_id": "enr-SV01-CNT303-S5",
-      "student_id": "SV01",
-      "course_id": "CNT303",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV01-KDL305-S5",
-      "enrollment_id": "enr-SV01-KDL305-S5",
-      "student_id": "SV01",
-      "course_id": "KDL305",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV01-CNT401-S5",
-      "enrollment_id": "enr-SV01-CNT401-S5",
-      "student_id": "SV01",
-      "course_id": "CNT401",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV01-course-cd-b-S5",
-      "enrollment_id": "enr-SV01-course-cd-b-S5",
-      "student_id": "SV01",
-      "course_id": "course-cd-b",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 2,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
       "is_mock": true
     },
     {
@@ -928,7 +934,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 3.0,
       "letter": "F",
       "grade_4": 0.0,
@@ -943,7 +948,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
@@ -958,7 +962,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 6.5,
       "letter": "C+",
       "grade_4": 2.5,
@@ -973,7 +976,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 1,
-      "status": "final",
       "score_10": 6.0,
       "letter": "C",
       "grade_4": 2.0,
@@ -988,7 +990,6 @@
       "semester_id": "S2",
       "attempt_no": 2,
       "credits": 3,
-      "status": "final",
       "score_10": 4.5,
       "letter": "D",
       "grade_4": 1.0,
@@ -1003,7 +1004,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.5,
       "letter": "B",
       "grade_4": 3.0,
@@ -1018,7 +1018,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 8.0,
       "letter": "B+",
       "grade_4": 3.5,
@@ -1033,7 +1032,6 @@
       "semester_id": "S3",
       "attempt_no": 3,
       "credits": 3,
-      "status": "final",
       "score_10": 8.6,
       "letter": "A",
       "grade_4": 4.0,
@@ -1048,7 +1046,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.2,
       "letter": "B",
       "grade_4": 3.0,
@@ -1063,7 +1060,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 6.0,
       "letter": "C",
       "grade_4": 2.0,
@@ -1078,7 +1074,6 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 5.8,
       "letter": "C",
       "grade_4": 2.0,
@@ -1093,71 +1088,10 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV02-CNT204-S5",
-      "enrollment_id": "enr-SV02-CNT204-S5",
-      "student_id": "SV02",
-      "course_id": "CNT204",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV02-CNT205-S5",
-      "enrollment_id": "enr-SV02-CNT205-S5",
-      "student_id": "SV02",
-      "course_id": "CNT205",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV02-CNT301-S5",
-      "enrollment_id": "enr-SV02-CNT301-S5",
-      "student_id": "SV02",
-      "course_id": "CNT301",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV02-CNT302-S5",
-      "enrollment_id": "enr-SV02-CNT302-S5",
-      "student_id": "SV02",
-      "course_id": "CNT302",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
       "is_mock": true
     },
     {
@@ -1168,7 +1102,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
@@ -1183,7 +1116,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 6.0,
       "letter": "C",
       "grade_4": 2.0,
@@ -1198,7 +1130,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 2,
-      "status": "final",
       "score_10": 9.0,
       "letter": "A",
       "grade_4": 4.0,
@@ -1213,7 +1144,6 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 8.0,
       "letter": "B+",
       "grade_4": 3.5,
@@ -1228,7 +1158,6 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 5.0,
       "letter": "D+",
       "grade_4": 1.5,
@@ -1243,56 +1172,10 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 2,
-      "status": "final",
       "score_10": 5.2,
       "letter": "D+",
       "grade_4": 1.5,
       "passed": true,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV03-MAU103-S5",
-      "enrollment_id": "enr-SV03-MAU103-S5",
-      "student_id": "SV03",
-      "course_id": "MAU103",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV03-CNT203-S5",
-      "enrollment_id": "enr-SV03-CNT203-S5",
-      "student_id": "SV03",
-      "course_id": "CNT203",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV03-MAU104-S5",
-      "enrollment_id": "enr-SV03-MAU104-S5",
-      "student_id": "SV03",
-      "course_id": "MAU104",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
       "is_mock": true
     },
     {
@@ -1303,7 +1186,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 3.5,
       "letter": "F",
       "grade_4": 0.0,
@@ -1318,7 +1200,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 6.0,
       "letter": "C",
       "grade_4": 2.0,
@@ -1333,7 +1214,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 5.6,
       "letter": "C",
       "grade_4": 2.0,
@@ -1348,7 +1228,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
@@ -1363,7 +1242,6 @@
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 1,
-      "status": "final",
       "score_10": 5.0,
       "letter": "D+",
       "grade_4": 1.5,
@@ -1378,7 +1256,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 2.0,
       "letter": "F",
       "grade_4": 0.0,
@@ -1393,7 +1270,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 5.2,
       "letter": "D+",
       "grade_4": 1.5,
@@ -1408,7 +1284,6 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
@@ -1423,101 +1298,10 @@
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.2,
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV04-CNT205-S5",
-      "enrollment_id": "enr-SV04-CNT205-S5",
-      "student_id": "SV04",
-      "course_id": "CNT205",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV04-CNT302-S5",
-      "enrollment_id": "enr-SV04-CNT302-S5",
-      "student_id": "SV04",
-      "course_id": "CNT302",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV04-CNT301-S5",
-      "enrollment_id": "enr-SV04-CNT301-S5",
-      "student_id": "SV04",
-      "course_id": "CNT301",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV04-CNT304-S5",
-      "enrollment_id": "enr-SV04-CNT304-S5",
-      "student_id": "SV04",
-      "course_id": "CNT304",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV04-MAU107-S5",
-      "enrollment_id": "enr-SV04-MAU107-S5",
-      "student_id": "SV04",
-      "course_id": "MAU107",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 1,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV04-MAU108-S5",
-      "enrollment_id": "enr-SV04-MAU108-S5",
-      "student_id": "SV04",
-      "course_id": "MAU108",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 2,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
       "is_mock": true
     },
     {
@@ -1528,7 +1312,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 3.5,
       "letter": "F",
       "grade_4": 0.0,
@@ -1543,7 +1326,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 6.0,
       "letter": "C",
       "grade_4": 2.0,
@@ -1558,7 +1340,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 5.6,
       "letter": "C",
       "grade_4": 2.0,
@@ -1573,7 +1354,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
@@ -1588,7 +1368,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 1,
-      "status": "final",
       "score_10": 5.0,
       "letter": "D+",
       "grade_4": 1.5,
@@ -1603,7 +1382,6 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 2.0,
       "letter": "F",
       "grade_4": 0.0,
@@ -1618,7 +1396,6 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 5.2,
       "letter": "D+",
       "grade_4": 1.5,
@@ -1633,7 +1410,6 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
@@ -1648,101 +1424,10 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.2,
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV06-CNT205-S5",
-      "enrollment_id": "enr-SV06-CNT205-S5",
-      "student_id": "SV06",
-      "course_id": "CNT205",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV06-CNT302-S5",
-      "enrollment_id": "enr-SV06-CNT302-S5",
-      "student_id": "SV06",
-      "course_id": "CNT302",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV06-CNT301-S5",
-      "enrollment_id": "enr-SV06-CNT301-S5",
-      "student_id": "SV06",
-      "course_id": "CNT301",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV06-CNT304-S5",
-      "enrollment_id": "enr-SV06-CNT304-S5",
-      "student_id": "SV06",
-      "course_id": "CNT304",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV06-MAU107-S5",
-      "enrollment_id": "enr-SV06-MAU107-S5",
-      "student_id": "SV06",
-      "course_id": "MAU107",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 1,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV06-MAU108-S5",
-      "enrollment_id": "enr-SV06-MAU108-S5",
-      "student_id": "SV06",
-      "course_id": "MAU108",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 2,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
       "is_mock": true
     },
     {
@@ -1753,7 +1438,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.5,
       "letter": "B",
       "grade_4": 3.0,
@@ -1768,7 +1452,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "exempt",
       "score_10": null,
       "letter": null,
       "grade_4": null,
@@ -1783,7 +1466,6 @@
       "semester_id": "S3",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 6.6,
       "letter": "C+",
       "grade_4": 2.5,
@@ -1798,7 +1480,6 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 8.6,
       "letter": "A",
       "grade_4": 4.0,
@@ -1813,41 +1494,10 @@
       "semester_id": "S4",
       "attempt_no": 1,
       "credits": 3,
-      "status": "final",
       "score_10": 7.0,
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV07-CNT203-S5",
-      "enrollment_id": "enr-SV07-CNT203-S5",
-      "student_id": "SV07",
-      "course_id": "CNT203",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
-      "is_mock": true
-    },
-    {
-      "id": "att-SV07-MAU102-S5",
-      "enrollment_id": "enr-SV07-MAU102-S5",
-      "student_id": "SV07",
-      "course_id": "MAU102",
-      "semester_id": "S5",
-      "attempt_no": 1,
-      "credits": 3,
-      "status": "in_progress",
-      "score_10": null,
-      "letter": null,
-      "grade_4": null,
-      "passed": null,
       "is_mock": true
     }
   ],
@@ -1856,6 +1506,7 @@
       "id": "goal-SV01-backend",
       "student_id": "SV01",
       "career_id": "career-backend",
+      "is_primary": true,
       "started_at": "2024-10-01T08:00:00",
       "ended_at": null,
       "is_mock": true
@@ -1864,6 +1515,7 @@
       "id": "goal-SV02-data_analyst",
       "student_id": "SV02",
       "career_id": "career-data_analyst",
+      "is_primary": true,
       "started_at": "2024-10-01T08:00:00",
       "ended_at": null,
       "is_mock": true
@@ -1872,6 +1524,7 @@
       "id": "goal-SV03-data_analyst",
       "student_id": "SV03",
       "career_id": "career-data_analyst",
+      "is_primary": true,
       "started_at": "2025-10-01T08:00:00",
       "ended_at": null,
       "is_mock": true
@@ -1880,6 +1533,7 @@
       "id": "goal-SV04-backend",
       "student_id": "SV04",
       "career_id": "career-backend",
+      "is_primary": true,
       "started_at": "2024-10-01T08:00:00",
       "ended_at": null,
       "is_mock": true
@@ -1888,6 +1542,7 @@
       "id": "goal-SV06-backend",
       "student_id": "SV06",
       "career_id": "career-backend",
+      "is_primary": true,
       "started_at": "2025-10-01T08:00:00",
       "ended_at": null,
       "is_mock": true
@@ -1896,6 +1551,7 @@
       "id": "goal-SV07-data_analyst",
       "student_id": "SV07",
       "career_id": "career-data_analyst",
+      "is_primary": true,
       "started_at": "2025-10-01T08:00:00",
       "ended_at": "2026-03-01T08:00:00",
       "is_mock": true
@@ -1904,6 +1560,7 @@
       "id": "goal-SV07-ai_engineer",
       "student_id": "SV07",
       "career_id": "career-ai_engineer",
+      "is_primary": true,
       "started_at": "2026-03-01T08:00:00",
       "ended_at": null,
       "is_mock": true

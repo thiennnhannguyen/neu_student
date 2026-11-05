@@ -644,12 +644,6 @@
       "id": "eq-cnt201-cnt202",
       "course_a_id": "CNT201",
       "course_b_id": "CNT202",
-      "program_version_ids": [
-        "pv-cntt-k66",
-        "pv-cntt-k67",
-        "pv-khdl-k66",
-        "pv-khdl-k67"
-      ],
       "status": "approved",
       "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
       "approved_by": "user-admin",
@@ -726,6 +720,32 @@
       "course_id": "MAU103",
       "semester_id": "S6",
       "status": "closed",
+      "is_mock": true
+    }
+  ],
+  "course_equivalency_scopes": [
+    {
+      "id": "eqs-eq-cnt201-cnt202-pv-cntt-k66",
+      "equivalency_id": "eq-cnt201-cnt202",
+      "program_version_id": "pv-cntt-k66",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-cnt201-cnt202-pv-cntt-k67",
+      "equivalency_id": "eq-cnt201-cnt202",
+      "program_version_id": "pv-cntt-k67",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-cnt201-cnt202-pv-khdl-k66",
+      "equivalency_id": "eq-cnt201-cnt202",
+      "program_version_id": "pv-khdl-k66",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-cnt201-cnt202-pv-khdl-k67",
+      "equivalency_id": "eq-cnt201-cnt202",
+      "program_version_id": "pv-khdl-k67",
       "is_mock": true
     }
   ]

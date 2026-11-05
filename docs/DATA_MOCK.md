@@ -21,6 +21,7 @@ TC khác: TC11 dùng tiên quyết; TC12 dùng `course_offerings`; TC13 dùng ti
 ## 2. Quy ước tính
 
 - **Học kỳ:** S1 = HK1 2024-2025 đến S8 = HK2 2027-2028. S5 = HK1 2026-2027 là kỳ hiện tại. K66 vào từ S1, K67 vào từ S3. Không có kỳ hè.
+- **Cấu trúc dữ liệu:** trạng thái nằm ở đăng ký (`enrollments.status`). Chỉ đăng ký `final` và `exempt` có attempt; môn đang học chỉ có đăng ký.
 - **GPA kỳ:** mọi attempt `final` có trong kỳ, tính cả môn trượt và các lần học lại; không đổi về sau. Bỏ môn miễn và môn không tính GPA. Mẫu số 0 trả null.
 - **GPA tích lũy:** dùng attempt hiệu lực của mỗi nhóm môn, tính đến hết kỳ đang chọn.
 - **Attempt hiệu lực:** chọn trong attempt `final` và `exempt`. `best` lấy điểm hệ 4 cao nhất, `latest` lấy lần mới nhất.

@@ -2,25 +2,29 @@
   "support_requests": [
     {
       "id": "req-sv01",
-      "code": "YC-0001",
+      "code": "HT-202609-0001",
       "student_id": "SV01",
       "category_id": "cat-hocvu",
       "title": "Hỏi về đăng ký học phần (mẫu)",
       "description": "Nội dung mẫu.",
       "status": "new",
       "created_at": "2026-09-10T09:00:00",
-      "is_mock": true
+      "is_mock": true,
+      "assigned_to": null,
+      "updated_at": "2026-09-10T09:00:00"
     },
     {
       "id": "req-sv02",
-      "code": "YC-0002",
+      "code": "HT-202609-0002",
       "student_id": "SV02",
       "category_id": "cat-kythuat",
       "title": "Không xem được bảng điểm (mẫu)",
       "description": "Nội dung mẫu.",
       "status": "new",
       "created_at": "2026-09-11T09:00:00",
-      "is_mock": true
+      "is_mock": true,
+      "assigned_to": null,
+      "updated_at": "2026-09-11T09:00:00"
     }
   ],
   "support_messages": [
