@@ -1,0 +1,1228 @@
+{
+  "careers": [
+    {
+      "id": "career-ai_engineer",
+      "slug": "ai_engineer",
+      "name": "AI Engineer (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "career-data_analyst",
+      "slug": "data_analyst",
+      "name": "Data Analyst (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "career-ml_engineer",
+      "slug": "ml_engineer",
+      "name": "Machine Learning Engineer (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "career-backend",
+      "slug": "backend",
+      "name": "Backend Developer (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "career-finance",
+      "slug": "finance",
+      "name": "Chuyên viên phân tích tài chính (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "career-marketing",
+      "slug": "marketing",
+      "name": "Chuyên viên marketing số (mẫu)",
+      "is_mock": true
+    }
+  ],
+  "career_versions": [
+    {
+      "id": "cv-ai_engineer-1",
+      "career_id": "career-ai_engineer",
+      "version": 1,
+      "status": "published",
+      "published_at": "2026-08-20T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "cv-data_analyst-1",
+      "career_id": "career-data_analyst",
+      "version": 1,
+      "status": "published",
+      "published_at": "2026-08-20T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "cv-ml_engineer-1",
+      "career_id": "career-ml_engineer",
+      "version": 1,
+      "status": "published",
+      "published_at": "2026-08-20T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "cv-backend-1",
+      "career_id": "career-backend",
+      "version": 1,
+      "status": "published",
+      "published_at": "2026-08-20T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "cv-finance-1",
+      "career_id": "career-finance",
+      "version": 1,
+      "status": "published",
+      "published_at": "2026-08-20T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "cv-marketing-1",
+      "career_id": "career-marketing",
+      "version": 1,
+      "status": "published",
+      "published_at": "2026-08-20T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "cv-data_analyst-2",
+      "career_id": "career-data_analyst",
+      "version": 2,
+      "status": "draft",
+      "published_at": null,
+      "is_mock": true
+    }
+  ],
+  "career_nodes": [
+    {
+      "id": "node-cv-ai_engineer-1-1",
+      "career_version_id": "cv-ai_engineer-1",
+      "name": "Nền tảng lập trình (mẫu)",
+      "order": 1,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-ai_engineer-1-2",
+      "career_version_id": "cv-ai_engineer-1",
+      "name": "Toán và dữ liệu (mẫu)",
+      "order": 2,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-ai_engineer-1-3",
+      "career_version_id": "cv-ai_engineer-1",
+      "name": "Mô hình AI (mẫu)",
+      "order": 3,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-ai_engineer-1-4",
+      "career_version_id": "cv-ai_engineer-1",
+      "name": "Thực hành (mẫu)",
+      "order": 4,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-data_analyst-1-1",
+      "career_version_id": "cv-data_analyst-1",
+      "name": "Công cụ phân tích (mẫu)",
+      "order": 1,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-data_analyst-1-2",
+      "career_version_id": "cv-data_analyst-1",
+      "name": "Thống kê (mẫu)",
+      "order": 2,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-data_analyst-1-3",
+      "career_version_id": "cv-data_analyst-1",
+      "name": "Dữ liệu (mẫu)",
+      "order": 3,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-data_analyst-1-4",
+      "career_version_id": "cv-data_analyst-1",
+      "name": "Truyền đạt (mẫu)",
+      "order": 4,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-ml_engineer-1-1",
+      "career_version_id": "cv-ml_engineer-1",
+      "name": "Lập trình cho mô hình (mẫu)",
+      "order": 1,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-ml_engineer-1-2",
+      "career_version_id": "cv-ml_engineer-1",
+      "name": "Nền toán (mẫu)",
+      "order": 2,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-ml_engineer-1-3",
+      "career_version_id": "cv-ml_engineer-1",
+      "name": "Học máy (mẫu)",
+      "order": 3,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-ml_engineer-1-4",
+      "career_version_id": "cv-ml_engineer-1",
+      "name": "Vận hành (mẫu)",
+      "order": 4,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-backend-1-1",
+      "career_version_id": "cv-backend-1",
+      "name": "Ngôn ngữ phía server (mẫu)",
+      "order": 1,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-backend-1-2",
+      "career_version_id": "cv-backend-1",
+      "name": "Dữ liệu và thuật toán (mẫu)",
+      "order": 2,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-backend-1-3",
+      "career_version_id": "cv-backend-1",
+      "name": "Dịch vụ (mẫu)",
+      "order": 3,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-backend-1-4",
+      "career_version_id": "cv-backend-1",
+      "name": "Hệ thống (mẫu)",
+      "order": 4,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-finance-1-1",
+      "career_version_id": "cv-finance-1",
+      "name": "Nền kinh tế (mẫu)",
+      "order": 1,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-finance-1-2",
+      "career_version_id": "cv-finance-1",
+      "name": "Tài chính (mẫu)",
+      "order": 2,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-finance-1-3",
+      "career_version_id": "cv-finance-1",
+      "name": "Công cụ định lượng (mẫu)",
+      "order": 3,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-marketing-1-1",
+      "career_version_id": "cv-marketing-1",
+      "name": "Nền marketing (mẫu)",
+      "order": 1,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-marketing-1-2",
+      "career_version_id": "cv-marketing-1",
+      "name": "Marketing số (mẫu)",
+      "order": 2,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-marketing-1-3",
+      "career_version_id": "cv-marketing-1",
+      "name": "Phân tích dữ liệu khách hàng (mẫu)",
+      "order": 3,
+      "is_mock": true
+    },
+    {
+      "id": "node-cv-data_analyst-2-1",
+      "career_version_id": "cv-data_analyst-2",
+      "name": "Công cụ phân tích (bản nháp) (mẫu)",
+      "order": 1,
+      "is_mock": true
+    }
+  ],
+  "career_requirements": [
+    {
+      "id": "req-node-cv-ai_engineer-1-1-CNT102",
+      "career_node_id": "node-cv-ai_engineer-1-1",
+      "requirement_type": "course",
+      "course_id": "CNT102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-1-CNT202",
+      "career_node_id": "node-cv-ai_engineer-1-1",
+      "requirement_type": "course",
+      "course_id": "CNT202",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-1-sk-git",
+      "career_node_id": "node-cv-ai_engineer-1-1",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-git",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-2-MAU102",
+      "career_node_id": "node-cv-ai_engineer-1-2",
+      "requirement_type": "course",
+      "course_id": "MAU102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-2-MAU103",
+      "career_node_id": "node-cv-ai_engineer-1-2",
+      "requirement_type": "course",
+      "course_id": "MAU103",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-2-MAU105",
+      "career_node_id": "node-cv-ai_engineer-1-2",
+      "requirement_type": "course",
+      "course_id": "MAU105",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-3-KDL301",
+      "career_node_id": "node-cv-ai_engineer-1-3",
+      "requirement_type": "course",
+      "course_id": "KDL301",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-3-KDL302",
+      "career_node_id": "node-cv-ai_engineer-1-3",
+      "requirement_type": "course",
+      "course_id": "KDL302",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-3-KDL303",
+      "career_node_id": "node-cv-ai_engineer-1-3",
+      "requirement_type": "course",
+      "course_id": "KDL303",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-3-sk-eval",
+      "career_node_id": "node-cv-ai_engineer-1-3",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-eval",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-4-CNT102",
+      "career_node_id": "node-cv-ai_engineer-1-4",
+      "requirement_type": "course",
+      "course_id": "CNT102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-4-KDL304",
+      "career_node_id": "node-cv-ai_engineer-1-4",
+      "requirement_type": "course",
+      "course_id": "KDL304",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ai_engineer-1-4-prj-data",
+      "career_node_id": "node-cv-ai_engineer-1-4",
+      "requirement_type": "project",
+      "course_id": null,
+      "skill_id": "prj-data",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-1-CNT102",
+      "career_node_id": "node-cv-data_analyst-1-1",
+      "requirement_type": "course",
+      "course_id": "CNT102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-1-sk-git",
+      "career_node_id": "node-cv-data_analyst-1-1",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-git",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-1-sk-sql",
+      "career_node_id": "node-cv-data_analyst-1-1",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-sql",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-2-MAU103",
+      "career_node_id": "node-cv-data_analyst-1-2",
+      "requirement_type": "course",
+      "course_id": "MAU103",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-2-KDL201",
+      "career_node_id": "node-cv-data_analyst-1-2",
+      "requirement_type": "course",
+      "course_id": "KDL201",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-3-CNT203",
+      "career_node_id": "node-cv-data_analyst-1-3",
+      "requirement_type": "course",
+      "course_id": "CNT203",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-3-KDL305",
+      "career_node_id": "node-cv-data_analyst-1-3",
+      "requirement_type": "course",
+      "course_id": "KDL305",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-4-KDL202",
+      "career_node_id": "node-cv-data_analyst-1-4",
+      "requirement_type": "course",
+      "course_id": "KDL202",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-4-KDL307",
+      "career_node_id": "node-cv-data_analyst-1-4",
+      "requirement_type": "course",
+      "course_id": "KDL307",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-1-4-prj-data",
+      "career_node_id": "node-cv-data_analyst-1-4",
+      "requirement_type": "project",
+      "course_id": null,
+      "skill_id": "prj-data",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-1-CNT102",
+      "career_node_id": "node-cv-ml_engineer-1-1",
+      "requirement_type": "course",
+      "course_id": "CNT102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-1-CNT202",
+      "career_node_id": "node-cv-ml_engineer-1-1",
+      "requirement_type": "course",
+      "course_id": "CNT202",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-1-sk-git",
+      "career_node_id": "node-cv-ml_engineer-1-1",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-git",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-2-MAU102",
+      "career_node_id": "node-cv-ml_engineer-1-2",
+      "requirement_type": "course",
+      "course_id": "MAU102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-2-MAU103",
+      "career_node_id": "node-cv-ml_engineer-1-2",
+      "requirement_type": "course",
+      "course_id": "MAU103",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-3-KDL301",
+      "career_node_id": "node-cv-ml_engineer-1-3",
+      "requirement_type": "course",
+      "course_id": "KDL301",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-3-KDL302",
+      "career_node_id": "node-cv-ml_engineer-1-3",
+      "requirement_type": "course",
+      "course_id": "KDL302",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-3-sk-eval",
+      "career_node_id": "node-cv-ml_engineer-1-3",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-eval",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-4-CNT203",
+      "career_node_id": "node-cv-ml_engineer-1-4",
+      "requirement_type": "course",
+      "course_id": "CNT203",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-4-KDL304",
+      "career_node_id": "node-cv-ml_engineer-1-4",
+      "requirement_type": "course",
+      "course_id": "KDL304",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-ml_engineer-1-4-prj-ml",
+      "career_node_id": "node-cv-ml_engineer-1-4",
+      "requirement_type": "project",
+      "course_id": null,
+      "skill_id": "prj-ml",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-1-CNT101",
+      "career_node_id": "node-cv-backend-1-1",
+      "requirement_type": "course",
+      "course_id": "CNT101",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-1-CNT102",
+      "career_node_id": "node-cv-backend-1-1",
+      "requirement_type": "course",
+      "course_id": "CNT102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-1-sk-git",
+      "career_node_id": "node-cv-backend-1-1",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-git",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-2-CNT202",
+      "career_node_id": "node-cv-backend-1-2",
+      "requirement_type": "course",
+      "course_id": "CNT202",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-2-CNT203",
+      "career_node_id": "node-cv-backend-1-2",
+      "requirement_type": "course",
+      "course_id": "CNT203",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-3-CNT204",
+      "career_node_id": "node-cv-backend-1-3",
+      "requirement_type": "course",
+      "course_id": "CNT204",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-3-CNT301",
+      "career_node_id": "node-cv-backend-1-3",
+      "requirement_type": "course",
+      "course_id": "CNT301",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-3-sk-api",
+      "career_node_id": "node-cv-backend-1-3",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-api",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-4-CNT302",
+      "career_node_id": "node-cv-backend-1-4",
+      "requirement_type": "course",
+      "course_id": "CNT302",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-4-CNT303",
+      "career_node_id": "node-cv-backend-1-4",
+      "requirement_type": "course",
+      "course_id": "CNT303",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-backend-1-4-prj-web",
+      "career_node_id": "node-cv-backend-1-4",
+      "requirement_type": "project",
+      "course_id": null,
+      "skill_id": "prj-web",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-finance-1-1-MAU104",
+      "career_node_id": "node-cv-finance-1-1",
+      "requirement_type": "course",
+      "course_id": "MAU104",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-finance-1-1-KTE201",
+      "career_node_id": "node-cv-finance-1-1",
+      "requirement_type": "course",
+      "course_id": "KTE201",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-finance-1-2-KTE202",
+      "career_node_id": "node-cv-finance-1-2",
+      "requirement_type": "course",
+      "course_id": "KTE202",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-finance-1-2-KTE301",
+      "career_node_id": "node-cv-finance-1-2",
+      "requirement_type": "course",
+      "course_id": "KTE301",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-finance-1-2-sk-report",
+      "career_node_id": "node-cv-finance-1-2",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-report",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-finance-1-3-CNT102",
+      "career_node_id": "node-cv-finance-1-3",
+      "requirement_type": "course",
+      "course_id": "CNT102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-finance-1-3-sk-sheet",
+      "career_node_id": "node-cv-finance-1-3",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-sheet",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-finance-1-3-prj-fin",
+      "career_node_id": "node-cv-finance-1-3",
+      "requirement_type": "project",
+      "course_id": null,
+      "skill_id": "prj-fin",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-marketing-1-1-MAU104",
+      "career_node_id": "node-cv-marketing-1-1",
+      "requirement_type": "course",
+      "course_id": "MAU104",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-marketing-1-1-KTE203",
+      "career_node_id": "node-cv-marketing-1-1",
+      "requirement_type": "course",
+      "course_id": "KTE203",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-marketing-1-2-KTE302",
+      "career_node_id": "node-cv-marketing-1-2",
+      "requirement_type": "course",
+      "course_id": "KTE302",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-marketing-1-2-KTE303",
+      "career_node_id": "node-cv-marketing-1-2",
+      "requirement_type": "course",
+      "course_id": "KTE303",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-marketing-1-2-sk-ads",
+      "career_node_id": "node-cv-marketing-1-2",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-ads",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-marketing-1-3-CNT102",
+      "career_node_id": "node-cv-marketing-1-3",
+      "requirement_type": "course",
+      "course_id": "CNT102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-marketing-1-3-KDL202",
+      "career_node_id": "node-cv-marketing-1-3",
+      "requirement_type": "course",
+      "course_id": "KDL202",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-marketing-1-3-sk-report",
+      "career_node_id": "node-cv-marketing-1-3",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-report",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-marketing-1-3-prj-mkt",
+      "career_node_id": "node-cv-marketing-1-3",
+      "requirement_type": "project",
+      "course_id": null,
+      "skill_id": "prj-mkt",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-2-1-CNT102",
+      "career_node_id": "node-cv-data_analyst-2-1",
+      "requirement_type": "course",
+      "course_id": "CNT102",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "pending",
+      "approved_by": null,
+      "approved_at": null,
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-2-1-sk-sql",
+      "career_node_id": "node-cv-data_analyst-2-1",
+      "requirement_type": "skill",
+      "course_id": null,
+      "skill_id": "sk-sql",
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "pending",
+      "approved_by": null,
+      "approved_at": null,
+      "is_mock": true
+    },
+    {
+      "id": "req-node-cv-data_analyst-2-1-KDL306",
+      "career_node_id": "node-cv-data_analyst-2-1",
+      "requirement_type": "course",
+      "course_id": "KDL306",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "pending",
+      "approved_by": null,
+      "approved_at": null,
+      "is_mock": true
+    }
+  ],
+  "skills": [
+    {
+      "id": "sk-git",
+      "name": "Git (mẫu)",
+      "kind": "skill",
+      "is_mock": true
+    },
+    {
+      "id": "sk-sql",
+      "name": "Viết truy vấn SQL (mẫu)",
+      "kind": "skill",
+      "is_mock": true
+    },
+    {
+      "id": "sk-api",
+      "name": "Thiết kế REST API (mẫu)",
+      "kind": "skill",
+      "is_mock": true
+    },
+    {
+      "id": "sk-eval",
+      "name": "Đánh giá mô hình (mẫu)",
+      "kind": "skill",
+      "is_mock": true
+    },
+    {
+      "id": "sk-sheet",
+      "name": "Mô hình hóa bảng tính (mẫu)",
+      "kind": "skill",
+      "is_mock": true
+    },
+    {
+      "id": "sk-report",
+      "name": "Trình bày báo cáo (mẫu)",
+      "kind": "skill",
+      "is_mock": true
+    },
+    {
+      "id": "sk-ads",
+      "name": "Đo lường chiến dịch (mẫu)",
+      "kind": "skill",
+      "is_mock": true
+    },
+    {
+      "id": "prj-data",
+      "name": "Dự án phân tích dữ liệu (mẫu)",
+      "kind": "project",
+      "is_mock": true
+    },
+    {
+      "id": "prj-ml",
+      "name": "Dự án huấn luyện mô hình (mẫu)",
+      "kind": "project",
+      "is_mock": true
+    },
+    {
+      "id": "prj-web",
+      "name": "Dự án xây dựng dịch vụ web (mẫu)",
+      "kind": "project",
+      "is_mock": true
+    },
+    {
+      "id": "prj-fin",
+      "name": "Dự án phân tích tài chính (mẫu)",
+      "kind": "project",
+      "is_mock": true
+    },
+    {
+      "id": "prj-mkt",
+      "name": "Dự án chiến dịch số (mẫu)",
+      "kind": "project",
+      "is_mock": true
+    }
+  ],
+  "course_skill_mappings": [
+    {
+      "id": "map-CNT102-sk-git",
+      "course_id": "CNT102",
+      "skill_id": "sk-git",
+      "purpose": "display_only",
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "map-CNT203-sk-sql",
+      "course_id": "CNT203",
+      "skill_id": "sk-sql",
+      "purpose": "display_only",
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "map-CNT301-sk-api",
+      "course_id": "CNT301",
+      "skill_id": "sk-api",
+      "purpose": "display_only",
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "map-KDL301-sk-eval",
+      "course_id": "KDL301",
+      "skill_id": "sk-eval",
+      "purpose": "display_only",
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approval_status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    }
+  ]
+}

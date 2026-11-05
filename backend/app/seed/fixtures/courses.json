@@ -1,0 +1,654 @@
+{
+  "courses": [
+    {
+      "id": "MAU101",
+      "code": "MAU101",
+      "name": "Giải tích (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "MAU102",
+      "code": "MAU102",
+      "name": "Đại số tuyến tính (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "MAU103",
+      "code": "MAU103",
+      "name": "Xác suất thống kê (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "MAU104",
+      "code": "MAU104",
+      "name": "Kinh tế học đại cương (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "MAU105",
+      "code": "MAU105",
+      "name": "Tiếng Anh cơ bản (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "MAU106",
+      "code": "MAU106",
+      "name": "Giáo dục thể chất 1 (mẫu)",
+      "credits": 1,
+      "counts_gpa": false,
+      "is_mock": true
+    },
+    {
+      "id": "MAU107",
+      "code": "MAU107",
+      "name": "Giáo dục thể chất 2 (mẫu)",
+      "credits": 1,
+      "counts_gpa": false,
+      "is_mock": true
+    },
+    {
+      "id": "MAU108",
+      "code": "MAU108",
+      "name": "Giáo dục quốc phòng (mẫu)",
+      "credits": 2,
+      "counts_gpa": false,
+      "is_mock": true
+    },
+    {
+      "id": "CNT101",
+      "code": "CNT101",
+      "name": "Nhập môn lập trình (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT102",
+      "code": "CNT102",
+      "name": "Lập trình Python (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT201",
+      "code": "CNT201",
+      "name": "Cấu trúc dữ liệu (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT202",
+      "code": "CNT202",
+      "name": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT203",
+      "code": "CNT203",
+      "name": "Cơ sở dữ liệu (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT204",
+      "code": "CNT204",
+      "name": "Mạng máy tính (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT205",
+      "code": "CNT205",
+      "name": "Hệ điều hành (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT301",
+      "code": "CNT301",
+      "name": "Phát triển web backend (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT302",
+      "code": "CNT302",
+      "name": "Công nghệ phần mềm (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT303",
+      "code": "CNT303",
+      "name": "Hệ thống phân tán (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT304",
+      "code": "CNT304",
+      "name": "An toàn thông tin (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT305",
+      "code": "CNT305",
+      "name": "Điện toán đám mây (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT306",
+      "code": "CNT306",
+      "name": "Lập trình Java (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "CNT401",
+      "code": "CNT401",
+      "name": "Đồ án chuyên ngành (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL201",
+      "code": "KDL201",
+      "name": "Nhập môn khoa học dữ liệu (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL202",
+      "code": "KDL202",
+      "name": "Trực quan hóa dữ liệu (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL301",
+      "code": "KDL301",
+      "name": "Học máy (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL302",
+      "code": "KDL302",
+      "name": "Học sâu (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL303",
+      "code": "KDL303",
+      "name": "Xử lý ngôn ngữ tự nhiên (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL304",
+      "code": "KDL304",
+      "name": "Triển khai mô hình học máy (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL305",
+      "code": "KDL305",
+      "name": "Kho dữ liệu (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL306",
+      "code": "KDL306",
+      "name": "Phân tích dữ liệu lớn (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL307",
+      "code": "KDL307",
+      "name": "Phân tích kinh doanh (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KDL401",
+      "code": "KDL401",
+      "name": "Đồ án khoa học dữ liệu (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KTE201",
+      "code": "KTE201",
+      "name": "Nguyên lý kế toán (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KTE202",
+      "code": "KTE202",
+      "name": "Tài chính doanh nghiệp (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KTE203",
+      "code": "KTE203",
+      "name": "Marketing căn bản (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KTE301",
+      "code": "KTE301",
+      "name": "Phân tích báo cáo tài chính (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KTE302",
+      "code": "KTE302",
+      "name": "Marketing số (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "KTE303",
+      "code": "KTE303",
+      "name": "Phân tích hành vi khách hàng (mẫu)",
+      "credits": 3,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "course-cd-a",
+      "code": null,
+      "name": "Chuyên đề thực tế (mẫu)",
+      "credits": 2,
+      "counts_gpa": true,
+      "is_mock": true
+    },
+    {
+      "id": "course-cd-b",
+      "code": null,
+      "name": "Chuyên đề thực tế (mẫu)",
+      "credits": 2,
+      "counts_gpa": true,
+      "is_mock": true
+    }
+  ],
+  "course_prerequisites": [
+    {
+      "id": "pre-MAU103-MAU101",
+      "course_id": "MAU103",
+      "prerequisite_course_id": "MAU101",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-MAU107-MAU106",
+      "course_id": "MAU107",
+      "prerequisite_course_id": "MAU106",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT102-CNT101",
+      "course_id": "CNT102",
+      "prerequisite_course_id": "CNT101",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT201-CNT102",
+      "course_id": "CNT201",
+      "prerequisite_course_id": "CNT102",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT202-CNT102",
+      "course_id": "CNT202",
+      "prerequisite_course_id": "CNT102",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT203-CNT101",
+      "course_id": "CNT203",
+      "prerequisite_course_id": "CNT101",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT204-CNT101",
+      "course_id": "CNT204",
+      "prerequisite_course_id": "CNT101",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT205-CNT101",
+      "course_id": "CNT205",
+      "prerequisite_course_id": "CNT101",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT301-CNT102",
+      "course_id": "CNT301",
+      "prerequisite_course_id": "CNT102",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT301-CNT203",
+      "course_id": "CNT301",
+      "prerequisite_course_id": "CNT203",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT302-CNT203",
+      "course_id": "CNT302",
+      "prerequisite_course_id": "CNT203",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT303-CNT301",
+      "course_id": "CNT303",
+      "prerequisite_course_id": "CNT301",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT303-CNT204",
+      "course_id": "CNT303",
+      "prerequisite_course_id": "CNT204",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT304-CNT204",
+      "course_id": "CNT304",
+      "prerequisite_course_id": "CNT204",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT305-CNT205",
+      "course_id": "CNT305",
+      "prerequisite_course_id": "CNT205",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT306-CNT101",
+      "course_id": "CNT306",
+      "prerequisite_course_id": "CNT101",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNT401-CNT302",
+      "course_id": "CNT401",
+      "prerequisite_course_id": "CNT302",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL201-CNT102",
+      "course_id": "KDL201",
+      "prerequisite_course_id": "CNT102",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL201-MAU103",
+      "course_id": "KDL201",
+      "prerequisite_course_id": "MAU103",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL202-KDL201",
+      "course_id": "KDL202",
+      "prerequisite_course_id": "KDL201",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL301-KDL201",
+      "course_id": "KDL301",
+      "prerequisite_course_id": "KDL201",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL301-MAU102",
+      "course_id": "KDL301",
+      "prerequisite_course_id": "MAU102",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL302-KDL301",
+      "course_id": "KDL302",
+      "prerequisite_course_id": "KDL301",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL303-KDL302",
+      "course_id": "KDL303",
+      "prerequisite_course_id": "KDL302",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL304-KDL301",
+      "course_id": "KDL304",
+      "prerequisite_course_id": "KDL301",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL305-CNT203",
+      "course_id": "KDL305",
+      "prerequisite_course_id": "CNT203",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL306-KDL201",
+      "course_id": "KDL306",
+      "prerequisite_course_id": "KDL201",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL307-KDL201",
+      "course_id": "KDL307",
+      "prerequisite_course_id": "KDL201",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL307-MAU104",
+      "course_id": "KDL307",
+      "prerequisite_course_id": "MAU104",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KDL401-KDL301",
+      "course_id": "KDL401",
+      "prerequisite_course_id": "KDL301",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KTE202-KTE201",
+      "course_id": "KTE202",
+      "prerequisite_course_id": "KTE201",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KTE301-KTE202",
+      "course_id": "KTE301",
+      "prerequisite_course_id": "KTE202",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KTE302-KTE203",
+      "course_id": "KTE302",
+      "prerequisite_course_id": "KTE203",
+      "kind": "prerequisite",
+      "is_mock": true
+    },
+    {
+      "id": "pre-KTE303-KTE203",
+      "course_id": "KTE303",
+      "prerequisite_course_id": "KTE203",
+      "kind": "prerequisite",
+      "is_mock": true
+    }
+  ],
+  "course_equivalencies": [
+    {
+      "id": "eq-cnt201-cnt202",
+      "course_a_id": "CNT201",
+      "course_b_id": "CNT202",
+      "program_version_ids": [
+        "pv-cntt-k66",
+        "pv-cntt-k67",
+        "pv-khdl-k66",
+        "pv-khdl-k67"
+      ],
+      "status": "approved",
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "approved_by": "user-admin",
+      "approved_at": "2026-08-15T09:00:00",
+      "is_mock": true
+    }
+  ],
+  "course_offerings": [
+    {
+      "id": "off-CNT303-S6",
+      "course_id": "CNT303",
+      "semester_id": "S6",
+      "status": "open",
+      "is_mock": true
+    },
+    {
+      "id": "off-CNT303-S7",
+      "course_id": "CNT303",
+      "semester_id": "S7",
+      "status": "closed",
+      "is_mock": true
+    },
+    {
+      "id": "off-CNT304-S6",
+      "course_id": "CNT304",
+      "semester_id": "S6",
+      "status": "closed",
+      "is_mock": true
+    },
+    {
+      "id": "off-CNT304-S7",
+      "course_id": "CNT304",
+      "semester_id": "S7",
+      "status": "open",
+      "is_mock": true
+    },
+    {
+      "id": "off-KDL301-S6",
+      "course_id": "KDL301",
+      "semester_id": "S6",
+      "status": "open",
+      "is_mock": true
+    },
+    {
+      "id": "off-CNT401-S6",
+      "course_id": "CNT401",
+      "semester_id": "S6",
+      "status": "open",
+      "is_mock": true
+    },
+    {
+      "id": "off-CNT401-S7",
+      "course_id": "CNT401",
+      "semester_id": "S7",
+      "status": "open",
+      "is_mock": true
+    },
+    {
+      "id": "off-KDL305-S7",
+      "course_id": "KDL305",
+      "semester_id": "S7",
+      "status": "closed",
+      "is_mock": true
+    },
+    {
+      "id": "off-CNT202-S6",
+      "course_id": "CNT202",
+      "semester_id": "S6",
+      "status": "open",
+      "is_mock": true
+    },
+    {
+      "id": "off-MAU103-S6",
+      "course_id": "MAU103",
+      "semester_id": "S6",
+      "status": "closed",
+      "is_mock": true
+    }
+  ]
+}

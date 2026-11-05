@@ -1,0 +1,860 @@
+{
+  "programs": [
+    {
+      "id": "prog-cntt",
+      "name": "Công nghệ thông tin (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "prog-khdl",
+      "name": "Khoa học dữ liệu (mẫu)",
+      "is_mock": true
+    }
+  ],
+  "program_versions": [
+    {
+      "id": "pv-cntt-k66",
+      "program_id": "prog-cntt",
+      "cohort": "K66",
+      "name": "CTĐT CNTT K66 (mẫu)",
+      "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
+      "is_mock": true
+    },
+    {
+      "id": "pv-cntt-k67",
+      "program_id": "prog-cntt",
+      "cohort": "K67",
+      "name": "CTĐT CNTT K67 (mẫu)",
+      "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
+      "is_mock": true
+    },
+    {
+      "id": "pv-khdl-k66",
+      "program_id": "prog-khdl",
+      "cohort": "K66",
+      "name": "CTĐT KHDL K66 (mẫu)",
+      "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
+      "is_mock": true
+    },
+    {
+      "id": "pv-khdl-k67",
+      "program_id": "prog-khdl",
+      "cohort": "K67",
+      "name": "CTĐT KHDL K67 (mẫu)",
+      "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
+      "is_mock": true
+    }
+  ],
+  "elective_groups": [
+    {
+      "id": "eg-pv-cntt-k66-t2",
+      "program_version_id": "pv-cntt-k66",
+      "name": "Nhóm chuyên đề (mẫu)",
+      "min_credits": 2,
+      "is_mock": true
+    },
+    {
+      "id": "eg-pv-cntt-k66-t1",
+      "program_version_id": "pv-cntt-k66",
+      "name": "Nhóm tự chọn CNTT (mẫu)",
+      "min_credits": 6,
+      "is_mock": true
+    },
+    {
+      "id": "eg-pv-cntt-k67-t2",
+      "program_version_id": "pv-cntt-k67",
+      "name": "Nhóm chuyên đề (mẫu)",
+      "min_credits": 2,
+      "is_mock": true
+    },
+    {
+      "id": "eg-pv-cntt-k67-t1",
+      "program_version_id": "pv-cntt-k67",
+      "name": "Nhóm tự chọn CNTT (mẫu)",
+      "min_credits": 6,
+      "is_mock": true
+    },
+    {
+      "id": "eg-pv-khdl-k66-t2",
+      "program_version_id": "pv-khdl-k66",
+      "name": "Nhóm chuyên đề (mẫu)",
+      "min_credits": 2,
+      "is_mock": true
+    },
+    {
+      "id": "eg-pv-khdl-k66-t3",
+      "program_version_id": "pv-khdl-k66",
+      "name": "Nhóm tự chọn KHDL (mẫu)",
+      "min_credits": 6,
+      "is_mock": true
+    },
+    {
+      "id": "eg-pv-khdl-k67-t2",
+      "program_version_id": "pv-khdl-k67",
+      "name": "Nhóm chuyên đề (mẫu)",
+      "min_credits": 2,
+      "is_mock": true
+    },
+    {
+      "id": "eg-pv-khdl-k67-t3",
+      "program_version_id": "pv-khdl-k67",
+      "name": "Nhóm tự chọn KHDL (mẫu)",
+      "min_credits": 6,
+      "is_mock": true
+    }
+  ],
+  "curriculum_requirements": [
+    {
+      "id": "cr-pv-cntt-k66-MAU101",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "MAU101",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-MAU101",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "MAU101",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-MAU101",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "MAU101",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-MAU101",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "MAU101",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-MAU102",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "MAU102",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-MAU102",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "MAU102",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-MAU102",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "MAU102",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-MAU102",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "MAU102",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-MAU103",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "MAU103",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-MAU103",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "MAU103",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-MAU103",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "MAU103",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-MAU103",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "MAU103",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-MAU104",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "MAU104",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-MAU104",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "MAU104",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-MAU104",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "MAU104",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-MAU104",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "MAU104",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-MAU105",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "MAU105",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-MAU105",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "MAU105",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-MAU105",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "MAU105",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-MAU105",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "MAU105",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-MAU106",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "MAU106",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-MAU106",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "MAU106",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-MAU106",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "MAU106",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-MAU106",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "MAU106",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-MAU107",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "MAU107",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-MAU107",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "MAU107",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-MAU107",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "MAU107",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-MAU107",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "MAU107",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-MAU108",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "MAU108",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-MAU108",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "MAU108",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-MAU108",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "MAU108",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-MAU108",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "MAU108",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT101",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT101",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT101",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT101",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-CNT101",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "CNT101",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-CNT101",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "CNT101",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT102",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT102",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT102",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT102",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-CNT102",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "CNT102",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-CNT102",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "CNT102",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT201",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT201",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-CNT201",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "CNT201",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT202",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT202",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-CNT202",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "CNT202",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT203",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT203",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT203",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT203",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-CNT203",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "CNT203",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-CNT203",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "CNT203",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT204",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT204",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT204",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT204",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT205",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT205",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT205",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT205",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT301",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT301",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT301",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT301",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT302",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT302",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT302",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT302",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT303",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT303",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT303",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT303",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT304",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT304",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k66-t1",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT304",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT304",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k67-t1",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT305",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT305",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k67-t1",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT306",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT306",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k66-t1",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-CNT401",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "CNT401",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-CNT401",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "CNT401",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL201",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL201",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL201",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL201",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL202",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL202",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL202",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL202",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL301",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL301",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL301",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL301",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL302",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL302",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL302",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL302",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL303",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL303",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k66-t3",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL303",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL303",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k67-t3",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL304",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL304",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k66-t3",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL304",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL304",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k67-t3",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-KDL305",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "KDL305",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k66-t1",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-KDL305",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "KDL305",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k67-t1",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL305",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL305",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL305",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL305",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k67-t3",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL306",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL306",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k66-t3",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL306",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL306",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL307",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL307",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k66-t3",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL307",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL307",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k67-t3",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-KDL401",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "KDL401",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-KDL401",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "KDL401",
+      "requirement_type": "required",
+      "elective_group_id": null,
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-course-cd-a",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "course-cd-a",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k66-t2",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-course-cd-a",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "course-cd-a",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k67-t2",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-course-cd-a",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "course-cd-a",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k66-t2",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-course-cd-a",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "course-cd-a",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k67-t2",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k66-course-cd-b",
+      "program_version_id": "pv-cntt-k66",
+      "course_id": "course-cd-b",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k66-t2",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-cntt-k67-course-cd-b",
+      "program_version_id": "pv-cntt-k67",
+      "course_id": "course-cd-b",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-cntt-k67-t2",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k66-course-cd-b",
+      "program_version_id": "pv-khdl-k66",
+      "course_id": "course-cd-b",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k66-t2",
+      "is_mock": true
+    },
+    {
+      "id": "cr-pv-khdl-k67-course-cd-b",
+      "program_version_id": "pv-khdl-k67",
+      "course_id": "course-cd-b",
+      "requirement_type": "elective",
+      "elective_group_id": "eg-pv-khdl-k67-t2",
+      "is_mock": true
+    }
+  ]
+}
