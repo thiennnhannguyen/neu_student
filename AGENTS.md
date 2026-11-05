@@ -89,6 +89,7 @@ KHÔNG ĐƯỢC
 - Không báo "đã xong" khi chưa chạy test. Không bịa kết quả lệnh.
 - Không commit secret, file .db, node_modules.
 - Gặp mơ hồ ảnh hưởng tới dữ liệu hoặc công thức: dừng lại hỏi. Mơ hồ nhỏ về giao diện: chọn phương án đơn giản nhất và ghi vào DECISIONS.md.
+- Service ở giai đoạn 05 và sau đó KHÔNG được import, gọi hay chép lại các hàm tính lại tham chiếu trong backend/tests/reference/; phải tự viết từ quy tắc trong AGENTS.md và docs/DECISIONS.md.
 - Chỉ đọc file trong repo. Cần file bên ngoài thì hỏi quản lý dự án; không tự tìm trong Downloads/Desktop/Documents, không mở hay liệt kê file zip. Đặc tả đọc ở docs/spec/spec.md.
 
 MẪU BÁO CÁO GIAI ĐOẠN (dùng cho mọi giai đoạn)
