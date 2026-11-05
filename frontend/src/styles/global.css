@@ -1,0 +1,110 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--neu-bg-tint);
+  color: var(--color-text);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 3px solid var(--neu-primary-dark);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: -100px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-header__logo {
+  display: block;
+  max-width: 100%;
+  height: 40px;
+}
+
+.app-header__title {
+  flex: 1 1 200px;
+  margin: 0;
+  color: var(--neu-primary-dark);
+  font-size: 1.125rem;
+}
+
+.mock-badge {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--neu-primary-dark);
+  border-radius: var(--radius);
+  color: var(--neu-primary-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.app-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-3);
+}
+
+.card {
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.125rem;
+}
+
+.status-ok {
+  color: var(--color-success);
+}
+
+.status-error {
+  color: var(--color-error);
+}
+
+.button {
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  background: var(--neu-primary);
+  border: 0;
+  border-radius: var(--radius);
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--neu-primary-dark);
+}

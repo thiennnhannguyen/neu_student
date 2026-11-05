@@ -1,0 +1,20 @@
+:root {
+  /* TODO: thay bằng mã màu trong bộ nhận diện NEU 2026 */
+  --neu-primary: #0b5cad;
+  --neu-primary-dark: #083f77;
+  --neu-bg-tint: #eaf3fb;
+
+  --color-text: #1b2733;
+  --color-text-muted: #4d5b69;
+  --color-surface: #ffffff;
+  --color-border: #c9d6e2;
+  --color-error: #b3261e;
+  --color-success: #1b6e3c;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --radius: 8px;
+  --touch-target: 44px;
+}
