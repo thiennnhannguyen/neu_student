@@ -69,7 +69,7 @@ Backend mặc định dùng cổng 5001 vì macOS thường chiếm cổng 5000 
 - Logo và ảnh tòa nhà do quản lý dự án cung cấp: `frontend/public/images/brand/logo_neu.svg`, `toa_nha_a2.svg`. Nếu logo tải lỗi, trang hiện chữ "NEU".
 - Không đặt ảnh trong `frontend/dist/`: đó là thư mục build, bị xóa sạch mỗi lần build.
 - Màu trong `frontend/src/styles/tokens.css` được lấy mẫu từ keyvisual NEU 2026, cần đối chiếu mã màu chính thức khi có file brand guideline.
-- Họa tiết trên trang đăng nhập là SVG hình học do nhóm tự vẽ theo cùng phong cách, không phải tài nguyên chính thức. Font Be Vietnam Pro được tự host nên chạy được khi không có mạng.
+- Họa tiết trên trang đăng nhập là SVG hình học do nhóm tự vẽ theo cùng phong cách, không phải tài nguyên chính thức. Font Inter được tự host nên chạy được khi không có mạng.
 
 ## Tài liệu
 

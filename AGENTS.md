@@ -62,8 +62,9 @@ R12. Cảnh báo học vụ và khuyến nghị chỉ mang tính tham khảo; UI
 
 DỮ LIỆU VÀ THƯƠNG HIỆU
 - Không có kết nối dữ liệu NEU thật. Toàn bộ dữ liệu là mock, is_mock = true, UI hiện nhãn "Dữ liệu mẫu". Không ghi mã môn, ngưỡng hay CTĐT nào là "chính thức của NEU".
+- Bất kỳ trang nào có logo hoặc tên trường đều phải có badge "Dữ liệu mẫu" và dòng "Sản phẩm bài tập lớn – không phải hệ thống chính thức của Đại học Kinh tế Quốc dân." Không được gỡ 2 nội dung này.
 - Không tự vẽ hay mô phỏng logo NEU. Logo do quản lý dự án cung cấp nằm ở frontend/public/images/brand/logo_neu.svg. Mọi ảnh của giao diện đặt trong frontend/public/images/, khai báo đường dẫn ở frontend/src/constants/images.js.
-- Màu: khai báo token trong tokens.css (--neu-primary, --neu-primary-dark, --neu-bg-tint...) với giá trị giữ chỗ tông xanh và comment "TODO: thay bằng mã màu trong bộ nhận diện NEU 2026". Không gọi màu giữ chỗ là màu chính thức.
+- Màu: khai báo token trong tokens.css. --neu-primary, --neu-red, --neu-gray theo trang màu của bộ nhận diện (--neu-gray chỉ dùng cho viền và vô hiệu, không dùng cho chữ). --neu-tint, --neu-mid, --neu-accent là giá trị lấy mẫu, không gọi là màu chính thức. Font: Inter tự host.
 
 BẢNG ƯU TIÊN CHỨC NĂNG
 Nguyên tắc: mọi chức năng mà TC01–TC14 kiểm tra đều là P0.

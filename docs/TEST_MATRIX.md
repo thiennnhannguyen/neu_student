@@ -118,7 +118,9 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | Mosaic: 2 ô cạnh nhau không trùng, bố cục cố định | `%s: 2 ô cạnh nhau không trùng họa tiết, không trùng cặp màu`, `bố cục giống hệt nhau giữa các lần render` | `frontend/src/components/brand/brand.test.jsx` |
 | Mosaic: `aria-hidden`, không nhận focus, tổng thời gian ≤ 600ms | `aria-hidden, không có phần tử nhận focus`, `tổng thời gian hiện dần không quá 600ms` | `frontend/src/components/brand/brand.test.jsx` |
 | Không mã màu rời, tương phản ≥ 4,5:1, tắt hiệu ứng khi `prefers-reduced-motion` | Các test trong file | `frontend/src/styles/tokens.test.js` |
-| Hiện và ẩn mật khẩu, Caps Lock, bàn phím, ảnh tòa nhà, không còn hộp demo và chân trang | Các test trong file | `frontend/src/features/auth/LoginForm.test.jsx` |
+| Hiện và ẩn mật khẩu, Caps Lock, bàn phím, ảnh tòa nhà, không còn hộp demo | Các test trong file | `frontend/src/features/auth/LoginForm.test.jsx` |
+| Trang đăng nhập và khung ứng dụng luôn có badge "Dữ liệu mẫu" và dòng không phải hệ thống chính thức | `trang đăng nhập luôn có badge "Dữ liệu mẫu" và dòng không phải hệ thống chính thức`, `luôn có nhãn "Dữ liệu mẫu" và chỗ logo` | `frontend/src/features/auth/auth.test.jsx`, `frontend/src/routes.test.jsx` |
+| Đúng màu trên trang màu chính thức; `--neu-gray` không dùng cho chữ | `dùng đúng màu trên trang màu chính thức`, `--neu-gray không được dùng cho chữ` | `frontend/src/styles/tokens.test.js` |
 
 ## M11: lõi tính toán (giai đoạn 05)
 

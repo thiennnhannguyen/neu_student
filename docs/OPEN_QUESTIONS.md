@@ -4,19 +4,7 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
-Q70 đến Q72 thuộc CR-01; quản lý dự án đã duyệt trang đăng nhập và chưa trả lời 3 câu này.
-
-**Q70. Màu và font trong ảnh khác CR-01.** Trang "Màu sắc, kiểu chữ thương hiệu" trong ảnh quản lý gửi ghi màu chủ đạo `#00528C` (C100 M70 Y15 K10), màu bổ trợ đỏ `#C41212`, xám `#828282`, và font chủ đạo Inter, font bổ trợ Muli. CR-01 dùng `#245890` lấy mẫu từ keyvisual và font Be Vietnam Pro. Mã màu đọc từ ảnh chụp màn hình độ phân giải thấp, nên cần đối chiếu.
-- Đề xuất: giữ đúng CR-01 trong bản này. Nếu bạn xác nhận ảnh là bản chính thức thì đổi `--neu-primary` sang `#00528C` (đạt 8,12:1 với chữ trắng, 6,71:1 trên tint), tính lại `--neu-primary-dark`, và đổi font sang Inter sau khi bạn duyệt gói `@fontsource/inter`.
-- Lý do: CR-01 yêu cầu "đối chiếu mã màu chính thức khi nhóm có file brand guideline"; đổi màu chỉ cần sửa `tokens.css`.
-
-**Q71. Thiếu ảnh tham chiếu trong repo.** `docs/brand/reference/neu-2026-keyvisual.png` không tồn tại, nhưng comment trong `tokens.css` trỏ tới thư mục này. Tôi tham khảo 4 ảnh bạn gửi trong tin nhắn.
-- Đề xuất: bạn thêm file đó vào repo, hoặc bảo tôi chép riêng trang họa tiết từ ảnh đã gửi. Không chép các trang có ảnh chân dung.
-- Lý do: tôi không tự thêm tài liệu thương hiệu vào repo khi chưa được yêu cầu.
-
-**Q72. Phạm vi của hoa văn.** Bạn viết "giao diện phải có các hoa văn", còn CR-01 mục 7 nói không làm các trang khác, phần hoàn thiện chung thuộc giai đoạn 11. Ảnh cũng có các họa tiết ngoài danh sách 14 họa tiết của CR-01: ba quyển sách, chữ K, quả cầu, hai người, ngôi sao bốn cánh.
-- Đề xuất: bản này chỉ đưa hoa văn vào trang đăng nhập, đúng 14 họa tiết. Giai đoạn 11 đưa thư viện này vào khung ứng dụng (dải họa tiết ở navbar như ảnh) và bổ sung các họa tiết còn thiếu.
-- Lý do: tuân thủ ràng buộc của CR-01; thư viện họa tiết đã dùng lại được, nên giai đoạn 11 không phải làm lại.
+Không có.
 
 ## Đã đóng
 
@@ -86,10 +74,14 @@ Nội dung đầy đủ nằm trong [DECISIONS.md](DECISIONS.md).
 | Q60 | Thông tin liên hệ | D-111 |
 | Q61 | Bảo vệ `before`, `after`, bộ lọc nhật ký | D-112 |
 | Q62 | Đường dẫn quay lại sau đăng nhập | D-113 |
-| Q63 | 235 mục gồm cả M12 | D-139 (tạm chấp nhận) |
-| Q64 | Giá trị của `get_course_status` | D-140 (tạm chấp nhận) |
-| Q65 | Phá hòa khi chọn attempt | D-141 (tạm chấp nhận) |
-| Q66 | Môn thuộc nhiều cặp tương đương | D-142 (tạm chấp nhận) |
-| Q67 | Khóa không có quy chế | D-143 (tạm chấp nhận) |
-| Q68 | Kỳ khác kỳ hiện tại, phạm vi đối chứng | D-144 (tạm chấp nhận) |
-| Q69 | So ngưỡng và xu hướng | D-145 (tạm chấp nhận) |
+| Q63 | 235 mục gồm cả M12 | D-139 |
+| Q64 | Giá trị của `get_course_status` | D-140 |
+| Q65 | Phá hòa khi chọn attempt | D-141 |
+| Q66 | Môn thuộc nhiều cặp tương đương | D-142 |
+| Q67 | Khóa không có quy chế | D-143 |
+| Q68 | Kỳ khác kỳ hiện tại, phạm vi đối chứng | D-144 |
+| Q69 | So ngưỡng và xu hướng | D-145 |
+| Q70 | Màu và font chính thức | D-152 |
+| Q71 | Ảnh tham chiếu thương hiệu | D-153 |
+| Q72 | Phạm vi của hoa văn | D-154 |
+| Q73 | Mốc không mở `tests/reference/` | D-155 |
