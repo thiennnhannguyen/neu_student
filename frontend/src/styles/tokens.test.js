@@ -142,6 +142,10 @@ describe('tỷ lệ tương phản', () => {
     ['lỗi trên thẻ form', 'color-error', 'neu-white'],
     ['thành công trên thẻ', 'color-success', 'color-surface'],
     ['chú thích mẫu trên tint', 'color-text-muted', 'neu-tint'],
+    ['nhãn thành công', 'color-success', 'color-success-bg'],
+    ['nhãn chú ý', 'color-warning', 'color-warning-bg'],
+    ['nhãn trung tính', 'color-text-muted', 'color-muted-bg'],
+    ['nhãn đang học', 'neu-primary', 'neu-tint'],
   ])('%s đạt từ 4,5:1', (_name, foreground, background) => {
     expect(contrast(token(foreground), token(background))).toBeGreaterThanOrEqual(4.5);
   });

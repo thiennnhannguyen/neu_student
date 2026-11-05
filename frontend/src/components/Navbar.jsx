@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../features/auth/AuthContext';
+import StudentPicker from '../features/m11/StudentPicker';
 import BrandLogo from './BrandLogo';
 import { ROLE_LABELS } from './menu';
 
@@ -33,6 +34,7 @@ export default function Navbar({ menuOpen, onToggleMenu }) {
       <BrandLogo />
       <p className="app-header__title">NEU Student Learning Platform</p>
       <span className="mock-badge">Dữ liệu mẫu</span>
+      <StudentPicker />
       <div className="app-header__user">
         <span>
           <strong>{identity.user.full_name}</strong> · {ROLE_LABELS[role]}

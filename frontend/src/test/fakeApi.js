@@ -1,8 +1,10 @@
 import { render } from '@testing-library/react';
-import { createElement } from 'react';
+import { createElement, Fragment } from 'react';
 import { MemoryRouter, useLocation } from 'react-router';
 import { vi } from 'vitest';
 import AppRoutes from '../routes';
+
+const EMPTY_PAGE = { items: [], page: 1, page_size: 100, total: 0 };
 
 export function jsonResponse(status, body) {
   return new Response(body === undefined ? null : JSON.stringify(body), { status });
@@ -49,13 +51,20 @@ export function loggedInAs(role, extra = {}) {
   return stubApi({
     'GET /api/auth/me': () => jsonResponse(200, identityFor(role)),
     'GET /api/health': () => jsonResponse(200, { status: 'ok' }),
+    'GET /api/advisor/students': () => jsonResponse(200, EMPTY_PAGE),
+    'GET /api/admin/students': () => jsonResponse(200, EMPTY_PAGE),
     ...extra,
   });
 }
 
 function LocationProbe() {
   const location = useLocation();
-  return createElement('output', { 'data-testid': 'path' }, location.pathname);
+  return createElement(
+    Fragment,
+    null,
+    createElement('output', { 'data-testid': 'path' }, location.pathname),
+    createElement('output', { 'data-testid': 'search' }, location.search),
+  );
 }
 
 export function renderApp(initialEntry = '/') {

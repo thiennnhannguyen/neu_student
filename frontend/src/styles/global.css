@@ -746,3 +746,591 @@ body {
   border-color: var(--neu-gray);
   color: var(--color-text-muted);
 }
+
+/* --- M11 --- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.student-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  min-width: 0;
+}
+
+.student-picker label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.student-picker select,
+.student-picker input,
+.semester-filter select,
+.filter-form select {
+  min-height: var(--touch-target);
+  max-width: 100%;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.student-picker select {
+  width: 240px;
+}
+
+.student-picker input {
+  width: 160px;
+}
+
+.student-picker__error {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.m11-page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0 var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.m11-page__header h1 {
+  margin: 0 0 var(--space-3);
+}
+
+.semester-filter select {
+  width: 100%;
+  min-width: 240px;
+}
+
+.filter-form select {
+  width: 100%;
+}
+
+.empty-state {
+  color: var(--color-text-muted);
+}
+
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.level-badge--success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.level-badge--info {
+  background: var(--neu-tint);
+  color: var(--neu-primary);
+}
+
+.level-badge--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.level-badge--error {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+.level-badge--muted {
+  background: var(--color-muted-bg);
+  color: var(--color-text-muted);
+}
+
+.risk-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin-bottom: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--neu-primary);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.risk-strip:hover {
+  background: var(--neu-tint);
+}
+
+.risk-strip__note {
+  flex-basis: 100%;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+}
+
+.metric-card {
+  position: relative;
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.metric-card:hover {
+  border-color: var(--neu-primary);
+}
+
+.metric-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.metric-card__link {
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Cả thẻ bấm được; nút "i" nằm trên lớp này. */
+.metric-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.metric-card__value {
+  margin: var(--space-2) 0 0;
+  color: var(--neu-primary);
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-card__detail {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.metric-info {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  margin: calc(var(--space-2) * -1);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--neu-primary);
+  font:
+    italic 700 1rem Georgia,
+    serif;
+  cursor: pointer;
+}
+
+.metric-info::before {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--neu-primary);
+  border-radius: 50%;
+}
+
+.reference-line {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.data-warnings,
+.course-details {
+  margin-top: var(--space-3);
+}
+
+.data-warnings summary,
+.course-details summary {
+  min-height: var(--touch-target);
+  padding: var(--space-2) 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.data-warnings ul,
+.course-details ul {
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+.side-panel__backdrop {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  background: var(--color-backdrop);
+}
+
+.side-panel {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: min(440px, 100%);
+  padding: var(--space-3);
+  overflow-y: auto;
+  background: var(--color-surface);
+}
+
+.side-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.side-panel__header h2 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.glossary dt {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.glossary dd {
+  margin: 0;
+}
+
+.attempt-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.attempt-list li {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.attempt-list p {
+  margin: 0 0 var(--space-1);
+}
+
+.attempt-list__title {
+  font-weight: 600;
+}
+
+.attempt-list__effective {
+  margin-left: var(--space-2);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.grades-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.grades-table,
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.grades-table th,
+.grades-table td,
+.compare-table th,
+.compare-table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.grades-table td:nth-child(n + 5):nth-child(-n + 7),
+.compare-table td {
+  font-variant-numeric: tabular-nums;
+}
+
+.grades-table__note {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.retake-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 32px;
+  margin-left: var(--space-2);
+  padding: 0 var(--space-2);
+  border: 1px solid var(--neu-primary);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--neu-primary);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.retake-button:hover {
+  background: var(--neu-tint);
+}
+
+.warning-tip {
+  position: relative;
+  display: block;
+  margin-top: var(--space-1);
+}
+
+.warning-tip__label {
+  padding: 2px var(--space-2);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: help;
+}
+
+.warning-tip__text {
+  position: absolute;
+  z-index: 5;
+  top: 100%;
+  left: 0;
+  display: none;
+  width: min(280px, 70vw);
+  padding: var(--space-2);
+  background: var(--color-text);
+  border-radius: var(--radius);
+  color: var(--neu-white);
+  font-size: 0.8125rem;
+}
+
+.warning-tip:hover .warning-tip__text,
+.warning-tip__label:focus + .warning-tip__text {
+  display: block;
+}
+
+.trend-chart {
+  margin: 0;
+}
+
+.trend-chart figcaption {
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
+
+.chart-tooltip {
+  padding: var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+}
+
+.chart-tooltip p {
+  margin: 0;
+}
+
+.progress-row p {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 var(--space-1);
+}
+
+.progress-row__track {
+  height: 8px;
+  overflow: hidden;
+  background: var(--color-muted-bg);
+  border-radius: 4px;
+}
+
+.progress-row__fill {
+  height: 100%;
+  background: var(--neu-primary);
+}
+
+.strength-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.strength-list li {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.strength-list p {
+  margin: 0 0 var(--space-1);
+}
+
+.strength-list__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.risk-overall {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: 0;
+  font-weight: 600;
+}
+
+.disclaimer {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+}
+
+.risk-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.risk-card__head h2 {
+  margin: 0;
+}
+
+.plan-action {
+  margin-top: var(--space-3);
+}
+
+/* Dưới 768px, mỗi dòng bảng điểm là một thẻ. */
+@media (max-width: 767.98px) {
+  .grades-scroll:has(.grades-table) {
+    overflow-x: visible;
+    background: transparent;
+    border: 0;
+  }
+
+  .grades-table,
+  .grades-table tbody,
+  .grades-table tr,
+  .grades-table td {
+    display: block;
+  }
+
+  .grades-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .grades-table tr {
+    margin-bottom: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .grades-table td {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-3);
+    padding: var(--space-1) 0;
+    border-bottom: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .grades-table td.grades-table__blank {
+    display: none;
+  }
+
+  .grades-table__note,
+  .grades-table .warning-tip {
+    flex-basis: 100%;
+    text-align: right;
+  }
+
+  .pagination > span {
+    order: -1;
+    flex-basis: 100%;
+    text-align: center;
+  }
+
+  .grades-table td::before {
+    content: attr(data-label);
+    color: var(--color-text-muted);
+  }
+
+  .grades-table td[data-label='Tên môn'] > span:first-child {
+    flex: 1 1 60%;
+    text-align: right;
+  }
+
+  .semester-filter {
+    width: 100%;
+  }
+
+  .semester-filter select {
+    min-width: 0;
+  }
+
+  .student-picker,
+  .student-picker select,
+  .student-picker input {
+    width: 100%;
+  }
+}

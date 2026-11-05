@@ -1,9 +1,12 @@
-import { NavLink } from 'react-router';
+import { NavLink, useLocation } from 'react-router';
 import { useAuth } from '../features/auth/AuthContext';
+import { carrySearch } from '../features/m11/scopeQuery';
 import { menuForRole } from './menu';
 
 export default function Sidebar({ open, onNavigate }) {
   const { role } = useAuth();
+  const { search } = useLocation();
+  const carried = carrySearch(search);
 
   return (
     <nav
@@ -17,7 +20,7 @@ export default function Sidebar({ open, onNavigate }) {
           <ul>
             {group.items.map((item) => (
               <li key={item.path}>
-                <NavLink to={item.path} end onClick={onNavigate}>
+                <NavLink to={`${item.path}${carried}`} end onClick={onNavigate}>
                   {item.label}
                 </NavLink>
               </li>

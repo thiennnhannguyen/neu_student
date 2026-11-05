@@ -12,7 +12,7 @@ import {
 
 describe('khung ứng dụng', () => {
   it('luôn có nhãn "Dữ liệu mẫu" và chỗ logo', async () => {
-    loggedInAs('student');
+    loggedInAs('support_staff');
 
     renderApp('/');
 
@@ -29,7 +29,7 @@ describe('khung ứng dụng', () => {
 
   it('hiện trạng thái đang tải rồi thành công', async () => {
     const health = pendingResponse();
-    loggedInAs('student', { 'GET /api/health': health.handler });
+    loggedInAs('support_staff', { 'GET /api/health': health.handler });
 
     renderApp('/');
 
@@ -40,7 +40,7 @@ describe('khung ứng dụng', () => {
 
   it('hiện lỗi và thử lại được bằng bàn phím', async () => {
     let healthCalls = 0;
-    loggedInAs('student', {
+    loggedInAs('support_staff', {
       'GET /api/health': () => {
         healthCalls += 1;
         if (healthCalls === 1) {
@@ -78,9 +78,9 @@ describe('khung ứng dụng', () => {
   it('trang chưa làm hiện "Đang phát triển"', async () => {
     loggedInAs('student');
 
-    renderApp('/m11/ket-qua');
+    renderApp('/m12/dinh-huong');
 
-    expect(await screen.findByRole('heading', { name: 'Kết quả' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Định hướng nghề' })).toBeInTheDocument();
     expect(screen.getByText(/Đang phát triển/)).toBeInTheDocument();
   });
 });

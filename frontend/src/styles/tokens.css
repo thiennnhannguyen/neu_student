@@ -20,6 +20,11 @@
   --color-error-bg: #fdecea;
   --shadow-card: 0 8px 24px rgb(0 72 123 / 18%);
   --color-success: #1b6e3c;
+  --color-success-bg: #e6f4ea;
+  --color-warning: #7a4f00;
+  --color-warning-bg: #fff3d6;
+  --color-muted-bg: #eef2f6;
+  --color-backdrop: rgb(0 0 0 / 40%);
 
   --space-1: 4px;
   --space-2: 8px;

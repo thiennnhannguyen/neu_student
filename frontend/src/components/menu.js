@@ -27,9 +27,24 @@ export const MENU_GROUPS = [
   {
     title: 'M11',
     items: [
-      { label: 'Kết quả', path: '/m11/ket-qua', roles: [STUDENT, ADVISOR, ADMIN] },
-      { label: 'Phân tích', path: '/m11/phan-tich', roles: [STUDENT, ADVISOR, ADMIN] },
-      { label: 'Cảnh báo', path: '/m11/canh-bao', roles: [STUDENT, ADVISOR, ADMIN] },
+      {
+        label: 'Kết quả',
+        path: '/m11/ket-qua',
+        roles: [STUDENT, ADVISOR, ADMIN],
+        implemented: true,
+      },
+      {
+        label: 'Phân tích',
+        path: '/m11/phan-tich',
+        roles: [STUDENT, ADVISOR, ADMIN],
+        implemented: true,
+      },
+      {
+        label: 'Cảnh báo',
+        path: '/m11/canh-bao',
+        roles: [STUDENT, ADVISOR, ADMIN],
+        implemented: true,
+      },
     ],
   },
   {
