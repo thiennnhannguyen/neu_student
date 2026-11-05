@@ -15,4 +15,8 @@ select = ["E", "F", "W", "I", "B", "UP"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-addopts = "--cov=app --cov-report=term-missing"
+addopts = "--cov=app --cov-report=term-missing --cov-fail-under=90"
+filterwarnings = [
+    # SQLite không có kiểu thập phân; cột Numeric có tỷ lệ cố định, phép tính làm bằng Decimal.
+    'ignore:Dialect sqlite\+pysqlite does \*not\* support Decimal',
+]
