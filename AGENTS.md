@@ -64,8 +64,10 @@ DỮ LIỆU VÀ THƯƠNG HIỆU
 - Màu: khai báo token trong tokens.css (--neu-primary, --neu-primary-dark, --neu-bg-tint...) với giá trị giữ chỗ tông xanh và comment "TODO: thay bằng mã màu trong bộ nhận diện NEU 2026". Không gọi màu giữ chỗ là màu chính thức.
 
 BẢNG ƯU TIÊN CHỨC NĂNG
-- P0: C01–C05, M11-01→06, M11-09→11, M12-01→06, M12-07 (đang chờ quản lý xác nhận P0 hay P1, xem Q35 trong docs/OPEN_QUESTIONS.md), M12-12, M12-13, M12-15.
-- P1: M11-07, M11-08, M12-08→11, M12-14.
+Nguyên tắc: mọi chức năng mà TC01–TC14 kiểm tra đều là P0.
+- P0: C01, C02, C03, C05; M11-01→06, M11-09→11; M12-01→07, M12-12, M12-13; M12-15 (chỉ API: CRUD + publish có kiểm chu trình).
+- P1: C04; M11-07, M11-08; M12-08, M12-10, M12-11, M12-14; M12-15 (giao diện); luồng nộp/duyệt skill_evidences.
+- P2: M12-09; Docker.
 
 QUY TRÌNH MỖI GIAI ĐOẠN
 1. Đọc AGENTS.md, PROGRESS.md, DECISIONS.md.
