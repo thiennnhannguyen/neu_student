@@ -7,7 +7,7 @@ Trạng thái dùng: Chưa bắt đầu · Chờ duyệt kế hoạch · Đang l
 ## Khởi động (việc đầu tiên trong brief)
 
 Đã có: đặc tả `docs/spec/` (bản gốc `.docx` và bản đọc `spec.md`), `AGENTS.md`, `CLAUDE.md`, `docs/DECISIONS.md`, `docs/PROGRESS.md`, `docs/OPEN_QUESTIONS.md`.
-Các tài liệu này nằm trong commit đầu trên nhánh `main` (D-21). Chưa có remote (D-32). Chưa có code nên chưa chạy lint, test hay build.
+Các tài liệu này nằm trong commit đầu trên nhánh `main` (D-21). Chưa có remote (D-32).
 
 ## 12 giai đoạn (theo mục 11 của đặc tả)
 
@@ -15,19 +15,19 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 | GĐ | Đầu ra nghiệm thu | Trạng thái | Câu cần chốt trước |
 |----|-------------------|------------|--------------------|
-| 01 | Khởi tạo repo chung và CI/lint | Chờ duyệt kế hoạch (kế hoạch tạm) | Q36, Q37 |
-| 02 | Chốt dữ liệu mẫu NEU theo khóa/ngành | Chưa bắt đầu | Q11, Q13, Q14, Q15, Q20, Q21 |
-| 03 | Xây schema và seed SQLite (có `flask grades add`) | Chưa bắt đầu | Q05, Q16, Q18, Q24, Q27 |
-| 04 | Xây xác thực và phân quyền | Chưa bắt đầu | Q08, Q29 (duyệt lại) |
-| 05 | Hoàn thiện M11 tính toán và kiểm thử | Chưa bắt đầu | Q12, Q22 |
+| 01 | Khởi tạo repo chung và CI/lint | Đã làm, chờ quản lý cho qua cổng, chưa tag `phase-01`. CI chưa chạy trên GitHub vì chưa có remote | Q38, Q39 |
+| 02 | Chốt dữ liệu mẫu NEU theo khóa/ngành | Chưa bắt đầu | Không có |
+| 03 | Xây schema và seed SQLite (có `flask grades add`, bảng và seed `skill_evidences`) | Chưa bắt đầu | Không có |
+| 04 | Xây xác thực và phân quyền | Chưa bắt đầu | Không có |
+| 05 | Hoàn thiện M11 tính toán và kiểm thử | Chưa bắt đầu | Không có |
 | 06 | Xây M11 Dashboard/Phân tích/Cảnh báo (có `POST /api/admin/grade-attempts`) | Chưa bắt đầu | Không có |
-| 07 | Xây Career Graph và API M12 | Chưa bắt đầu | Q06, Q10, Q17, Q19 |
-| 08 | Đồng bộ tiến độ M11–M12 | Chưa bắt đầu | Không có (Q10 đã chốt từ trước GĐ07) |
-| 09 | Lập lộ trình theo kỳ và so sánh nghề | Chưa bắt đầu | Q23, Q35 |
-| 10 | Học liệu, yêu cầu hỗ trợ, thông báo | Chưa bắt đầu | Q26 |
+| 07 | Xây Career Graph và API M12 | Chưa bắt đầu | Không có |
+| 08 | Đồng bộ tiến độ M11–M12 (test liên thông, phát hiện thay đổi) | Chưa bắt đầu | Không có |
+| 09 | Lập lộ trình theo kỳ và so sánh nghề (so sánh nghề là P2) | Chưa bắt đầu | Không có |
+| 10 | Học liệu, yêu cầu hỗ trợ, thông báo, luồng nộp/duyệt `skill_evidences` (P1) | Chưa bắt đầu | Không có |
 | 11 | Thiết kế responsive theo NEU 2026 | Chưa bắt đầu | Không có (cần nhóm cung cấp bộ nhận diện, xem D-30) |
-| 12 | Kiểm thử tích hợp, triển khai, báo cáo | Chưa bắt đầu | Q34 |
+| 12 | Kiểm thử tích hợp, triển khai cục bộ, báo cáo | Chưa bắt đầu | Không có |
 
 ## Việc tiếp theo
 
-Quản lý dự án gửi prompt giai đoạn 01 (Q36), duyệt thư viện (Q37) và duyệt kế hoạch. Kỹ sư chưa bắt đầu giai đoạn 01.
+Quản lý dự án trả lời Q38, Q39 và quyết định cho giai đoạn 01 qua cổng. Sau đó kỹ sư gắn tag `phase-01`.

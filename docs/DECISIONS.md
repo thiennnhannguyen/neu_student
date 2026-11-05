@@ -72,5 +72,11 @@ Trạng thái: **Chốt** = không tự ý đổi. **Tự chọn** = kỹ sư á
 | D-57 | 2026-11-05 | (Q23) Chỉ xử lý loại "tiên quyết" (phải đạt). Tiên quyết đang học thì môn sau được xếp từ kỳ kế và ghi "phụ thuộc kết quả". Sửa tay vi phạm tiên quyết trả 422. Vượt trần tín chỉ thì đẩy sang kỳ sau và báo nếu quá thời gian khóa học. Không có học kỳ hè. Thuật toán tất định (sắp xếp topo + tham lam). | Quản lý dự án duyệt. | Chốt |
 | D-58 | 2026-11-05 | (Q26) Advisor thấy ticket của sinh viên được phân công. Staff thấy ticket theo category được gán, chỉ kèm tên và mã sinh viên. Tệp đính kèm chỉ người trong ticket xem được. Trạng thái: mới → đang xử lý ⇄ cần bổ sung → hoàn thành. Không mở lại, cần thì tạo ticket mới. | Quản lý dự án duyệt. | Chốt |
 | D-59 | 2026-11-05 | (Q34) Triển khai = chạy cục bộ theo README. Docker là P2. | Quản lý dự án duyệt. | Chốt |
+| D-60 | 2026-11-05 | Backend dev chạy cổng 5001; Vite chuyển `/api` sang `http://127.0.0.1:5001`. | Cổng 5000 trên máy này đang bị ControlCenter của macOS chiếm. | Tự chọn |
+| D-61 | 2026-11-05 | Makefile nạp `backend/.env`; không dùng `python-dotenv`. | Không thêm thư viện ngoài danh sách. | Tự chọn |
+| D-62 | 2026-11-05 | Dùng ESLint 9, không dùng 10. Thêm `@eslint/js` (bộ luật gốc của ESLint) và `@testing-library/dom` (peer bắt buộc của Testing Library). Khai báo biến toàn cục trình duyệt ngay trong `eslint.config.js`, không thêm gói `globals`. | `eslint-plugin-react` 7.37.5 chỉ hỗ trợ tới ESLint 9. Hai gói thêm không có trong danh sách D-37, cần quản lý xác nhận. | Tự chọn |
+| D-63 | 2026-11-05 | `paginate` nhận câu `select` của SQLAlchemy; người gọi tự `order_by`. Trang sau trang cuối trả `items` rỗng kèm `total`, không phải lỗi. `page`, `page_size` sai định dạng cũng trả 422. | Yêu cầu chỉ nêu trường hợp vượt giới hạn; đây là hành vi đơn giản nhất cho các trường hợp còn lại. | Tự chọn |
+| D-64 | 2026-11-05 | Thư mục `migrations/` tạo ở GĐ03; Flask-Login khởi tạo ở GĐ04. Recharts, marshmallow, Flask-Login đã cài nhưng chưa dùng. | Chưa có model hay đăng nhập ở GĐ01. | Tự chọn |
+| D-65 | 2026-11-05 | `make lint` và CI gồm thêm `ruff format --check` và `prettier --check`. | Brief có Prettier, cần có bước kiểm định dạng. | Tự chọn |
 
 D-23, D-25, D-26, D-27, D-29, D-30 đang được quản lý dự án tạm chấp nhận.

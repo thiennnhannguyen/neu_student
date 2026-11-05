@@ -4,7 +4,13 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
-Không còn câu nào đang mở (cập nhật 2026-11-05).
+**Q38. React Router 6 có 2 lỗ hổng mức moderate, không có bản sửa trong nhánh 6.** `npm audit` báo: open redirect qua dấu `\` trong `<Link>` và `useNavigate` (GHSA-wrjc-x8rr-h8h6); constructor injection trong SSR hydration (GHSA-337j-9hxr-rhxg). Bản sửa là `react-router-dom@7.18.5`, nhưng brief chốt React Router 6.
+- Đề xuất: giữ React Router 6.30.6. Không truyền chuỗi do người dùng nhập vào `<Link>` hay `navigate`. Ghi nhận rủi ro trong báo cáo.
+- Lý do: lỗi thứ hai chỉ liên quan SSR mà dự án không dùng; lỗi thứ nhất tránh được bằng quy tắc trên, không cần đổi stack.
+
+**Q39. Xác nhận hai gói phát sinh ngoài danh sách đã duyệt: `@eslint/js` và `@testing-library/dom`.**
+- Đề xuất: duyệt cả hai.
+- Lý do: `@eslint/js` là bộ luật gốc của ESLint, `@testing-library/dom` là peer bắt buộc của `@testing-library/react`. Tôi đã cài trước khi hỏi vì thiếu chúng thì lint và test không chạy được.
 
 ## Đang áp dụng tạm
 
