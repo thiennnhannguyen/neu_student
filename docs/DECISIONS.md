@@ -8,9 +8,9 @@ Trạng thái: **Chốt** = không tự ý đổi. **Tự chọn** = kỹ sư á
 
 | ID | Chủ đề | Nội dung | Trạng thái |
 |----|--------|----------|------------|
-| D-01 | Backend | Python 3.11+, Flask (app factory + Blueprint), Flask-SQLAlchemy 3, Flask-Migrate, Flask-Login, marshmallow, SQLite, pytest, ruff. | Chốt |
-| D-02 | Frontend | React 18 + Vite, JavaScript ES2022 (không TypeScript), React Router 6, Recharts, CSS thuần + CSS variables, Vitest + Testing Library, ESLint + Prettier. | Chốt |
-| D-03 | Dev/CI | Vite proxy `/api` sang Flask để cùng origin. GitHub Actions chạy lint + test + build. Thêm thư viện ngoài danh sách phải hỏi trước. | Chốt |
+| D-01 | Backend | Python 3.12+ (D-68), Flask (app factory + Blueprint), Flask-SQLAlchemy 3, Flask-Migrate, Flask-Login, marshmallow, SQLite, pytest, ruff. | Chốt |
+| D-02 | Frontend | React 18 + Vite, JavaScript ES2022 (không TypeScript), React Router 7 (D-66), Recharts, CSS thuần + CSS variables, Vitest + Testing Library, ESLint + Prettier. | Chốt |
+| D-03 | Dev/CI | Vite proxy `/api` sang Flask để cùng origin. GitHub Actions chạy lint + test + build. Thêm thư viện theo quy tắc ở D-70. | Chốt |
 | D-04 | Cấu trúc repo | `backend/`, `frontend/`, `docs/` theo mục CẤU TRÚC REPO. | Chốt |
 | D-05 | Kiến trúc | Blueprint chỉ xác thực, phân quyền, validate, gọi service, trả JSON; tính toán là hàm thuần trong `services/`. M11 và M12 không import chéo model; M12 đọc kết quả qua hàm công khai của M11. | Chốt |
 | D-06 | Hợp đồng API | Lỗi `{"error": {"code", "message", "details"}}`; HTTP 400/401/403/404/409/422 đúng ngữ nghĩa. Phân trang `?page=&page_size=` (mặc định 20, tối đa 100) trả `{items, page, page_size, total}`. Số liệu M11 kèm `reference_semester`, `computed_at`, `rule_version`, `data_warnings[]`. | Chốt |
@@ -72,11 +72,17 @@ Trạng thái: **Chốt** = không tự ý đổi. **Tự chọn** = kỹ sư á
 | D-57 | 2026-11-05 | (Q23) Chỉ xử lý loại "tiên quyết" (phải đạt). Tiên quyết đang học thì môn sau được xếp từ kỳ kế và ghi "phụ thuộc kết quả". Sửa tay vi phạm tiên quyết trả 422. Vượt trần tín chỉ thì đẩy sang kỳ sau và báo nếu quá thời gian khóa học. Không có học kỳ hè. Thuật toán tất định (sắp xếp topo + tham lam). | Quản lý dự án duyệt. | Chốt |
 | D-58 | 2026-11-05 | (Q26) Advisor thấy ticket của sinh viên được phân công. Staff thấy ticket theo category được gán, chỉ kèm tên và mã sinh viên. Tệp đính kèm chỉ người trong ticket xem được. Trạng thái: mới → đang xử lý ⇄ cần bổ sung → hoàn thành. Không mở lại, cần thì tạo ticket mới. | Quản lý dự án duyệt. | Chốt |
 | D-59 | 2026-11-05 | (Q34) Triển khai = chạy cục bộ theo README. Docker là P2. | Quản lý dự án duyệt. | Chốt |
-| D-60 | 2026-11-05 | Backend dev chạy cổng 5001; Vite chuyển `/api` sang `http://127.0.0.1:5001`. | Cổng 5000 trên máy này đang bị ControlCenter của macOS chiếm. | Tự chọn |
-| D-61 | 2026-11-05 | Makefile nạp `backend/.env`; không dùng `python-dotenv`. | Không thêm thư viện ngoài danh sách. | Tự chọn |
-| D-62 | 2026-11-05 | Dùng ESLint 9, không dùng 10. Thêm `@eslint/js` (bộ luật gốc của ESLint) và `@testing-library/dom` (peer bắt buộc của Testing Library). Khai báo biến toàn cục trình duyệt ngay trong `eslint.config.js`, không thêm gói `globals`. | `eslint-plugin-react` 7.37.5 chỉ hỗ trợ tới ESLint 9. Hai gói thêm không có trong danh sách D-37, cần quản lý xác nhận. | Tự chọn |
-| D-63 | 2026-11-05 | `paginate` nhận câu `select` của SQLAlchemy; người gọi tự `order_by`. Trang sau trang cuối trả `items` rỗng kèm `total`, không phải lỗi. `page`, `page_size` sai định dạng cũng trả 422. | Yêu cầu chỉ nêu trường hợp vượt giới hạn; đây là hành vi đơn giản nhất cho các trường hợp còn lại. | Tự chọn |
-| D-64 | 2026-11-05 | Thư mục `migrations/` tạo ở GĐ03; Flask-Login khởi tạo ở GĐ04. Recharts, marshmallow, Flask-Login đã cài nhưng chưa dùng. | Chưa có model hay đăng nhập ở GĐ01. | Tự chọn |
-| D-65 | 2026-11-05 | `make lint` và CI gồm thêm `ruff format --check` và `prettier --check`. | Brief có Prettier, cần có bước kiểm định dạng. | Tự chọn |
+| D-60 | 2026-11-05 | Backend dev chạy cổng 5001; Vite chuyển `/api` sang `http://127.0.0.1:5001`. | Cổng 5000 trên máy này đang bị ControlCenter của macOS chiếm. | Chốt |
+| D-61 | 2026-11-05 | Makefile nạp `backend/.env`; không dùng `python-dotenv`. | Không thêm thư viện ngoài danh sách. | Chốt |
+| D-62 | 2026-11-05 | Dùng ESLint 9, không dùng 10. Thêm `@eslint/js` (bộ luật gốc của ESLint) và `@testing-library/dom` (peer bắt buộc của Testing Library). Khai báo biến toàn cục trình duyệt ngay trong `eslint.config.js`, không thêm gói `globals`. | `eslint-plugin-react` 7.37.5 chỉ hỗ trợ tới ESLint 9. Hai gói thêm không có trong danh sách D-37, cần quản lý xác nhận. | Chốt |
+| D-63 | 2026-11-05 | `paginate` nhận câu `select` của SQLAlchemy; người gọi tự `order_by`. Trang sau trang cuối trả `items` rỗng kèm `total`, không phải lỗi. `page`, `page_size` sai định dạng cũng trả 422. | Yêu cầu chỉ nêu trường hợp vượt giới hạn; đây là hành vi đơn giản nhất cho các trường hợp còn lại. | Chốt |
+| D-64 | 2026-11-05 | Thư mục `migrations/` tạo ở GĐ03; Flask-Login khởi tạo ở GĐ04. Recharts, marshmallow, Flask-Login đã cài nhưng chưa dùng. | Chưa có model hay đăng nhập ở GĐ01. | Chốt |
+| D-65 | 2026-11-05 | `make lint` và CI gồm thêm `ruff format --check` và `prettier --check`. | Brief có Prettier, cần có bước kiểm định dạng. | Chốt |
+| D-66 | 2026-11-05 | (Q38) Nâng lên `react-router` 7 bản ổn định mới nhất, dùng declarative mode (`BrowserRouter` + `Routes`), KHÔNG dùng framework mode/SSR. `npm audit` phải sạch lỗ hổng moderate trở lên. | Quản lý dự án quyết định, không giữ React Router 6. | Chốt |
+| D-67 | 2026-11-05 | `<BrandLogo/>`: tải `logo.svg` lỗi (`onError`) thì hiện chữ "NEU", không hiện biểu tượng ảnh hỏng. | Quản lý dự án quyết định. | Chốt |
+| D-68 | 2026-11-05 | `requires-python >= 3.12`, ruff target `py312`, README ghi Python 3.12+. Thay phần tương ứng của D-38. | Quản lý dự án quyết định. | Chốt |
+| D-69 | 2026-11-05 | Cổng backend đọc từ biến `BACKEND_PORT` (mặc định 5001); Vite proxy đọc cùng biến. Giữ D-60. | Quản lý dự án quyết định. | Chốt |
+| D-70 | 2026-11-05 | (Q39) Duyệt `@eslint/js`, `@testing-library/dom`. Gói peer bắt buộc hoặc gói lõi chính thức của thư viện đã duyệt thì được cài, ghi vào báo cáo. Mọi gói khác phải hỏi trước. | Quản lý dự án quyết định. | Chốt |
+| D-71 | 2026-11-05 | Coverage frontend chưa cần ở GĐ01. | Quản lý dự án quyết định. | Chốt |
 
 D-23, D-25, D-26, D-27, D-29, D-30 đang được quản lý dự án tạm chấp nhận.

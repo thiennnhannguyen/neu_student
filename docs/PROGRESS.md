@@ -15,8 +15,8 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 | GĐ | Đầu ra nghiệm thu | Trạng thái | Câu cần chốt trước |
 |----|-------------------|------------|--------------------|
-| 01 | Khởi tạo repo chung và CI/lint | Đã làm, chờ quản lý cho qua cổng, chưa tag `phase-01`. CI chưa chạy trên GitHub vì chưa có remote | Q38, Q39 |
-| 02 | Chốt dữ liệu mẫu NEU theo khóa/ngành | Chưa bắt đầu | Không có |
+| 01 | Khởi tạo repo chung và CI/lint | Hoàn thành, tag `phase-01`. CI chưa chạy trên GitHub vì chưa có remote | Không có |
+| 02 | Thiết kế bộ dữ liệu mẫu | Chờ duyệt kế hoạch | Xem OPEN_QUESTIONS.md |
 | 03 | Xây schema và seed SQLite (có `flask grades add`, bảng và seed `skill_evidences`) | Chưa bắt đầu | Không có |
 | 04 | Xây xác thực và phân quyền | Chưa bắt đầu | Không có |
 | 05 | Hoàn thiện M11 tính toán và kiểm thử | Chưa bắt đầu | Không có |
@@ -30,4 +30,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Quản lý dự án trả lời Q38, Q39 và quyết định cho giai đoạn 01 qua cổng. Sau đó kỹ sư gắn tag `phase-01`.
+Quản lý dự án duyệt kế hoạch giai đoạn 02.

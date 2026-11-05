@@ -1,11 +1,15 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { routes } from './routes';
+import AppRoutes from './routes';
 
 function renderAt(path) {
-  return render(<RouterProvider router={createMemoryRouter(routes, { initialEntries: [path] })} />);
+  return render(
+    <MemoryRouter initialEntries={[path]}>
+      <AppRoutes />
+    </MemoryRouter>,
+  );
 }
 
 function jsonResponse(status, body) {

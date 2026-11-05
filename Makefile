@@ -4,6 +4,7 @@ FLASK := .venv/bin/flask --app app
 
 # Nạp cấu hình cục bộ nếu có.
 -include backend/.env
+BACKEND_PORT := $(or $(BACKEND_PORT),5001)
 export
 
 .PHONY: install dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend build seed
@@ -17,7 +18,7 @@ dev:
 	$(MAKE) -j2 dev-backend dev-frontend
 
 dev-backend:
-	cd backend && $(FLASK) run --debug --port 5001
+	cd backend && $(FLASK) run --debug --port $(BACKEND_PORT)
 
 dev-frontend:
 	cd frontend && npm run dev

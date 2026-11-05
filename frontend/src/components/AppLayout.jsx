@@ -1,4 +1,5 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
+import BrandLogo from './BrandLogo';
 
 export default function AppLayout() {
   return (
@@ -7,11 +8,7 @@ export default function AppLayout() {
         Bỏ qua, tới nội dung chính
       </a>
       <header className="app-header">
-        <img
-          className="app-header__logo"
-          src="/brand/logo.svg"
-          alt="Logo Đại học Kinh tế Quốc dân"
-        />
+        <BrandLogo />
         <p className="app-header__title">NEU Student Learning Platform</p>
         <span className="mock-badge">Dữ liệu mẫu</span>
       </header>

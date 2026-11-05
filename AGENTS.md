@@ -8,10 +8,10 @@ VIỆC ĐẦU TIÊN
 4. Chưa viết code. Trả lời tôi: (a) tóm tắt dự án trong 10 dòng, (b) danh sách điểm mâu thuẫn/mơ hồ bạn thấy trong đặc tả mà brief này chưa xử lý.
 
 CÔNG NGHỆ (CỐ ĐỊNH, KHÔNG TỰ Ý ĐỔI)
-- Backend: Python 3.11+, Flask (app factory + Blueprint), Flask-SQLAlchemy 3, Flask-Migrate, Flask-Login, marshmallow, SQLite, pytest, ruff.
-- Frontend: React 18 + Vite, JavaScript ES2022 (không TypeScript), React Router 6, Recharts, CSS thuần + CSS variables, Vitest + Testing Library, ESLint + Prettier.
+- Backend: Python 3.12+, Flask (app factory + Blueprint), Flask-SQLAlchemy 3, Flask-Migrate, Flask-Login, marshmallow, SQLite, pytest, ruff.
+- Frontend: React 18 + Vite, JavaScript ES2022 (không TypeScript), React Router 7 (declarative mode: BrowserRouter + Routes; KHÔNG dùng framework mode/SSR), Recharts, CSS thuần + CSS variables, Vitest + Testing Library, ESLint + Prettier.
 - Dev: Vite proxy /api -> Flask để cùng origin. CI: GitHub Actions chạy lint + test + build.
-- Muốn thêm thư viện ngoài danh sách: hỏi tôi trước, nêu lý do và phương án không cần thư viện.
+- Gói peer bắt buộc hoặc gói lõi chính thức của thư viện đã duyệt thì được cài, ghi vào báo cáo. Mọi gói khác: hỏi tôi trước, nêu lý do và phương án không cần thư viện.
 
 CẤU TRÚC REPO
 /backend

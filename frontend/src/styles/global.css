@@ -51,6 +51,12 @@ body {
   height: 40px;
 }
 
+.brand-fallback {
+  color: var(--neu-primary-dark);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
 .app-header__title {
   flex: 1 1 200px;
   margin: 0;
