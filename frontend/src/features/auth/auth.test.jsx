@@ -168,12 +168,13 @@ describe('đăng nhập', () => {
     expect(await screen.findByRole('heading', { name: 'Tổng quan' })).toBeInTheDocument();
   });
 
-  it('trang đăng nhập có nhãn "Dữ liệu mẫu"', async () => {
+  it('trang đăng nhập không còn badge "Dữ liệu mẫu" (quản lý dự án yêu cầu xóa)', async () => {
     anonymousApi();
 
     renderApp('/login');
 
-    expect(await screen.findByText('Dữ liệu mẫu')).toBeInTheDocument();
+    await screen.findByLabelText('Mật khẩu');
+    expect(screen.queryByText('Dữ liệu mẫu')).not.toBeInTheDocument();
   });
 
   it('lỗi kết nối khi kiểm tra phiên thì hiện lỗi và thử lại được', async () => {

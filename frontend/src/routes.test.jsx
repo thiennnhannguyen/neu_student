@@ -18,7 +18,7 @@ describe('khung ứng dụng', () => {
 
     const banner = await screen.findByRole('banner');
     expect(within(banner).getByText('Dữ liệu mẫu')).toBeInTheDocument();
-    expect(within(banner).getByRole('img')).toHaveAttribute('src', '/brand/logo.svg');
+    expect(within(banner).getByRole('img')).toHaveAttribute('src', '/images/brand/logo_neu.svg');
     await screen.findByText('Backend đang hoạt động.');
   });
 

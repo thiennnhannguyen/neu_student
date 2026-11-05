@@ -34,12 +34,11 @@ describe('nội dung trang đăng nhập', () => {
       'ĐẠI HỌC KINH TẾ QUỐC DÂN',
       'NATIONAL ECONOMICS UNIVERSITY',
       'Dùng tài khoản được cấp cho bạn',
-      'Dữ liệu mẫu',
       FOOTER,
     ]) {
       expect(screen.getByText(text)).toBeInTheDocument();
     }
-    expect(screen.getByRole('img')).toHaveAttribute('src', '/brand/logo.svg');
+    expect(screen.getByRole('img')).toHaveAttribute('src', '/images/brand/logo_neu.svg');
   });
 
   it('logo lỗi thì vẫn hiện chữ NEU dự phòng', async () => {
@@ -60,6 +59,17 @@ describe('nội dung trang đăng nhập', () => {
       expect(mosaic).toHaveAttribute('aria-hidden', 'true');
     }
     expect(document.querySelector('.login-brand__word')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('cột thương hiệu có logo trang trí, xếp trên tiêu đề', async () => {
+    await openLogin();
+
+    const copy = document.querySelector('.login-brand__copy');
+    const logo = copy.firstElementChild;
+    expect(logo.tagName).toBe('IMG');
+    expect(logo).toHaveAttribute('src', '/images/brand/logo_neu.svg');
+    expect(logo).toHaveAttribute('alt', '');
+    expect(logo.nextElementSibling).toHaveTextContent('Nền tảng học tập sinh viên NEU');
   });
 
   it('mosaic không nằm trong thẻ form', async () => {

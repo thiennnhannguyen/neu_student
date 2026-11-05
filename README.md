@@ -65,7 +65,8 @@ Backend mặc định dùng cổng 5001 vì macOS thường chiếm cổng 5000 
 
 ## Logo và màu
 
-- Chép logo chính thức vào `frontend/public/brand/logo.svg`. Repo không có logo và không tự vẽ logo. Khi chưa có tệp, trang hiện chữ "NEU".
+- Mọi ảnh của giao diện đặt trong `frontend/public/images/`, chia thư mục con theo mục đích (hiện có `brand/`), và khai báo đường dẫn ở `frontend/src/constants/images.js`.
+- Logo do quản lý dự án cung cấp: `frontend/public/images/brand/logo_neu.svg`. Nếu tải lỗi, trang hiện chữ "NEU".
 - Màu trong `frontend/src/styles/tokens.css` được lấy mẫu từ keyvisual NEU 2026, cần đối chiếu mã màu chính thức khi có file brand guideline.
 - Họa tiết trên trang đăng nhập là SVG hình học do nhóm tự vẽ theo cùng phong cách, không phải tài nguyên chính thức. Font Be Vietnam Pro được tự host nên chạy được khi không có mạng.
 

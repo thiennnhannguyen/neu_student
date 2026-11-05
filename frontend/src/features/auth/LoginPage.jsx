@@ -1,4 +1,5 @@
 import { Navigate, useLocation } from 'react-router';
+import BrandLogo from '../../components/BrandLogo';
 import MotifMosaic from '../../components/brand/MotifMosaic';
 import {
   LEFT_STRIP,
@@ -29,9 +30,9 @@ export default function LoginPage() {
             NEU
           </span>
           <div className="login-brand__copy">
+            <BrandLogo decorative className="login-brand__logo" />
             <p className="login-brand__title">Nền tảng học tập sinh viên NEU</p>
             <p className="login-brand__subtitle">Phân tích học tập · Hỗ trợ người học</p>
-            <span className="mock-badge mock-badge--on-dark">Dữ liệu mẫu</span>
           </div>
         </div>
         <MotifMosaic {...RIGHT_STRIP} className="login-brand__strip" />

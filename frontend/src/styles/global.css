@@ -258,9 +258,8 @@ body {
   margin: 0;
 }
 
-.mock-badge--on-dark {
-  border-color: var(--neu-white);
-  color: var(--neu-white);
+.login-brand__logo {
+  display: none;
 }
 
 .login-panel {
@@ -526,18 +525,30 @@ body {
   }
 
   .login-brand__copy {
+    flex: 1;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--space-3);
+    min-width: 0;
+    text-align: center;
+  }
+
+  .login-brand__logo {
+    display: block;
+    width: auto;
+    height: clamp(120px, 26vh, 260px);
+    max-width: 100%;
   }
 
   .login-brand__title {
     font-size: clamp(1.5rem, 2.6vw, 2.5rem);
     line-height: 1.25;
+    text-wrap: balance;
   }
 
   .login-brand__subtitle {
     font-size: 1.0625rem;
+    text-wrap: balance;
   }
 
   .login-panel {

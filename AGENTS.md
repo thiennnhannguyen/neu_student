@@ -62,7 +62,7 @@ R12. Cảnh báo học vụ và khuyến nghị chỉ mang tính tham khảo; UI
 
 DỮ LIỆU VÀ THƯƠNG HIỆU
 - Không có kết nối dữ liệu NEU thật. Toàn bộ dữ liệu là mock, is_mock = true, UI hiện nhãn "Dữ liệu mẫu". Không ghi mã môn, ngưỡng hay CTĐT nào là "chính thức của NEU".
-- Không tự vẽ hay mô phỏng logo NEU. Chừa vị trí <img src="/brand/logo.svg"> để nhóm chép logo chính thức vào.
+- Không tự vẽ hay mô phỏng logo NEU. Logo do quản lý dự án cung cấp nằm ở frontend/public/images/brand/logo_neu.svg. Mọi ảnh của giao diện đặt trong frontend/public/images/, khai báo đường dẫn ở frontend/src/constants/images.js.
 - Màu: khai báo token trong tokens.css (--neu-primary, --neu-primary-dark, --neu-bg-tint...) với giá trị giữ chỗ tông xanh và comment "TODO: thay bằng mã màu trong bộ nhận diện NEU 2026". Không gọi màu giữ chỗ là màu chính thức.
 
 BẢNG ƯU TIÊN CHỨC NĂNG
