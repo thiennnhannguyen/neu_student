@@ -7,6 +7,7 @@ import {
   RIGHT_STRIP,
   TABLET_BAND,
 } from '../../components/brand/mosaicLayouts';
+import { IMAGES } from '../../constants/images';
 import { useAuth } from './AuthContext';
 import LoginForm from './LoginForm';
 import { safeRedirectPath } from './redirect';
@@ -36,6 +37,7 @@ export default function LoginPage() {
               <p className="login-brand__subtitle">Phân tích học tập&nbsp;· Hỗ trợ người học</p>
             </div>
           </div>
+          <img className="login-brand__building" src={IMAGES.buildingA2} alt="" loading="lazy" />
         </div>
         <MotifMosaic {...RIGHT_STRIP} className="login-brand__strip" />
       </div>

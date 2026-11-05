@@ -1,7 +1,6 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import BrandLogo from '../../components/BrandLogo';
 import { useAuth } from './AuthContext';
-import DemoAccounts from './DemoAccounts';
 import { AlertIcon, EyeIcon, EyeOffIcon } from './LoginIcons';
 
 export default function LoginForm() {
@@ -12,7 +11,6 @@ export default function LoginForm() {
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const passwordRef = useRef(null);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -33,11 +31,6 @@ export default function LoginForm() {
 
   function updateCapsLock(event) {
     setCapsLockOn(event.getModifierState('CapsLock'));
-  }
-
-  function pickDemoAccount(demoUsername) {
-    setUsername(demoUsername);
-    passwordRef.current.focus();
   }
 
   return (
@@ -72,7 +65,6 @@ export default function LoginForm() {
               name="password"
               type={passwordVisible ? 'text' : 'password'}
               autoComplete="current-password"
-              ref={passwordRef}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               onKeyDown={updateCapsLock}
@@ -108,12 +100,6 @@ export default function LoginForm() {
           {submitting ? 'Đang đăng nhập…' : 'Đăng nhập'}
         </button>
       </form>
-      {import.meta.env.VITE_SHOW_DEMO_ACCOUNTS === 'true' && (
-        <DemoAccounts onPick={pickDemoAccount} />
-      )}
-      <p className="login-card__footer">
-        Sản phẩm bài tập lớn – không phải hệ thống chính thức của Đại học Kinh tế Quốc dân.
-      </p>
     </section>
   );
 }

@@ -118,5 +118,4 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | Mosaic: 2 ô cạnh nhau không trùng, bố cục cố định | `%s: 2 ô cạnh nhau không trùng họa tiết, không trùng cặp màu`, `bố cục giống hệt nhau giữa các lần render` | `frontend/src/components/brand/brand.test.jsx` |
 | Mosaic: `aria-hidden`, không nhận focus, tổng thời gian ≤ 600ms | `aria-hidden, không có phần tử nhận focus`, `tổng thời gian hiện dần không quá 600ms` | `frontend/src/components/brand/brand.test.jsx` |
 | Không mã màu rời, tương phản ≥ 4,5:1, tắt hiệu ứng khi `prefers-reduced-motion` | Các test trong file | `frontend/src/styles/tokens.test.js` |
-| Hiện và ẩn mật khẩu, Caps Lock, hộp demo, bàn phím | Các test trong file | `frontend/src/features/auth/LoginForm.test.jsx` |
-| Bản build production không chứa mật khẩu demo | Kiểm tay: tìm `Demo@12345` trong `frontend/dist` | Không có test tự động |
+| Hiện và ẩn mật khẩu, Caps Lock, bàn phím, ảnh tòa nhà, không còn hộp demo và chân trang | Các test trong file | `frontend/src/features/auth/LoginForm.test.jsx` |

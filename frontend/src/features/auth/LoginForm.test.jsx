@@ -1,10 +1,7 @@
-import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { apiError, identityFor, jsonResponse, renderApp, stubApi } from '../../test/fakeApi';
-
-const FOOTER =
-  'Sản phẩm bài tập lớn – không phải hệ thống chính thức của Đại học Kinh tế Quốc dân.';
 
 function anonymousApi(extra = {}) {
   return stubApi({
@@ -34,7 +31,6 @@ describe('nội dung trang đăng nhập', () => {
       'ĐẠI HỌC KINH TẾ QUỐC DÂN',
       'NATIONAL ECONOMICS UNIVERSITY',
       'Dùng tài khoản được cấp cho bạn',
-      FOOTER,
     ]) {
       expect(screen.getByText(text)).toBeInTheDocument();
     }
@@ -71,6 +67,25 @@ describe('nội dung trang đăng nhập', () => {
     expect(logo).toHaveAttribute('alt', '');
     expect(logo.nextElementSibling).toHaveTextContent('Nền tảng học tập sinh viên NEU');
     expect(logo.closest('.login-brand__copy')).toBeNull();
+  });
+
+  it('cột thương hiệu có ảnh tòa nhà trang trí, nằm sau khối chữ', async () => {
+    await openLogin();
+
+    const building = document.querySelector('.login-brand__building');
+    expect(building).toHaveAttribute('src', '/images/brand/toa_nha_a2.svg');
+    expect(building).toHaveAttribute('alt', '');
+    expect(building.previousElementSibling).toHaveClass('login-brand__headline');
+  });
+
+  it('thẻ form không còn hộp tài khoản demo và dòng chữ chân trang', async () => {
+    await openLogin();
+
+    const card = document.querySelector('.login-card');
+    expect(card).not.toHaveTextContent('Tài khoản demo');
+    expect(card).not.toHaveTextContent('Demo@12345');
+    expect(card).not.toHaveTextContent('Sản phẩm bài tập lớn');
+    expect(card.lastElementChild.tagName).toBe('FORM');
   });
 
   it('mosaic không nằm trong thẻ form', async () => {
@@ -194,49 +209,14 @@ describe('hộp lỗi và trạng thái gửi', () => {
   });
 });
 
-describe('hộp tài khoản demo', () => {
-  it('biến môi trường false thì ẩn', async () => {
-    vi.stubEnv('VITE_SHOW_DEMO_ACCOUNTS', 'false');
-    anonymousApi();
-
-    await openLogin();
-
-    expect(screen.queryByText('Tài khoản demo (dữ liệu mẫu)')).not.toBeInTheDocument();
-    expect(document.body).not.toHaveTextContent('Demo@12345');
-  });
-
-  it('liệt kê đủ tài khoản, bấm thì điền đúng ô tên đăng nhập và chuyển tới ô mật khẩu', async () => {
-    vi.stubEnv('VITE_SHOW_DEMO_ACCOUNTS', 'true');
-    anonymousApi();
-    const user = userEvent.setup();
-    const password = await openLogin();
-
-    await user.click(screen.getByText('Tài khoản demo (dữ liệu mẫu)'));
-
-    const box = document.querySelector('.demo-box');
-    expect(box).toHaveTextContent('Demo@12345');
-    const names = within(box)
-      .getAllByRole('button')
-      .map((button) => button.querySelector('strong').textContent);
-    expect(names).toEqual(['sv01', 'sv07', 'gv1', 'ht1', 'admin']);
-
-    await user.click(within(box).getByRole('button', { name: /^gv1/ }));
-
-    expect(screen.getByLabelText('Tên đăng nhập')).toHaveValue('gv1');
-    expect(password).toHaveValue('');
-    expect(password).toHaveFocus();
-  });
-});
-
 describe('bàn phím', () => {
   it('Tab chỉ đi qua các điều khiển của form, không dừng ở họa tiết', async () => {
-    vi.stubEnv('VITE_SHOW_DEMO_ACCOUNTS', 'true');
     anonymousApi();
     const user = userEvent.setup();
     await openLogin();
 
     const visited = [];
-    for (let step = 0; step < 5; step += 1) {
+    for (let step = 0; step < 4; step += 1) {
       await user.tab();
       visited.push(document.activeElement);
     }
@@ -246,25 +226,10 @@ describe('bàn phím', () => {
       'login-password',
       '', // Nút hiện mật khẩu chỉ có icon và aria-label.
       'Đăng nhập',
-      'Tài khoản demo (dữ liệu mẫu)',
     ]);
     for (const element of visited) {
       expect(element.closest('.motif-mosaic')).toBeNull();
       expect(element.closest('.login-card')).not.toBeNull();
     }
-  });
-
-  it('mở hộp demo và chọn tài khoản chỉ bằng bàn phím', async () => {
-    vi.stubEnv('VITE_SHOW_DEMO_ACCOUNTS', 'true');
-    anonymousApi();
-    const user = userEvent.setup();
-    await openLogin();
-
-    screen.getByText('Tài khoản demo (dữ liệu mẫu)').focus();
-    await user.keyboard('{Enter}');
-    await user.tab();
-    await user.keyboard('{Enter}');
-
-    expect(screen.getByLabelText('Tên đăng nhập')).toHaveValue('sv01');
   });
 });

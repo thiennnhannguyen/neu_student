@@ -258,7 +258,8 @@ body {
   margin: 0;
 }
 
-.login-brand__logo {
+.login-brand__logo,
+.login-brand__building {
   display: none;
 }
 
@@ -272,25 +273,42 @@ body {
 }
 
 .login-card {
+  position: relative;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   padding: var(--space-4);
+  overflow: hidden;
   background: var(--neu-white);
   border-radius: 16px;
   box-shadow: var(--shadow-card);
 }
 
+/* Dải màu mảnh ở đầu thẻ, cùng tông với dải chuyển màu của cột phải. */
+.login-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  background: linear-gradient(to right, var(--neu-primary), var(--neu-accent));
+}
+
 .login-card h1 {
-  margin: var(--space-3) 0 0;
+  margin: var(--space-4) 0 0;
   color: var(--neu-primary);
-  font-size: 1.75rem;
+  font-size: 1.875rem;
   line-height: 1.25;
 }
 
 .login-card__brand {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 12px;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.login-card__brand .app-header__logo {
+  height: 52px;
 }
 
 .login-card__school {
@@ -298,29 +316,36 @@ body {
   flex-direction: column;
   margin: 0;
   color: var(--neu-primary);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .login-card__school span + span {
   font-size: 0.6875rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .login-card__intro {
-  margin: var(--space-1) 0 var(--space-3);
+  margin: var(--space-1) 0 var(--space-4);
   color: var(--color-text-muted);
 }
 
-.login-card__footer {
-  margin: var(--space-3) 0 0;
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
-}
-
-.login-card input {
+.login-card .field input {
+  min-height: 48px;
   border-color: var(--color-text-muted);
+  border-radius: 10px;
+}
+
+.login-card input:hover {
+  border-color: var(--neu-primary);
+}
+
+.login-card .button {
+  min-height: 48px;
+  border-radius: 10px;
+  font-weight: 600;
 }
 
 .login-card input:focus {
@@ -404,54 +429,6 @@ body {
   }
 }
 
-.demo-box {
-  margin-top: var(--space-3);
-  padding: var(--space-2) var(--space-3);
-  background: var(--neu-tint);
-  border-radius: var(--radius);
-  font-size: 0.875rem;
-}
-
-.demo-box summary {
-  display: flex;
-  align-items: center;
-  min-height: var(--touch-target);
-  margin: calc(-1 * var(--space-2)) 0;
-  color: var(--neu-primary-dark);
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.demo-box__password {
-  margin: var(--space-2) 0;
-}
-
-.demo-box__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.demo-box__account {
-  width: 100%;
-  min-height: var(--touch-target);
-  padding: var(--space-1) var(--space-2);
-  background: var(--neu-white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  color: var(--color-text);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.demo-box__account:hover {
-  border-color: var(--neu-primary);
-}
-
 /* Máy bảng: mosaic thành dải ngang phía trên, form bên dưới. */
 @media (min-width: 768px) {
   .login-page {
@@ -504,21 +481,34 @@ body {
     height: 100%;
   }
 
-  /* Khối chữ ở giữa cột theo chiều dọc; logo căn giữa trong khoảng trống phía trên. */
+  /* Từ trên xuống: logo, khối chữ, ảnh tòa nhà sát đáy. Thấp quá thì cắt phần đáy ảnh, không đè lên chữ. */
   .login-brand__center {
-    display: grid;
+    display: flex;
     flex: 1;
-    grid-template-rows: 1fr auto 1fr;
+    flex-direction: column;
     min-width: 0;
-    padding: var(--space-3) var(--space-4);
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
   }
 
   .login-brand__headline {
     display: flex;
-    grid-row: 2;
+    flex: none;
     align-items: center;
     gap: var(--space-3);
+    margin-top: var(--space-3);
+    padding: 0 var(--space-4);
     min-width: 0;
+  }
+
+  .login-brand__building {
+    display: block;
+    flex: none;
+    width: 100%;
+    height: auto;
+    margin-top: auto;
+    padding-top: var(--space-3);
   }
 
   .login-brand__word {
@@ -541,12 +531,12 @@ body {
 
   .login-brand__logo {
     display: block;
-    grid-row: 1;
+    flex: none;
     align-self: center;
-    justify-self: center;
     width: auto;
-    height: clamp(120px, 26vh, 260px);
+    height: clamp(120px, 27vh, 280px);
     max-width: 100%;
+    margin-top: clamp(16px, 4vh, 48px);
   }
 
   .login-brand__title {
