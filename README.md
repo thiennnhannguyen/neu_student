@@ -6,7 +6,7 @@ Bài tập lớn: M11 Phân tích học tập và M12 Hỗ trợ người học.
 
 ## Trạng thái
 
-Đã có schema, migration và dữ liệu mẫu. Backend mới có `GET /api/health`, frontend có trang khung, chưa có đăng nhập và chức năng M11, M12. Xem [docs/PROGRESS.md](docs/PROGRESS.md).
+Đã có schema, dữ liệu mẫu, đăng nhập, phân quyền, hồ sơ sinh viên và nhật ký thay đổi. Chưa có chức năng M11, M12; các mục đó hiện "Đang phát triển". Xem [docs/PROGRESS.md](docs/PROGRESS.md).
 
 ## Yêu cầu
 
@@ -42,11 +42,13 @@ Các lệnh chạy trong thư mục `backend`:
 .venv/bin/flask --app app grades add --student SV05 --course CNT101 --semester S3 --score 7.0
 ```
 
-`flask seed --reset` xóa cả nhật ký thay đổi và từ chối chạy ở production.
+`flask seed --reset` xóa cả nhật ký thay đổi và từ chối chạy ở production. `flask seed --check` không so bảng `audit_logs`, vì đăng nhập cũng ghi vào bảng này.
+
+Sau khi lấy mã mới có migration, chạy lại `make seed`.
 
 ## Tài khoản demo (dữ liệu mẫu)
 
-Mọi tài khoản dùng mật khẩu `Demo@12345`. Đây là dữ liệu mẫu, chỉ dùng để demo. Đăng nhập sẽ có từ giai đoạn 04.
+Mọi tài khoản dùng mật khẩu `Demo@12345`. Đây là dữ liệu mẫu, chỉ dùng để demo.
 
 | Vai trò | Tên đăng nhập |
 |---------|---------------|
@@ -56,6 +58,10 @@ Mọi tài khoản dùng mật khẩu `Demo@12345`. Đây là dữ liệu mẫu,
 | Sinh viên | `sv01` đến `sv07` |
 
 Backend mặc định dùng cổng 5001 vì macOS thường chiếm cổng 5000 cho AirPlay. Đổi cổng bằng biến `BACKEND_PORT`, ví dụ `make dev BACKEND_PORT=5055`; Vite đọc cùng biến này để chuyển `/api` sang backend, nên frontend và backend cùng origin.
+
+## Giới hạn đã biết
+
+- Đăng xuất ở một thiết bị sẽ đăng xuất mọi thiết bị của tài khoản đó.
 
 ## Logo và màu
 

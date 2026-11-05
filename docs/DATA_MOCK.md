@@ -18,6 +18,8 @@ Mọi số dưới đây được tính tay. Cột "Khóa" khớp với `expecte
 
 TC khác: TC11 dùng tiên quyết; TC12 dùng `course_offerings`; TC13 dùng ticket của SV01, SV02. Tài khoản GV1 và GV2 lần lượt là `gv1`, `gv2`.
 
+Mỗi sinh viên có thông tin liên hệ mẫu: `sv01@example.test`, `0900000001`, tương tự đến SV07. Tên miền `example.test` được dành riêng nên không thể là địa chỉ thật; số điện thoại cũng chỉ là số giả.
+
 ## 2. Quy ước tính
 
 - **Học kỳ:** S1 = HK1 2024-2025 đến S8 = HK2 2027-2028. S5 = HK1 2026-2027 là kỳ hiện tại. K66 vào từ S1, K67 vào từ S3. Không có kỳ hè.

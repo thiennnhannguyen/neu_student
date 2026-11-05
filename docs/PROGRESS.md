@@ -18,7 +18,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 01 | Khởi tạo repo chung và CI/lint | Hoàn thành, tag `phase-01`. CI chưa chạy trên GitHub vì chưa có remote | Không có |
 | 02 | Thiết kế bộ dữ liệu mẫu | Hoàn thành, tag `phase-02` | Không có |
 | 03 | Model, migration, seed (có `flask grades add`) | Hoàn thành, tag `phase-03` | Không có |
-| 04 | C01, C02, C03, C05: xác thực, phân quyền, hồ sơ, nhật ký | Chờ duyệt kế hoạch | Xem OPEN_QUESTIONS.md |
+| 04 | C01, C02, C03, C05: xác thực, phân quyền, hồ sơ, nhật ký | Hoàn thành (đã chạy lint, test, build), chờ quản lý nghiệm thu | Không có |
 | 05 | Hoàn thiện M11 tính toán và kiểm thử | Chưa bắt đầu | Không có |
 | 06 | Xây M11 Dashboard/Phân tích/Cảnh báo (có `POST /api/admin/grade-attempts`) | Chưa bắt đầu | Không có |
 | 07 | Xây Career Graph và API M12 | Chưa bắt đầu | Không có |
@@ -30,4 +30,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Quản lý dự án duyệt kế hoạch giai đoạn 04.
+Quản lý dự án nghiệm thu giai đoạn 04.

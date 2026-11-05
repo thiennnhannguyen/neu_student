@@ -5,6 +5,42 @@
 | API | Thành công | Input sai | Không đăng nhập | Sai quyền | Dữ liệu rỗng | Test |
 |-----|-----------|-----------|-----------------|-----------|--------------|------|
 | `GET /api/health` | Có | Không áp dụng (không có input) | Có (công khai, vẫn 200) | Không áp dụng (công khai) | Không áp dụng (không có dữ liệu) | `test_health_ok_without_login` |
+| `POST /api/auth/login` | Có | Có | Không áp dụng (công khai) | Không áp dụng (công khai); thiếu header 403 | Tài khoản không tồn tại | `test_login_success_returns_user_role_and_student_id`, `test_login_with_invalid_input_returns_422`, `test_every_login_failure_has_the_same_response`, `test_write_without_csrf_header_returns_403` |
+| `POST /api/auth/logout` | Có | Không áp dụng (không có input); thiếu header 403 | Có | Không áp dụng (cả 4 vai trò đều được) | Không áp dụng | `test_logout_returns_204_and_ends_session`, `test_protected_routes_return_401_without_login`, `test_write_without_csrf_header_returns_403` |
+| `GET /api/auth/me` | Có | Không áp dụng (không có input) | Có (401) | Không áp dụng (công khai) | `student_id` null | `test_me_after_login_returns_same_identity`, `test_me_without_login_returns_401` |
+| `GET /api/students/me` | Có | Không áp dụng (không có input) | Có | Có | Có; tài khoản không có hồ sơ 404 | `test_me_returns_full_profile`, `test_protected_routes_return_401_without_login`, `test_me_is_only_for_students`, `test_profile_handles_missing_advisor_contact_and_current_semester`, `test_student_account_without_profile_gets_404` |
+| `GET /api/students/{id}` | Có | Id không tồn tại 404 | Có | Có | Dùng chung bộ dựng hồ sơ với `/me` | `test_get_student_by_id_permissions`, `test_protected_routes_return_401_without_login`, `test_student_reading_other_student_gets_404_not_403`, `test_support_staff_reading_student_gets_403` |
+| `PATCH /api/students/me/contact` | Có | Có | Có | Có | Thân rỗng 422; `null` xóa giá trị | `test_update_contact_writes_audit_with_only_changed_fields`, `test_update_contact_invalid_input_returns_422`, `test_update_contact_rejects_other_fields_by_name`, `test_protected_routes_return_401_without_login`, `test_update_contact_is_only_for_students`, `test_update_contact_with_null_clears_value` |
+| `GET /api/admin/audit-logs` | Có | Có | Có | Có | Có | `test_returns_fields_and_actor_username`, `test_invalid_time_filter_returns_422`, `test_invalid_pagination_returns_422`, `test_protected_routes_return_401_without_login`, `test_only_admin_can_read`, `test_filter_by_unknown_actor_returns_empty` |
+
+## Nghiệm thu TC01 và phân quyền
+
+File `backend/tests/acceptance/test_tc01_auth.py`, trừ các dòng ghi file khác.
+
+| Yêu cầu | Test |
+|---------|------|
+| Đăng nhập đúng, sai | `test_login_success_returns_user_role_and_student_id`, `test_every_login_failure_has_the_same_response` |
+| Cùng thông báo cho 4 trường hợp, luôn chạy hàm băm | `test_every_login_failure_has_the_same_response`, `test_password_hash_is_always_checked` |
+| Khóa sau 5 lần, mở sau 15 phút, không sleep | `test_fifth_wrong_password_locks_for_15_minutes_then_reopens`, `test_lock_writes_audit_without_actor`, `test_wrong_attempts_while_locked_do_not_extend_lock_or_count`, `test_wrong_attempts_outside_15_minute_window_do_not_lock`, `test_fifth_wrong_attempt_at_exactly_15_minutes_still_locks`, `test_counter_restarts_after_lock_expires`, `test_success_resets_counter` |
+| `is_active = false` | `test_inactive_account_cannot_login_and_is_not_counted`, `test_disabling_account_ends_existing_session` |
+| SV01 đọc SV02 trả 404; support_staff 403; chưa đăng nhập 401 | `test_student_reading_other_student_gets_404_not_403`, `test_other_student_and_missing_student_look_identical`, `test_support_staff_reading_student_gets_403`, `test_protected_routes_return_401_without_login` |
+| Thiếu header 403 | `test_write_without_csrf_header_returns_403`, `test_logged_in_write_without_csrf_header_changes_nothing`, `test_login_without_csrf_header_does_not_log_in` |
+| Cookie trước đăng xuất bị từ chối | `test_cookie_from_before_logout_is_rejected`, `test_logout_ends_sessions_on_other_devices`, `test_tampered_cookie_is_rejected` |
+| Không hoạt động quá 2 giờ trả 401; hoạt động đều thì không hết hạn | `test_session_expires_after_2_hours_idle`, `test_session_still_valid_just_before_2_hours_idle`, `test_activity_keeps_session_alive_past_2_hours` |
+| Mật khẩu băm, nhật ký không chứa hash | `test_passwords_are_stored_hashed`, `test_audit_never_contains_hash_or_session_version`; `backend/tests/unit/test_audit.py` |
+| Ma trận `resolve_target_student` 20 ô | `test_resolve_target_student_matrix`, `test_matrix_has_every_role_and_kind` (`backend/tests/unit/test_auth_guard.py`) |
+| Route registry | `test_every_route_declares_a_policy_and_public_list_is_exact`, `test_route_registry_covers_all_expected_api_routes`, `test_registry_catches_route_without_decorator`, `test_registry_catches_decorator_placed_above_route`, `test_registry_catches_extra_public_route` (`backend/tests/unit/test_auth_guard.py`) |
+| Blueprint không gọi audit | `test_blueprints_do_not_import_audit` (`backend/tests/unit/test_source_rules.py`) |
+| Migration 0002 giữ dữ liệu và trigger | `test_upgrade_from_seeded_0001_keeps_data_triggers_and_other_tables` (`backend/tests/unit/db/test_migration_0002.py`) |
+
+## Màn hình theo DoD
+
+| Màn hình | Loading | Empty | Error | Bàn phím | 375px | File test |
+|----------|---------|-------|-------|----------|-------|-----------|
+| Đăng nhập | Nút khóa khi gửi | Báo lỗi khi thiếu | `aria-live` | Tab, Enter | Kiểm tay trên Chrome | `frontend/src/features/auth/auth.test.jsx` |
+| Khung, menu 4 vai trò | Kiểm tra phiên | Không áp dụng | Thử lại | Nút Menu | Kiểm tay trên Chrome | `frontend/src/features/auth/auth.test.jsx`, `frontend/src/routes.test.jsx` |
+| Hồ sơ | Có | Có | Có, lỗi theo từng ô | Enter để lưu | Kiểm tay trên Chrome | `frontend/src/features/profile/ProfilePage.test.jsx` |
+| Nhật ký | Có | Có | Có, lỗi theo từng ô | Enter để lọc, vùng bảng nhận focus | Kiểm tay trên Chrome, bảng cuộn trong khung | `frontend/src/features/admin/AuditLogPage.test.jsx` |
 
 ## Hạ tầng chung
 

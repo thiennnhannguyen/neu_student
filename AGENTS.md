@@ -32,6 +32,7 @@ KIẾN TRÚC BẮT BUỘC
 - Định dạng lỗi thống nhất: {"error": {"code": "FORBIDDEN", "message": "...", "details": {...}}}. Mã HTTP đúng ngữ nghĩa (400/401/403/404/409/422).
 - Phân trang thống nhất: ?page=&page_size= (mặc định 20, tối đa 100) -> {"items": [], "page", "page_size", "total"}.
 - Mọi số liệu M11 trả về kèm: reference_semester, computed_at, rule_version, data_warnings[].
+- Được thêm module service mới nếu đúng mẫu "blueprint gọi service"; ghi vào báo cáo, không cần hỏi trước.
 
 VAI TRÒ VÀ PHÂN QUYỀN (kiểm tra ở server, không tin frontend)
 - student: chỉ dữ liệu của chính mình; chọn nghề; lập kế hoạch; gửi/xem ticket của mình.

@@ -67,8 +67,8 @@ erDiagram
 | Bảng | Mô tả |
 |------|-------|
 | `roles` | Bốn vai trò: student, advisor, support_staff, admin. |
-| `users` | Tài khoản, mật khẩu băm. Có `failed_login_count`, `locked_until`, `last_login_at`, `is_active`; **các cột này chưa dùng tới GĐ04**. |
-| `students` | Hồ sơ sinh viên: mã, khóa, phiên bản CTĐT, kỳ nhập học. |
+| `users` | Tài khoản, mật khẩu băm. Có `is_active`, `last_login_at`; `failed_login_count`, `failed_login_window_started_at`, `locked_until` để khóa tài khoản; `session_version` để cookie cũ mất hiệu lực sau khi đăng xuất. |
+| `students` | Hồ sơ sinh viên: mã, khóa, phiên bản CTĐT, kỳ nhập học, `contact_email`, `contact_phone`. |
 | `programs` | Chương trình đào tạo mẫu. |
 | `program_versions` | Phiên bản CTĐT theo khóa (`version`, `effective_cohort`). |
 | `semesters` | Học kỳ theo thứ tự, tối đa một kỳ hiện tại. |
