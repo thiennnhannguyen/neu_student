@@ -4,7 +4,43 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
-Không còn câu nào đang mở.
+Tất cả cần chốt trước khi làm giai đoạn 02.
+
+**Q40. Định nghĩa tín chỉ đạt, nợ, đang học, đăng ký.** Đã chốt attempt hiệu lực, nhưng chưa có định nghĩa để tính tay và để chạy quy tắc cảnh báo.
+- Đề xuất: mỗi nhóm môn (một môn, hoặc cặp tương đương) chỉ tính một lần theo attempt hiệu lực, chọn trong các attempt `final` và `exempt`. **Đạt:** attempt hiệu lực đạt hoặc `exempt`. **Nợ:** attempt hiệu lực trượt. **Đang học và đăng ký:** tổng tín chỉ `in_progress` ở kỳ hiện tại. Môn trượt đang học lại vẫn tính nợ, đồng thời tính đang học, cho tới khi có kết quả.
+- Lý do: `in_progress` không được coi là đạt, và nợ không biến mất trước khi có kết quả cuối.
+
+**Q41. SV02 học 3 lần theo thứ tự trượt, đạt thấp, đạt cao thì `best` và `latest` cho cùng kết quả.** Lần cuối cũng là lần cao nhất, nên phép tính "theo cả best lẫn latest" sẽ không khác nhau nếu chỉ dựa vào môn này.
+- Đề xuất: giữ nguyên môn học 3 lần. Tạo khác biệt bằng cặp tương đương: học bên K66 trước với điểm cao (B), học bên K67 sau với điểm thấp hơn (C); `best` chọn B, `latest` chọn C. Ca "đã đạt rồi rớt thì mất tick xanh" không gắn cho sinh viên nào, mà được kiểm bằng unit test riêng ở GĐ05.
+- Lý do: giữ đúng mô tả SV02 mà hai chính sách vẫn cho hai số khác nhau; không phải thêm sinh viên thứ tám.
+
+**Q42. SV04 (K66) và SV06 (K67) có số liệu giống nhau nhưng nhập học lệch nhau.** K66 vào từ S1, K67 vào từ S3, và kỳ hiện tại là S5, nên K67 chỉ có đúng 2 kỳ có điểm.
+- Đề xuất: cả hai học cùng danh sách môn, cùng điểm trong 2 kỳ. SV04 học ở S1, S2, không có dữ liệu ở S3, S4 (mẫu: bảo lưu). SV06 học ở S3, S4. Cả hai cùng đăng ký một số tín chỉ ở S5. Chỉ chọn môn có trong CTĐT của cả hai khóa.
+- Lý do: các số GPA, nợ, đăng ký giống hệt nhau nên TC05 chỉ còn khác ở ngưỡng; hai kỳ trống của SV04 còn phủ thêm ca "học kỳ không có dữ liệu" (GPA null kèm cảnh báo).
+
+**Q43. Giá trị `grade_scales` của K66 và K67.**
+- Đề xuất: hai bản ghi riêng theo khóa nhưng cùng giá trị: A 8,5–10 = 4,0; B+ 8,0–8,4 = 3,5; B 7,0–7,9 = 3,0; C+ 6,5–6,9 = 2,5; C 5,5–6,4 = 2,0; D+ 5,0–5,4 = 1,5; D 4,0–4,9 = 1,0; F dưới 4,0 = 0. Đạt từ D. Mỗi bản ghi chú "Giá trị mẫu – cần đối chiếu quy chế NEU".
+- Lý do: nếu thang khác nhau thì SV04 và SV06 không còn cùng GPA, và TC05 không còn chứng minh được là do ngưỡng cảnh báo.
+
+**Q44. Hậu tố "(mẫu)" của 4 nghề CNTT.** Quy tắc chung yêu cầu tên nghề có "(mẫu)", nhưng danh sách ghi AI Engineer, Data Analyst, Machine Learning Engineer, Backend Developer không có hậu tố.
+- Đề xuất: cả 6 nghề đều có hậu tố, ví dụ "AI Engineer (mẫu)".
+- Lý do: thống nhất với quy tắc chung; test toàn vẹn kiểm tra được bằng một luật duy nhất.
+
+**Q45. Dữ liệu thêm ngoài danh sách để phủ TC.**
+- Đề xuất: thêm 2 ticket mẫu (của SV01 và SV02) cho TC13; thêm 1 nghề chính cũ đã có `ended_at` của SV07 (Data Analyst) cho TC08. Không thêm lộ trình, kế hoạch hay học liệu mẫu.
+- Lý do: mục tiêu là phủ đủ TC01–TC14, và hai TC này cần dữ liệu có sẵn. Các bảng còn lại do test tự tạo.
+
+**Q46. Kiểm chéo số tính tay trong test.** Yêu cầu chỉ kiểm tra mọi số trong `expected_results.json` có mục tương ứng trong `DATA_MOCK.md`, chưa kiểm tra số đó đúng với fixture.
+- Đề xuất: `test_fixtures_integrity.py` tính lại độc lập từ fixture (GPA, tín chỉ, tỷ lệ) bằng vài hàm nhỏ chỉ dùng trong test, rồi so với `expected_results.json`. Service thật vẫn viết ở GĐ05.
+- Lý do: phát hiện sớm lỗi tính tay, trước khi GĐ05 và GĐ08 dựa vào các số này.
+
+**Q47. Quy tắc đăng ký vượt/dưới mức với sinh viên chưa có dữ liệu (SV05).**
+- Đề xuất: sinh viên không có đăng ký nào ở kỳ hiện tại thì quy tắc trả "không đủ dữ liệu", mức bình thường, kèm `data_warnings`. Quy tắc GPA và nợ cũng trả "không đủ dữ liệu" khi chưa có kết quả.
+- Lý do: tân sinh viên không nên bị cảnh báo "đăng ký dưới mức" chỉ vì dữ liệu còn trống.
+
+**Q48. Ngưỡng cảnh báo mẫu của K66 và K67.**
+- Đề xuất: K66: GPA tích lũy dưới 2,5 là chú ý, dưới 2,0 là cảnh báo; nợ từ 3 tín chỉ là chú ý, từ 6 là cảnh báo; đăng ký ngoài khoảng 10–25 là chú ý. K67: GPA dưới 1,5 là chú ý, dưới 1,2 là cảnh báo; nợ từ 9 là chú ý, từ 12 là cảnh báo; đăng ký ngoài khoảng 8–28 là chú ý. Mức chung của sinh viên là mức cao nhất trong ba quy tắc. SV04 và SV06 có GPA khoảng 1,6–1,9, nợ 6 tín chỉ, đăng ký 15 tín chỉ: K66 là "cảnh báo", K67 là "bình thường".
+- Lý do: tạo được đúng ca TC05. Ngưỡng K67 cố ý lỏng hơn để phục vụ test, không phản ánh quy chế thật.
 
 ## Đang áp dụng tạm
 
