@@ -2,7 +2,7 @@ import pytest
 from sqlalchemy import Column, Integer, MetaData, Table, insert, select
 
 from app.common.errors import ApiError
-from app.common.pagination import paginate
+from app.common.pagination import paginate, paginate_list
 from app.extensions import db
 
 items_table = Table("page_items", MetaData(), Column("id", Integer, primary_key=True))
@@ -94,3 +94,18 @@ def test_over_limit_returns_standard_error_through_http(app):
     error = response.get_json()["error"]
     assert error["code"] == "VALIDATION_ERROR"
     assert error["details"] == {"page_size": 101, "max": 100}
+
+
+def test_paginate_list_has_same_shape_as_paginate():
+    rows = list(range(1, 26))
+
+    assert paginate_list(rows) == {"items": rows[:20], "page": 1, "page_size": 20, "total": 25}
+    assert paginate_list(rows, "2", "20")["items"] == rows[20:]
+    assert paginate_list(rows, "9")["items"] == []
+
+
+@pytest.mark.parametrize(("page", "size"), [("0", None), ("x", None), (None, "101"), (None, "0")])
+def test_paginate_list_rejects_bad_params(page, size):
+    with pytest.raises(ApiError) as caught:
+        paginate_list([], page, size)
+    assert caught.value.status == 422

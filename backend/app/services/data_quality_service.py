@@ -8,6 +8,7 @@ from app.services.effective_attempt_service import (
     in_progress_course_ids,
     lost_pass_attempts,
     overlapping_course_ids,
+    reference_is_current,
 )
 from app.services.m11_types import DataWarning, ResultMeta, StudentData
 
@@ -144,7 +145,7 @@ def _semester_warnings(data: StudentData) -> list[DataWarning]:
         if data.entry_semester_order <= semester.order <= reference.order
         and semester.id not in with_data
     ]
-    if not in_progress_course_ids(data):
+    if reference_is_current(data) and not in_progress_course_ids(data):
         warnings.append(
             DataWarning(
                 NO_REGISTRATION,

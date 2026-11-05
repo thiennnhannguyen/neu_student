@@ -84,6 +84,7 @@ def credit_summary(data: StudentData) -> CreditSummary:
     return CreditSummary(
         passed=sum(e.attempt.credits for e in effective if e.attempt.passed) if known else None,
         debt=sum(e.attempt.credits for e in effective if not e.attempt.passed) if known else None,
+        failed_courses=sum(1 for e in effective if not e.attempt.passed) if known else None,
         in_progress=in_progress,
         registered=in_progress,
         required=required,

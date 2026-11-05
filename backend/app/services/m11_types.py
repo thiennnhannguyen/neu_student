@@ -226,6 +226,7 @@ class ElectiveProgress:
 class CreditSummary:
     passed: int | None
     debt: int | None
+    failed_courses: int | None
     in_progress: int
     registered: int
     required: RequiredProgress

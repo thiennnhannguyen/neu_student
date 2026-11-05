@@ -6,7 +6,7 @@ from decimal import Decimal
 
 from app.services.credit_service import credit_summary
 from app.services.data_quality_service import build_meta
-from app.services.effective_attempt_service import effective_attempts
+from app.services.effective_attempt_service import effective_attempts, reference_is_current
 from app.services.gpa_service import cumulative_gpa
 from app.services.m11_types import (
     CreditSummary,
@@ -21,6 +21,7 @@ LEVEL_NORMAL = "normal"
 LEVEL_WATCH = "watch"
 LEVEL_WARNING = "warning"
 LEVEL_INSUFFICIENT = "insufficient_data"
+LEVEL_NOT_APPLICABLE = "not_applicable"
 SEVERITY = {LEVEL_NORMAL: 0, LEVEL_WATCH: 1, LEVEL_WARNING: 2}
 DISCLAIMER = "Cảnh báo tham khảo, không phải quyết định học vụ chính thức"
 
@@ -31,6 +32,7 @@ class RiskFacts:
     gpa: GpaResult
     credits: CreditSummary
     has_results: bool
+    reference_is_current: bool
 
 
 @dataclass(frozen=True)
@@ -49,6 +51,11 @@ def register_rule(code: str):
         return check
 
     return decorator
+
+
+def _vn(value: Decimal) -> str:
+    """Số trong câu lý do hiển thị kiểu Việt Nam: 2,56."""
+    return str(value).replace(".", ",")
 
 
 def _is_below(numerator: Decimal, denominator: int, threshold: Decimal) -> bool:
@@ -71,18 +78,18 @@ def _gpa_rule(facts: RiskFacts) -> RuleCheck:
     if _is_below(gpa.numerator, gpa.denominator, rule.gpa_warning_below):
         return RuleCheck(
             LEVEL_WARNING,
-            f"GPA tích lũy {gpa.value} dưới ngưỡng cảnh báo {rule.gpa_warning_below}.",
+            f"GPA tích lũy {_vn(gpa.value)} dưới ngưỡng cảnh báo {_vn(rule.gpa_warning_below)}.",
             evidence,
         )
     if _is_below(gpa.numerator, gpa.denominator, rule.gpa_watch_below):
         return RuleCheck(
             LEVEL_WATCH,
-            f"GPA tích lũy {gpa.value} dưới ngưỡng chú ý {rule.gpa_watch_below}.",
+            f"GPA tích lũy {_vn(gpa.value)} dưới ngưỡng chú ý {_vn(rule.gpa_watch_below)}.",
             evidence,
         )
     return RuleCheck(
         LEVEL_NORMAL,
-        f"GPA tích lũy {gpa.value} không dưới ngưỡng chú ý {rule.gpa_watch_below}.",
+        f"GPA tích lũy {_vn(gpa.value)} không dưới ngưỡng chú ý {_vn(rule.gpa_watch_below)}.",
         evidence,
     )
 
@@ -123,6 +130,8 @@ def _registration_rule(facts: RiskFacts) -> RuleCheck:
         "max_credits": rule.registration_max_credits,
     }
     allowed = f"{rule.registration_min_credits}–{rule.registration_max_credits}"
+    if not facts.reference_is_current:
+        return RuleCheck(LEVEL_NOT_APPLICABLE, "Chỉ xét đăng ký ở kỳ hiện tại.", evidence)
     if registered == 0:
         return RuleCheck(LEVEL_INSUFFICIENT, "Không có đăng ký ở kỳ đang xem.", evidence)
     if rule.registration_min_credits <= registered <= rule.registration_max_credits:
@@ -135,8 +144,8 @@ def _registration_rule(facts: RiskFacts) -> RuleCheck:
 
 
 def _overall_level(outcomes: tuple[RuleOutcome, ...]) -> str:
-    """Mức cao nhất, bỏ qua insufficient_data. Không có quy tắc nào đủ dữ liệu thì là normal."""
-    levels = [o.level for o in outcomes if o.level != LEVEL_INSUFFICIENT]
+    """Mức cao nhất, bỏ qua quy tắc thiếu dữ liệu hoặc không áp dụng. Không còn gì thì normal."""
+    levels = [o.level for o in outcomes if o.level in SEVERITY]
     return max(levels, key=SEVERITY.__getitem__, default=LEVEL_NORMAL)
 
 
@@ -156,6 +165,7 @@ def assess_risk(data: StudentData) -> RiskAssessment:
             gpa=cumulative_gpa(data),
             credits=credit_summary(data),
             has_results=bool(effective_attempts(data)),
+            reference_is_current=reference_is_current(data),
         )
         checks = {code: check(facts) for code, check in RULE_REGISTRY.items()}
         outcomes = tuple(

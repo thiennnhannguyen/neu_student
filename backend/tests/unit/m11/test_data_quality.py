@@ -153,11 +153,15 @@ def test_no_results_warning():
     assert warnings_of(make_data([exempt("A", 1)]), "NO_RESULTS") == []
 
 
-def test_no_registration_warning_is_for_reference_semester():
-    found = warnings_of(make_data(reference="S4"), "NO_REGISTRATION")
+def test_no_registration_warning_only_at_current_semester():
+    found = warnings_of(make_data(), "NO_REGISTRATION")
 
-    assert [w.semester_id for w in found] == ["S4"]
+    assert [w.semester_id for w in found] == ["S5"]
     assert warnings_of(make_data(in_progress_rows=[in_progress("A")]), "NO_REGISTRATION") == []
+
+
+def test_past_semester_has_no_registration_warning():
+    assert warnings_of(make_data(reference="S4"), "NO_REGISTRATION") == []
 
 
 def test_lost_pass_warning():

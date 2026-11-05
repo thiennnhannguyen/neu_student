@@ -8,6 +8,7 @@ from sqlalchemy import func, select
 
 from app.common import audit
 from app.common.course_display import course_display_code
+from app.common.data_version import bump_data_version
 from app.common.errors import ApiError
 from app.extensions import db
 from app.models.m11 import GradeAttempt, GradeScale, GradeScaleLevel
@@ -199,6 +200,7 @@ def add_grade_result(
     )
     db.session.add(attempt)
     db.session.flush()
+    bump_data_version(student)
 
     audit.record(
         actor,

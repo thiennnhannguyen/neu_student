@@ -45,6 +45,7 @@ class Student(MockMixin, db.Model):
     entry_semester_id = fk("semesters.id")
     contact_email = db.Column(db.String(254))
     contact_phone = db.Column(db.String(16))
+    data_version = db.Column(db.Integer, nullable=False, default=0, server_default="0")
     __table_args__ = (db.UniqueConstraint("user_id"),)
 
 

@@ -85,3 +85,9 @@ Nội dung đầy đủ nằm trong [DECISIONS.md](DECISIONS.md).
 | Q71 | Ảnh tham chiếu thương hiệu | D-153 |
 | Q72 | Phạm vi của hoa văn | D-154 |
 | Q73 | Mốc không mở `tests/reference/` | D-155 |
+| Q74 | Bảng điểm theo kỳ, `?semester=all` | D-158 |
+| Q75 | Số môn chưa đạt | D-159 |
+| Q76 | Danh sách kỳ, kỳ không hợp lệ | D-160 |
+| Q77 | Phạm vi `data_version` | D-161 |
+| Q78 | Kiểu số trong JSON | D-162 |
+| Q79 | Trang `/` theo vai trò | D-163 |

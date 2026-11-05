@@ -169,6 +169,20 @@ def test_route_registry_covers_all_expected_api_routes():
         ("PATCH", "/api/students/me/contact"),
         ("GET", "/api/students/<student_id>"),
         ("GET", "/api/admin/audit-logs"),
+        ("GET", "/api/admin/students"),
+        ("POST", "/api/admin/grade-attempts"),
+        ("GET", "/api/advisor/students"),
+        ("GET", "/api/m11/semesters"),
+        ("GET", "/api/m11/overview"),
+        ("GET", "/api/m11/grades"),
+        ("GET", "/api/m11/grades/<course_id>/attempts"),
+        ("GET", "/api/m11/gpa-trend"),
+        ("GET", "/api/m11/credits"),
+        ("GET", "/api/m11/curriculum-check"),
+        ("GET", "/api/m11/strengths"),
+        ("GET", "/api/m11/risks"),
+        ("GET", "/api/m11/compare"),
+        ("GET", "/api/m11/metrics-glossary"),
     }
 
 

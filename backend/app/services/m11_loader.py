@@ -45,6 +45,16 @@ def _load_rule(cohort: str) -> AcademicRule | None:
     )
 
 
+def load_rule_version(cohort: str) -> str | None:
+    """Cùng cách chọn với _load_rule, dùng cho khóa cache."""
+    return db.session.scalar(
+        select(AcademicRule.rule_version)
+        .where(AcademicRule.effective_cohort == cohort)
+        .order_by(AcademicRule.version.desc())
+        .limit(1)
+    )
+
+
 def _load_scale(rule: AcademicRule | None, cohort: str) -> ScaleRef | None:
     condition = (
         GradeScale.id == rule.grade_scale_id if rule else GradeScale.effective_cohort == cohort

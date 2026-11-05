@@ -182,11 +182,19 @@ def find_float_usage(source: str) -> list[str]:
 
 
 def test_m11_services_have_no_float():
-    names = [*M11_SERVICES, "m11_loader.py"]
+    paths = [
+        *(f"services/{name}" for name in M11_SERVICES),
+        "services/m11_loader.py",
+        "services/m11_api_service.py",
+        "services/m11_cache.py",
+        "services/metrics_glossary.py",
+        "schemas/m11.py",
+        "blueprints/m11.py",
+    ]
     problems = {
         name: found
-        for name in names
-        if (found := find_float_usage((APP_DIR / "services" / name).read_text(encoding="utf8")))
+        for name in paths
+        if (found := find_float_usage((APP_DIR / name).read_text(encoding="utf8")))
     }
     assert problems == {}
 
@@ -268,3 +276,56 @@ def test_m12_scanner_allows_public_gate(tmp_path):
     source.write_text("from app.services import m11_public\nfrom app.models.m12 import Career\n")
 
     assert m11_internal_imports(source) == []
+
+
+# --- data_version: mọi thao tác ghi làm đổi kết quả M11 phải tăng phiên bản ---
+
+M11_RESULT_MODELS = {"GradeAttempt", "Enrollment"}
+# Seed đặt data_version riêng cho toàn bộ sinh viên trong reset_database.
+DATA_VERSION_EXEMPT = {"seed/seed.py"}
+
+
+def writes_m11_results_without_bump(source: str) -> list[str]:
+    """Hàm tạo GradeAttempt hoặc Enrollment mà không gọi bump_data_version."""
+    problems = []
+    for node in ast.walk(ast.parse(source)):
+        if not isinstance(node, ast.FunctionDef):
+            continue
+        called = {
+            call.func.id
+            for call in ast.walk(node)
+            if isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+        }
+        if called & M11_RESULT_MODELS and "bump_data_version" not in called:
+            problems.append(node.name)
+    return problems
+
+
+def test_writes_to_m11_results_bump_data_version():
+    problems = {
+        str(path.relative_to(APP_DIR)): found
+        for path in SOURCES
+        if str(path.relative_to(APP_DIR)) not in DATA_VERSION_EXEMPT
+        and (found := writes_m11_results_without_bump(path.read_text(encoding="utf8")))
+    }
+    assert problems == {}
+
+
+def test_grades_service_bumps_data_version_when_adding_result():
+    source = (APP_DIR / "services" / "grades_service.py").read_text(encoding="utf8")
+
+    assert writes_m11_results_without_bump(source) == []
+    tree = ast.parse(source)
+    add = next(
+        n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name == "add_grade_result"
+    )
+    called = {c.func.id for c in ast.walk(add) if isinstance(c, ast.Call) and hasattr(c.func, "id")}
+    assert {"GradeAttempt", "bump_data_version"} <= called
+
+
+def test_data_version_scanner_catches_missing_bump():
+    assert writes_m11_results_without_bump("def f():\n    db.add(GradeAttempt(score_10=1))\n") == [
+        "f"
+    ]
+    good = "def f(s):\n    db.add(Enrollment())\n    bump_data_version(s)\n"
+    assert writes_m11_results_without_bump(good) == []

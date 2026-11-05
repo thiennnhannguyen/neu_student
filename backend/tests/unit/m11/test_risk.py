@@ -94,6 +94,32 @@ def test_registration_thresholds_are_inclusive(credits, expected):
     assert levels(data)["registration"] == expected
 
 
+def test_registration_is_not_applicable_at_past_semester():
+    data = make_data(reference="S4")
+
+    outcome = next(o for o in assess_risk(data).outcomes if o.rule_code == "registration")
+    assert outcome.level == "not_applicable"
+    assert "kỳ hiện tại" in outcome.reason
+
+
+def test_overall_ignores_not_applicable_and_keeps_other_levels():
+    risky = make_data([attempt("A", 1, 0, False, credits=6)], reference="S4")
+
+    risk = assess_risk(risky)
+
+    assert levels(risky)["registration"] == "not_applicable"
+    assert risk.overall == "warning"
+    assert assess_risk(make_data(reference="S4")).overall == "normal"
+
+
+def test_reason_uses_vietnamese_decimal():
+    outcome = next(o for o in assess_risk(make_data([attempt("A", 1, 0, False)])).outcomes)
+
+    assert "0,00" in outcome.reason
+    assert "2,50" in outcome.reason or "2,00" in outcome.reason
+    assert "2.00" not in outcome.reason
+
+
 def test_no_data_all_insufficient_and_overall_normal():
     risk = assess_risk(make_data())
 

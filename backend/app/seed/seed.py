@@ -82,6 +82,13 @@ def _insert_fixture_rows(connection, tables: dict[str, list[dict]]) -> None:
         )
 
 
+def _next_data_version(connection) -> int:
+    """Theo thời điểm seed và luôn lớn hơn giá trị cũ, để máy chủ đang chạy không đọc nhầm cache."""
+    students = db.metadata.tables["students"]
+    previous = connection.scalar(select(func.max(students.c.data_version))) or 0
+    return max(int(time.time()), previous + 1)
+
+
 def reset_database() -> dict[str, int]:
     """Xóa rồi nạp lại trong 1 transaction. Lỗi ở bất kỳ bước nào thì DB không đổi."""
     if current_app.config["APP_CONFIG_NAME"] == "production":
@@ -96,12 +103,16 @@ def reset_database() -> dict[str, int]:
         triggers = _list_triggers(connection)
         for name, _sql in triggers:
             connection.exec_driver_sql(f'DROP TRIGGER "{name}"')
+        data_version = _next_data_version(connection)
         for table in reversed(db.metadata.sorted_tables):
             connection.execute(table.delete())
         # Tạo lại trigger trước khi nạp để dữ liệu mẫu cũng phải qua các ràng buộc này.
         for _name, sql in triggers:
             connection.exec_driver_sql(sql)
         _insert_fixture_rows(connection, tables)
+        connection.execute(
+            db.metadata.tables["students"].update().values(data_version=data_version)
+        )
         after = _list_triggers(connection)
         if [row.name for row in after] != [row.name for row in triggers]:
             raise SeedError("Danh sách trigger bị lệch sau khi reset.")

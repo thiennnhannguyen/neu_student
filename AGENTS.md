@@ -33,6 +33,7 @@ KIẾN TRÚC BẮT BUỘC
 - Phân trang thống nhất: ?page=&page_size= (mặc định 20, tối đa 100) -> {"items": [], "page", "page_size", "total"}.
 - Mọi số liệu M11 trả về kèm: reference_semester, computed_at, rule_version, data_warnings[].
 - Được thêm module service mới nếu đúng mẫu "blueprint gọi service"; ghi vào báo cáo, không cần hỏi trước.
+- Mọi thao tác ghi làm đổi kết quả M11 phải tăng students.data_version của các sinh viên bị ảnh hưởng trong cùng transaction (hàm bump_data_version). Quy chế đã phát hành không sửa tại chỗ, muốn đổi phải tạo phiên bản mới. Có test đọc mã nguồn.
 - Transaction: service KHÔNG BAO GIỜ tự commit. Ranh giới (blueprint, lệnh CLI) commit đúng 1 lần cho mỗi request hoặc lệnh, lỗi thì rollback, qua helper `transaction()` trong app/common/transaction.py; blueprint và CLI không tự viết commit/rollback. Trường hợp thất bại vẫn phải lưu dữ liệu (ví dụ đăng nhập sai): service trả kết quả thất bại, không raise; ranh giới commit rồi mới trả lỗi. Có test đọc mã nguồn.
 
 VAI TRÒ VÀ PHÂN QUYỀN (kiểm tra ở server, không tin frontend)

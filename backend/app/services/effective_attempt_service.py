@@ -115,6 +115,10 @@ def in_progress_course_ids(data: StudentData) -> frozenset[str]:
     )
 
 
+def reference_is_current(data: StudentData) -> bool:
+    return data.reference_semester == data.current_semester
+
+
 def lost_pass_attempts(data: StudentData) -> tuple[EffectiveAttempt, ...]:
     """Attempt hiệu lực trượt trong khi nhóm môn từng đạt (D-39)."""
     return tuple(
