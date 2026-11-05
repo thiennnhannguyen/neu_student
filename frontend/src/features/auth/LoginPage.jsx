@@ -1,79 +1,44 @@
-import { useState } from 'react';
 import { Navigate, useLocation } from 'react-router';
-import BrandLogo from '../../components/BrandLogo';
+import MotifMosaic from '../../components/brand/MotifMosaic';
+import {
+  LEFT_STRIP,
+  MOBILE_BAND,
+  RIGHT_STRIP,
+  TABLET_BAND,
+} from '../../components/brand/mosaicLayouts';
 import { useAuth } from './AuthContext';
+import LoginForm from './LoginForm';
 import { safeRedirectPath } from './redirect';
 
 export default function LoginPage() {
-  const { status, login } = useAuth();
+  const { status } = useAuth();
   const location = useLocation();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
 
   if (status === 'authenticated') {
     return <Navigate to={safeRedirectPath(location.state?.from)} replace />;
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    if (!username.trim() || !password) {
-      setError('Vui lòng nhập tên đăng nhập và mật khẩu.');
-      return;
-    }
-    setError('');
-    setSubmitting(true);
-    try {
-      await login(username.trim(), password);
-    } catch (caught) {
-      setError(caught.message);
-      setPassword('');
-      setSubmitting(false);
-    }
-  }
-
   return (
     <main id="main" className="login-page">
-      <section className="card login-card">
-        <div className="login-card__brand">
-          <BrandLogo />
-          <span className="mock-badge">Dữ liệu mẫu</span>
+      <div className="login-brand">
+        <MotifMosaic {...TABLET_BAND} className="login-brand__band login-brand__band--tablet" />
+        <MotifMosaic {...MOBILE_BAND} className="login-brand__band login-brand__band--mobile" />
+        <MotifMosaic {...LEFT_STRIP} className="login-brand__strip" />
+        <div className="login-brand__center">
+          <span className="login-brand__word" aria-hidden="true">
+            NEU
+          </span>
+          <div className="login-brand__copy">
+            <p className="login-brand__title">Nền tảng học tập sinh viên NEU</p>
+            <p className="login-brand__subtitle">Phân tích học tập · Hỗ trợ người học</p>
+            <span className="mock-badge mock-badge--on-dark">Dữ liệu mẫu</span>
+          </div>
         </div>
-        <h1>Đăng nhập</h1>
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="field">
-            <label htmlFor="login-username">Tên đăng nhập</label>
-            <input
-              id="login-username"
-              name="username"
-              type="text"
-              autoComplete="username"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              aria-describedby="login-error"
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="login-password">Mật khẩu</label>
-            <input
-              id="login-password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              aria-describedby="login-error"
-            />
-          </div>
-          <p id="login-error" className="status-error" aria-live="assertive" role="alert">
-            {error}
-          </p>
-          <button type="submit" className="button button--full" disabled={submitting}>
-            {submitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
-          </button>
-        </form>
-      </section>
+        <MotifMosaic {...RIGHT_STRIP} className="login-brand__strip" />
+      </div>
+      <div className="login-panel">
+        <LoginForm />
+      </div>
     </main>
   );
 }

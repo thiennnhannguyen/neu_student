@@ -135,7 +135,10 @@ describe('đăng nhập', () => {
     expect(password).toHaveFocus();
     await user.keyboard('Demo@12345');
     await user.tab();
+    expect(screen.getByRole('button', { name: 'Hiện mật khẩu' })).toHaveFocus();
+    await user.tab();
     expect(screen.getByRole('button', { name: 'Đăng nhập' })).toHaveFocus();
+    await user.tab({ shift: true });
     await user.tab({ shift: true });
     expect(password).toHaveFocus();
     await user.keyboard('{Enter}');
@@ -157,7 +160,7 @@ describe('đăng nhập', () => {
     renderApp('/login');
     await fillAndSubmit(user);
 
-    expect(screen.getByRole('button', { name: 'Đang đăng nhập...' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Đang đăng nhập…' })).toBeDisabled();
     await user.keyboard('{Enter}');
     expect(fetchMock.mock.calls.filter(([url]) => url === '/api/auth/login')).toHaveLength(1);
 

@@ -1,14 +1,19 @@
 :root {
-  /* TODO: thay bằng mã màu trong bộ nhận diện NEU 2026 */
-  --neu-primary: #0b5cad;
-  --neu-primary-dark: #083f77;
-  --neu-bg-tint: #eaf3fb;
+  /* Lấy mẫu từ keyvisual NEU 2026 (docs/brand/reference). Đối chiếu mã màu chính thức khi nhóm có file brand guideline. */
+  --neu-primary: #245890;
+  --neu-primary-dark: #204d7f; /* Tối hơn primary 12%, dùng cho hover và active. */
+  --neu-tint: #daecf9;
+  --neu-mid: #78a5c7; /* Chỉ dùng trang trí, không dùng cho chữ. */
+  --neu-accent: #3e8ccf;
+  --neu-white: #ffffff;
 
   --color-text: #1b2733;
   --color-text-muted: #4d5b69;
   --color-surface: #ffffff;
   --color-border: #c9d6e2;
   --color-error: #b3261e;
+  --color-error-bg: #fdecea;
+  --shadow-card: 0 8px 24px rgb(32 77 127 / 18%);
   --color-success: #1b6e3c;
 
   --space-1: 4px;

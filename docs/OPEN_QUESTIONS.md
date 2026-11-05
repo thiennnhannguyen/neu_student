@@ -4,7 +4,7 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
-Tất cả cần chốt trước khi làm giai đoạn 05.
+Q63 đến Q69 cần chốt trước khi làm giai đoạn 05. Q70 đến Q72 thuộc CR-01.
 
 **Q63. "235/235" gồm cả dữ liệu của M12.** 235 mục chia thành 174 mục M11 (GPA, tín chỉ, cảnh báo, nhóm môn), 17 mục trạng thái học phần trên cây nghề, và 44 mục chỉ M12 tính được (25 tỷ lệ học phần, 7 tỷ lệ kỹ năng, 6 số môn ngoài CTĐT, 6 trạng thái kỹ năng và dự án).
 - Đề xuất: giai đoạn 05 so 191/235 mục bằng service M11 và `get_course_status`. Test ghi rõ 44 mục còn lại theo tên và kiểm tra tổng bằng 235. Giai đoạn 07 chuyển 44 mục đó sang `completion_service`.
@@ -33,6 +33,18 @@ Tất cả cần chốt trước khi làm giai đoạn 05.
 **Q69. So ngưỡng và xu hướng.**
 - Đề xuất: so ngưỡng bằng giá trị chưa làm tròn, bằng phép nhân chéo trên `Decimal`. `evidence` có cả phân số và giá trị đã làm tròn. Xu hướng so GPA kỳ gần nhất có giá trị với kỳ trước đó có giá trị: chênh ≥ 0,10 là tăng hoặc giảm, nhỏ hơn là ổn định. Ngưỡng 0,10 là tham số có giá trị mặc định, là giá trị mẫu, không thêm cột DB.
 - Lý do: GPA 1,996 hiển thị 2,00 vẫn là dưới 2,0, khớp bản tham chiếu; `evidence` giải thích được cho người xem.
+
+**Q70. Màu và font trong ảnh khác CR-01.** Trang "Màu sắc, kiểu chữ thương hiệu" trong ảnh quản lý gửi ghi màu chủ đạo `#00528C` (C100 M70 Y15 K10), màu bổ trợ đỏ `#C41212`, xám `#828282`, và font chủ đạo Inter, font bổ trợ Muli. CR-01 dùng `#245890` lấy mẫu từ keyvisual và font Be Vietnam Pro. Mã màu đọc từ ảnh chụp màn hình độ phân giải thấp, nên cần đối chiếu.
+- Đề xuất: giữ đúng CR-01 trong bản này. Nếu bạn xác nhận ảnh là bản chính thức thì đổi `--neu-primary` sang `#00528C` (đạt 8,12:1 với chữ trắng, 6,71:1 trên tint), tính lại `--neu-primary-dark`, và đổi font sang Inter sau khi bạn duyệt gói `@fontsource/inter`.
+- Lý do: CR-01 yêu cầu "đối chiếu mã màu chính thức khi nhóm có file brand guideline"; đổi màu chỉ cần sửa `tokens.css`.
+
+**Q71. Thiếu ảnh tham chiếu trong repo.** `docs/brand/reference/neu-2026-keyvisual.png` không tồn tại, nhưng comment trong `tokens.css` trỏ tới thư mục này. Tôi tham khảo 4 ảnh bạn gửi trong tin nhắn.
+- Đề xuất: bạn thêm file đó vào repo, hoặc bảo tôi chép riêng trang họa tiết từ ảnh đã gửi. Không chép các trang có ảnh chân dung.
+- Lý do: tôi không tự thêm tài liệu thương hiệu vào repo khi chưa được yêu cầu.
+
+**Q72. Phạm vi của hoa văn.** Bạn viết "giao diện phải có các hoa văn", còn CR-01 mục 7 nói không làm các trang khác, phần hoàn thiện chung thuộc giai đoạn 11. Ảnh cũng có các họa tiết ngoài danh sách 14 họa tiết của CR-01: ba quyển sách, chữ K, quả cầu, hai người, ngôi sao bốn cánh.
+- Đề xuất: bản này chỉ đưa hoa văn vào trang đăng nhập, đúng 14 họa tiết. Giai đoạn 11 đưa thư viện này vào khung ứng dụng (dải họa tiết ở navbar như ảnh) và bổ sung các họa tiết còn thiếu.
+- Lý do: tuân thủ ràng buộc của CR-01; thư viện họa tiết đã dùng lại được, nên giai đoạn 11 không phải làm lại.
 
 ## Đã đóng
 

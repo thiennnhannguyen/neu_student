@@ -66,7 +66,12 @@ Backend mặc định dùng cổng 5001 vì macOS thường chiếm cổng 5000 
 ## Logo và màu
 
 - Chép logo chính thức vào `frontend/public/brand/logo.svg`. Repo không có logo và không tự vẽ logo. Khi chưa có tệp, trang hiện chữ "NEU".
-- Màu trong `frontend/src/styles/tokens.css` chỉ là giá trị giữ chỗ, chưa phải màu chính thức.
+- Màu trong `frontend/src/styles/tokens.css` được lấy mẫu từ keyvisual NEU 2026, cần đối chiếu mã màu chính thức khi có file brand guideline.
+- Họa tiết trên trang đăng nhập là SVG hình học do nhóm tự vẽ theo cùng phong cách, không phải tài nguyên chính thức. Font Be Vietnam Pro được tự host nên chạy được khi không có mạng.
+
+## Tài khoản demo trên trang đăng nhập
+
+Biến `VITE_SHOW_DEMO_ACCOUNTS` điều khiển hộp "Tài khoản demo". Không đặt thì hộp có ở `make dev` và không có ở bản build production. Muốn demo bằng bản build: `VITE_SHOW_DEMO_ACCOUNTS=true npm run build`. Biến này có hiệu lực lúc build.
 
 ## Tài liệu
 

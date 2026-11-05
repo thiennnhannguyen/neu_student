@@ -28,6 +28,12 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 11 | Thiết kế responsive theo NEU 2026 | Chưa bắt đầu | Không có (cần nhóm cung cấp bộ nhận diện, xem D-30) |
 | 12 | Kiểm thử tích hợp, triển khai cục bộ, báo cáo | Chưa bắt đầu | Không có |
 
+## Yêu cầu thay đổi
+
+| Mã | Nội dung | Trạng thái |
+|----|----------|------------|
+| CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành (đã chạy lint, test, build), chờ quản lý duyệt rồi gắn tag `cr-01` |
+
 ## Việc tiếp theo
 
-Quản lý dự án duyệt kế hoạch giai đoạn 05.
+Quản lý dự án duyệt CR-01 và kế hoạch giai đoạn 05.

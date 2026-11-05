@@ -39,7 +39,7 @@ File `backend/tests/acceptance/test_tc01_auth.py`, trừ các dòng ghi file kh�
 
 | Màn hình | Loading | Empty | Error | Bàn phím | 375px | File test |
 |----------|---------|-------|-------|----------|-------|-----------|
-| Đăng nhập | Nút khóa khi gửi | Báo lỗi khi thiếu | `aria-live` | Tab, Enter | Kiểm tay trên Chrome | `frontend/src/features/auth/auth.test.jsx` |
+| Đăng nhập | Nút khóa khi gửi, có spinner | Báo lỗi khi thiếu | Hộp lỗi `aria-live` | Tab, Enter, không dừng ở họa tiết | Ảnh `docs/screenshots/login-*.png` | `frontend/src/features/auth/auth.test.jsx`, `frontend/src/features/auth/LoginForm.test.jsx` |
 | Khung, menu 4 vai trò | Kiểm tra phiên | Không áp dụng | Thử lại | Nút Menu | Kiểm tay trên Chrome | `frontend/src/features/auth/auth.test.jsx`, `frontend/src/routes.test.jsx` |
 | Hồ sơ | Có | Có | Có, lỗi theo từng ô | Enter để lưu | Kiểm tay trên Chrome | `frontend/src/features/profile/ProfilePage.test.jsx` |
 | Nhật ký | Có | Có | Có, lỗi theo từng ô | Enter để lọc, vùng bảng nhận focus | Kiểm tay trên Chrome, bảng cuộn trong khung | `frontend/src/features/admin/AuditLogPage.test.jsx` |
@@ -109,3 +109,14 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | TC12 | Môn không mở kỳ này được ghi dự kiến/chưa xác minh | 09 | Dữ liệu: `course_offerings`; chưa có test |
 | TC13 | Sinh viên không xem được ticket của người khác | 10 | Dữ liệu: Ticket SV01, SV02; chưa có test |
 | TC14 | Giao diện mobile, bàn phím, trạng thái rỗng | Mọi giai đoạn có UI, 11 | Dữ liệu: SV05; chưa có test |
+
+## CR-01
+
+| Hạng mục | Test | File |
+|----------|------|------|
+| 14 họa tiết: SVG 100 x 100, dùng token, không có chữ | `%s: SVG 100 x 100, dùng token, không có chữ`, `có đúng 14 họa tiết`, `bánh răng có đúng 8 răng` | `frontend/src/components/brand/brand.test.jsx` |
+| Mosaic: 2 ô cạnh nhau không trùng, bố cục cố định | `%s: 2 ô cạnh nhau không trùng họa tiết, không trùng cặp màu`, `bố cục giống hệt nhau giữa các lần render` | `frontend/src/components/brand/brand.test.jsx` |
+| Mosaic: `aria-hidden`, không nhận focus, tổng thời gian ≤ 600ms | `aria-hidden, không có phần tử nhận focus`, `tổng thời gian hiện dần không quá 600ms` | `frontend/src/components/brand/brand.test.jsx` |
+| Không mã màu rời, tương phản ≥ 4,5:1, tắt hiệu ứng khi `prefers-reduced-motion` | Các test trong file | `frontend/src/styles/tokens.test.js` |
+| Hiện và ẩn mật khẩu, Caps Lock, hộp demo, bàn phím | Các test trong file | `frontend/src/features/auth/LoginForm.test.jsx` |
+| Bản build production không chứa mật khẩu demo | Kiểm tay: tìm `Demo@12345` trong `frontend/dist` | Không có test tự động |
