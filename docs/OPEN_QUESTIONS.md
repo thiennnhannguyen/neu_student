@@ -4,7 +4,43 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
-Không còn câu nào đang mở.
+Tất cả cần chốt trước khi làm giai đoạn 04.
+
+**Q56. "Sai 5 lần trong 15 phút" cần mốc thời gian.** `users` có `failed_login_count`, `locked_until` nhưng không biết lần sai đầu tiên xảy ra khi nào.
+- Đề xuất: thêm cột `failed_login_window_started_at`. Lần sai đầu tiên đặt mốc này và đếm 1. Lần sai sau mốc hơn 15 phút thì đặt lại mốc và đếm lại từ 1. Đang khóa thì không đếm thêm và không kéo dài khóa. Hết khóa thì đếm lại từ 0.
+- Lý do: đúng nghĩa "trong 15 phút"; không có cột này thì 5 lần sai rải trong nhiều ngày cũng bị khóa.
+
+**Q57. 401 của đăng nhập và của `GET /api/auth/me` va với quy tắc "nhận 401 thì về /login".**
+- Đề xuất: đăng nhập sai trả 401, mã `INVALID_CREDENTIALS`. `GET /api/auth/me` khi chưa đăng nhập trả 401, mã `UNAUTHENTICATED`. Bộ xử lý 401 toàn cục của frontend bỏ qua 2 đường dẫn này: trang đăng nhập tự hiện lỗi, còn `AuthContext` coi 401 của `me` là "chưa đăng nhập". `POST /api/auth/logout` dùng `@require_roles` với cả 4 vai trò, vì danh sách công khai chỉ có health, login, me.
+- Lý do: tránh vòng lặp chuyển trang và mất thông báo lỗi; "chưa đăng nhập thì 401" vẫn đúng ở mọi API.
+
+**Q58. Các ô chưa nêu trong ma trận quyền.**
+- Đề xuất:
+  - Admin không truyền `student_id`: 422, giống advisor.
+  - Advisor truyền "id mình": advisor không có hồ sơ sinh viên, nên xử lý như id ngoài phân công: 404.
+  - Sinh viên gọi `GET /api/students/{id}` với chính id của mình: 200. Với id người khác: 404. Vì vậy route này cho phép 3 vai trò student, advisor, admin; support_staff bị 403.
+- Lý do: muốn SV01 gọi id của SV02 nhận 404 thì vai trò student phải qua được `@require_roles`; id của chính mình không làm lộ gì.
+
+**Q59. Menu theo vai trò chưa được quy định.**
+- Đề xuất:
+  - **student:** Tổng quan; Hồ sơ; M11: Kết quả, Phân tích, Cảnh báo; M12: Định hướng nghề, Kế hoạch học tập, Học liệu, Yêu cầu hỗ trợ, Nhắc nhở.
+  - **advisor:** Tổng quan; M11: Kết quả, Phân tích, Cảnh báo; M12: Định hướng nghề, Kế hoạch học tập, Học liệu, Yêu cầu hỗ trợ.
+  - **support_staff:** Tổng quan; M12: Học liệu, Yêu cầu hỗ trợ.
+  - **admin:** Tổng quan; M11: Kết quả, Phân tích, Cảnh báo; M12: Định hướng nghề, Học liệu, Yêu cầu hỗ trợ; Quản trị: Nhật ký.
+  - Giai đoạn này chỉ có trang Hồ sơ cho sinh viên; advisor và admin xem hồ sơ qua API, giao diện chọn sinh viên làm ở giai đoạn 06.
+- Lý do: khớp phân quyền đã chốt; support_staff không thấy mục bảng điểm.
+
+**Q60. Dữ liệu và hành vi của thông tin liên hệ.**
+- Đề xuất: fixture có `contact_email` dạng `sv01@example.test` và `contact_phone` dạng `0900000001` cho 7 sinh viên. PATCH phải có ít nhất 1 trong 2 trường; gửi `null` để xóa. Email tối đa 254 ký tự, điện thoại khớp `^\+?[0-9]{9,15}$`. Giá trị không đổi thì trả 200, không ghi audit.
+- Lý do: có dữ liệu để demo, `seed --check` vẫn khớp; audit chỉ ghi khi có thay đổi thật. Tên miền `example.test` không thể là địa chỉ thật.
+
+**Q61. Bảo vệ `before`, `after` và bộ lọc nhật ký.**
+- Đề xuất: `record()` loại `password_hash`, `session_version` ở mọi cấp lồng nhau trước khi ghi, và có test. Bộ lọc `actor` theo tên đăng nhập; `from`, `to` là ngày hoặc giờ dạng ISO, sai định dạng hoặc `from` sau `to` trả 422. Kết quả trả thêm `actor_username`.
+- Lý do: lớp chặn nằm ở một chỗ duy nhất nên không phụ thuộc người gọi nhớ loại bỏ; tên đăng nhập dễ dùng hơn id trên giao diện.
+
+**Q62. Giữ đường dẫn để quay lại sau đăng nhập.**
+- Đề xuất: lưu trong `location.state` của router, không dùng tham số `?next=` trên URL. Bộ xử lý 401 toàn cục gọi `navigate('/login', { state: { from } })`.
+- Lý do: tránh open redirect, vì đường dẫn không đến từ chuỗi người dùng nhập. Đổi lại, tải lại trang đăng nhập thì mất đường dẫn và về Tổng quan.
 
 ## Đã đóng
 
