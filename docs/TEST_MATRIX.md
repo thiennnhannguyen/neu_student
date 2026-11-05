@@ -119,3 +119,19 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | Mosaic: `aria-hidden`, không nhận focus, tổng thời gian ≤ 600ms | `aria-hidden, không có phần tử nhận focus`, `tổng thời gian hiện dần không quá 600ms` | `frontend/src/components/brand/brand.test.jsx` |
 | Không mã màu rời, tương phản ≥ 4,5:1, tắt hiệu ứng khi `prefers-reduced-motion` | Các test trong file | `frontend/src/styles/tokens.test.js` |
 | Hiện và ẩn mật khẩu, Caps Lock, bàn phím, ảnh tòa nhà, không còn hộp demo và chân trang | Các test trong file | `frontend/src/features/auth/LoginForm.test.jsx` |
+
+## M11: lõi tính toán (giai đoạn 05)
+
+| Yêu cầu | Test | File |
+|---------|------|------|
+| 191/235 mục kỳ vọng; 44 mục M12 ghi rõ, tổng bằng 235 | `test_all_m11_expected_values_match`, `test_sv05_scenario_status_after_adding_cnt102`, `test_expected_keys_are_split_into_m11_and_m12_exactly` | `backend/tests/acceptance/test_m11_expected.py` |
+| Đối chứng 400 biến thể với bản tham chiếu, seed cố định | `test_service_matches_reference_on_all_variants`, `test_variants_are_reproducible`, `test_reference_detects_a_real_difference` | `backend/tests/acceptance/test_m11_differential.py` |
+| TC02 | Các test trong file | `backend/tests/acceptance/test_tc02.py` |
+| TC03: best 3,00, latest 2,88 | `test_cumulative_gpa_for_each_policy`, `test_retake_does_not_double_count_credits` | `backend/tests/acceptance/test_tc03.py` |
+| TC05 | Các test trong file | `backend/tests/acceptance/test_tc05.py` |
+| Ca biên trên DB thật | Các test trong file | `backend/tests/acceptance/test_m11_edge_cases.py` |
+| Loader: số truy vấn cố định, bất biến, Decimal | `test_query_count_does_not_depend_on_number_of_courses`, `test_query_count_stays_same_after_adding_attempts`, `test_query_count_with_semester_or_without_rule_is_the_same`, `test_loaded_data_is_immutable_and_uses_decimal` | `backend/tests/unit/m11/test_loader_public.py` |
+| Attempt hiệu lực, Q64, Q65, Q66 | Các test trong file | `backend/tests/unit/m11/test_effective_attempt.py` |
+| GPA, kiểm soát dữ liệu, tín chỉ, CTĐT, cảnh báo, phân tích | Các test trong thư mục | `backend/tests/unit/m11/` |
+| `app/` không import `tests`; không float; service thuần không đụng DB; M12 chỉ dùng `m11_public` | `test_app_never_imports_tests_package`, `test_m11_services_have_no_float`, `test_m11_pure_services_do_not_touch_db_or_request`, `test_m12_modules_only_use_m11_public` | `backend/tests/unit/test_source_rules.py` |
+| Service không commit | `test_only_transaction_helper_commits_in_app` | `backend/tests/unit/test_transaction.py` |
