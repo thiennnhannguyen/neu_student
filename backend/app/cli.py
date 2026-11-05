@@ -6,6 +6,7 @@ from flask.cli import AppGroup
 
 from app.common.course_display import course_display_code
 from app.common.errors import ApiError
+from app.common.transaction import transaction
 from app.extensions import db
 from app.models.shared import Course
 from app.services.grades_service import DEFAULT_ACTOR, add_grade_result
@@ -22,14 +23,10 @@ grades_cli = AppGroup("grades", help="Quản lý kết quả học phần mẫu.
 def add_grade(student, course, semester, score, actor):
     """Thêm kết quả học phần mẫu."""
     try:
-        result = add_grade_result(student, course, semester, score, actor)
-        db.session.commit()
+        with transaction():
+            result = add_grade_result(student, course, semester, score, actor)
     except ApiError as error:
-        db.session.rollback()
         raise click.ClickException(error.message) from error
-    except Exception:
-        db.session.rollback()
-        raise
 
     attempt = result.attempt
     code = course_display_code(db.session.get(Course, attempt.course_id).code)

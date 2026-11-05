@@ -1,3 +1,4 @@
+import sqlite3
 from datetime import timedelta
 
 import pytest
@@ -40,3 +41,21 @@ def test_flask_static_route_is_disabled():
     app = create_app("testing")
 
     assert "static" not in app.view_functions
+
+
+@pytest.mark.parametrize(
+    ("version", "text"),
+    [((3, 34, 1), "3.34.1"), ((2, 99, 0), "2.99.0")],
+)
+def test_old_sqlite_stops_startup_with_clear_message(monkeypatch, version, text):
+    monkeypatch.setattr(sqlite3, "sqlite_version_info", version)
+    monkeypatch.setattr(sqlite3, "sqlite_version", text)
+
+    with pytest.raises(RuntimeError, match=f"Cần SQLite từ 3.35 trở lên, máy đang dùng {text}"):
+        create_app("testing")
+
+
+def test_minimum_sqlite_version_is_accepted(monkeypatch):
+    monkeypatch.setattr(sqlite3, "sqlite_version_info", (3, 35, 0))
+
+    assert create_app("testing")

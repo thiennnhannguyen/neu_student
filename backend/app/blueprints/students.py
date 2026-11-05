@@ -11,6 +11,7 @@ from app.common.auth_guard import (
     require_roles,
 )
 from app.common.errors import ApiError
+from app.common.transaction import transaction
 from app.schemas.common import load_or_422
 from app.schemas.student import ContactUpdateSchema
 from app.services import student_service
@@ -30,7 +31,8 @@ def get_my_profile():
 def update_my_contact():
     changes = load_or_422(ContactUpdateSchema(), request.get_json(silent=True))
     student = student_service.get_student_of_user(current_user)
-    student_service.update_contact(current_user, student, changes)
+    with transaction():
+        student_service.update_contact(current_user, student, changes)
     return jsonify(student_service.build_profile(student))
 
 

@@ -60,5 +60,4 @@ def update_contact(actor: User, student: Student, changes: dict) -> Student:
     for key, value in after.items():
         setattr(student, key, value)
     audit.record(actor, "student.contact_update", "student", student.id, before, after)
-    db.session.commit()
     return student

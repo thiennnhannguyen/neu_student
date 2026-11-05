@@ -31,6 +31,8 @@ File `backend/tests/acceptance/test_tc01_auth.py`, trừ các dòng ghi file kh�
 | Ma trận `resolve_target_student` 20 ô | `test_resolve_target_student_matrix`, `test_matrix_has_every_role_and_kind` (`backend/tests/unit/test_auth_guard.py`) |
 | Route registry | `test_every_route_declares_a_policy_and_public_list_is_exact`, `test_route_registry_covers_all_expected_api_routes`, `test_registry_catches_route_without_decorator`, `test_registry_catches_decorator_placed_above_route`, `test_registry_catches_extra_public_route` (`backend/tests/unit/test_auth_guard.py`) |
 | Blueprint không gọi audit | `test_blueprints_do_not_import_audit` (`backend/tests/unit/test_source_rules.py`) |
+| Service không commit, ranh giới commit đúng 1 lần, lỗi thì rollback | Các test trong `backend/tests/unit/test_transaction.py` |
+| SQLite cũ thì dừng khi khởi động | `test_old_sqlite_stops_startup_with_clear_message`, `test_minimum_sqlite_version_is_accepted` (`backend/tests/unit/test_app_factory.py`) |
 | Migration 0002 giữ dữ liệu và trigger | `test_upgrade_from_seeded_0001_keeps_data_triggers_and_other_tables` (`backend/tests/unit/db/test_migration_0002.py`) |
 
 ## Màn hình theo DoD

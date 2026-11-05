@@ -7,7 +7,6 @@ from sqlalchemy import select
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.common import audit, clock
-from app.common.errors import ApiError
 from app.extensions import db
 from app.models.shared import Student, User
 
@@ -22,10 +21,6 @@ LOGIN_FAILED_MESSAGE = (
 @lru_cache(maxsize=1)
 def _dummy_password_hash() -> str:
     return generate_password_hash("khong-phai-mat-khau-cua-tai-khoan-nao")
-
-
-def _login_failed() -> ApiError:
-    return ApiError(401, message=LOGIN_FAILED_MESSAGE, code="INVALID_CREDENTIALS")
 
 
 def _clear_failed_attempts(user: User) -> None:
@@ -56,39 +51,40 @@ def _register_failed_attempt(user: User, now) -> None:
         )
 
 
-def authenticate(username: str, password: str) -> User:
-    """Mọi nhánh thất bại trả cùng một lỗi, và đều chạy hàm băm để thời gian xử lý tương đương."""
+def authenticate(username: str, password: str) -> User | None:
+    """Trả về user nếu đăng nhập đúng, None nếu thất bại. Không ném lỗi khi thất bại.
+
+    Người gọi phải commit rồi mới báo lỗi, để bộ đếm lần sai và trạng thái khóa được lưu.
+    Mọi nhánh thất bại đều chạy hàm băm để thời gian xử lý tương đương.
+    """
     user = db.session.scalar(select(User).where(User.username == username))
     stored_hash = user.password_hash if user else _dummy_password_hash()
     password_ok = check_password_hash(stored_hash, password)
 
     if user is None or not user.is_active:
-        raise _login_failed()
+        return None
 
     now = clock.utcnow()
     if user.locked_until is not None:
         if user.locked_until > now:
-            raise _login_failed()
+            return None
         _clear_failed_attempts(user)
 
     if not password_ok:
         _register_failed_attempt(user, now)
-        db.session.commit()
-        raise _login_failed()
+        return None
 
     _clear_failed_attempts(user)
     user.last_login_at = now
     audit.record(
         user, "auth.login_success", "user", user.id, None, {"last_login_at": now.isoformat()}
     )
-    db.session.commit()
     return user
 
 
 def end_all_sessions(user: User) -> None:
     """Tăng session_version: mọi cookie đã phát cho tài khoản này mất hiệu lực."""
     user.session_version += 1
-    db.session.commit()
 
 
 def load_session_user(session_id: str) -> User | None:

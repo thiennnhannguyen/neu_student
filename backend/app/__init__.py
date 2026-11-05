@@ -1,6 +1,7 @@
 """App factory của backend."""
 
 import os
+import sqlite3
 from pathlib import Path
 
 from flask import Flask
@@ -19,9 +20,20 @@ from app.seed.seed import register_seed_command
 from app.services.auth_service import load_session_user
 
 MIGRATIONS_DIR = Path(__file__).resolve().parent.parent / "migrations"
+# Migration 0002 dùng ALTER TABLE ... DROP COLUMN, có từ SQLite 3.35.
+MIN_SQLITE_VERSION = (3, 35, 0)
+
+
+def check_sqlite_version() -> None:
+    if sqlite3.sqlite_version_info < MIN_SQLITE_VERSION:
+        required = ".".join(map(str, MIN_SQLITE_VERSION[:2]))
+        raise RuntimeError(
+            f"Cần SQLite từ {required} trở lên, máy đang dùng {sqlite3.sqlite_version}."
+        )
 
 
 def create_app(config_name: str | None = None, overrides: dict | None = None) -> Flask:
+    check_sqlite_version()
     name = config_name or os.environ.get("APP_CONFIG", "development")
     if name not in CONFIGS:
         raise ValueError(f"APP_CONFIG không hợp lệ: {name}")

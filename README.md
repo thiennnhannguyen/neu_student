@@ -10,7 +10,7 @@ Bài tập lớn: M11 Phân tích học tập và M12 Hỗ trợ người học.
 
 ## Yêu cầu
 
-- Python 3.12 trở lên
+- Python 3.12 trở lên, kèm SQLite từ 3.35 (ứng dụng kiểm tra khi khởi động và dừng kèm thông báo nếu thấp hơn)
 - Node.js 24
 - GNU Make
 
