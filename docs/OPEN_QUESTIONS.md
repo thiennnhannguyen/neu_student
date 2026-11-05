@@ -4,7 +4,35 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
-Không có.
+Tất cả cần chốt trước khi làm giai đoạn 05.
+
+**Q63. "235/235" gồm cả dữ liệu của M12.** 235 mục chia thành 174 mục M11 (GPA, tín chỉ, cảnh báo, nhóm môn), 17 mục trạng thái học phần trên cây nghề, và 44 mục chỉ M12 tính được (25 tỷ lệ học phần, 7 tỷ lệ kỹ năng, 6 số môn ngoài CTĐT, 6 trạng thái kỹ năng và dự án).
+- Đề xuất: giai đoạn 05 so 191/235 mục bằng service M11 và `get_course_status`. Test ghi rõ 44 mục còn lại theo tên và kiểm tra tổng bằng 235. Giai đoạn 07 chuyển 44 mục đó sang `completion_service`.
+- Lý do: tính 44 mục này cần service M12, nằm ngoài phạm vi; viết tạm trong test thì chỉ là kiểm chính nó.
+
+**Q64. Giá trị trả về của `get_course_status`.** Prompt có 4 giá trị, nhưng `expected_results.json` có `SV07...mau105_status = exempt`, và D-41 yêu cầu nhãn "miễn". Prompt cũng chưa có giá trị cho môn đã trượt.
+- Đề xuất: 6 giá trị `done`, `done_via_equivalency`, `exempt`, `in_progress`, `failed`, `not_started`. Môn trượt đang học lại trả `in_progress`. Chỉ 3 giá trị đầu được tick xanh.
+- Lý do: khớp fixture và D-41; gọi môn đã trượt là "chưa học" thì sai sự thật.
+
+**Q65. Quy tắc phá hòa khi chọn attempt hiệu lực.** Q11, Q15 chưa nêu các trường hợp hòa và cách so `exempt`. Bản tham chiếu đang coi `exempt` là điểm 0, nên miễn rồi học lại bị F thì chọn F và mất tín chỉ đạt.
+- Đề xuất với `best`: xếp theo điểm hệ 4 nếu đạt, rồi `exempt`, rồi F. Với `latest`: lần có `semesters.order` lớn nhất. Hòa nhau (cả ở `best`) thì lấy kỳ sau; cùng kỳ thì lấy điểm hệ 4 cao hơn, rồi `courses.id` nhỏ hơn. Sửa bản tham chiếu cho khớp quy tắc này. 235 mục không đổi vì fixture không có ca đó.
+- Lý do: `best` không nên làm mất trạng thái đạt; kết quả phải xác định, không phụ thuộc thứ tự đọc từ DB. Đây là sửa bản tham chiếu, nên tôi cần bạn duyệt trước.
+
+**Q66. Một môn thuộc nhiều cặp tương đương.** D-42 nói không bắc cầu, nên A~B và B~C không tạo được một nhóm. Fixture hiện chỉ có 1 cặp.
+- Đề xuất: các cặp chồng lên nhau không được gộp, mỗi môn tính riêng, kèm cảnh báo `EQUIVALENCY_OVERLAP` để người duyệt xử lý.
+- Lý do: theo R2, khi không chắc thì không gộp. Có thể tính dư tín chỉ, nhưng có cảnh báo, không âm thầm.
+
+**Q67. Khóa không có quy chế thì trả gì.** D-44 yêu cầu "không xác định" kèm cảnh báo, không dùng mặc định.
+- Đề xuất: GPA kỳ vẫn tính, vì dùng điểm hệ 4 đã lưu. GPA tích lũy trả `value = None`. Tín chỉ đạt và nợ trả `None`; tín chỉ đang học vẫn tính. Mọi quy tắc cảnh báo và mọi nhóm môn trả `insufficient_data`. `m11_public` trả tập rỗng cho môn đã đạt và `not_started` cho môn chưa có đăng ký `in_progress`. Kèm `RULE_NOT_FOUND`, `rule_version = None`.
+- Lý do: không có `retake_policy` thì không xác định được attempt hiệu lực.
+
+**Q68. Tín chỉ và cảnh báo khi chọn kỳ khác kỳ hiện tại; phạm vi đối chứng.** Q40 chỉ định nghĩa đang học ở kỳ hiện tại. Bản tham chiếu tính tín chỉ và cảnh báo chỉ ở kỳ hiện tại.
+- Đề xuất: đạt và nợ tính đến hết kỳ đang chọn; đang học là `in_progress` của đúng kỳ đó; cảnh báo dùng các số này. Biến thể "đổi kỳ chọn" so với bản tham chiếu phần GPA kỳ, GPA tích lũy; tín chỉ và cảnh báo ở kỳ cũ kiểm bằng unit test tính tay. Mọi biến thể đều so tín chỉ, cảnh báo, nhóm môn và trạng thái môn ở kỳ hiện tại.
+- Lý do: tránh mở rộng bản tham chiếu quá mức; báo trước để bạn biết phần nào không được đối chứng.
+
+**Q69. So ngưỡng và xu hướng.**
+- Đề xuất: so ngưỡng bằng giá trị chưa làm tròn, bằng phép nhân chéo trên `Decimal`. `evidence` có cả phân số và giá trị đã làm tròn. Xu hướng so GPA kỳ gần nhất có giá trị với kỳ trước đó có giá trị: chênh ≥ 0,10 là tăng hoặc giảm, nhỏ hơn là ổn định. Ngưỡng 0,10 là tham số có giá trị mặc định, là giá trị mẫu, không thêm cột DB.
+- Lý do: GPA 1,996 hiển thị 2,00 vẫn là dưới 2,0, khớp bản tham chiếu; `evidence` giải thích được cho người xem.
 
 ## Đã đóng
 
