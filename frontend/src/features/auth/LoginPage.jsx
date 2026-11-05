@@ -32,7 +32,7 @@ export default function LoginPage() {
           <div className="login-brand__copy">
             <BrandLogo decorative className="login-brand__logo" />
             <p className="login-brand__title">Nền tảng học tập sinh viên NEU</p>
-            <p className="login-brand__subtitle">Phân tích học tập · Hỗ trợ người học</p>
+            <p className="login-brand__subtitle">Phân tích học tập&nbsp;· Hỗ trợ người học</p>
           </div>
         </div>
         <MotifMosaic {...RIGHT_STRIP} className="login-brand__strip" />
