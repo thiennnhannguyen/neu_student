@@ -1,0 +1,41 @@
+"""Đăng nhập, đăng xuất, thông tin phiên hiện tại."""
+
+from flask import Blueprint, jsonify, request, session
+from flask_login import current_user, login_user, logout_user
+
+from app.common.auth_guard import ALL_ROLES, public_route, require_roles
+from app.common.errors import ApiError
+from app.schemas.auth import LoginSchema
+from app.schemas.common import load_or_422
+from app.services import auth_service
+
+auth_bp = Blueprint("auth", __name__, url_prefix="/api/auth")
+
+
+@auth_bp.post("/login")
+@public_route
+def login():
+    data = load_or_422(LoginSchema(), request.get_json(silent=True))
+    user = auth_service.authenticate(data["username"], data["password"])
+    # Bỏ toàn bộ dữ liệu phiên cũ trước khi tạo phiên mới.
+    session.clear()
+    session.permanent = True
+    login_user(user)
+    return jsonify(auth_service.describe_user(user))
+
+
+@auth_bp.post("/logout")
+@require_roles(*ALL_ROLES)
+def logout():
+    auth_service.end_all_sessions(current_user)
+    logout_user()
+    session.clear()
+    return "", 204
+
+
+@auth_bp.get("/me")
+@public_route
+def me():
+    if not current_user.is_authenticated:
+        raise ApiError(401)
+    return jsonify(auth_service.describe_user(current_user))

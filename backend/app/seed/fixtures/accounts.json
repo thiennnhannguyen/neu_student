@@ -127,7 +127,9 @@
       "cohort": "K66",
       "program_version_id": "pv-cntt-k66",
       "entry_semester_id": "S1",
-      "is_mock": true
+      "is_mock": true,
+      "contact_email": "sv01@example.test",
+      "contact_phone": "0900000001"
     },
     {
       "id": "SV02",
@@ -136,7 +138,9 @@
       "cohort": "K66",
       "program_version_id": "pv-cntt-k66",
       "entry_semester_id": "S1",
-      "is_mock": true
+      "is_mock": true,
+      "contact_email": "sv02@example.test",
+      "contact_phone": "0900000002"
     },
     {
       "id": "SV03",
@@ -145,7 +149,9 @@
       "cohort": "K67",
       "program_version_id": "pv-khdl-k67",
       "entry_semester_id": "S3",
-      "is_mock": true
+      "is_mock": true,
+      "contact_email": "sv03@example.test",
+      "contact_phone": "0900000003"
     },
     {
       "id": "SV04",
@@ -154,7 +160,9 @@
       "cohort": "K66",
       "program_version_id": "pv-cntt-k66",
       "entry_semester_id": "S1",
-      "is_mock": true
+      "is_mock": true,
+      "contact_email": "sv04@example.test",
+      "contact_phone": "0900000004"
     },
     {
       "id": "SV05",
@@ -163,7 +171,9 @@
       "cohort": "K67",
       "program_version_id": "pv-khdl-k67",
       "entry_semester_id": "S3",
-      "is_mock": true
+      "is_mock": true,
+      "contact_email": "sv05@example.test",
+      "contact_phone": "0900000005"
     },
     {
       "id": "SV06",
@@ -172,7 +182,9 @@
       "cohort": "K67",
       "program_version_id": "pv-cntt-k67",
       "entry_semester_id": "S3",
-      "is_mock": true
+      "is_mock": true,
+      "contact_email": "sv06@example.test",
+      "contact_phone": "0900000006"
     },
     {
       "id": "SV07",
@@ -181,7 +193,9 @@
       "cohort": "K67",
       "program_version_id": "pv-cntt-k67",
       "entry_semester_id": "S3",
-      "is_mock": true
+      "is_mock": true,
+      "contact_email": "sv07@example.test",
+      "contact_phone": "0900000007"
     }
   ],
   "advisor_assignments": [

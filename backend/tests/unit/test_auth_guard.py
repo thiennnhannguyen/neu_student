@@ -1,0 +1,214 @@
+"""Ma trận quyền và danh sách route."""
+
+import pytest
+from flask import Blueprint
+from sqlalchemy import select
+
+from app import create_app
+from app.common.auth_guard import (
+    PUBLIC_POLICY,
+    can_access_student,
+    public_route,
+    require_roles,
+    resolve_target_student,
+)
+from app.common.errors import ApiError
+from app.extensions import db
+from app.models.shared import User
+
+PUBLIC_ENDPOINTS = {"health.health", "auth.login", "auth.me"}
+# gv1 phụ trách SV01 đến SV04, gv2 phụ trách SV05 đến SV07.
+OWN_ID = {"sv01": "SV01", "gv1": "user-gv1", "admin": "user-admin", "ht1": "user-ht1"}
+ASSIGNED_ID = "SV02"
+OUTSIDE_ID = "SV05"
+MISSING_ID = "KHONG-CO"
+
+
+def user_named(username) -> User:
+    return db.session.scalar(select(User).where(User.username == username))
+
+
+MATRIX = [
+    # Vai trò, loại id, kết quả: mã sinh viên hoặc mã HTTP.
+    ("sv01", "none", "SV01"),
+    ("sv01", "own", "SV01"),
+    ("sv01", "assigned", 404),
+    ("sv01", "outside", 404),
+    ("sv01", "missing", 404),
+    ("gv1", "none", 422),
+    ("gv1", "own", 404),
+    ("gv1", "assigned", ASSIGNED_ID),
+    ("gv1", "outside", 404),
+    ("gv1", "missing", 404),
+    ("admin", "none", 422),
+    ("admin", "own", 404),
+    ("admin", "assigned", ASSIGNED_ID),
+    ("admin", "outside", OUTSIDE_ID),
+    ("admin", "missing", 404),
+    ("ht1", "none", 403),
+    ("ht1", "own", 403),
+    ("ht1", "assigned", 403),
+    ("ht1", "outside", 403),
+    ("ht1", "missing", 403),
+]
+
+
+def param_for(username, kind):
+    return {
+        "none": None,
+        "own": OWN_ID[username],
+        "assigned": ASSIGNED_ID,
+        "outside": OUTSIDE_ID,
+        "missing": MISSING_ID,
+    }[kind]
+
+
+@pytest.mark.parametrize(("username", "kind", "expected"), MATRIX)
+def test_resolve_target_student_matrix(seeded_app, username, kind, expected):
+    user = user_named(username)
+    param = param_for(username, kind)
+
+    if isinstance(expected, int):
+        with pytest.raises(ApiError) as caught:
+            resolve_target_student(user, param)
+        assert caught.value.status == expected
+    else:
+        assert resolve_target_student(user, param).id == expected
+
+
+def test_matrix_has_every_role_and_kind():
+    assert len(MATRIX) == 20
+    assert {(u, k) for u, k, _ in MATRIX} == {
+        (u, k)
+        for u in ("sv01", "gv1", "admin", "ht1")
+        for k in ("none", "own", "assigned", "outside", "missing")
+    }
+
+
+def test_empty_student_id_is_treated_as_missing_param(seeded_app):
+    assert resolve_target_student(user_named("sv01"), "").id == "SV01"
+
+
+def test_advisor_without_student_id_names_the_field(seeded_app):
+    with pytest.raises(ApiError) as caught:
+        resolve_target_student(user_named("gv1"), None)
+    assert "student_id" in caught.value.details["fields"]
+
+
+def test_student_role_without_profile_gets_404(seeded_app):
+    user = User(
+        id="user-chua-ho-so",
+        username="chua-ho-so",
+        password_hash="x",
+        full_name="Chưa có hồ sơ (mẫu)",
+        role_id="role-student",
+        is_mock=True,
+    )
+    db.session.add(user)
+    db.session.flush()
+
+    with pytest.raises(ApiError) as caught:
+        resolve_target_student(user, None)
+    assert caught.value.status == 404
+
+
+@pytest.mark.parametrize(
+    ("username", "student_id", "expected"),
+    [
+        ("sv01", "SV01", True),
+        ("sv01", "SV02", False),
+        ("gv1", "SV04", True),
+        ("gv1", "SV05", False),
+        ("gv2", "SV05", True),
+        ("admin", "SV07", True),
+        ("admin", MISSING_ID, False),
+        ("ht1", "SV01", False),
+    ],
+)
+def test_can_access_student(seeded_app, username, student_id, expected):
+    assert can_access_student(user_named(username), student_id) is expected
+
+
+# --- Danh sách route: giữ vĩnh viễn ---
+
+
+def route_problems(app):
+    """Trả về (route thiếu khai báo, tập route công khai)."""
+    missing, public = [], set()
+    for rule in app.url_map.iter_rules():
+        policy = getattr(app.view_functions[rule.endpoint], "auth_policy", None)
+        if policy is None:
+            missing.append(rule.endpoint)
+        elif policy == PUBLIC_POLICY:
+            public.add(rule.endpoint)
+    return missing, public
+
+
+def test_every_route_declares_a_policy_and_public_list_is_exact():
+    app = create_app("testing")
+
+    missing, public = route_problems(app)
+
+    assert missing == []
+    assert public == PUBLIC_ENDPOINTS
+
+
+def test_route_registry_covers_all_expected_api_routes():
+    app = create_app("testing")
+    rules = {
+        (next(iter(rule.methods - {"HEAD", "OPTIONS"})), rule.rule)
+        for rule in app.url_map.iter_rules()
+    }
+
+    assert rules == {
+        ("GET", "/api/health"),
+        ("POST", "/api/auth/login"),
+        ("POST", "/api/auth/logout"),
+        ("GET", "/api/auth/me"),
+        ("GET", "/api/students/me"),
+        ("PATCH", "/api/students/me/contact"),
+        ("GET", "/api/students/<student_id>"),
+        ("GET", "/api/admin/audit-logs"),
+    }
+
+
+def test_registry_catches_route_without_decorator():
+    app = create_app("testing")
+
+    @app.get("/api/_quen-khai-bao")
+    def forgotten():
+        return ""
+
+    assert route_problems(app)[0] == ["forgotten"]
+
+
+def test_registry_catches_decorator_placed_above_route():
+    """Đặt sai thứ tự thì Flask đăng ký hàm chưa được bọc, route không được bảo vệ."""
+    app = create_app("testing")
+    blueprint = Blueprint("sai_thu_tu", __name__)
+
+    @require_roles("admin")
+    @blueprint.get("/api/_sai-thu-tu")
+    def wrong_order():
+        return ""
+
+    app.register_blueprint(blueprint)
+
+    assert route_problems(app)[0] == ["sai_thu_tu.wrong_order"]
+
+
+def test_registry_catches_extra_public_route():
+    app = create_app("testing")
+
+    @app.get("/api/_cong-khai-them")
+    @public_route
+    def extra():
+        return ""
+
+    assert route_problems(app)[1] == PUBLIC_ENDPOINTS | {"extra"}
+
+
+@pytest.mark.parametrize("roles", [(), ("giang_vien",), ("admin", "khong-co")])
+def test_require_roles_rejects_bad_declaration(roles):
+    with pytest.raises(ValueError):
+        require_roles(*roles)

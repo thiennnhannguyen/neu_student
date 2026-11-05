@@ -2,6 +2,7 @@
 
 import warnings
 
+from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData, event
@@ -21,6 +22,7 @@ NAMING_CONVENTION = {
 
 db = SQLAlchemy(metadata=MetaData(naming_convention=NAMING_CONVENTION))
 migrate = Migrate(render_as_batch=True)
+login_manager = LoginManager()
 
 
 @event.listens_for(Engine, "connect")

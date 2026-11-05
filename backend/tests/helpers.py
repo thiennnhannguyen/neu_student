@@ -7,6 +7,29 @@ from sqlalchemy import func, select, text
 
 from app.extensions import db
 
+DEMO_PASSWORD = "Demo@12345"
+FETCH_HEADER = {"X-Requested-With": "fetch"}
+
+
+def login(client, username, password=DEMO_PASSWORD):
+    return client.post(
+        "/api/auth/login",
+        json={"username": username, "password": password},
+        headers=FETCH_HEADER,
+    )
+
+
+def login_as(app, username):
+    """Trả client đã đăng nhập, mỗi lần gọi là một trình duyệt riêng."""
+    client = app.test_client()
+    response = login(client, username)
+    assert response.status_code == 200, response.get_data(as_text=True)
+    return client
+
+
+def error_code(response):
+    return response.get_json()["error"]["code"]
+
 
 def run_sql(sql: str, **params):
     return db.session.execute(text(sql), params)

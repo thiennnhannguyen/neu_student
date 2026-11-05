@@ -100,3 +100,26 @@ def test_score_sum_scanner_catches_bad_usage(bad):
 def test_m11_and_m12_models_do_not_import_each_other():
     assert not [m for m in imported_modules(APP_DIR / "models" / "m12.py") if "m11" in m]
     assert not [m for m in imported_modules(APP_DIR / "models" / "m11.py") if "m12" in m]
+
+
+def audit_imports(modules: set[str]) -> set[str]:
+    return {m for m in modules if m == "app.common.audit" or m.startswith("app.common.audit.")}
+
+
+def test_blueprints_do_not_import_audit():
+    blueprints = sorted((APP_DIR / "blueprints").glob("*.py"))
+    assert blueprints
+    problems = {
+        path.name: found for path in blueprints if (found := audit_imports(imported_modules(path)))
+    }
+    assert problems == {}
+
+
+def test_audit_scanner_catches_import(tmp_path):
+    source = tmp_path / "x.py"
+    source.write_text("from app.common import audit\nfrom app.common.audit import record\n")
+
+    assert audit_imports(imported_modules(source)) == {
+        "app.common.audit",
+        "app.common.audit.record",
+    }

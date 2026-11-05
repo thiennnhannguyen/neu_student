@@ -6,7 +6,7 @@ from decimal import Decimal
 
 from sqlalchemy import func, select
 
-from app.common.audit import record_audit
+from app.common import audit
 from app.common.course_display import course_display_code
 from app.common.errors import ApiError
 from app.extensions import db
@@ -200,8 +200,8 @@ def add_grade_result(
     db.session.add(attempt)
     db.session.flush()
 
-    record_audit(
-        actor.id,
+    audit.record(
+        actor,
         "grade_attempt.create",
         "grade_attempt",
         attempt.id,

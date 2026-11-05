@@ -34,8 +34,8 @@ def add_grade(student, course, semester, score, actor):
     attempt = result.attempt
     code = course_display_code(db.session.get(Course, attempt.course_id).code)
     click.echo(
-        f"Đã thêm: {student} {code} kỳ {attempt.semester_id} "
-        f"lần {attempt.attempt_no}: {attempt.score_10} -> {attempt.letter} ({attempt.grade_4})"
+        f"Đã thêm: {student} {code} kỳ {attempt.semester_id}: "
+        f"{attempt.score_10} -> {attempt.letter} ({attempt.grade_4})"
     )
     for warning in result.warnings:
         click.echo(f"Cảnh báo: {warning}")

@@ -16,6 +16,8 @@ from app.extensions import db
 
 FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures"
 EXPECTED_FILE = "expected_results.json"
+# Đăng nhập cũng ghi nhật ký, nên số dòng của bảng này không phản ánh việc lệch dữ liệu mẫu.
+TABLES_NOT_CHECKED = {"audit_logs"}
 
 
 class SeedError(Exception):
@@ -111,6 +113,8 @@ def check_database() -> list[str]:
     tables = load_fixture_tables()
     problems = []
     for table in db.metadata.sorted_tables:
+        if table.name in TABLES_NOT_CHECKED:
+            continue
         expected = len(tables.get(table.name, []))
         actual = db.session.scalar(select(func.count()).select_from(table))
         if actual != expected:

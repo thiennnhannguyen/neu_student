@@ -6,12 +6,17 @@ from pathlib import Path
 from flask import Flask
 
 from app import models  # noqa: F401
+from app.blueprints.admin import admin_bp
+from app.blueprints.auth import auth_bp
 from app.blueprints.health import health_bp
+from app.blueprints.students import students_bp
 from app.cli import register_grades_command
+from app.common.auth_guard import register_csrf_check
 from app.common.errors import register_error_handlers
 from app.config import CONFIGS
-from app.extensions import db, migrate
+from app.extensions import db, login_manager, migrate
 from app.seed.seed import register_seed_command
+from app.services.auth_service import load_session_user
 
 MIGRATIONS_DIR = Path(__file__).resolve().parent.parent / "migrations"
 
@@ -21,7 +26,8 @@ def create_app(config_name: str | None = None, overrides: dict | None = None) ->
     if name not in CONFIGS:
         raise ValueError(f"APP_CONFIG không hợp lệ: {name}")
 
-    app = Flask(__name__)
+    # Backend chỉ phục vụ API. Giai đoạn 12 mới thêm route phục vụ SPA đã build.
+    app = Flask(__name__, static_folder=None)
     app.config.from_object(CONFIGS[name])
     app.config["APP_CONFIG_NAME"] = name
     app.config.update(overrides or {})
@@ -31,9 +37,14 @@ def create_app(config_name: str | None = None, overrides: dict | None = None) ->
     db.init_app(app)
     migrate.init_app(app, db, directory=str(MIGRATIONS_DIR))
 
+    login_manager.init_app(app)
+    login_manager.user_loader(load_session_user)
+
     register_error_handlers(app)
+    register_csrf_check(app)
     register_seed_command(app)
     register_grades_command(app)
-    app.register_blueprint(health_bp)
+    for blueprint in (health_bp, auth_bp, students_bp, admin_bp):
+        app.register_blueprint(blueprint)
 
     return app

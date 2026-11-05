@@ -1,5 +1,7 @@
 """Bảng dùng chung cho M11 và M12."""
 
+from flask_login import UserMixin
+
 from app.extensions import db
 from app.models.base import MockMixin, fk, pk
 
@@ -10,7 +12,7 @@ class Role(MockMixin, db.Model):
     name = db.Column(db.String(32), nullable=False, unique=True)
 
 
-class User(MockMixin, db.Model):
+class User(UserMixin, MockMixin, db.Model):
     __tablename__ = "users"
     id = pk()
     username = db.Column(db.String(64), nullable=False, unique=True)
@@ -20,7 +22,17 @@ class User(MockMixin, db.Model):
     is_active = db.Column(db.Boolean, nullable=False, default=True, server_default=db.true())
     failed_login_count = db.Column(db.Integer, nullable=False, default=0, server_default="0")
     locked_until = db.Column(db.DateTime)
+    failed_login_window_started_at = db.Column(db.DateTime)
     last_login_at = db.Column(db.DateTime)
+    session_version = db.Column(db.Integer, nullable=False, default=0, server_default="0")
+
+    def get_id(self) -> str:
+        """Gắn session_version vào cookie để cookie cũ mất hiệu lực sau khi đăng xuất."""
+        return f"{self.id}:{self.session_version}"
+
+    @property
+    def role_name(self) -> str:
+        return db.session.get(Role, self.role_id).name
 
 
 class Student(MockMixin, db.Model):
@@ -31,6 +43,8 @@ class Student(MockMixin, db.Model):
     cohort = db.Column(db.String(16), nullable=False)
     program_version_id = fk("program_versions.id")
     entry_semester_id = fk("semesters.id")
+    contact_email = db.Column(db.String(254))
+    contact_phone = db.Column(db.String(16))
     __table_args__ = (db.UniqueConstraint("user_id"),)
 
 

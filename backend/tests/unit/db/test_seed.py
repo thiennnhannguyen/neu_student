@@ -155,3 +155,16 @@ def test_passwords_are_hashed(seeded_app):
     assert user.failed_login_count == 0
     assert user.locked_until is None
     assert user.last_login_at is None
+
+
+def test_check_ignores_audit_logs_because_login_writes_them(seeded_app):
+    run_sql(
+        "INSERT INTO audit_logs (action, entity, entity_id, created_at) "
+        "VALUES ('auth.login_success', 'user', 'user-sv01', '2026-01-01')"
+    )
+    db.session.commit()
+
+    result = invoke(seeded_app, "--check")
+
+    assert result.exit_code == 0
+    assert "Khớp fixture" in result.output
