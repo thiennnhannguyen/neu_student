@@ -82,6 +82,8 @@ QUY TRÌNH MỖI GIAI ĐOẠN
 4. Chạy: ruff check, pytest, npm run lint, npm test, npm run build. Dán output thật (rút gọn) vào báo cáo.
 5. Cập nhật PROGRESS.md, DECISIONS.md, TEST_MATRIX.md; commit theo Conventional Commits.
    Được push main bất cứ lúc nào để có CI; tag chỉ gắn sau khi quản lý dự án nghiệm thu.
+   Mọi chuỗi lệnh kiểm tra trước commit/push phải dừng ngay khi có lệnh lỗi (dùng && hoặc set -e). Không push khi chưa thấy toàn bộ test xanh trong cùng lần chạy.
+   Khi cố ý làm hỏng mã nguồn: luôn chạy đủ bộ test liên quan của cả backend và frontend cho mỗi chỗ làm hỏng, không chọn tay một vài file.
 6. Nộp BÁO CÁO GIAI ĐOẠN theo mẫu tôi đưa.
 
 ĐỊNH NGHĨA HOÀN THÀNH (DoD)

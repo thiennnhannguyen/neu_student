@@ -22,7 +22,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 05 | Hoàn thiện M11 tính toán và kiểm thử | Hoàn thành, tag `phase-05`, CI xanh. Mốc M11 là 191/191; 44 mục còn lại đạt ở giai đoạn 08 | Không có |
 | 06 | Xây M11 Dashboard/Phân tích/Cảnh báo (có `POST /api/admin/grade-attempts`) | Hoàn thành, tag `phase-06`, CI xanh | Không có |
 | 07 | Xây Career Graph và API M12 | Hoàn thành, tag `phase-07`, CI xanh | Không có |
-| 08 | Đồng bộ tiến độ M11–M12, tỷ lệ nghề, trang Định hướng nghề | Chờ nghiệm thu. Đã đạt 235/235 (commit `fd18024`), đã push `main`, chưa gắn tag `phase-08` | Không có |
+| 08 | Đồng bộ tiến độ M11–M12, tỷ lệ nghề, trang Định hướng nghề | Hoàn thành, tag `phase-08`, CI xanh. Đạt 235/235 ở commit `fd18024` | Không có |
 | 09 | Lập lộ trình theo kỳ và so sánh nghề (so sánh nghề là P2) | Chưa bắt đầu | Không có |
 | 10 | Học liệu, yêu cầu hỗ trợ, thông báo, luồng nộp/duyệt `skill_evidences` (P1) | Chưa bắt đầu | Không có |
 | 11 | Thiết kế responsive theo NEU 2026; đưa thư viện họa tiết vào khung ứng dụng (dải ở navbar) và bổ sung họa tiết còn thiếu (D-154) | Chưa bắt đầu | Không có |
@@ -34,6 +34,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 |----|----------|------------|
 | CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành, tag `cr-01`. Sau đó đổi màu, font và đưa lại nhãn mẫu theo D-152, D-156 |
 | CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Hoàn thành, tag `cr-02` (gồm lượt chỉnh CR-02b, D-187, D-188) |
+| CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề | Đang lập kế hoạch, chờ duyệt |
 
 ## Việc tồn đọng giao diện, làm ở giai đoạn 11
 
@@ -41,6 +42,11 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 2. Dòng Q80 trên di động rút còn "Chưa có kết quả · Gần nhất S2: 1,88".
 3. Trang Phân tích chỉ giữ 1 dòng kỳ tham chiếu chung thay vì ở từng thẻ.
 4. Ô lọc đối tượng của trang Nhật ký dùng `GET /api/admin/audit-logs/entities` thay cho danh sách cố định của D-178 (D-202).
+
+## Việc tồn đọng kỹ thuật
+
+1. Giai đoạn 10: mọi hàm đổi trạng thái `skill_evidences` (không chỉ hàm tạo) phải tăng `data_version`; mở rộng luật quét mã nguồn để bắt cả UPDATE.
+2. Khóa cache M11/M12 chưa có kỳ hiện tại; khi có API đổi kỳ hiện tại thì phải xóa cache hoặc đưa kỳ vào khóa.
 
 ## Điểm kiểm tra giữa giai đoạn 06 (API và test hợp đồng xong)
 
@@ -52,4 +58,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Giai đoạn 08: chờ quản lý dự án nghiệm thu rồi gắn tag `phase-08`. Remote: https://github.com/thiennnhannguyen/neu_student.
+CR-03: chờ quản lý dự án duyệt kế hoạch. Remote: https://github.com/thiennnhannguyen/neu_student.
