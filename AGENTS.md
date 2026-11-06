@@ -81,6 +81,7 @@ QUY TRÌNH MỖI GIAI ĐOẠN
 3. Làm theo lát mỏng: model -> service -> test -> API -> UI. Test viết cùng lúc với code, không để cuối.
 4. Chạy: ruff check, pytest, npm run lint, npm test, npm run build. Dán output thật (rút gọn) vào báo cáo.
 5. Cập nhật PROGRESS.md, DECISIONS.md, TEST_MATRIX.md; commit theo Conventional Commits.
+   Được push main bất cứ lúc nào để có CI; tag chỉ gắn sau khi quản lý dự án nghiệm thu.
 6. Nộp BÁO CÁO GIAI ĐOẠN theo mẫu tôi đưa.
 
 ĐỊNH NGHĨA HOÀN THÀNH (DoD)
