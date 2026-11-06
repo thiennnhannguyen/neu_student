@@ -94,3 +94,7 @@ Nội dung đầy đủ nằm trong [DECISIONS.md](DECISIONS.md).
 | Q80 | GPA học kỳ ở kỳ hiện tại trống | D-180 |
 | Q81 | Tổng quan dùng số thật | D-175, D-181 |
 | Q82 | Push trước khi nghiệm thu để có CI | D-181 |
+| Q83 | Mô tả ngắn lấy từ đâu | D-197 |
+| Q84 | Yêu cầu sao chép vào draft có cần duyệt lại | D-198 |
+| Q85 | Sửa kỹ năng đang nằm trong bản published | D-199 |
+| Q86 | API duyệt ánh xạ môn và kỹ năng | D-200 |

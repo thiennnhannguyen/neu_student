@@ -9,6 +9,10 @@ class Career(MockMixin, db.Model):
     id = pk()
     slug = db.Column(db.String(64), nullable=False, unique=True)
     name = db.Column(db.String(128), nullable=False)
+    field = db.Column(db.String(64), nullable=False, server_default="")
+    # Tên đã chuẩn hóa (D-194), để DB chặn trùng tên kể cả khi hai admin tạo cùng lúc.
+    name_key = db.Column(db.String(128), nullable=False, server_default="")
+    __table_args__ = (db.Index("uq_careers_name_key", "name_key", unique=True),)
 
 
 class CareerVersion(MockMixin, db.Model):
@@ -35,6 +39,7 @@ class CareerNode(MockMixin, db.Model):
     career_version_id = fk("career_versions.id")
     name = db.Column(db.String(128), nullable=False)
     order = db.Column(db.Integer, nullable=False)
+    short_desc = db.Column(db.String(120))
     # Đích của khóa ngoại phức hợp từ career_requirements.
     __table_args__ = (db.UniqueConstraint("id", "career_version_id"),)
 
@@ -44,7 +49,12 @@ class Skill(MockMixin, db.Model):
     id = pk()
     name = db.Column(db.String(128), nullable=False)
     kind = db.Column(db.String(16), nullable=False)
-    __table_args__ = (db.CheckConstraint("kind IN ('skill', 'project')", name="kind_valid"),)
+    name_key = db.Column(db.String(128), nullable=False, server_default="")
+    short_desc = db.Column(db.String(120))
+    __table_args__ = (
+        db.CheckConstraint("kind IN ('skill', 'project')", name="kind_valid"),
+        db.Index("uq_skills_name_key", "name_key", unique=True),
+    )
 
 
 class CareerRequirement(MockMixin, db.Model):

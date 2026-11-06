@@ -46,6 +46,8 @@ Các lệnh chạy trong thư mục `backend`:
 
 Sau khi lấy mã mới có migration, chạy lại `make seed`.
 
+Khởi động lại `make dev` sau khi seed lại: cây nghề của bản đã công bố được cache trong tiến trình theo id phiên bản.
+
 ## Tài khoản demo (dữ liệu mẫu)
 
 Mọi tài khoản dùng mật khẩu `Demo@12345`. Đây là dữ liệu mẫu, chỉ dùng để demo.

@@ -141,6 +141,11 @@ M11_SERVICES = [
 M11_PURE_SERVICES = [name for name in M11_SERVICES if name != "m11_public.py"]
 M12_MODULES = [
     "services/career_graph_service.py",
+    "services/career_loader.py",
+    "services/career_api_service.py",
+    "services/career_goal_service.py",
+    "services/career_admin_service.py",
+    "schemas/m12.py",
     "services/completion_service.py",
     "services/roadmap_service.py",
     "services/related_career_service.py",
@@ -224,6 +229,20 @@ def test_m11_pure_services_do_not_touch_db_or_request():
     assert problems == {}
 
 
+def test_career_graph_service_does_not_touch_db_or_request():
+    assert touches_database_or_request(APP_DIR / "services" / "career_graph_service.py") == []
+
+
+def test_m12_modules_have_no_float():
+    problems = {
+        name: found
+        for name in M12_MODULES
+        if (APP_DIR / name).exists()
+        and (found := find_float_usage((APP_DIR / name).read_text(encoding="utf8")))
+    }
+    assert problems == {}
+
+
 def test_m11_public_reads_only_through_loader():
     assert touches_database_or_request(APP_DIR / "services" / "m11_public.py") == []
 
@@ -243,6 +262,11 @@ def m11_internal_imports(path: Path) -> list[str]:
         if any(part in M11_INTERNAL_NAMES for part in parts) or module.startswith("app.models.m11"):
             found.append(module)
     return found
+
+
+def test_every_m12_gate_module_of_this_phase_exists():
+    for name in M12_MODULES[:6] + ["blueprints/m12.py"]:
+        assert (APP_DIR / name).exists(), name
 
 
 def test_m12_modules_only_use_m11_public():
@@ -278,15 +302,15 @@ def test_m12_scanner_allows_public_gate(tmp_path):
     assert m11_internal_imports(source) == []
 
 
-# --- data_version: mọi thao tác ghi làm đổi kết quả M11 phải tăng phiên bản ---
+# --- data_version: mọi thao tác ghi làm đổi kết quả M11 hoặc M12 phải tăng phiên bản ---
 
-M11_RESULT_MODELS = {"GradeAttempt", "Enrollment"}
+STUDENT_RESULT_MODELS = {"GradeAttempt", "Enrollment", "StudentCareerGoal", "SkillEvidence"}
 # Seed đặt data_version riêng cho toàn bộ sinh viên trong reset_database.
 DATA_VERSION_EXEMPT = {"seed/seed.py"}
 
 
-def writes_m11_results_without_bump(source: str) -> list[str]:
-    """Hàm tạo GradeAttempt hoặc Enrollment mà không gọi bump_data_version."""
+def writes_results_without_bump(source: str) -> list[str]:
+    """Hàm tạo bản ghi quyết định kết quả của sinh viên mà không gọi bump_data_version."""
     problems = []
     for node in ast.walk(ast.parse(source)):
         if not isinstance(node, ast.FunctionDef):
@@ -296,17 +320,17 @@ def writes_m11_results_without_bump(source: str) -> list[str]:
             for call in ast.walk(node)
             if isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
         }
-        if called & M11_RESULT_MODELS and "bump_data_version" not in called:
+        if called & STUDENT_RESULT_MODELS and "bump_data_version" not in called:
             problems.append(node.name)
     return problems
 
 
-def test_writes_to_m11_results_bump_data_version():
+def test_writes_to_student_results_bump_data_version():
     problems = {
         str(path.relative_to(APP_DIR)): found
         for path in SOURCES
         if str(path.relative_to(APP_DIR)) not in DATA_VERSION_EXEMPT
-        and (found := writes_m11_results_without_bump(path.read_text(encoding="utf8")))
+        and (found := writes_results_without_bump(path.read_text(encoding="utf8")))
     }
     assert problems == {}
 
@@ -314,7 +338,7 @@ def test_writes_to_m11_results_bump_data_version():
 def test_grades_service_bumps_data_version_when_adding_result():
     source = (APP_DIR / "services" / "grades_service.py").read_text(encoding="utf8")
 
-    assert writes_m11_results_without_bump(source) == []
+    assert writes_results_without_bump(source) == []
     tree = ast.parse(source)
     add = next(
         n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name == "add_grade_result"
@@ -324,8 +348,26 @@ def test_grades_service_bumps_data_version_when_adding_result():
 
 
 def test_data_version_scanner_catches_missing_bump():
-    assert writes_m11_results_without_bump("def f():\n    db.add(GradeAttempt(score_10=1))\n") == [
-        "f"
-    ]
+    assert writes_results_without_bump("def f():\n    db.add(GradeAttempt(score_10=1))\n") == ["f"]
     good = "def f(s):\n    db.add(Enrollment())\n    bump_data_version(s)\n"
-    assert writes_m11_results_without_bump(good) == []
+    assert writes_results_without_bump(good) == []
+
+
+@pytest.mark.parametrize("model", ["StudentCareerGoal", "SkillEvidence"])
+def test_data_version_scanner_covers_m12_results(model):
+    assert writes_results_without_bump(f"def f():\n    db.add({model}())\n") == ["f"]
+
+
+def test_career_goal_service_bumps_data_version_when_changing_goal():
+    source = (APP_DIR / "services" / "career_goal_service.py").read_text(encoding="utf8")
+
+    assert writes_results_without_bump(source) == []
+    change = next(
+        n
+        for n in ast.walk(ast.parse(source))
+        if isinstance(n, ast.FunctionDef) and n.name == "change_goal"
+    )
+    called = {
+        c.func.id for c in ast.walk(change) if isinstance(c, ast.Call) and hasattr(c.func, "id")
+    }
+    assert {"StudentCareerGoal", "bump_data_version"} <= called

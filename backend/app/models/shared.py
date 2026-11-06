@@ -99,6 +99,7 @@ class Course(MockMixin, db.Model):
     credits = db.Column(db.Integer, nullable=False)
     counts_gpa = db.Column(db.Boolean, nullable=False, default=True, server_default=db.true())
     course_group_id = fk("course_groups.id")
+    short_desc = db.Column(db.String(120))
     __table_args__ = (
         db.CheckConstraint("credits > 0", name="credits_positive"),
         db.Index(

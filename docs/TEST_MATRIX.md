@@ -100,11 +100,11 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | TC03 | Một môn học lại nhiều lần không cộng trùng tín chỉ | 05 | Dữ liệu: SV02; chưa có test |
 | TC04 | Chuyển học kỳ biểu đồ và thống kê đổi đúng | 05, 06 | Dữ liệu: SV01; chưa có test |
 | TC05 | Quy chế khác phiên bản không áp sai ngưỡng | 05 | Dữ liệu: SV04, SV06; chưa có test |
-| TC06 | Hoàn thành Python → mọi cây nghề liên quan tick xanh | 07, 08 | Dữ liệu: SV07; kịch bản SV05; chưa có test |
-| TC07 | Môn đang học không được tick xanh | 07, 08 | Dữ liệu: SV07, SV01; chưa có test |
-| TC08 | Đổi nghề chính giữ nguyên lịch sử học tập | 07 | Dữ liệu: SV07; chưa có test |
-| TC09 | Tỷ lệ nghề A khác nghề B khi yêu cầu khác nhau | 07 | Dữ liệu: SV07; chưa có test |
-| TC10 | Đổi nghề liên quan và xem tất cả hoạt động | 07 | Dữ liệu: 6 nghề, SV07; chưa có test |
+| TC06 | Hoàn thành Python → mọi cây nghề liên quan tick xanh | 08 | Dữ liệu: SV07; kịch bản SV05; chưa có test |
+| TC07 | Môn đang học không được tick xanh | 08 | Dữ liệu: SV07, SV01; chưa có test |
+| TC08 | Đổi nghề chính giữ nguyên lịch sử học tập | 07 (phần dữ liệu), 08 (phần cây và tỷ lệ) | Phần dữ liệu đạt: `test_sv07_changes_to_analyst_and_back`, `test_repeating_same_career_adds_nothing` (`backend/tests/acceptance/test_tc08_career_change.py`) |
+| TC09 | Tỷ lệ nghề A khác nghề B khi yêu cầu khác nhau | 08 | Dữ liệu: SV07; chưa có test |
+| TC10 | Đổi nghề liên quan và xem tất cả hoạt động | 08 | Dữ liệu: 6 nghề, SV07; chưa có test |
 | TC11 | Lộ trình không xếp môn trước tiên quyết | 09 | Dữ liệu: Tiên quyết DAG; chưa có test |
 | TC12 | Môn không mở kỳ này được ghi dự kiến/chưa xác minh | 09 | Dữ liệu: `course_offerings`; chưa có test |
 | TC13 | Sinh viên không xem được ticket của người khác | 10 | Dữ liệu: Ticket SV01, SV02; chưa có test |
@@ -181,3 +181,26 @@ Cố ý làm hỏng mã nguồn, component dùng chung và 4 trang M11 (lượt 
 | Mục 9: ẩn phân trang khi 1 trang | `chỉ có 1 trang: ẩn phân trang, vẫn ghi số môn`, `đúng 21 môn thì có 2 trang và có phân trang` | `frontend/src/features/m11/m11Pages.test.jsx` |
 
 Thẻ 2 dòng, lưới 2×2, 3 cột và vị trí đường ngưỡng trên biểu đồ chỉ kiểm được bằng Chrome thật; không có test tự động.
+
+## M12: Career Graph và API (giai đoạn 07)
+
+File nằm trong `backend/tests/`.
+
+| Yêu cầu | Test | File |
+|---------|------|------|
+| Cây, chu trình, đủ mã lỗi `validate_for_publish` (hàm thuần) | Các test trong file | `unit/m12/test_career_graph.py` |
+| Cây AI Engineer đúng 4 nhóm, 13 yêu cầu; CNT102 ở 2 nhóm | `test_tree_of_ai_engineer_matches_fixture`, `test_cnt102_is_in_both_groups` | `api/m12/test_m12_careers.py` |
+| Draft không lộ ra API người dùng; yêu cầu draft không có trong cây | `test_draft_of_data_analyst_never_appears`, `test_draft_requirement_is_404`, `test_draft_requirement_in_published_version_is_not_in_tree_or_detail` | `api/m12/test_m12_careers.py` |
+| Publish có chu trình A → B → C → A: 422, đúng đường đi, rollback | `test_publish_with_cycle_returns_path_and_rolls_back` | `api/m12/test_admin_versions.py` |
+| Publish còn yêu cầu chưa duyệt: 422, liệt kê đủ | `test_publish_with_unapproved_lists_all` | `api/m12/test_admin_versions.py` |
+| Sửa bản published: 409 `PUBLISHED_IMMUTABLE`, DB không đổi, cả khi chỉ còn trigger | `test_published_content_cannot_change`, `test_patch_published_with_same_value_is_still_409`, `test_trigger_on_node_delete_becomes_published_immutable`, `test_other_integrity_error_stays_500` | `api/m12/test_admin_versions.py` |
+| Sinh viên, cố vấn, hỗ trợ gọi API quản trị: 403; chưa đăng nhập 401; thiếu header 403 (mọi route) | `test_other_roles_are_403_and_write_nothing`, `test_anonymous_is_401`, `test_admin_write_without_csrf_header_is_403` | `api/m12/test_admin_permissions.py` |
+| `support_staff` gọi API M12: 403; SV01 đọc của SV02: 404; ma trận vai trò | `test_support_staff_gets_403`, `test_read_matrix`, `test_only_student_can_put` | `api/m12/test_m12_careers.py`, `test_m12_goal.py` |
+| TC08 phần dữ liệu, đủ 191 mục M11 | `test_sv07_changes_to_analyst_and_back` | `acceptance/test_tc08_career_change.py` |
+| Đổi lại cùng nghề: không bản ghi, không audit, không tăng `data_version` | `test_same_career_writes_nothing`, `test_repeating_same_career_adds_nothing` | `api/m12/test_m12_goal.py`, `acceptance/test_tc08_career_change.py` |
+| Lỗi giữa chừng thì rollback toàn bộ | `test_failed_bump_rolls_back_everything`, `test_delete_draft_failure_rolls_back` | `api/m12/test_m12_goal.py`, `test_admin_versions.py` |
+| Trùng tên: 409, kể cả khi chỉ còn UNIQUE của DB; DB từ chối 2 dòng cùng `name_key` | `test_duplicate_career_name_is_409`, `test_same_name_race_is_409_from_db_not_500`, `test_db_rejects_same_name_key`, `test_db_rejects_null_name_key` | `api/m12/test_admin_careers.py`, `unit/db/test_migration_0004.py` |
+| Số truy vấn khóa cứng, không đổi theo số dòng; cây cache theo phiên bản | `test_query_count_is_fixed`, `test_read_query_count_is_fixed`, `test_query_count_of_tree_does_not_depend_on_size`, `test_tree_is_cached_by_version_and_career_name_is_read_fresh` | `api/m12/` |
+| Mô tả mẫu tối đa 120 ký tự, có dấu, không lặp tên | `test_short_desc_is_handwritten_not_from_name` | `unit/test_fixtures_integrity.py` |
+| Ranh giới `m11_public`, không float, `data_version` cho bảng M12, route registry | `test_m12_modules_only_use_m11_public`, `test_m12_modules_have_no_float`, `test_data_version_scanner_covers_m12_results`, `test_route_registry_covers_all_expected_api_routes` | `unit/test_source_rules.py`, `unit/test_auth_guard.py` |
+| Response thật khớp ví dụ trong `docs/API.md` | `test_real_response_matches_documented_example`, `test_every_new_endpoint_has_an_example` | `api/test_api_contract.py` |

@@ -6,11 +6,13 @@ from pathlib import Path
 
 import pytest
 
+from tests.api.m12.helpers import add_contract_rows
 from tests.helpers import FETCH_HEADER, login_as
 
 API_DOC = Path(__file__).resolve().parents[3] / "docs" / "API.md"
 BLOCK = re.compile(
-    r"<!-- contract: (?P<user>\S+) (?P<method>GET|POST) (?P<url>\S+)(?: (?P<body>\{.*?\}))? -->\s*"
+    r"<!-- contract: (?P<user>\S+) (?P<method>GET|POST|PUT|PATCH|DELETE) (?P<url>\S+)"
+    r"(?: (?P<status>\d{3}))?(?: (?P<body>\{.*?\}))? -->\s*"
     r"```json\n(?P<example>.*?)\n```",
     re.S,
 )
@@ -29,7 +31,48 @@ REQUIRED_ROUTES = {
     ("POST", "/api/admin/grade-attempts"),
     ("GET", "/api/advisor/students"),
     ("GET", "/api/admin/students"),
+    ("GET", "/api/m12/careers"),
+    ("GET", "/api/m12/careers/career-ai_engineer"),
+    ("GET", "/api/m12/careers/career-ai_engineer/tree"),
+    ("GET", "/api/m12/requirements/req-node-cv-ai_engineer-1-1-CNT102"),
+    ("GET", "/api/m12/career-goal"),
+    ("PUT", "/api/m12/career-goal"),
+    ("GET", "/api/m12/career-goal/history"),
+    ("GET", "/api/admin/audit-logs/entities"),
+    ("GET", "/api/admin/careers"),
+    ("POST", "/api/admin/careers"),
+    ("GET", "/api/admin/careers/career-backend"),
+    ("PATCH", "/api/admin/careers/career-backend"),
+    ("DELETE", "/api/admin/careers/career-tam"),
+    ("GET", "/api/admin/careers/career-data_analyst/versions"),
+    ("POST", "/api/admin/careers/career-backend/versions"),
+    ("GET", "/api/admin/skills"),
+    ("POST", "/api/admin/skills"),
+    ("GET", "/api/admin/skills/sk-git"),
+    ("PATCH", "/api/admin/skills/sk-tam"),
+    ("DELETE", "/api/admin/skills/sk-tam"),
+    ("GET", "/api/admin/course-skill-mappings"),
+    ("POST", "/api/admin/course-skill-mappings"),
+    ("GET", "/api/admin/course-skill-mappings/map-CNT102-sk-git"),
+    ("PATCH", "/api/admin/course-skill-mappings/map-CNT102-sk-git"),
+    ("DELETE", "/api/admin/course-skill-mappings/map-CNT102-sk-git"),
+    ("POST", "/api/admin/course-skill-mappings/map-CNT102-sk-git/approve"),
+    ("GET", "/api/admin/career-versions/cv-data_analyst-2"),
+    ("DELETE", "/api/admin/career-versions/cv-data_analyst-2"),
+    ("POST", "/api/admin/career-versions/cv-nhap/publish"),
+    ("POST", "/api/admin/career-versions/cv-data_analyst-2/publish"),
+    ("POST", "/api/admin/career-versions/cv-data_analyst-2/nodes"),
+    ("GET", "/api/admin/career-nodes/node-cv-data_analyst-2-1"),
+    ("PATCH", "/api/admin/career-nodes/node-cv-data_analyst-2-1"),
+    ("DELETE", "/api/admin/career-nodes/node-rong"),
+    ("POST", "/api/admin/career-nodes/node-cv-data_analyst-2-1/requirements"),
+    ("GET", "/api/admin/requirements/req-node-cv-data_analyst-2-1-CNT102"),
+    ("PATCH", "/api/admin/requirements/req-node-cv-data_analyst-2-1-CNT102"),
+    ("PATCH", "/api/admin/requirements/req-node-cv-backend-1-1-CNT101"),
+    ("DELETE", "/api/admin/requirements/req-node-cv-data_analyst-2-1-CNT102"),
+    ("POST", "/api/admin/requirements/req-node-cv-data_analyst-2-1-CNT102/approve"),
 }
+DEFAULT_STATUS = {"GET": 200, "POST": 201, "PUT": 200, "PATCH": 200, "DELETE": 200}
 
 
 def contract_blocks() -> list[dict]:
@@ -66,14 +109,15 @@ def test_every_new_endpoint_has_an_example():
 
 @pytest.mark.parametrize("block", contract_blocks(), ids=lambda b: f"{b['method']} {b['url']}")
 def test_real_response_matches_documented_example(http_app, block):
+    add_contract_rows(http_app)
     client = login_as(http_app, block["user"])
-    if block["method"] == "GET":
-        response = client.get(block["url"])
-        assert response.status_code == 200, response.get_data(as_text=True)
-    else:
-        response = client.post(block["url"], json=json.loads(block["body"]), headers=FETCH_HEADER)
-        assert response.status_code == 201, response.get_data(as_text=True)
+    body = json.loads(block["body"]) if block["body"] else None
+    headers = FETCH_HEADER if block["method"] != "GET" else {}
 
+    response = client.open(block["url"], method=block["method"], json=body, headers=headers)
+
+    expected = int(block["status"]) if block["status"] else DEFAULT_STATUS[block["method"]]
+    assert response.status_code == expected, response.get_data(as_text=True)
     assert shape_problems(json.loads(block["example"]), response.get_json()) == []
 
 

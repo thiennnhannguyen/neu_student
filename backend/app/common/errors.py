@@ -1,6 +1,7 @@
 """Định dạng lỗi thống nhất: {"error": {"code", "message", "details"}}."""
 
 from flask import Flask, jsonify
+from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import HTTPException
 
 # Mã lỗi và thông báo mặc định theo HTTP status.
@@ -14,6 +15,19 @@ ERROR_INFO = {
     422: ("VALIDATION_ERROR", "Dữ liệu không hợp lệ."),
     500: ("INTERNAL_ERROR", "Hệ thống gặp lỗi. Vui lòng thử lại sau."),
 }
+
+
+# Lớp cuối sau kiểm tra ở service (D-193): lỗi DB có dấu hiệu dưới đây đổi thành 409, kể cả khi hai
+# request chạy đồng thời. Lỗi ràng buộc khác là lỗi lập trình và vẫn trả 500.
+INTEGRITY_CONFLICTS = (
+    ("career_version_published_immutable", "PUBLISHED_IMMUTABLE", "Bản đã công bố không sửa được."),
+    ("careers.name_key", "DUPLICATE_NAME", "Tên nghề đã tồn tại."),
+    ("skills.name_key", "DUPLICATE_NAME", "Tên kỹ năng đã tồn tại."),
+    ("career_versions.career_id", "DRAFT_EXISTS", "Nghề này đã có bản nháp."),
+    ("course_skill_mappings.course_id", "CONFLICT", "Ánh xạ này đã tồn tại."),
+    ("student_career_goals.student_id", "CONFLICT", "Nghề chính vừa được thay đổi, hãy thử lại."),
+    ("FOREIGN KEY constraint failed", "CONFLICT", "Dữ liệu đang được sử dụng."),
+)
 
 
 class ApiError(Exception):
@@ -52,6 +66,14 @@ def register_error_handlers(app: Flask) -> None:
         if status == 405 and getattr(error, "valid_methods", None):
             details["allowed_methods"] = sorted(error.valid_methods)
         return error_response(status, code, message, details)
+
+    @app.errorhandler(IntegrityError)
+    def handle_integrity_error(error: IntegrityError):
+        reason = str(error.orig)
+        for marker, code, message in INTEGRITY_CONFLICTS:
+            if marker in reason:
+                return error_response(409, code, message)
+        return handle_unexpected(error)
 
     @app.errorhandler(Exception)
     def handle_unexpected(error: Exception):

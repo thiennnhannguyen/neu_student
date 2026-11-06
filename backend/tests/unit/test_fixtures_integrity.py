@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+from app.common.text import normalize_name
 from tests.reference.fixture_reference_calc import reference_all, reference_lookup_grade
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
@@ -619,3 +620,34 @@ def test_hand_numbers_match_independent_reference_calculation(tables, expected):
 def test_application_code_does_not_use_reference_calculation():
     for path in (BACKEND_DIR / "app").rglob("*.py"):
         assert "reference_calc" not in path.read_text(encoding="utf8"), path
+
+
+def test_career_fixtures_have_field_and_normalized_name_key(tables):
+    for career in tables["careers"]:
+        assert career["field"].endswith("(mẫu)")
+        assert career["name_key"] == normalize_name(career["name"])
+    for skill in tables["skills"]:
+        assert skill["name_key"] == normalize_name(skill["name"])
+    assert {c["slug"]: c["field"] for c in tables["careers"]} == {
+        "ai_engineer": "Dữ liệu và AI (mẫu)",
+        "data_analyst": "Dữ liệu và AI (mẫu)",
+        "ml_engineer": "Dữ liệu và AI (mẫu)",
+        "backend": "Phần mềm (mẫu)",
+        "finance": "Tài chính (mẫu)",
+        "marketing": "Marketing (mẫu)",
+    }
+
+
+@pytest.mark.parametrize(
+    ("table", "count"), [("courses", 40), ("skills", 12), ("career_nodes", 23)]
+)
+def test_short_desc_is_handwritten_not_from_name(tables, table, count):
+    """Có dấu tiếng Việt, tối đa 120 ký tự, không lặp lại tên và không trùng nhau (R12)."""
+    rows = tables[table]
+    assert len(rows) == count
+    for row in rows:
+        text = row["short_desc"]
+        assert 0 < len(text) <= 120, row["id"]
+        assert not text.isascii(), row["id"]
+        assert normalize_name(row["name"].removesuffix(" (mẫu)")) != normalize_name(text), row["id"]
+    assert len({row["short_desc"] for row in rows}) == count

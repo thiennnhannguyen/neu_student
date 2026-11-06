@@ -4,36 +4,48 @@
       "id": "career-ai_engineer",
       "slug": "ai_engineer",
       "name": "AI Engineer (mẫu)",
+      "field": "Dữ liệu và AI (mẫu)",
+      "name_key": "ai engineer (mau)",
       "is_mock": true
     },
     {
       "id": "career-data_analyst",
       "slug": "data_analyst",
       "name": "Data Analyst (mẫu)",
+      "field": "Dữ liệu và AI (mẫu)",
+      "name_key": "data analyst (mau)",
       "is_mock": true
     },
     {
       "id": "career-ml_engineer",
       "slug": "ml_engineer",
       "name": "Machine Learning Engineer (mẫu)",
+      "field": "Dữ liệu và AI (mẫu)",
+      "name_key": "machine learning engineer (mau)",
       "is_mock": true
     },
     {
       "id": "career-backend",
       "slug": "backend",
       "name": "Backend Developer (mẫu)",
+      "field": "Phần mềm (mẫu)",
+      "name_key": "backend developer (mau)",
       "is_mock": true
     },
     {
       "id": "career-finance",
       "slug": "finance",
       "name": "Chuyên viên phân tích tài chính (mẫu)",
+      "field": "Tài chính (mẫu)",
+      "name_key": "chuyen vien phan tich tai chinh (mau)",
       "is_mock": true
     },
     {
       "id": "career-marketing",
       "slug": "marketing",
       "name": "Chuyên viên marketing số (mẫu)",
+      "field": "Marketing (mẫu)",
+      "name_key": "chuyen vien marketing so (mau)",
       "is_mock": true
     }
   ],
@@ -101,6 +113,7 @@
       "career_version_id": "cv-ai_engineer-1",
       "name": "Nền tảng lập trình (mẫu)",
       "order": 1,
+      "short_desc": "Khả năng viết mã và quản lý mã nguồn, là phần chung cho mọi việc về sau của nghề.",
       "is_mock": true
     },
     {
@@ -108,6 +121,7 @@
       "career_version_id": "cv-ai_engineer-1",
       "name": "Toán và dữ liệu (mẫu)",
       "order": 2,
+      "short_desc": "Nền toán và tiếng Anh để đọc hiểu mô hình cùng tài liệu chuyên môn.",
       "is_mock": true
     },
     {
@@ -115,6 +129,7 @@
       "career_version_id": "cv-ai_engineer-1",
       "name": "Mô hình AI (mẫu)",
       "order": 3,
+      "short_desc": "Phần lõi của nghề: xây dựng mô hình và biết đánh giá chúng.",
       "is_mock": true
     },
     {
@@ -122,6 +137,7 @@
       "career_version_id": "cv-ai_engineer-1",
       "name": "Thực hành (mẫu)",
       "order": 4,
+      "short_desc": "Đưa mô hình vào sử dụng và chứng minh năng lực qua sản phẩm.",
       "is_mock": true
     },
     {
@@ -129,6 +145,7 @@
       "career_version_id": "cv-data_analyst-1",
       "name": "Công cụ phân tích (mẫu)",
       "order": 1,
+      "short_desc": "Những công cụ hằng ngày để lấy và xử lý dữ liệu của người phân tích.",
       "is_mock": true
     },
     {
@@ -136,6 +153,7 @@
       "career_version_id": "cv-data_analyst-1",
       "name": "Thống kê (mẫu)",
       "order": 2,
+      "short_desc": "Cơ sở để suy luận đúng từ dữ liệu thay vì chỉ mô tả số liệu.",
       "is_mock": true
     },
     {
@@ -143,6 +161,7 @@
       "career_version_id": "cv-data_analyst-1",
       "name": "Dữ liệu (mẫu)",
       "order": 3,
+      "short_desc": "Hiểu cách dữ liệu được lưu trữ và tổ chức để phục vụ phân tích.",
       "is_mock": true
     },
     {
@@ -150,6 +169,7 @@
       "career_version_id": "cv-data_analyst-1",
       "name": "Truyền đạt (mẫu)",
       "order": 4,
+      "short_desc": "Biến kết quả phân tích thành thông tin giúp người khác ra quyết định.",
       "is_mock": true
     },
     {
@@ -157,6 +177,7 @@
       "career_version_id": "cv-ml_engineer-1",
       "name": "Lập trình cho mô hình (mẫu)",
       "order": 1,
+      "short_desc": "Năng lực viết mã để dựng được quy trình huấn luyện mô hình.",
       "is_mock": true
     },
     {
@@ -164,6 +185,7 @@
       "career_version_id": "cv-ml_engineer-1",
       "name": "Nền toán (mẫu)",
       "order": 2,
+      "short_desc": "Phần toán cần có để hiểu mô hình hoạt động thế nào.",
       "is_mock": true
     },
     {
@@ -171,6 +193,7 @@
       "career_version_id": "cv-ml_engineer-1",
       "name": "Học máy (mẫu)",
       "order": 3,
+      "short_desc": "Phần lõi: huấn luyện mô hình và đo được chất lượng của chúng.",
       "is_mock": true
     },
     {
@@ -178,6 +201,7 @@
       "career_version_id": "cv-ml_engineer-1",
       "name": "Vận hành (mẫu)",
       "order": 4,
+      "short_desc": "Giữ cho mô hình chạy ổn định sau khi đã đưa vào sử dụng.",
       "is_mock": true
     },
     {
@@ -185,6 +209,7 @@
       "career_version_id": "cv-backend-1",
       "name": "Ngôn ngữ phía server (mẫu)",
       "order": 1,
+      "short_desc": "Năng lực lập trình phía máy chủ, là điều kiện đầu tiên của nghề.",
       "is_mock": true
     },
     {
@@ -192,6 +217,7 @@
       "career_version_id": "cv-backend-1",
       "name": "Dữ liệu và thuật toán (mẫu)",
       "order": 2,
+      "short_desc": "Cách tổ chức dữ liệu và xử lý hiệu quả bên trong dịch vụ.",
       "is_mock": true
     },
     {
@@ -199,6 +225,7 @@
       "career_version_id": "cv-backend-1",
       "name": "Dịch vụ (mẫu)",
       "order": 3,
+      "short_desc": "Xây dựng dịch vụ để ứng dụng khác gọi được qua mạng.",
       "is_mock": true
     },
     {
@@ -206,6 +233,7 @@
       "career_version_id": "cv-backend-1",
       "name": "Hệ thống (mẫu)",
       "order": 4,
+      "short_desc": "Làm phần mềm theo nhóm và giữ hệ thống chạy tốt khi lớn dần.",
       "is_mock": true
     },
     {
@@ -213,6 +241,7 @@
       "career_version_id": "cv-finance-1",
       "name": "Nền kinh tế (mẫu)",
       "order": 1,
+      "short_desc": "Cách đọc nền kinh tế và số liệu kế toán, là gốc của mọi phân tích tài chính.",
       "is_mock": true
     },
     {
@@ -220,6 +249,7 @@
       "career_version_id": "cv-finance-1",
       "name": "Tài chính (mẫu)",
       "order": 2,
+      "short_desc": "Đánh giá sức khỏe tài chính của doanh nghiệp và trình bày nhận định.",
       "is_mock": true
     },
     {
@@ -227,6 +257,7 @@
       "career_version_id": "cv-finance-1",
       "name": "Công cụ định lượng (mẫu)",
       "order": 3,
+      "short_desc": "Dùng công cụ tính toán để thử nghiệm các kịch bản tài chính.",
       "is_mock": true
     },
     {
@@ -234,6 +265,7 @@
       "career_version_id": "cv-marketing-1",
       "name": "Nền marketing (mẫu)",
       "order": 1,
+      "short_desc": "Hiểu thị trường và người mua, là gốc của mọi quyết định marketing.",
       "is_mock": true
     },
     {
@@ -241,6 +273,7 @@
       "career_version_id": "cv-marketing-1",
       "name": "Marketing số (mẫu)",
       "order": 2,
+      "short_desc": "Tiếp cận khách hàng trên kênh trực tuyến và đo được hiệu quả.",
       "is_mock": true
     },
     {
@@ -248,6 +281,7 @@
       "career_version_id": "cv-marketing-1",
       "name": "Phân tích dữ liệu khách hàng (mẫu)",
       "order": 3,
+      "short_desc": "Dùng dữ liệu để hiểu khách hàng và báo cáo kết quả chiến dịch.",
       "is_mock": true
     },
     {
@@ -255,6 +289,7 @@
       "career_version_id": "cv-data_analyst-2",
       "name": "Công cụ phân tích (bản nháp) (mẫu)",
       "order": 1,
+      "short_desc": "Bản nháp nhóm công cụ phân tích, thêm phần xử lý dữ liệu lớn so với bản đã công bố.",
       "is_mock": true
     }
   ],
@@ -1175,72 +1210,96 @@
       "id": "sk-git",
       "name": "Git (mẫu)",
       "kind": "skill",
+      "name_key": "git (mau)",
+      "short_desc": "Quản lý phiên bản mã nguồn khi làm việc nhóm; chỉ tính đạt khi minh chứng được duyệt.",
       "is_mock": true
     },
     {
       "id": "sk-sql",
       "name": "Viết truy vấn SQL (mẫu)",
       "kind": "skill",
+      "name_key": "viet truy van sql (mau)",
+      "short_desc": "Tự lấy và tổng hợp dữ liệu từ cơ sở dữ liệu để trả lời câu hỏi phân tích.",
       "is_mock": true
     },
     {
       "id": "sk-api",
       "name": "Thiết kế REST API (mẫu)",
       "kind": "skill",
+      "name_key": "thiet ke rest api (mau)",
+      "short_desc": "Thiết kế giao tiếp giữa các dịch vụ sao cho rõ ràng và dễ dùng lại.",
       "is_mock": true
     },
     {
       "id": "sk-eval",
       "name": "Đánh giá mô hình (mẫu)",
       "kind": "skill",
+      "name_key": "danh gia mo hinh (mau)",
+      "short_desc": "Chọn thước đo phù hợp và đọc đúng kết quả trước khi đưa mô hình vào dùng.",
       "is_mock": true
     },
     {
       "id": "sk-sheet",
       "name": "Mô hình hóa bảng tính (mẫu)",
       "kind": "skill",
+      "name_key": "mo hinh hoa bang tinh (mau)",
+      "short_desc": "Dựng mô hình tính toán trên bảng tính để thử các giả định tài chính.",
       "is_mock": true
     },
     {
       "id": "sk-report",
       "name": "Trình bày báo cáo (mẫu)",
       "kind": "skill",
+      "name_key": "trinh bay bao cao (mau)",
+      "short_desc": "Trình bày kết quả phân tích thành báo cáo mà người không chuyên đọc được.",
       "is_mock": true
     },
     {
       "id": "sk-ads",
       "name": "Đo lường chiến dịch (mẫu)",
       "kind": "skill",
+      "name_key": "do luong chien dich (mau)",
+      "short_desc": "Đặt chỉ số và đọc số liệu để biết chiến dịch quảng cáo có hiệu quả hay không.",
       "is_mock": true
     },
     {
       "id": "prj-data",
       "name": "Dự án phân tích dữ liệu (mẫu)",
       "kind": "project",
+      "name_key": "du an phan tich du lieu (mau)",
+      "short_desc": "Sản phẩm thực hành: đi từ dữ liệu thô đến kết luận có minh chứng.",
       "is_mock": true
     },
     {
       "id": "prj-ml",
       "name": "Dự án huấn luyện mô hình (mẫu)",
       "kind": "project",
+      "name_key": "du an huan luyen mo hinh (mau)",
+      "short_desc": "Sản phẩm thực hành: chuẩn bị dữ liệu, huấn luyện và đánh giá một mô hình.",
       "is_mock": true
     },
     {
       "id": "prj-web",
       "name": "Dự án xây dựng dịch vụ web (mẫu)",
       "kind": "project",
+      "name_key": "du an xay dung dich vu web (mau)",
+      "short_desc": "Sản phẩm thực hành: một dịch vụ chạy được, có lưu trữ và giao tiếp qua API.",
       "is_mock": true
     },
     {
       "id": "prj-fin",
       "name": "Dự án phân tích tài chính (mẫu)",
       "kind": "project",
+      "name_key": "du an phan tich tai chinh (mau)",
+      "short_desc": "Sản phẩm thực hành: đánh giá tình hình tài chính của một doanh nghiệp mẫu.",
       "is_mock": true
     },
     {
       "id": "prj-mkt",
       "name": "Dự án chiến dịch số (mẫu)",
       "kind": "project",
+      "name_key": "du an chien dich so (mau)",
+      "short_desc": "Sản phẩm thực hành: lập kế hoạch và đo kết quả một chiến dịch trực tuyến.",
       "is_mock": true
     }
   ],

@@ -1,6 +1,6 @@
 # Tiến độ dự án
 
-Cập nhật lần cuối: 2026-11-06
+Cập nhật lần cuối: 2026-11-07
 
 Trạng thái dùng: Chưa bắt đầu · Chờ duyệt kế hoạch · Đang làm · Hoàn thành (đã chạy lint, test, build)
 
@@ -21,7 +21,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 04 | C01, C02, C03, C05: xác thực, phân quyền, hồ sơ, nhật ký | Hoàn thành, tag `phase-04` | Không có |
 | 05 | Hoàn thiện M11 tính toán và kiểm thử | Hoàn thành, tag `phase-05`, CI xanh. Mốc M11 là 191/191; 44 mục còn lại làm cùng `completion_service` | Không có |
 | 06 | Xây M11 Dashboard/Phân tích/Cảnh báo (có `POST /api/admin/grade-attempts`) | Hoàn thành, tag `phase-06`, CI xanh | Không có |
-| 07 | Xây Career Graph và API M12 | Chờ duyệt kế hoạch | Không có |
+| 07 | Xây Career Graph và API M12 | Chờ nghiệm thu. Đã làm xong phần backend, đã push `main`, chưa gắn tag `phase-07` | Không có |
 | 08 | Đồng bộ tiến độ M11–M12 (test liên thông, phát hiện thay đổi) | Chưa bắt đầu | Không có |
 | 09 | Lập lộ trình theo kỳ và so sánh nghề (so sánh nghề là P2) | Chưa bắt đầu | Không có |
 | 10 | Học liệu, yêu cầu hỗ trợ, thông báo, luồng nộp/duyệt `skill_evidences` (P1) | Chưa bắt đầu | Không có |
@@ -40,6 +40,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 1. Nhãn `MetricCard` xuống dòng ở lưới 2×2 trên 375px.
 2. Dòng Q80 trên di động rút còn "Chưa có kết quả · Gần nhất S2: 1,88".
 3. Trang Phân tích chỉ giữ 1 dòng kỳ tham chiếu chung thay vì ở từng thẻ.
+4. Ô lọc đối tượng của trang Nhật ký dùng `GET /api/admin/audit-logs/entities` thay cho danh sách cố định của D-178 (D-202).
 
 ## Điểm kiểm tra giữa giai đoạn 06 (API và test hợp đồng xong)
 
@@ -51,4 +52,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Giai đoạn 07: gửi kế hoạch, chờ quản lý dự án duyệt. Remote: https://github.com/thiennnhannguyen/neu_student.
+Giai đoạn 07: chờ quản lý dự án nghiệm thu rồi gắn tag `phase-07`. Remote: https://github.com/thiennnhannguyen/neu_student.

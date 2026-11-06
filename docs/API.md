@@ -813,3 +813,979 @@ Chỉ `admin`, mọi sinh viên. Cấu trúc và tham số như trên.
   "total": 7
 }
 ```
+
+### Quy ước riêng của API M12 cho người dùng
+
+Sinh viên, cố vấn, quản trị viên đọc được; `support_staff` nhận 403. Chỉ có bản published mới nhất của mỗi nghề và yêu cầu đã duyệt; bản draft không bao giờ xuất hiện. Số thập phân dạng chuỗi. `code` có thể null: giữ nguyên null, giao diện hiện "Chưa có mã".
+
+### `GET /api/m12/careers`
+
+Tham số `q` (khớp một phần tên, không phân biệt dấu và hoa thường), `field` (khớp đúng), `page`, `page_size`. Chỉ có nghề đã có bản published.
+
+<!-- contract: sv01 GET /api/m12/careers?page_size=2 -->
+```json
+{
+  "items": [
+    {
+      "field": "Dữ liệu và AI (mẫu)",
+      "id": "career-ai_engineer",
+      "latest_version": {
+        "id": "cv-ai_engineer-1",
+        "published_at": "2026-08-20T09:00:00Z",
+        "version": 1
+      },
+      "name": "AI Engineer (mẫu)",
+      "slug": "ai_engineer"
+    },
+    {
+      "field": "Phần mềm (mẫu)",
+      "id": "career-backend",
+      "latest_version": {
+        "id": "cv-backend-1",
+        "published_at": "2026-08-20T09:00:00Z",
+        "version": 1
+      },
+      "name": "Backend Developer (mẫu)",
+      "slug": "backend"
+    }
+  ],
+  "page": 1,
+  "page_size": 2,
+  "total": 6
+}
+```
+
+### `GET /api/m12/careers/{id}`
+
+Nghề không tồn tại hoặc chưa có bản published trả 404.
+
+<!-- contract: sv01 GET /api/m12/careers/career-ai_engineer -->
+```json
+{
+  "field": "Dữ liệu và AI (mẫu)",
+  "id": "career-ai_engineer",
+  "latest_version": {
+    "id": "cv-ai_engineer-1",
+    "published_at": "2026-08-20T09:00:00Z",
+    "version": 1
+  },
+  "name": "AI Engineer (mẫu)",
+  "node_count": 4,
+  "requirement_count": 13,
+  "slug": "ai_engineer"
+}
+```
+
+### `GET /api/m12/careers/{id}/tree`
+
+Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiện ở cả 2. Chưa có trạng thái đạt (giai đoạn 08). `id` chỉ ổn định trong một phiên bản. Phần `nodes` được cache theo `career_version_id`; `career` đọc mới mỗi lần.
+
+<!-- contract: sv01 GET /api/m12/careers/career-ai_engineer/tree -->
+```json
+{
+  "career": {
+    "field": "Dữ liệu và AI (mẫu)",
+    "id": "career-ai_engineer",
+    "name": "AI Engineer (mẫu)",
+    "slug": "ai_engineer"
+  },
+  "nodes": [
+    {
+      "children": [
+        {
+          "code": "CNT102",
+          "course_id": "CNT102",
+          "id": "req-node-cv-ai_engineer-1-1-CNT102",
+          "kind": "course",
+          "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
+          "skill_id": null,
+          "title": "Lập trình Python (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "code": "CNT202",
+          "course_id": "CNT202",
+          "id": "req-node-cv-ai_engineer-1-1-CNT202",
+          "kind": "course",
+          "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt.",
+          "skill_id": null,
+          "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "id": "node-cv-ai_engineer-1-1",
+      "kind": "group",
+      "order": 1,
+      "short_desc": "Khả năng viết mã và quản lý mã nguồn, là phần chung cho mọi việc về sau của nghề.",
+      "title": "Nền tảng lập trình (mẫu)"
+    },
+    {
+      "children": [
+        {
+          "code": "MAU102",
+          "course_id": "MAU102",
+          "id": "req-node-cv-ai_engineer-1-2-MAU102",
+          "kind": "course",
+          "short_desc": "Cung cấp công cụ ma trận mà môn Học máy của CTĐT mẫu yêu cầu học trước.",
+          "skill_id": null,
+          "title": "Đại số tuyến tính (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "code": "MAU103",
+          "course_id": "MAU103",
+          "id": "req-node-cv-ai_engineer-1-2-MAU103",
+          "kind": "course",
+          "short_desc": "Nền suy luận từ dữ liệu, mở đường vào Nhập môn khoa học dữ liệu.",
+          "skill_id": null,
+          "title": "Xác suất thống kê (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "id": "node-cv-ai_engineer-1-2",
+      "kind": "group",
+      "order": 2,
+      "short_desc": "Nền toán và tiếng Anh để đọc hiểu mô hình cùng tài liệu chuyên môn.",
+      "title": "Toán và dữ liệu (mẫu)"
+    }
+  ],
+  "version": {
+    "id": "cv-ai_engineer-1",
+    "published_at": "2026-08-20T09:00:00Z",
+    "version": 1
+  }
+}
+```
+
+### `GET /api/m12/requirements/{id}`
+
+Chi tiết một yêu cầu đã duyệt của bản published mới nhất; trường hợp khác trả 404. `other_careers` là các nghề khác có bản published mới nhất dùng cùng học phần hoặc kỹ năng. `resources` luôn rỗng ở giai đoạn này. Yêu cầu loại kỹ năng có `code`, `credits` null, `prerequisites` rỗng.
+
+<!-- contract: sv01 GET /api/m12/requirements/req-node-cv-ai_engineer-1-1-CNT102 -->
+```json
+{
+  "code": "CNT102",
+  "course_id": "CNT102",
+  "credits": 3,
+  "id": "req-node-cv-ai_engineer-1-1-CNT102",
+  "kind": "course",
+  "other_careers": [
+    {
+      "id": "career-backend",
+      "name": "Backend Developer (mẫu)"
+    },
+    {
+      "id": "career-marketing",
+      "name": "Chuyên viên marketing số (mẫu)"
+    }
+  ],
+  "prerequisites": [
+    {
+      "code": "CNT101",
+      "course_id": "CNT101",
+      "name": "Nhập môn lập trình (mẫu)"
+    }
+  ],
+  "resources": [],
+  "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
+  "skill_id": null,
+  "title": "Lập trình Python (mẫu)",
+  "weight": "1.00"
+}
+```
+
+### `GET /api/m12/career-goal`
+
+Sinh viên đọc của mình. Cố vấn (đúng phân công), quản trị viên phải truyền `?student_id=`, thiếu trả 422. Sinh viên khác trả 404. `current` là null nếu chưa chọn nghề.
+
+<!-- contract: sv07 GET /api/m12/career-goal -->
+```json
+{
+  "current": {
+    "career": {
+      "id": "career-ai_engineer",
+      "name": "AI Engineer (mẫu)"
+    },
+    "started_at": "2026-03-01T08:00:00Z"
+  },
+  "student_id": "SV07"
+}
+```
+
+### `PUT /api/m12/career-goal`
+
+Chỉ sinh viên, cho chính mình; vai trò khác 403. Đổi nghề: đóng bản ghi cũ, tạo bản mới, ghi `audit_logs`, tăng `data_version`, trong 1 transaction. Chọn lại đúng nghề đang chọn: 200, không ghi gì. Nghề không tồn tại hoặc chưa có bản published: 422 `CAREER_NOT_PUBLISHED`.
+
+<!-- contract: sv01 PUT /api/m12/career-goal {"career_id": "career-ai_engineer"} -->
+```json
+{
+  "current": {
+    "career": {
+      "id": "career-ai_engineer",
+      "name": "AI Engineer (mẫu)"
+    },
+    "started_at": "2026-11-06T17:22:04.873580Z"
+  },
+  "student_id": "SV01"
+}
+```
+
+### `GET /api/m12/career-goal/history`
+
+Cùng quyền với GET ở trên, có phân trang. Bản đang hiệu lực đứng đầu, rồi đến bản kết thúc gần nhất.
+
+<!-- contract: sv07 GET /api/m12/career-goal/history -->
+```json
+{
+  "items": [
+    {
+      "career": {
+        "id": "career-ai_engineer",
+        "name": "AI Engineer (mẫu)"
+      },
+      "ended_at": null,
+      "id": "goal-SV07-ai_engineer",
+      "started_at": "2026-03-01T08:00:00Z"
+    },
+    {
+      "career": {
+        "id": "career-data_analyst",
+        "name": "Data Analyst (mẫu)"
+      },
+      "ended_at": "2026-03-01T08:00:00Z",
+      "id": "goal-SV07-data_analyst",
+      "started_at": "2025-10-01T08:00:00Z"
+    }
+  ],
+  "page": 1,
+  "page_size": 20,
+  "total": 2
+}
+```
+
+### Quy ước riêng của API M12 cho quản trị viên
+
+Chỉ `admin`; vai trò khác 403, chưa đăng nhập 401. Mọi thao tác ghi đều ghi `audit_logs` trong cùng transaction; thao tác không làm đổi dữ liệu thì không ghi. DELETE trả 200 kèm `{"id", "deleted": true}`.
+
+| HTTP | `code` | Khi nào |
+|------|--------|---------|
+| 409 | `PUBLISHED_IMMUTABLE` | Sửa, xóa, thêm vào bản published, hoặc publish lại. Có 2 lớp: service kiểm trước, trigger của DB là lớp cuối và cũng được đổi thành 409, không bao giờ 500 |
+| 409 | `DUPLICATE_NAME` | Trùng tên nghề hoặc kỹ năng sau khi bỏ dấu, không phân biệt hoa thường, gộp khoảng trắng |
+| 409 | `DRAFT_EXISTS` | Nghề đã có bản draft |
+| 409 | `IN_USE` | Xóa nghề, kỹ năng, nhóm đang được dùng |
+| 409 | `SKILL_IN_PUBLISHED` | Sửa kỹ năng đang nằm trong bản published |
+| 422 | `CAREER_NOT_PUBLISHED` | Chọn nghề không tồn tại hoặc chưa có bản published |
+| 422 | `PUBLISH_VALIDATION_FAILED` | Công bố không qua kiểm tra, xem `details.errors` |
+
+### `GET /api/admin/audit-logs/entities`
+
+Các đối tượng khác nhau đang có trong nhật ký, sắp xếp chữ cái.
+
+<!-- contract: admin GET /api/admin/audit-logs/entities -->
+```json
+{
+  "items": [
+    "user"
+  ]
+}
+```
+
+### `GET /api/admin/careers`
+
+Tham số `q`, `page`, `page_size`. Có cả nghề chưa có bản published.
+
+<!-- contract: admin GET /api/admin/careers?page_size=1 -->
+```json
+{
+  "items": [
+    {
+      "draft_version": null,
+      "field": "Dữ liệu và AI (mẫu)",
+      "id": "career-ai_engineer",
+      "name": "AI Engineer (mẫu)",
+      "published_version": {
+        "id": "cv-ai_engineer-1",
+        "published_at": "2026-08-20T09:00:00Z",
+        "version": 1
+      },
+      "slug": "ai_engineer"
+    }
+  ],
+  "page": 1,
+  "page_size": 1,
+  "total": 8
+}
+```
+
+### `POST /api/admin/careers`
+
+`name`, `field` bắt buộc. `slug` tự sinh và không đổi về sau. Trùng tên sau khi chuẩn hóa: 409 `DUPLICATE_NAME`.
+
+<!-- contract: admin POST /api/admin/careers {"name": "Kỹ sư dữ liệu (mẫu)", "field": "Dữ liệu và AI (mẫu)"} -->
+```json
+{
+  "draft_version": null,
+  "field": "Dữ liệu và AI (mẫu)",
+  "id": "a2dd33c82bdd4c5b859e82e880361a52",
+  "name": "Kỹ sư dữ liệu (mẫu)",
+  "published_version": null,
+  "slug": "ky_su_du_lieu_mau"
+}
+```
+
+### `GET /api/admin/careers/{id}`
+
+<!-- contract: admin GET /api/admin/careers/career-backend -->
+```json
+{
+  "draft_version": null,
+  "field": "Phần mềm (mẫu)",
+  "id": "career-backend",
+  "name": "Backend Developer (mẫu)",
+  "published_version": {
+    "id": "cv-backend-1",
+    "published_at": "2026-08-20T09:00:00Z",
+    "version": 1
+  },
+  "slug": "backend"
+}
+```
+
+### `PATCH /api/admin/careers/{id}`
+
+Gửi `name` và/hoặc `field`.
+
+<!-- contract: admin PATCH /api/admin/careers/career-backend {"field": "Công nghệ (mẫu)"} -->
+```json
+{
+  "draft_version": null,
+  "field": "Công nghệ (mẫu)",
+  "id": "career-backend",
+  "name": "Backend Developer (mẫu)",
+  "published_version": {
+    "id": "cv-backend-1",
+    "published_at": "2026-08-20T09:00:00Z",
+    "version": 1
+  },
+  "slug": "backend"
+}
+```
+
+### `DELETE /api/admin/careers/{id}`
+
+Nghề đã có phiên bản, sinh viên từng chọn hoặc có lộ trình: 409 `IN_USE`.
+
+<!-- contract: admin DELETE /api/admin/careers/career-tam -->
+```json
+{
+  "deleted": true,
+  "id": "career-tam"
+}
+```
+
+### `GET /api/admin/careers/{id}/versions`
+
+Có phân trang, phiên bản mới nhất đứng đầu.
+
+<!-- contract: admin GET /api/admin/careers/career-data_analyst/versions -->
+```json
+{
+  "items": [
+    {
+      "career_id": "career-data_analyst",
+      "id": "cv-data_analyst-2",
+      "published_at": null,
+      "status": "draft",
+      "version": 2
+    },
+    {
+      "career_id": "career-data_analyst",
+      "id": "cv-data_analyst-1",
+      "published_at": "2026-08-20T09:00:00Z",
+      "status": "published",
+      "version": 1
+    }
+  ],
+  "page": 1,
+  "page_size": 20,
+  "total": 2
+}
+```
+
+### `POST /api/admin/careers/{id}/versions`
+
+Tạo draft, không có thân request. Sao chép bản published mới nhất, gồm cả trạng thái duyệt; nghề chưa có bản published thì tạo bản rỗng. Id mới. Đã có draft: 409 `DRAFT_EXISTS`.
+
+<!-- contract: admin POST /api/admin/careers/career-backend/versions -->
+```json
+{
+  "career_id": "career-backend",
+  "id": "1cd1acb5a7344a97902fbe1ec0ac484e",
+  "nodes": [
+    {
+      "id": "dc95dc950dd74fbb942e5ad453722b2b",
+      "name": "Ngôn ngữ phía server (mẫu)",
+      "order": 1,
+      "requirements": [
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT102",
+          "course_id": "CNT102",
+          "id": "1606d1064b2f4aaf8713664a7686ad62",
+          "kind": "course",
+          "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Lập trình Python (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT101",
+          "course_id": "CNT101",
+          "id": "34cd05fd38e24e11bcb307bb1f50d81a",
+          "kind": "course",
+          "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Nhập môn lập trình (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "short_desc": "Năng lực lập trình phía máy chủ, là điều kiện đầu tiên của nghề."
+    },
+    {
+      "id": "331b12160c5a449ebe1e83ba6eb343a8",
+      "name": "Dữ liệu và thuật toán (mẫu)",
+      "order": 2,
+      "requirements": [
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT203",
+          "course_id": "CNT203",
+          "id": "6b4cb5db79254e1287831295045b996b",
+          "kind": "course",
+          "short_desc": "Môn nền về lưu trữ, là tiên quyết của backend, công nghệ phần mềm và kho dữ liệu.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Cơ sở dữ liệu (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT202",
+          "course_id": "CNT202",
+          "id": "a45b10d9fcb849fe991f45f2b23e1273",
+          "kind": "course",
+          "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "short_desc": "Cách tổ chức dữ liệu và xử lý hiệu quả bên trong dịch vụ."
+    }
+  ],
+  "published_at": null,
+  "status": "draft",
+  "version": 2
+}
+```
+
+### `GET /api/admin/career-versions/{id}`
+
+Xem được cả draft, có yêu cầu draft, nguồn, người duyệt.
+
+<!-- contract: admin GET /api/admin/career-versions/cv-data_analyst-2 -->
+```json
+{
+  "career_id": "career-data_analyst",
+  "id": "cv-data_analyst-2",
+  "nodes": [
+    {
+      "id": "node-cv-data_analyst-2-1",
+      "name": "Công cụ phân tích (bản nháp) (mẫu)",
+      "order": 1,
+      "requirements": [
+        {
+          "approved_at": null,
+          "approved_by": null,
+          "code": "CNT102",
+          "course_id": "CNT102",
+          "id": "req-node-cv-data_analyst-2-1-CNT102",
+          "kind": "course",
+          "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "draft",
+          "title": "Lập trình Python (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "approved_at": null,
+          "approved_by": null,
+          "code": "KDL306",
+          "course_id": "KDL306",
+          "id": "req-node-cv-data_analyst-2-1-KDL306",
+          "kind": "course",
+          "short_desc": "Môn mở rộng về xử lý quy mô lớn, học sau môn nhập môn dữ liệu.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "draft",
+          "title": "Phân tích dữ liệu lớn (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "short_desc": "Bản nháp nhóm công cụ phân tích, thêm phần xử lý dữ liệu lớn so với bản đã công bố."
+    },
+    {
+      "id": "node-rong",
+      "name": "Nhóm rỗng (mẫu)",
+      "order": 2,
+      "requirements": [],
+      "short_desc": null
+    }
+  ],
+  "published_at": null,
+  "status": "draft",
+  "version": 2
+}
+```
+
+### `DELETE /api/admin/career-versions/{id}`
+
+Chỉ xóa bản draft, cùng nhóm và yêu cầu của bản đó, trong 1 transaction. Bản published: 409 `PUBLISHED_IMMUTABLE`.
+
+<!-- contract: admin DELETE /api/admin/career-versions/cv-data_analyst-2 -->
+```json
+{
+  "deleted": true,
+  "id": "cv-data_analyst-2"
+}
+```
+
+### `POST /api/admin/career-versions/{id}/publish`
+
+Chạy `validate_for_publish`. Đạt: draft thành published, 200.
+
+<!-- contract: admin POST /api/admin/career-versions/cv-nhap/publish 200 -->
+```json
+{
+  "career_id": "career-nhap",
+  "id": "cv-nhap",
+  "nodes": [
+    {
+      "id": "node-nhap",
+      "name": "Nhóm nháp (mẫu)",
+      "order": 1,
+      "requirements": [
+        {
+          "approved_at": "2026-09-01T00:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT101",
+          "course_id": "CNT101",
+          "id": "req-nhap",
+          "kind": "course",
+          "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu.",
+          "skill_id": null,
+          "source": "Nguồn mẫu",
+          "status": "approved",
+          "title": "Nhập môn lập trình (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "short_desc": null
+    }
+  ],
+  "published_at": "2026-11-06T17:22:05.588910Z",
+  "status": "published",
+  "version": 1
+}
+```
+
+Không đạt: 422, liệt kê đủ mọi lỗi trong `details.errors`, DB không đổi.
+
+<!-- contract: admin POST /api/admin/career-versions/cv-data_analyst-2/publish 422 -->
+```json
+{
+  "error": {
+    "code": "PUBLISH_VALIDATION_FAILED",
+    "details": {
+      "errors": [
+        {
+          "code": "REQUIREMENT_NOT_APPROVED",
+          "message": "Yêu cầu \"Lập trình Python (mẫu)\" chưa được duyệt.",
+          "node_id": "node-cv-data_analyst-2-1",
+          "path": null,
+          "requirement_id": "req-node-cv-data_analyst-2-1-CNT102"
+        },
+        {
+          "code": "REQUIREMENT_NOT_APPROVED",
+          "message": "Yêu cầu \"Phân tích dữ liệu lớn (mẫu)\" chưa được duyệt.",
+          "node_id": "node-cv-data_analyst-2-1",
+          "path": null,
+          "requirement_id": "req-node-cv-data_analyst-2-1-KDL306"
+        }
+      ]
+    },
+    "message": "Phiên bản chưa đủ điều kiện công bố."
+  }
+}
+```
+
+Mã lỗi trong `details.errors`: `PREREQUISITE_CYCLE` (có `path`, gồm `course_id` và `code`, phần tử đầu lặp lại ở cuối), `DUPLICATE_REQUIREMENT`, `REQUIREMENT_NOT_APPROVED`, `REQUIREMENT_MISSING_SOURCE`, `REQUIREMENT_MISSING_APPROVER`, `EMPTY_NODE`, `KIND_MISMATCH`, `EMPTY_VERSION`.
+
+### `POST /api/admin/career-versions/{id}/nodes`
+
+`name` bắt buộc; `order`, `short_desc` tùy chọn. Không gửi `order` thì lấy số lớn nhất cộng 1. Áp dụng cho cả 3 endpoint sau: bản published trả 409 `PUBLISHED_IMMUTABLE`.
+
+<!-- contract: admin POST /api/admin/career-versions/cv-data_analyst-2/nodes {"name": "Nhóm mới (mẫu)", "short_desc": "Mô tả ngắn của nhóm."} -->
+```json
+{
+  "career_version_id": "cv-data_analyst-2",
+  "id": "8425b978d01c4654a681afd903bd988f",
+  "name": "Nhóm mới (mẫu)",
+  "order": 3,
+  "short_desc": "Mô tả ngắn của nhóm."
+}
+```
+
+### `GET /api/admin/career-nodes/{id}`
+
+<!-- contract: admin GET /api/admin/career-nodes/node-cv-data_analyst-2-1 -->
+```json
+{
+  "career_version_id": "cv-data_analyst-2",
+  "id": "node-cv-data_analyst-2-1",
+  "name": "Công cụ phân tích (bản nháp) (mẫu)",
+  "order": 1,
+  "short_desc": "Bản nháp nhóm công cụ phân tích, thêm phần xử lý dữ liệu lớn so với bản đã công bố."
+}
+```
+
+### `PATCH /api/admin/career-nodes/{id}`
+
+<!-- contract: admin PATCH /api/admin/career-nodes/node-cv-data_analyst-2-1 {"order": 3} -->
+```json
+{
+  "career_version_id": "cv-data_analyst-2",
+  "id": "node-cv-data_analyst-2-1",
+  "name": "Công cụ phân tích (bản nháp) (mẫu)",
+  "order": 3,
+  "short_desc": "Bản nháp nhóm công cụ phân tích, thêm phần xử lý dữ liệu lớn so với bản đã công bố."
+}
+```
+
+### `DELETE /api/admin/career-nodes/{id}`
+
+Nhóm còn yêu cầu: 409 `IN_USE`, không xóa dây chuyền.
+
+<!-- contract: admin DELETE /api/admin/career-nodes/node-rong -->
+```json
+{
+  "deleted": true,
+  "id": "node-rong"
+}
+```
+
+### `POST /api/admin/career-nodes/{id}/requirements`
+
+`kind`, `source` bắt buộc; `course` cần `course_id`, `skill` và `project` cần `skill_id`. `weight` là chuỗi, mặc định `"1.00"`. Luôn tạo ở `draft`.
+
+<!-- contract: admin POST /api/admin/career-nodes/node-cv-data_analyst-2-1/requirements {"kind": "course", "course_id": "KDL201", "weight": "1.50", "source": "Nguồn mẫu"} -->
+```json
+{
+  "approved_at": null,
+  "approved_by": null,
+  "career_node_id": "node-cv-data_analyst-2-1",
+  "career_version_id": "cv-data_analyst-2",
+  "code": "KDL201",
+  "course_id": "KDL201",
+  "id": "a81e99c3d4af4a3281d0a0858b30bf65",
+  "kind": "course",
+  "skill_id": null,
+  "source": "Nguồn mẫu",
+  "status": "draft",
+  "weight": "1.50"
+}
+```
+
+### `GET /api/admin/requirements/{id}`
+
+<!-- contract: admin GET /api/admin/requirements/req-node-cv-data_analyst-2-1-CNT102 -->
+```json
+{
+  "approved_at": null,
+  "approved_by": null,
+  "career_node_id": "node-cv-data_analyst-2-1",
+  "career_version_id": "cv-data_analyst-2",
+  "code": "CNT102",
+  "course_id": "CNT102",
+  "id": "req-node-cv-data_analyst-2-1-CNT102",
+  "kind": "course",
+  "skill_id": null,
+  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "status": "draft",
+  "weight": "1.00"
+}
+```
+
+### `PATCH /api/admin/requirements/{id}`
+
+Nội dung đổi thì yêu cầu về `draft`, xóa người duyệt. Không đổi giá trị thì giữ nguyên. Trên bản published:
+
+<!-- contract: admin PATCH /api/admin/requirements/req-node-cv-backend-1-1-CNT101 409 {"weight": "2.00"} -->
+```json
+{
+  "error": {
+    "code": "PUBLISHED_IMMUTABLE",
+    "details": {},
+    "message": "Bản đã công bố không sửa được."
+  }
+}
+```
+
+Trên bản draft:
+
+<!-- contract: admin PATCH /api/admin/requirements/req-node-cv-data_analyst-2-1-CNT102 {"weight": "2.00"} -->
+```json
+{
+  "approved_at": null,
+  "approved_by": null,
+  "career_node_id": "node-cv-data_analyst-2-1",
+  "career_version_id": "cv-data_analyst-2",
+  "code": "CNT102",
+  "course_id": "CNT102",
+  "id": "req-node-cv-data_analyst-2-1-CNT102",
+  "kind": "course",
+  "skill_id": null,
+  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "status": "draft",
+  "weight": "2.00"
+}
+```
+
+### `DELETE /api/admin/requirements/{id}`
+
+<!-- contract: admin DELETE /api/admin/requirements/req-node-cv-data_analyst-2-1-CNT102 -->
+```json
+{
+  "deleted": true,
+  "id": "req-node-cv-data_analyst-2-1-CNT102"
+}
+```
+
+### `POST /api/admin/requirements/{id}/approve`
+
+Đặt `approved_by` là admin hiện tại, `approved_at` là giờ hiện tại. Đã duyệt: 200, giữ người duyệt cũ, không ghi gì.
+
+<!-- contract: admin POST /api/admin/requirements/req-node-cv-data_analyst-2-1-CNT102/approve 200 -->
+```json
+{
+  "approved_at": "2026-11-06T17:22:06.216533Z",
+  "approved_by": "user-admin",
+  "career_node_id": "node-cv-data_analyst-2-1",
+  "career_version_id": "cv-data_analyst-2",
+  "code": "CNT102",
+  "course_id": "CNT102",
+  "id": "req-node-cv-data_analyst-2-1-CNT102",
+  "kind": "course",
+  "skill_id": null,
+  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "status": "approved",
+  "weight": "1.00"
+}
+```
+
+### `GET /api/admin/skills`
+
+Tham số `q`, `page`, `page_size`.
+
+<!-- contract: admin GET /api/admin/skills?page_size=1 -->
+```json
+{
+  "items": [
+    {
+      "id": "sk-eval",
+      "kind": "skill",
+      "name": "Đánh giá mô hình (mẫu)",
+      "short_desc": "Chọn thước đo phù hợp và đọc đúng kết quả trước khi đưa mô hình vào dùng."
+    }
+  ],
+  "page": 1,
+  "page_size": 1,
+  "total": 13
+}
+```
+
+### `POST /api/admin/skills`
+
+`name`, `kind` (`skill`, `project`) bắt buộc; `short_desc` tùy chọn, tối đa 120 ký tự.
+
+<!-- contract: admin POST /api/admin/skills {"name": "Viết tài liệu (mẫu)", "kind": "skill", "short_desc": "Viết tài liệu kỹ thuật rõ ràng."} -->
+```json
+{
+  "id": "b31dcf1aeca045caba227a3fd2b0625f",
+  "kind": "skill",
+  "name": "Viết tài liệu (mẫu)",
+  "short_desc": "Viết tài liệu kỹ thuật rõ ràng."
+}
+```
+
+### `GET /api/admin/skills/{id}`
+
+<!-- contract: admin GET /api/admin/skills/sk-git -->
+```json
+{
+  "id": "sk-git",
+  "kind": "skill",
+  "name": "Git (mẫu)",
+  "short_desc": "Quản lý phiên bản mã nguồn khi làm việc nhóm; chỉ tính đạt khi minh chứng được duyệt."
+}
+```
+
+### `PATCH /api/admin/skills/{id}`
+
+Kỹ năng đang nằm trong bản published: 409 `SKILL_IN_PUBLISHED`, cả với `name`, `kind`, `short_desc`.
+
+<!-- contract: admin PATCH /api/admin/skills/sk-tam {"short_desc": "Mô tả mới."} -->
+```json
+{
+  "id": "sk-tam",
+  "kind": "skill",
+  "name": "Kỹ năng tạm (mẫu)",
+  "short_desc": "Mô tả mới."
+}
+```
+
+### `DELETE /api/admin/skills/{id}`
+
+Đang được dùng ở yêu cầu, ánh xạ, minh chứng hoặc lộ trình: 409 `IN_USE`.
+
+<!-- contract: admin DELETE /api/admin/skills/sk-tam -->
+```json
+{
+  "deleted": true,
+  "id": "sk-tam"
+}
+```
+
+### `GET /api/admin/course-skill-mappings`
+
+Tham số `course_id`, `skill_id`, `page`, `page_size`.
+
+<!-- contract: admin GET /api/admin/course-skill-mappings?page_size=1 -->
+```json
+{
+  "items": [
+    {
+      "approved_at": "2026-08-15T09:00:00Z",
+      "approved_by": "user-admin",
+      "code": "CNT102",
+      "course_id": "CNT102",
+      "id": "map-CNT102-sk-git",
+      "purpose": "display_only",
+      "skill_id": "sk-git",
+      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "status": "approved"
+    }
+  ],
+  "page": 1,
+  "page_size": 1,
+  "total": 4
+}
+```
+
+### `POST /api/admin/course-skill-mappings`
+
+Mọi trường bắt buộc; `purpose` là `display_only` hoặc `suggestion`. Luôn tạo ở `draft`. Ánh xạ chỉ để hiển thị và gợi ý, không làm kỹ năng hoàn thành (R7). Đã có cặp môn và kỹ năng: 409.
+
+<!-- contract: admin POST /api/admin/course-skill-mappings {"course_id": "CNT305", "skill_id": "sk-api", "purpose": "display_only", "source": "Nguồn mẫu"} -->
+```json
+{
+  "approved_at": null,
+  "approved_by": null,
+  "code": "CNT305",
+  "course_id": "CNT305",
+  "id": "57fb10d644a043cfadad401777460dc1",
+  "purpose": "display_only",
+  "skill_id": "sk-api",
+  "source": "Nguồn mẫu",
+  "status": "draft"
+}
+```
+
+### `GET /api/admin/course-skill-mappings/{id}`
+
+<!-- contract: admin GET /api/admin/course-skill-mappings/map-CNT102-sk-git -->
+```json
+{
+  "approved_at": "2026-08-15T09:00:00Z",
+  "approved_by": "user-admin",
+  "code": "CNT102",
+  "course_id": "CNT102",
+  "id": "map-CNT102-sk-git",
+  "purpose": "display_only",
+  "skill_id": "sk-git",
+  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "status": "approved"
+}
+```
+
+### `PATCH /api/admin/course-skill-mappings/{id}`
+
+Nội dung đổi thì ánh xạ về `draft`.
+
+<!-- contract: admin PATCH /api/admin/course-skill-mappings/map-CNT102-sk-git {"source": "Nguồn khác (mẫu)"} -->
+```json
+{
+  "approved_at": null,
+  "approved_by": null,
+  "code": "CNT102",
+  "course_id": "CNT102",
+  "id": "map-CNT102-sk-git",
+  "purpose": "display_only",
+  "skill_id": "sk-git",
+  "source": "Nguồn khác (mẫu)",
+  "status": "draft"
+}
+```
+
+### `DELETE /api/admin/course-skill-mappings/{id}`
+
+<!-- contract: admin DELETE /api/admin/course-skill-mappings/map-CNT102-sk-git -->
+```json
+{
+  "deleted": true,
+  "id": "map-CNT102-sk-git"
+}
+```
+
+### `POST /api/admin/course-skill-mappings/{id}/approve`
+
+Đã duyệt: 200, giữ người duyệt cũ, không ghi gì.
+
+<!-- contract: admin POST /api/admin/course-skill-mappings/map-CNT102-sk-git/approve 200 -->
+```json
+{
+  "approved_at": "2026-08-15T09:00:00Z",
+  "approved_by": "user-admin",
+  "code": "CNT102",
+  "course_id": "CNT102",
+  "id": "map-CNT102-sk-git",
+  "purpose": "display_only",
+  "skill_id": "sk-git",
+  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "status": "approved"
+}
+```
+

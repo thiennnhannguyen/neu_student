@@ -144,6 +144,50 @@ def route_problems(app):
     return missing, public
 
 
+M12_USER_ROUTES = {
+    ("GET", "/api/m12/careers"),
+    ("GET", "/api/m12/careers/<career_id>"),
+    ("GET", "/api/m12/careers/<career_id>/tree"),
+    ("GET", "/api/m12/requirements/<requirement_id>"),
+    ("GET", "/api/m12/career-goal"),
+    ("PUT", "/api/m12/career-goal"),
+    ("GET", "/api/m12/career-goal/history"),
+}
+M12_ADMIN_ROUTES = {
+    ("GET", "/api/admin/audit-logs/entities"),
+    ("GET", "/api/admin/careers"),
+    ("POST", "/api/admin/careers"),
+    ("GET", "/api/admin/careers/<career_id>"),
+    ("PATCH", "/api/admin/careers/<career_id>"),
+    ("DELETE", "/api/admin/careers/<career_id>"),
+    ("GET", "/api/admin/careers/<career_id>/versions"),
+    ("POST", "/api/admin/careers/<career_id>/versions"),
+    ("GET", "/api/admin/skills"),
+    ("POST", "/api/admin/skills"),
+    ("GET", "/api/admin/skills/<skill_id>"),
+    ("PATCH", "/api/admin/skills/<skill_id>"),
+    ("DELETE", "/api/admin/skills/<skill_id>"),
+    ("GET", "/api/admin/course-skill-mappings"),
+    ("POST", "/api/admin/course-skill-mappings"),
+    ("GET", "/api/admin/course-skill-mappings/<mapping_id>"),
+    ("PATCH", "/api/admin/course-skill-mappings/<mapping_id>"),
+    ("DELETE", "/api/admin/course-skill-mappings/<mapping_id>"),
+    ("POST", "/api/admin/course-skill-mappings/<mapping_id>/approve"),
+    ("GET", "/api/admin/career-versions/<version_id>"),
+    ("DELETE", "/api/admin/career-versions/<version_id>"),
+    ("POST", "/api/admin/career-versions/<version_id>/publish"),
+    ("POST", "/api/admin/career-versions/<version_id>/nodes"),
+    ("GET", "/api/admin/career-nodes/<node_id>"),
+    ("PATCH", "/api/admin/career-nodes/<node_id>"),
+    ("DELETE", "/api/admin/career-nodes/<node_id>"),
+    ("POST", "/api/admin/career-nodes/<node_id>/requirements"),
+    ("GET", "/api/admin/requirements/<requirement_id>"),
+    ("PATCH", "/api/admin/requirements/<requirement_id>"),
+    ("DELETE", "/api/admin/requirements/<requirement_id>"),
+    ("POST", "/api/admin/requirements/<requirement_id>/approve"),
+}
+
+
 def test_every_route_declares_a_policy_and_public_list_is_exact():
     app = create_app("testing")
 
@@ -183,6 +227,8 @@ def test_route_registry_covers_all_expected_api_routes():
         ("GET", "/api/m11/risks"),
         ("GET", "/api/m11/compare"),
         ("GET", "/api/m11/metrics-glossary"),
+        *M12_USER_ROUTES,
+        *M12_ADMIN_ROUTES,
     }
 
 
@@ -191,15 +237,20 @@ def test_m11_and_grade_entry_routes_declare_exact_roles():
     app = create_app("testing")
     readers = {"student", "advisor", "admin"}
 
+    # Khóa gồm cả method: PUT career-goal khác với GET cùng đường dẫn.
     policies = {
-        rule.rule: set(app.view_functions[rule.endpoint].auth_policy)
+        (next(iter(rule.methods - {"HEAD", "OPTIONS"})), rule.rule): set(
+            app.view_functions[rule.endpoint].auth_policy
+        )
         for rule in app.url_map.iter_rules()
-        if rule.rule.startswith(("/api/m11/", "/api/admin/", "/api/advisor/"))
+        if rule.rule.startswith(("/api/m11/", "/api/m12/", "/api/admin/", "/api/advisor/"))
     }
 
-    assert len(policies) == 14 + 1
-    for path, roles in policies.items():
-        if path.startswith("/api/m11/"):
+    assert len(policies) == 14 + 1 + len(M12_USER_ROUTES) + len(M12_ADMIN_ROUTES)
+    for (method, path), roles in policies.items():
+        if (method, path) == ("PUT", "/api/m12/career-goal"):
+            assert roles == {"student"}
+        elif path.startswith(("/api/m11/", "/api/m12/")):
             assert roles == readers, path
         elif path.startswith("/api/admin/"):
             assert roles == {"admin"}, path

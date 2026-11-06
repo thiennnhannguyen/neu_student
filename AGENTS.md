@@ -33,7 +33,7 @@ KIẾN TRÚC BẮT BUỘC
 - Phân trang thống nhất: ?page=&page_size= (mặc định 20, tối đa 100) -> {"items": [], "page", "page_size", "total"}.
 - Mọi số liệu M11 trả về kèm: reference_semester, computed_at, rule_version, data_warnings[].
 - Được thêm module service mới nếu đúng mẫu "blueprint gọi service"; ghi vào báo cáo, không cần hỏi trước.
-- Mọi thao tác ghi làm đổi kết quả M11 phải tăng students.data_version của các sinh viên bị ảnh hưởng trong cùng transaction (hàm bump_data_version). Quy chế đã phát hành không sửa tại chỗ, muốn đổi phải tạo phiên bản mới. Có test đọc mã nguồn.
+- Mọi thao tác ghi làm đổi kết quả M11 HOẶC M12 của sinh viên (điểm, nghề chính, minh chứng kỹ năng) phải tăng students.data_version của các sinh viên bị ảnh hưởng trong cùng transaction (hàm bump_data_version). Quy chế đã phát hành không sửa tại chỗ, muốn đổi phải tạo phiên bản mới. Có test đọc mã nguồn.
 - Transaction: service KHÔNG BAO GIỜ tự commit. Ranh giới (blueprint, lệnh CLI) commit đúng 1 lần cho mỗi request hoặc lệnh, lỗi thì rollback, qua helper `transaction()` trong app/common/transaction.py; blueprint và CLI không tự viết commit/rollback. Trường hợp thất bại vẫn phải lưu dữ liệu (ví dụ đăng nhập sai): service trả kết quả thất bại, không raise; ranh giới commit rồi mới trả lỗi. Có test đọc mã nguồn.
 
 VAI TRÒ VÀ PHÂN QUYỀN (kiểm tra ở server, không tin frontend)
@@ -119,3 +119,10 @@ BÁO CÁO GIAI ĐOẠN <NN> – <tên>
 8. Câu hỏi cần quản lý trả lời
 9. Cách tôi tự kiểm trong 5 phút (lệnh + tài khoản + thao tác)
 Quy tắc cho mọi báo cáo: quản lý dự án không đọc được repo. Mỗi khi nhắc tới câu hỏi hay quyết định, ghi NGUYÊN VĂN nội dung + đề xuất, không chỉ ghi mã.
+
+CHẾ ĐỘ TIẾT KIỆM (áp dụng từ giai đoạn 07 đến hết dự án, ghi vào AGENTS.md):
+- Cố ý làm hỏng mã nguồn: lấy mẫu tối đa 30 chỗ quan trọng nhất của giai đoạn (công thức, phân quyền, ranh giới dữ liệu), không chạy toàn bộ.
+- Không gửi báo cáo tiến độ giữa chừng; chỉ nhắn khi xong giai đoạn hoặc bị chặn.
+- Ảnh chụp: chỉ trang có thay đổi trong giai đoạn đó.
+- Báo cáo: bỏ bảng "Đã làm" nếu mọi mục đều Đủ, chỉ ghi "Đủ toàn bộ". Giữ nguyên: phần khác yêu cầu, quyết định mới (nguyên văn), output thật, test nghiệm thu, link CI.
+- Khi chạy lại test trong lúc làm, chạy file liên quan; chỉ chạy toàn bộ trước khi commit.

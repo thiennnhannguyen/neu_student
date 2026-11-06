@@ -22,7 +22,7 @@ RISK = re.compile(r"^(SV\d+)\.risk\.(gpa|debt|registration|overall)$")
 GROUP = re.compile(r"^(SV\d+)\.group\.(\w+)\.(fraction|value|level|courses)$")
 COURSE_STATUS = re.compile(r"^(SV\d+)\.career\.\w+\.((?:cnt|mau|kdl)\d+)_status$")
 SCENARIO_STATUS = re.compile(r"^SV05\.scenario\.after_cnt102\.career\.\w+\.cnt102_status$")
-# 44 mục chỉ M12 tính được (Q63). Giai đoạn 07 chuyển sang completion_service.
+# 44 mục chỉ M12 tính được (Q63). Giai đoạn 08 chuyển sang completion_service.
 DEFERRED_TO_M12 = re.compile(
     r"\.career\.\w+\.(course_rate|skill_rate|outside_curriculum|sk_\w+_status|prj_\w+_status)$"
 )

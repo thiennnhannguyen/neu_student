@@ -96,11 +96,11 @@ erDiagram
 
 | Bảng | Mô tả |
 |------|-------|
-| `careers` | Danh mục nghề. |
-| `career_versions` | Phiên bản nghề `draft` hoặc `published`; bản published không sửa được. **API quản trị chưa dùng tới GĐ07.** |
-| `career_nodes` | Nhóm năng lực của một phiên bản nghề. |
+| `careers` | Danh mục nghề, có `field` (lĩnh vực) và `name_key` (tên đã chuẩn hóa, UNIQUE). |
+| `career_versions` | Phiên bản nghề `draft` hoặc `published`; bản published không sửa được. Mỗi nghề tối đa 1 draft, service kiểm tra. |
+| `career_nodes` | Nhóm năng lực của một phiên bản nghề, có `short_desc`. |
 | `career_requirements` | Yêu cầu học phần, kỹ năng hoặc dự án, có nguồn và người duyệt. |
-| `skills` | Kỹ năng và dự án. |
+| `skills` | Kỹ năng và dự án, có `name_key` (UNIQUE), `short_desc`. |
 | `course_skill_mappings` | Ánh xạ môn và kỹ năng, chỉ để hiển thị và gợi ý. |
 | `student_career_goals` | Nghề chính của sinh viên, giữ lịch sử bằng `ended_at`. |
 | `skill_evidences` | Minh chứng kỹ năng. **Luồng nộp và duyệt chưa dùng tới GĐ10**; đã có dữ liệu mẫu. |
@@ -140,6 +140,7 @@ erDiagram
 | `status` thuộc {draft, published} | `career_versions` | CHECK `status_valid` |
 | Bản published không sửa được | `career_versions` | Trigger `trg_career_versions_no_update_published`, `_no_delete_published`, `_no_insert_published` |
 | Nội dung bản published không sửa được | `career_nodes`, `career_requirements` | Trigger `no_insert`, `no_update`, `no_delete` trên mỗi bảng |
+| Tên đã chuẩn hóa không trùng | `careers`, `skills` | Unique index `uq_careers_name_key`, `uq_skills_name_key` |
 | `kind` thuộc {course, skill, project} | `career_requirements` | CHECK `kind_valid` |
 | `weight > 0` | `career_requirements` | CHECK `weight_positive` |
 | `status` thuộc {draft, approved} | `career_requirements` | CHECK `status_valid` |

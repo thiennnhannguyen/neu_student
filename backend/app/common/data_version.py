@@ -1,6 +1,7 @@
-"""Phiên bản dữ liệu của sinh viên. Khóa cache kết quả M11 đọc giá trị này.
+"""Phiên bản dữ liệu của sinh viên. Khóa cache kết quả đọc giá trị này.
 
-Mọi thao tác ghi làm đổi kết quả M11 phải gọi hàm này trong cùng transaction.
+Mọi thao tác ghi làm đổi kết quả M11 hoặc M12 của sinh viên (điểm, nghề chính, minh chứng kỹ năng)
+phải gọi hàm này trong cùng transaction.
 """
 
 from app.extensions import db

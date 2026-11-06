@@ -37,3 +37,9 @@ def list_audit_logs(filters: dict, page=None, page_size=None) -> dict:
     result = paginate(query, page, page_size)
     result["items"] = [_describe(log) for log in result["items"]]
     return result
+
+
+def list_audit_entities() -> dict:
+    """Các đối tượng đang có trong nhật ký, sắp xếp chữ cái."""
+    rows = db.session.scalars(select(AuditLog.entity).distinct().order_by(AuditLog.entity))
+    return {"items": list(rows)}

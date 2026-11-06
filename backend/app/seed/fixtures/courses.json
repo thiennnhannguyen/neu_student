@@ -45,7 +45,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-math"
+      "course_group_id": "group-math",
+      "short_desc": "Nền toán năm đầu, là điều kiện để học Xác suất thống kê trong CTĐT mẫu."
     },
     {
       "id": "MAU102",
@@ -54,7 +55,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-math"
+      "course_group_id": "group-math",
+      "short_desc": "Cung cấp công cụ ma trận mà môn Học máy của CTĐT mẫu yêu cầu học trước."
     },
     {
       "id": "MAU103",
@@ -63,7 +65,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-math"
+      "course_group_id": "group-math",
+      "short_desc": "Nền suy luận từ dữ liệu, mở đường vào Nhập môn khoa học dữ liệu."
     },
     {
       "id": "MAU104",
@@ -72,7 +75,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-econ"
+      "course_group_id": "group-econ",
+      "short_desc": "Nền kinh tế chung của khối ngành, cần trước khi học Phân tích kinh doanh."
     },
     {
       "id": "MAU105",
@@ -81,7 +85,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-general"
+      "course_group_id": "group-general",
+      "short_desc": "Học phần chung giúp đọc tài liệu chuyên ngành bằng tiếng Anh."
     },
     {
       "id": "MAU106",
@@ -90,7 +95,8 @@
       "credits": 1,
       "counts_gpa": false,
       "is_mock": true,
-      "course_group_id": "group-general"
+      "course_group_id": "group-general",
+      "short_desc": "Học phần thể chất bắt buộc đầu tiên, không tính vào GPA trong dữ liệu mẫu."
     },
     {
       "id": "MAU107",
@@ -99,7 +105,8 @@
       "credits": 1,
       "counts_gpa": false,
       "is_mock": true,
-      "course_group_id": "group-general"
+      "course_group_id": "group-general",
+      "short_desc": "Học phần thể chất nối tiếp, chỉ học sau khi đã hoàn thành phần 1."
     },
     {
       "id": "MAU108",
@@ -108,7 +115,8 @@
       "credits": 2,
       "counts_gpa": false,
       "is_mock": true,
-      "course_group_id": "group-general"
+      "course_group_id": "group-general",
+      "short_desc": "Học phần điều kiện chung của CTĐT mẫu, không thuộc khối chuyên ngành."
     },
     {
       "id": "CNT101",
@@ -117,7 +125,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-prog"
+      "course_group_id": "group-prog",
+      "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu."
     },
     {
       "id": "CNT102",
@@ -126,7 +135,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-prog"
+      "course_group_id": "group-prog",
+      "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web."
     },
     {
       "id": "CNT201",
@@ -135,7 +145,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-prog"
+      "course_group_id": "group-prog",
+      "short_desc": "Môn dữ liệu và thuật toán của CTĐT cũ, được công nhận tương đương với CNT202."
     },
     {
       "id": "CNT202",
@@ -144,7 +155,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-prog"
+      "course_group_id": "group-prog",
+      "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt."
     },
     {
       "id": "CNT203",
@@ -153,7 +165,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Môn nền về lưu trữ, là tiên quyết của backend, công nghệ phần mềm và kho dữ liệu."
     },
     {
       "id": "CNT204",
@@ -162,7 +175,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-system"
+      "course_group_id": "group-system",
+      "short_desc": "Môn nền về kết nối hệ thống, cần trước khi học hệ phân tán và an toàn thông tin."
     },
     {
       "id": "CNT205",
@@ -171,7 +185,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-system"
+      "course_group_id": "group-system",
+      "short_desc": "Môn nền về tài nguyên máy tính, là điều kiện để học điện toán đám mây."
     },
     {
       "id": "CNT301",
@@ -180,7 +195,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-prog"
+      "course_group_id": "group-prog",
+      "short_desc": "Môn ứng dụng khối phần mềm, kết hợp lập trình và lưu trữ để xây dựng dịch vụ."
     },
     {
       "id": "CNT302",
@@ -189,7 +205,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-prog"
+      "course_group_id": "group-prog",
+      "short_desc": "Môn về quy trình làm phần mềm nhóm, là điều kiện để làm đồ án chuyên ngành."
     },
     {
       "id": "CNT303",
@@ -198,7 +215,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-system"
+      "course_group_id": "group-system",
+      "short_desc": "Môn nâng cao của khối hệ thống, học sau khi đã có nền dịch vụ web và mạng."
     },
     {
       "id": "CNT304",
@@ -207,7 +225,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-system"
+      "course_group_id": "group-system",
+      "short_desc": "Môn chuyên sâu của khối hệ thống về bảo vệ dịch vụ, học sau môn về mạng."
     },
     {
       "id": "CNT305",
@@ -216,7 +235,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-system"
+      "course_group_id": "group-system",
+      "short_desc": "Môn chuyên sâu về vận hành hạ tầng, học sau môn về tài nguyên máy tính."
     },
     {
       "id": "CNT306",
@@ -225,7 +245,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-prog"
+      "course_group_id": "group-prog",
+      "short_desc": "Lựa chọn ngôn ngữ thứ hai của khối lập trình, chỉ cần nền nhập môn."
     },
     {
       "id": "CNT401",
@@ -234,7 +255,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-prog"
+      "course_group_id": "group-prog",
+      "short_desc": "Học phần tổng hợp cuối khóa của ngành CNTT, thực hiện sau môn quy trình phần mềm."
     },
     {
       "id": "KDL201",
@@ -243,7 +265,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Cửa vào khối dữ liệu, kết hợp nền lập trình và thống kê, mở ra các môn phân tích."
     },
     {
       "id": "KDL202",
@@ -252,7 +275,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Môn kỹ năng truyền đạt kết quả phân tích, học ngay sau môn nhập môn dữ liệu."
     },
     {
       "id": "KDL301",
@@ -261,7 +285,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Môn trung tâm của khối mô hình, là tiên quyết của học sâu và triển khai mô hình."
     },
     {
       "id": "KDL302",
@@ -270,7 +295,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Môn nâng cao tiếp nối Học máy, là điều kiện để học xử lý ngôn ngữ."
     },
     {
       "id": "KDL303",
@@ -279,7 +305,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Môn ứng dụng chuyên sâu của khối mô hình, học sau môn Học sâu."
     },
     {
       "id": "KDL304",
@@ -288,7 +315,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Môn đưa mô hình vào sử dụng thực tế, học sau khi đã qua Học máy."
     },
     {
       "id": "KDL305",
@@ -297,7 +325,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Môn về tổ chức dữ liệu cho phân tích, xây trên nền môn Cơ sở dữ liệu."
     },
     {
       "id": "KDL306",
@@ -306,7 +335,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Môn mở rộng về xử lý quy mô lớn, học sau môn nhập môn dữ liệu."
     },
     {
       "id": "KDL307",
@@ -315,7 +345,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Môn cầu nối giữa khối dữ liệu và kinh tế, cần cả nền dữ liệu lẫn kinh tế học."
     },
     {
       "id": "KDL401",
@@ -324,7 +355,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-data"
+      "course_group_id": "group-data",
+      "short_desc": "Học phần tổng hợp cuối khóa của ngành dữ liệu, thực hiện sau môn Học máy."
     },
     {
       "id": "KTE201",
@@ -333,7 +365,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-econ"
+      "course_group_id": "group-econ",
+      "short_desc": "Điểm khởi đầu của nhánh tài chính, là tiên quyết của tài chính doanh nghiệp."
     },
     {
       "id": "KTE202",
@@ -342,7 +375,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-econ"
+      "course_group_id": "group-econ",
+      "short_desc": "Môn giữa của nhánh tài chính, học trước khi phân tích báo cáo tài chính."
     },
     {
       "id": "KTE203",
@@ -351,7 +385,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-econ"
+      "course_group_id": "group-econ",
+      "short_desc": "Điểm khởi đầu của nhánh marketing, mở ra marketing số và hành vi khách hàng."
     },
     {
       "id": "KTE301",
@@ -360,7 +395,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-econ"
+      "course_group_id": "group-econ",
+      "short_desc": "Môn ứng dụng cuối nhánh tài chính, học sau tài chính doanh nghiệp."
     },
     {
       "id": "KTE302",
@@ -369,7 +405,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-econ"
+      "course_group_id": "group-econ",
+      "short_desc": "Môn ứng dụng của nhánh marketing cho kênh trực tuyến, học sau môn căn bản."
     },
     {
       "id": "KTE303",
@@ -378,7 +415,8 @@
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-econ"
+      "course_group_id": "group-econ",
+      "short_desc": "Môn ứng dụng của nhánh marketing về hiểu người mua, học sau môn căn bản."
     },
     {
       "id": "course-cd-a",
@@ -387,7 +425,8 @@
       "credits": 2,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-general"
+      "course_group_id": "group-general",
+      "short_desc": "Chuyên đề tự chọn dùng để kiểm tra học phần thiếu mã, là bản ghi riêng thứ nhất."
     },
     {
       "id": "course-cd-b",
@@ -396,7 +435,8 @@
       "credits": 2,
       "counts_gpa": true,
       "is_mock": true,
-      "course_group_id": "group-general"
+      "course_group_id": "group-general",
+      "short_desc": "Chuyên đề tự chọn thiếu mã, trùng tên nhưng là bản ghi riêng, không gộp với bản kia."
     }
   ],
   "course_prerequisites": [

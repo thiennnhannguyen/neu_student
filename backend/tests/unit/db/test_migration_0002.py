@@ -24,7 +24,10 @@ def trigger_definitions():
 def table_and_index_definitions():
     rows = run_sql(
         "SELECT name, sql FROM sqlite_master WHERE type IN ('table', 'index') "
-        "AND name NOT IN ('users', 'students') ORDER BY name"
+        "AND name NOT IN ('users', 'students', "
+        # Migration 0004 đổi các bảng này, nên chúng khác nhau giữa bản 0002 và bản mới nhất.
+        "'careers', 'skills', 'career_nodes', 'courses', "
+        "'uq_careers_name_key', 'uq_skills_name_key') ORDER BY name"
     )
     return [tuple(row) for row in rows]
 
