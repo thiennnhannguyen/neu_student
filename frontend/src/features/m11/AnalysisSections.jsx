@@ -1,5 +1,14 @@
 import { useState } from 'react';
 import {
+  DataTable,
+  Disclosure,
+  EmptyState,
+  FormField,
+  ProgressBar,
+  Select,
+  StatusChip,
+} from '../../components/ui';
+import {
   courseCode,
   formatCount,
   formatDecimal,
@@ -7,9 +16,8 @@ import {
   formatSignedDecimal,
   withQuery,
 } from './format';
-import { GROUP_LEVELS } from './labels';
 import useApiResource from './useApiResource';
-import { LevelBadge, ResourceView } from './ui';
+import { ResourceView } from './ui';
 
 function CourseLabel({ course }) {
   return (
@@ -23,31 +31,18 @@ function ProgressRow({ label, passed, total }) {
   const known = passed !== null && passed !== undefined;
   const percent = known && total > 0 ? Math.min(100, Math.round((passed / total) * 100)) : 0;
   return (
-    <div className="progress-row">
-      <p>
-        <span>{label}</span>
-        <strong>
-          {formatCount(passed)}/{formatCount(total)} tín chỉ
-        </strong>
-      </p>
-      <div
-        className="progress-row__track"
-        role="progressbar"
-        aria-label={label}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={percent}
-      >
-        <div className="progress-row__fill" style={{ width: `${percent}%` }} />
-      </div>
-    </div>
+    <ProgressBar
+      label={label}
+      percent={percent}
+      valueText={`${formatCount(passed)}/${formatCount(total)} tín chỉ`}
+    />
   );
 }
 
 export function CreditProgress({ data }) {
   return (
     <>
-      <p>
+      <p className="card-text">
         Đạt {formatCount(data.passed)} · Nợ {formatCount(data.debt)} · Đang học{' '}
         {formatCount(data.in_progress)} · Số môn chưa đạt {formatCount(data.failed_courses)}
       </p>
@@ -59,7 +54,7 @@ export function CreditProgress({ data }) {
       {data.elective_groups.map((group) => (
         <div key={group.group_id}>
           <ProgressRow label={group.name} passed={group.passed_credits} total={group.min_credits} />
-          {group.label && <p className="grades-table__note">{group.label}</p>}
+          {group.label && <p className="table-note">{group.label}</p>}
         </div>
       ))}
     </>
@@ -69,11 +64,10 @@ export function CreditProgress({ data }) {
 export function CurriculumCheck({ data }) {
   return (
     <>
-      <p>
+      <p className="card-text">
         Chương trình: {data.program.name} (khóa {data.program.effective_cohort})
       </p>
-      <details className="course-details">
-        <summary>Môn bắt buộc còn thiếu ({data.missing_required.length})</summary>
+      <Disclosure summary={`Môn bắt buộc còn thiếu (${data.missing_required.length})`}>
         <ul>
           {data.missing_required.map((course) => (
             <li key={course.course_id}>
@@ -81,9 +75,8 @@ export function CurriculumCheck({ data }) {
             </li>
           ))}
         </ul>
-      </details>
-      <details className="course-details">
-        <summary>Nhóm tự chọn chưa đủ ({data.unmet_elective_groups.length})</summary>
+      </Disclosure>
+      <Disclosure summary={`Nhóm tự chọn chưa đủ (${data.unmet_elective_groups.length})`}>
         <ul>
           {data.unmet_elective_groups.map((group) => (
             <li key={group.group_id}>
@@ -91,9 +84,8 @@ export function CurriculumCheck({ data }) {
             </li>
           ))}
         </ul>
-      </details>
-      <details className="course-details">
-        <summary>Môn chưa đủ tiên quyết ({data.blocked_courses.length})</summary>
+      </Disclosure>
+      <Disclosure summary={`Môn chưa đủ tiên quyết (${data.blocked_courses.length})`}>
         <ul>
           {data.blocked_courses.map((course) => (
             <li key={course.course_id}>
@@ -102,7 +94,7 @@ export function CurriculumCheck({ data }) {
             </li>
           ))}
         </ul>
-      </details>
+      </Disclosure>
     </>
   );
 }
@@ -112,13 +104,13 @@ export function StrengthsList({ data }) {
     <ul className="strength-list">
       {data.groups.map((group) => (
         <li key={group.group_id}>
-          <p className="strength-list__head">
+          <div className="strength-list__head">
             <strong>{group.name}</strong>
-            <LevelBadge level={group.level} levels={GROUP_LEVELS} />
-          </p>
+            <StatusChip status={group.level} />
+          </div>
           {group.level !== 'insufficient_data' && <p>GPA nhóm {formatDecimal(group.value)}</p>}
           {group.courses.length > 0 && (
-            <p className="grades-table__note">
+            <p className="table-note">
               Môn làm bằng chứng: {group.courses.map((c) => courseCode(c.code)).join(', ')}
             </p>
           )}
@@ -130,56 +122,44 @@ export function StrengthsList({ data }) {
 
 function CompareTable({ data }) {
   const rows = [
-    [
-      'GPA',
-      formatDecimal(data.semester_a.gpa),
-      formatDecimal(data.semester_b.gpa),
-      formatSignedDecimal(data.gpa_delta),
-    ],
-    [
-      'Tín chỉ',
-      data.semester_a.credits,
-      data.semester_b.credits,
-      formatSignedCount(data.credit_delta),
-    ],
-    [
-      'Số môn đạt',
-      data.semester_a.passed_count,
-      data.semester_b.passed_count,
-      formatSignedCount(data.passed_delta),
-    ],
-    [
-      'Số môn chưa đạt',
-      data.semester_a.failed_count,
-      data.semester_b.failed_count,
-      formatSignedCount(data.failed_delta),
-    ],
+    {
+      name: 'GPA',
+      first: formatDecimal(data.semester_a.gpa),
+      second: formatDecimal(data.semester_b.gpa),
+      delta: formatSignedDecimal(data.gpa_delta),
+    },
+    {
+      name: 'Tín chỉ',
+      first: data.semester_a.credits,
+      second: data.semester_b.credits,
+      delta: formatSignedCount(data.credit_delta),
+    },
+    {
+      name: 'Số môn đạt',
+      first: data.semester_a.passed_count,
+      second: data.semester_b.passed_count,
+      delta: formatSignedCount(data.passed_delta),
+    },
+    {
+      name: 'Số môn chưa đạt',
+      first: data.semester_a.failed_count,
+      second: data.semester_b.failed_count,
+      delta: formatSignedCount(data.failed_delta),
+    },
+  ];
+  const columns = [
+    { key: 'name', header: 'Chỉ số', rowHeader: true },
+    { key: 'first', header: data.semester_a.name },
+    { key: 'second', header: data.semester_b.name },
+    { key: 'delta', header: 'Chênh lệch' },
   ];
   return (
-    // Vùng cuộn ngang phải nhận được focus để dùng bằng bàn phím.
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-    <div className="grades-scroll" role="region" aria-label="So sánh hai kỳ" tabIndex={0}>
-      <table className="compare-table">
-        <thead>
-          <tr>
-            <th scope="col">Chỉ số</th>
-            <th scope="col">{data.semester_a.name}</th>
-            <th scope="col">{data.semester_b.name}</th>
-            <th scope="col">Chênh lệch</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(([name, first, second, delta]) => (
-            <tr key={name}>
-              <th scope="row">{name}</th>
-              <td>{first}</td>
-              <td>{second}</td>
-              <td>{delta}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <DataTable
+      columns={columns}
+      rows={rows}
+      rowKey={(row) => row.name}
+      ariaLabel="So sánh hai kỳ"
+    />
   );
 }
 
@@ -196,15 +176,13 @@ export function SemesterCompare({ scope }) {
   );
 
   if (items.length < 2) {
-    return <p className="empty-state">Chưa đủ 2 học kỳ để so sánh.</p>;
+    return <EmptyState compact heading="p" title="Chưa đủ 2 học kỳ để so sánh." />;
   }
 
   function select(id, label, value, side) {
     return (
-      <div className="field">
-        <label htmlFor={id}>{label}</label>
-        <select
-          id={id}
+      <FormField id={id} label={label}>
+        <Select
           value={value}
           onChange={(event) => setChoice((old) => ({ ...old, [side]: event.target.value }))}
         >
@@ -213,18 +191,19 @@ export function SemesterCompare({ scope }) {
               {item.name}
             </option>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormField>
     );
   }
 
   return (
     <>
-      <div className="filter-form">
+      <div className="filter-bar">
         {select('compare-a', 'Kỳ thứ nhất', a, 'a')}
         {select('compare-b', 'Kỳ thứ hai', b, 'b')}
       </div>
       <ResourceView
+        compact
         resource={resource}
         loadingText="Đang so sánh..."
         errorText="Không so sánh được"
@@ -232,7 +211,7 @@ export function SemesterCompare({ scope }) {
         {(data) => (
           <>
             {data.semester_a.credits === 0 && data.semester_b.credits === 0 && (
-              <p className="empty-state">Cả hai kỳ này đều chưa có kết quả.</p>
+              <p className="card-text">Cả hai kỳ này đều chưa có kết quả.</p>
             )}
             <CompareTable data={data} />
           </>

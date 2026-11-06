@@ -162,3 +162,11 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | Hồ sơ xem và sửa, Nhật ký có panel so sánh | Các test trong file | `frontend/src/features/profile/ProfilePage.test.jsx`, `frontend/src/features/admin/AuditLogPage.test.jsx` |
 | 19 họa tiết, bố cục mosaic mới, tương phản token mới | Các test trong file | `frontend/src/components/brand/brand.test.jsx`, `frontend/src/styles/tokens.test.js` |
 | Bản production không có styleguide | `npm run check:bundle` | `frontend/scripts/check-bundle.mjs` |
+| Một `h1` cho mỗi màn hình, topbar không lặp tiêu đề, Tổng quan không có `PageHeader` | `%s ở %s: đúng một h1 "%s"`, `thanh trên cùng chỉ có đường dẫn phân cấp, không lặp tiêu đề trang`, `Tổng quan: bỏ PageHeader, h1 chỉ cho trình đọc màn hình, không có đường dẫn` | `frontend/src/components/shell.test.jsx` |
+| Chip "Đang xem" và bottom sheet: khóa focus, Esc, chọn sinh viên, chọn kỳ, tìm kiếm, từng vai trò, gọi học kỳ một lần | `describe('phạm vi xem trên điện thoại')` | `frontend/src/features/m11/m11Pages.test.jsx` |
+| Q80: kỳ không có kết quả, kỳ gần nhất có điểm, không có kỳ nào có điểm, API lỗi | `describe('Tổng quan: GPA học kỳ trống (Q80)')` | `frontend/src/features/m11/m11Pages.test.jsx` |
+| `BottomSheet`, `ProgressBar`, `Disclosure`, `Tooltip`, `EmptyState compact`, `DataTable` có `rowHeader`, `isBlank`, `sortValue` | Các test trong file | `frontend/src/components/ui/ui.test.jsx` |
+
+Chiều cao topbar một hàng ở 375px và không tràn ngang chỉ kiểm được bằng Chrome thật (CSS không chạy trong Vitest); không có test tự động.
+
+Cố ý làm hỏng mã nguồn, component dùng chung và 4 trang M11 (lượt cuối, sau khi sửa test chập chờn theo D-186): 159 chỗ, bắt 158, lọt 1. Chỗ lọt là `known` trong `ProgressRow`, tương đương vì API chỉ trả `null` và `null / total` vẫn cho 0%; quản lý dự án đã chấp nhận.

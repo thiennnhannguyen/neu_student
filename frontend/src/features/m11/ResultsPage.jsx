@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
+import { Button, FormField, Pagination, SearchBox, Select } from '../../components/ui';
+import { STATUS_CHIPS } from '../../components/ui/StatusChip';
 import AttemptHistoryPanel from './AttemptHistoryPanel';
 import { withQuery } from './format';
 import GradesTable from './GradesTable';
-import { GRADE_STATUSES } from './labels';
+import { GRADE_STATUS_CODES } from './labels';
 import M11Page from './M11Page';
 import useApiResource from './useApiResource';
 import { DataWarnings, ReferenceLine, ResourceView } from './ui';
@@ -52,42 +54,35 @@ function ResultsContent({ scope }) {
   return (
     <>
       <form
-        className="filter-form"
+        className="filter-bar"
         role="search"
         onSubmit={(event) => {
           event.preventDefault();
           update({ q: keyword.trim(), page: null });
         }}
       >
-        <div className="field">
-          <label htmlFor="grades-q">Tìm môn</label>
-          <input
-            id="grades-q"
-            type="search"
+        <FormField id="grades-q" label="Tìm môn">
+          <SearchBox
             value={keyword}
             placeholder="Tên hoặc mã môn"
             onChange={(event) => setKeyword(event.target.value)}
           />
-        </div>
-        <div className="field">
-          <label htmlFor="grades-status">Trạng thái</label>
-          <select
-            id="grades-status"
+        </FormField>
+        <FormField id="grades-status" label="Trạng thái">
+          <Select
             value={status}
             onChange={(event) => update({ status: event.target.value, page: null })}
           >
             <option value="">Tất cả trạng thái</option>
-            {Object.entries(GRADE_STATUSES).map(([value, info]) => (
-              <option key={value} value={value}>
-                {info.label}
+            {GRADE_STATUS_CODES.map((code) => (
+              <option key={code} value={code}>
+                {STATUS_CHIPS[code].label}
               </option>
             ))}
-          </select>
-        </div>
-        <div className="filter-form__actions">
-          <button type="submit" className="button">
-            Tìm
-          </button>
+          </Select>
+        </FormField>
+        <div className="form-actions filter-bar__submit">
+          <Button type="submit">Tìm</Button>
         </div>
       </form>
       <ResourceView
@@ -105,27 +100,13 @@ function ResultsContent({ scope }) {
           return (
             <>
               <GradesTable rows={data.items} onOpenHistory={setHistory} />
-              <div className="pagination">
-                <button
-                  type="button"
-                  className="button button--ghost"
-                  disabled={data.page <= 1}
-                  onClick={() => update({ page: String(data.page - 1) })}
-                >
-                  Trang trước
-                </button>
-                <span>
-                  Trang {data.page}/{lastPage} · {data.total} môn
-                </span>
-                <button
-                  type="button"
-                  className="button button--ghost"
-                  disabled={data.page >= lastPage}
-                  onClick={() => update({ page: String(data.page + 1) })}
-                >
-                  Trang sau
-                </button>
-              </div>
+              <Pagination
+                label="Phân trang bảng điểm"
+                page={data.page}
+                lastPage={lastPage}
+                summary={`Trang ${data.page}/${lastPage} · ${data.total} môn`}
+                onPage={(next) => update({ page: String(next) })}
+              />
               <ReferenceLine
                 semesterName={semesterName}
                 computedAt={data.meta.computed_at}
@@ -149,7 +130,10 @@ function ResultsContent({ scope }) {
 
 export default function ResultsPage() {
   return (
-    <M11Page title="Kết quả" allowAll>
+    <M11Page
+      title="Kết quả"
+      description="Bảng điểm theo học kỳ, gồm cả môn chưa học khi xem tất cả các kỳ."
+    >
       {(scope) => <ResultsContent scope={scope} />}
     </M11Page>
   );

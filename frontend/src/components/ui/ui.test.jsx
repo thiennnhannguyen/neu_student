@@ -1,15 +1,17 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Pencil } from 'lucide-react';
+import { Check, Pencil } from 'lucide-react';
 import { useState } from 'react';
-import { MemoryRouter } from 'react-router';
+import { Link, MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from 'vitest';
 import {
   Avatar,
   Badge,
+  BottomSheet,
   Button,
   Card,
   DataTable,
+  Disclosure,
   DropdownMenu,
   EmptyState,
   ErrorState,
@@ -19,6 +21,7 @@ import {
   MetricCard,
   PageHeader,
   Pagination,
+  ProgressBar,
   SearchBox,
   Select,
   SidePanel,
@@ -26,6 +29,7 @@ import {
   StatusChip,
   Tabs,
   ToastProvider,
+  Tooltip,
   useToast,
 } from '.';
 import { initialsOf } from './Avatar';
@@ -628,5 +632,236 @@ describe('Toast', () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+});
+
+describe('BottomSheet', () => {
+  function Host({ footer }) {
+    const [open, setOpen] = useState(false);
+    return (
+      <>
+        <button type="button" onClick={() => setOpen(true)}>
+          Mở
+        </button>
+        {open && (
+          <BottomSheet title="Tấm" onClose={() => setOpen(false)} footer={footer}>
+            <input aria-label="Ô" />
+          </BottomSheet>
+        )}
+      </>
+    );
+  }
+
+  it('khóa focus, Esc đóng và trả focus; bấm trong tấm không đóng, bấm nền thì đóng', async () => {
+    const user = userEvent.setup();
+    render(<Host />);
+    const opener = screen.getByRole('button', { name: 'Mở' });
+
+    await user.click(opener);
+    const sheet = screen.getByRole('dialog', { name: 'Tấm' });
+    expect(sheet).toHaveAttribute('aria-modal', 'true');
+    expect(screen.getByRole('button', { name: 'Đóng' })).toHaveFocus();
+
+    await user.tab();
+    expect(screen.getByLabelText('Ô')).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole('button', { name: 'Đóng' })).toHaveFocus();
+
+    await user.click(screen.getByLabelText('Ô'));
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(opener).toHaveFocus();
+
+    await user.click(opener);
+    await user.click(document.querySelector('.bottom-sheet__backdrop'));
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('chỉ có phần chân khi truyền footer', async () => {
+    const user = userEvent.setup();
+    const { unmount } = render(<Host />);
+    await user.click(screen.getByRole('button', { name: 'Mở' }));
+    expect(document.querySelector('.bottom-sheet__footer')).toBeNull();
+    unmount();
+
+    render(<Host footer={<span>Chân</span>} />);
+    await user.click(screen.getByRole('button', { name: 'Mở' }));
+    expect(screen.getByText('Chân').parentElement).toHaveClass('bottom-sheet__footer');
+  });
+});
+
+describe('ProgressBar', () => {
+  it('có vai trò, nhãn, giá trị và độ rộng đúng', () => {
+    render(<ProgressBar label="Bắt buộc" percent={25} valueText="15/60 tín chỉ" />);
+
+    const bar = screen.getByRole('progressbar', { name: 'Bắt buộc' });
+    expect(bar).toHaveAttribute('aria-valuemin', '0');
+    expect(bar).toHaveAttribute('aria-valuemax', '100');
+    expect(bar).toHaveAttribute('aria-valuenow', '25');
+    expect(bar.firstChild).toHaveStyle({ width: '25%' });
+    expect(screen.getByText('15/60 tín chỉ')).toBeInTheDocument();
+  });
+});
+
+describe('Disclosure', () => {
+  it('đóng sẵn, bấm tiêu đề thì mở', async () => {
+    const user = userEvent.setup();
+    render(<Disclosure summary="Chi tiết">Nội dung</Disclosure>);
+
+    const details = screen.getByText('Chi tiết').closest('details');
+    expect(details).not.toHaveAttribute('open');
+    await user.click(screen.getByText('Chi tiết'));
+    expect(details).toHaveAttribute('open');
+  });
+});
+
+describe('Tooltip', () => {
+  it('chú thích gắn với nút bằng aria-describedby, có biểu tượng', () => {
+    render(<Tooltip label="Nhãn" icon={Check} text="Giải thích" />);
+
+    const button = screen.getByRole('button', { name: 'Nhãn' });
+    expect(button).toHaveAccessibleDescription('Giải thích');
+    expect(button).toHaveClass('badge--warning');
+    expect(button.querySelector('svg')).toBeInTheDocument();
+    expect(screen.getByRole('tooltip', { hidden: true })).toHaveTextContent('Giải thích');
+  });
+});
+
+describe('DataTable: tiêu đề hàng và ô trống', () => {
+  it('rowHeader dùng th scope=row; isBlank đánh dấu đúng ô cần ẩn', () => {
+    render(
+      <DataTable
+        ariaLabel="B"
+        rowKey={(row) => row.id}
+        rows={[
+          { id: 'a', name: 'Dòng A', score: null },
+          { id: 'b', name: 'Dòng B', score: '1' },
+        ]}
+        columns={[
+          { key: 'name', header: 'Tên', rowHeader: true },
+          { key: 'score', header: 'Điểm', isBlank: (row) => row.score === null },
+        ]}
+      />,
+    );
+
+    expect(screen.getByRole('rowheader', { name: 'Dòng A' })).toHaveAttribute('scope', 'row');
+    expect(screen.getByRole('rowheader', { name: 'Dòng A' })).toHaveAttribute('data-label', 'Tên');
+    const cells = screen.getAllByRole('cell');
+    expect(cells[0]).toHaveClass('ui-table__blank');
+    expect(cells[1]).not.toHaveClass('ui-table__blank');
+  });
+});
+
+describe('EmptyState compact', () => {
+  it('không có họa tiết; bản thường thì có', () => {
+    const { container, rerender } = render(<EmptyState compact heading="p" title="T" />);
+    expect(container.querySelector('.motif-mosaic')).toBeNull();
+    expect(container.firstChild).toHaveClass('empty-block--compact');
+
+    rerender(<EmptyState title="T" />);
+    expect(container.querySelector('.motif-mosaic')).not.toBeNull();
+    expect(screen.getByRole('heading', { name: 'T' })).toBeInTheDocument();
+  });
+});
+
+describe('Card', () => {
+  it('truyền thuộc tính cho thẻ gốc, dùng được làm liên kết', () => {
+    render(
+      <MemoryRouter>
+        <Card as={Link} to="/x">
+          Nội dung
+        </Card>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole('link', { name: 'Nội dung' })).toHaveAttribute('href', '/x');
+    expect(screen.getByRole('link', { name: 'Nội dung' })).toHaveClass('ui-card');
+  });
+});
+
+describe('các nhánh còn lại của component', () => {
+  it('DataTable sắp xếp theo sortValue khi cột có khai báo', async () => {
+    const user = userEvent.setup();
+    render(
+      <DataTable
+        ariaLabel="B"
+        rowKey={(row) => row.id}
+        rows={[
+          { id: 'a', name: 'Kỳ Z', order: 1 },
+          { id: 'b', name: 'Kỳ A', order: 2 },
+        ]}
+        columns={[{ key: 'name', header: 'Kỳ', sortable: true, sortValue: (row) => row.order }]}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Kỳ' }));
+
+    expect(screen.getAllByRole('cell').map((cell) => cell.textContent)).toEqual(['Kỳ Z', 'Kỳ A']);
+  });
+
+  it('StatusChip: điểm mạnh là màu thành công, điểm yếu là màu chú ý', () => {
+    render(
+      <>
+        <StatusChip status="strong" />
+        <StatusChip status="weak" />
+      </>,
+    );
+
+    expect(screen.getByText('Điểm mạnh')).toHaveClass('badge--success');
+    expect(screen.getByText('Điểm yếu')).toHaveClass('badge--warning');
+  });
+
+  it('ErrorState compact không có họa tiết', () => {
+    const { container } = render(<ErrorState compact heading="p" title="Lỗi" />);
+
+    expect(container.querySelector('.motif-mosaic')).toBeNull();
+    expect(screen.getByRole('alert')).toHaveClass('empty-block--compact');
+  });
+
+  it('InfoPopover: Esc đóng và trả focus về nút', async () => {
+    const user = userEvent.setup();
+    render(<InfoPopover label="Giải thích">Nội dung</InfoPopover>);
+    const button = screen.getByRole('button', { name: 'Giải thích' });
+
+    await user.click(button);
+    expect(screen.getByRole('status')).toHaveTextContent('Nội dung');
+    await user.tab({ shift: true });
+    button.blur();
+    fireEvent.keyDown(button, { key: 'Escape' });
+
+    expect(screen.queryByRole('status')).toBeNull();
+    expect(button).toHaveFocus();
+  });
+
+  it('Toast lỗi và Toast thành công dùng biểu tượng khác nhau', () => {
+    function Host() {
+      const toast = useToast();
+      return (
+        <>
+          <button type="button" onClick={() => toast.show('Được')}>
+            A
+          </button>
+          <button type="button" onClick={() => toast.show('Hỏng', 'error')}>
+            B
+          </button>
+        </>
+      );
+    }
+    render(
+      <ToastProvider>
+        <Host />
+      </ToastProvider>,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'A' }));
+    fireEvent.click(screen.getByRole('button', { name: 'B' }));
+
+    const iconOf = (text) => screen.getByText(text).closest('.toast').querySelector('svg');
+    expect(iconOf('Được').getAttribute('class')).not.toBe(iconOf('Hỏng').getAttribute('class'));
+  });
+
+  it('Avatar bỏ phần trong ngoặc khi lấy chữ viết tắt', () => {
+    expect(initialsOf('Nguyễn An (mẫu thử)')).toBe('NA');
   });
 });

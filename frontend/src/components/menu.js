@@ -24,7 +24,7 @@ export const ROLE_LABELS = {
   [ADMIN]: 'Quản trị',
 };
 
-const M11_READERS = [STUDENT, ADVISOR, ADMIN];
+export const M11_READERS = [STUDENT, ADVISOR, ADMIN];
 
 /**
  * `implemented: true` là trang đã làm; còn lại hiện "Đang phát triển", `phase` là giai đoạn dự kiến.

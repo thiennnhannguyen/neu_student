@@ -1,0 +1,265 @@
+/* Khối riêng của các trang M11. Chỉ dùng token trong tokens.css. */
+
+.m11-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-3);
+}
+
+.reference-line {
+  margin: var(--space-2) 0 0;
+  color: var(--text-secondary);
+  font-size: var(--font-12);
+}
+
+.student-picker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.student-picker label {
+  font-size: var(--font-14);
+  font-weight: 600;
+}
+
+.student-picker .ui-select {
+  width: 240px;
+}
+
+.student-picker .search-box {
+  width: 200px;
+}
+
+.semester-filter {
+  min-width: 240px;
+  margin-bottom: 0;
+}
+
+/* Nút gộp phạm vi xem, chỉ có dưới 768px. */
+.scope-chip {
+  display: none;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  min-height: var(--touch-target);
+  padding: 2px var(--space-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-card);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: var(--font-12);
+  text-align: left;
+  cursor: pointer;
+}
+
+.scope-chip:hover {
+  background: var(--surface-sunken);
+}
+
+.scope-chip__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: var(--line-tight);
+}
+
+.scope-chip__text strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scope-chip__label {
+  color: var(--text-secondary);
+}
+
+.scope-sheet__empty {
+  margin: 0 0 var(--space-3);
+  color: var(--text-secondary);
+}
+
+.scope-sheet__done {
+  width: 100%;
+}
+
+.choice-list {
+  max-height: 38vh;
+  margin-bottom: var(--space-3);
+  overflow-y: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.choice-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  padding: var(--space-1) var(--space-12);
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+
+.choice-list__item:last-child {
+  border-bottom: 0;
+}
+
+.choice-list__item:has(input:checked) {
+  background: var(--info-bg);
+  font-weight: 600;
+}
+
+.choice-list__item input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--neu-primary);
+}
+
+/* Tổng quan */
+.risk-summary {
+  display: block;
+  margin-bottom: var(--space-3);
+  border-left: 4px solid var(--neu-primary);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: box-shadow var(--duration-fast);
+}
+
+.risk-summary:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.risk-summary .ui-card__body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+}
+
+.risk-summary__label {
+  font-weight: 600;
+}
+
+.risk-summary__note {
+  flex-basis: 100%;
+  color: var(--text-secondary);
+  font-size: var(--font-14);
+}
+
+.m11-page .empty-block {
+  margin-bottom: var(--space-3);
+}
+
+.grid-12 + .disclosure {
+  margin-top: var(--space-3);
+}
+
+/* Kết quả */
+.cell-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  min-width: 160px;
+}
+
+.table-note {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--font-12);
+}
+
+.attempt-list,
+.strength-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.attempt-list li,
+.strength-list li {
+  padding: var(--space-12) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.attempt-list li:last-child,
+.strength-list li:last-child {
+  border-bottom: 0;
+}
+
+.attempt-list p,
+.strength-list p {
+  margin: 0 0 var(--space-1);
+}
+
+.attempt-list__title {
+  font-weight: 600;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Phân tích */
+.trend-chart {
+  margin: 0;
+}
+
+.trend-chart figcaption {
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
+
+.chart-tooltip {
+  padding: var(--space-2);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  font-size: var(--font-14);
+}
+
+.chart-tooltip p {
+  margin: 0;
+}
+
+.strength-list__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+@media (max-width: 767.98px) {
+  .student-picker,
+  .page-header__actions .semester-filter,
+  .m11-toolbar {
+    display: none;
+  }
+
+  .scope-chip {
+    display: inline-flex;
+  }
+
+  .semester-filter {
+    min-width: 0;
+  }
+
+  /* Trên thẻ di động, tên môn và các nhãn đi kèm canh phải như các ô khác. */
+  .cell-stack {
+    align-items: flex-end;
+    flex: 1 1 60%;
+    min-width: 0;
+    text-align: right;
+  }
+}

@@ -5,9 +5,10 @@ export default function Card({
   className = '',
   as: Tag = 'section',
   children,
+  ...rest
 }) {
   return (
-    <Tag className={`ui-card ${className}`.trim()}>
+    <Tag className={`ui-card ${className}`.trim()} {...rest}>
       {(title || actions) && (
         <div className="ui-card__header">
           {title && <h2 className="ui-card__title">{title}</h2>}

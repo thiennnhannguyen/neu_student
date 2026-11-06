@@ -223,16 +223,14 @@
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.topbar__title {
+.topbar__crumbs {
   flex: 1 1 120px;
   min-width: 0;
 }
 
-.topbar__title p {
+.topbar__product {
   margin: 0;
-  font-size: var(--font-18);
   font-weight: 700;
-  line-height: var(--line-tight);
 }
 
 .topbar__tools {
@@ -418,6 +416,14 @@
   color: var(--text-secondary);
 }
 
+.detail-list--stacked > div {
+  display: block;
+}
+
+.detail-list--stacked dd {
+  font-weight: 400;
+}
+
 .detail-list dd {
   margin: 0;
   font-weight: 600;
@@ -470,6 +476,40 @@
 .diff-table__changed {
   background: var(--info-bg);
   font-weight: 600;
+}
+
+/* Dưới 768px, thanh trên cùng chỉ có một hàng; tiêu đề trang nằm trong nội dung. */
+@media (max-width: 767.98px) {
+  .topbar {
+    padding: var(--space-2) var(--space-12);
+  }
+
+  .topbar__crumbs {
+    display: none;
+  }
+
+  .topbar__tools {
+    flex: 1;
+    flex-wrap: nowrap;
+    min-width: 0;
+    gap: var(--space-1);
+  }
+
+  .topbar .mock-badge {
+    padding: 2px var(--space-1);
+    font-size: var(--font-12);
+  }
+
+  .topbar .dropdown__trigger {
+    padding: 0;
+  }
+}
+
+/* Máy rất hẹp: bỏ biểu tượng của nút phạm vi để còn đủ chỗ cho chữ. */
+@media (max-width: 359.98px) {
+  .scope-chip .lucide {
+    display: none;
+  }
 }
 
 @media (min-width: 768px) {

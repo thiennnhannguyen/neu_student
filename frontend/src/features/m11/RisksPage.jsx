@@ -1,9 +1,10 @@
+import { Button, Card, StatusChip } from '../../components/ui';
 import { formatCount, formatDecimal, withQuery } from './format';
-import { DISCLAIMER, RISK_LEVELS, RULE_NAMES } from './labels';
+import { DISCLAIMER, RULE_NAMES } from './labels';
 import M11Page from './M11Page';
 import MetricInfo from './MetricInfo';
 import useApiResource from './useApiResource';
-import { DataWarnings, LevelBadge, ReferenceLine, ResourceView } from './ui';
+import { DataWarnings, ReferenceLine, ResourceView } from './ui';
 
 function evidenceRows(outcome) {
   const e = outcome.evidence;
@@ -33,14 +34,19 @@ function evidenceRows(outcome) {
 function RiskRuleCard({ outcome }) {
   const hasEvidence = Object.keys(outcome.evidence).length > 0;
   return (
-    <article className="card card--spaced risk-card">
-      <div className="risk-card__head">
-        <h2>{RULE_NAMES[outcome.rule_code] ?? outcome.rule_code}</h2>
-        <LevelBadge level={outcome.level} levels={RISK_LEVELS} />
-      </div>
-      <p>{outcome.reason}</p>
+    <Card
+      as="article"
+      title={RULE_NAMES[outcome.rule_code] ?? outcome.rule_code}
+      actions={<StatusChip status={outcome.level} />}
+      footer={
+        <p className="reference-line">
+          Phiên bản quy chế: {outcome.rule_version ?? 'Không xác định'}
+        </p>
+      }
+    >
+      <p className="card-text">{outcome.reason}</p>
       {hasEvidence && (
-        <dl className="profile-list">
+        <dl className="detail-list">
           {evidenceRows(outcome).map(([name, value]) => (
             <div key={name}>
               <dt>{name}</dt>
@@ -49,10 +55,7 @@ function RiskRuleCard({ outcome }) {
           ))}
         </dl>
       )}
-      <p className="reference-line">
-        Phiên bản quy chế: {outcome.rule_version ?? 'Không xác định'}
-      </p>
-    </article>
+    </Card>
   );
 }
 
@@ -66,36 +69,41 @@ function RisksContent({ scope }) {
       errorText="Không tải được cảnh báo"
     >
       {(data) => (
-        <>
-          <p className="risk-overall">
-            <span className="section-title">
-              Mức chung
+        <div className="stack">
+          <Card
+            title="Mức chung"
+            actions={
               <MetricInfo metricKey="risk_level" label="Mức cảnh báo" studentId={scope.studentId} />
-            </span>
-            <LevelBadge level={data.overall} levels={RISK_LEVELS} />
-          </p>
-          <p className="disclaimer">{data.disclaimer ?? DISCLAIMER}</p>
+            }
+          >
+            <StatusChip status={data.overall} />
+            <p className="card-note">{data.disclaimer ?? DISCLAIMER}</p>
+          </Card>
           {data.outcomes.map((outcome) => (
             <RiskRuleCard key={outcome.rule_code} outcome={outcome} />
           ))}
-          <ReferenceLine
-            semesterName={semesterName}
-            computedAt={data.meta.computed_at}
-            ruleVersion={data.meta.rule_version}
-          />
-          <DataWarnings warnings={data.meta.data_warnings} />
-          <div className="plan-action">
-            <button type="button" className="button" disabled>
-              Tạo kế hoạch cải thiện
-            </button>
+          <div>
+            <ReferenceLine
+              semesterName={semesterName}
+              computedAt={data.meta.computed_at}
+              ruleVersion={data.meta.rule_version}
+            />
+            <DataWarnings warnings={data.meta.data_warnings} />
+          </div>
+          <div>
+            <Button disabled>Tạo kế hoạch cải thiện</Button>
             <p className="reference-line">Có ở giai đoạn sau</p>
           </div>
-        </>
+        </div>
       )}
     </ResourceView>
   );
 }
 
 export default function RisksPage() {
-  return <M11Page title="Cảnh báo">{(scope) => <RisksContent scope={scope} />}</M11Page>;
+  return (
+    <M11Page title="Cảnh báo" description="Mức cảnh báo và căn cứ của từng quy tắc.">
+      {(scope) => <RisksContent scope={scope} />}
+    </M11Page>
+  );
 }

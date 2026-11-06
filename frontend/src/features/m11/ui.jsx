@@ -1,32 +1,39 @@
+import { Disclosure, EmptyState, ErrorState, Skeleton } from '../../components/ui';
 import { formatDateTime } from './format';
 
-export function LevelBadge({ level, levels }) {
-  const info = levels[level] ?? { label: level, icon: '?', tone: 'muted' };
-  return (
-    <span className={`level-badge level-badge--${info.tone}`}>
-      <span aria-hidden="true">{info.icon}</span> {info.label}
-    </span>
-  );
-}
-
-export function ResourceView({ resource, loadingText, errorText, isEmpty, emptyText, children }) {
+/** compact: nằm trong Card hoặc panel. Bản đầy đủ dùng cho khoảng trống của cả trang. */
+export function ResourceView({
+  resource,
+  loadingText,
+  errorText,
+  isEmpty,
+  emptyText,
+  compact = false,
+  children,
+}) {
   if (resource.status === 'error') {
     return (
-      <div role="alert">
-        <p className="status-error">
-          {errorText}: {resource.error.message}
-        </p>
-        <button type="button" className="button" onClick={resource.retry}>
-          Thử lại
-        </button>
-      </div>
+      <ErrorState
+        compact={compact}
+        heading={compact ? 'p' : undefined}
+        title={errorText}
+        description={resource.error.message}
+        onRetry={resource.retry}
+      />
     );
   }
   if (resource.status !== 'ok') {
-    return <p role="status">{loadingText}</p>;
+    return (
+      <div role="status" className="resource-loading">
+        <span className="visually-hidden">{loadingText}</span>
+        <Skeleton />
+        <Skeleton width="70%" />
+        <Skeleton width="40%" />
+      </div>
+    );
   }
   if (isEmpty?.(resource.data)) {
-    return <p className="empty-state">{emptyText}</p>;
+    return <EmptyState compact={compact} heading={compact ? 'p' : undefined} title={emptyText} />;
   }
   return children(resource.data);
 }
@@ -45,8 +52,7 @@ export function DataWarnings({ warnings }) {
     return null;
   }
   return (
-    <details className="data-warnings">
-      <summary>Cảnh báo dữ liệu ({warnings.length})</summary>
+    <Disclosure summary={`Cảnh báo dữ liệu (${warnings.length})`}>
       <ul>
         {warnings.map((warning) => (
           <li key={`${warning.code}-${warning.course_id ?? ''}-${warning.semester_id ?? ''}`}>
@@ -54,8 +60,6 @@ export function DataWarnings({ warnings }) {
           </li>
         ))}
       </ul>
-    </details>
+    </Disclosure>
   );
 }
-
-export { default as SidePanel } from '../../components/ui/SidePanel';

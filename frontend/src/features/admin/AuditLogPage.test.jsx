@@ -92,7 +92,7 @@ describe('trang Nhật ký', () => {
 
     const region = await screen.findByRole('region', { name: 'Bảng nhật ký' });
     expect(region).toHaveAttribute('tabindex', '0');
-    expect(region).toHaveClass('table-scroll');
+    expect(region).toHaveClass('data-table-wrap');
     expect(within(region).getByRole('table')).toBeInTheDocument();
   });
 

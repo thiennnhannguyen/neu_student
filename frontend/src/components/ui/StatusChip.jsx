@@ -9,11 +9,13 @@ import {
   Eye,
   Medal,
   ShieldCheck,
+  TrendingDown,
+  TrendingUp,
   X,
 } from 'lucide-react';
 import Badge from './Badge';
 
-/** 6 trạng thái môn (Q64) và các mức cảnh báo. Luôn có biểu tượng và chữ, không chỉ dựa vào màu. */
+/** 6 trạng thái môn (Q64), các mức cảnh báo và nhóm môn. Luôn có biểu tượng và chữ, không chỉ dựa vào màu. */
 export const STATUS_CHIPS = {
   done: { label: 'Đạt', icon: Check, tone: 'success' },
   done_via_equivalency: { label: 'Đạt qua tương đương', icon: CheckCheck, tone: 'success' },
@@ -26,6 +28,8 @@ export const STATUS_CHIPS = {
   warning: { label: 'Cảnh báo', icon: AlertTriangle, tone: 'danger' },
   insufficient_data: { label: 'Chưa đủ dữ liệu', icon: CircleHelp, tone: 'neutral' },
   not_applicable: { label: 'Không áp dụng', icon: Ban, tone: 'neutral' },
+  strong: { label: 'Điểm mạnh', icon: TrendingUp, tone: 'success' },
+  weak: { label: 'Điểm yếu', icon: TrendingDown, tone: 'warning' },
 };
 
 export default function StatusChip({ status }) {

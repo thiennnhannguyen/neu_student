@@ -1,7 +1,9 @@
+import { Info } from 'lucide-react';
 import { useState } from 'react';
+import { EmptyState, SidePanel } from '../../components/ui';
 import { withQuery } from './format';
 import useApiResource from './useApiResource';
-import { ResourceView, SidePanel } from './ui';
+import { ResourceView } from './ui';
 
 function GlossaryContent({ studentId, metricKey }) {
   const resource = useApiResource(
@@ -9,6 +11,7 @@ function GlossaryContent({ studentId, metricKey }) {
   );
   return (
     <ResourceView
+      compact
       resource={resource}
       loadingText="Đang tải giải thích..."
       errorText="Không tải được giải thích"
@@ -16,18 +19,26 @@ function GlossaryContent({ studentId, metricKey }) {
       {(data) => {
         const item = data.items.find((entry) => entry.key === metricKey);
         if (!item) {
-          return <p className="empty-state">Chưa có giải thích cho chỉ số này.</p>;
+          return <EmptyState compact heading="p" title="Chưa có giải thích cho chỉ số này." />;
         }
         return (
-          <dl className="glossary">
-            <dt>Công thức</dt>
-            <dd>{item.formula}</dd>
-            <dt>Nguồn dữ liệu</dt>
-            <dd>{item.source}</dd>
-            <dt>Phiên bản quy chế</dt>
-            <dd>{item.rule_version ?? 'Không xác định'}</dd>
-            <dt>Ghi chú</dt>
-            <dd>{item.note}</dd>
+          <dl className="detail-list detail-list--stacked">
+            <div>
+              <dt>Công thức</dt>
+              <dd>{item.formula}</dd>
+            </div>
+            <div>
+              <dt>Nguồn dữ liệu</dt>
+              <dd>{item.source}</dd>
+            </div>
+            <div>
+              <dt>Phiên bản quy chế</dt>
+              <dd>{item.rule_version ?? 'Không xác định'}</dd>
+            </div>
+            <div>
+              <dt>Ghi chú</dt>
+              <dd>{item.note}</dd>
+            </div>
           </dl>
         );
       }}
@@ -41,11 +52,11 @@ export default function MetricInfo({ metricKey, label, studentId }) {
     <>
       <button
         type="button"
-        className="metric-info"
+        className="icon-button icon-button--primary"
         aria-label={`Giải thích: ${label}`}
         onClick={() => setOpen(true)}
       >
-        i
+        <Info size={18} aria-hidden="true" />
       </button>
       {open && (
         <SidePanel title={label} onClose={() => setOpen(false)}>

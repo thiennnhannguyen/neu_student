@@ -91,3 +91,6 @@ Nội dung đầy đủ nằm trong [DECISIONS.md](DECISIONS.md).
 | Q77 | Phạm vi `data_version` | D-161 |
 | Q78 | Kiểu số trong JSON | D-162 |
 | Q79 | Trang `/` theo vai trò | D-163 |
+| Q80 | GPA học kỳ ở kỳ hiện tại trống | D-180 |
+| Q81 | Tổng quan dùng số thật | D-175, D-181 |
+| Q82 | Push trước khi nghiệm thu để có CI | D-181 |

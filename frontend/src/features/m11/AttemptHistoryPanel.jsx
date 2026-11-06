@@ -1,10 +1,10 @@
+import { Badge, SidePanel, StatusChip } from '../../components/ui';
 import { courseCode, formatDecimal, withQuery } from './format';
-import { ATTEMPT_STATUSES, GRADE_STATUSES } from './labels';
 import useApiResource from './useApiResource';
-import { LevelBadge, ResourceView, SidePanel } from './ui';
+import { ResourceView } from './ui';
 
 function statusOf(item) {
-  if (item.status in ATTEMPT_STATUSES) {
+  if (item.status === 'in_progress' || item.status === 'exempt') {
     return item.status;
   }
   return item.passed ? 'done' : 'failed';
@@ -19,6 +19,7 @@ export default function AttemptHistoryPanel({ row, studentId, onClose }) {
   return (
     <SidePanel title={`Lịch sử học: ${courseCode(row.code)} ${row.name}`} onClose={onClose}>
       <ResourceView
+        compact
         resource={resource}
         loadingText="Đang tải lịch sử..."
         errorText="Không tải được lịch sử"
@@ -36,10 +37,10 @@ export default function AttemptHistoryPanel({ row, studentId, onClose }) {
                   Điểm {formatDecimal(item.score_10)} · Chữ {item.letter ?? '—'} · Hệ 4{' '}
                   {formatDecimal(item.grade_4)}
                 </p>
-                <LevelBadge level={statusOf(item)} levels={GRADE_STATUSES} />
-                {item.is_effective && (
-                  <span className="attempt-list__effective">Lần được tính</span>
-                )}
+                <div className="chip-row">
+                  <StatusChip status={statusOf(item)} />
+                  {item.is_effective && <Badge tone="info">Lần được tính</Badge>}
+                </div>
               </li>
             ))}
           </ol>

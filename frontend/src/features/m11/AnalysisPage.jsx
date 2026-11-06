@@ -1,3 +1,4 @@
+import { Card } from '../../components/ui';
 import {
   CreditProgress,
   CurriculumCheck,
@@ -11,33 +12,37 @@ import MetricInfo from './MetricInfo';
 import useApiResource from './useApiResource';
 import { ReferenceLine, ResourceView } from './ui';
 
-function Section({ title, metricKey, resource, scope, loadingText, children }) {
+function Section({ title, metricKey, resource, scope, loadingText, className, children }) {
   const semesterName = scope.semesters.data.items.find((i) => i.id === scope.semesterId)?.name;
   return (
-    <section className="card card--spaced">
-      <h2 className="section-title">
-        {title}
-        {metricKey && (
-          <MetricInfo metricKey={metricKey} label={title} studentId={scope.studentId} />
-        )}
-      </h2>
-      <ResourceView
-        resource={resource}
-        loadingText={loadingText}
-        errorText={`Không tải được ${title.toLowerCase()}`}
+    <div className={className}>
+      <Card
+        title={title}
+        actions={
+          metricKey && (
+            <MetricInfo metricKey={metricKey} label={title} studentId={scope.studentId} />
+          )
+        }
       >
-        {(data) => (
-          <>
-            {children(data)}
-            <ReferenceLine
-              semesterName={semesterName}
-              computedAt={data.meta.computed_at}
-              ruleVersion={data.meta.rule_version}
-            />
-          </>
-        )}
-      </ResourceView>
-    </section>
+        <ResourceView
+          compact
+          resource={resource}
+          loadingText={loadingText}
+          errorText={`Không tải được ${title.toLowerCase()}`}
+        >
+          {(data) => (
+            <>
+              {children(data)}
+              <ReferenceLine
+                semesterName={semesterName}
+                computedAt={data.meta.computed_at}
+                ruleVersion={data.meta.rule_version}
+              />
+            </>
+          )}
+        </ResourceView>
+      </Card>
+    </div>
   );
 }
 
@@ -49,7 +54,7 @@ function AnalysisContent({ scope }) {
   const strengths = useApiResource(path('strengths'));
   const shared = { scope };
   return (
-    <>
+    <div className="grid-12">
       <Section
         title="Xu hướng GPA"
         metricKey="gpa_trend"
@@ -59,40 +64,51 @@ function AnalysisContent({ scope }) {
       >
         {(data) => <GpaTrendChart trend={data} />}
       </Section>
-      <Section
-        title="Tiến độ tín chỉ"
-        metricKey="credits_passed"
-        resource={credits}
-        loadingText="Đang tải tín chỉ..."
-        {...shared}
-      >
-        {(data) => <CreditProgress data={data} />}
-      </Section>
-      <Section
-        title="Đối chiếu chương trình đào tạo"
-        resource={curriculum}
-        loadingText="Đang tải chương trình..."
-        {...shared}
-      >
-        {(data) => <CurriculumCheck data={data} />}
-      </Section>
+      <div className="span-7 stack">
+        <Section
+          title="Tiến độ tín chỉ"
+          metricKey="credits_passed"
+          resource={credits}
+          loadingText="Đang tải tín chỉ..."
+          {...shared}
+        >
+          {(data) => <CreditProgress data={data} />}
+        </Section>
+        <Section
+          title="Đối chiếu chương trình đào tạo"
+          resource={curriculum}
+          loadingText="Đang tải chương trình..."
+          {...shared}
+        >
+          {(data) => <CurriculumCheck data={data} />}
+        </Section>
+      </div>
       <Section
         title="Điểm mạnh và điểm yếu"
         metricKey="group_strength"
         resource={strengths}
         loadingText="Đang tải điểm mạnh, điểm yếu..."
+        className="span-5"
         {...shared}
       >
         {(data) => <StrengthsList data={data} />}
       </Section>
-      <section className="card card--spaced">
-        <h2>So sánh hai kỳ</h2>
-        <SemesterCompare key={scope.semesterId} scope={scope} />
-      </section>
-    </>
+      <div>
+        <Card title="So sánh hai kỳ">
+          <SemesterCompare key={scope.semesterId} scope={scope} />
+        </Card>
+      </div>
+    </div>
   );
 }
 
 export default function AnalysisPage() {
-  return <M11Page title="Phân tích">{(scope) => <AnalysisContent scope={scope} />}</M11Page>;
+  return (
+    <M11Page
+      title="Phân tích"
+      description="Xu hướng GPA, tiến độ tín chỉ và đối chiếu chương trình."
+    >
+      {(scope) => <AnalysisContent scope={scope} />}
+    </M11Page>
+  );
 }

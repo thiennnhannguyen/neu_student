@@ -15,8 +15,9 @@ function compareValues(first, second) {
 }
 
 /**
- * columns: [{ key, header, render?, sortValue?, sortable? }].
+ * columns: [{ key, header, render?, sortValue?, sortable?, rowHeader?, isBlank? }].
  * Header dính, hàng hover. Dưới 768px, CSS biến mỗi hàng thành thẻ và lấy nhãn từ data-label.
+ * rowHeader: ô là tiêu đề của hàng. isBlank(row): ô không có giá trị, được ẩn trên thẻ di động.
  */
 export default function DataTable({ columns, rows, rowKey, ariaLabel, caption }) {
   const [sort, setSort] = useState(null);
@@ -58,7 +59,7 @@ export default function DataTable({ columns, rows, rowKey, ariaLabel, caption })
 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- cuộn được bằng bàn phím
-    <div className="data-table-wrap table-scroll" role="region" aria-label={ariaLabel} tabIndex={0}>
+    <div className="data-table-wrap" role="region" aria-label={ariaLabel} tabIndex={0}>
       <table className="ui-table">
         {caption && <caption className="visually-hidden">{caption}</caption>}
         <thead>
@@ -87,11 +88,25 @@ export default function DataTable({ columns, rows, rowKey, ariaLabel, caption })
         <tbody>
           {sorted.map((row) => (
             <tr key={rowKey(row)}>
-              {columns.map((column) => (
-                <td key={column.key} data-label={column.header}>
-                  {column.render ? column.render(row) : row[column.key]}
-                </td>
-              ))}
+              {columns.map((column) => {
+                const content = column.render ? column.render(row) : row[column.key];
+                if (column.rowHeader) {
+                  return (
+                    <th key={column.key} scope="row" data-label={column.header}>
+                      {content}
+                    </th>
+                  );
+                }
+                return (
+                  <td
+                    key={column.key}
+                    data-label={column.header}
+                    className={column.isBlank?.(row) ? 'ui-table__blank' : undefined}
+                  >
+                    {content}
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>

@@ -21,6 +21,9 @@ import {
 const search = () => screen.getByTestId('search').textContent;
 const path = () => screen.getByTestId('path').textContent;
 
+/** Chờ các lời gọi đang chạy trả về, để kiểm "không xuất hiện" không qua sớm. */
+const settled = () => new Promise((resolve) => window.setTimeout(resolve, 20));
+
 function card(title) {
   return screen.getByRole('link', { name: title }).closest('article');
 }
@@ -153,6 +156,17 @@ describe('bộ lọc kỳ', () => {
     await waitFor(() => expect(search()).toBe('?semester=S4'));
   });
 
+  it('kỳ hiện tại được ghi rõ trong danh sách', async () => {
+    m11Api('student');
+
+    renderApp('/');
+
+    expect(
+      await screen.findByRole('option', { name: 'HK1 2026-2027 (mẫu) – hiện tại' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'HK2 2025-2026 (mẫu)' })).toBeInTheDocument();
+  });
+
   it('mặc định là kỳ hiện tại, mở URL có kỳ thì dùng kỳ đó', async () => {
     const fetchMock = m11Api('student');
 
@@ -235,7 +249,9 @@ describe('Tổng quan', () => {
     expect(within(card('Tín chỉ đạt')).getByText('19')).toBeInTheDocument();
     expect(within(card('Tín chỉ đạt')).getByText('Nợ 6 · Đang học 15')).toBeInTheDocument();
     expect(within(card('Số môn chưa đạt')).getByText('2')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Mức cảnh báo chung/ })).toHaveTextContent('Cảnh báo');
+    expect(
+      within(screen.getByRole('link', { name: /Mức cảnh báo chung/ })).getByText('Cảnh báo'),
+    ).toHaveClass('status-chip');
     expect(screen.getByRole('link', { name: /Mức cảnh báo chung/ })).toHaveTextContent('tham khảo');
   });
 
@@ -333,6 +349,23 @@ describe('Tổng quan', () => {
     expect(info).toHaveFocus();
   });
 
+  it('panel giải thích: khóa không có quy chế ghi "Không xác định"', async () => {
+    m11Api('student', {
+      'GET /api/m11/metrics-glossary': () =>
+        jsonResponse(200, {
+          items: [
+            { key: 'semester_gpa', formula: 'CT', source: 'Nguồn', rule_version: null, note: 'G' },
+          ],
+        }),
+    });
+    const user = userEvent.setup();
+
+    renderApp('/');
+    await user.click(await screen.findByRole('button', { name: 'Giải thích: GPA học kỳ' }));
+
+    expect(await screen.findByText('Không xác định')).toBeInTheDocument();
+  });
+
   it('panel giải thích: chỉ số chưa có giải thích', async () => {
     m11Api('student');
     const user = userEvent.setup();
@@ -343,6 +376,81 @@ describe('Tổng quan', () => {
     expect(await screen.findByText('Chưa có giải thích cho chỉ số này.')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Đóng' }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+});
+
+describe('Tổng quan: GPA học kỳ trống (Q80)', () => {
+  const noSemesterResult = () => {
+    const body = overviewBody({ gpa: null });
+    body.metrics.semester_gpa.denominator = 0;
+    return jsonResponse(200, body);
+  };
+
+  it('mẫu số bằng 0: ghi chưa có kết quả và kỳ gần nhất có điểm, các thẻ khác giữ kỳ', async () => {
+    const fetchMock = m11Api('student', {
+      'GET /api/m11/overview': noSemesterResult,
+      'GET /api/m11/gpa-trend': () =>
+        jsonResponse(200, {
+          ...TREND,
+          points: [
+            { semester_id: 'S3', order: 3, name: 'Kỳ 3', value: '2.50' },
+            { semester_id: 'S4', order: 4, name: 'Kỳ 4', value: '3.11' },
+            { semester_id: 'S5', order: 5, name: 'Kỳ 5', value: null },
+          ],
+        }),
+    });
+
+    renderApp('/?semester=S5');
+
+    await screen.findByRole('link', { name: 'GPA học kỳ' });
+    const gpaCard = card('GPA học kỳ');
+    expect(await within(gpaCard).findByText('Kỳ này chưa có kết quả')).toBeInTheDocument();
+    expect(await within(gpaCard).findByText('Kỳ gần nhất có điểm (S4): 3,11')).toBeInTheDocument();
+    expect(within(gpaCard).getByText('—')).toBeInTheDocument();
+    expect(within(card('GPA tích lũy')).getByText(/Kỳ tham chiếu Kỳ S5/)).toBeInTheDocument();
+    expect(callsTo(fetchMock, '/api/m11/gpa-trend')[0].get('semester_id')).toBe('S5');
+    expect(screen.getByLabelText('Học kỳ')).toHaveValue('S5');
+  });
+
+  it('không có kỳ nào có điểm: chỉ ghi dòng đầu', async () => {
+    m11Api('student', {
+      'GET /api/m11/overview': noSemesterResult,
+      'GET /api/m11/gpa-trend': () =>
+        jsonResponse(200, {
+          ...TREND,
+          points: [{ semester_id: 'S5', order: 5, name: 'Kỳ 5', value: null }],
+        }),
+    });
+
+    renderApp('/');
+
+    expect(await screen.findByText('Kỳ này chưa có kết quả')).toBeInTheDocument();
+    await settled();
+    expect(screen.queryByText(/Kỳ gần nhất có điểm/)).not.toBeInTheDocument();
+  });
+
+  it('lỗi khi đọc kỳ gần nhất: vẫn có dòng đầu, không làm hỏng trang', async () => {
+    m11Api('student', {
+      'GET /api/m11/overview': noSemesterResult,
+      'GET /api/m11/gpa-trend': () => apiError(500, 'INTERNAL_ERROR', 'Lỗi'),
+    });
+
+    renderApp('/');
+
+    expect(await screen.findByText('Kỳ này chưa có kết quả')).toBeInTheDocument();
+    await settled();
+    expect(screen.queryByText(/Kỳ gần nhất có điểm/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+
+  it('có mẫu số: không có dòng này, không gọi thêm API', async () => {
+    const fetchMock = m11Api('student');
+
+    renderApp('/');
+
+    await screen.findByText('3,11');
+    expect(screen.queryByText('Kỳ này chưa có kết quả')).not.toBeInTheDocument();
+    expect(callsTo(fetchMock, '/api/m11/gpa-trend')).toEqual([]);
   });
 });
 
@@ -383,8 +491,8 @@ describe('Kết quả', () => {
 
       const table = await screen.findByRole('table');
       const badge = within(table).getByText(label);
-      expect(badge).toHaveClass('level-badge');
-      expect(badge.querySelector('[aria-hidden="true"]').textContent.trim()).not.toBe('');
+      expect(badge).toHaveClass('status-chip');
+      expect(badge.querySelector('svg[aria-hidden="true"]')).toBeInTheDocument();
     },
   );
 
@@ -416,7 +524,7 @@ describe('Kết quả', () => {
     renderApp('/m11/ket-qua');
 
     const table = await screen.findByRole('table');
-    expect(table.querySelectorAll('td.grades-table__blank')).toHaveLength(4);
+    expect(table.querySelectorAll('td.ui-table__blank')).toHaveLength(4);
     expect(within(table).getAllByText('—')).toHaveLength(4);
   });
 
@@ -553,6 +661,7 @@ describe('Kết quả', () => {
       'Lần thứ 3 · HK1 2026-2027 (mẫu)',
     ]);
     expect(within(items[0]).getByText('Chưa đạt')).toBeInTheDocument();
+    expect(within(items[0]).queryByText('Lần được tính')).not.toBeInTheDocument();
     expect(within(items[1]).getByText('Lần được tính')).toBeInTheDocument();
     expect(within(items[2]).getByText('Đang học')).toBeInTheDocument();
     expect(callsTo(fetchMock, '/api/m11/grades/MAU101/attempts')[0].get('student_id')).toBe('SV02');
@@ -581,6 +690,104 @@ describe('Kết quả', () => {
 
     await screen.findByRole('table');
     expect(screen.queryByRole('button', { name: /Xem lịch sử/ })).not.toBeInTheDocument();
+  });
+
+  it('sắp xếp điểm trong trang hiện tại, ô trống không thành 0', async () => {
+    m11Api('student', {
+      'GET /api/m11/grades': () =>
+        jsonResponse(
+          200,
+          gradesBody([
+            gradeRow({ course_id: 'A', name: 'Môn A', score_10: '8.50' }),
+            gradeRow({ course_id: 'B', name: 'Môn B', score_10: '10.00' }),
+            gradeRow({ course_id: 'C', name: 'Môn C', score_10: null }),
+          ]),
+        ),
+    });
+    const user = userEvent.setup();
+
+    renderApp('/m11/ket-qua');
+    const table = await screen.findByRole('table');
+    await user.click(within(table).getByRole('button', { name: 'Điểm' }));
+
+    const scores = within(table)
+      .getAllByRole('row')
+      .slice(1)
+      .map((row) => within(row).getAllByRole('cell')[4].textContent);
+    expect(scores).toEqual(['8,50', '10,00', '—']);
+  });
+
+  it('sắp xếp học kỳ theo thứ tự kỳ, không theo tên', async () => {
+    m11Api('student', {
+      'GET /api/m11/grades': () =>
+        jsonResponse(
+          200,
+          gradesBody([
+            gradeRow({ course_id: 'B', semester: { id: 'S3', name: 'Kỳ A', order: 3 } }),
+            gradeRow({ course_id: 'A', semester: { id: 'S2', name: 'Kỳ Z', order: 2 } }),
+          ]),
+        ),
+    });
+    const user = userEvent.setup();
+
+    renderApp('/m11/ket-qua');
+    const table = await screen.findByRole('table');
+    await user.click(within(table).getByRole('button', { name: 'Học kỳ' }));
+
+    const names = within(table)
+      .getAllByRole('row')
+      .slice(1)
+      .map((row) => within(row).getAllByRole('cell')[3].textContent);
+    expect(names).toEqual(['Kỳ Z', 'Kỳ A']);
+  });
+
+  it('tìm môn thì về trang 1', async () => {
+    m11Api('student');
+    const user = userEvent.setup();
+
+    renderApp('/m11/ket-qua?page=3');
+    await user.type(await screen.findByLabelText('Tìm môn'), 'toán{Enter}');
+
+    await waitFor(() => expect(search()).toBe('?q=to%C3%A1n'));
+  });
+
+  it('cảnh báo dữ liệu của cả bảng: có thì hiện, không có thì không có khối này', async () => {
+    m11Api('student', {
+      'GET /api/m11/grades': () =>
+        jsonResponse(
+          200,
+          gradesBody([gradeRow()], {
+            meta: {
+              ...gradesBody([]).meta,
+              data_warnings: [{ code: 'X', course_id: null, semester_id: null, message: 'Thiếu.' }],
+            },
+          }),
+        ),
+    });
+
+    renderApp('/m11/ket-qua');
+
+    expect(await screen.findByText('Cảnh báo dữ liệu (1)')).toBeInTheDocument();
+    expect(screen.getByText('Thiếu.')).toBeInTheDocument();
+  });
+
+  it('không có cảnh báo dữ liệu thì không có khối cảnh báo', async () => {
+    m11Api('student');
+
+    renderApp('/m11/ket-qua');
+
+    await screen.findByRole('table');
+    expect(screen.queryByText(/Cảnh báo dữ liệu \(/)).not.toBeInTheDocument();
+  });
+
+  it('lỗi bảng điểm hiện cả nội dung lỗi của máy chủ', async () => {
+    m11Api('student', {
+      'GET /api/m11/grades': () => apiError(500, 'INTERNAL_ERROR', 'Hệ thống gặp lỗi.'),
+    });
+
+    renderApp('/m11/ket-qua');
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Hệ thống gặp lỗi.');
   });
 
   it('dòng có cảnh báo dữ liệu hiện nhãn và tooltip gắn với nhãn', async () => {
@@ -693,6 +900,7 @@ describe('Phân tích', () => {
     expect(screen.getByText('Điểm mạnh')).toBeInTheDocument();
     expect(screen.getByText('Chưa đủ dữ liệu')).toBeInTheDocument();
     expect(screen.getByText('Môn làm bằng chứng: CNT101')).toBeInTheDocument();
+    expect(screen.queryByText('GPA nhóm —')).not.toBeInTheDocument();
   });
 
   it('so sánh 2 kỳ: mặc định kỳ trước và kỳ đang chọn, đổi kỳ thì gọi lại', async () => {
@@ -711,6 +919,44 @@ describe('Phân tích', () => {
     await user.selectOptions(screen.getByLabelText('Kỳ thứ hai'), 'S4');
 
     await waitFor(() => expect(callsTo(fetchMock, '/api/m11/compare').at(-1).get('b')).toBe('S4'));
+  });
+
+  it('so sánh: đổi kỳ thứ nhất thì gọi lại; đổi học kỳ của trang thì về mặc định', async () => {
+    const fetchMock = m11Api('student');
+    const user = userEvent.setup();
+
+    renderApp('/m11/phan-tich');
+    await screen.findByRole('region', { name: 'So sánh hai kỳ' });
+
+    await user.selectOptions(screen.getByLabelText('Kỳ thứ nhất'), 'S5');
+    await waitFor(() => expect(callsTo(fetchMock, '/api/m11/compare').at(-1).get('a')).toBe('S5'));
+
+    await user.selectOptions(screen.getByLabelText('Học kỳ'), 'S4');
+    await waitFor(() => expect(screen.getByLabelText('Kỳ thứ nhất')).toHaveValue('S4'));
+    expect(screen.getByLabelText('Kỳ thứ hai')).toHaveValue('S4');
+  });
+
+  it('so sánh: mỗi cột lấy đúng kỳ, chênh lệch có dấu', async () => {
+    m11Api('student', {
+      'GET /api/m11/compare': () =>
+        jsonResponse(200, {
+          ...COMPARE,
+          semester_a: { ...COMPARE.semester_a, credits: 11, passed_count: 21, failed_count: 31 },
+          semester_b: { ...COMPARE.semester_b, credits: 12, passed_count: 22, failed_count: 32 },
+          failed_delta: 1,
+        }),
+    });
+
+    renderApp('/m11/phan-tich');
+
+    const region = await screen.findByRole('region', { name: 'So sánh hai kỳ' });
+    const cellsOf = (name) =>
+      within(within(region).getByRole('rowheader', { name }).closest('tr'))
+        .getAllByRole('cell')
+        .map((cell) => cell.textContent);
+    expect(cellsOf('Tín chỉ').slice(0, 2)).toEqual(['11', '12']);
+    expect(cellsOf('Số môn đạt').slice(0, 2)).toEqual(['21', '22']);
+    expect(cellsOf('Số môn chưa đạt')).toEqual(['31', '32', '+1']);
   });
 
   it('so sánh mặc định lấy đúng kỳ liền trước kỳ đang chọn', async () => {
@@ -811,10 +1057,28 @@ describe('Cảnh báo', () => {
     renderApp('/m11/canh-bao');
 
     await screen.findByText(RISKS.outcomes[0].reason);
-    for (const badge of document.querySelectorAll('.level-badge')) {
+    const chips = document.querySelectorAll('.status-chip');
+    expect(chips.length).toBeGreaterThan(0);
+    for (const badge of chips) {
       expect(badge.textContent.trim().length).toBeGreaterThan(2);
-      expect(badge.querySelector('[aria-hidden="true"]').textContent.trim()).not.toBe('');
+      expect(badge.querySelector('svg[aria-hidden="true"]')).toBeInTheDocument();
     }
+  });
+
+  it('mức chung có nhãn; mỗi quy tắc có tên tiếng Việt', async () => {
+    m11Api('student', {
+      'GET /api/m11/risks': () =>
+        jsonResponse(200, {
+          ...RISKS,
+          overall: 'insufficient_data',
+          outcomes: [{ ...RISKS.outcomes[0], level: 'normal' }],
+        }),
+    });
+
+    renderApp('/m11/canh-bao');
+
+    expect(await screen.findByText('Chưa đủ dữ liệu')).toHaveClass('status-chip');
+    expect(screen.getByRole('heading', { name: 'GPA tích lũy' })).toBeInTheDocument();
   });
 
   it('nút tạo kế hoạch bị khóa, có ghi chú', async () => {
@@ -857,5 +1121,191 @@ describe('Cảnh báo', () => {
     renderApp('/m11/canh-bao');
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Không tải được cảnh báo');
+  });
+});
+
+describe('phạm vi xem trên điện thoại', () => {
+  const STUDENTS = {
+    items: [
+      { id: 'SV04', student_code: 'SV04', full_name: 'Sinh viên 04 (mẫu)', cohort: 'K66' },
+      { id: 'SV07', student_code: 'SV07', full_name: 'Sinh viên 07 (mẫu)', cohort: 'K66' },
+    ],
+    page: 1,
+    page_size: 100,
+    total: 2,
+  };
+  const chip = (name) => screen.findByRole('button', { name });
+
+  it('quản trị: chip ghi sinh viên và kỳ; mở tấm chọn, đổi sinh viên và kỳ', async () => {
+    m11Api('admin', { 'GET /api/admin/students': () => jsonResponse(200, STUDENTS) });
+    const user = userEvent.setup();
+
+    renderApp('/?student=SV04');
+    const opener = await chip('Đang xem: SV04 · S5');
+    expect(opener).toHaveAttribute('aria-haspopup', 'dialog');
+    expect(opener).toHaveAttribute('title', 'Đang xem: SV04 · S5');
+    await user.click(opener);
+
+    const sheet = screen.getByRole('dialog', { name: 'Chọn phạm vi xem' });
+    expect(within(sheet).getByRole('button', { name: 'Đóng' })).toHaveFocus();
+    expect(within(sheet).getByRole('radio', { name: /SV04/ })).toBeChecked();
+
+    await user.click(within(sheet).getByRole('radio', { name: /SV07/ }));
+    expect(search()).toContain('student=SV07');
+    await user.selectOptions(within(sheet).getByLabelText('Học kỳ'), 'S4');
+    expect(search()).toContain('semester=S4');
+    expect(await chip('Đang xem: SV07 · S4')).toBeInTheDocument();
+  });
+
+  it('Esc đóng tấm chọn và trả focus về chip; Tab không ra ngoài', async () => {
+    m11Api('admin', { 'GET /api/admin/students': () => jsonResponse(200, STUDENTS) });
+    const user = userEvent.setup();
+
+    renderApp('/?student=SV04');
+    const opener = await chip('Đang xem: SV04 · S5');
+    opener.focus();
+    await user.keyboard('{Enter}');
+    const sheet = screen.getByRole('dialog');
+
+    await user.keyboard('{Shift>}{Tab}{/Shift}');
+    expect(within(sheet).getByRole('button', { name: 'Xong' })).toHaveFocus();
+    await user.keyboard('{Tab}');
+    expect(within(sheet).getByRole('button', { name: 'Đóng' })).toHaveFocus();
+
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(opener).toHaveFocus();
+  });
+
+  it('nút Xong và bấm nền đều đóng tấm chọn', async () => {
+    m11Api('advisor');
+    const user = userEvent.setup();
+
+    renderApp('/m12/dinh-huong');
+    await user.click(await chip('Đang xem: Chưa chọn'));
+    await user.click(screen.getByRole('button', { name: 'Xong' }));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+    await user.click(await chip('Đang xem: Chưa chọn'));
+    await user.click(document.querySelector('.bottom-sheet__backdrop'));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('cố vấn tìm được trong tấm chọn, gửi q; không có kết quả thì nói rõ', async () => {
+    const fetchMock = m11Api('advisor', {
+      'GET /api/advisor/students': (url) =>
+        jsonResponse(
+          200,
+          new URL(url, 'http://x').searchParams.get('q')
+            ? { ...STUDENTS, items: [], total: 0 }
+            : STUDENTS,
+        ),
+    });
+    const user = userEvent.setup();
+
+    renderApp('/m12/dinh-huong');
+    await user.click(await chip('Đang xem: Chưa chọn'));
+    await within(screen.getByRole('dialog')).findByRole('radio', { name: /SV04/ });
+    await user.type(screen.getByLabelText('Tìm sinh viên'), 'zz');
+
+    expect(await screen.findByText('Không có sinh viên phù hợp.')).toBeInTheDocument();
+    expect(callsTo(fetchMock, '/api/advisor/students').at(-1).get('q')).toBe('zz');
+  });
+
+  it('sinh viên đang chọn không có trong kết quả tìm: vẫn thấy và giữ nguyên', async () => {
+    m11Api('admin', {
+      'GET /api/admin/students': () => jsonResponse(200, { ...STUDENTS, items: [], total: 0 }),
+    });
+    const user = userEvent.setup();
+
+    renderApp('/?student=SV09');
+    await user.click(await chip('Đang xem: SV09 · S5'));
+
+    expect(screen.getByRole('radio', { name: 'SV09' })).toBeChecked();
+  });
+
+  it('trang Kết quả có "Tất cả các kỳ" trong tấm chọn, chip ghi rõ', async () => {
+    m11Api('student');
+    const user = userEvent.setup();
+
+    renderApp('/m11/ket-qua');
+    await user.click(await chip('Đang xem: S5'));
+    const sheet = screen.getByRole('dialog');
+
+    expect(within(sheet).queryByRole('radiogroup')).not.toBeInTheDocument();
+    expect(within(sheet).queryByLabelText('Tìm sinh viên')).not.toBeInTheDocument();
+    await user.selectOptions(within(sheet).getByLabelText('Học kỳ'), 'all');
+
+    expect(search()).toBe('?semester=all');
+    expect(await chip('Đang xem: Tất cả')).toBeInTheDocument();
+  });
+
+  it('trang ngoài M11: cố vấn có chip không có kỳ, sinh viên không có chip', async () => {
+    m11Api('student');
+
+    renderApp('/m12/dinh-huong?semester=all');
+
+    await screen.findByRole('heading', { name: 'Định hướng nghề' });
+    expect(screen.queryByRole('button', { name: /Đang xem/ })).not.toBeInTheDocument();
+    expect(search()).toBe('?semester=all');
+  });
+
+  it('chỉ gọi danh sách học kỳ một lần cho cả thanh trên cùng và trang', async () => {
+    const fetchMock = m11Api('student');
+
+    renderApp('/m11/canh-bao');
+
+    await screen.findByText(RISKS.outcomes[0].reason);
+    expect(callsTo(fetchMock, '/api/m11/semesters')).toHaveLength(1);
+  });
+
+  it('đường dẫn có dấu / ở cuối vẫn là trang M11', async () => {
+    m11Api('student');
+
+    renderApp('/m11/canh-bao/');
+
+    expect(await screen.findByText(RISKS.outcomes[0].reason)).toBeInTheDocument();
+  });
+
+  it('đổi sinh viên thì về trang 1 của bảng điểm', async () => {
+    m11Api('admin', { 'GET /api/admin/students': () => jsonResponse(200, STUDENTS) });
+    const user = userEvent.setup();
+
+    renderApp('/m11/ket-qua?student=SV04&page=3');
+    await user.click(await chip('Đang xem: SV04 · S5'));
+    await user.click(screen.getByRole('radio', { name: /SV07/ }));
+
+    expect(search()).toBe('?student=SV07');
+  });
+
+  it('nhân sự hỗ trợ ở trang chủ cũng không có chip', async () => {
+    m11Api('support_staff');
+
+    renderApp('/');
+
+    await screen.findByText('Chào Người dùng support_staff (mẫu)');
+    expect(screen.queryByRole('button', { name: /Đang xem/ })).not.toBeInTheDocument();
+  });
+
+  it('nhân sự hỗ trợ không có chip và không gọi học kỳ', async () => {
+    const fetchMock = m11Api('support_staff');
+
+    renderApp('/m12/hoc-lieu');
+
+    await screen.findByRole('heading', { name: 'Học liệu' });
+    expect(screen.queryByRole('button', { name: /Đang xem/ })).not.toBeInTheDocument();
+    expect(callsTo(fetchMock, '/api/m11/semesters')).toEqual([]);
+  });
+});
+
+describe('so sánh hai kỳ', () => {
+  it('tên chỉ số là tiêu đề hàng', async () => {
+    m11Api('student');
+
+    renderApp('/m11/phan-tich');
+
+    const region = await screen.findByRole('region', { name: 'So sánh hai kỳ' });
+    expect(within(region).getByRole('rowheader', { name: 'GPA' })).toBeInTheDocument();
+    expect(within(region).getByRole('rowheader', { name: 'Số môn chưa đạt' })).toBeInTheDocument();
   });
 });

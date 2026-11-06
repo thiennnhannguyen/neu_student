@@ -49,18 +49,18 @@ export default function GpaTrendChart({ trend }) {
       <div className="trend-chart__plot" aria-hidden="true">
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={data} margin={{ top: 16, right: 16, bottom: 0, left: -24 }}>
-            <CartesianGrid vertical={false} stroke="var(--color-border)" />
+            <CartesianGrid vertical={false} stroke="var(--border-subtle)" />
             <XAxis
               dataKey="label"
-              tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }}
+              tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
               tickLine={false}
-              axisLine={{ stroke: 'var(--color-border)' }}
+              axisLine={{ stroke: 'var(--border-subtle)' }}
               interval="preserveStartEnd"
             />
             <YAxis
               domain={[0, 4]}
               ticks={GPA_TICKS}
-              tick={{ fill: 'var(--color-text-muted)', fontSize: 12 }}
+              tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
               tickLine={false}
               axisLine={false}
             />
@@ -73,7 +73,7 @@ export default function GpaTrendChart({ trend }) {
               dot={{
                 r: 4,
                 fill: 'var(--neu-primary)',
-                stroke: 'var(--color-surface)',
+                stroke: 'var(--surface-card)',
                 strokeWidth: 2,
               }}
               activeDot={{ r: 6 }}

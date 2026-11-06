@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router';
+import { M11ScopeProvider } from '../features/m11/M11ScopeContext';
 import MockNotice from './MockNotice';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
@@ -26,13 +27,15 @@ export default function AppLayout() {
           <div className="sidebar-scrim" onClick={() => setOpen(false)} />
         )}
         <div className="app-column">
-          <Topbar menuOpen={open} onToggleMenu={() => setOpen((value) => !value)} />
-          <main id="main" className="app-main">
-            <div className="app-content">
-              <Outlet />
-            </div>
-            <MockNotice className="app-main__notice" />
-          </main>
+          <M11ScopeProvider>
+            <Topbar menuOpen={open} onToggleMenu={() => setOpen((value) => !value)} />
+            <main id="main" className="app-main">
+              <div className="app-content">
+                <Outlet />
+              </div>
+              <MockNotice className="app-main__notice" />
+            </main>
+          </M11ScopeProvider>
         </div>
       </div>
     </ToastProvider>

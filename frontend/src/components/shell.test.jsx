@@ -1,6 +1,7 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { m11Api } from '../features/m11/testData';
 import { jsonResponse, loggedInAs, renderApp } from '../test/fakeApi';
 import { MOCK_NOTICE } from './MockNotice';
 import { pageMetaFor } from './menu';
@@ -135,7 +136,7 @@ describe('sidebar', () => {
 });
 
 describe('topbar', () => {
-  it('có tiêu đề trang, đường dẫn phân cấp, chuông bị khóa có tooltip', async () => {
+  it('có đường dẫn phân cấp, chuông bị khóa có tooltip', async () => {
     loggedInAs('student');
 
     renderApp('/m12/dinh-huong');
@@ -179,6 +180,73 @@ describe('topbar', () => {
 
     expect(screen.queryByRole('menuitem', { name: 'Hồ sơ' })).toBeNull();
     expect(screen.getByRole('menuitem', { name: 'Đăng xuất' })).toBeInTheDocument();
+  });
+});
+
+describe('một tiêu đề cho mỗi màn hình', () => {
+  const PAGES = [
+    ['student', '/', 'Tổng quan'],
+    ['support_staff', '/', 'Tổng quan'],
+    ['student', '/m11/ket-qua', 'Kết quả'],
+    ['student', '/m11/phan-tich', 'Phân tích'],
+    ['student', '/m11/canh-bao', 'Cảnh báo'],
+    ['student', '/ho-so', 'Hồ sơ'],
+    ['student', '/m12/dinh-huong', 'Định hướng nghề'],
+    ['student', '/khong-co', 'Không tìm thấy trang'],
+    ['admin', '/quan-tri/nhat-ky', 'Nhật ký thay đổi'],
+  ];
+
+  it.each(PAGES)('%s ở %s: đúng một h1 "%s"', async (role, path, title) => {
+    m11Api(role, {
+      'GET /api/students/me': () =>
+        jsonResponse(200, {
+          id: 'SV01',
+          student_code: 'SV01',
+          full_name: 'Sinh viên 01 (mẫu)',
+          cohort: 'K66',
+          program: { id: 'prog', name: 'CNTT (mẫu)' },
+          program_version: { id: 'pv', name: 'CTĐT K66 (mẫu)', version: 1 },
+          current_semester: { id: 'S5', name: 'HK1 (mẫu)' },
+          advisors: [],
+          contact_email: null,
+          contact_phone: null,
+          is_mock: true,
+        }),
+      'GET /api/admin/audit-logs': () =>
+        jsonResponse(200, { items: [], page: 1, page_size: 20, total: 0 }),
+    });
+
+    renderApp(path);
+
+    const heading = await screen.findByRole('heading', { level: 1, name: title });
+    expect(screen.getAllByRole('heading', { level: 1 })).toEqual([heading]);
+    expect(document.querySelectorAll('h1')).toHaveLength(1);
+  });
+
+  it('thanh trên cùng chỉ có đường dẫn phân cấp, không lặp tiêu đề trang', async () => {
+    m11Api('student');
+
+    renderApp('/m11/ket-qua');
+
+    await screen.findByRole('heading', { level: 1, name: 'Kết quả' });
+    const banner = screen.getByRole('banner');
+    expect(within(banner).queryByRole('heading')).toBeNull();
+    const crumbs = within(banner).getByRole('navigation', { name: 'Vị trí trang' });
+    expect(within(banner).getAllByText('Kết quả')).toEqual([within(crumbs).getByText('Kết quả')]);
+    expect(document.querySelector('.topbar__title')).toBeNull();
+  });
+
+  it('Tổng quan: bỏ PageHeader, h1 chỉ cho trình đọc màn hình, không có đường dẫn', async () => {
+    m11Api('student');
+
+    renderApp('/');
+
+    const heading = await screen.findByRole('heading', { level: 1, name: 'Tổng quan' });
+    expect(heading).toHaveClass('visually-hidden');
+    expect(document.querySelector('.page-header')).toBeNull();
+    expect(screen.getByRole('region', { name: 'Lời chào' })).toBeInTheDocument();
+    expect(screen.queryByRole('navigation', { name: 'Vị trí trang' })).toBeNull();
+    expect(await screen.findByLabelText('Học kỳ')).toBeInTheDocument();
   });
 });
 

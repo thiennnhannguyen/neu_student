@@ -6,22 +6,28 @@ import useApiResource from './useApiResource';
 
 export const ALL_SEMESTERS = 'all';
 
-/** Sinh viên và kỳ đang xem, đọc từ URL. allowAll chỉ bật ở trang Kết quả (Q74). */
-export default function useM11Scope({ allowAll = false } = {}) {
+/**
+ * Sinh viên và kỳ đang xem, đọc từ URL. allowAll chỉ bật ở trang Kết quả (Q74).
+ * enabled là false ở trang không thuộc M11: không gọi API, không đụng tới URL.
+ */
+export default function useM11Scope({ enabled = true, allowAll = false } = {}) {
   const { role } = useAuth();
   const [params, setParams] = useSearchParams();
   const picksStudent = role !== 'student';
   const studentId = picksStudent ? params.get('student') : null;
   const needsStudent = picksStudent && !studentId;
   const semesters = useApiResource(
-    needsStudent ? null : withQuery('/api/m11/semesters', { student_id: studentId }),
+    !enabled || needsStudent ? null : withQuery('/api/m11/semesters', { student_id: studentId }),
   );
 
   const raw = params.get('semester');
   const known = semesters.status === 'ok' && semesters.data.items.some((item) => item.id === raw);
   const isAll = allowAll && raw === ALL_SEMESTERS;
   const invalid =
-    raw !== null && !isAll && (raw === ALL_SEMESTERS || (semesters.status === 'ok' && !known));
+    enabled &&
+    raw !== null &&
+    !isAll &&
+    (raw === ALL_SEMESTERS || (semesters.status === 'ok' && !known));
 
   useEffect(() => {
     if (invalid) {
@@ -57,6 +63,7 @@ export default function useM11Scope({ allowAll = false } = {}) {
   }
 
   return {
+    allowAll,
     needsStudent,
     studentId,
     semesters,

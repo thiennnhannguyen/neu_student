@@ -1,3 +1,4 @@
+import Button from '../../components/ui/Button';
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { useAuth } from './AuthContext';
 import { LOGIN_PATH } from './redirect';
@@ -21,9 +22,7 @@ export default function ProtectedRoute() {
     return (
       <div role="alert" className="page-status">
         <p className="status-error">Không kiểm tra được phiên đăng nhập: {message}</p>
-        <button type="button" className="button" onClick={retry}>
-          Thử lại
-        </button>
+        <Button onClick={retry}>Thử lại</Button>
       </div>
     );
   }

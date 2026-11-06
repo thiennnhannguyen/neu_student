@@ -1,12 +1,14 @@
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { AlertTriangle, Pencil, Plus, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { MOTIFS } from '../../components/brand/motifs';
 import {
   Avatar,
   Badge,
+  BottomSheet,
   Button,
   Card,
   DataTable,
+  Disclosure,
   DropdownMenu,
   EmptyState,
   ErrorState,
@@ -16,6 +18,7 @@ import {
   MetricCard,
   PageHeader,
   Pagination,
+  ProgressBar,
   SearchBox,
   Select,
   SidePanel,
@@ -23,6 +26,7 @@ import {
   StatusChip,
   Tabs,
   ToastProvider,
+  Tooltip,
   useToast,
 } from '../../components/ui';
 import { STATUS_CHIPS } from '../../components/ui/StatusChip';
@@ -134,6 +138,22 @@ function Section({ title, children }) {
 
 const noop = () => {};
 
+function SheetDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <Section title="BottomSheet">
+      <Button variant="secondary" onClick={() => setOpen(true)}>
+        Mở tấm chọn
+      </Button>
+      {open && (
+        <BottomSheet title="Tấm chọn mẫu" onClose={() => setOpen(false)}>
+          <p>Focus giữ trong tấm, Esc để đóng.</p>
+        </BottomSheet>
+      )}
+    </Section>
+  );
+}
+
 export default function StyleguidePage() {
   const [panel, setPanel] = useState(false);
   return (
@@ -241,6 +261,16 @@ export default function StyleguidePage() {
             </div>
           </div>
         </Section>
+        <Section title="ProgressBar, Disclosure, Tooltip">
+          <ProgressBar label="Bắt buộc" percent={25} valueText="15/60 tín chỉ" />
+          <Disclosure summary="Môn bắt buộc còn thiếu (1)">Nội dung mở ra khi bấm.</Disclosure>
+          <Tooltip
+            label="Cảnh báo dữ liệu"
+            icon={AlertTriangle}
+            text="Rê chuột hoặc focus để đọc."
+          />
+        </Section>
+        <SheetDemo />
         <Section title="DataTable (dưới 768px thành thẻ, bấm tiêu đề để sắp xếp)">
           <DataTable
             ariaLabel="Bảng mẫu"

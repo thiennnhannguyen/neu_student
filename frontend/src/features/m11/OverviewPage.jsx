@@ -1,16 +1,16 @@
 import { Link, useLocation } from 'react-router';
 import { ROLE_LABELS } from '../../components/menu';
 import ShortcutGrid from '../../components/ShortcutGrid';
-import { MetricCard, Skeleton } from '../../components/ui';
+import { Card, EmptyState, MetricCard, Skeleton, StatusChip } from '../../components/ui';
 import WelcomeCard from '../../components/WelcomeCard';
 import { useAuth } from '../auth/AuthContext';
 import { formatCount, formatDecimal, withQuery } from './format';
-import { DISCLAIMER, RISK_LEVELS } from './labels';
+import { DISCLAIMER } from './labels';
 import M11Page from './M11Page';
 import MetricInfo from './MetricInfo';
 import { carrySearch } from './scopeQuery';
 import useApiResource from './useApiResource';
-import { DataWarnings, LevelBadge, ReferenceLine, ResourceView } from './ui';
+import { DataWarnings, ReferenceLine, ResourceView } from './ui';
 
 function OverviewMetric({ title, metricKey, value, detail, to, metric, semesterName, studentId }) {
   return (
@@ -30,6 +30,26 @@ function OverviewMetric({ title, metricKey, value, detail, to, metric, semesterN
         }
       />
     </div>
+  );
+}
+
+/** Kỳ gần nhất có GPA, tính từ danh sách đã có ở /gpa-trend. Không đổi kỳ của các thẻ khác (Q80). */
+export function latestGradedPoint(points) {
+  return points.findLast((point) => point.value !== null) ?? null;
+}
+
+function NoSemesterResult({ query }) {
+  const trend = useApiResource(withQuery('/api/m11/gpa-trend', query));
+  const point = trend.status === 'ok' ? latestGradedPoint(trend.data.points) : null;
+  return (
+    <>
+      <span className="metric-card__line">Kỳ này chưa có kết quả</span>
+      {point && (
+        <span className="metric-card__line">
+          Kỳ gần nhất có điểm ({point.semester_id}): {formatDecimal(point.value)}
+        </span>
+      )}
+    </>
   );
 }
 
@@ -73,20 +93,26 @@ function OverviewContent({ scope }) {
         return (
           <>
             {hasNoResults && (
-              <p className="card empty-state">
-                Chưa có kết quả học tập. Các chỉ số sẽ hiện khi có điểm đầu tiên.
-              </p>
+              <EmptyState
+                title="Chưa có kết quả học tập"
+                description="Các chỉ số sẽ hiện khi có điểm đầu tiên."
+              />
             )}
-            <Link to={link('/m11/canh-bao')} className="risk-strip">
-              <span>Mức cảnh báo chung</span>
-              <LevelBadge level={metrics.risk_level.value} levels={RISK_LEVELS} />
-              <span className="risk-strip__note">{DISCLAIMER}</span>
-            </Link>
+            <Card as={Link} to={link('/m11/canh-bao')} className="risk-summary">
+              <span className="risk-summary__label">Mức cảnh báo chung</span>
+              <StatusChip status={metrics.risk_level.value} />
+              <span className="risk-summary__note">{DISCLAIMER}</span>
+            </Card>
             <div className="grid-12">
               <OverviewMetric
                 title="GPA học kỳ"
                 metricKey="semester_gpa"
                 value={formatDecimal(metrics.semester_gpa.value)}
+                detail={
+                  metrics.semester_gpa.denominator === 0 ? (
+                    <NoSemesterResult query={scope.query} />
+                  ) : undefined
+                }
                 to={link('/m11/phan-tich')}
                 metric={metrics.semester_gpa}
                 {...shared}
@@ -144,10 +170,9 @@ const SHORTCUTS = ['/m11/ket-qua', '/m11/phan-tich', '/m12/dinh-huong', '/m12/ye
 export default function OverviewPage() {
   return (
     <>
+      <h1 className="visually-hidden">Tổng quan</h1>
       <Welcome />
-      <M11Page title="Tổng quan" description="Số liệu học tập chính của kỳ đang chọn.">
-        {(scope) => <OverviewContent scope={scope} />}
-      </M11Page>
+      <M11Page>{(scope) => <OverviewContent scope={scope} />}</M11Page>
       <ShortcutGrid paths={SHORTCUTS} />
     </>
   );

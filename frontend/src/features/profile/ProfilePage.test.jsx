@@ -37,7 +37,9 @@ describe('trang Hồ sơ', () => {
 
     expect(await screen.findByText('Đang tải hồ sơ...')).toBeInTheDocument();
     profile.resolve(jsonResponse(200, PROFILE));
-    expect(await screen.findByRole('heading', { name: 'Hồ sơ' })).toBeInTheDocument();
+    // Tiêu đề đã hiện từ lúc đang tải, nên phải chờ theo dữ liệu.
+    expect(await screen.findByText('SV01')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Hồ sơ' })).toBeInTheDocument();
     for (const text of [
       'SV01',
       'K66',
