@@ -20,7 +20,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 03 | Model, migration, seed (có `flask grades add`) | Hoàn thành, tag `phase-03` | Không có |
 | 04 | C01, C02, C03, C05: xác thực, phân quyền, hồ sơ, nhật ký | Hoàn thành, tag `phase-04` | Không có |
 | 05 | Hoàn thiện M11 tính toán và kiểm thử | Hoàn thành, tag `phase-05`, CI xanh. Mốc M11 là 191/191; 44 mục còn lại làm cùng `completion_service` | Không có |
-| 06 | Xây M11 Dashboard/Phân tích/Cảnh báo (có `POST /api/admin/grade-attempts`) | Đang làm: API xong, đang làm giao diện | Không có |
+| 06 | Xây M11 Dashboard/Phân tích/Cảnh báo (có `POST /api/admin/grade-attempts`) | Hoàn thành (đã chạy lint, test, build), chờ quản lý nghiệm thu | Không có |
 | 07 | Xây Career Graph và API M12 | Chưa bắt đầu | Không có |
 | 08 | Đồng bộ tiến độ M11–M12 (test liên thông, phát hiện thay đổi) | Chưa bắt đầu | Không có |
 | 09 | Lập lộ trình theo kỳ và so sánh nghề (so sánh nghề là P2) | Chưa bắt đầu | Không có |
@@ -44,4 +44,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Làm giao diện M11 của giai đoạn 06. Remote: https://github.com/thiennnhannguyen/neu_student.
+Quản lý dự án nghiệm thu giai đoạn 06 rồi push `main` và tag theo quy tắc. Remote: https://github.com/thiennnhannguyen/neu_student.

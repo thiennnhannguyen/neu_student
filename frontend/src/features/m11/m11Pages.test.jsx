@@ -142,6 +142,17 @@ describe('bộ lọc kỳ', () => {
     expect(callsTo(fetchMock, '/api/m11/overview').at(-1).get('semester_id')).toBe('S4');
   });
 
+  it('đổi kỳ thì về trang 1 của bảng điểm', async () => {
+    m11Api('student');
+    const user = userEvent.setup();
+
+    renderApp('/m11/ket-qua?page=3');
+    await screen.findByRole('table');
+    await user.selectOptions(screen.getByLabelText('Học kỳ'), 'S4');
+
+    await waitFor(() => expect(search()).toBe('?semester=S4'));
+  });
+
   it('mặc định là kỳ hiện tại, mở URL có kỳ thì dùng kỳ đó', async () => {
     const fetchMock = m11Api('student');
 
@@ -369,7 +380,7 @@ describe('Kết quả', () => {
       const table = await screen.findByRole('table');
       const badge = within(table).getByText(label);
       expect(badge).toHaveClass('level-badge');
-      expect(badge.querySelector('[aria-hidden="true"]')).not.toBeNull();
+      expect(badge.querySelector('[aria-hidden="true"]').textContent.trim()).not.toBe('');
     },
   );
 
@@ -698,6 +709,22 @@ describe('Phân tích', () => {
     await waitFor(() => expect(callsTo(fetchMock, '/api/m11/compare').at(-1).get('b')).toBe('S4'));
   });
 
+  it('so sánh mặc định lấy đúng kỳ liền trước kỳ đang chọn', async () => {
+    const fetchMock = m11Api('student', {
+      'GET /api/m11/semesters': () =>
+        jsonResponse(200, {
+          items: [{ id: 'S1', name: 'Kỳ 1', order: 1, is_current: false }, ...SEMESTERS.items],
+          current_id: 'S5',
+        }),
+    });
+
+    renderApp('/m11/phan-tich');
+
+    await screen.findByRole('region', { name: 'So sánh hai kỳ' });
+    const first = callsTo(fetchMock, '/api/m11/compare')[0];
+    expect([first.get('a'), first.get('b')]).toEqual(['S4', 'S5']);
+  });
+
   it('cả hai kỳ chưa có kết quả thì nói rõ', async () => {
     const side = { gpa: null, credits: 0, passed_count: 0, failed_count: 0 };
     m11Api('student', {
@@ -782,7 +809,7 @@ describe('Cảnh báo', () => {
     await screen.findByText(RISKS.outcomes[0].reason);
     for (const badge of document.querySelectorAll('.level-badge')) {
       expect(badge.textContent.trim().length).toBeGreaterThan(2);
-      expect(badge.querySelector('[aria-hidden="true"]')).not.toBeNull();
+      expect(badge.querySelector('[aria-hidden="true"]').textContent.trim()).not.toBe('');
     }
   });
 

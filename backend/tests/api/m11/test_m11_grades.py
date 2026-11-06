@@ -179,6 +179,20 @@ def test_withdrawn_is_not_a_row(http_app, admin):
     assert (row["status"], row["semester"]) == ("not_started", None)
 
 
+def test_has_retake_counts_only_real_enrollments(http_app, admin):
+    """Một lần học thì không phải học lại; đăng ký đã rút không tính là một lần học."""
+    assert row_of(grades(admin, "SV06"), "CNT101")["has_retake"] is False
+
+    # Ghi trực tiếp vào DB không tăng data_version, nên phải thêm trước lần đọc đầu tiên.
+    with http_app.app_context():
+        db.session.add(
+            Enrollment(student_id="SV07", course_id="CNT101", semester_id="S5", status="withdrawn")
+        )
+        db.session.commit()
+
+    assert row_of(grades(admin, "SV07"), "CNT101")["has_retake"] is False
+
+
 # --- Lịch sử học lại ---
 
 

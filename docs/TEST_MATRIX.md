@@ -137,3 +137,17 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | GPA, kiểm soát dữ liệu, tín chỉ, CTĐT, cảnh báo, phân tích | Các test trong thư mục | `backend/tests/unit/m11/` |
 | `app/` không import `tests`; không float; service thuần không đụng DB; M12 chỉ dùng `m11_public` | `test_app_never_imports_tests_package`, `test_m11_services_have_no_float`, `test_m11_pure_services_do_not_touch_db_or_request`, `test_m12_modules_only_use_m11_public` | `backend/tests/unit/test_source_rules.py` |
 | Service không commit | `test_only_transaction_helper_commits_in_app` | `backend/tests/unit/test_transaction.py` |
+
+## M11: API và giao diện (giai đoạn 06)
+
+| Yêu cầu | Test | File |
+|---------|------|------|
+| Mỗi endpoint đọc: chưa đăng nhập, ma trận vai trò, tham số lạ, kỳ sai, rỗng (SV05), không float, `meta` | `test_anonymous_gets_401`, `test_role_matrix`, `test_unknown_parameter_is_rejected`, `test_invalid_semester_is_422_with_field`, `test_empty_*`, `test_no_float_in_any_response`, `test_result_has_meta_fields` | `backend/tests/api/m11/test_m11_permissions.py` |
+| Bảng điểm theo kỳ và tất cả các kỳ, 6 trạng thái, tìm kiếm, phân trang, học lại theo `semesters.order` | Các test trong file | `backend/tests/api/m11/test_m11_grades.py` |
+| Tín chỉ, CTĐT, điểm mạnh yếu, cảnh báo, `not_applicable`, so sánh, xu hướng, không có quy chế, không có kỳ hiện tại | Các test trong file | `backend/tests/api/m11/test_m11_analysis.py` |
+| POST nhập điểm, danh sách sinh viên, cache theo `data_version` và `rule_version`, số truy vấn | Các test trong file | `backend/tests/api/m11/test_m11_writes_and_directory.py` |
+| Số qua API khớp `expected_results.json`; TC02, TC03, TC04, TC05 ở tầng API | `test_api_matches_expected_results`, `test_sv02_latest_through_new_rule_of_cohort`, `test_sv05_scenario_after_posting_grades_through_api`, `test_tc02_*`, `test_tc03_*`, `test_tc04_*`, `test_tc05_*` | `backend/tests/acceptance/test_m11_api_expected.py` |
+| Ví dụ trong `docs/API.md` khớp response thật | `test_real_response_matches_documented_example`, `test_every_new_endpoint_has_an_example` | `backend/tests/api/test_api_contract.py` |
+| Migration 0003, seed 2 lần cho `data_version` khác nhau; thao tác ghi phải tăng `data_version` | `test_seed_twice_gives_different_data_version`, `test_writes_to_m11_results_bump_data_version`, `test_grades_service_bumps_data_version_when_adding_result` | `backend/tests/unit/db/test_migration_0003.py`, `backend/tests/unit/test_source_rules.py` |
+| Giao diện: chọn sinh viên, bộ lọc kỳ, `all`, 4 trang, loading/empty/error, bàn phím; TC04 ở Vitest | Các test trong file | `frontend/src/features/m11/m11Pages.test.jsx` |
+| Định dạng từ chuỗi; ngoài `GpaTrendChart` không đổi điểm sang số | Các test trong file | `frontend/src/features/m11/format.test.js`, `frontend/src/features/m11/m11Source.test.js` |

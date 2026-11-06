@@ -186,6 +186,27 @@ def test_route_registry_covers_all_expected_api_routes():
     }
 
 
+def test_m11_and_grade_entry_routes_declare_exact_roles():
+    """Khai báo đúng ở route, không dựa vào lớp kiểm tra thứ hai trong service."""
+    app = create_app("testing")
+    readers = {"student", "advisor", "admin"}
+
+    policies = {
+        rule.rule: set(app.view_functions[rule.endpoint].auth_policy)
+        for rule in app.url_map.iter_rules()
+        if rule.rule.startswith(("/api/m11/", "/api/admin/", "/api/advisor/"))
+    }
+
+    assert len(policies) == 14 + 1
+    for path, roles in policies.items():
+        if path.startswith("/api/m11/"):
+            assert roles == readers, path
+        elif path.startswith("/api/admin/"):
+            assert roles == {"admin"}, path
+        else:
+            assert roles == {"advisor"}, path
+
+
 def test_registry_catches_route_without_decorator():
     app = create_app("testing")
 
