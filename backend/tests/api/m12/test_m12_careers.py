@@ -420,9 +420,9 @@ def test_missing_requirement_is_404(student):
     ("path", "fresh", "cached"),
     [
         ("/api/m12/careers", 5, 5),
-        (f"/api/m12/careers/{AI}", 9, 4),
-        (f"/api/m12/careers/{AI}/tree", 9, 4),
-        (f"/api/m12/requirements/{CNT102_IN_AI_NODE_1}", 13, 8),
+        (f"/api/m12/careers/{AI}", 10, 4),
+        (f"/api/m12/careers/{AI}/tree", 10, 4),
+        (f"/api/m12/requirements/{CNT102_IN_AI_NODE_1}", 14, 8),
     ],
 )
 def test_query_count_is_fixed(http_app, student, path, fresh, cached):

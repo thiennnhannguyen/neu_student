@@ -152,6 +152,9 @@ M12_USER_ROUTES = {
     ("GET", "/api/m12/career-goal"),
     ("PUT", "/api/m12/career-goal"),
     ("GET", "/api/m12/career-goal/history"),
+    ("GET", "/api/m12/progress/careers/<career_id>"),
+    ("GET", "/api/m12/my-careers"),
+    ("GET", "/api/m12/related"),
 }
 M12_ADMIN_ROUTES = {
     ("GET", "/api/admin/audit-logs/entities"),

@@ -2,8 +2,23 @@
 
 from app.services.credit_service import elective_progress
 from app.services.data_quality_service import build_meta
-from app.services.effective_attempt_service import passed_course_ids
+from app.services.effective_attempt_service import passed_course_ids, usable_pairs
 from app.services.m11_types import BlockedCourse, CourseItem, CurriculumStatus, StudentData
+
+
+def curriculum_course_ids(data: StudentData) -> frozenset[str]:
+    """Môn trong CTĐT, cộng môn tương đương đã duyệt áp dụng cho CTĐT đó (Q89)."""
+    listed = {requirement.course_id for requirement in data.requirements}
+    partners = {
+        other
+        for pair in usable_pairs(data)
+        for mine, other in (
+            (pair.course_a_id, pair.course_b_id),
+            (pair.course_b_id, pair.course_a_id),
+        )
+        if mine in listed
+    }
+    return frozenset(listed | partners)
 
 
 def _course_item(data: StudentData, course_id: str) -> CourseItem:

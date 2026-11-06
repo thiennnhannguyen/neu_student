@@ -28,6 +28,10 @@ EXPECTED_TRIGGERS = {
     "trg_grade_attempts_final_on_insert",
     "trg_grade_attempts_final_on_update",
     "trg_enrollments_status_matches_attempt",
+    "trg_careers_no_empty_on_insert",
+    "trg_careers_no_empty_on_update",
+    "trg_skills_no_empty_on_insert",
+    "trg_skills_no_empty_on_update",
 }
 
 

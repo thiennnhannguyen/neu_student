@@ -145,6 +145,7 @@ M12_MODULES = [
     "services/career_api_service.py",
     "services/career_goal_service.py",
     "services/career_admin_service.py",
+    "services/career_progress_service.py",
     "schemas/m12.py",
     "services/completion_service.py",
     "services/roadmap_service.py",
@@ -229,8 +230,76 @@ def test_m11_pure_services_do_not_touch_db_or_request():
     assert problems == {}
 
 
-def test_career_graph_service_does_not_touch_db_or_request():
-    assert touches_database_or_request(APP_DIR / "services" / "career_graph_service.py") == []
+@pytest.mark.parametrize("name", ["career_graph_service.py", "completion_service.py"])
+def test_m12_pure_services_do_not_touch_db_or_request(name):
+    assert touches_database_or_request(APP_DIR / "services" / name) == []
+
+
+def test_completion_service_does_not_import_m11_at_all():
+    """Hàm thuần nhận dữ liệu qua tham số, kể cả cổng m11_public cũng không gọi."""
+    found = imported_modules(APP_DIR / "services" / "completion_service.py")
+    assert not [m for m in found if "m11" in m]
+
+
+READ_ONLY_PROGRESS_MODULES = [
+    "completion_service.py",
+    "career_progress_service.py",
+    "related_career_service.py",
+]
+
+
+def writes_to_session(source: str) -> list[str]:
+    """Gọi ghi trên db.session, hoặc import câu lệnh ghi của SQLAlchemy."""
+    found = []
+    for node in ast.walk(ast.parse(source)):
+        if (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and isinstance(node.func.value, ast.Attribute)
+            and node.func.value.attr == "session"
+            and node.func.attr in {"add", "add_all", "delete", "merge", "flush", "commit"}
+        ):
+            found.append(node.func.attr)
+        if isinstance(node, ast.ImportFrom) and node.module == "sqlalchemy":
+            found += [a.name for a in node.names if a.name in {"insert", "update", "delete"}]
+    return found
+
+
+@pytest.mark.parametrize("name", READ_ONLY_PROGRESS_MODULES)
+def test_progress_modules_never_write_to_db(name):
+    """Trạng thái đạt luôn tính từ M11, không lưu theo nghề (R1)."""
+    source = (APP_DIR / "services" / name).read_text(encoding="utf8")
+    assert writes_to_session(source) == []
+
+
+@pytest.mark.parametrize(
+    ("bad", "found"),
+    [
+        ("db.session.add(x)\n", "add"),
+        ("db.session.flush()\n", "flush"),
+        ("from sqlalchemy import update\n", "update"),
+    ],
+)
+def test_write_scanner_catches_session_write(bad, found):
+    assert writes_to_session(bad) == [found]
+
+
+def test_write_scanner_allows_plain_set_add():
+    assert writes_to_session("items.add(1)\n") == []
+
+
+def test_m12_models_have_no_stored_completion_columns():
+    """Không có cột hay bảng lưu trạng thái đạt, tỷ lệ theo nghề (R1)."""
+    tree = ast.parse((APP_DIR / "models" / "m12.py").read_text(encoding="utf8"))
+    forbidden = re.compile(r"(passed|completed|completion|progress|course_rate|skill_rate|is_done)")
+    names = [
+        target.id
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Assign)
+        for target in node.targets
+        if isinstance(target, ast.Name)
+    ]
+    assert [name for name in names if forbidden.search(name)] == []
 
 
 def test_m12_modules_have_no_float():
@@ -265,7 +334,9 @@ def m11_internal_imports(path: Path) -> list[str]:
 
 
 def test_every_m12_gate_module_of_this_phase_exists():
-    for name in M12_MODULES[:6] + ["blueprints/m12.py"]:
+    for name in M12_MODULES:
+        if name == "services/roadmap_service.py" or name == "services/support_service.py":
+            continue
         assert (APP_DIR / name).exists(), name
 
 

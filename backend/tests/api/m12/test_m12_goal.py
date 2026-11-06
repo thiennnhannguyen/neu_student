@@ -208,15 +208,30 @@ def test_put_without_csrf_header_is_403(http_app):
     assert error_code(response) == "CSRF_HEADER_REQUIRED"
 
 
-def test_student_cannot_change_goal_of_other_student(http_app):
+def test_student_id_in_body_is_422_and_writes_nothing(http_app):
     client = login_as(http_app, "sv01")
 
-    body = client.put(GOAL, json={"career_id": AI, "student_id": "SV02"}, headers=FETCH)
-    assert body.status_code == 422
-    client.put(GOAL, query_string={"student_id": "SV02"}, json={"career_id": AI}, headers=FETCH)
+    response = client.put(GOAL, json={"career_id": AI, "student_id": "SV02"}, headers=FETCH)
 
-    assert goal_count(http_app, "SV02") == 1
-    assert goal_count(http_app, "SV01") == 2
+    assert response.status_code == 422
+    assert goal_count(http_app, "SV01") == goal_count(http_app, "SV02") == 1
+
+
+@pytest.mark.parametrize("student_id", ["SV01", "SV02", ""])
+def test_student_id_in_query_is_422_and_writes_nothing(http_app, student_id):
+    client = login_as(http_app, "sv01")
+    version = data_version(http_app, "SV01")
+    audits = audit_count(http_app)
+
+    response = client.put(
+        GOAL, query_string={"student_id": student_id}, json={"career_id": AI}, headers=FETCH
+    )
+
+    assert response.status_code == 422
+    assert error_code(response) == "STUDENT_ID_NOT_ALLOWED"
+    assert goal_count(http_app, "SV01") == goal_count(http_app, "SV02") == 1
+    assert data_version(http_app, "SV01") == version
+    assert audit_count(http_app) == audits
 
 
 @pytest.mark.parametrize(

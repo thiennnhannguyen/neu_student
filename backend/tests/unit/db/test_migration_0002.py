@@ -16,9 +16,19 @@ def columns(table):
     return {row.name for row in run_sql(f"PRAGMA table_info({table})")}
 
 
+# Thêm ở migration 0005, nên không có khi hạ xuống bản cũ hơn.
+TRIGGERS_FROM_0005 = (
+    "trg_careers_no_empty_on_insert",
+    "trg_careers_no_empty_on_update",
+    "trg_skills_no_empty_on_insert",
+    "trg_skills_no_empty_on_update",
+)
+
+
 def trigger_definitions():
+    """Các trigger đã có từ trước 0005. Test của 0005 kiểm 4 trigger còn lại."""
     rows = run_sql("SELECT name, sql FROM sqlite_master WHERE type = 'trigger' ORDER BY name")
-    return [tuple(row) for row in rows]
+    return [tuple(row) for row in rows if row.name not in TRIGGERS_FROM_0005]
 
 
 def table_and_index_definitions():

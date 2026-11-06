@@ -101,7 +101,7 @@ def list_careers(args: dict) -> dict:
 
 def career_detail(career_id: str) -> dict:
     career, version = _published_career(career_id)
-    nodes = _cached_nodes(version.id)
+    nodes = cached_nodes(version.id)
     return {
         **career_summary(career),
         "latest_version": version_summary(version),
@@ -110,7 +110,7 @@ def career_detail(career_id: str) -> dict:
     }
 
 
-def _cached_nodes(version_id: str) -> list[dict]:
+def cached_nodes(version_id: str) -> list[dict]:
     """Bản published không đổi nên khóa chỉ cần id phiên bản. Chỉ gọi với bản published."""
     return tree_cache().get_or_compute(
         version_id, lambda: build_tree(load_career_version(version_id))
@@ -123,7 +123,7 @@ def career_tree(career_id: str) -> dict:
     return {
         "career": career_summary(career),
         "version": version_summary(version),
-        "nodes": _cached_nodes(version.id),
+        "nodes": cached_nodes(version.id),
     }
 
 
@@ -165,7 +165,7 @@ def requirement_detail(requirement_id: str) -> dict:
         raise ApiError(404)
     child = next(
         child
-        for node in _cached_nodes(version.id)
+        for node in cached_nodes(version.id)
         for child in node["children"]
         if child["id"] == requirement.id
     )

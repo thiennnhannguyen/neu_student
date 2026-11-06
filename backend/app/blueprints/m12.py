@@ -10,11 +10,23 @@ from app.common.auth_guard import (
     require_roles,
     resolve_target_student,
 )
+from app.common.errors import ApiError
 from app.common.transaction import transaction
 from app.schemas.common import load_or_422
 from app.schemas.m11 import TargetQuerySchema
-from app.schemas.m12 import CareerGoalSchema, CareerListQuerySchema, GoalHistoryQuerySchema
-from app.services import career_api_service, career_goal_service, student_service
+from app.schemas.m12 import (
+    CareerGoalSchema,
+    CareerListQuerySchema,
+    GoalHistoryQuerySchema,
+    RelatedQuerySchema,
+)
+from app.services import (
+    career_api_service,
+    career_goal_service,
+    career_progress_service,
+    related_career_service,
+    student_service,
+)
 
 m12_bp = Blueprint("m12", __name__, url_prefix="/api/m12")
 READER_ROLES = (ROLE_STUDENT, ROLE_ADVISOR, ROLE_ADMIN)
@@ -56,6 +68,12 @@ def get_career_goal():
 @m12_bp.put("/career-goal")
 @require_roles(ROLE_STUDENT)
 def put_career_goal():
+    if "student_id" in request.args:
+        raise ApiError(
+            422,
+            message="Không được chỉ định sinh viên khi đổi nghề chính.",
+            code="STUDENT_ID_NOT_ALLOWED",
+        )
     payload = load_or_422(CareerGoalSchema(), request.get_json(silent=True))
     student = student_service.get_student_of_user(current_user)
     with transaction():
@@ -71,3 +89,29 @@ def get_career_goal_history():
     return jsonify(
         career_goal_service.goal_history(student, args.get("page"), args.get("page_size"))
     )
+
+
+def _target(schema) -> tuple:
+    args = load_or_422(schema, request.args.to_dict())
+    return resolve_target_student(current_user, args.get("student_id")), args
+
+
+@m12_bp.get("/progress/careers/<career_id>")
+@require_roles(*READER_ROLES)
+def get_career_progress(career_id):
+    student, _args = _target(TargetQuerySchema())
+    return jsonify(career_progress_service.career_progress(student, career_id))
+
+
+@m12_bp.get("/my-careers")
+@require_roles(*READER_ROLES)
+def get_my_careers():
+    student, _args = _target(TargetQuerySchema())
+    return jsonify(related_career_service.my_careers(student))
+
+
+@m12_bp.get("/related")
+@require_roles(*READER_ROLES)
+def get_related():
+    student, args = _target(RelatedQuerySchema())
+    return jsonify(related_career_service.list_related(student, args))
