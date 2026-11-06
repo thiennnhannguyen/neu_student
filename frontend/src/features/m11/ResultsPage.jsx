@@ -100,13 +100,17 @@ function ResultsContent({ scope }) {
           return (
             <>
               <GradesTable rows={data.items} onOpenHistory={setHistory} />
-              <Pagination
-                label="Phân trang bảng điểm"
-                page={data.page}
-                lastPage={lastPage}
-                summary={`Trang ${data.page}/${lastPage} · ${data.total} môn`}
-                onPage={(next) => update({ page: String(next) })}
-              />
+              {lastPage > 1 ? (
+                <Pagination
+                  label="Phân trang bảng điểm"
+                  page={data.page}
+                  lastPage={lastPage}
+                  summary={`Trang ${data.page}/${lastPage} · ${data.total} môn`}
+                  onPage={(next) => update({ page: String(next) })}
+                />
+              ) : (
+                <p className="table-count">{data.total} môn</p>
+              )}
               <ReferenceLine
                 semesterName={semesterName}
                 computedAt={data.meta.computed_at}

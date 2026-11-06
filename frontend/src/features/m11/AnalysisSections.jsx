@@ -14,6 +14,8 @@ import {
   formatDecimal,
   formatSignedCount,
   formatSignedDecimal,
+  gradedPoints,
+  NO_VALUE,
   withQuery,
 } from './format';
 import useApiResource from './useApiResource';
@@ -99,52 +101,84 @@ export function CurriculumCheck({ data }) {
   );
 }
 
-export function StrengthsList({ data }) {
+const LEVEL_ORDER = { weak: 0, strong: 1, normal: 2 };
+
+function GroupItem({ group }) {
   return (
-    <ul className="strength-list">
-      {data.groups.map((group) => (
-        <li key={group.group_id}>
-          <div className="strength-list__head">
-            <strong>{group.name}</strong>
-            <StatusChip status={group.level} />
-          </div>
-          {group.level !== 'insufficient_data' && <p>GPA nhóm {formatDecimal(group.value)}</p>}
-          {group.courses.length > 0 && (
-            <p className="table-note">
-              Môn làm bằng chứng: {group.courses.map((c) => courseCode(c.code)).join(', ')}
-            </p>
-          )}
-        </li>
-      ))}
-    </ul>
+    <li>
+      <div className="strength-list__head">
+        <strong>{group.name}</strong>
+        <StatusChip status={group.level} />
+      </div>
+      {group.level !== 'insufficient_data' && <p>GPA nhóm {formatDecimal(group.value)}</p>}
+      {group.courses.length > 0 && (
+        <p className="table-note">
+          Môn làm bằng chứng: {group.courses.map((c) => courseCode(c.code)).join(', ')}
+        </p>
+      )}
+    </li>
   );
 }
 
+/** Điểm yếu lên đầu để dễ thấy; nhóm chưa đủ dữ liệu gộp vào một khối thu gọn ở cuối. */
+export function StrengthsList({ data }) {
+  const unknown = data.groups.filter((group) => group.level === 'insufficient_data');
+  const known = data.groups
+    .filter((group) => group.level !== 'insufficient_data')
+    .toSorted((first, second) => LEVEL_ORDER[first.level] - LEVEL_ORDER[second.level]);
+  return (
+    <>
+      {known.length > 0 && (
+        <ul className="strength-list">
+          {known.map((group) => (
+            <GroupItem key={group.group_id} group={group} />
+          ))}
+        </ul>
+      )}
+      {unknown.length > 0 && (
+        <Disclosure summary={`Chưa đủ dữ liệu (${unknown.length})`}>
+          <ul className="strength-list">
+            {unknown.map((group) => (
+              <GroupItem key={group.group_id} group={group} />
+            ))}
+          </ul>
+        </Disclosure>
+      )}
+    </>
+  );
+}
+
+const hasNoResult = (side) => side.gpa === null && side.credits === 0;
+
 function CompareTable({ data }) {
+  const { semester_a: first, semester_b: second } = data;
+  const anyEmpty = hasNoResult(first) || hasNoResult(second);
+  const count = (side, value) => (hasNoResult(side) ? NO_VALUE : value);
+  const delta = (value) => (anyEmpty ? NO_VALUE : formatSignedCount(value));
   const rows = [
     {
       name: 'GPA',
-      first: formatDecimal(data.semester_a.gpa),
-      second: formatDecimal(data.semester_b.gpa),
+      first: formatDecimal(first.gpa),
+      second: formatDecimal(second.gpa),
       delta: formatSignedDecimal(data.gpa_delta),
     },
     {
       name: 'Tín chỉ',
-      first: data.semester_a.credits,
-      second: data.semester_b.credits,
-      delta: formatSignedCount(data.credit_delta),
+      first: count(first, first.credits),
+      second: count(second, second.credits),
+      delta: delta(data.credit_delta),
     },
     {
       name: 'Số môn đạt',
-      first: data.semester_a.passed_count,
-      second: data.semester_b.passed_count,
-      delta: formatSignedCount(data.passed_delta),
+      first: count(first, first.passed_count),
+      second: count(second, second.passed_count),
+      delta: delta(data.passed_delta),
     },
     {
       name: 'Số môn chưa đạt',
-      first: data.semester_a.failed_count,
-      second: data.semester_b.failed_count,
-      delta: formatSignedCount(data.failed_delta),
+      first: count(first, first.failed_count),
+      second: count(second, second.failed_count),
+      delta: delta(data.failed_delta),
     },
   ];
   const columns = [
@@ -163,20 +197,21 @@ function CompareTable({ data }) {
   );
 }
 
-export function SemesterCompare({ scope }) {
+/** Mặc định là 2 kỳ gần nhất có điểm, lấy từ /gpa-trend; kỳ thứ nhất là kỳ cũ hơn. */
+export function SemesterCompare({ scope, trend }) {
   const items = scope.semesters.data.items;
-  const position = items.findIndex((item) => item.id === scope.semesterId);
+  const graded = gradedPoints(trend.points).map((point) => point.semester_id);
   const [choice, setChoice] = useState({});
-  const b = choice.b ?? scope.semesterId;
-  const a = choice.a ?? items[Math.max(0, position - 1)]?.id;
+  const a = choice.a ?? graded.at(-2);
+  const b = choice.b ?? graded.at(-1);
   const resource = useApiResource(
-    items.length >= 2 && a && b
+    graded.length >= 2
       ? withQuery('/api/m11/compare', { student_id: scope.studentId, a, b })
       : null,
   );
 
-  if (items.length < 2) {
-    return <EmptyState compact heading="p" title="Chưa đủ 2 học kỳ để so sánh." />;
+  if (graded.length < 2) {
+    return <EmptyState compact heading="p" title="Cần ít nhất 2 kỳ có kết quả để so sánh" />;
   }
 
   function select(id, label, value, side) {
@@ -210,7 +245,7 @@ export function SemesterCompare({ scope }) {
       >
         {(data) => (
           <>
-            {data.semester_a.credits === 0 && data.semester_b.credits === 0 && (
+            {hasNoResult(data.semester_a) && hasNoResult(data.semester_b) && (
               <p className="card-text">Cả hai kỳ này đều chưa có kết quả.</p>
             )}
             <CompareTable data={data} />

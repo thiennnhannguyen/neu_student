@@ -1,9 +1,29 @@
 import { Link } from 'react-router';
+import StatusChip from './StatusChip';
 
-/** Có `to` thì cả thẻ bấm được; nút "i" truyền qua `info` nằm trên lớp liên kết. */
-export default function MetricCard({ label, value, hint, info, footer, to, emphasis = false }) {
+/**
+ * Có `to` thì cả thẻ bấm được; nút "i" truyền qua `info` nằm trên lớp liên kết.
+ * `status` là watch hoặc warning: viền trái và nhãn cạnh giá trị, nên màu không là tín hiệu duy nhất.
+ */
+export default function MetricCard({
+  label,
+  value,
+  hint,
+  info,
+  footer,
+  to,
+  emphasis = false,
+  status,
+}) {
+  const classes = ['metric-card'];
+  if (emphasis) {
+    classes.push('metric-card--emphasis');
+  }
+  if (status) {
+    classes.push(`metric-card--${status}`);
+  }
   return (
-    <article className={`metric-card${emphasis ? ' metric-card--emphasis' : ''}`}>
+    <article className={classes.join(' ')}>
       <div className="metric-card__head">
         {to ? (
           <Link to={to} className="metric-card__link">
@@ -14,7 +34,10 @@ export default function MetricCard({ label, value, hint, info, footer, to, empha
         )}
         {info}
       </div>
-      <p className="metric-card__value">{value}</p>
+      <div className="metric-card__value-row">
+        <p className="metric-card__value">{value}</p>
+        {status && <StatusChip status={status} size="sm" />}
+      </div>
       {hint && <p className="metric-card__detail">{hint}</p>}
       {footer}
     </article>

@@ -144,7 +144,7 @@ describe('topbar', () => {
     const banner = await screen.findByRole('banner');
     const crumbs = within(banner).getByRole('navigation', { name: 'Vị trí trang' });
     expect(within(crumbs).getByRole('link', { name: 'Tổng quan' })).toHaveAttribute('href', '/');
-    expect(crumbs).toHaveTextContent('ĐỊNH HƯỚNG & HỖ TRỢ');
+    expect(crumbs).toHaveTextContent('Định hướng & hỗ trợ');
     const bell = within(banner).getByRole('button', { name: /Thông báo/ });
     expect(bell).toHaveAttribute('aria-disabled', 'true');
     expect(bell.closest('[data-tooltip]')).toHaveAttribute('data-tooltip', 'Có ở giai đoạn sau');

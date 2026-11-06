@@ -258,6 +258,11 @@
   white-space: nowrap;
 }
 
+.status-chip--sm {
+  padding: 1px var(--space-1);
+  font-size: var(--font-12);
+}
+
 .badge--neutral {
   background: var(--surface-sunken);
   color: var(--text-secondary);
@@ -346,8 +351,24 @@
   border-radius: var(--radius-lg);
 }
 
+.metric-card--watch {
+  border-left: 4px solid var(--warning-text);
+}
+
+.metric-card--warning {
+  border-left: 4px solid var(--danger-text);
+}
+
+.metric-card__value-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  margin-top: var(--space-2);
+}
+
 .metric-card__value {
-  margin: var(--space-2) 0 0;
+  margin: 0;
   color: var(--neu-primary);
   font-size: var(--font-36);
   font-weight: 700;
@@ -360,10 +381,6 @@
   color: var(--text-secondary);
   font-size: var(--font-14);
   font-variant-numeric: tabular-nums;
-}
-
-.metric-card__line {
-  display: block;
 }
 
 /* DataTable */

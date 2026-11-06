@@ -170,3 +170,14 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 Chiều cao topbar một hàng ở 375px và không tràn ngang chỉ kiểm được bằng Chrome thật (CSS không chạy trong Vitest); không có test tự động.
 
 Cố ý làm hỏng mã nguồn, component dùng chung và 4 trang M11 (lượt cuối, sau khi sửa test chập chờn theo D-186): 159 chỗ, bắt 158, lọt 1. Chỗ lọt là `known` trong `ProgressRow`, tương đương vì API chỉ trả `null` và `null / total` vẫn cho 0%; quản lý dự án đã chấp nhận.
+
+## CR-02b: chỉnh giao diện
+
+| Yêu cầu | Test | File |
+|---------|------|------|
+| Mục 2: thẻ theo mức của đúng quy tắc, các mức không hiện, API lỗi | `thẻ theo mức của đúng quy tắc: có viền và nhãn; thẻ khác không có`, `quy tắc ở mức %s: thẻ không có viền và nhãn`, `không đọc được cảnh báo: số liệu vẫn hiện, không có nhãn` | `frontend/src/features/m11/m11Pages.test.jsx` |
+| Mục 5: 2 kỳ gần nhất có điểm, dưới 2 kỳ, ô gạch | `so sánh mặc định lấy 2 kỳ gần nhất CÓ ĐIỂM, bỏ qua kỳ trống (SV04: S1 và S2)`, `%s: hiện EmptyState, không có bảng, không gọi API`, `kỳ không có kết quả: ô hiện gạch, không hiện 0, chênh lệch cũng là gạch` | `frontend/src/features/m11/m11Pages.test.jsx` |
+| Mục 7: thứ tự nhóm, gộp chưa đủ dữ liệu | `điểm mạnh yếu xếp: yếu, mạnh, bình thường; chưa đủ dữ liệu gộp cuối, thu gọn` | `frontend/src/features/m11/m11Pages.test.jsx` |
+| Mục 9: ẩn phân trang khi 1 trang | `chỉ có 1 trang: ẩn phân trang, vẫn ghi số môn`, `đúng 21 môn thì có 2 trang và có phân trang` | `frontend/src/features/m11/m11Pages.test.jsx` |
+
+Thẻ 2 dòng, lưới 2×2, 3 cột và vị trí đường ngưỡng trên biểu đồ chỉ kiểm được bằng Chrome thật; không có test tự động.

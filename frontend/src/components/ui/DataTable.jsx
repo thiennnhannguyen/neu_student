@@ -19,7 +19,7 @@ function compareValues(first, second) {
  * Header dính, hàng hover. Dưới 768px, CSS biến mỗi hàng thành thẻ và lấy nhãn từ data-label.
  * rowHeader: ô là tiêu đề của hàng. isBlank(row): ô không có giá trị, được ẩn trên thẻ di động.
  */
-export default function DataTable({ columns, rows, rowKey, ariaLabel, caption }) {
+export default function DataTable({ columns, rows, rowKey, ariaLabel, caption, className = '' }) {
   const [sort, setSort] = useState(null);
 
   const sorted = useMemo(() => {
@@ -60,7 +60,7 @@ export default function DataTable({ columns, rows, rowKey, ariaLabel, caption })
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- cuộn được bằng bàn phím
     <div className="data-table-wrap" role="region" aria-label={ariaLabel} tabIndex={0}>
-      <table className="ui-table">
+      <table className={`ui-table ${className}`.trim()}>
         {caption && <caption className="visually-hidden">{caption}</caption>}
         <thead>
           <tr>

@@ -29,7 +29,7 @@ export const M11_READERS = [STUDENT, ADVISOR, ADMIN];
 /**
  * `implemented: true` là trang đã làm; còn lại hiện "Đang phát triển", `phase` là giai đoạn dự kiến.
  * `inSidebar: false` là trang có route nhưng nằm ở menu người dùng.
- * Tên nhóm hiển thị cho người dùng; `id` giữ tên nội bộ của module.
+ * `title` hiện ở sidebar, `crumb` hiện ở đường dẫn phân cấp; `id` giữ tên nội bộ của module.
  */
 export const MENU_GROUPS = [
   {
@@ -56,6 +56,7 @@ export const MENU_GROUPS = [
   {
     id: 'm11',
     title: 'HỌC TẬP',
+    crumb: 'Học tập',
     items: [
       {
         label: 'Kết quả',
@@ -83,6 +84,7 @@ export const MENU_GROUPS = [
   {
     id: 'm12',
     title: 'ĐỊNH HƯỚNG & HỖ TRỢ',
+    crumb: 'Định hướng & hỗ trợ',
     items: [
       {
         label: 'Định hướng nghề',
@@ -120,6 +122,7 @@ export const MENU_GROUPS = [
   {
     id: 'quan-tri',
     title: 'QUẢN TRỊ',
+    crumb: 'Quản trị',
     items: [
       {
         label: 'Nhật ký',
@@ -150,7 +153,7 @@ export function pageMetaFor(pathname) {
     if (item) {
       const trail = [
         ...(item.path === '/' ? [] : [{ label: 'Tổng quan', to: '/' }]),
-        ...(group.title ? [{ label: group.title }] : []),
+        ...(group.crumb ? [{ label: group.crumb }] : []),
         { label: item.label },
       ];
       return { title: item.label, trail };

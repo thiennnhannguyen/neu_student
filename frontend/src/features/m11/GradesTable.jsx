@@ -96,6 +96,7 @@ export default function GradesTable({ rows, onOpenHistory }) {
       rows={rows}
       rowKey={(row) => row.course_id}
       ariaLabel="Bảng điểm"
+      className="grades-table"
     />
   );
 }

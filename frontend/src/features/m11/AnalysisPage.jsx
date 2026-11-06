@@ -6,7 +6,7 @@ import {
   StrengthsList,
 } from './AnalysisSections';
 import { withQuery } from './format';
-import GpaTrendChart from './GpaTrendChart';
+import GpaTrendChart, { gpaThresholds } from './GpaTrendChart';
 import M11Page from './M11Page';
 import MetricInfo from './MetricInfo';
 import useApiResource from './useApiResource';
@@ -52,6 +52,7 @@ function AnalysisContent({ scope }) {
   const credits = useApiResource(path('credits'));
   const curriculum = useApiResource(path('curriculum-check'));
   const strengths = useApiResource(path('strengths'));
+  const risks = useApiResource(path('risks'));
   const shared = { scope };
   return (
     <div className="grid-12">
@@ -62,7 +63,12 @@ function AnalysisContent({ scope }) {
         loadingText="Đang tải xu hướng..."
         {...shared}
       >
-        {(data) => <GpaTrendChart trend={data} />}
+        {(data) => (
+          <GpaTrendChart
+            trend={data}
+            thresholds={risks.status === 'ok' ? gpaThresholds(risks.data.outcomes) : null}
+          />
+        )}
       </Section>
       <div className="span-7 stack">
         <Section
@@ -95,7 +101,14 @@ function AnalysisContent({ scope }) {
       </Section>
       <div>
         <Card title="So sánh hai kỳ">
-          <SemesterCompare key={scope.semesterId} scope={scope} />
+          <ResourceView
+            compact
+            resource={trend}
+            loadingText="Đang so sánh..."
+            errorText="Không so sánh được"
+          >
+            {(data) => <SemesterCompare key={scope.semesterId} scope={scope} trend={data} />}
+          </ResourceView>
         </Card>
       </div>
     </div>

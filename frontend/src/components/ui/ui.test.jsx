@@ -87,13 +87,12 @@ describe('Card, PageHeader, Badge, Avatar, Skeleton', () => {
     expect(screen.getByText('Chân')).toHaveClass('ui-card__footer');
   });
 
-  it('PageHeader có h1, breadcrumb, hành động; họa tiết aria-hidden, không nhận focus', () => {
+  it('PageHeader có h1, breadcrumb; họa tiết aria-hidden, không nhận focus', () => {
     const { container } = inRouter(
       <PageHeader
         title="Trang"
         description="Mô tả"
         breadcrumb={[{ label: 'Gốc', to: '/' }, { label: 'Trang' }]}
-        actions={<button type="button">Làm</button>}
       />,
     );
 
@@ -863,5 +862,44 @@ describe('các nhánh còn lại của component', () => {
 
   it('Avatar bỏ phần trong ngoặc khi lấy chữ viết tắt', () => {
     expect(initialsOf('Nguyễn An (mẫu thử)')).toBe('NA');
+  });
+});
+
+describe('CR-02b', () => {
+  it('PageHeader có hành động thì không có dải họa tiết', () => {
+    const { container, rerender } = inRouter(<PageHeader title="T" actions={<span>Lọc</span>} />);
+    expect(screen.getByText('Lọc')).toBeInTheDocument();
+    expect(container.querySelector('.page-header__motif')).toBeNull();
+
+    rerender(
+      <MemoryRouter>
+        <PageHeader title="T" />
+      </MemoryRouter>,
+    );
+    expect(container.querySelector('.page-header__motif')).not.toBeNull();
+  });
+
+  it('MetricCard: có status thì có viền theo mức và nhãn nhỏ; không có thì không', () => {
+    const { container, rerender } = render(<MetricCard label="L" value="1" status="watch" />);
+    expect(container.firstChild).toHaveClass('metric-card--watch');
+    expect(screen.getByText('Chú ý')).toHaveClass('status-chip--sm');
+
+    rerender(<MetricCard label="L" value="1" />);
+    expect(container.firstChild.className).toBe('metric-card');
+    expect(container.querySelector('.status-chip')).toBeNull();
+  });
+
+  it('DataTable truyền className cho bảng', () => {
+    render(
+      <DataTable
+        ariaLabel="B"
+        className="x"
+        rowKey={(row) => row.id}
+        rows={[{ id: 'a' }]}
+        columns={[{ key: 'id', header: 'Mã' }]}
+      />,
+    );
+
+    expect(screen.getByRole('table')).toHaveClass('ui-table', 'x');
   });
 });

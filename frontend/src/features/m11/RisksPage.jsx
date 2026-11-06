@@ -38,11 +38,6 @@ function RiskRuleCard({ outcome }) {
       as="article"
       title={RULE_NAMES[outcome.rule_code] ?? outcome.rule_code}
       actions={<StatusChip status={outcome.level} />}
-      footer={
-        <p className="reference-line">
-          Phiên bản quy chế: {outcome.rule_version ?? 'Không xác định'}
-        </p>
-      }
     >
       <p className="card-text">{outcome.reason}</p>
       {hasEvidence && (
@@ -79,9 +74,11 @@ function RisksContent({ scope }) {
             <StatusChip status={data.overall} />
             <p className="card-note">{data.disclaimer ?? DISCLAIMER}</p>
           </Card>
-          {data.outcomes.map((outcome) => (
-            <RiskRuleCard key={outcome.rule_code} outcome={outcome} />
-          ))}
+          <div className="rule-grid">
+            {data.outcomes.map((outcome) => (
+              <RiskRuleCard key={outcome.rule_code} outcome={outcome} />
+            ))}
+          </div>
           <div>
             <ReferenceLine
               semesterName={semesterName}

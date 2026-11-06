@@ -314,6 +314,16 @@
   color: var(--text-on-primary-muted);
 }
 
+.welcome-card__action {
+  align-self: center;
+  flex: none;
+  padding-right: var(--space-20);
+}
+
+.welcome-card__action .form-field label {
+  color: var(--text-on-primary);
+}
+
 .welcome-card__mosaic {
   --motif-cell: 48px;
   display: none;
@@ -519,10 +529,6 @@
     grid-column: span 6;
   }
 
-  .welcome-card__mosaic {
-    display: grid;
-  }
-
   .user-menu__text {
     display: flex;
   }
@@ -533,6 +539,11 @@
 }
 
 @media (min-width: 1024px) {
+  /* Dưới 1024px, thẻ chào mừng còn bộ lọc kỳ nên không đủ chỗ cho họa tiết. */
+  .welcome-card__mosaic {
+    display: grid;
+  }
+
   /* Dưới 1024px thanh này có thể cao nhiều hàng nên không dính, để không che nội dung. */
   .topbar {
     position: sticky;

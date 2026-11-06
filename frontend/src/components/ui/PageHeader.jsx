@@ -25,7 +25,7 @@ export default function PageHeader({ title, description, breadcrumb, actions }) 
         {description && <p className="page-header__description">{description}</p>}
       </div>
       {actions && <div className="page-header__actions">{actions}</div>}
-      <MotifMosaic {...HEADER_STRIP} className="page-header__motif" />
+      {!actions && <MotifMosaic {...HEADER_STRIP} className="page-header__motif" />}
     </div>
   );
 }

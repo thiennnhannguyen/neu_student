@@ -20,7 +20,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 03 | Model, migration, seed (có `flask grades add`) | Hoàn thành, tag `phase-03` | Không có |
 | 04 | C01, C02, C03, C05: xác thực, phân quyền, hồ sơ, nhật ký | Hoàn thành, tag `phase-04` | Không có |
 | 05 | Hoàn thiện M11 tính toán và kiểm thử | Hoàn thành, tag `phase-05`, CI xanh. Mốc M11 là 191/191; 44 mục còn lại làm cùng `completion_service` | Không có |
-| 06 | Xây M11 Dashboard/Phân tích/Cảnh báo (có `POST /api/admin/grade-attempts`) | Hoàn thành (đã chạy lint, test, build, CI), chờ quản lý nghiệm thu | Không có |
+| 06 | Xây M11 Dashboard/Phân tích/Cảnh báo (có `POST /api/admin/grade-attempts`) | Hoàn thành, tag `phase-06`, CI xanh | Không có |
 | 07 | Xây Career Graph và API M12 | Chưa bắt đầu | Không có |
 | 08 | Đồng bộ tiến độ M11–M12 (test liên thông, phát hiện thay đổi) | Chưa bắt đầu | Không có |
 | 09 | Lập lộ trình theo kỳ và so sánh nghề (so sánh nghề là P2) | Chưa bắt đầu | Không có |
@@ -33,7 +33,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | Mã | Nội dung | Trạng thái |
 |----|----------|------------|
 | CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành, tag `cr-01`. Sau đó đổi màu, font và đưa lại nhãn mẫu theo D-152, D-156 |
-| CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Quản lý dự án duyệt kỹ thuật; chưa gắn tag `cr-02`, chờ duyệt giao diện. 4 trang M11 đã dựng hoàn toàn bằng component của CR-02 (D-182 đến D-185) |
+| CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Quản lý dự án duyệt kỹ thuật; chưa gắn tag `cr-02`, chờ duyệt giao diện. 4 trang M11 đã dựng hoàn toàn bằng component của CR-02 (D-182 đến D-185). Lượt chỉnh CR-02b xong, chờ duyệt ảnh (D-187, D-188) |
 
 ## Điểm kiểm tra giữa giai đoạn 06 (API và test hợp đồng xong)
 
@@ -45,4 +45,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Quản lý dự án duyệt giao diện CR-02 và nghiệm thu giai đoạn 06, rồi gắn tag `phase-06`, `cr-02`. `main` đã push theo D-181, chưa có tag. Remote: https://github.com/thiennnhannguyen/neu_student.
+Quản lý dự án duyệt ảnh CR-02b, rồi gắn tag `cr-02`. Remote: https://github.com/thiennnhannguyen/neu_student.

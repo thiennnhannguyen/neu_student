@@ -32,10 +32,10 @@ export const STATUS_CHIPS = {
   weak: { label: 'Điểm yếu', icon: TrendingDown, tone: 'warning' },
 };
 
-export default function StatusChip({ status }) {
+export default function StatusChip({ status, size = 'md' }) {
   const chip = STATUS_CHIPS[status] ?? { label: status, icon: CircleHelp, tone: 'neutral' };
   return (
-    <Badge tone={chip.tone} icon={chip.icon} className="status-chip">
+    <Badge tone={chip.tone} icon={chip.icon} className={`status-chip status-chip--${size}`}>
       {chip.label}
     </Badge>
   );

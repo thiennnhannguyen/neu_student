@@ -57,3 +57,8 @@ export function withQuery(path, params) {
   const text = query.toString();
   return text ? `${path}?${text}` : path;
 }
+
+/** Các kỳ có GPA trong danh sách của /gpa-trend, giữ thứ tự thời gian. */
+export function gradedPoints(points) {
+  return points.filter((point) => point.value !== null);
+}

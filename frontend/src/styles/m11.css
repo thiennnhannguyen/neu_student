@@ -1,11 +1,5 @@
 /* Khối riêng của các trang M11. Chỉ dùng token trong tokens.css. */
 
-.m11-toolbar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: var(--space-3);
-}
-
 .reference-line {
   margin: var(--space-2) 0 0;
   color: var(--text-secondary);
@@ -152,6 +146,10 @@
   font-size: var(--font-14);
 }
 
+.metric-grid + .reference-line {
+  margin-top: var(--space-12);
+}
+
 .m11-page .empty-block {
   margin-bottom: var(--space-3);
 }
@@ -167,6 +165,11 @@
   align-items: flex-start;
   gap: var(--space-1);
   min-width: 160px;
+}
+
+.table-count {
+  margin: var(--space-3) 0 0;
+  color: var(--text-secondary);
 }
 
 .table-note {
@@ -208,6 +211,12 @@
   gap: var(--space-2);
 }
 
+/* Cảnh báo */
+.rule-grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
 /* Phân tích */
 .trend-chart {
   margin: 0;
@@ -240,10 +249,16 @@
   margin-bottom: var(--space-1);
 }
 
+@media (min-width: 1280px) {
+  .rule-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 767.98px) {
   .student-picker,
   .page-header__actions .semester-filter,
-  .m11-toolbar {
+  .welcome-card__action {
     display: none;
   }
 
@@ -255,11 +270,109 @@
     min-width: 0;
   }
 
-  /* Trên thẻ di động, tên môn và các nhãn đi kèm canh phải như các ô khác. */
-  .cell-stack {
-    align-items: flex-end;
-    flex: 1 1 60%;
+  /* Tổng quan: 4 thẻ xếp 2×2, giá trị nhỏ hơn bản lớn một bậc. */
+  .grid-12.metric-grid > .span-3 {
+    grid-column: span 6;
+  }
+
+  .metric-grid .metric-card {
+    padding: var(--space-12);
+  }
+
+  .metric-grid .metric-card__value {
+    font-size: var(--font-30);
+  }
+
+  /*
+   * Kết quả: thẻ 2 dòng, không dùng dạng nhãn–giá trị.
+   * Dòng 1: tên môn và trạng thái. Dòng 2: các ô còn lại nối bằng dấu chấm giữa.
+   * Dấu ngắt hàng là phần tử giả của tr; ô trống đã được ẩn nên không để lại dấu thừa.
+   */
+  .grades-table tr {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    row-gap: var(--space-1);
+    padding: var(--space-12);
+  }
+
+  .grades-table tr::before {
+    content: '';
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .grades-table td {
+    display: block;
+    order: 4;
+    padding: 0;
+    color: var(--text-secondary);
+    font-size: var(--font-14);
+    text-align: left;
+  }
+
+  .grades-table td::before {
+    content: none;
+  }
+
+  .grades-table td.ui-table__blank {
+    display: none;
+  }
+
+  .grades-table td[data-label='Tên môn'] {
+    order: 1;
+    flex: 1 1 0;
     min-width: 0;
-    text-align: right;
+    padding-right: var(--space-2);
+    color: var(--text-primary);
+    font-size: var(--font-16);
+    font-weight: 600;
+  }
+
+  .grades-table td[data-label='Trạng thái'] {
+    order: 2;
+    flex: none;
+  }
+
+  .grades-table td[data-label='Tín chỉ']::before,
+  .grades-table td[data-label='Học kỳ']::before {
+    content: '\00a0 ·\00a0 ';
+  }
+
+  .grades-table td[data-label='Tín chỉ']::after {
+    content: '\00a0 tín chỉ';
+  }
+
+  .grades-table td[data-label='Điểm']::before {
+    content: '\00a0 ·\00a0 Điểm\00a0 ';
+  }
+
+  .grades-table td[data-label='Chữ']::before {
+    content: '\00a0 ·\00a0 Chữ\00a0 ';
+  }
+
+  .grades-table td[data-label='Hệ 4']::before {
+    content: '\00a0 ·\00a0 Hệ 4\00a0 ';
+  }
+
+  .grades-table .cell-stack {
+    min-width: 0;
+  }
+
+  .grades-table .table-note {
+    font-weight: 400;
+  }
+
+  /* Nút Học lại phủ cả thẻ: bấm thẻ mở lịch sử như bản lớn, bàn phím vẫn dùng đúng nút này. */
+  .grades-table .cell-stack .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .grades-table .ui-tooltip {
+    position: relative;
+    z-index: 1;
   }
 }
