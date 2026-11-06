@@ -7,6 +7,7 @@ import {
   BottomSheet,
   Button,
   Card,
+  ConfirmDialog,
   DataTable,
   Disclosure,
   DropdownMenu,
@@ -156,6 +157,7 @@ function SheetDemo() {
 
 export default function StyleguidePage() {
   const [panel, setPanel] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   return (
     <ToastProvider>
       <main id="main" className="styleguide">
@@ -342,12 +344,25 @@ export default function StyleguidePage() {
             <Button variant="secondary" onClick={() => setPanel(true)}>
               Mở SidePanel
             </Button>
+            <Button variant="secondary" onClick={() => setConfirm(true)}>
+              Mở ConfirmDialog
+            </Button>
             <InfoPopover label="Thông tin thêm">Nội dung giải thích ngắn.</InfoPopover>
             <Avatar name="Sinh viên 01 (mẫu)" size="sm" />
             <Avatar name="Sinh viên 01 (mẫu)" size="md" />
             <Avatar name="Sinh viên 01 (mẫu)" size="lg" />
           </div>
           <ToastDemo />
+          {confirm && (
+            <ConfirmDialog
+              title="ConfirmDialog"
+              confirmLabel="Xác nhận"
+              onConfirm={() => setConfirm(false)}
+              onCancel={() => setConfirm(false)}
+            >
+              <p>Khóa focus, Esc để hủy, đóng thì trả focus.</p>
+            </ConfirmDialog>
+          )}
           {panel && (
             <SidePanel title="SidePanel" onClose={() => setPanel(false)}>
               <p>Khóa focus, Esc để đóng, đóng thì trả focus.</p>

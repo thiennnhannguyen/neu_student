@@ -10,6 +10,7 @@ import {
   BottomSheet,
   Button,
   Card,
+  ConfirmDialog,
   DataTable,
   Disclosure,
   DropdownMenu,
@@ -901,5 +902,58 @@ describe('CR-02b', () => {
     );
 
     expect(screen.getByRole('table')).toHaveClass('ui-table', 'x');
+  });
+});
+
+describe('ConfirmDialog', () => {
+  function setup(props = {}) {
+    const onConfirm = vi.fn();
+    const onCancel = vi.fn();
+    render(
+      <ConfirmDialog
+        title="Xác nhận?"
+        confirmLabel="Đồng ý"
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        {...props}
+      >
+        <p>Nội dung</p>
+      </ConfirmDialog>,
+    );
+    return { onConfirm, onCancel };
+  }
+
+  it('là alertdialog có tiêu đề, mô tả; focus vào nút hủy', () => {
+    setup();
+    const dialog = screen.getByRole('alertdialog', { name: 'Xác nhận?' });
+    expect(dialog).toHaveAccessibleDescription('Nội dung');
+    expect(within(dialog).getByRole('button', { name: 'Hủy' })).toHaveFocus();
+  });
+
+  it('nút xác nhận, Esc, bấm nền đều gọi đúng hàm; bấm trong hộp không đóng', async () => {
+    const user = userEvent.setup();
+    const { onConfirm, onCancel } = setup();
+
+    await user.click(screen.getByRole('button', { name: 'Đồng ý' }));
+    expect(onConfirm).toHaveBeenCalledTimes(1);
+
+    fireEvent.mouseDown(screen.getByRole('alertdialog'));
+    expect(onCancel).not.toHaveBeenCalled();
+
+    fireEvent.mouseDown(screen.getByRole('alertdialog').parentElement);
+    expect(onCancel).toHaveBeenCalledTimes(1);
+
+    await user.keyboard('{Escape}');
+    expect(onCancel).toHaveBeenCalledTimes(2);
+  });
+
+  it('Tab không ra ngoài; đang gửi thì khóa nút xác nhận; có hiện lỗi', async () => {
+    const user = userEvent.setup();
+    setup({ busy: true, error: 'Không lưu được.' });
+
+    expect(screen.getByRole('button', { name: 'Đồng ý' })).toBeDisabled();
+    expect(screen.getByRole('alert')).toHaveTextContent('Không lưu được.');
+    await user.tab();
+    expect(screen.getByRole('button', { name: 'Hủy' })).toHaveFocus();
   });
 });

@@ -7,6 +7,8 @@ import {
   CircleHelp,
   Clock,
   Eye,
+  FileQuestionMark,
+  Hourglass,
   Medal,
   ShieldCheck,
   TrendingDown,
@@ -15,7 +17,7 @@ import {
 } from 'lucide-react';
 import Badge from './Badge';
 
-/** 6 trạng thái môn (Q64), các mức cảnh báo và nhóm môn. Luôn có biểu tượng và chữ, không chỉ dựa vào màu. */
+/** 6 trạng thái môn (Q64), 2 trạng thái kỹ năng, các mức cảnh báo và nhóm môn. Luôn có biểu tượng và chữ, không chỉ dựa vào màu. */
 export const STATUS_CHIPS = {
   done: { label: 'Đạt', icon: Check, tone: 'success' },
   done_via_equivalency: { label: 'Đạt qua tương đương', icon: CheckCheck, tone: 'success' },
@@ -23,6 +25,8 @@ export const STATUS_CHIPS = {
   in_progress: { label: 'Đang học', icon: Clock, tone: 'info' },
   failed: { label: 'Chưa đạt', icon: X, tone: 'danger' },
   not_started: { label: 'Chưa học', icon: Circle, tone: 'neutral' },
+  pending: { label: 'Chờ duyệt', icon: Hourglass, tone: 'warning' },
+  no_evidence: { label: 'Chưa có minh chứng', icon: FileQuestionMark, tone: 'neutral' },
   normal: { label: 'Bình thường', icon: ShieldCheck, tone: 'success' },
   watch: { label: 'Chú ý', icon: Eye, tone: 'warning' },
   warning: { label: 'Cảnh báo', icon: AlertTriangle, tone: 'danger' },

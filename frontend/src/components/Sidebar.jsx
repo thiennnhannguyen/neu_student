@@ -42,7 +42,7 @@ export default function Sidebar({ open, onClose, collapsed, onToggleCollapsed })
                   <li key={item.path}>
                     <NavLink
                       to={`${item.path}${carried}`}
-                      end
+                      end={!item.nested}
                       data-tooltip={item.label}
                       onClick={onClose}
                     >

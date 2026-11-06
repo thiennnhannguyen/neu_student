@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router';
 import AppLayout from './components/AppLayout';
 import ComingSoonPage from './components/ComingSoonPage';
 import NotFoundPage from './components/NotFoundPage';
-import { MENU_GROUPS, PENDING_ITEMS } from './components/menu';
+import { M11_READERS, MENU_GROUPS, PENDING_ITEMS } from './components/menu';
 import AuditLogPage from './features/admin/AuditLogPage';
 import { AuthProvider } from './features/auth/AuthContext';
 import LoginPage from './features/auth/LoginPage';
@@ -12,6 +12,9 @@ import RoleRoute from './features/auth/RoleRoute';
 import HomeRoute from './features/m11/HomeRoute';
 import ResultsPage from './features/m11/ResultsPage';
 import RisksPage from './features/m11/RisksPage';
+import AllCareersPage from './features/m12/AllCareersPage';
+import CareersPage from './features/m12/CareersPage';
+import CareerTreePage from './features/m12/CareerTreePage';
 import ProfilePage from './features/profile/ProfilePage';
 
 // Recharts khá nặng nên chỉ tải khi mở trang Phân tích.
@@ -31,6 +34,7 @@ const IMPLEMENTED_PAGES = {
     </Suspense>
   ),
   '/m11/canh-bao': <RisksPage />,
+  '/m12/dinh-huong': <CareersPage />,
   '/quan-tri/nhat-ky': <AuditLogPage />,
 };
 
@@ -61,6 +65,10 @@ export default function AppRoutes() {
                 <Route path={item.path} element={IMPLEMENTED_PAGES[item.path]} />
               </Route>
             ))}
+            <Route element={<RoleRoute roles={M11_READERS} />}>
+              <Route path="/m12/dinh-huong/tat-ca" element={<AllCareersPage />} />
+              <Route path="/m12/dinh-huong/nghe/:careerId" element={<CareerTreePage />} />
+            </Route>
             {PENDING_ITEMS.map((item) => (
               <Route key={item.path} element={<RoleRoute roles={item.roles} />}>
                 <Route

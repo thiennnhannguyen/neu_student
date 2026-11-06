@@ -2,6 +2,8 @@
 
 Service ở giai đoạn 05 KHÔNG được import, gọi hay chép lại các hàm này; phải tự viết từ quy tắc
 trong AGENTS.md và docs/DECISIONS.md.
+
+Đã sửa theo Q65 và Q89 ở giai đoạn 08, sau mốc 235/235 (commit fd18024).
 """
 
 from decimal import ROUND_HALF_UP, Decimal
@@ -43,18 +45,21 @@ class ReferenceData:
             if pair["status"] == "approved":
                 self.equivalent.setdefault(pair["course_a_id"], set()).add(pair["course_b_id"])
                 self.equivalent.setdefault(pair["course_b_id"], set()).add(pair["course_a_id"])
-        version_of = {
-            row["career_id"]: row["id"]
-            for row in tables["career_versions"]
-            if row["status"] == "published"
-        }
+        published = sorted(
+            (row for row in tables["career_versions"] if row["status"] == "published"),
+            key=lambda row: row["version"],
+        )
+        # Bản sau ghi đè bản trước, nên giữ lại bản published mới nhất của mỗi nghề.
+        version_of = {row["career_id"]: row["id"] for row in published}
         nodes = tables["career_nodes"]
         self.career_requirements = {}
         for career in tables["careers"]:
             version = version_of[career["id"]]
             node_ids = {n["id"] for n in nodes if n["career_version_id"] == version}
             self.career_requirements[career["slug"]] = [
-                r for r in tables["career_requirements"] if r["career_node_id"] in node_ids
+                r
+                for r in tables["career_requirements"]
+                if r["career_node_id"] in node_ids and r["status"] == "approved"
             ]
 
     def rule_of(self, student_id: str) -> dict:
@@ -97,19 +102,33 @@ def reference_student_attempts(data, student_id, until=None, attempts=None):
     ]
 
 
+def _reference_rank(attempt) -> tuple:
+    """Q65: đạt có điểm xếp trên, rồi miễn, rồi trượt."""
+    if attempt["status"] == "exempt":
+        return (1, Fraction(0))
+    return (2 if attempt["passed"] else 0, Fraction(str(attempt["grade_4"])))
+
+
 def reference_effective_attempts(data, student_rows, policy) -> dict:
+    """Q65. best: theo hạng, hòa thì kỳ sau. latest: kỳ sau nhất, cùng kỳ thì theo hạng.
+    Vẫn hòa thì lấy courses.id nhỏ hơn: sắp trước để max giữ phần tử đầu."""
     groups = {}
     for attempt in student_rows:
         if attempt["status"] in ("final", "exempt"):
             groups.setdefault(data.group_of(attempt["course_id"]), []).append(attempt)
     chosen = {}
     for group, rows in groups.items():
+        ordered = sorted(rows, key=lambda a: a["course_id"])
         if policy == "best":
             chosen[group] = max(
-                rows, key=lambda a: (a["grade_4"] or 0, data.semester_order[a["semester_id"]])
+                ordered,
+                key=lambda a: (_reference_rank(a), data.semester_order[a["semester_id"]]),
             )
         else:
-            chosen[group] = max(rows, key=lambda a: data.semester_order[a["semester_id"]])
+            chosen[group] = max(
+                ordered,
+                key=lambda a: (data.semester_order[a["semester_id"]], _reference_rank(a)),
+            )
     return chosen
 
 
@@ -268,8 +287,10 @@ def reference_skill_rate(data, student_id, slug) -> str:
 
 
 def reference_outside_curriculum(data, student_id, slug) -> int:
+    """Q89: môn tương đương đã duyệt với một môn trong CTĐT không tính là ngoài CTĐT."""
     version = data.students[student_id]["program_version_id"]
     inside = {c["course_id"] for c in data.curriculum if c["program_version_id"] == version}
+    inside |= {other for course in inside for other in data.equivalent.get(course, set())}
     required = {r["course_id"] for r in data.career_requirements[slug] if r["kind"] == "course"}
     return len(required - inside)
 

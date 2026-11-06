@@ -1014,7 +1014,7 @@ Sinh viên đọc của mình. Cố vấn (đúng phân công), quản trị vi�
 
 ### `PUT /api/m12/career-goal`
 
-Chỉ sinh viên, cho chính mình; vai trò khác 403. Đổi nghề: đóng bản ghi cũ, tạo bản mới, ghi `audit_logs`, tăng `data_version`, trong 1 transaction. Chọn lại đúng nghề đang chọn: 200, không ghi gì. Nghề không tồn tại hoặc chưa có bản published: 422 `CAREER_NOT_PUBLISHED`.
+Chỉ sinh viên, cho chính mình; vai trò khác 403. Đổi nghề: đóng bản ghi cũ, tạo bản mới, ghi `audit_logs`, tăng `data_version`, trong 1 transaction. Chọn lại đúng nghề đang chọn: 200, không ghi gì. Có `student_id` trên URL: 422 `STUDENT_ID_NOT_ALLOWED`. Nghề không tồn tại hoặc chưa có bản published: 422 `CAREER_NOT_PUBLISHED`.
 
 <!-- contract: sv01 PUT /api/m12/career-goal {"career_id": "career-ai_engineer"} -->
 ```json
@@ -1063,6 +1063,299 @@ Cùng quyền với GET ở trên, có phân trang. Bản đang hiệu lực đ�
 }
 ```
 
+### `GET /api/m12/progress/careers/{id}`
+
+Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resolve_target_student`. `/careers/{id}/tree` vẫn chỉ là danh mục. Nghề không tồn tại hoặc chưa có bản published: 404.
+
+`status` của học phần là 1 trong 6 giá trị của `get_course_status`; chỉ `done`, `done_via_equivalency`, `exempt` tính vào tử số. Của kỹ năng, dự án: `done` (minh chứng đã duyệt), `pending`, `not_started`. `via_course` là môn đã học khi đạt qua tương đương. Mỗi học phần, kỹ năng đếm 1 lần dù ở nhiều nhóm; trọng số chưa dùng. Mẫu số 0 thì `value` null kèm mục trong `data_warnings`.
+
+<!-- contract: sv01 GET /api/m12/progress/careers/career-backend -->
+```json
+{
+  "career": {
+    "field": "Phần mềm (mẫu)",
+    "id": "career-backend",
+    "name": "Backend Developer (mẫu)",
+    "slug": "backend"
+  },
+  "computed_at": "2026-11-06T17:59:40.776712Z",
+  "course_progress": {
+    "denominator": 8,
+    "formula": "7/8 học phần",
+    "numerator": 7,
+    "value": "0.8750"
+  },
+  "data_warnings": [],
+  "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
+  "is_primary": true,
+  "nodes": [
+    {
+      "children": [
+        {
+          "code": "CNT101",
+          "course_id": "CNT101",
+          "id": "req-node-cv-backend-1-1-CNT101",
+          "kind": "course",
+          "outside_curriculum": false,
+          "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu.",
+          "skill_id": null,
+          "status": "done",
+          "title": "Nhập môn lập trình (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": "CNT102",
+          "course_id": "CNT102",
+          "id": "req-node-cv-backend-1-1-CNT102",
+          "kind": "course",
+          "outside_curriculum": false,
+          "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
+          "skill_id": null,
+          "status": "done",
+          "title": "Lập trình Python (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        }
+      ],
+      "id": "node-cv-backend-1-1",
+      "kind": "group",
+      "order": 1,
+      "short_desc": "Năng lực lập trình phía máy chủ, là điều kiện đầu tiên của nghề.",
+      "title": "Ngôn ngữ phía server (mẫu)"
+    },
+    {
+      "children": [
+        {
+          "code": "CNT202",
+          "course_id": "CNT202",
+          "id": "req-node-cv-backend-1-2-CNT202",
+          "kind": "course",
+          "outside_curriculum": false,
+          "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt.",
+          "skill_id": null,
+          "status": "done_via_equivalency",
+          "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+          "via_course": {
+            "code": "CNT201",
+            "course_id": "CNT201"
+          },
+          "weight": "1.00"
+        },
+        {
+          "code": "CNT203",
+          "course_id": "CNT203",
+          "id": "req-node-cv-backend-1-2-CNT203",
+          "kind": "course",
+          "outside_curriculum": false,
+          "short_desc": "Môn nền về lưu trữ, là tiên quyết của backend, công nghệ phần mềm và kho dữ liệu.",
+          "skill_id": null,
+          "status": "done",
+          "title": "Cơ sở dữ liệu (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        }
+      ],
+      "id": "node-cv-backend-1-2",
+      "kind": "group",
+      "order": 2,
+      "short_desc": "Cách tổ chức dữ liệu và xử lý hiệu quả bên trong dịch vụ.",
+      "title": "Dữ liệu và thuật toán (mẫu)"
+    }
+  ],
+  "outside_curriculum_count": 0,
+  "skill_progress": {
+    "denominator": 3,
+    "formula": "0/3 kỹ năng & dự án",
+    "numerator": 0,
+    "value": "0.0000"
+  },
+  "student_id": "SV01",
+  "version": {
+    "id": "cv-backend-1",
+    "published_at": "2026-08-20T09:00:00Z",
+    "version": 1
+  }
+}
+```
+
+### `GET /api/m12/my-careers`
+
+Nghề chính và 3 nghề liên quan đầu theo `closeness`. Chưa có nghề chính: `primary` null, `related` rỗng.
+
+<!-- contract: sv07 GET /api/m12/my-careers -->
+```json
+{
+  "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
+  "primary": {
+    "career": {
+      "field": "Dữ liệu và AI (mẫu)",
+      "id": "career-ai_engineer",
+      "name": "AI Engineer (mẫu)",
+      "slug": "ai_engineer"
+    },
+    "course_progress": {
+      "denominator": 9,
+      "formula": "2/9 học phần",
+      "numerator": 2,
+      "value": "0.2222"
+    },
+    "outside_curriculum_count": 4,
+    "skill_progress": {
+      "denominator": 3,
+      "formula": "1/3 kỹ năng & dự án",
+      "numerator": 1,
+      "value": "0.3333"
+    }
+  },
+  "related": [
+    {
+      "career": {
+        "field": "Dữ liệu và AI (mẫu)",
+        "id": "career-ml_engineer",
+        "name": "Machine Learning Engineer (mẫu)",
+        "slug": "ml_engineer"
+      },
+      "closeness": {
+        "denominator": 14,
+        "numerator": 9,
+        "value": "0.6429"
+      },
+      "course_progress": {
+        "denominator": 8,
+        "formula": "1/8 học phần",
+        "numerator": 1,
+        "value": "0.1250"
+      },
+      "skill_progress": {
+        "denominator": 3,
+        "formula": "1/3 kỹ năng & dự án",
+        "numerator": 1,
+        "value": "0.3333"
+      }
+    },
+    {
+      "career": {
+        "field": "Dữ liệu và AI (mẫu)",
+        "id": "career-data_analyst",
+        "name": "Data Analyst (mẫu)",
+        "slug": "data_analyst"
+      },
+      "closeness": {
+        "denominator": 18,
+        "numerator": 4,
+        "value": "0.2222"
+      },
+      "course_progress": {
+        "denominator": 7,
+        "formula": "1/7 học phần",
+        "numerator": 1,
+        "value": "0.1429"
+      },
+      "skill_progress": {
+        "denominator": 3,
+        "formula": "1/3 kỹ năng & dự án",
+        "numerator": 1,
+        "value": "0.3333"
+      }
+    }
+  ],
+  "student_id": "SV07"
+}
+```
+
+### `GET /api/m12/related`
+
+Tham số `student_id`, `sort` (`closeness` mặc định, hoặc `profile_fit`), `field` (khớp đúng), `q` (không phân biệt dấu), `min_progress` (0–100, % theo `course_progress`), `page`, `page_size`. Luôn loại nghề chính. Hai cách xếp riêng, không gộp điểm; hòa thì theo tên, null xếp cuối. `fields` là các lĩnh vực có thể lọc. Chưa có nghề chính: `closeness` null, `primary_career` null, có cảnh báo `NO_PRIMARY_CAREER`.
+
+<!-- contract: sv07 GET /api/m12/related?sort=profile_fit&page_size=2 -->
+```json
+{
+  "data_warnings": [],
+  "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
+  "fields": [
+    "Dữ liệu và AI (mẫu)",
+    "Marketing (mẫu)"
+  ],
+  "items": [
+    {
+      "career": {
+        "field": "Tài chính (mẫu)",
+        "id": "career-finance",
+        "name": "Chuyên viên phân tích tài chính (mẫu)",
+        "slug": "finance"
+      },
+      "closeness": {
+        "denominator": 19,
+        "numerator": 1,
+        "value": "0.0526"
+      },
+      "course_progress": {
+        "denominator": 5,
+        "formula": "2/5 học phần",
+        "numerator": 2,
+        "value": "0.4000"
+      },
+      "skill_progress": {
+        "denominator": 3,
+        "formula": "0/3 kỹ năng & dự án",
+        "numerator": 0,
+        "value": "0.0000"
+      }
+    },
+    {
+      "career": {
+        "field": "Marketing (mẫu)",
+        "id": "career-marketing",
+        "name": "Chuyên viên marketing số (mẫu)",
+        "slug": "marketing"
+      },
+      "closeness": {
+        "denominator": 20,
+        "numerator": 1,
+        "value": "0.0500"
+      },
+      "course_progress": {
+        "denominator": 6,
+        "formula": "2/6 học phần",
+        "numerator": 2,
+        "value": "0.3333"
+      },
+      "skill_progress": {
+        "denominator": 3,
+        "formula": "0/3 kỹ năng & dự án",
+        "numerator": 0,
+        "value": "0.0000"
+      }
+    }
+  ],
+  "page": 1,
+  "page_size": 2,
+  "primary_career": {
+    "field": "Dữ liệu và AI (mẫu)",
+    "id": "career-ai_engineer",
+    "name": "AI Engineer (mẫu)",
+    "slug": "ai_engineer"
+  },
+  "sort": "profile_fit",
+  "student_id": "SV07",
+  "total": 5
+}
+```
+
+Lỗi khi đổi nghề chính kèm `student_id` trên URL:
+
+<!-- contract: sv01 PUT /api/m12/career-goal?student_id=SV02 422 {"career_id": "career-ai_engineer"} -->
+```json
+{
+  "error": {
+    "code": "STUDENT_ID_NOT_ALLOWED",
+    "details": {},
+    "message": "Không được chỉ định sinh viên khi đổi nghề chính."
+  }
+}
+```
+
 ### Quy ước riêng của API M12 cho quản trị viên
 
 Chỉ `admin`; vai trò khác 403, chưa đăng nhập 401. Mọi thao tác ghi đều ghi `audit_logs` trong cùng transaction; thao tác không làm đổi dữ liệu thì không ghi. DELETE trả 200 kèm `{"id", "deleted": true}`.
@@ -1074,6 +1367,7 @@ Chỉ `admin`; vai trò khác 403, chưa đăng nhập 401. Mọi thao tác ghi 
 | 409 | `DRAFT_EXISTS` | Nghề đã có bản draft |
 | 409 | `IN_USE` | Xóa nghề, kỹ năng, nhóm đang được dùng |
 | 409 | `SKILL_IN_PUBLISHED` | Sửa kỹ năng đang nằm trong bản published |
+| 422 | `STUDENT_ID_NOT_ALLOWED` | `PUT /api/m12/career-goal` có tham số `student_id` |
 | 422 | `CAREER_NOT_PUBLISHED` | Chọn nghề không tồn tại hoặc chưa có bản published |
 | 422 | `PUBLISH_VALIDATION_FAILED` | Công bố không qua kiểm tra, xem `details.errors` |
 

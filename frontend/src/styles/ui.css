@@ -1018,3 +1018,36 @@
     text-align: center;
   }
 }
+
+/* ConfirmDialog */
+.confirm-dialog__backdrop {
+  position: fixed;
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  inset: 0;
+  background: var(--color-backdrop);
+}
+
+.confirm-dialog {
+  width: min(460px, 100%);
+  padding: var(--space-20);
+  background: var(--surface-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.confirm-dialog__title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}

@@ -1,9 +1,8 @@
 """Đối chứng: service M11 và bản tính lại tham chiếu phải cho cùng kết quả trên mọi biến thể.
 
 Biến thể thay đổi DB thật trong 1 transaction, nên trigger vẫn kiểm tra dữ liệu. Xong thì rollback.
-Không sinh hai loại ca mà quy tắc Q65 khác bản tham chiếu (bản này chưa được sửa, xem DECISIONS.md):
-nhóm môn có `exempt` cùng lần học khác, và hai phía của cặp tương đương trong cùng một kỳ.
-Hai loại này được kiểm bằng số tính tay trong tests/unit/m11/test_effective_attempt.py.
+Có cả hai loại ca trước đây bị loại (D-146): nhóm môn có `exempt` cùng lần học khác, và hai phía của
+cặp tương đương trong cùng một kỳ. Đối chứng gồm cả tỷ lệ nghề: thêm, bớt điểm, đổi minh chứng.
 """
 
 import random
@@ -16,6 +15,8 @@ from sqlalchemy import select
 
 from app.extensions import db
 from app.services.analysis_service import strengths_weaknesses
+from app.services.career_api_service import latest_published
+from app.services.career_progress_service import compute_evaluations
 from app.services.credit_service import credit_summary
 from app.services.effective_attempt_service import course_status
 from app.services.gpa_service import cumulative_gpa, semester_gpa
@@ -23,17 +24,22 @@ from app.services.m11_loader import load_student_data
 from app.services.risk_service import assess_risk
 from tests.helpers import normalize, run_sql
 from tests.reference.fixture_reference_calc import (
+    CAREER_SLUGS,
     ReferenceData,
     reference_course_group_strength,
+    reference_course_rate,
     reference_course_status,
     reference_credits,
     reference_cumulative_gpa,
+    reference_outside_curriculum,
     reference_risk,
+    reference_skill_rate,
+    reference_skill_status,
     reference_term_gpa,
 )
 
 SEED = 20261105
-VARIANT_COUNT = 400
+VARIANT_COUNT = 600
 STUDENTS = [f"SV0{number}" for number in range(1, 8)]
 PAST_SEMESTERS = ["S1", "S2", "S3", "S4"]
 ALL_SEMESTERS = [f"S{number}" for number in range(1, 9)]
@@ -46,6 +52,7 @@ class Variant:
     index: int
     operations: list[str] = field(default_factory=list)
     selected: str = "S4"
+    tags: set[str] = field(default_factory=set)
 
     def describe(self) -> str:
         return f"seed={SEED} biến thể={self.index} kỳ chọn={self.selected} phép={self.operations}"
@@ -112,27 +119,16 @@ def _has_exempt(student_id: str, course_id: str) -> bool:
     )
 
 
-def op_add_retake(rng, variant) -> bool:
-    rows = [row for row in attempts_rows() if row[5] == "final"]
-    row = rng.choice(rows)
-    student, course = row[1], row[2]
-    if _has_exempt(student, course):
-        return False
-    taken = {
+def _taken(student: str) -> set[tuple]:
+    return {
         tuple(item)
         for item in run_sql(
             "SELECT course_id, semester_id FROM enrollments WHERE student_id = :s", s=student
         ).all()
     }
-    related = PAIR if course in PAIR else {course}
-    free = [
-        semester
-        for semester in PAST_SEMESTERS
-        if not any((other, semester) in taken for other in related)
-    ]
-    if not free:
-        return False
-    semester = rng.choice(free)
+
+
+def _insert_attempt(rng, variant, student: str, course: str, semester: str, label: str) -> None:
     score = random_score(rng)
     letter, grade_4, passed = lookup_level(student, score)
     number = run_sql(
@@ -158,14 +154,101 @@ def op_add_retake(rng, variant) -> bool:
         s=student,
         c=course,
         sem=semester,
-        no=number + 1,
+        no=(number or 0) + 1,
         credits=credits,
         score=str(score),
         letter=letter,
         grade=str(grade_4),
         passed=passed,
     )
-    variant.operations.append(f"add_retake({student},{course},{semester},{score})")
+    variant.operations.append(f"{label}({student},{course},{semester},{score})")
+
+
+def op_add_retake(rng, variant) -> bool:
+    """Gồm cả môn đã có kết quả miễn, nên nhóm môn có `exempt` cùng lần học khác."""
+    rows = attempts_rows()
+    exempt_rows = [row for row in rows if row[5] == "exempt"]
+    # Môn miễn rất ít, chọn ngẫu nhiên đều thì gần như không gặp loại ca này.
+    row = rng.choice(exempt_rows if exempt_rows and rng.random() < 0.3 else rows)
+    student, course = row[1], row[2]
+    taken = _taken(student)
+    free = [semester for semester in PAST_SEMESTERS if (course, semester) not in taken]
+    if not free:
+        return False
+    if _has_exempt(student, course):
+        variant.tags.add("exempt_with_retake")
+    _insert_attempt(rng, variant, student, course, rng.choice(free), "add_retake")
+    return True
+
+
+def op_add_pair_side(rng, variant) -> bool:
+    """Thêm một phía của cặp tương đương, ưu tiên cùng kỳ với phía còn lại."""
+    student = rng.choice(STUDENTS)
+    course = rng.choice(sorted(PAIR))
+    other = next(iter(PAIR - {course}))
+    taken = _taken(student)
+    same_term = [s for s in PAST_SEMESTERS if (other, s) in taken and (course, s) not in taken]
+    free = same_term or [s for s in PAST_SEMESTERS if (course, s) not in taken]
+    if not free:
+        return False
+    if same_term:
+        variant.tags.add("pair_same_term")
+    _insert_attempt(rng, variant, student, course, rng.choice(free), "add_pair_side")
+    return True
+
+
+def op_add_career_course(rng, variant) -> bool:
+    """Thêm điểm cho một môn mà nghề yêu cầu, sinh viên chưa từng học."""
+    student = rng.choice(STUDENTS)
+    taken = {course for course, _semester in _taken(student)}
+    candidates = [
+        row[0]
+        for row in run_sql(
+            "SELECT DISTINCT course_id FROM career_requirements "
+            "WHERE course_id IS NOT NULL ORDER BY course_id"
+        ).all()
+        if row[0] not in taken and row[0] not in PAIR
+    ]
+    if not candidates:
+        return False
+    course = rng.choice(candidates)
+    _insert_attempt(rng, variant, student, course, rng.choice(PAST_SEMESTERS), "add_career_course")
+    return True
+
+
+def op_remove_result(rng, variant) -> bool:
+    """Bớt điểm, kể cả kết quả duy nhất của môn đó."""
+    row = rng.choice(attempts_rows())
+    run_sql("DELETE FROM grade_attempts WHERE id = :id", id=row[0])
+    run_sql("DELETE FROM enrollments WHERE id = :id", id=row[6])
+    variant.operations.append(f"remove_result({row[1]},{row[2]},{row[3]})")
+    return True
+
+
+def op_set_evidence(rng, variant) -> bool:
+    """Thêm minh chứng cho kỹ năng, hoặc đổi trạng thái minh chứng đã có."""
+    student = rng.choice(STUDENTS)
+    skill = rng.choice([row[0] for row in run_sql("SELECT id FROM skills ORDER BY id").all()])
+    status = rng.choice(["approved", "pending", "rejected"])
+    existing = run_sql(
+        "SELECT id FROM skill_evidences WHERE student_id = :s AND skill_id = :k ORDER BY id",
+        s=student,
+        k=skill,
+    ).first()
+    reviewed = status != "pending"
+    if existing and rng.random() < 0.5:
+        run_sql("UPDATE skill_evidences SET status = :st WHERE id = :id", st=status, id=existing[0])
+    else:
+        run_sql(
+            "INSERT INTO skill_evidences (id, student_id, skill_id, description, status, "
+            "reviewed_by, is_mock) VALUES (:id, :s, :k, 'x', :st, :by, 1)",
+            id=f"var-ev-{variant.index}-{len(variant.operations)}",
+            s=student,
+            k=skill,
+            st=status,
+            by="user-gv1" if reviewed else None,
+        )
+    variant.operations.append(f"set_evidence({student},{skill},{status})")
     return True
 
 
@@ -206,7 +289,11 @@ def op_select_semester(rng, variant) -> bool:
 OPERATIONS = {
     "change_score": op_change_score,
     "add_retake": op_add_retake,
+    "add_pair_side": op_add_pair_side,
+    "add_career_course": op_add_career_course,
     "remove_retake": op_remove_retake,
+    "remove_result": op_remove_result,
+    "set_evidence": op_set_evidence,
     "flip_policy": op_flip_policy,
     "select_semester": op_select_semester,
 }
@@ -275,6 +362,42 @@ def compare_student(student: str, reference: ReferenceData, selected: str) -> li
     return differences
 
 
+def compare_careers(student: str, reference: ReferenceData) -> list[str]:
+    """Tỷ lệ, số môn ngoài CTĐT, trạng thái kỹ năng của cả 6 nghề."""
+    differences = []
+    policy = reference.rule_of(student)["retake_policy"]
+    versions = {slug: latest_published(f"career-{slug}").id for slug in CAREER_SLUGS}
+    results = compute_evaluations(student, list(versions.values()))
+    for slug, version_id in versions.items():
+        result = results[version_id]
+        course = result.course_progress
+        mine = {
+            "course": f"{course.numerator}/{course.denominator}",
+            "skill": f"{result.skill_progress.numerator}/{result.skill_progress.denominator}",
+            "outside": result.outside_curriculum_count,
+        }
+        expected = {
+            "course": reference_course_rate(reference, student, slug, policy),
+            "skill": reference_skill_rate(reference, student, slug),
+            "outside": reference_outside_curriculum(reference, student, slug),
+        }
+        if mine != expected:
+            differences.append(f"{student} nghề {slug}: {mine} khác {expected}")
+        for requirement in reference.career_requirements[slug]:
+            state = result.states[requirement["id"]].status
+            if requirement["kind"] == "course":
+                state = TERMINAL_STATUS.get(state, state)
+                wanted = reference_course_status(
+                    reference, student, requirement["course_id"], policy
+                )
+            else:
+                state = "not_done" if state == "not_started" else state
+                wanted = reference_skill_status(reference, student, requirement["skill_id"])
+            if state != wanted:
+                differences.append(f"{student} {requirement['id']}: {state} khác {wanted}")
+    return differences
+
+
 def summarize(reference: ReferenceData) -> dict:
     """Dấu hiệu để chứng minh biến thể thật sự tạo ra các tình huống cần kiểm."""
     signals = {"best_differs": False, "lost_pass": False, "risk": {}}
@@ -293,6 +416,7 @@ def summarize(reference: ReferenceData) -> dict:
 def test_service_matches_reference_on_all_variants(seeded_app):
     rng = random.Random(SEED)
     used = Counter()
+    tags = Counter()
     failures = []
     baseline_risk = summarize(ReferenceData(export_without_rollback()))["risk"]
     db.session.rollback()
@@ -309,8 +433,10 @@ def test_service_matches_reference_on_all_variants(seeded_app):
         reference = ReferenceData(export_without_rollback())
         for student in STUDENTS:
             differences = compare_student(student, reference, variant.selected)
+            differences += compare_careers(student, reference)
             if differences:
                 failures.append((variant.describe(), differences))
+        tags.update(variant.tags)
         signals = summarize(reference)
         best_differs += signals["best_differs"]
         lost_pass += signals["lost_pass"]
@@ -321,7 +447,8 @@ def test_service_matches_reference_on_all_variants(seeded_app):
     assert not failures, f"{len(failures)} lệch.\n{report}"
     # Chống test rỗng: mỗi phép phải chạy đủ, và phải gặp các tình huống quan trọng.
     print(
-        f"phép={dict(used)} best_differs={best_differs} lost_pass={lost_pass} risk={risk_changed}"
+        f"phép={dict(used)} tags={dict(tags)} best_differs={best_differs} "
+        f"lost_pass={lost_pass} risk={risk_changed}"
     )
     assert VARIANT_COUNT >= 200
     assert set(used) == set(OPERATIONS)
@@ -329,6 +456,9 @@ def test_service_matches_reference_on_all_variants(seeded_app):
     assert best_differs >= 50, best_differs
     assert lost_pass >= 5, lost_pass
     assert risk_changed >= 50, risk_changed
+    # Hai loại ca từng bị loại theo D-146 phải thật sự xuất hiện.
+    assert tags["exempt_with_retake"] >= 5, tags
+    assert tags["pair_same_term"] >= 5, tags
 
 
 def test_variants_are_reproducible(seeded_app):
@@ -355,4 +485,16 @@ def test_reference_detects_a_real_difference(seeded_app):
     db.session.expire_all()
 
     assert compare_student("SV01", reference, "S4")
+    db.session.rollback()
+
+
+def test_career_comparison_detects_a_real_difference(seeded_app):
+    """Bộ so sánh tỷ lệ nghề phải báo lệch khi minh chứng hai bên khác nhau."""
+    reference = ReferenceData(export_without_rollback())
+    assert compare_careers("SV07", reference) == []
+    run_sql("UPDATE skill_evidences SET status = 'approved' WHERE id = 'ev-sv07-data'")
+    db.session.flush()
+    db.session.expire_all()
+
+    assert compare_careers("SV07", reference)
     db.session.rollback()

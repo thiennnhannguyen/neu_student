@@ -100,11 +100,11 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | TC03 | Một môn học lại nhiều lần không cộng trùng tín chỉ | 05 | Dữ liệu: SV02; chưa có test |
 | TC04 | Chuyển học kỳ biểu đồ và thống kê đổi đúng | 05, 06 | Dữ liệu: SV01; chưa có test |
 | TC05 | Quy chế khác phiên bản không áp sai ngưỡng | 05 | Dữ liệu: SV04, SV06; chưa có test |
-| TC06 | Hoàn thành Python → mọi cây nghề liên quan tick xanh | 08 | Dữ liệu: SV07; kịch bản SV05; chưa có test |
-| TC07 | Môn đang học không được tick xanh | 08 | Dữ liệu: SV07, SV01; chưa có test |
-| TC08 | Đổi nghề chính giữ nguyên lịch sử học tập | 07 (phần dữ liệu), 08 (phần cây và tỷ lệ) | Phần dữ liệu đạt: `test_sv07_changes_to_analyst_and_back`, `test_repeating_same_career_adds_nothing` (`backend/tests/acceptance/test_tc08_career_change.py`) |
-| TC09 | Tỷ lệ nghề A khác nghề B khi yêu cầu khác nhau | 08 | Dữ liệu: SV07; chưa có test |
-| TC10 | Đổi nghề liên quan và xem tất cả hoạt động | 08 | Dữ liệu: 6 nghề, SV07; chưa có test |
+| TC06 | Hoàn thành Python → mọi cây nghề liên quan tick xanh | 08 | Đạt: `test_tc06_cnt102_is_green_on_all_six_careers`, `test_tc06_new_passing_grade_changes_every_tree_immediately` |
+| TC07 | Môn đang học không được tick xanh | 08 | Đạt: `test_tc07_in_progress_is_shown_and_not_counted` |
+| TC08 | Đổi nghề chính giữ nguyên lịch sử học tập | 07, 08 | Đạt: `test_sv07_changes_to_analyst_and_back`, `test_tc08_changing_primary_and_back_keeps_each_rate`; Vitest `đặt làm mục tiêu chính (TC08)` |
+| TC09 | Tỷ lệ nghề A khác nghề B khi yêu cầu khác nhau | 08 | Đạt: `test_tc09_rates_differ_between_careers_and_match_expected` |
+| TC10 | Đổi nghề liên quan và xem tất cả hoạt động | 08 | Đạt: `test_tc10_related_sorts_differently_and_filters_by_field`; Vitest `trang Xem tất cả (TC10)` |
 | TC11 | Lộ trình không xếp môn trước tiên quyết | 09 | Dữ liệu: Tiên quyết DAG; chưa có test |
 | TC12 | Môn không mở kỳ này được ghi dự kiến/chưa xác minh | 09 | Dữ liệu: `course_offerings`; chưa có test |
 | TC13 | Sinh viên không xem được ticket của người khác | 10 | Dữ liệu: Ticket SV01, SV02; chưa có test |
@@ -204,3 +204,23 @@ File nằm trong `backend/tests/`.
 | Mô tả mẫu tối đa 120 ký tự, có dấu, không lặp tên | `test_short_desc_is_handwritten_not_from_name` | `unit/test_fixtures_integrity.py` |
 | Ranh giới `m11_public`, không float, `data_version` cho bảng M12, route registry | `test_m12_modules_only_use_m11_public`, `test_m12_modules_have_no_float`, `test_data_version_scanner_covers_m12_results`, `test_route_registry_covers_all_expected_api_routes` | `unit/test_source_rules.py`, `unit/test_auth_guard.py` |
 | Response thật khớp ví dụ trong `docs/API.md` | `test_real_response_matches_documented_example`, `test_every_new_endpoint_has_an_example` | `api/test_api_contract.py` |
+
+## M12: đồng bộ M11–M12, tỷ lệ nghề (giai đoạn 08)
+
+File nằm trong `backend/tests/`, trừ dòng ghi rõ `frontend/`.
+
+| Yêu cầu | Test | File |
+|---------|------|------|
+| 235/235: 44 mục M12 qua `completion_service` | `test_plain_m12_items_match`, `test_sv05_scenario_items_match`, `test_all_235_items_are_computed_by_services` | `acceptance/test_m12_expected.py` |
+| Đối chứng mở rộng, không còn giới hạn D-146 | `test_service_matches_reference_on_all_variants`, `test_career_comparison_detects_a_real_difference` | `acceptance/test_m11_differential.py` |
+| `get_course_statuses` khớp `get_course_status` trên mọi môn của 7 sinh viên | `test_bulk_statuses_match_single_status_on_every_course` | `unit/m12/test_m11_public_gate.py` |
+| Tick xanh, đếm 1 lần, trọng số không dùng, mẫu số 0, minh chứng, cờ ngoài CTĐT | Các test trong file | `unit/m12/test_completion.py` |
+| Không lưu trạng thái theo nghề (R1) | `test_progress_modules_never_write_to_db`, `test_m12_models_have_no_stored_completion_columns`, `test_reading_progress_writes_nothing` | `unit/test_source_rules.py`, `api/m12/test_m12_progress.py` |
+| SV01: CNT202 "Đạt qua tương đương", không ngoài CTĐT | `test_sv01_cnt202_on_backend_is_via_equivalency_and_inside_curriculum`; `test_curriculum_ignores_equivalency_out_of_scope` | `api/m12/test_m12_progress.py`, `unit/m12/test_m11_public_gate.py` |
+| Minh chứng pending không tính; approved chỉ vào `skill_progress` | `test_pending_evidence_does_not_count`, `test_approved_evidence_counts_in_skill_only` | `api/m12/test_m12_progress.py` |
+| Công bố bản mới đổi tỷ lệ, không xóa cache tay, không tăng `data_version` | `test_publish_new_version_changes_rate_without_clearing_cache` | `api/m12/test_m12_progress.py` |
+| Khóa cache, thêm quy chế mới | `test_cache_key_has_student_data_version_version_and_rule`, `test_new_rule_version_changes_status_without_data_version` | `api/m12/test_m12_progress.py` |
+| Ma trận vai trò, số truy vấn cố định, bộ lọc `/related` | `test_role_matrix`, `test_query_count_is_fixed`, `test_partial_cache_uses_same_query_count_as_empty_cache`, `test_min_progress_filter` | `api/m12/test_m12_progress.py` |
+| Hai sửa nhỏ | `test_student_id_in_query_is_422_and_writes_nothing`; `test_db_rejects_empty_keys` | `api/m12/test_m12_goal.py`, `unit/db/test_migration_0005.py` |
+| Giao diện: 3 trang, cây bàn phím, SidePanel trả focus, hộp xác nhận, vai trò chỉ xem | Các test trong file | `frontend/src/features/m12/m12Pages.test.jsx` |
+| Màn hình theo DoD: đang tải, trống, lỗi, bàn phím | `đang tải, rồi lỗi có nút thử lại`, `không có kết quả thì báo trống...`, `phím mũi tên, Home, End...`; 375px kiểm tràn ngang bằng Chrome thật, ảnh trong `docs/screenshots/` | `frontend/src/features/m12/m12Pages.test.jsx` |

@@ -356,7 +356,7 @@ describe('trang theo vai trò', () => {
 });
 
 describe('quy tắc họa tiết sau đăng nhập', () => {
-  it('họa tiết chỉ ở 4 vị trí đã định, không nằm trong bảng hay form', async () => {
+  it('họa tiết chỉ ở 5 vị trí đã định, không nằm trong bảng hay form', async () => {
     const { readdirSync, readFileSync } = await import('node:fs');
     const { join } = await import('node:path');
     const root = 'src';
@@ -372,6 +372,7 @@ describe('quy tắc họa tiết sau đăng nhập', () => {
       'components/ui/EmptyState.jsx',
       'components/ui/PageHeader.jsx',
       'features/auth/LoginPage.jsx',
+      'features/m12/PrimaryCareerCard.jsx',
     ]);
   });
 });
