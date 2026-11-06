@@ -7,7 +7,7 @@ FLASK := .venv/bin/flask --app app
 BACKEND_PORT := $(or $(BACKEND_PORT),5001)
 export
 
-.PHONY: install dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend build db-upgrade seed
+.PHONY: install dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend build check-bundle db-upgrade seed
 
 install:
 	$(PYTHON) -m venv $(VENV)
@@ -41,6 +41,9 @@ lint-frontend:
 
 build:
 	cd frontend && npm run build
+
+check-bundle: build
+	cd frontend && npm run check:bundle
 
 db-upgrade:
 	cd backend && $(FLASK) db upgrade

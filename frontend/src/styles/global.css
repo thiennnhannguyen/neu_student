@@ -6,7 +6,7 @@
 
 body {
   margin: 0;
-  background: var(--neu-tint);
+  background: var(--surface-canvas);
   color: var(--color-text);
   font-family:
     Inter,
@@ -36,35 +36,7 @@ body {
   top: var(--space-2);
 }
 
-.app-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2) var(--space-3);
-  padding: var(--space-2) var(--space-3);
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.app-header__logo {
-  display: block;
-  max-width: 100%;
-  height: 40px;
-}
-
-.brand-fallback {
-  color: var(--neu-primary-dark);
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.app-header__title {
-  flex: 1 1 200px;
-  margin: 0;
-  color: var(--neu-primary-dark);
-  font-size: 1.125rem;
-}
-
+/* Nhãn "Dữ liệu mẫu" ở trang đăng nhập và thanh trên cùng. */
 .mock-badge {
   padding: var(--space-1) var(--space-2);
   border: 1px solid var(--neu-primary-dark);
@@ -73,107 +45,6 @@ body {
   font-size: 0.875rem;
   font-weight: 600;
   white-space: nowrap;
-}
-
-.app-header__user {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.app-header__error {
-  flex-basis: 100%;
-  margin: 0;
-}
-
-.app-shell {
-  display: flex;
-  flex-direction: column;
-}
-
-.app-main {
-  flex: 1;
-  min-width: 0;
-  width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: var(--space-3);
-}
-
-.page-status {
-  padding: var(--space-3);
-}
-
-.menu-toggle {
-  order: -1;
-}
-
-.sidebar {
-  display: none;
-  padding: var(--space-2) var(--space-3);
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.sidebar--open {
-  display: block;
-}
-
-.sidebar__group + .sidebar__group {
-  margin-top: var(--space-2);
-}
-
-.sidebar__title {
-  margin: 0;
-  padding: var(--space-1) var(--space-2);
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-  font-weight: 700;
-}
-
-.sidebar ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.sidebar a {
-  display: flex;
-  align-items: center;
-  min-height: var(--touch-target);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius);
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.sidebar a:hover {
-  background: var(--neu-tint);
-}
-
-.sidebar a.active {
-  background: var(--neu-primary-dark);
-  color: var(--neu-white);
-}
-
-@media (min-width: 768px) {
-  .menu-toggle {
-    display: none;
-  }
-
-  .app-shell {
-    flex-direction: row;
-    align-items: stretch;
-    min-height: calc(100vh - 64px);
-  }
-
-  .sidebar {
-    display: block;
-    flex: 0 0 220px;
-    border-right: 1px solid var(--color-border);
-    border-bottom: 0;
-  }
 }
 
 /* Mosaic họa tiết. Chỉ để trang trí: không nhận thao tác, không đè lên chữ. */
@@ -800,19 +671,6 @@ body {
   margin: 0;
 }
 
-.m11-page__header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0 var(--space-3);
-  margin-bottom: var(--space-3);
-}
-
-.m11-page__header h1 {
-  margin: 0 0 var(--space-3);
-}
-
 .semester-filter select {
   width: 100%;
   min-width: 240px;
@@ -889,59 +747,6 @@ body {
   font-weight: 400;
 }
 
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: var(--space-3);
-}
-
-.metric-card {
-  position: relative;
-  padding: var(--space-3);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-}
-
-.metric-card:hover {
-  border-color: var(--neu-primary);
-}
-
-.metric-card__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-}
-
-.metric-card__link {
-  color: var(--color-text);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-/* Cả thẻ bấm được; nút "i" nằm trên lớp này. */
-.metric-card__link::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-}
-
-.metric-card__value {
-  margin: var(--space-2) 0 0;
-  color: var(--neu-primary);
-  font-size: 2.25rem;
-  font-weight: 700;
-  line-height: 1.2;
-  font-variant-numeric: tabular-nums;
-}
-
-.metric-card__detail {
-  margin: var(--space-1) 0 0;
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-}
-
 .metric-info {
   position: relative;
   z-index: 1;
@@ -1000,35 +805,6 @@ body {
 .course-details ul {
   margin: 0;
   padding-left: var(--space-4);
-}
-
-.side-panel__backdrop {
-  position: fixed;
-  z-index: 20;
-  inset: 0;
-  background: var(--color-backdrop);
-}
-
-.side-panel {
-  position: absolute;
-  inset: 0 0 0 auto;
-  width: min(440px, 100%);
-  padding: var(--space-3);
-  overflow-y: auto;
-  background: var(--color-surface);
-}
-
-.side-panel__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-2);
-  margin-bottom: var(--space-3);
-}
-
-.side-panel__header h2 {
-  margin: 0;
-  font-size: 1.125rem;
 }
 
 .glossary dt {

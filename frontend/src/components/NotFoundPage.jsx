@@ -1,10 +1,17 @@
-import { Link } from 'react-router';
+import { House } from 'lucide-react';
+import { Button, EmptyState } from './ui';
 
 export default function NotFoundPage() {
   return (
-    <section className="card">
-      <h1>Không tìm thấy trang</h1>
-      <Link to="/">Về trang chủ</Link>
-    </section>
+    <EmptyState
+      heading="h1"
+      title="Không tìm thấy trang"
+      description="Đường dẫn này không tồn tại hoặc đã được đổi."
+      action={
+        <Button to="/" iconLeft={House}>
+          Về Tổng quan
+        </Button>
+      }
+    />
   );
 }

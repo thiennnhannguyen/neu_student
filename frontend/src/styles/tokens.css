@@ -12,24 +12,92 @@
 
   --neu-white: #ffffff;
 
-  --color-text: #1b2733;
-  --color-text-muted: #4d5b69;
-  --color-surface: #ffffff;
+  /* Nền */
+  --surface-canvas: #f4f8fc; /* Tint pha trắng, nhạt hơn --neu-tint rõ rệt. */
+  --surface-card: #ffffff;
+  --surface-sunken: #eef3f8;
+  --surface-sidebar-hover: rgb(255 255 255 / 10%);
+
+  /* Viền */
+  --border-subtle: #dde6ee;
+  --border-strong: #7c8c9c;
+
+  /* Chữ */
+  --text-primary: #1b2733;
+  --text-secondary: #4d5b69;
+  --text-on-primary: #ffffff;
+  --text-on-primary-muted: #daecf9;
+  --text-link: #00528c;
+
+  /* Trạng thái: mỗi cặp nền nhạt và chữ đạt từ 4,5:1. Không phải màu của bộ nhận diện, trừ đỏ. */
+  --success-bg: #e6f4ea;
+  --success-text: #1b6e3c;
+  --warning-bg: #fff3d6;
+  --warning-text: #7a4f00;
+  --danger-bg: #fdecea;
+  --danger-text: var(--neu-red);
+  --info-bg: #daecf9;
+  --info-text: #00528c;
+
+  /* Tên cũ, trỏ về token mới. */
+  --color-text: var(--text-primary);
+  --color-text-muted: var(--text-secondary);
+  --color-surface: var(--surface-card);
   --color-border: #c9d6e2;
   --color-error: var(--neu-red);
-  --color-error-bg: #fdecea;
+  --color-error-bg: var(--danger-bg);
   --shadow-card: 0 8px 24px rgb(0 72 123 / 18%);
-  --color-success: #1b6e3c;
-  --color-success-bg: #e6f4ea;
-  --color-warning: #7a4f00;
-  --color-warning-bg: #fff3d6;
-  --color-muted-bg: #eef2f6;
-  --color-backdrop: rgb(0 0 0 / 40%);
+  --color-success: var(--success-text);
+  --color-success-bg: var(--success-bg);
+  --color-warning: var(--warning-text);
+  --color-warning-bg: var(--warning-bg);
+  --color-muted-bg: var(--surface-sunken);
+  --color-backdrop: rgb(0 0 0 / 45%);
 
+  /* Khoảng cách: thang 4px. */
   --space-1: 4px;
   --space-2: 8px;
+  --space-12: 12px;
   --space-3: 16px;
+  --space-20: 20px;
   --space-4: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+
   --radius: 8px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --shadow-sm: 0 1px 2px rgb(0 72 123 / 8%);
+  --shadow-md: 0 4px 12px rgb(0 72 123 / 10%);
+  --shadow-lg: 0 12px 32px rgb(0 72 123 / 16%);
+
+  /* Chữ */
+  --font-12: 0.75rem;
+  --font-14: 0.875rem;
+  --font-16: 1rem;
+  --font-18: 1.125rem;
+  --font-20: 1.25rem;
+  --font-24: 1.5rem;
+  --font-30: 1.875rem;
+  --font-36: 2.25rem;
+  --line-tight: 1.25;
+  --line-normal: 1.5;
+
+  --z-sticky: 10;
+  --z-sidebar: 30;
+  --z-dropdown: 40;
+  --z-overlay: 50;
+  --z-toast: 60;
+
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+
+  --sidebar-width: 264px;
+  --rail-width: 72px;
+  --topbar-height: 64px;
   --touch-target: 44px;
 }

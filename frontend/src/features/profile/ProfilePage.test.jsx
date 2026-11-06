@@ -17,6 +17,10 @@ const PROFILE = {
   is_mock: true,
 };
 
+async function openEdit(user) {
+  await user.click(await screen.findByRole('button', { name: 'Sửa' }));
+}
+
 function profileApi(extra = {}) {
   return loggedInAs('student', {
     'GET /api/students/me': () => jsonResponse(200, PROFILE),
@@ -44,6 +48,9 @@ describe('trang Hồ sơ', () => {
     ]) {
       expect(screen.getByText(text)).toBeInTheDocument();
     }
+    expect(screen.getByText('sv01@example.test')).toBeInTheDocument();
+    expect(screen.getByText('0900000001')).toBeInTheDocument();
+    await openEdit(userEvent.setup());
     expect(screen.getByLabelText('Email liên hệ')).toHaveValue('sv01@example.test');
     expect(screen.getByLabelText('Số điện thoại')).toHaveValue('0900000001');
   });
@@ -64,6 +71,8 @@ describe('trang Hồ sơ', () => {
 
     expect(await screen.findByText('Chưa có')).toBeInTheDocument();
     expect(screen.getByText('Chưa phân công')).toBeInTheDocument();
+    expect(screen.getAllByText('Chưa cập nhật')).toHaveLength(2);
+    await openEdit(userEvent.setup());
     expect(screen.getByLabelText('Email liên hệ')).toHaveValue('');
   });
 
@@ -97,6 +106,7 @@ describe('trang Hồ sơ', () => {
     const user = userEvent.setup();
 
     renderApp('/ho-so');
+    await openEdit(user);
     const phone = await screen.findByLabelText('Số điện thoại');
     await user.clear(phone);
     await user.type(phone, ' 0912345678 ');
@@ -107,7 +117,8 @@ describe('trang Hồ sơ', () => {
       'polite',
     );
     expect(sent).toEqual({ contact_email: 'sv01@example.test', contact_phone: '0912345678' });
-    expect(phone).toHaveValue('0912345678');
+    expect(screen.getByText('0912345678')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Số điện thoại')).not.toBeInTheDocument();
   });
 
   it('xóa trắng ô thì gửi null', async () => {
@@ -121,6 +132,7 @@ describe('trang Hồ sơ', () => {
     const user = userEvent.setup();
 
     renderApp('/ho-so');
+    await openEdit(user);
     await user.clear(await screen.findByLabelText('Email liên hệ'));
     await user.click(screen.getByRole('button', { name: 'Lưu thay đổi' }));
 
@@ -138,6 +150,7 @@ describe('trang Hồ sơ', () => {
     const user = userEvent.setup();
 
     renderApp('/ho-so');
+    await openEdit(user);
     await user.click(await screen.findByRole('button', { name: 'Lưu thay đổi' }));
 
     const message = await screen.findByText('Email không hợp lệ.');
@@ -159,6 +172,7 @@ describe('trang Hồ sơ', () => {
     const user = userEvent.setup();
 
     renderApp('/ho-so');
+    await openEdit(user);
     (await screen.findByLabelText('Email liên hệ')).focus();
     await user.tab();
     expect(screen.getByLabelText('Số điện thoại')).toHaveFocus();
@@ -166,5 +180,34 @@ describe('trang Hồ sơ', () => {
 
     await screen.findByText('Đã lưu thông tin liên hệ.');
     expect(calls).toBe(1);
+  });
+
+  it('Hủy quay về chế độ xem, không gọi API, lần sau sửa lại từ giá trị đã lưu', async () => {
+    const fetchMock = profileApi();
+    const user = userEvent.setup();
+
+    renderApp('/ho-so');
+    await openEdit(user);
+    await user.type(screen.getByLabelText('Số điện thoại'), '9');
+    await user.click(screen.getByRole('button', { name: 'Hủy' }));
+
+    expect(screen.queryByLabelText('Số điện thoại')).not.toBeInTheDocument();
+    await openEdit(user);
+    expect(screen.getByLabelText('Số điện thoại')).toHaveValue('0900000001');
+    expect(fetchMock.mock.calls.filter(([, o]) => o?.method === 'PATCH')).toEqual([]);
+  });
+
+  it('lỗi chung khi lưu hiện trong form và vẫn ở chế độ sửa', async () => {
+    profileApi({
+      'PATCH /api/students/me/contact': () => apiError(500, 'INTERNAL_ERROR', 'Hệ thống gặp lỗi.'),
+    });
+    const user = userEvent.setup();
+
+    renderApp('/ho-so');
+    await openEdit(user);
+    await user.click(screen.getByRole('button', { name: 'Lưu thay đổi' }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Hệ thống gặp lỗi.');
+    expect(screen.getByLabelText('Email liên hệ')).toBeInTheDocument();
   });
 });

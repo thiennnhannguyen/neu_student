@@ -251,8 +251,9 @@ describe('đăng xuất', () => {
     });
     const user = userEvent.setup();
 
-    renderApp('/m11/ket-qua');
-    await user.click(await screen.findByRole('button', { name: 'Đăng xuất' }));
+    renderApp('/m12/dinh-huong');
+    await user.click(await screen.findByRole('button', { name: /Người dùng/ }));
+    await user.click(await screen.findByRole('menuitem', { name: 'Đăng xuất' }));
 
     expect(await screen.findByLabelText('Mật khẩu')).toBeInTheDocument();
     expect(currentPath()).toBe('/login');
@@ -269,35 +270,44 @@ describe('đăng xuất', () => {
     });
     const user = userEvent.setup();
 
-    renderApp('/m11/ket-qua');
-    await user.click(await screen.findByRole('button', { name: 'Đăng xuất' }));
+    renderApp('/m12/dinh-huong');
+    await user.click(await screen.findByRole('button', { name: /Người dùng/ }));
+    await user.click(await screen.findByRole('menuitem', { name: 'Đăng xuất' }));
 
     expect(await screen.findByText(/Không đăng xuất được/)).toBeInTheDocument();
-    expect(currentPath()).toBe('/m11/ket-qua');
-    expect(screen.getByRole('button', { name: 'Đăng xuất' })).toBeEnabled();
+    expect(currentPath()).toBe('/m12/dinh-huong');
+    await user.click(screen.getByRole('button', { name: /Người dùng/ }));
+    expect(screen.getByRole('menuitem', { name: 'Đăng xuất' })).toBeEnabled();
   });
 });
 
+const STUDY = ['Kết quả', 'Phân tích', 'Cảnh báo'];
 const EXPECTED_MENU = {
   student: {
-    '': ['Tổng quan', 'Hồ sơ'],
-    M11: ['Kết quả', 'Phân tích', 'Cảnh báo'],
-    M12: ['Định hướng nghề', 'Kế hoạch học tập', 'Học liệu', 'Yêu cầu hỗ trợ', 'Nhắc nhở'],
+    '': ['Tổng quan'],
+    'HỌC TẬP': STUDY,
+    'ĐỊNH HƯỚNG & HỖ TRỢ': [
+      'Định hướng nghề',
+      'Kế hoạch học tập',
+      'Học liệu',
+      'Yêu cầu hỗ trợ',
+      'Nhắc nhở',
+    ],
   },
   advisor: {
     '': ['Tổng quan'],
-    M11: ['Kết quả', 'Phân tích', 'Cảnh báo'],
-    M12: ['Định hướng nghề', 'Kế hoạch học tập', 'Học liệu', 'Yêu cầu hỗ trợ'],
+    'HỌC TẬP': STUDY,
+    'ĐỊNH HƯỚNG & HỖ TRỢ': ['Định hướng nghề', 'Kế hoạch học tập', 'Học liệu', 'Yêu cầu hỗ trợ'],
   },
   support_staff: {
     '': ['Tổng quan'],
-    M12: ['Học liệu', 'Yêu cầu hỗ trợ'],
+    'ĐỊNH HƯỚNG & HỖ TRỢ': ['Học liệu', 'Yêu cầu hỗ trợ'],
   },
   admin: {
     '': ['Tổng quan'],
-    M11: ['Kết quả', 'Phân tích', 'Cảnh báo'],
-    M12: ['Định hướng nghề', 'Học liệu', 'Yêu cầu hỗ trợ'],
-    'Quản trị': ['Nhật ký'],
+    'HỌC TẬP': STUDY,
+    'ĐỊNH HƯỚNG & HỖ TRỢ': ['Định hướng nghề', 'Học liệu', 'Yêu cầu hỗ trợ'],
+    'QUẢN TRỊ': ['Nhật ký'],
   },
 };
 
@@ -319,7 +329,7 @@ describe('menu và khung theo vai trò', () => {
   });
 
   it.each(Object.keys(EXPECTED_MENU))(
-    '%s: navbar có tên, vai trò và nút đăng xuất',
+    '%s: topbar có tên, vai trò và mục đăng xuất',
     async (role) => {
       loggedInAs(role);
 
@@ -328,7 +338,8 @@ describe('menu và khung theo vai trò', () => {
       const banner = await screen.findByRole('banner');
       expect(within(banner).getByText(`Người dùng ${role} (mẫu)`)).toBeInTheDocument();
       expect(banner).toHaveTextContent(ROLE_LABELS[role]);
-      expect(within(banner).getByRole('button', { name: 'Đăng xuất' })).toBeInTheDocument();
+      await userEvent.setup().click(within(banner).getByRole('button', { name: /Người dùng/ }));
+      expect(within(banner).getByRole('menuitem', { name: 'Đăng xuất' })).toBeInTheDocument();
       expect(within(banner).getByText('Dữ liệu mẫu')).toBeInTheDocument();
     },
   );

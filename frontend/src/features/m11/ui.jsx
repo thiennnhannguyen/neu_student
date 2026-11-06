@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import { formatDateTime } from './format';
 
 export function LevelBadge({ level, levels }) {
@@ -59,62 +58,4 @@ export function DataWarnings({ warnings }) {
   );
 }
 
-const FOCUSABLE = 'a[href], button:not([disabled]), input, select, summary, [tabindex="0"]';
-
-/** Panel bên phải: focus vào nút đóng, Esc để đóng, Tab không ra ngoài, đóng thì trả focus. */
-export function SidePanel({ title, onClose, children }) {
-  const panelRef = useRef(null);
-  const closeRef = useRef(null);
-
-  useEffect(() => {
-    const opener = document.activeElement;
-    closeRef.current?.focus();
-    return () => opener?.focus?.();
-  }, []);
-
-  function handleKeyDown(event) {
-    if (event.key === 'Escape') {
-      event.stopPropagation();
-      onClose();
-      return;
-    }
-    if (event.key !== 'Tab') {
-      return;
-    }
-    const items = [...panelRef.current.querySelectorAll(FOCUSABLE)];
-    const first = items[0];
-    const last = items[items.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }
-
-  return (
-    // Nền và panel chỉ bắt chuột để đóng; bàn phím đã có nút Đóng và phím Esc.
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div className="side-panel__backdrop" onMouseDown={onClose}>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-      <div
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-        className="side-panel"
-        onMouseDown={(event) => event.stopPropagation()}
-        onKeyDown={handleKeyDown}
-      >
-        <div className="side-panel__header">
-          <h2>{title}</h2>
-          <button ref={closeRef} type="button" className="button button--ghost" onClick={onClose}>
-            Đóng
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
+export { default as SidePanel } from '../../components/ui/SidePanel';

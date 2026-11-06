@@ -1,8 +1,17 @@
-export default function ComingSoonPage({ title }) {
+import { House } from 'lucide-react';
+import { Button, EmptyState } from './ui';
+
+export default function ComingSoonPage({ title, phase }) {
   return (
-    <section className="card">
-      <h1>{title}</h1>
-      <p>Đang phát triển. Chức năng này sẽ có ở giai đoạn sau.</p>
-    </section>
+    <EmptyState
+      heading="h1"
+      title={title}
+      description={`Đang phát triển. Dự kiến ở giai đoạn ${phase}.`}
+      action={
+        <Button to="/" iconLeft={House}>
+          Về Tổng quan
+        </Button>
+      }
+    />
   );
 }

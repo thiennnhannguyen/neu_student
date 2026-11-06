@@ -1,4 +1,6 @@
-import { Link, Outlet } from 'react-router';
+import { House } from 'lucide-react';
+import { Outlet } from 'react-router';
+import { Button, EmptyState } from '../../components/ui';
 import { useAuth } from './AuthContext';
 
 /** Chỉ phục vụ trải nghiệm người dùng, quyền thật do server kiểm tra. */
@@ -7,10 +9,16 @@ export default function RoleRoute({ roles }) {
 
   if (!roles.includes(role)) {
     return (
-      <section className="card">
-        <h1>Bạn không có quyền xem trang này</h1>
-        <Link to="/">Về Tổng quan</Link>
-      </section>
+      <EmptyState
+        heading="h1"
+        title="Bạn không có quyền xem trang này"
+        description="Trang này dành cho vai trò khác. Nếu cần truy cập, hãy liên hệ quản trị viên."
+        action={
+          <Button to="/" iconLeft={House}>
+            Về Tổng quan
+          </Button>
+        }
+      />
     );
   }
   return <Outlet />;

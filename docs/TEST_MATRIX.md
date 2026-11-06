@@ -151,3 +151,14 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | Migration 0003, seed 2 lần cho `data_version` khác nhau; thao tác ghi phải tăng `data_version` | `test_seed_twice_gives_different_data_version`, `test_writes_to_m11_results_bump_data_version`, `test_grades_service_bumps_data_version_when_adding_result` | `backend/tests/unit/db/test_migration_0003.py`, `backend/tests/unit/test_source_rules.py` |
 | Giao diện: chọn sinh viên, bộ lọc kỳ, `all`, 4 trang, loading/empty/error, bàn phím; TC04 ở Vitest | Các test trong file | `frontend/src/features/m11/m11Pages.test.jsx` |
 | Định dạng từ chuỗi; ngoài `GpaTrendChart` không đổi điểm sang số | Các test trong file | `frontend/src/features/m11/format.test.js`, `frontend/src/features/m11/m11Source.test.js` |
+
+## CR-02: hệ thống thiết kế
+
+| Yêu cầu | Test | File |
+|---------|------|------|
+| Button, Card, PageHeader, StatusChip, MetricCard, DataTable (sắp xếp, chế độ thẻ), Tabs, FormField, Pagination, SidePanel, InfoPopover, DropdownMenu, EmptyState, ErrorState, Toast | Các test trong file | `frontend/src/components/ui/ui.test.jsx` |
+| Sidebar: icon, `aria-current`, thu gọn và nhớ lựa chọn, localStorage lỗi, drawer khóa focus; topbar; trang theo từng vai trò; họa tiết chỉ ở các vị trí đã định | Các test trong file | `frontend/src/components/shell.test.jsx` |
+| Chỉ admin có chấm trạng thái máy chủ | `%s không thấy trạng thái máy chủ, kể cả trong menu người dùng`, `admin thấy chấm trạng thái trong menu người dùng: đang tải rồi hoạt động`, `admin thấy lỗi kết nối trong menu người dùng` | `frontend/src/routes.test.jsx` |
+| Hồ sơ xem và sửa, Nhật ký có panel so sánh | Các test trong file | `frontend/src/features/profile/ProfilePage.test.jsx`, `frontend/src/features/admin/AuditLogPage.test.jsx` |
+| 19 họa tiết, bố cục mosaic mới, tương phản token mới | Các test trong file | `frontend/src/components/brand/brand.test.jsx`, `frontend/src/styles/tokens.test.js` |
+| Bản production không có styleguide | `npm run check:bundle` | `frontend/scripts/check-bundle.mjs` |

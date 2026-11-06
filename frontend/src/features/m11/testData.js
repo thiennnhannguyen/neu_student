@@ -276,6 +276,11 @@ const respond = (body) => () => jsonResponse(200, body);
 /** Đủ API đọc của M11; extra ghi đè từng đường dẫn. */
 export function m11Api(role = 'student', extra = {}) {
   return loggedInAs(role, {
+    'GET /api/students/me': respond({
+      cohort: 'K66',
+      program: { name: 'CNTT (mẫu)' },
+      current_semester: { name: 'HK1 (mẫu)' },
+    }),
     'GET /api/m11/semesters': respond(SEMESTERS),
     'GET /api/m11/overview': respond(overviewBody()),
     'GET /api/m11/grades': respond(gradesBody([gradeRow()])),

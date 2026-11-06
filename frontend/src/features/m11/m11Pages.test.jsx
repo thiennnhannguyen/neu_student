@@ -113,7 +113,7 @@ describe('chọn sinh viên', () => {
 
     renderApp('/');
 
-    expect(await screen.findByText('Backend đang hoạt động.')).toBeInTheDocument();
+    expect(await screen.findByText('Chào Người dùng support_staff (mẫu)')).toBeInTheDocument();
     expect(screen.queryByLabelText('Sinh viên')).not.toBeInTheDocument();
     expect(callsTo(fetchMock, '/api/m11/overview')).toEqual([]);
   });
@@ -193,7 +193,9 @@ describe('bộ lọc kỳ', () => {
     await screen.findByText('3,11');
 
     await user.click(
-      within(screen.getByRole('navigation')).getByRole('link', { name: 'Cảnh báo' }),
+      within(screen.getByRole('navigation', { name: 'Menu chính' })).getByRole('link', {
+        name: 'Cảnh báo',
+      }),
     );
 
     expect(path()).toBe('/m11/canh-bao');
@@ -208,7 +210,9 @@ describe('bộ lọc kỳ', () => {
     await screen.findByRole('table');
 
     await user.click(
-      within(screen.getByRole('navigation')).getByRole('link', { name: 'Phân tích' }),
+      within(screen.getByRole('navigation', { name: 'Menu chính' })).getByRole('link', {
+        name: 'Phân tích',
+      }),
     );
 
     expect(path()).toBe('/m11/phan-tich');

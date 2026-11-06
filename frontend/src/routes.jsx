@@ -17,6 +17,11 @@ import ProfilePage from './features/profile/ProfilePage';
 // Recharts khá nặng nên chỉ tải khi mở trang Phân tích.
 const AnalysisPage = lazy(() => import('./features/m11/AnalysisPage'));
 
+// Chỉ có khi chạy dev; bản production loại hẳn, npm run check:bundle kiểm tra.
+const StyleguidePage = import.meta.env.DEV
+  ? lazy(() => import('./features/dev/StyleguidePage'))
+  : null;
+
 const IMPLEMENTED_PAGES = {
   '/ho-so': <ProfilePage />,
   '/m11/ket-qua': <ResultsPage />,
@@ -38,6 +43,16 @@ export default function AppRoutes() {
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        {StyleguidePage && (
+          <Route
+            path="/dev/styleguide"
+            element={
+              <Suspense fallback={<p role="status">Đang tải trang...</p>}>
+                <StyleguidePage />
+              </Suspense>
+            }
+          />
+        )}
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
             <Route path="/" element={<HomeRoute />} />
@@ -48,7 +63,10 @@ export default function AppRoutes() {
             ))}
             {PENDING_ITEMS.map((item) => (
               <Route key={item.path} element={<RoleRoute roles={item.roles} />}>
-                <Route path={item.path} element={<ComingSoonPage title={item.label} />} />
+                <Route
+                  path={item.path}
+                  element={<ComingSoonPage title={item.label} phase={item.phase} />}
+                />
               </Route>
             ))}
             <Route path="*" element={<NotFoundPage />} />

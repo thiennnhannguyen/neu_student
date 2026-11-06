@@ -18,48 +18,55 @@ describe('khung ứng dụng', () => {
 
     const banner = await screen.findByRole('banner');
     expect(within(banner).getByText('Dữ liệu mẫu')).toBeInTheDocument();
-    expect(within(banner).getByRole('img')).toHaveAttribute('src', '/images/brand/logo_neu.svg');
+    const nav = screen.getByRole('navigation', { name: 'Menu chính' });
+    expect(within(nav).getByRole('img')).toHaveAttribute('src', '/images/brand/logo_neu.svg');
     expect(
       screen.getByText(
         'Sản phẩm bài tập lớn – không phải hệ thống chính thức của Đại học Kinh tế Quốc dân.',
       ),
     ).toBeInTheDocument();
-    await screen.findByText('Backend đang hoạt động.');
   });
 
-  it('hiện trạng thái đang tải rồi thành công', async () => {
+  it.each(['student', 'advisor', 'support_staff'])(
+    '%s không thấy trạng thái máy chủ, kể cả trong menu người dùng',
+    async (role) => {
+      const fetchMock = loggedInAs(role);
+      const user = userEvent.setup();
+
+      renderApp('/');
+      await user.click(await screen.findByRole('button', { name: /Người dùng/ }));
+
+      await screen.findByRole('menu');
+      expect(screen.queryByText(/Máy chủ đang|kiểm tra máy chủ/)).not.toBeInTheDocument();
+      expect(fetchMock.mock.calls.filter(([url]) => url === '/api/health')).toEqual([]);
+    },
+  );
+
+  it('admin thấy chấm trạng thái trong menu người dùng: đang tải rồi hoạt động', async () => {
     const health = pendingResponse();
-    loggedInAs('support_staff', { 'GET /api/health': health.handler });
+    loggedInAs('admin', { 'GET /api/health': health.handler });
+    const user = userEvent.setup();
 
     renderApp('/');
+    await user.click(await screen.findByRole('button', { name: /Người dùng/ }));
 
-    expect(await screen.findByText('Đang kiểm tra kết nối...')).toBeInTheDocument();
+    expect(await screen.findByText('Đang kiểm tra máy chủ')).toBeInTheDocument();
     health.resolve(jsonResponse(200, { status: 'ok' }));
-    expect(await screen.findByText('Backend đang hoạt động.')).toBeInTheDocument();
+    expect(await screen.findByText('Máy chủ đang hoạt động')).toBeInTheDocument();
   });
 
-  it('hiện lỗi và thử lại được bằng bàn phím', async () => {
-    let healthCalls = 0;
-    loggedInAs('support_staff', {
+  it('admin thấy lỗi kết nối trong menu người dùng', async () => {
+    loggedInAs('admin', {
       'GET /api/health': () => {
-        healthCalls += 1;
-        if (healthCalls === 1) {
-          throw new TypeError('Failed to fetch');
-        }
-        return jsonResponse(200, { status: 'ok' });
+        throw new TypeError('Failed to fetch');
       },
     });
     const user = userEvent.setup();
 
     renderApp('/');
+    await user.click(await screen.findByRole('button', { name: /Người dùng/ }));
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Không kết nối được tới máy chủ.');
-    const retry = screen.getByRole('button', { name: 'Thử lại' });
-    while (document.activeElement !== retry) {
-      await user.tab();
-    }
-    await user.keyboard('{Enter}');
-    expect(await screen.findByText('Backend đang hoạt động.')).toBeInTheDocument();
+    expect(await screen.findByText('Không kết nối được máy chủ')).toBeInTheDocument();
   });
 
   it('đường dẫn không tồn tại hiện trang không tìm thấy', async () => {

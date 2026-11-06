@@ -101,6 +101,7 @@ describe('mã màu', () => {
   });
 
   it('--neu-gray không được dùng cho chữ', () => {
+    expect(SOURCES['src/styles/ui.css']).not.toMatch(/(?:^|[\s;{])color:\s*var\(--neu-gray\)/);
     expect(globalCss).not.toMatch(/(?:^|[\s;{])color:\s*var\(--neu-gray\)/);
   });
 
@@ -146,8 +147,28 @@ describe('tỷ lệ tương phản', () => {
     ['nhãn chú ý', 'color-warning', 'color-warning-bg'],
     ['nhãn trung tính', 'color-text-muted', 'color-muted-bg'],
     ['nhãn đang học', 'neu-primary', 'neu-tint'],
+    ['chữ chính trên nền trang', 'text-primary', 'surface-canvas'],
+    ['chữ phụ trên nền trang', 'text-secondary', 'surface-canvas'],
+    ['chữ chính trên thẻ', 'text-primary', 'surface-card'],
+    ['chữ phụ trên thẻ', 'text-secondary', 'surface-card'],
+    ['chữ phụ trên nền chìm', 'text-secondary', 'surface-sunken'],
+    ['liên kết trên thẻ', 'text-link', 'surface-card'],
+    ['liên kết trên nền trang', 'text-link', 'surface-canvas'],
+    ['chữ trên sidebar', 'text-on-primary', 'neu-primary'],
+    ['chữ nhóm trên sidebar', 'text-on-primary-muted', 'neu-primary'],
+    ['mục đang chọn trên sidebar', 'neu-primary', 'surface-card'],
+    ['thành công', 'success-text', 'success-bg'],
+    ['chú ý', 'warning-text', 'warning-bg'],
+    ['nguy hiểm', 'danger-text', 'danger-bg'],
+    ['thông tin', 'info-text', 'info-bg'],
+    ['nút nguy hiểm', 'text-on-primary', 'neu-red'],
   ])('%s đạt từ 4,5:1', (_name, foreground, background) => {
     expect(contrast(token(foreground), token(background))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('viền đậm của ô nhập đạt từ 3:1 trên thẻ và nền chìm', () => {
+    expect(contrast(token('border-strong'), token('surface-card'))).toBeGreaterThanOrEqual(3);
+    expect(contrast(token('border-strong'), token('surface-sunken'))).toBeGreaterThanOrEqual(3);
   });
 
   it('công thức đúng: trắng trên đen là 21:1', () => {

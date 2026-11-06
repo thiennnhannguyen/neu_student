@@ -1,8 +1,31 @@
+import { Eye, FilterX, ListFilter } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { apiRequest } from '../../api/client';
+import {
+  Button,
+  Card,
+  DataTable,
+  EmptyState,
+  ErrorState,
+  FormField,
+  Input,
+  PageHeader,
+  Pagination,
+  SearchBox,
+  Select,
+  SidePanel,
+  Skeleton,
+} from '../../components/ui';
 
 const PAGE_SIZE = 20;
 const EMPTY_FILTERS = { entity: '', actor: '', from: '', to: '' };
+const NO_VALUE = '—';
+/** Các đối tượng hiện có ghi nhật ký. Thêm loại mới thì thêm ở đây. */
+const ENTITIES = [
+  ['student', 'Sinh viên (student)'],
+  ['user', 'Tài khoản (user)'],
+  ['grade_attempt', 'Kết quả học phần (grade_attempt)'],
+];
 
 /** Ô ngày theo giờ địa phương, đổi sang mốc UTC cho đúng ngày người dùng chọn. */
 function dayBound(value, time) {
@@ -11,8 +34,8 @@ function dayBound(value, time) {
 
 function buildQuery(filters, page) {
   const params = new URLSearchParams({ page: String(page), page_size: String(PAGE_SIZE) });
-  if (filters.entity.trim()) {
-    params.set('entity', filters.entity.trim());
+  if (filters.entity) {
+    params.set('entity', filters.entity);
   }
   if (filters.actor.trim()) {
     params.set('actor', filters.actor.trim());
@@ -26,29 +49,64 @@ function buildQuery(filters, page) {
   return params.toString();
 }
 
-function formatJson(value) {
-  return value === null ? '—' : JSON.stringify(value);
+function formatValue(value) {
+  if (value === null || value === undefined) {
+    return NO_VALUE;
+  }
+  return typeof value === 'object' ? JSON.stringify(value) : String(value);
 }
 
-function FilterField({ id, label, type = 'text', value, errors, onChange }) {
-  const errorId = `${id}-error`;
+/** So sánh 2 cột theo từng trường, không đổ JSON thô. */
+function AuditDetail({ item, onClose }) {
+  const before = item.before ?? {};
+  const after = item.after ?? {};
+  const fields = [...new Set([...Object.keys(before), ...Object.keys(after)])].sort();
   return (
-    <div className="field">
-      <label htmlFor={id}>{label}</label>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        onChange={onChange}
-        aria-invalid={errors ? 'true' : undefined}
-        aria-describedby={errors ? errorId : undefined}
-      />
-      {errors && (
-        <p id={errorId} className="status-error field__error">
-          {errors.join(' ')}
-        </p>
+    <SidePanel title={`Bản ghi #${item.id}: ${item.action}`} wide onClose={onClose}>
+      <dl className="detail-list">
+        <div>
+          <dt>Thời gian</dt>
+          <dd>{new Date(item.created_at).toLocaleString('vi-VN')}</dd>
+        </div>
+        <div>
+          <dt>Người thực hiện</dt>
+          <dd>{item.actor_username ?? 'Hệ thống'}</dd>
+        </div>
+        <div>
+          <dt>Đối tượng</dt>
+          <dd>
+            {item.entity} · {item.entity_id}
+          </dd>
+        </div>
+      </dl>
+      {fields.length === 0 ? (
+        <p className="empty-state">Bản ghi này không có dữ liệu trước và sau.</p>
+      ) : (
+        <table className="diff-table">
+          <caption className="visually-hidden">So sánh trước và sau</caption>
+          <thead>
+            <tr>
+              <th scope="col">Trường</th>
+              <th scope="col">Trước</th>
+              <th scope="col">Sau</th>
+            </tr>
+          </thead>
+          <tbody>
+            {fields.map((field) => {
+              const first = formatValue(before[field]);
+              const second = formatValue(after[field]);
+              return (
+                <tr key={field}>
+                  <th scope="row">{field}</th>
+                  <td>{first}</td>
+                  <td className={first === second ? undefined : 'diff-table__changed'}>{second}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       )}
-    </div>
+    </SidePanel>
   );
 }
 
@@ -100,127 +158,136 @@ export default function AuditLogPage() {
   }
 
   return (
-    <section className="card">
-      <h1>Nhật ký thay đổi</h1>
-      <form className="filter-form" onSubmit={handleFilter} noValidate>
-        <FilterField
-          id="audit-entity"
-          label="Đối tượng"
-          value={draft.entity}
-          errors={fieldErrors.entity}
-          onChange={updateDraft('entity')}
-        />
-        <FilterField
-          id="audit-actor"
-          label="Tên đăng nhập người thực hiện"
-          value={draft.actor}
-          errors={fieldErrors.actor}
-          onChange={updateDraft('actor')}
-        />
-        <FilterField
-          id="audit-from"
-          label="Từ ngày"
-          type="date"
-          value={draft.from}
-          errors={fieldErrors.from}
-          onChange={updateDraft('from')}
-        />
-        <FilterField
-          id="audit-to"
-          label="Đến ngày"
-          type="date"
-          value={draft.to}
-          errors={fieldErrors.to}
-          onChange={updateDraft('to')}
-        />
-        <div className="filter-form__actions">
-          <button type="submit" className="button">
-            Lọc
-          </button>
-          <button type="button" className="button button--ghost" onClick={clearFilters}>
-            Xóa lọc
-          </button>
-        </div>
-      </form>
+    <>
+      <PageHeader
+        title="Nhật ký thay đổi"
+        description="Ai đã đổi gì, khi nào. Bấm Xem để so sánh trước và sau."
+      />
+      <Card>
+        <form className="filter-bar" onSubmit={handleFilter} noValidate>
+          <FormField
+            id="audit-actor"
+            label="Tên đăng nhập người thực hiện"
+            errors={fieldErrors.actor}
+          >
+            <SearchBox value={draft.actor} onChange={updateDraft('actor')} />
+          </FormField>
+          <FormField id="audit-entity" label="Đối tượng" errors={fieldErrors.entity}>
+            <Select value={draft.entity} onChange={updateDraft('entity')}>
+              <option value="">Tất cả đối tượng</option>
+              {ENTITIES.map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </Select>
+          </FormField>
+          <FormField id="audit-from" label="Từ ngày" errors={fieldErrors.from}>
+            <Input type="date" value={draft.from} onChange={updateDraft('from')} />
+          </FormField>
+          <FormField id="audit-to" label="Đến ngày" errors={fieldErrors.to}>
+            <Input type="date" value={draft.to} onChange={updateDraft('to')} />
+          </FormField>
+          <div className="form-actions filter-bar__actions">
+            <Button type="submit" iconLeft={ListFilter}>
+              Lọc
+            </Button>
+            <Button variant="ghost" iconLeft={FilterX} onClick={clearFilters}>
+              Xóa lọc
+            </Button>
+          </div>
+        </form>
+      </Card>
       <AuditLogResult state={state} onRetry={retry} onPage={goToPage} />
-    </section>
+    </>
   );
 }
 
 function AuditLogResult({ state, onRetry, onPage }) {
+  const [detail, setDetail] = useState(null);
+
   if (state.status === 'loading') {
-    return <p role="status">Đang tải nhật ký...</p>;
+    return (
+      <div className="result-block">
+        <p role="status" className="visually-hidden">
+          Đang tải nhật ký...
+        </p>
+        <Skeleton height={44} />
+        <Skeleton height={44} />
+        <Skeleton height={44} />
+      </div>
+    );
   }
   if (state.status === 'error') {
     return (
-      <div role="alert">
-        <p className="status-error">Không tải được nhật ký: {state.message}</p>
-        <button type="button" className="button" onClick={onRetry}>
-          Thử lại
-        </button>
+      <div className="result-block">
+        <ErrorState title="Không tải được nhật ký" description={state.message} onRetry={onRetry} />
       </div>
     );
   }
 
   const { items, page, page_size: pageSize, total } = state.result;
   if (total === 0) {
-    return <p role="status">Không có bản ghi nhật ký phù hợp.</p>;
+    return (
+      <div className="result-block">
+        <EmptyState
+          title="Không có bản ghi nhật ký phù hợp."
+          description="Thử bỏ bớt bộ lọc hoặc mở rộng khoảng ngày."
+        />
+      </div>
+    );
   }
   const lastPage = Math.max(1, Math.ceil(total / pageSize));
+  const columns = [
+    {
+      key: 'created_at',
+      header: 'Thời gian',
+      sortable: true,
+      render: (item) => new Date(item.created_at).toLocaleString('vi-VN'),
+    },
+    {
+      key: 'actor',
+      header: 'Người thực hiện',
+      sortable: true,
+      sortValue: (item) => item.actor_username,
+      render: (item) => item.actor_username ?? 'Hệ thống',
+    },
+    { key: 'action', header: 'Hành động', sortable: true },
+    { key: 'entity', header: 'Đối tượng', sortable: true },
+    { key: 'entity_id', header: 'Mã đối tượng' },
+    {
+      key: 'detail',
+      header: 'Chi tiết',
+      render: (item) => (
+        <Button
+          variant="ghost"
+          size="sm"
+          iconLeft={Eye}
+          aria-label={`Xem chi tiết bản ghi ${item.id}`}
+          onClick={() => setDetail(item)}
+        >
+          Xem
+        </Button>
+      ),
+    },
+  ];
 
   return (
-    <>
-      {/* Bảng tự cuộn ngang trong khung này để trang không tràn ở màn hình 375px. */}
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- cuộn được bằng bàn phím */}
-      <div className="table-scroll" role="region" aria-label="Bảng nhật ký" tabIndex={0}>
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th scope="col">Thời gian</th>
-              <th scope="col">Người thực hiện</th>
-              <th scope="col">Hành động</th>
-              <th scope="col">Đối tượng</th>
-              <th scope="col">Mã đối tượng</th>
-              <th scope="col">Trước</th>
-              <th scope="col">Sau</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => (
-              <tr key={item.id}>
-                <td>{new Date(item.created_at).toLocaleString('vi-VN')}</td>
-                <td>{item.actor_username ?? 'Hệ thống'}</td>
-                <td>{item.action}</td>
-                <td>{item.entity}</td>
-                <td>{item.entity_id}</td>
-                <td className="data-table__json">{formatJson(item.before)}</td>
-                <td className="data-table__json">{formatJson(item.after)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <nav className="pagination" aria-label="Phân trang nhật ký">
-        <button
-          type="button"
-          className="button button--ghost"
-          disabled={page <= 1}
-          onClick={() => onPage(page - 1)}
-        >
-          Trang trước
-        </button>
-        <span>
-          Trang {page} / {lastPage} ({total} bản ghi)
-        </span>
-        <button
-          type="button"
-          className="button button--ghost"
-          disabled={page >= lastPage}
-          onClick={() => onPage(page + 1)}
-        >
-          Trang sau
-        </button>
-      </nav>
-    </>
+    <div className="result-block">
+      <DataTable
+        columns={columns}
+        rows={items}
+        rowKey={(item) => item.id}
+        ariaLabel="Bảng nhật ký"
+      />
+      <Pagination
+        label="Phân trang nhật ký"
+        page={page}
+        lastPage={lastPage}
+        summary={`Trang ${page} / ${lastPage} (${total} bản ghi)`}
+        onPage={onPage}
+      />
+      {detail && <AuditDetail item={detail} onClose={() => setDetail(null)} />}
+    </div>
   );
 }

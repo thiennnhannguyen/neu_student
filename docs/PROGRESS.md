@@ -33,6 +33,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | Mã | Nội dung | Trạng thái |
 |----|----------|------------|
 | CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành, tag `cr-01`. Sau đó đổi màu, font và đưa lại nhãn mẫu theo D-152, D-156 |
+| CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Xong trên máy, chờ quản lý dự án duyệt ảnh. Sau khi duyệt mới chuyển bên trong 3 trang M11 sang component mới |
 
 ## Điểm kiểm tra giữa giai đoạn 06 (API và test hợp đồng xong)
 
@@ -44,4 +45,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Quản lý dự án nghiệm thu giai đoạn 06 rồi push `main` và tag theo quy tắc. Remote: https://github.com/thiennnhannguyen/neu_student.
+Quản lý dự án duyệt ảnh CR-02 và nghiệm thu giai đoạn 06, rồi push `main` và tag theo quy tắc. Remote: https://github.com/thiennnhannguyen/neu_student.

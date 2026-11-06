@@ -80,3 +80,8 @@ Backend mặc định dùng cổng 5001 vì macOS thường chiếm cổng 5000 
 - [docs/DATA_MOCK.md](docs/DATA_MOCK.md): dữ liệu mẫu và số tính tay
 - [docs/TEST_MATRIX.md](docs/TEST_MATRIX.md): ma trận kiểm thử
 - [docs/DECISIONS.md](docs/DECISIONS.md): quyết định
+
+## Styleguide và kiểm tra bản build
+
+- `/dev/styleguide` trình bày token, thang chữ và mọi component, chỉ có khi chạy `make dev`.
+- `make check-bundle` build rồi kiểm tra bản production không chứa styleguide.

@@ -7,6 +7,8 @@ import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import './styles/tokens.css';
 import './styles/global.css';
+import './styles/ui.css';
+import './styles/shell.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

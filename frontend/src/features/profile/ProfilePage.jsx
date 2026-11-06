@@ -1,7 +1,20 @@
+import { Pencil, Save } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { apiRequest } from '../../api/client';
+import {
+  Avatar,
+  Button,
+  Card,
+  ErrorState,
+  FormField,
+  Input,
+  PageHeader,
+  Skeleton,
+  useToast,
+} from '../../components/ui';
 
 const NO_VALUE = 'Chưa có';
+const NOT_SET = 'Chưa cập nhật';
 
 function contactForm(profile) {
   return {
@@ -10,44 +23,146 @@ function contactForm(profile) {
   };
 }
 
-function ContactField({ id, label, type, autoComplete, value, errors, onChange }) {
-  const errorId = `${id}-error`;
+function IdentityCard({ profile }) {
+  const rows = [
+    ['Mã sinh viên', profile.student_code],
+    ['Khóa', profile.cohort],
+    ['Ngành', profile.program.name],
+    ['Chương trình đào tạo', profile.program_version.name],
+    ['Kỳ hiện tại', profile.current_semester?.name ?? NO_VALUE],
+    ['Cố vấn', profile.advisors.join(', ') || 'Chưa phân công'],
+  ];
   return (
-    <div className="field">
-      <label htmlFor={id}>{label}</label>
-      <input
-        id={id}
-        type={type}
-        autoComplete={autoComplete}
-        value={value}
-        onChange={onChange}
-        aria-invalid={errors ? 'true' : undefined}
-        aria-describedby={errors ? errorId : undefined}
-      />
-      {errors && (
-        <p id={errorId} className="status-error field__error">
-          {errors.join(' ')}
-        </p>
-      )}
-    </div>
+    <Card className="span-5">
+      <div className="identity">
+        <Avatar name={profile.full_name} size="lg" />
+        <h2 className="identity__name">{profile.full_name}</h2>
+      </div>
+      <dl className="detail-list">
+        {rows.map(([label, value]) => (
+          <div key={label}>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </Card>
+  );
+}
+
+function ContactCard({ profile, onSaved }) {
+  const { show } = useToast();
+  const [editing, setEditing] = useState(false);
+  const [form, setForm] = useState(() => contactForm(profile));
+  const [saving, setSaving] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [formError, setFormError] = useState('');
+
+  function updateField(name) {
+    return (event) => setForm((current) => ({ ...current, [name]: event.target.value }));
+  }
+
+  function startEditing() {
+    setForm(contactForm(profile));
+    setFieldErrors({});
+    setFormError('');
+    setEditing(true);
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setFieldErrors({});
+    setFormError('');
+    setSaving(true);
+    try {
+      const saved = await apiRequest('/api/students/me/contact', {
+        method: 'PATCH',
+        body: {
+          contact_email: form.contact_email.trim() || null,
+          contact_phone: form.contact_phone.trim() || null,
+        },
+      });
+      onSaved(saved);
+      setEditing(false);
+      show('Đã lưu thông tin liên hệ.');
+    } catch (error) {
+      setFieldErrors(error.details?.fields ?? {});
+      setFormError(error.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (!editing) {
+    return (
+      <Card
+        className="span-7"
+        title="Thông tin liên hệ"
+        actions={
+          <Button variant="secondary" size="sm" iconLeft={Pencil} onClick={startEditing}>
+            Sửa
+          </Button>
+        }
+      >
+        <dl className="detail-list">
+          <div>
+            <dt>Email liên hệ</dt>
+            <dd>{profile.contact_email ?? NOT_SET}</dd>
+          </div>
+          <div>
+            <dt>Số điện thoại</dt>
+            <dd>{profile.contact_phone ?? NOT_SET}</dd>
+          </div>
+        </dl>
+      </Card>
+    );
+  }
+
+  return (
+    <Card className="span-7" title="Thông tin liên hệ">
+      <form onSubmit={handleSubmit} noValidate>
+        <FormField id="contact-email" label="Email liên hệ" errors={fieldErrors.contact_email}>
+          <Input
+            type="email"
+            autoComplete="email"
+            value={form.contact_email}
+            onChange={updateField('contact_email')}
+          />
+        </FormField>
+        <FormField id="contact-phone" label="Số điện thoại" errors={fieldErrors.contact_phone}>
+          <Input
+            type="tel"
+            autoComplete="tel"
+            value={form.contact_phone}
+            onChange={updateField('contact_phone')}
+          />
+        </FormField>
+        {formError && (
+          <p role="alert" className="status-error">
+            {formError}
+          </p>
+        )}
+        <div className="form-actions">
+          <Button type="submit" iconLeft={Save} loading={saving}>
+            {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
+          </Button>
+          <Button variant="ghost" disabled={saving} onClick={() => setEditing(false)}>
+            Hủy
+          </Button>
+        </div>
+      </form>
+    </Card>
   );
 }
 
 export default function ProfilePage() {
   const [state, setState] = useState({ status: 'loading' });
   const [attempt, setAttempt] = useState(0);
-  const [form, setForm] = useState({ contact_email: '', contact_phone: '' });
-  const [saving, setSaving] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [formMessage, setFormMessage] = useState({ kind: null, text: '' });
 
   useEffect(() => {
     const controller = new AbortController();
     apiRequest('/api/students/me', { signal: controller.signal })
-      .then((profile) => {
-        setState({ status: 'ok', profile });
-        setForm(contactForm(profile));
-      })
+      .then((profile) => setState({ status: 'ok', profile }))
       .catch((error) => {
         if (error.name !== 'AbortError') {
           setState({ status: 'error', message: error.message });
@@ -61,105 +176,45 @@ export default function ProfilePage() {
     setAttempt((value) => value + 1);
   }, []);
 
-  function updateField(name) {
-    return (event) => setForm((current) => ({ ...current, [name]: event.target.value }));
-  }
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setFieldErrors({});
-    setFormMessage({ kind: null, text: '' });
-    setSaving(true);
-    try {
-      const profile = await apiRequest('/api/students/me/contact', {
-        method: 'PATCH',
-        body: {
-          contact_email: form.contact_email.trim() || null,
-          contact_phone: form.contact_phone.trim() || null,
-        },
-      });
-      setState({ status: 'ok', profile });
-      setForm(contactForm(profile));
-      setFormMessage({ kind: 'ok', text: 'Đã lưu thông tin liên hệ.' });
-    } catch (error) {
-      setFieldErrors(error.details?.fields ?? {});
-      setFormMessage({ kind: 'error', text: error.message });
-    } finally {
-      setSaving(false);
-    }
-  }
-
+  const header = (
+    <PageHeader title="Hồ sơ" description="Thông tin học tập và cách liên hệ với bạn." />
+  );
   if (state.status === 'loading') {
-    return <p role="status">Đang tải hồ sơ...</p>;
+    return (
+      <>
+        {header}
+        <p role="status" className="visually-hidden">
+          Đang tải hồ sơ...
+        </p>
+        <div className="grid-12">
+          <Card className="span-5">
+            <Skeleton height={120} />
+          </Card>
+          <Card className="span-7">
+            <Skeleton height={120} />
+          </Card>
+        </div>
+      </>
+    );
   }
   if (state.status === 'error') {
     return (
-      <div role="alert" className="card">
-        <p className="status-error">Không tải được hồ sơ: {state.message}</p>
-        <button type="button" className="button" onClick={retry}>
-          Thử lại
-        </button>
-      </div>
+      <>
+        {header}
+        <ErrorState title="Không tải được hồ sơ" description={state.message} onRetry={retry} />
+      </>
     );
   }
-
-  const { profile } = state;
-  const rows = [
-    ['Mã sinh viên', profile.student_code],
-    ['Họ tên', profile.full_name],
-    ['Khóa', profile.cohort],
-    ['Ngành', profile.program.name],
-    ['Chương trình đào tạo', profile.program_version.name],
-    ['Kỳ hiện tại', profile.current_semester?.name ?? NO_VALUE],
-    ['Cố vấn', profile.advisors.join(', ') || 'Chưa phân công'],
-  ];
-
   return (
     <>
-      <section className="card">
-        <h1>Hồ sơ</h1>
-        <dl className="profile-list">
-          {rows.map(([label, value]) => (
-            <div key={label}>
-              <dt>{label}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-      <section className="card card--spaced">
-        <h2>Thông tin liên hệ</h2>
-        <form onSubmit={handleSubmit} noValidate>
-          <ContactField
-            id="contact-email"
-            label="Email liên hệ"
-            type="email"
-            autoComplete="email"
-            value={form.contact_email}
-            errors={fieldErrors.contact_email}
-            onChange={updateField('contact_email')}
-          />
-          <ContactField
-            id="contact-phone"
-            label="Số điện thoại"
-            type="tel"
-            autoComplete="tel"
-            value={form.contact_phone}
-            errors={fieldErrors.contact_phone}
-            onChange={updateField('contact_phone')}
-          />
-          <p
-            aria-live="polite"
-            role="status"
-            className={formMessage.kind === 'error' ? 'status-error' : 'status-ok'}
-          >
-            {formMessage.text}
-          </p>
-          <button type="submit" className="button" disabled={saving}>
-            {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
-          </button>
-        </form>
-      </section>
+      {header}
+      <div className="grid-12">
+        <IdentityCard profile={state.profile} />
+        <ContactCard
+          profile={state.profile}
+          onSaved={(profile) => setState({ status: 'ok', profile })}
+        />
+      </div>
     </>
   );
 }

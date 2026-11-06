@@ -1,25 +1,40 @@
-import { useState } from 'react';
 import { Outlet } from 'react-router';
 import MockNotice from './MockNotice';
-import Navbar from './Navbar';
 import Sidebar from './Sidebar';
+import Topbar from './Topbar';
+import { ToastProvider } from './ui/Toast';
+import useSidebarState from './useSidebarState';
 
 export default function AppLayout() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { open, setOpen, collapsed, toggleCollapsed } = useSidebarState();
 
   return (
-    <>
+    <ToastProvider>
       <a className="skip-link" href="#main">
         Bỏ qua, tới nội dung chính
       </a>
-      <Navbar menuOpen={menuOpen} onToggleMenu={() => setMenuOpen((value) => !value)} />
-      <div className="app-shell">
-        <Sidebar open={menuOpen} onNavigate={() => setMenuOpen(false)} />
-        <main id="main" className="app-main">
-          <Outlet />
-          <MockNotice className="app-main__notice" />
-        </main>
+      <div className={`app-frame${collapsed ? ' app-frame--rail' : ''}`}>
+        <Sidebar
+          open={open}
+          onClose={() => setOpen(false)}
+          collapsed={collapsed}
+          onToggleCollapsed={toggleCollapsed}
+        />
+        {open && (
+          // Nền mờ chỉ bắt chuột; bàn phím đóng bằng Esc.
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+          <div className="sidebar-scrim" onClick={() => setOpen(false)} />
+        )}
+        <div className="app-column">
+          <Topbar menuOpen={open} onToggleMenu={() => setOpen((value) => !value)} />
+          <main id="main" className="app-main">
+            <div className="app-content">
+              <Outlet />
+            </div>
+            <MockNotice className="app-main__notice" />
+          </main>
+        </div>
       </div>
-    </>
+    </ToastProvider>
   );
 }

@@ -158,3 +158,63 @@ export const MOBILE_BAND = {
     ['Gear', 'primary', 'tint'],
   ],
 };
+
+/** Đáy sidebar: tông sáng trên nền primary. */
+export const SIDEBAR_BAND = {
+  rows: 1,
+  cols: 6,
+  layout: [
+    ['Books', 'tint', 'primary'],
+    ['FourPointStar', 'primary-dark', 'tint'],
+    ['TwoPeople', 'white', 'accent'],
+    ['Globe', 'mid', 'white'],
+    ['LetterK', 'tint', 'primary-dark'],
+    ['Gear', 'primary-dark', 'white'],
+  ],
+};
+
+/** Dải nhỏ bên phải PageHeader. */
+export const HEADER_STRIP = {
+  rows: 1,
+  cols: 4,
+  layout: [
+    ['Petals', 'tint', 'primary'],
+    ['FourPointStar', 'primary', 'tint'],
+    ['CircleDiamond', 'white', 'accent'],
+    ['LetterK', 'mid', 'white'],
+  ],
+};
+
+/** Bên phải thẻ chào mừng, trên nền primary. */
+export const WELCOME_MOSAIC = {
+  rows: 3,
+  cols: 4,
+  layout: [
+    ['Globe', 'tint', 'primary'],
+    ['Books', 'primary-dark', 'tint'],
+    ['DotTriangle', 'white', 'accent'],
+    ['Gear', 'mid', 'white'],
+    ['FourPointStar', 'primary-dark', 'white'],
+    ['RisingBars', 'white', 'primary'],
+    ['LetterK', 'tint', 'primary-dark'],
+    ['TwoPeople', 'accent', 'white'],
+    ['HalfCircle', 'white', 'mid'],
+    ['CircuitCircle', 'tint', 'accent'],
+    ['DiagonalN', 'primary-dark', 'tint'],
+    ['Petals', 'white', 'primary'],
+  ],
+};
+
+/** Minh họa của EmptyState, ErrorState, 404. */
+export const ILLUSTRATION = {
+  rows: 2,
+  cols: 3,
+  layout: [
+    ['Books', 'tint', 'primary'],
+    ['DotTriangle', 'white', 'accent'],
+    ['Globe', 'primary', 'tint'],
+    ['FourPointStar', 'mid', 'white'],
+    ['CircleDiamond', 'tint', 'primary'],
+    ['TwoPeople', 'white', 'mid'],
+  ],
+};

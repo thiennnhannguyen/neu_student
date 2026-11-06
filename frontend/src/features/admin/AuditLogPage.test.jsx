@@ -31,6 +31,46 @@ function logCalls(fetchMock) {
 }
 
 describe('trang Nhật ký', () => {
+  it('Xem mở panel so sánh 2 cột; Esc đóng và trả focus về nút', async () => {
+    logsApi(() => page([LOG]));
+    const user = userEvent.setup();
+
+    renderApp('/quan-tri/nhat-ky');
+    const open = await screen.findByRole('button', { name: 'Xem chi tiết bản ghi 1' });
+    await user.click(open);
+
+    const dialog = await screen.findByRole('dialog');
+    const row = within(dialog).getByRole('row', { name: /contact_phone/ });
+    expect(row).toHaveTextContent('0900000001');
+    expect(row).toHaveTextContent('0912345678');
+    expect(within(row).getByText('0912345678')).toHaveClass('diff-table__changed');
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(open).toHaveFocus();
+  });
+
+  it('bản ghi không có trước và sau thì nói rõ', async () => {
+    logsApi(() => page([{ ...LOG, before: null, after: null }]));
+    const user = userEvent.setup();
+
+    renderApp('/quan-tri/nhat-ky');
+    await user.click(await screen.findByRole('button', { name: 'Xem chi tiết bản ghi 1' }));
+
+    expect(
+      await screen.findByText('Bản ghi này không có dữ liệu trước và sau.'),
+    ).toBeInTheDocument();
+  });
+
+  it('giá trị lồng nhau trong panel vẫn đọc được', async () => {
+    logsApi(() => page([{ ...LOG, before: {}, after: { nested: { a: 1 } } }]));
+    const user = userEvent.setup();
+
+    renderApp('/quan-tri/nhat-ky');
+    await user.click(await screen.findByRole('button', { name: 'Xem chi tiết bản ghi 1' }));
+
+    expect(await screen.findByText('{"a":1}')).toBeInTheDocument();
+  });
+
   it('hiện đang tải rồi bảng dữ liệu', async () => {
     const logs = pendingResponse();
     logsApi(logs.handler);
@@ -42,7 +82,7 @@ describe('trang Nhật ký', () => {
     const table = await screen.findByRole('table');
     expect(within(table).getByText('sv01')).toBeInTheDocument();
     expect(within(table).getByText('student.contact_update')).toBeInTheDocument();
-    expect(within(table).getByText('{"contact_phone":"0912345678"}')).toBeInTheDocument();
+    expect(within(table).queryByText(/contact_phone/)).not.toBeInTheDocument();
   });
 
   it('bảng nằm trong vùng cuộn được bằng bàn phím', async () => {
@@ -62,7 +102,10 @@ describe('trang Nhật ký', () => {
     renderApp('/quan-tri/nhat-ky');
 
     expect(await screen.findByText('Hệ thống')).toBeInTheDocument();
-    expect(screen.getByText('—')).toBeInTheDocument();
+    await userEvent.setup().click(screen.getByRole('button', { name: 'Xem chi tiết bản ghi 1' }));
+    const dialog = await screen.findByRole('dialog');
+    expect(within(dialog).getByText('—')).toBeInTheDocument();
+    expect(within(dialog).getByText('0912345678')).toBeInTheDocument();
   });
 
   it('không có dữ liệu thì hiện thông báo trống', async () => {
@@ -95,7 +138,7 @@ describe('trang Nhật ký', () => {
 
     renderApp('/quan-tri/nhat-ky');
     await screen.findByRole('table');
-    await user.type(screen.getByLabelText('Đối tượng'), ' student ');
+    await user.selectOptions(screen.getByLabelText('Đối tượng'), 'student');
     await user.type(screen.getByLabelText('Tên đăng nhập người thực hiện'), 'sv01');
     await user.type(screen.getByLabelText('Từ ngày'), '2026-03-10');
     await user.type(screen.getByLabelText('Đến ngày'), '2026-03-11');
@@ -117,7 +160,8 @@ describe('trang Nhật ký', () => {
     renderApp('/quan-tri/nhat-ky');
     await screen.findByRole('table');
     const entity = screen.getByLabelText('Đối tượng');
-    await user.type(entity, 'student{Enter}');
+    await user.selectOptions(entity, 'student');
+    await user.click(screen.getByRole('button', { name: 'Lọc' }));
     await waitFor(() => expect(logCalls(fetchMock)).toHaveLength(2));
     await user.click(await screen.findByRole('button', { name: 'Xóa lọc' }));
 

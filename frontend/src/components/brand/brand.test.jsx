@@ -1,6 +1,15 @@
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { LEFT_STRIP, MOBILE_BAND, RIGHT_STRIP, TABLET_BAND } from './mosaicLayouts';
+import {
+  HEADER_STRIP,
+  ILLUSTRATION,
+  LEFT_STRIP,
+  MOBILE_BAND,
+  RIGHT_STRIP,
+  SIDEBAR_BAND,
+  TABLET_BAND,
+  WELCOME_MOSAIC,
+} from './mosaicLayouts';
 import MotifMosaic, { MOSAIC_FADE_MS, MOSAIC_MAX_DELAY_MS } from './MotifMosaic';
 import { MOTIFS } from './motifs';
 import { tokenColor } from './motifs/MotifFrame';
@@ -20,8 +29,22 @@ const EXPECTED_MOTIFS = [
   'Building',
   'DiagonalN',
   'CircuitCircle',
+  'Books',
+  'LetterK',
+  'Globe',
+  'TwoPeople',
+  'FourPointStar',
 ];
-const LAYOUTS = { LEFT_STRIP, RIGHT_STRIP, TABLET_BAND, MOBILE_BAND };
+const LAYOUTS = {
+  LEFT_STRIP,
+  RIGHT_STRIP,
+  TABLET_BAND,
+  MOBILE_BAND,
+  SIDEBAR_BAND,
+  HEADER_STRIP,
+  WELCOME_MOSAIC,
+  ILLUSTRATION,
+};
 
 function adjacentPairs({ rows, cols, layout }) {
   const pairs = [];
@@ -40,7 +63,7 @@ function adjacentPairs({ rows, cols, layout }) {
 }
 
 describe('thư viện họa tiết', () => {
-  it('có đúng 14 họa tiết', () => {
+  it('có đúng 19 họa tiết (14 của CR-01, 5 của Q72)', () => {
     expect(Object.keys(MOTIFS).sort()).toEqual([...EXPECTED_MOTIFS].sort());
   });
 
