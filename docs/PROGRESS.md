@@ -21,7 +21,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 04 | C01, C02, C03, C05: xác thực, phân quyền, hồ sơ, nhật ký | Hoàn thành, tag `phase-04` | Không có |
 | 05 | Hoàn thiện M11 tính toán và kiểm thử | Hoàn thành, tag `phase-05`, CI xanh. Mốc M11 là 191/191; 44 mục còn lại làm cùng `completion_service` | Không có |
 | 06 | Xây M11 Dashboard/Phân tích/Cảnh báo (có `POST /api/admin/grade-attempts`) | Hoàn thành, tag `phase-06`, CI xanh | Không có |
-| 07 | Xây Career Graph và API M12 | Chưa bắt đầu | Không có |
+| 07 | Xây Career Graph và API M12 | Chờ duyệt kế hoạch | Không có |
 | 08 | Đồng bộ tiến độ M11–M12 (test liên thông, phát hiện thay đổi) | Chưa bắt đầu | Không có |
 | 09 | Lập lộ trình theo kỳ và so sánh nghề (so sánh nghề là P2) | Chưa bắt đầu | Không có |
 | 10 | Học liệu, yêu cầu hỗ trợ, thông báo, luồng nộp/duyệt `skill_evidences` (P1) | Chưa bắt đầu | Không có |
@@ -33,7 +33,13 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | Mã | Nội dung | Trạng thái |
 |----|----------|------------|
 | CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành, tag `cr-01`. Sau đó đổi màu, font và đưa lại nhãn mẫu theo D-152, D-156 |
-| CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Quản lý dự án duyệt kỹ thuật; chưa gắn tag `cr-02`, chờ duyệt giao diện. 4 trang M11 đã dựng hoàn toàn bằng component của CR-02 (D-182 đến D-185). Lượt chỉnh CR-02b xong, chờ duyệt ảnh (D-187, D-188) |
+| CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Hoàn thành, tag `cr-02` (gồm lượt chỉnh CR-02b, D-187, D-188) |
+
+## Việc tồn đọng giao diện, làm ở giai đoạn 11
+
+1. Nhãn `MetricCard` xuống dòng ở lưới 2×2 trên 375px.
+2. Dòng Q80 trên di động rút còn "Chưa có kết quả · Gần nhất S2: 1,88".
+3. Trang Phân tích chỉ giữ 1 dòng kỳ tham chiếu chung thay vì ở từng thẻ.
 
 ## Điểm kiểm tra giữa giai đoạn 06 (API và test hợp đồng xong)
 
@@ -45,4 +51,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Quản lý dự án duyệt ảnh CR-02b, rồi gắn tag `cr-02`. Remote: https://github.com/thiennnhannguyen/neu_student.
+Giai đoạn 07: gửi kế hoạch, chờ quản lý dự án duyệt. Remote: https://github.com/thiennnhannguyen/neu_student.
