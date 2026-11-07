@@ -126,7 +126,6 @@ export const MENU_GROUPS = [
         nested: true,
       },
       { label: 'Nhắc nhở', path: '/m12/nhac-nho', icon: BellRing, roles: [STUDENT] },
-      // Giai đoạn 10: { label: 'Duyệt minh chứng', roles: [ADVISOR] }
       // M12-15 giao diện (P1): { label: 'Quản trị nghề', roles: [ADMIN] }
     ],
   },

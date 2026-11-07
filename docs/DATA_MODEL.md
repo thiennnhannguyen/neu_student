@@ -106,9 +106,9 @@ erDiagram
 | `course_skill_mappings` | Ánh xạ môn và kỹ năng, chỉ để hiển thị và gợi ý. |
 | `student_career_goals` | Nghề chính của sinh viên, giữ lịch sử bằng `ended_at`. |
 | `skill_evidences` | Minh chứng kỹ năng, có luồng nộp và duyệt; đã có dữ liệu mẫu. |
-| `learning_roadmaps` | Lộ trình của sinh viên theo nghề. **Chưa dùng tới GĐ09.** |
-| `roadmap_versions` | Phiên bản lộ trình `active`, `proposal`, `archived`. **Chưa dùng tới GĐ09.** |
-| `roadmap_items` | Môn hoặc kỹ năng theo kỳ, độ chắc chắn, phụ thuộc kết quả, ngoài CTĐT. **Chưa dùng tới GĐ09.** |
+| `learning_roadmaps` | Lộ trình của sinh viên theo nghề. |
+| `roadmap_versions` | Phiên bản lộ trình `active`, `proposal`, `archived`. |
+| `roadmap_items` | Môn hoặc kỹ năng theo kỳ, độ chắc chắn, phụ thuộc kết quả, ngoài CTĐT. |
 | `learning_resources` | Quy định, FAQ, học liệu, kỹ năng, có nguồn và phạm vi. **Chưa dùng: M12-11 hoãn.** |
 | `risk_action_templates` | Mẫu việc cho mỗi quy tắc cảnh báo, đã có dữ liệu mẫu. |
 | `improvement_plans` | Kế hoạch cải thiện. |
@@ -125,7 +125,7 @@ erDiagram
 
 | Bảng | Mô tả |
 |------|-------|
-| `notifications` | Thông báo trong hệ thống. **Chưa dùng tới GĐ10.** |
+| `notifications` | Thông báo trong hệ thống. |
 | `audit_logs` | Nhật ký thay đổi, chỉ thêm, không sửa. Đã dùng cho `flask grades add`. |
 
 ## Ràng buộc yêu cầu
