@@ -105,21 +105,21 @@ erDiagram
 | `skills` | Kỹ năng và dự án, có `name_key` (UNIQUE), `short_desc`. |
 | `course_skill_mappings` | Ánh xạ môn và kỹ năng, chỉ để hiển thị và gợi ý. |
 | `student_career_goals` | Nghề chính của sinh viên, giữ lịch sử bằng `ended_at`. |
-| `skill_evidences` | Minh chứng kỹ năng. **Luồng nộp và duyệt chưa dùng tới GĐ10**; đã có dữ liệu mẫu. |
+| `skill_evidences` | Minh chứng kỹ năng, có luồng nộp và duyệt; đã có dữ liệu mẫu. |
 | `learning_roadmaps` | Lộ trình của sinh viên theo nghề. **Chưa dùng tới GĐ09.** |
 | `roadmap_versions` | Phiên bản lộ trình `active`, `proposal`, `archived`. **Chưa dùng tới GĐ09.** |
 | `roadmap_items` | Môn hoặc kỹ năng theo kỳ, độ chắc chắn, phụ thuộc kết quả, ngoài CTĐT. **Chưa dùng tới GĐ09.** |
-| `learning_resources` | Quy định, FAQ, học liệu, kỹ năng, có nguồn và phạm vi. **Chưa dùng tới GĐ10.** |
-| `risk_action_templates` | Mẫu việc cho mỗi quy tắc cảnh báo, đã có dữ liệu mẫu. **Chưa dùng tới GĐ10.** |
-| `improvement_plans` | Kế hoạch cải thiện. **Chưa dùng tới GĐ10.** |
-| `improvement_plan_items` | Việc trong kế hoạch. **Chưa dùng tới GĐ10.** |
+| `learning_resources` | Quy định, FAQ, học liệu, kỹ năng, có nguồn và phạm vi. **Chưa dùng: M12-11 hoãn.** |
+| `risk_action_templates` | Mẫu việc cho mỗi quy tắc cảnh báo, đã có dữ liệu mẫu. |
+| `improvement_plans` | Kế hoạch cải thiện. |
+| `improvement_plan_items` | Việc trong kế hoạch. |
 | `support_categories` | Nhóm vấn đề hỗ trợ. |
 | `support_staff_categories` | Nhóm vấn đề được gán cho nhân sự hỗ trợ. |
-| `support_requests` | Ticket, mã dạng `HT-YYYYMM-0001`. **API chưa dùng tới GĐ10.** |
+| `support_requests` | Ticket, mã dạng `HT-YYYYMM-0001`. |
 | `support_messages` | Phản hồi trong ticket. |
 | `support_status_events` | Lịch sử đổi trạng thái của ticket. |
 | `skill_evidence_attachments` | Tệp đính kèm của minh chứng. |
-| `support_attachments` | Tệp đính kèm, tên lưu duy nhất, có `sha256`. **Chưa dùng tới GĐ10.** |
+| `support_attachments` | Tệp đính kèm, tên lưu duy nhất, có `sha256`. |
 
 ### System (2)
 
