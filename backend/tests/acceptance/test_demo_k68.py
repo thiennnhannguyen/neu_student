@@ -463,6 +463,16 @@ def test_requirement_detail_shows_purpose_order_equivalents_and_other_careers(de
     assert prerequisite["TOKT1145"]["source"].startswith("Thứ tự sư phạm")
 
 
+def test_requirement_detail_hides_equivalency_that_is_not_approved(demo_app):
+    with demo_app.app_context():
+        row = db.session.get(CourseEquivalency, "eq-TOKT1145")
+        row.status, row.approved_by, row.approved_at = "draft", None, None
+        db.session.commit()
+    client = login_as(demo_app, "demo03")
+
+    assert client.get("/api/m12/requirements/req-ai-02-KTPM").get_json()["equivalents"] == []
+
+
 # --- Lưới thẻ ---
 
 

@@ -392,3 +392,17 @@ def test_state_carries_curriculum_facts():
     )
 
     assert result.states["a"].curriculum == facts
+
+
+def test_node_progress_does_not_count_course_in_progress():
+    v = version([course("a", "A"), course("b", "B")])
+    result = evaluate(v, data({"A": "done", "B": "in_progress"}, ["A", "B"]))
+
+    assert result.node_progress["n0"].formula == "1/2 học phần"
+
+
+def test_node_progress_counts_same_course_once_within_a_stage():
+    v = version([course("a1", "A"), course("a2", "A"), course("b", "B")])
+    result = evaluate(v, data({"A": "done", "B": "not_started"}, ["A", "B"]))
+
+    assert result.node_progress["n0"].formula == "1/2 học phần"
