@@ -2,6 +2,7 @@ import { Target } from 'lucide-react';
 import { Badge } from '../../../components/ui';
 import { NO_CODE } from '../labels';
 import {
+  ADDED_FOR_FLOOR,
   alignmentLabel,
   ASSUMED_POSITION,
   CONFIRMED,
@@ -11,7 +12,7 @@ import {
 } from './labels';
 
 /** Thẻ một môn trong cột kỳ. Cả thẻ là nút mở panel. */
-export default function PlanItemCard({ item, selected, onSelect }) {
+export default function PlanItemCard({ item, showOffering, selected, onSelect }) {
   const { course } = item;
   const alignment = alignmentLabel(item.semester_alignment);
   return (
@@ -33,9 +34,12 @@ export default function PlanItemCard({ item, selected, onSelect }) {
         </span>
       )}
       <span className="plan-card__chips">
-        <Badge tone={item.confidence === 'confirmed' ? 'success' : 'neutral'}>
-          {item.confidence === 'confirmed' ? CONFIRMED : DU_KIEN}
-        </Badge>
+        {showOffering && (
+          <Badge tone={item.confidence === 'confirmed' ? 'success' : 'neutral'}>
+            {item.confidence === 'confirmed' ? CONFIRMED : DU_KIEN}
+          </Badge>
+        )}
+        {item.added_for_floor && <Badge tone="outline">{ADDED_FOR_FLOOR}</Badge>}
         {item.depends_on_pending_result && <Badge tone="warning">{PENDING_RESULT}</Badge>}
         {alignment && (
           <Badge tone={item.semester_alignment.kind === 'on_time' ? 'info' : 'warning'}>

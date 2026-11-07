@@ -247,6 +247,7 @@ def _item_row(version_id: str, item: PlanItem) -> RoadmapItem:
         is_pinned=item.is_pinned,
         is_primary_career=item.is_primary_career,
         assumed_position=item.assumed_position,
+        added_for_floor=item.added_for_floor,
         is_mock=True,
     )
 
@@ -389,6 +390,7 @@ def _course_item_json(item: RoadmapItem, facts: m11_public.RoadmapFacts) -> dict
         "is_pinned": item.is_pinned,
         "is_primary_career": item.is_primary_career,
         "assumed_position": item.assumed_position,
+        "added_for_floor": item.added_for_floor,
         "prerequisites": _prerequisites_json(item.course_id, facts),
     }
 
@@ -593,7 +595,9 @@ def move_item(
         active.unplaced or [],
     )
     semester = next(s for s in data.semesters if s.id == semester_id)
-    moved = describe_course(data, data.courses[target.course_id], semester, after, True)
+    moved = describe_course(
+        data, data.courses[target.course_id], semester, after, True, target.added_for_floor
+    )
     for item in items:
         if item.id == target.id:
             db.session.add(_item_row(version.id, moved))
@@ -626,6 +630,7 @@ def _copy_item(version_id: str, item: RoadmapItem) -> RoadmapItem:
         is_pinned=item.is_pinned,
         is_primary_career=item.is_primary_career,
         assumed_position=item.assumed_position,
+        added_for_floor=item.added_for_floor,
         is_mock=True,
     )
 

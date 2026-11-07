@@ -193,6 +193,7 @@ def test_item_has_every_field_and_reason_sentence(http_app):
         "is_pinned",
         "is_primary_career",
         "assumed_position",
+        "added_for_floor",
         "prerequisites",
     }
     assert item["reason"].endswith(".")

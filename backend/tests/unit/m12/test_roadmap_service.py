@@ -396,16 +396,18 @@ def test_floor_is_never_relaxed_when_impossible():
 
 
 def test_extra_elective_is_added_only_to_reach_the_floor():
+    """Nhóm tự chọn đã đủ nhờ E. A, B buộc 2 kỳ và kỳ đầu thiếu sàn, nên phải thêm C."""
     data = make(
         [
             course("A", 6),
             course("B", 3),
             course("C", 4, kind="elective", group_id="G"),
-            course("D", 4, kind="elective", group_id="G"),
+            course("E", 3, kind="elective", group_id="G"),
         ],
         semesters=SEMESTERS[:2],
         min_credits=10,
-        groups=(PlanGroup("G", "Nhóm", 1),),
+        groups=(PlanGroup("G", "Nhóm", 3),),
+        completed=frozenset({"E"}),
         prerequisites={"B": ("A",)},
     )
     plan = generate(data)
@@ -413,6 +415,20 @@ def test_extra_elective_is_added_only_to_reach_the_floor():
     assert plan.infeasible is False
     assert hard_violations(data, plan.placement) == ()
     assert set(plan.placement) == {"A", "B", "C"}
+    assert item(plan, "C").added_for_floor is True
+    assert item(plan, "C").reason == (
+        "Thêm vượt mức tối thiểu của nhóm tự chọn để kỳ đạt sàn tín chỉ."
+    )
+    assert item(plan, "A").added_for_floor is False
+
+
+def test_elective_needed_for_group_is_not_flagged_as_added():
+    data = make(
+        [course("A", 6), course("C", 4, kind="elective", group_id="G")],
+        groups=(PlanGroup("G", "Nhóm", 1),),
+    )
+
+    assert item(generate(data), "C").added_for_floor is False
 
 
 def test_search_budget_exhausted_reports_instead_of_hanging(monkeypatch):

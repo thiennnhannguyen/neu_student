@@ -229,6 +229,9 @@ class RoadmapItem(MockMixin, db.Model):
     assumed_position = db.Column(
         db.Boolean, nullable=False, default=False, server_default=db.false()
     )
+    added_for_floor = db.Column(
+        db.Boolean, nullable=False, default=False, server_default=db.false()
+    )
     __table_args__ = (
         db.CheckConstraint("confidence IN ('confirmed', 'du_kien')", name="confidence_valid"),
         db.CheckConstraint("(course_id IS NULL) <> (skill_id IS NULL)", name="course_or_skill"),

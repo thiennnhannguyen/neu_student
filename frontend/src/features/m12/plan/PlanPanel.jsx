@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { apiRequest } from '../../../api/client';
 import { Button, FormField, Select, SidePanel, useToast } from '../../../components/ui';
 import { NO_CODE } from '../labels';
-import { ASSUMED_POSITION, prerequisiteStatus } from './labels';
+import { ADDED_FOR_FLOOR, ASSUMED_POSITION, prerequisiteStatus } from './labels';
 
 function violationsOf(cause) {
   const rows = cause.details?.violations;
@@ -78,6 +78,7 @@ export default function PlanPanel({ roadmap, item, canEdit, inline, onClose, onM
       </p>
       <h3>Lý do xếp</h3>
       <p>{item.reason}</p>
+      {item.added_for_floor && <p className="plan-card__assumed">{ADDED_FOR_FLOOR}</p>}
       {item.assumed_position && <p className="plan-card__assumed">{ASSUMED_POSITION}</p>}
       <h3>Tiên quyết</h3>
       {item.prerequisites.length === 0 ? (

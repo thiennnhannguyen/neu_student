@@ -1,6 +1,8 @@
 export const ASSUMED_POSITION = 'Vị trí theo giả định của nhóm – chờ xác minh';
 export const DU_KIEN = 'Dự kiến – chưa xác minh lịch mở lớp';
 export const CONFIRMED = 'Có lịch mở lớp';
+export const ADDED_FOR_FLOOR = 'Thêm để đủ sàn tín chỉ';
+export const NO_OFFERING_DATA = 'Chưa có lịch mở lớp – mọi kỳ là dự kiến';
 export const PENDING_RESULT = 'Phụ thuộc kết quả';
 export const PRIMARY_CAREER = 'Môn của nghề chính';
 export const OUTSIDE_NOTE = 'Chỉ để tham khảo, không tính tín chỉ.';
@@ -22,4 +24,13 @@ export function alignmentLabel(alignment) {
 
 export function prerequisiteStatus(status) {
   return { done: 'Đã đạt', in_progress: 'Đang học', not_done: 'Chưa đạt' }[status];
+}
+
+/** Chip lịch mở lớp chỉ có ích khi lộ trình có cả 2 loại. */
+export function offeringSummary(items) {
+  const confirmed = items.filter((item) => item.confidence === 'confirmed').length;
+  return {
+    showChip: confirmed > 0 && confirmed < items.length,
+    allDuKien: items.length > 0 && confirmed === 0,
+  };
 }

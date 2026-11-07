@@ -17,7 +17,14 @@ import { PICK_STUDENT_HINT } from '../CareersPage';
 import CareerIllustration from '../illustrations/CareerIllustration';
 import useCareerStudent from '../useCareerStudent';
 import useMediaQuery from '../useMediaQuery';
-import { CURRENT_API, OUTSIDE_NOTE, OUTSIDE_TITLE, REGENERATE_WARNING } from './labels';
+import {
+  CURRENT_API,
+  NO_OFFERING_DATA,
+  offeringSummary,
+  OUTSIDE_NOTE,
+  OUTSIDE_TITLE,
+  REGENERATE_WARNING,
+} from './labels';
 import PlanItemCard from './PlanItemCard';
 import PlanPanel from './PlanPanel';
 
@@ -134,7 +141,7 @@ function InfeasibleBlock({ rows }) {
   );
 }
 
-function Column({ column, selectedId, onSelect }) {
+function Column({ column, showOffering, selectedId, onSelect }) {
   return (
     <section className="plan-column" aria-label={column.name}>
       <header className="plan-column__head">
@@ -151,6 +158,7 @@ function Column({ column, selectedId, onSelect }) {
             <PlanItemCard
               key={item.id}
               item={item}
+              showOffering={showOffering}
               selected={selectedId === item.id}
               onSelect={onSelect}
             />
@@ -196,12 +204,13 @@ function OutsideBlock({ roadmap }) {
 function Plan({ roadmap, student, reload }) {
   const pushes = useMediaQuery('(min-width: 1280px)');
   const [selectedId, setSelectedId] = useState(null);
-  const selected = roadmap.semesters
-    .flatMap((column) => column.items)
-    .find((item) => item.id === selectedId);
+  const items = roadmap.semesters.flatMap((column) => column.items);
+  const selected = items.find((item) => item.id === selectedId);
+  const offering = offeringSummary(items);
   return (
     <>
       <PlanHeader roadmap={roadmap} student={student} onDone={reload} />
+      {offering.allDuKien && <p className="plan-notice">{NO_OFFERING_DATA}</p>}
       {roadmap.has_proposal && <ProposalBanner student={student} />}
       {roadmap.infeasible && <InfeasibleBlock rows={roadmap.unplaced} />}
       <div className={`plan-layout${selected && pushes ? ' plan-layout--with-panel' : ''}`}>
@@ -210,6 +219,7 @@ function Plan({ roadmap, student, reload }) {
             <Column
               key={column.id}
               column={column}
+              showOffering={offering.showChip}
               selectedId={selectedId}
               onSelect={(item) => setSelectedId(item.id)}
             />

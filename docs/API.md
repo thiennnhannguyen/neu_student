@@ -2467,6 +2467,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
     "infeasible": false,
     "outside_curriculum": [
       {
+        "added_for_floor": false,
         "assumed_position": false,
         "confidence": "du_kien",
         "course": {
@@ -2499,6 +2500,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
         "semester_alignment": null
       },
       {
+        "added_for_floor": false,
         "assumed_position": false,
         "confidence": "du_kien",
         "course": {
@@ -2531,6 +2533,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
         "id": "S6",
         "items": [
           {
+            "added_for_floor": false,
             "assumed_position": false,
             "confidence": "confirmed",
             "course": {
@@ -2557,6 +2560,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
             "semester_alignment": null
           },
           {
+            "added_for_floor": false,
             "assumed_position": false,
             "confidence": "du_kien",
             "course": {
@@ -2615,6 +2619,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
         "id": "S7",
         "items": [
           {
+            "added_for_floor": false,
             "assumed_position": false,
             "confidence": "du_kien",
             "course": {
@@ -2641,6 +2646,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
             "semester_alignment": null
           },
           {
+            "added_for_floor": false,
             "assumed_position": false,
             "confidence": "du_kien",
             "course": {

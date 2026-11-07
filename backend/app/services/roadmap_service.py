@@ -101,6 +101,7 @@ class PlanItem:
     is_pinned: bool = False
     is_primary_career: bool = False
     assumed_position: bool = False
+    added_for_floor: bool = False
 
 
 @dataclass(frozen=True)
@@ -695,6 +696,7 @@ def describe_course(
     semester: PlanSemester,
     placement: Mapping[str, str],
     pinned: bool,
+    added_for_floor: bool = False,
 ) -> PlanItem:
     """Một môn đã xếp: độ tin cậy, phụ thuộc kết quả, lệch HK và lý do (1 câu do code sinh)."""
     target = _target_order(data, course)
@@ -705,6 +707,8 @@ def describe_course(
     pending = [p for p in data.prerequisites.get(course.id, ()) if p in data.in_progress]
     in_career = _rank(data, course.id) < RANK_OUTSIDE_CAREER
     reason = _reason(data, course, semester, placement, pinned, offset)
+    if added_for_floor and not pinned:
+        reason = "Thêm vượt mức tối thiểu của nhóm tự chọn để kỳ đạt sàn tín chỉ"
     return PlanItem(
         semester_id=semester.id,
         course_id=course.id,
@@ -717,6 +721,7 @@ def describe_course(
         is_pinned=pinned,
         is_primary_career=in_career,
         assumed_position=course.role is not None,
+        added_for_floor=added_for_floor,
     )
 
 
@@ -836,6 +841,7 @@ def generate(data: PlanInput) -> Plan:
     if solved.removed:
         # Dưới sàn vì quá ít môn: thêm môn tự chọn vượt mức tối thiểu, không nới ràng buộc nào.
         solved = _with_extra_electives(data, selected, solved)
+    needed = selected
     selected, windows, board, removed, pinned = solved
     unplaced += [Unplaced(c, _name(data, c), r) for c, r in sorted(windows.dropped.items())]
     unplaced += [
@@ -850,7 +856,12 @@ def generate(data: PlanInput) -> Plan:
     placement = {c: data.semesters[i].id for c, i in board.placed.items()}
     courses = [
         describe_course(
-            data, data.courses[c], data.semesters[board.placed[c]], placement, c in pinned
+            data,
+            data.courses[c],
+            data.semesters[board.placed[c]],
+            placement,
+            c in pinned,
+            c not in needed,
         )
         for c in sorted(board.placed, key=lambda c: (board.placed[c], c))
     ]

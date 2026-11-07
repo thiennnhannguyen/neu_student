@@ -25,6 +25,7 @@ function item(id, name, extra = {}) {
     is_pinned: false,
     is_primary_career: false,
     assumed_position: false,
+    added_for_floor: false,
     prerequisites: [],
     ...extra,
   };
@@ -254,6 +255,60 @@ describe('Kế hoạch học tập: các cột kỳ', () => {
     expect(screen.getByRole('button', { name: /Hệ điều hành/ })).toHaveTextContent(
       'Lệch HK CTĐT (−2 kỳ)',
     );
+  });
+
+  it('mọi môn dự kiến: bỏ chip trên thẻ, có 1 dòng ở đầu trang', async () => {
+    const all = roadmap();
+    all.semesters[1] = { ...all.semesters[1], items: [{ ...MACHINE, confidence: 'du_kien' }] };
+    await openPlan('student', { [CURRENT]: current(all) });
+
+    expect(screen.getByText('Chưa có lịch mở lớp – mọi kỳ là dự kiến')).toBeInTheDocument();
+    expect(screen.queryByText('Dự kiến – chưa xác minh lịch mở lớp')).toBeNull();
+    expect(screen.queryByText('Có lịch mở lớp')).toBeNull();
+  });
+
+  it('có cả 2 loại: có chip, không có dòng đầu trang', async () => {
+    await openPlan();
+
+    expect(screen.queryByText('Chưa có lịch mở lớp – mọi kỳ là dự kiến')).toBeNull();
+    expect(screen.getAllByText('Dự kiến – chưa xác minh lịch mở lớp').length).toBeGreaterThan(0);
+  });
+
+  it('mọi môn có lịch: không chip, không dòng thông báo', async () => {
+    const all = roadmap();
+    all.semesters = all.semesters.map((column) => ({
+      ...column,
+      items: column.items.map((row) => ({ ...row, confidence: 'confirmed' })),
+    }));
+    await openPlan('student', { [CURRENT]: current(all) });
+
+    expect(screen.queryByText('Chưa có lịch mở lớp – mọi kỳ là dự kiến')).toBeNull();
+    expect(screen.queryByText('Có lịch mở lớp')).toBeNull();
+  });
+
+  it('môn thêm để đạt sàn có chip, panel có lý do', async () => {
+    const user = userEvent.setup();
+    const extra = roadmap();
+    extra.semesters[0] = {
+      ...extra.semesters[0],
+      items: [
+        item('E1', 'Môn thêm', {
+          added_for_floor: true,
+          reason: 'Thêm vượt mức tối thiểu của nhóm tự chọn để kỳ đạt sàn tín chỉ.',
+        }),
+      ],
+    };
+    planApi('student', { [CURRENT]: current(extra) });
+    renderApp(PLAN);
+
+    const card = await screen.findByRole('button', { name: /Môn thêm/ });
+    expect(card).toHaveTextContent('Thêm để đủ sàn tín chỉ');
+    expect(screen.getByRole('button', { name: /Học máy/ })).not.toHaveTextContent('đủ sàn');
+
+    await user.click(card);
+    const panel = await screen.findByRole('dialog', { name: 'Môn thêm' });
+    expect(panel).toHaveTextContent('để kỳ đạt sàn tín chỉ');
+    expect(panel).toHaveTextContent('Thêm để đủ sàn tín chỉ');
   });
 
   it('khóa luận có chú thích giả định, môn không có HK thì không có chip HK', async () => {
@@ -502,23 +557,38 @@ describe('Khác biệt của lộ trình', () => {
     expect(screen.getByRole('link', { name: 'Xem khác biệt' })).toHaveAttribute('href', DIFF);
   });
 
-  it('hai cột: bớt ở bản hiện tại, thêm ở bản đề xuất, chuyển kỳ ở cả hai, có chữ kèm icon', async () => {
+  it('Học phần mở sẵn đứng trước; Kỹ năng & dự án thu gọn, tiêu đề có số thay đổi', async () => {
     diffApi();
     renderApp(DIFF);
 
-    const before = await screen.findByRole('region', { name: 'Bản hiện tại' });
-    const after = screen.getByRole('region', { name: 'Bản đề xuất' });
+    const courses = (await screen.findByText(/^Học phần:/)).closest('details');
+    const skills = screen.getByText('Kỹ năng & dự án (1 thay đổi)').closest('details');
 
-    expect(before).toHaveTextContent('Bớt');
-    expect(before).toHaveTextContent('Kỹ năng bớt');
-    expect(before).toHaveTextContent('Không xếp kỳ');
+    expect(courses).toHaveAttribute('open');
+    expect(courses).toHaveTextContent('Học phần: thêm 1 · bớt 0 · chuyển kỳ 1');
+    expect(courses).not.toHaveTextContent('Kỹ năng bớt');
+    expect(skills).not.toHaveAttribute('open');
+    expect(skills).toHaveTextContent('Kỹ năng bớt');
+    expect(skills).toHaveTextContent('Không xếp kỳ');
+    expect(skills).not.toHaveTextContent('Môn thêm');
+    expect(courses.compareDocumentPosition(skills)).toBe(courses.DOCUMENT_POSITION_FOLLOWING);
+  });
+
+  it('hai cột: chuyển kỳ ở cả hai, thêm ở bản đề xuất, có chữ kèm icon', async () => {
+    diffApi();
+    renderApp(DIFF);
+
+    const courses = (await screen.findByText(/^Học phần:/)).closest('details');
+    const [before, after] = within(courses).getAllByRole('region');
+
+    expect(before).toHaveAccessibleName('Bản hiện tại');
+    expect(after).toHaveAccessibleName('Bản đề xuất');
     expect(before).toHaveTextContent('Môn chuyển');
     expect(before).toHaveTextContent('Học kỳ 6');
     expect(after).toHaveTextContent('Thêm');
     expect(after).toHaveTextContent('Môn thêm (A)');
     expect(after).toHaveTextContent('Chuyển kỳ');
     expect(within(after).getByText('Học kỳ 7')).toBeInTheDocument();
-    expect(screen.getByText('Thêm 1 · Bớt 1 · Chuyển kỳ 1')).toBeInTheDocument();
     expect(screen.getByText(NOTE)).toBeInTheDocument();
     expect(document.querySelector('.plan-diff__row--added svg')).not.toBeNull();
   });
@@ -574,14 +644,14 @@ describe('Khác biệt của lộ trình', () => {
     await user.click(await screen.findByRole('button', { name: 'Áp dụng' }));
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Dữ liệu vừa thay đổi.');
-    expect(screen.getByRole('region', { name: 'Bản hiện tại' })).toBeInTheDocument();
+    expect(screen.getByText(/^Học phần:/)).toBeInTheDocument();
   });
 
   it('cố vấn xem được khác biệt, không có nút áp dụng', async () => {
     diffApi('advisor');
     renderApp(`${DIFF}?student=DEMO05`);
 
-    await screen.findByRole('region', { name: 'Bản hiện tại' });
+    await screen.findByText(/^Học phần:/);
     expect(screen.queryByRole('button', { name: 'Áp dụng' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Giữ bản cũ' })).toBeNull();
   });
