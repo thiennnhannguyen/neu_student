@@ -44,6 +44,18 @@ def test_every_code_in_the_pdf_is_loaded_with_real_credits():
     assert COURSES["LLDL1101"]["credits"] == 2
 
 
+@pytest.mark.parametrize("version", ["pv-khmt-66", "pv-cntt-k68", "pv-ktpm-k68", "pv-attt-k68"])
+@pytest.mark.parametrize("course_id", ["LLNL1106", "LLNL1107"])
+def test_shared_political_courses_have_two_credits_in_every_program(version, course_id):
+    rows = [
+        row
+        for row in TABLES["curriculum_requirements"]
+        if row["program_version_id"] == version and row["course_id"] == course_id
+    ]
+    assert len(rows) == 1
+    assert COURSES[course_id]["credits"] == 2
+
+
 def test_total_is_130_with_each_group_matching_the_pdf():
     required = sum(
         COURSES[row["course_id"]]["credits"]

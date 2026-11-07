@@ -160,10 +160,10 @@ Giới hạn đã biết (D-261): đối chứng vét cạn trên 3.000 bài to�
 
 | Nội dung | Kết quả |
 |----------|---------|
-| pytest | 2277 passed, 5590 dòng, coverage 100% |
-| Vitest | 19 file, 639 passed |
-| Playwright | 124 passed |
-| Seed | 546 bản ghi (test), 1394 bản ghi (demo-k68); 2 `seed --check` khớp fixture |
+| pytest | 2429 passed, 6050 dòng, coverage 100% |
+| Vitest | 20 file, 668 passed |
+| Playwright | 141 passed |
+| Seed | 546 bản ghi (test), 2337 bản ghi (demo-k68); 2 `seed --check` khớp fixture |
 
 ### 5.2. Theo giai đoạn
 
@@ -177,6 +177,7 @@ Giới hạn đã biết (D-261): đối chứng vét cạn trên 3.000 bài to�
 | 09 | 2082 | 570 | 30 chỗ; lượt đầu bắt 29, sau xử lý bắt 30 |
 | 10 | 2224 | 632 | 30 chỗ: bắt 29, 1 chỗ tương đương; phần sửa sau nghiệm thu thêm 14 chỗ, bắt 14 |
 | Cuối | 2277 | 639 | 29 chỗ; lượt đầu bắt 26, lọt 2, 1 chỗ không áp được; sau xử lý bắt cả 3 chỗ này, tổng 29/29; thêm 1 chỗ (bỏ `h1` trang nghề khi tải và lỗi) bị bắt |
+| CR-04 | 2429 | 668 | 30 chỗ, trên nền xanh; bắt 29, lọt 1 (hằng `SHARED_CREDITS` thừa, đã xóa); thêm 4 chỗ về tín chỉ `LLNL1106`, `LLNL1107`, bắt 4. Lượt đầu bỏ đi vì nền đang có test đỏ |
 
 Ở các giai đoạn 07, 08, CR-03, 09, sau khi thêm test tôi chỉ chạy lại đúng những chỗ đã lọt, không chạy lại toàn bộ.
 

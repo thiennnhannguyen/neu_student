@@ -298,7 +298,6 @@ class Builder:
             credits = 10 if groups[course_id] == "thesis" else 3
             if course_id in pdf:
                 name, credits = pdf[course_id][2], pdf[course_id][3]
-            credits = official.SHARED_CREDITS.get(course_id, credits)
             _row(
                 course_rows,
                 id=course_id,
@@ -949,13 +948,7 @@ class Builder:
     def official_document(self) -> str:
         k68 = {}
         for code, name, group in self.k68_khmt:
-            k68[code] = (
-                name,
-                10 if group == "thesis" else official.SHARED_CREDITS.get(code, 3),
-                group,
-            )
-        for code in ("LLNL1106", "LLNL1107"):
-            k68[code] = (k68[code][0], 3, k68[code][2])
+            k68[code] = (name, 10 if group == "thesis" else 3, group)
         return official.document(k68, {code: self._k68_planned.get(code) for code in k68})
 
     def build(self) -> dict[str, dict[str, list[dict]]]:

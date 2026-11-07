@@ -123,8 +123,6 @@ K68_TO_OFFICIAL = {
     "NNKC1132": "KHMT.NN2",
     "NNKC1133": "KHMT.NN3",
 }
-# Học phần dùng chung: áp dụng cho cả 4 ngành, kể cả mã có tiền tố EP17 của KTPM.
-SHARED_CREDITS = {"LLNL1106": 2, "LLNL1107": 2}
 ECONOMICS_CODE_BY_NAME = {"Kinh tế vi mô 1": "KHMI1101", "Kinh tế vĩ mô 1": "KHMA1101"}
 ECONOMICS_NAME_BY_CODE = {code: name for name, code in ECONOMICS_CODE_BY_NAME.items()}
 
