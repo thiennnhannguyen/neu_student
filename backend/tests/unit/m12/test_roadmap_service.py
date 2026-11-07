@@ -104,6 +104,21 @@ def test_course_without_semester_is_balanced_and_has_no_alignment():
     assert item(plan, "A").reason == "CTĐT không ghi học kỳ, xếp để cân bằng tín chỉ."
 
 
+def test_right_curriculum_semester_beats_primary_career_when_capacity_is_short():
+    """Mục tiêu mềm số 1 đứng trước số 2: môn đúng HK được xếp trước môn nghề chính đã quá HK."""
+    plan = generate(
+        make(
+            [course("X", planned_semester=2), course("Y", planned_semester=1)],
+            semesters=SEMESTERS[1:],
+            max_credits=3,
+            career_rank={"Y": 0},
+        )
+    )
+
+    assert plan.placement == {"X": "S2", "Y": "S3"}
+    assert item(plan, "X").alignment == ALIGN_ON_TIME
+
+
 def test_primary_career_comes_first_when_capacity_is_short():
     plan = generate(
         make(

@@ -105,8 +105,8 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | TC08 | Đổi nghề chính giữ nguyên lịch sử học tập | 07, 08 | Đạt: `test_sv07_changes_to_analyst_and_back`, `test_tc08_changing_primary_and_back_keeps_each_rate`; Vitest `đặt làm mục tiêu chính (TC08)` |
 | TC09 | Tỷ lệ nghề A khác nghề B khi yêu cầu khác nhau | 08 | Đạt: `test_tc09_rates_differ_between_careers_and_match_expected` |
 | TC10 | Đổi nghề liên quan và xem tất cả hoạt động | 08 | Đạt: `test_tc10_related_sorts_differently_and_filters_by_field`; Vitest `trang Xem tất cả (TC10)` |
-| TC11 | Lộ trình không xếp môn trước tiên quyết | 09 | Dữ liệu: Tiên quyết DAG; chưa có test |
-| TC12 | Môn không mở kỳ này được ghi dự kiến/chưa xác minh | 09 | Dữ liệu: `course_offerings`; chưa có test |
+| TC11 | Lộ trình không xếp môn trước tiên quyết | 09 | Đạt: `test_tc11_random_roadmaps_obey_hard_constraints` (50 lộ trình mỗi profile), `test_algorithm_against_exhaustive_search`, `test_move_before_prerequisite_is_422_and_db_unchanged` |
+| TC12 | Môn không mở kỳ này được ghi dự kiến/chưa xác minh | 09 | Đạt: `test_tc12_no_offering_is_du_kien_and_open_is_confirmed`, `test_tc12_closed_offering_is_never_used`; Vitest nhóm `Kế hoạch học tập: các cột kỳ` |
 | TC13 | Sinh viên không xem được ticket của người khác | 10 | Dữ liệu: Ticket SV01, SV02; chưa có test |
 | TC14 | Giao diện mobile, bàn phím, trạng thái rỗng | Mọi giai đoạn có UI, 11 | Dữ liệu: SV05; chưa có test |
 
@@ -244,3 +244,16 @@ File nằm trong `backend/tests/`, trừ dòng ghi rõ `frontend/`.
 | Trang chi tiết | Vitest nhóm `trang chi tiết nghề: Hero`, `tab Lộ trình học`, `SidePanel của môn`, `tab Môn học NEU`, `tab Kỹ năng & dự án`, `đặt làm mục tiêu chính (TC08)` |
 | Minh họa | `illustrations.test.jsx` |
 
+## Giai đoạn 09: lộ trình theo học kỳ
+
+| Yêu cầu | Test |
+|---------|------|
+| Ràng buộc cứng trên dữ liệu thật ngẫu nhiên | `test_tc11_random_roadmaps_obey_hard_constraints` |
+| Đối chứng vét cạn | `test_algorithm_against_exhaustive_search`, `test_known_false_infeasible_example_has_a_better_elective_choice` |
+| Các nhánh thuật toán, sàn (Q98), khóa luận (Q99), môn sửa tay (Q101) | `tests/unit/m12/test_roadmap_service.py` |
+| Sửa tay 422, DB không đổi | `test_move_before_prerequisite_is_422_and_db_unchanged`, `test_move_above_cap_is_422_and_db_unchanged`, `test_move_leaving_a_semester_below_floor_is_422_and_db_unchanged`, `test_moving_thesis_is_422` |
+| Trượt môn, đổi nghề, bản nghề mới | `test_failing_a_course_gives_proposal_and_active_stays`, `test_changing_primary_career_gives_proposal_keeping_old_career`, `test_publishing_new_career_version_is_detected` |
+| Áp dụng, giữ bản cũ (Q100) | `test_accept_applies_proposal_and_clears_stale`, `test_accept_with_old_stamp_is_409_and_db_unchanged`, `test_dismiss_hides_banner_until_next_change` |
+| Không khả thi, không 500 | `test_required_course_closed_everywhere_is_infeasible_with_reason_not_500` |
+| DEMO05 đúng HK, ưu tiên nghề chính | `test_demo05_planned_courses_follow_curriculum_semester`, `test_demo05_primary_career_electives_are_preferred`, `test_demo05_thesis_is_last_and_practicum_just_before` |
+| Giao diện | `features/m12/plan/plan.test.jsx` |
