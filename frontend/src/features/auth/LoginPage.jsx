@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { Navigate, useLocation } from 'react-router';
 import BrandLogo from '../../components/BrandLogo';
 import MockNotice from '../../components/MockNotice';
@@ -10,12 +11,15 @@ import {
 } from '../../components/brand/mosaicLayouts';
 import { IMAGES } from '../../constants/images';
 import { useAuth } from './AuthContext';
+import DemoAccounts from './DemoAccounts';
 import LoginForm from './LoginForm';
 import { safeRedirectPath } from './redirect';
 
 export default function LoginPage() {
   const { status } = useAuth();
   const location = useLocation();
+  const [username, setUsername] = useState('');
+  const passwordRef = useRef(null);
 
   if (status === 'authenticated') {
     return <Navigate to={safeRedirectPath(location.state?.from)} replace />;
@@ -43,7 +47,13 @@ export default function LoginPage() {
         <MotifMosaic {...RIGHT_STRIP} className="login-brand__strip" />
       </div>
       <div className="login-panel">
-        <LoginForm />
+        <LoginForm username={username} setUsername={setUsername} passwordRef={passwordRef} />
+        <DemoAccounts
+          onPick={(value) => {
+            setUsername(value);
+            passwordRef.current?.focus();
+          }}
+        />
         <MockNotice />
       </div>
     </main>

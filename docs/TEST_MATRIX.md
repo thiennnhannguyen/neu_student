@@ -224,3 +224,23 @@ File nằm trong `backend/tests/`, trừ dòng ghi rõ `frontend/`.
 | Hai sửa nhỏ | `test_student_id_in_query_is_422_and_writes_nothing`; `test_db_rejects_empty_keys` | `api/m12/test_m12_goal.py`, `unit/db/test_migration_0005.py` |
 | Giao diện: 3 trang, cây bàn phím, SidePanel trả focus, hộp xác nhận, vai trò chỉ xem | Các test trong file | `frontend/src/features/m12/m12Pages.test.jsx` |
 | Màn hình theo DoD: đang tải, trống, lỗi, bàn phím | `đang tải, rồi lỗi có nút thử lại`, `không có kết quả thì báo trống...`, `phím mũi tên, Home, End...`; 375px kiểm tràn ngang bằng Chrome thật, ảnh trong `docs/screenshots/` | `frontend/src/features/m12/m12Pages.test.jsx` |
+
+## CR-03: định hướng nghề theo CTĐT K68
+
+| Yêu cầu | Test |
+|---------|------|
+| Fixture khớp bộ sinh và 2 tài liệu nguồn | `test_committed_fixtures_and_document_match_the_generator`, `test_every_handbook_code_is_in_the_curriculum_of_the_right_program` |
+| 4 CTĐT, nhóm, tín chỉ, học kỳ, BB/TC | `test_four_programs_with_all_groups_verbatim_names_and_thesis`, `test_credits_are_ten_for_thesis_and_three_otherwise`, `test_planned_semester_and_type_follow_the_handbook` |
+| Cảnh báo dữ liệu; Q94 | `test_data_warnings_are_complete`, `test_q94_parallel_course_has_no_code` |
+| Tương đương chỉ cặp cùng tên; Q96 | `test_equivalencies_only_for_ep17_pairs_with_the_same_name` |
+| Thứ tự khuyến nghị không chặn đăng ký | `test_prerequisites_are_only_pedagogical_and_have_no_cycle`, `test_recommended_order_does_not_block_registration_in_m11` |
+| 10 nghề × 5 giai đoạn; mỗi môn đúng 1 giai đoạn | `test_ten_careers_in_handbook_order_with_six_groups`, `test_each_career_has_five_stages`, `test_each_course_is_in_exactly_one_stage_per_program_and_career`, `test_all_versions_pass_publish_validation` |
+| Tính tay % và độ phủ 4 sinh viên | `test_hand_calculated_percent_and_coverage` |
+| Q92; hai dòng cùng 1 mã | `test_q92_course_outside_the_program_has_label_no_code_and_not_in_denominator`, `test_merged_rows_count_once_and_are_not_reported_absent` |
+| Q95 | `test_q95_program_declares_cohorts_and_no_mismatch_warning`, `test_mismatch_warning_still_fires_for_a_cohort_outside_the_declared_range` |
+| Mã hiển thị theo ngành | `test_display_code_follows_program` |
+| % làm tròn half-up, mẫu số 0 | `test_percent_is_half_up_from_exact_fraction`; Vitest `mẫu số 0 hiện "—"` |
+| Lưới thẻ | `test_gallery_*`; Vitest nhóm `lưới thẻ nghề`, `trang lưới thẻ thay trang Xem tất cả (TC10)` |
+| Trang chi tiết | Vitest nhóm `trang chi tiết nghề: Hero`, `tab Lộ trình học`, `SidePanel của môn`, `tab Môn học NEU`, `tab Kỹ năng & dự án`, `đặt làm mục tiêu chính (TC08)` |
+| Minh họa | `illustrations.test.jsx` |
+

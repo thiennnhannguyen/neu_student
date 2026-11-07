@@ -151,7 +151,7 @@ export const PENDING_ITEMS = MENU_GROUPS.flatMap((group) => group.items).filter(
 const CAREER_ROOT = '/m12/dinh-huong';
 const CAREER_SUBPAGES = [
   { prefix: `${CAREER_ROOT}/tat-ca`, label: 'Tất cả nghề' },
-  { prefix: `${CAREER_ROOT}/nghe/`, label: 'Cây nghề' },
+  { prefix: `${CAREER_ROOT}/nghe/`, label: 'Chi tiết nghề' },
 ];
 
 function careerSubpageMeta(pathname) {

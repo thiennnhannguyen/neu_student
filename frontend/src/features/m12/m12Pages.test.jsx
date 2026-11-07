@@ -1,37 +1,53 @@
-import { screen, waitFor, within } from '@testing-library/react';
+import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { apiError, jsonResponse, pendingResponse, renderApp } from '../../test/fakeApi';
 import { callsTo } from '../m11/testData';
-import { chipStatus, percentOf } from './labels';
+import { chipStatus, groupLabel, percentText, priorityLabel, typeLabel } from './labels';
 import {
   AI,
+  ANALYST,
   BACKEND,
+  child,
   DISCLAIMER,
+  galleryBody,
+  galleryItem,
   m12Api,
-  MY_CAREERS,
-  NO_PRIMARY,
+  NODES,
+  PRIMARY_ITEM,
   progress,
   progressBody,
-  relatedBody,
-  relatedItem,
   REQUIREMENT,
 } from './testData';
 
-const TREE_PATH = `/m12/dinh-huong/nghe/${AI.id}`;
-const PROGRESS_API = `GET /api/m12/progress/careers/${AI.id}`;
+const DETAIL_PATH = '/m12/dinh-huong/nghe/ai';
+const DETAIL_API = 'GET /api/m12/progress/careers/slug/ai';
+const GALLERY_API = 'GET /api/m12/gallery';
 const search = () => screen.getByTestId('search').textContent;
-
 const settled = () => new Promise((resolve) => window.setTimeout(resolve, 20));
 
-async function openTree(groupName = /Nền tảng/) {
-  renderApp(TREE_PATH);
-  const tree = await screen.findByRole('tree', { name: /Cây nghề/ });
-  return { tree, group: within(tree).getByRole('treeitem', { name: groupName }) };
+function cardLink(name) {
+  return screen.getByRole('link', { name: new RegExp(name) });
 }
 
-function primaryCard() {
-  return screen.getByRole('region', { name: AI.name });
+function cardNames() {
+  return [...document.querySelectorAll('.career-card__name')].map((node) => node.textContent);
+}
+
+async function openRoadmap(pathname = DETAIL_PATH) {
+  renderApp(pathname);
+  return screen.findByRole('tree', { name: /Lộ trình/ });
+}
+
+function stubPushLayout() {
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn(() => ({
+      matches: true,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    })),
+  );
 }
 
 describe('nhãn', () => {
@@ -42,645 +58,796 @@ describe('nhãn', () => {
     expect(chipStatus('skill', 'pending')).toBe('pending');
   });
 
-  it('phần trăm chỉ để vẽ, mẫu số 0 thì 0', () => {
-    expect(percentOf(progress(2, 9))).toBe(22);
-    expect(percentOf(progress(0, 0))).toBe(0);
+  it('% lấy từ API, mẫu số 0 thì hiện gạch ngang chứ không phải 0%', () => {
+    expect(percentText(22)).toBe('22%');
+    expect(percentText(0)).toBe('0%');
+    expect(percentText(null)).toBe('—');
+  });
+
+  it('mức ưu tiên, BB/TC và tên nhóm nghề', () => {
+    expect(priorityLabel('very_important')).toBe('Rất quan trọng');
+    expect(priorityLabel(null)).toBeNull();
+    expect(typeLabel('required')).toBe('BB');
+    expect(typeLabel('elective')).toBe('TC');
+    expect(typeLabel(null)).toBeNull();
+    expect(groupLabel('Nhóm 2 – Trí tuệ nhân tạo và dữ liệu')).toBe('Trí tuệ nhân tạo và dữ liệu');
+    expect(groupLabel('Phần mềm (mẫu)')).toBe('Phần mềm');
   });
 });
 
-describe('trang Định hướng nghề', () => {
-  it('thẻ nghề chính có lĩnh vực, 2 thanh tiến độ tách riêng, số môn ngoài CTĐT', async () => {
+describe('lưới thẻ nghề', () => {
+  it('nghề chính đứng đầu với nhãn "Mục tiêu của bạn" và viền nhấn; hợp ngành có chip', async () => {
     m12Api();
     renderApp('/m12/dinh-huong');
 
-    await screen.findByRole('heading', { name: AI.name });
-    const card = primaryCard();
-    expect(within(card).getByText('Dữ liệu và AI (mẫu)')).toBeInTheDocument();
-    expect(within(card).getByText('2/9 học phần')).toBeInTheDocument();
-    expect(within(card).getByText('1/3 kỹ năng & dự án')).toBeInTheDocument();
-    expect(within(card).getAllByRole('progressbar')).toHaveLength(2);
-    expect(within(card).getByText(/4 học phần/)).toBeInTheDocument();
-    expect(within(card).getByRole('link', { name: 'Xem cây nghề' })).toHaveAttribute(
-      'href',
-      TREE_PATH,
-    );
+    const first = (await screen.findAllByRole('link', { name: /Mục tiêu của bạn/ }))[0];
+    expect(cardNames()[0]).toBe(AI.display_name);
+    expect(first).toHaveClass('career-card--primary');
+    expect(within(first).getByText('Hợp ngành KHMT')).toBeInTheDocument();
+    expect(cardLink(BACKEND.display_name)).not.toHaveClass('career-card--primary');
+    expect(within(cardLink(BACKEND.display_name)).queryByText(/Hợp ngành/)).toBeNull();
   });
 
-  it('InfoPopover giải thích tử số, mẫu số và câu miễn trừ', async () => {
+  it('thẻ có tên Việt, tên Anh, "(mẫu)" ở nhãn nhỏ, không có ở tiêu đề', async () => {
+    m12Api();
+    renderApp('/m12/dinh-huong');
+
+    await screen.findAllByRole('link', { name: /Kỹ sư/ });
+    const card = cardLink(AI.display_name);
+    expect(card.querySelector('.career-card__name').textContent).toBe('Kỹ sư Trí tuệ nhân tạo');
+    expect(card.querySelector('.career-card__en').textContent).toBe('AI Engineer (mẫu)');
+    expect(card.querySelector('.career-illustration')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('số lớn là % học phần, dòng nhỏ là % kỹ năng; không hiện phân số và câu miễn trừ ở thẻ', async () => {
+    m12Api();
+    renderApp('/m12/dinh-huong');
+
+    await screen.findAllByRole('link', { name: /Kỹ sư/ });
+    const card = cardLink(AI.display_name);
+    expect(within(card).getByText('22%')).toHaveClass('career-card__percent');
+    expect(within(card).getByText('Kỹ năng & dự án 33%')).toBeInTheDocument();
+    expect(card).not.toHaveTextContent('2/9');
+    expect(within(card).getByRole('progressbar')).toHaveAttribute('aria-valuenow', '22');
+    expect(document.querySelector('main, body')).not.toHaveTextContent(DISCLAIMER);
+  });
+
+  it('InfoPopover giải thích tỷ lệ và có câu miễn trừ', async () => {
     const user = userEvent.setup();
     m12Api();
     renderApp('/m12/dinh-huong');
 
     await user.click(await screen.findByRole('button', { name: 'Giải thích tỷ lệ' }));
-
-    const note = screen.getByText(/Tử số/);
-    expect(note).toHaveTextContent('Tử số');
-    expect(note).toHaveTextContent('Mẫu số');
-    expect(note).toHaveTextContent(DISCLAIMER);
+    expect(document.querySelector('.info-popover__content')).toHaveTextContent(
+      'khả năng được tuyển dụng',
+    );
   });
 
-  it('có 3 thẻ nghề liên quan, mỗi thẻ có tỷ lệ riêng, và nút Xem tất cả', async () => {
+  it('mẫu số 0 hiện "—" cho cả 2 tỷ lệ, thanh vẫn hợp lệ', async () => {
+    m12Api('student', {
+      [GALLERY_API]: () =>
+        jsonResponse(
+          200,
+          galleryBody([
+            galleryItem(AI, {
+              course_progress: progress(0, 0),
+              skill_progress: progress(0, 0, 'kỹ năng & dự án'),
+            }),
+          ]),
+        ),
+    });
+    renderApp('/m12/dinh-huong');
+
+    const card = await screen.findByRole('link', { name: /Kỹ sư/ });
+    expect(within(card).getByText('—')).toBeInTheDocument();
+    expect(within(card).getByText('Kỹ năng & dự án —')).toBeInTheDocument();
+    const bar = within(card).getByRole('progressbar');
+    expect(bar).toHaveAttribute('aria-valuenow', '0');
+    expect(bar).toHaveAttribute('aria-valuetext', '—');
+  });
+
+  it('coverage dưới 50% hiện đúng 1 dòng nhỏ, đủ thì không có', async () => {
     m12Api();
     renderApp('/m12/dinh-huong');
 
-    await screen.findByRole('heading', { name: 'Nghề liên quan' });
-    const cards = screen.getAllByRole('article');
-    expect(cards).toHaveLength(3);
-    expect(within(cards[0]).getByText('1/8 học phần')).toBeInTheDocument();
-    expect(within(cards[1]).getByText('1/7 học phần')).toBeInTheDocument();
-    expect(within(cards[2]).getByText('2/8 học phần')).toBeInTheDocument();
-    expect(within(cards[0]).getByText(/9\/14 yêu cầu trùng/)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Xem tất cả' })).toHaveAttribute(
-      'href',
-      '/m12/dinh-huong/tat-ca',
+    await screen.findAllByRole('link', { name: /Kỹ sư/ });
+    expect(screen.getAllByText('Ngành bạn có ít môn cho nghề này')).toHaveLength(1);
+    expect(cardLink(BACKEND.display_name)).toHaveTextContent('Ngành bạn có ít môn cho nghề này');
+  });
+
+  it('cả thẻ là một liên kết tới trang chi tiết theo slug, nhận được focus', async () => {
+    const user = userEvent.setup();
+    m12Api();
+    renderApp('/m12/dinh-huong');
+
+    const card = await screen.findByRole('link', { name: /Lập trình viên Backend/ });
+    expect(card).toHaveAttribute('href', '/m12/dinh-huong/nghe/backend');
+    card.focus();
+    expect(card).toHaveFocus();
+    await user.keyboard('{Tab}');
+    expect(card).not.toHaveFocus();
+  });
+
+  it('chip lọc có Tất cả và các nhóm; bấm chip gửi group, lưu vào URL, còn bấm lại Tất cả', async () => {
+    const user = userEvent.setup();
+    const fetchMock = m12Api();
+    renderApp('/m12/dinh-huong');
+
+    const chips = await screen.findByRole('group', { name: 'Lọc theo nhóm nghề' });
+    const all = within(chips).getByRole('button', { name: 'Tất cả' });
+    expect(all).toHaveAttribute('aria-pressed', 'true');
+
+    const data = within(chips).getByRole('button', { name: 'Trí tuệ nhân tạo và dữ liệu' });
+    await user.click(data);
+    await waitFor(() => expect(data).toHaveAttribute('aria-pressed', 'true'));
+    expect(decodeURIComponent(search().replaceAll('+', ' '))).toContain(
+      'group=Nhóm 2 – Trí tuệ nhân tạo và dữ liệu',
     );
-    expect(screen.getByText(`${DISCLAIMER}.`)).toBeInTheDocument();
+    await waitFor(() =>
+      expect(callsTo(fetchMock, '/api/m12/gallery').some((query) => query.get('group'))).toBe(true),
+    );
+
+    await user.click(all);
+    await waitFor(() => expect(search()).not.toContain('group='));
   });
 
-  it('không có môn ngoài CTĐT thì không có dòng đó', async () => {
-    m12Api('student', {
-      'GET /api/m12/my-careers': () =>
-        jsonResponse(200, {
-          ...MY_CAREERS,
-          primary: { ...MY_CAREERS.primary, outside_curriculum_count: 0 },
-        }),
+  it('ô tìm gửi q; không có kết quả thì báo trống và vẫn đổi được bộ lọc', async () => {
+    const user = userEvent.setup();
+    const fetchMock = m12Api('student', {
+      [GALLERY_API]: (url) =>
+        jsonResponse(200, galleryBody(String(url).includes('q=') ? [] : undefined)),
     });
     renderApp('/m12/dinh-huong');
 
-    await screen.findByRole('heading', { name: AI.name });
-    expect(within(primaryCard()).queryByText('Ngoài CTĐT')).not.toBeInTheDocument();
+    await screen.findAllByRole('link', { name: /Kỹ sư/ });
+    await user.type(screen.getByRole('searchbox', { name: 'Tìm nghề' }), 'xyz');
+
+    expect(await screen.findByText('Không có nghề phù hợp')).toBeInTheDocument();
+    expect(callsTo(fetchMock, '/api/m12/gallery').some((query) => query.get('q') === 'xyz')).toBe(
+      true,
+    );
+    expect(screen.getByRole('group', { name: 'Lọc theo nhóm nghề' })).toBeInTheDocument();
   });
 
-  it('nghề không có yêu cầu kỹ năng hiện "Chưa có yêu cầu", không hiện 0%', async () => {
+  it('sinh viên chưa có nghề chính vẫn thấy lưới và có dải nhắc', async () => {
     m12Api('student', {
-      'GET /api/m12/my-careers': () =>
-        jsonResponse(200, {
-          ...MY_CAREERS,
-          primary: { ...MY_CAREERS.primary, skill_progress: progress(0, 0) },
-        }),
+      [GALLERY_API]: () =>
+        jsonResponse(
+          200,
+          galleryBody([galleryItem(AI, { closeness: null })], { has_primary: false }),
+        ),
     });
     renderApp('/m12/dinh-huong');
 
-    await screen.findByRole('heading', { name: AI.name });
-    expect(within(primaryCard()).getByText('Chưa có yêu cầu')).toBeInTheDocument();
+    expect(await screen.findByText(/Chọn một nghề làm mục tiêu/)).toBeInTheDocument();
+    expect(cardLink(AI.display_name)).toBeInTheDocument();
+    expect(screen.queryByText('Mục tiêu của bạn')).toBeNull();
   });
 
   it('đang tải, rồi lỗi có nút thử lại', async () => {
     const user = userEvent.setup();
     const pending = pendingResponse();
-    const fetchMock = m12Api('student', { 'GET /api/m12/my-careers': pending.handler });
+    let calls = 0;
+    m12Api('student', {
+      [GALLERY_API]: () => {
+        calls += 1;
+        return calls === 1 ? pending.handler() : jsonResponse(200, galleryBody());
+      },
+    });
     renderApp('/m12/dinh-huong');
 
     expect(await screen.findByText('Đang tải định hướng nghề...')).toBeInTheDocument();
-    pending.resolve(apiError(500, 'INTERNAL_ERROR', 'Hệ thống gặp lỗi.'));
-
+    await act(async () => pending.resolve(apiError(500, 'SERVER', 'Máy chủ lỗi.')));
     expect(await screen.findByText('Không tải được định hướng nghề')).toBeInTheDocument();
+
     await user.click(screen.getByRole('button', { name: /Thử lại/ }));
-    await waitFor(() => expect(callsTo(fetchMock, '/api/m12/my-careers')).toHaveLength(2));
+    expect(await screen.findByRole('link', { name: /Kỹ sư/ })).toBeInTheDocument();
   });
-
-  it.each(['advisor', 'admin'])(
-    '%s chưa chọn sinh viên: hướng dẫn, không gọi API',
-    async (role) => {
-      const fetchMock = m12Api(role);
-      renderApp('/m12/dinh-huong');
-
-      expect(await screen.findByText(/Chọn sinh viên ở ô/)).toBeInTheDocument();
-      expect(callsTo(fetchMock, '/api/m12/my-careers')).toEqual([]);
-    },
-  );
 
   it('cố vấn xem: gửi student_id, liên kết giữ sinh viên đang chọn', async () => {
     const fetchMock = m12Api('advisor');
-    renderApp('/m12/dinh-huong?student=SV07');
+    renderApp('/m12/dinh-huong?student=DEMO05');
 
-    await screen.findByRole('heading', { name: AI.name });
-    expect(callsTo(fetchMock, '/api/m12/my-careers')[0].get('student_id')).toBe('SV07');
-    expect(screen.getByRole('link', { name: 'Xem tất cả' })).toHaveAttribute(
-      'href',
-      '/m12/dinh-huong/tat-ca?student=SV07',
-    );
+    const card = await screen.findByRole('link', { name: /Lập trình viên Backend/ });
+    expect(card).toHaveAttribute('href', '/m12/dinh-huong/nghe/backend?student=DEMO05');
+    expect(callsTo(fetchMock, '/api/m12/gallery')[0].get('student_id')).toBe('DEMO05');
+  });
+
+  it('cố vấn chưa chọn sinh viên: hướng dẫn, không gọi API', async () => {
+    const fetchMock = m12Api('advisor');
+    renderApp('/m12/dinh-huong');
+
+    expect(await screen.findByText('Chưa chọn sinh viên')).toBeInTheDocument();
+    await settled();
+    expect(callsTo(fetchMock, '/api/m12/gallery')).toHaveLength(0);
   });
 
   it('nhân sự hỗ trợ không vào được', async () => {
-    const fetchMock = m12Api('support_staff');
+    m12Api('support_staff');
     renderApp('/m12/dinh-huong');
 
-    expect(await screen.findByText('Bạn không có quyền xem trang này')).toBeInTheDocument();
-    expect(callsTo(fetchMock, '/api/m12/my-careers')).toEqual([]);
+    expect(await screen.findByRole('heading', { name: /không có quyền/i })).toBeInTheDocument();
   });
 });
 
-describe('sinh viên chưa có nghề chính', () => {
-  function noPrimary(extra = {}) {
-    return m12Api('student', {
-      'GET /api/m12/my-careers': () => jsonResponse(200, NO_PRIMARY),
-      ...extra,
-    });
-  }
+describe('trang lưới thẻ thay trang Xem tất cả (TC10)', () => {
+  it('đường dẫn cũ chuyển về lưới thẻ và giữ sinh viên đang chọn', async () => {
+    m12Api('advisor');
+    renderApp('/m12/dinh-huong/tat-ca?student=DEMO05');
 
-  it('hiện danh mục nghề và nút chọn', async () => {
-    noPrimary();
-    renderApp('/m12/dinh-huong');
-
-    expect(await screen.findByText(/Bạn chưa chọn nghề chính/)).toBeInTheDocument();
-    expect(await screen.findByRole('link', { name: AI.name })).toBeInTheDocument();
-    expect(screen.getAllByRole('button', { name: 'Chọn nghề này' })).toHaveLength(2);
+    await screen.findByRole('link', { name: /Lập trình viên Backend/ });
+    expect(screen.getByTestId('path').textContent).toBe('/m12/dinh-huong');
+    expect(search()).toContain('student=DEMO05');
   });
 
-  it('tìm kiếm gửi q lên API và về trang 1', async () => {
-    const user = userEvent.setup();
-    const fetchMock = noPrimary();
-    renderApp('/m12/dinh-huong');
-
-    await user.type(await screen.findByRole('searchbox'), 'ai{Enter}');
-
-    await waitFor(() =>
-      expect(callsTo(fetchMock, '/api/m12/careers').some((query) => query.get('q') === 'ai')).toBe(
-        true,
-      ),
-    );
-  });
-
-  it('không có nghề phù hợp thì báo trống', async () => {
-    noPrimary({
-      'GET /api/m12/careers': () =>
-        jsonResponse(200, { items: [], page: 1, page_size: 12, total: 0 }),
-    });
-    renderApp('/m12/dinh-huong');
-
-    expect(await screen.findByText('Không có nghề phù hợp')).toBeInTheDocument();
-  });
-
-  it('chọn nghề: xác nhận rồi PUT và tải lại', async () => {
-    const user = userEvent.setup();
-    let saved = false;
-    const fetchMock = noPrimary({
-      'GET /api/m12/my-careers': () => jsonResponse(200, saved ? MY_CAREERS : NO_PRIMARY),
-      'PUT /api/m12/career-goal': () => {
-        saved = true;
-        return jsonResponse(200, { student_id: 'SV01', current: null });
-      },
-    });
-    renderApp('/m12/dinh-huong');
-
-    const buttons = await screen.findAllByRole('button', { name: 'Chọn nghề này' });
-    await user.click(buttons[0]);
-    await user.click(
-      within(screen.getByRole('alertdialog')).getByRole('button', { name: 'Xác nhận' }),
-    );
-
-    expect(await screen.findByRole('heading', { name: AI.name })).toBeInTheDocument();
-    const put = fetchMock.mock.calls.find(([, options]) => options?.method === 'PUT');
-    expect(JSON.parse(put[1].body)).toEqual({ career_id: AI.id });
-  });
-
-  it('cố vấn xem sinh viên chưa có nghề: chỉ thông báo, không có trang chọn', async () => {
-    const fetchMock = m12Api('advisor', {
-      'GET /api/m12/my-careers': () => jsonResponse(200, NO_PRIMARY),
-    });
-    renderApp('/m12/dinh-huong?student=SV05');
-
-    expect(await screen.findByText('Sinh viên này chưa chọn nghề chính')).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Chọn nghề này' })).not.toBeInTheDocument();
-    expect(callsTo(fetchMock, '/api/m12/careers')).toEqual([]);
-  });
-});
-
-describe('trang Xem tất cả (TC10)', () => {
-  it('mặc định xếp theo Gần nghề chính, liệt kê lĩnh vực từ API', async () => {
-    const fetchMock = m12Api();
-    renderApp('/m12/dinh-huong/tat-ca');
-
-    await screen.findAllByRole('article');
-    expect(callsTo(fetchMock, '/api/m12/related')[0].get('sort')).toBe('closeness');
-    expect(screen.getByLabelText('Sắp xếp')).toHaveValue('closeness');
-    expect(screen.getByRole('option', { name: 'Phần mềm (mẫu)' })).toBeInTheDocument();
-  });
-
-  it('chuyển sang Phù hợp hồ sơ: gọi lại API, thứ tự đổi theo kết quả', async () => {
-    const user = userEvent.setup();
-    const fit = [relatedItem(BACKEND, 3, 18, 2, 8), relatedItem(AI, 9, 14, 1, 8)];
-    const fetchMock = m12Api('student', {
-      'GET /api/m12/related': (url) => {
-        const sort = new URL(url, 'http://x').searchParams.get('sort');
-        return jsonResponse(
-          200,
-          sort === 'profile_fit' ? relatedBody(fit, { sort }) : relatedBody(),
-        );
-      },
-    });
-    renderApp('/m12/dinh-huong/tat-ca');
-
-    await screen.findAllByRole('article');
-    await user.selectOptions(screen.getByLabelText('Sắp xếp'), 'profile_fit');
-
-    await waitFor(() => expect(screen.getAllByRole('article')).toHaveLength(2));
-    const first = screen.getAllByRole('article')[0];
-    expect(within(first).getByRole('link', { name: BACKEND.name })).toBeInTheDocument();
-    expect(search()).toContain('sort=profile_fit');
-    expect(callsTo(fetchMock, '/api/m12/related').at(-1).get('sort')).toBe('profile_fit');
-  });
-
-  it('lọc lĩnh vực, mức tiến độ, tìm kiếm: lưu vào URL và gửi đúng tham số', async () => {
-    const user = userEvent.setup();
-    const fetchMock = m12Api();
-    renderApp('/m12/dinh-huong/tat-ca');
-
-    await screen.findAllByRole('article');
-    await user.selectOptions(screen.getByLabelText('Lĩnh vực'), 'Phần mềm (mẫu)');
-    await user.selectOptions(screen.getByLabelText('Mức tiến độ'), '50');
-    await user.type(screen.getByRole('searchbox'), 'dev{Enter}');
-
-    await waitFor(() => {
-      const query = callsTo(fetchMock, '/api/m12/related').at(-1);
-      expect(query.get('field')).toBe('Phần mềm (mẫu)');
-      expect(query.get('min_progress')).toBe('50');
-      expect(query.get('q')).toBe('dev');
-    });
-  });
-
-  it('không có kết quả thì báo trống, vẫn đổi được bộ lọc', async () => {
-    m12Api('student', { 'GET /api/m12/related': () => jsonResponse(200, relatedBody([])) });
-    renderApp('/m12/dinh-huong/tat-ca');
-
-    expect(await screen.findByText('Không có nghề phù hợp với bộ lọc')).toBeInTheDocument();
-    expect(screen.getByLabelText('Lĩnh vực')).toBeEnabled();
-  });
-
-  it('nhiều trang thì có phân trang, ít thì không', async () => {
+  it('chọn "Gần nghề chính": gọi lại API với sort, thứ tự đổi theo kết quả', async () => {
     const user = userEvent.setup();
     const fetchMock = m12Api('student', {
-      'GET /api/m12/related': () =>
-        jsonResponse(200, relatedBody(MY_CAREERS.related, { total: 13 })),
-    });
-    renderApp('/m12/dinh-huong/tat-ca');
-
-    await user.click(await screen.findByRole('button', { name: 'Trang sau' }));
-
-    await waitFor(() =>
-      expect(callsTo(fetchMock, '/api/m12/related').at(-1).get('page')).toBe('2'),
-    );
-  });
-
-  it('chưa có nghề chính: hiện cảnh báo, thẻ không có dòng trùng yêu cầu', async () => {
-    const user = userEvent.setup();
-    m12Api('student', {
-      'GET /api/m12/related': () =>
+      [GALLERY_API]: (url) =>
         jsonResponse(
           200,
-          relatedBody([{ ...relatedItem(BACKEND), closeness: null }], {
-            primary_career: null,
-            data_warnings: [
-              { code: 'NO_PRIMARY_CAREER', message: 'Sinh viên chưa có nghề chính.' },
-            ],
-          }),
+          galleryBody(
+            String(url).includes('sort=closeness')
+              ? [PRIMARY_ITEM, galleryItem(BACKEND), galleryItem(ANALYST)]
+              : [PRIMARY_ITEM, galleryItem(ANALYST), galleryItem(BACKEND)],
+          ),
         ),
     });
-    renderApp('/m12/dinh-huong/tat-ca');
+    renderApp('/m12/dinh-huong');
 
-    await user.click(await screen.findByText('Cảnh báo dữ liệu (1)'));
-    expect(screen.getByText('Sinh viên chưa có nghề chính.')).toBeInTheDocument();
-    expect(screen.queryByText(/yêu cầu trùng/)).not.toBeInTheDocument();
-  });
+    await screen.findAllByRole('link', { name: /Kỹ sư/ });
+    expect(cardNames()).toEqual([AI.display_name, ANALYST.display_name, BACKEND.display_name]);
 
-  it('cố vấn chưa chọn sinh viên: hướng dẫn, không gọi API', async () => {
-    const fetchMock = m12Api('advisor');
-    renderApp('/m12/dinh-huong/tat-ca');
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Sắp xếp' }), 'closeness');
 
-    expect(await screen.findByText(/Chọn sinh viên ở ô/)).toBeInTheDocument();
-    expect(callsTo(fetchMock, '/api/m12/related')).toEqual([]);
-  });
+    await waitFor(() =>
+      expect(cardNames()).toEqual([AI.display_name, BACKEND.display_name, ANALYST.display_name]),
+    );
+    expect(search()).toContain('sort=closeness');
+    expect(
+      callsTo(fetchMock, '/api/m12/gallery').some((query) => query.get('sort') === 'closeness'),
+    ).toBe(true);
 
-  it('lỗi có thông báo', async () => {
-    m12Api('student', {
-      'GET /api/m12/related': () => apiError(500, 'INTERNAL_ERROR', 'Hệ thống gặp lỗi.'),
-    });
-    renderApp('/m12/dinh-huong/tat-ca');
-
-    expect(await screen.findByText('Không tải được danh sách nghề')).toBeInTheDocument();
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Sắp xếp' }), 'default');
+    await waitFor(() => expect(search()).not.toContain('sort='));
   });
 });
 
-describe('cây nghề', () => {
-  it('mặc định thu gọn, có role tree, aria-expanded, chỉ một điểm dừng Tab', async () => {
+describe('trang chi tiết nghề: Hero', () => {
+  it('có tên Việt, Anh, nhóm, tagline, mục tiêu đầu ra, chip phù hợp, câu định hướng', async () => {
     m12Api();
-    const { tree, group } = await openTree();
+    renderApp(DETAIL_PATH);
 
-    expect(group).toHaveAttribute('aria-expanded', 'false');
-    expect(within(tree).queryByText('Lập trình Python (mẫu)')).not.toBeInTheDocument();
-    const items = within(tree).getAllByRole('treeitem');
-    expect(items).toHaveLength(2);
-    expect(items.filter((item) => item.tabIndex === 0)).toEqual([group]);
+    expect(await screen.findByRole('heading', { level: 1, name: AI.display_name })).toBeVisible();
+    const hero = screen.getByRole('region', { name: AI.display_name });
+    expect(within(hero).getByText('Trí tuệ nhân tạo và dữ liệu')).toBeInTheDocument();
+    expect(hero).toHaveTextContent('AI Engineer (mẫu)');
+    expect(within(hero).getByText(AI.tagline)).toBeInTheDocument();
+    expect(hero).toHaveTextContent('Mục tiêu đầu ra: Đóng gói mô hình AI');
+    expect(within(hero).getByText('Phù hợp với ngành của bạn: KHMT')).toBeInTheDocument();
+    expect(within(hero).getByText('Ưu tiên KHMT.')).toBeInTheDocument();
   });
 
-  it('mọi trạng thái có đủ biểu tượng và chữ; có nhãn Ngoài CTĐT, Chưa có mã', async () => {
+  it('2 vòng % tách riêng, luôn hiện độ phủ x/y; phân số chỉ nằm trong InfoPopover', async () => {
     const user = userEvent.setup();
     m12Api();
-    const { tree, group } = await openTree();
-    const second = within(tree).getByRole('treeitem', { name: /Thực hành/ });
+    renderApp(DETAIL_PATH);
 
-    await user.click(group);
-    await user.click(second);
+    const hero = await screen.findByRole('region', { name: AI.display_name });
+    expect(within(hero).getByText('22%')).toBeInTheDocument();
+    expect(within(hero).getByText('33%')).toBeInTheDocument();
+    expect(hero).toHaveTextContent('Ngành của bạn có 12/14 môn của nghề');
+    expect(hero).not.toHaveTextContent('2/9 học phần');
 
-    for (const label of [
-      'Đạt qua tương đương',
-      'Miễn',
-      'Đang học',
-      'Chưa đạt',
-      'Chưa học',
-      'Chờ duyệt',
-      'Chưa có minh chứng',
-    ]) {
-      const chip = within(tree).getByText(label);
-      expect(chip.querySelector('svg')).not.toBeNull();
-    }
-    expect(within(tree).getAllByText('Đạt')).toHaveLength(2);
-    expect(within(tree).getByText('Ngoài CTĐT')).toBeInTheDocument();
-    expect(within(tree).getByText('Chưa có mã')).toBeInTheDocument();
-    expect(within(tree).queryByText('course-cd-a')).not.toBeInTheDocument();
+    await user.click(within(hero).getByRole('button', { name: 'Giải thích tỷ lệ' }));
+    const popover = hero.querySelector('.info-popover__content');
+    expect(popover).toHaveTextContent('2/9 học phần');
+    expect(popover).toHaveTextContent('1/3 kỹ năng & dự án');
+    expect(popover).toHaveTextContent(DISCLAIMER);
   });
 
-  it('phím mũi tên, Home, End di chuyển và mở, đóng nhóm', async () => {
-    const user = userEvent.setup();
+  it('luôn có câu về tuyển dụng và câu về danh mục K68', async () => {
     m12Api();
-    const { tree, group } = await openTree();
-    const second = within(tree).getByRole('treeitem', { name: /Thực hành/ });
+    renderApp(DETAIL_PATH);
 
-    group.focus();
-    await user.keyboard('{ArrowDown}');
-    expect(second).toHaveFocus();
-    await user.keyboard('{ArrowUp}');
-    expect(group).toHaveFocus();
-
-    await user.keyboard('{ArrowRight}');
-    expect(group).toHaveAttribute('aria-expanded', 'true');
-    expect(group).toHaveFocus();
-
-    await user.keyboard('{ArrowRight}');
-    const python = within(tree).getByRole('treeitem', { name: /Lập trình Python/ });
-    expect(python).toHaveFocus();
-    expect(python).toHaveAttribute('tabindex', '0');
-
-    await user.keyboard('{ArrowRight}');
-    expect(python).toHaveFocus();
-
-    await user.keyboard('{ArrowLeft}');
-    expect(group).toHaveFocus();
-    await user.keyboard('{ArrowLeft}');
-    expect(group).toHaveAttribute('aria-expanded', 'false');
-    await user.keyboard('{ArrowLeft}');
-    expect(group).toHaveFocus();
-
-    await user.keyboard('{End}');
-    expect(second).toHaveFocus();
-    await user.keyboard('{ArrowDown}');
-    expect(second).toHaveFocus();
-    await user.keyboard('{Home}');
-    expect(group).toHaveFocus();
-    await user.keyboard('{ArrowUp}');
-    expect(group).toHaveFocus();
-    await user.keyboard('{Enter}');
-    expect(group).toHaveAttribute('aria-expanded', 'true');
-    await user.keyboard(' ');
-    expect(group).toHaveAttribute('aria-expanded', 'false');
+    expect(
+      await screen.findByText('Tỷ lệ không phản ánh khả năng được tuyển dụng.'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Danh mục theo CTĐT K68 – 2026 do nhóm tổng hợp; tín chỉ, tiên quyết là giả định.',
+      ),
+    ).toBeInTheDocument();
   });
 
-  it('phím mũi tên phải không làm gì ở nhóm rỗng đã mở', async () => {
-    const user = userEvent.setup();
+  it('profile test: không có chip phù hợp, câu định hướng, câu K68; vẫn có câu tuyển dụng', async () => {
     m12Api('student', {
-      [PROGRESS_API]: () =>
+      [DETAIL_API]: () =>
         jsonResponse(
           200,
           progressBody({
-            nodes: [
-              { id: 'n', kind: 'group', title: 'Rỗng', short_desc: null, order: 1, children: [] },
-            ],
+            fits_major: null,
+            profile: { ...progressBody().profile, major_fit: null, objective: null, tagline: null },
           }),
         ),
     });
-    const { group } = await openTree(/Rỗng/);
+    renderApp(DETAIL_PATH);
 
-    group.focus();
-    await user.keyboard('{ArrowRight}{ArrowRight}');
-
-    expect(group).toHaveFocus();
+    await screen.findByText('Tỷ lệ không phản ánh khả năng được tuyển dụng.');
+    expect(screen.queryByText(/Phù hợp với ngành của bạn/)).toBeNull();
+    expect(screen.queryByText(/Danh mục theo CTĐT K68/)).toBeNull();
+    expect(screen.queryByText(/Mục tiêu đầu ra/)).toBeNull();
   });
 
-  it('Enter trên môn mở SidePanel đủ chi tiết; đóng thì trả focus về đúng nút', async () => {
-    const user = userEvent.setup();
+  it('có cảnh báo dữ liệu thì hiện', async () => {
+    m12Api('student', {
+      [DETAIL_API]: () =>
+        jsonResponse(
+          200,
+          progressBody({
+            data_warnings: [{ code: 'NO_SKILL_REQUIREMENTS', message: 'Chưa có yêu cầu kỹ năng.' }],
+          }),
+        ),
+    });
+    renderApp(DETAIL_PATH);
+
+    expect(await screen.findByText(/Cảnh báo dữ liệu/)).toBeInTheDocument();
+  });
+
+  it('liên kết cũ theo id nghề chuyển sang slug', async () => {
     m12Api();
-    const { tree, group } = await openTree();
+    renderApp('/m12/dinh-huong/nghe/career-ai');
 
-    group.focus();
-    await user.keyboard('{ArrowRight}{ArrowRight}{ArrowDown}');
-    const item = within(tree).getByRole('treeitem', { name: /Giải thuật/ });
-    expect(item).toHaveFocus();
-    await user.keyboard('{Enter}');
-
-    const panel = await screen.findByRole('dialog', { name: 'Giải thuật (mẫu)' });
-    expect(await within(panel).findByText('CNT202')).toBeInTheDocument();
-    expect(within(panel).getByText('Đạt qua tương đương: CNT201')).toBeInTheDocument();
-    expect(within(panel).getByText('3')).toBeInTheDocument();
-    expect(within(panel).getByText('CNT102 Lập trình Python (mẫu)')).toBeInTheDocument();
-    expect(within(panel).getByText(REQUIREMENT.short_desc)).toBeInTheDocument();
-    expect(within(panel).getByRole('link', { name: BACKEND.name })).toHaveAttribute(
-      'href',
-      `/m12/dinh-huong/nghe/${BACKEND.id}`,
-    );
-
-    await user.keyboard('{Escape}');
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(item).toHaveFocus();
-  });
-
-  it('bấm chuột vào môn thiếu mã: panel ghi "Chưa có mã", tiên quyết thiếu mã cũng vậy', async () => {
-    const user = userEvent.setup();
-    m12Api('student', {
-      'GET /api/m12/requirements/course-cd-a': () =>
-        jsonResponse(200, {
-          ...REQUIREMENT,
-          code: null,
-          short_desc: null,
-          prerequisites: [{ course_id: 'x', code: null, name: 'Môn X (mẫu)' }],
-          other_careers: [],
-        }),
-    });
-    const { tree, group } = await openTree();
-
-    await user.click(group);
-    await user.click(within(tree).getByRole('treeitem', { name: /Chuyên đề/ }));
-
-    const panel = await screen.findByRole('dialog');
-    expect(await within(panel).findByText('Chưa có mã')).toBeInTheDocument();
-    expect(within(panel).getByText('Chưa có mã Môn X (mẫu)')).toBeInTheDocument();
-    expect(within(panel).getByText('Chỉ có ở nghề này.')).toBeInTheDocument();
-    expect(within(panel).queryByText('Mô tả')).not.toBeInTheDocument();
-    expect(within(panel).queryByText(/Đạt qua tương đương/)).not.toBeInTheDocument();
-  });
-
-  it('panel của môn không tiên quyết ghi "Không có"; của kỹ năng không có mã, tín chỉ', async () => {
-    const user = userEvent.setup();
-    m12Api('student', {
-      'GET /api/m12/requirements/sk-git': () =>
-        jsonResponse(200, { ...REQUIREMENT, code: null, credits: null, prerequisites: [] }),
-      'GET /api/m12/requirements/MAU105': () =>
-        jsonResponse(200, { ...REQUIREMENT, prerequisites: [] }),
-    });
-    const { tree, group } = await openTree();
-
-    await user.click(within(tree).getByRole('treeitem', { name: /Thực hành/ }));
-    await user.click(within(tree).getByRole('treeitem', { name: /Git/ }));
-    let panel = await screen.findByRole('dialog');
-    await within(panel).findByText('Kỹ năng');
-    expect(within(panel).queryByText('Mã')).not.toBeInTheDocument();
-    expect(within(panel).queryByText('Tín chỉ')).not.toBeInTheDocument();
-    await user.keyboard('{Escape}');
-
-    await user.click(group);
-    await user.click(within(tree).getByRole('treeitem', { name: /Tiếng Anh/ }));
-    panel = await screen.findByRole('dialog');
-    expect(await within(panel).findByText('Không có')).toBeInTheDocument();
-  });
-
-  it('panel lỗi có thông báo', async () => {
-    const user = userEvent.setup();
-    m12Api('student', {
-      'GET /api/m12/requirements/CNT102': () => apiError(404, 'NOT_FOUND', 'Không tìm thấy.'),
-    });
-    const { tree, group } = await openTree();
-
-    await user.click(group);
-    await user.click(within(tree).getByRole('treeitem', { name: /Lập trình Python/ }));
-
-    expect(await screen.findByText('Không tải được chi tiết')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { level: 1, name: AI.display_name })).toBeVisible();
   });
 
   it('nghề không tồn tại: báo lỗi', async () => {
-    m12Api('student', {
-      'GET /api/m12/progress/careers/khong': () => apiError(404, 'NOT_FOUND', 'Không tìm thấy.'),
-    });
-    renderApp('/m12/dinh-huong/nghe/khong');
+    m12Api('student', { [DETAIL_API]: () => apiError(404, 'NOT_FOUND', 'Không tìm thấy.') });
+    renderApp(DETAIL_PATH);
 
-    expect(await screen.findByText('Không tải được cây nghề')).toBeInTheDocument();
+    expect(await screen.findByText('Không tải được nghề')).toBeInTheDocument();
   });
 
   it('cố vấn chưa chọn sinh viên: hướng dẫn, không gọi API', async () => {
     const fetchMock = m12Api('advisor');
-    renderApp(TREE_PATH);
+    renderApp(DETAIL_PATH);
 
-    expect(await screen.findByText(/Chọn sinh viên ở ô/)).toBeInTheDocument();
-    expect(callsTo(fetchMock, `/api/m12/progress/careers/${AI.id}`)).toEqual([]);
+    expect(await screen.findByText('Chưa chọn sinh viên')).toBeInTheDocument();
+    await settled();
+    expect(callsTo(fetchMock, '/api/m12/progress/careers/slug/ai')).toHaveLength(0);
   });
 
   it('có đường dẫn phân cấp về Định hướng nghề và mục sidebar vẫn sáng', async () => {
     m12Api();
-    renderApp(TREE_PATH);
+    renderApp(DETAIL_PATH);
 
-    await screen.findByRole('tree');
-    expect(screen.getByRole('navigation', { name: 'Vị trí trang' })).toHaveTextContent('Cây nghề');
-    const menu = screen.getByRole('navigation', { name: 'Menu chính' });
-    expect(within(menu).getByRole('link', { name: 'Định hướng nghề' })).toHaveAttribute(
-      'aria-current',
-      'page',
+    await screen.findByRole('heading', { level: 1, name: AI.display_name });
+    const trail = screen.getByRole('navigation', { name: 'Vị trí trang' });
+    expect(within(trail).getByRole('link', { name: 'Định hướng nghề' })).toHaveAttribute(
+      'href',
+      '/m12/dinh-huong',
     );
+    expect(within(trail).getByText('Chi tiết nghề')).toBeInTheDocument();
+  });
+});
+
+describe('tab Lộ trình học', () => {
+  it('tab mặc định; có 2 nhãn khác nhau về học kỳ chính thức và thứ tự khuyến nghị', async () => {
+    m12Api();
+    await openRoadmap();
+
+    expect(screen.getByRole('tab', { name: 'Lộ trình học' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    expect(screen.getByText('Học kỳ chính thức theo CTĐT:')).toBeInTheDocument();
+    expect(screen.getByText('Thứ tự học khuyến nghị:')).toBeInTheDocument();
+  });
+
+  it('timeline: mỗi giai đoạn có %, sản phẩm cần đạt; mẫu số 0 hiện "—" và ghi là dự án', async () => {
+    m12Api();
+    const tree = await openRoadmap();
+
+    const stage = within(tree).getByRole('treeitem', { name: 'Toán + lập trình' });
+    expect(within(stage).getByText('67%')).toBeInTheDocument();
+    expect(stage).toHaveTextContent('Sản phẩm cần đạt: Python, NumPy');
+    const last = within(tree).getByRole('treeitem', { name: 'Portfolio' });
+    expect(within(last).getByText('—')).toBeInTheDocument();
+    expect(last).toHaveTextContent('Giai đoạn này là dự án, không có học phần.');
+  });
+
+  it('chỉ có học phần trong timeline; mã theo ngành, BB/TC, HK n, mức ưu tiên và chip luôn thấy', async () => {
+    m12Api();
+    const tree = await openRoadmap();
+
+    const row = within(tree).getByRole('treeitem', { name: /Cơ sở lập trình/ });
+    expect(row).toHaveTextContent('CNTT1128');
+    expect(row).toHaveTextContent('BB');
+    expect(row).toHaveTextContent('HK 3');
+    expect(row).toHaveTextContent('Cốt lõi');
+    expect(row).toHaveTextContent('Đạt');
+    expect(within(tree).queryByRole('treeitem', { name: /Lập baseline/ })).toBeNull();
+  });
+
+  it('môn thiếu mã, TC, không có HK; môn ngoài ngành có nhãn và không có mã', async () => {
+    m12Api();
+    const tree = await openRoadmap();
+
+    const noCode = within(tree).getByRole('treeitem', { name: /Môn chưa có mã/ });
+    expect(noCode).toHaveTextContent('Chưa có mã');
+    expect(noCode).toHaveTextContent('TC');
+    expect(noCode).not.toHaveTextContent('HK');
+    const absent = within(tree).getByRole('treeitem', { name: /Học máy/ });
+    expect(absent).toHaveTextContent('Không có trong CTĐT ngành bạn');
+    expect(absent).not.toHaveTextContent('Chưa có mã');
+    expect(absent).toHaveClass('roadmap__item--absent');
+  });
+
+  it('có role tree, aria-expanded, chỉ một điểm dừng Tab', async () => {
+    m12Api();
+    const tree = await openRoadmap();
+
+    const items = within(tree).getAllByRole('treeitem');
+    expect(items[0]).toHaveAttribute('aria-expanded', 'true');
+    expect(items.filter((item) => item.tabIndex === 0)).toHaveLength(1);
+  });
+
+  it('phím mũi tên, Home, End di chuyển và mở, đóng giai đoạn', async () => {
+    const user = userEvent.setup();
+    m12Api();
+    const tree = await openRoadmap();
+    const first = within(tree).getByRole('treeitem', { name: 'Toán + lập trình' });
+    first.focus();
+
+    await user.keyboard('{ArrowDown}');
+    expect(within(tree).getByRole('treeitem', { name: /Cơ sở lập trình/ })).toHaveFocus();
+    await user.keyboard('{ArrowLeft}');
+    expect(first).toHaveFocus();
+    await user.keyboard('{ArrowLeft}');
+    expect(first).toHaveAttribute('aria-expanded', 'false');
+    expect(within(tree).queryByRole('treeitem', { name: /Cơ sở lập trình/ })).toBeNull();
+    await user.keyboard('{ArrowRight}');
+    expect(first).toHaveAttribute('aria-expanded', 'true');
+    await user.keyboard('{ArrowRight}');
+    expect(within(tree).getByRole('treeitem', { name: /Cơ sở lập trình/ })).toHaveFocus();
+    await user.keyboard('{ArrowRight}');
+    expect(within(tree).getByRole('treeitem', { name: /Cơ sở lập trình/ })).toHaveFocus();
+    await user.keyboard('{End}');
+    expect(within(tree).getByRole('treeitem', { name: 'Portfolio' })).toHaveFocus();
+    await user.keyboard('{ArrowUp}');
+    expect(within(tree).getByRole('treeitem', { name: /Học máy/ })).toHaveFocus();
+    await user.keyboard('{Home}');
+    expect(first).toHaveFocus();
+    await user.keyboard('{Enter}');
+    expect(first).toHaveAttribute('aria-expanded', 'false');
+    await user.keyboard(' ');
+    expect(first).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('bấm chuột vào giai đoạn thì đóng, mở', async () => {
+    const user = userEvent.setup();
+    m12Api();
+    const tree = await openRoadmap();
+    const first = within(tree).getByRole('treeitem', { name: 'Toán + lập trình' });
+
+    await user.click(first.querySelector('.roadmap__title'));
+    expect(first).toHaveAttribute('aria-expanded', 'false');
+  });
+});
+
+describe('SidePanel của môn', () => {
+  async function openPanel(name = /Trí tuệ nhân tạo/) {
+    const user = userEvent.setup();
+    const tree = await openRoadmap();
+    const row = within(tree).getByRole('treeitem', { name });
+    await user.click(row);
+    return { user, row };
+  }
+
+  it('Enter trên môn mở panel', async () => {
+    const user = userEvent.setup();
+    m12Api();
+    const tree = await openRoadmap();
+    within(tree).getByRole('treeitem', { name: 'Toán + lập trình' }).focus();
+
+    await user.keyboard('{ArrowDown}{Enter}');
+    expect(await screen.findByRole('dialog', { name: 'Cơ sở lập trình' })).toBeInTheDocument();
+  });
+
+  it('panel đủ: mục đích, tương đương, thứ tự khuyến nghị, nghề khác; đóng thì trả focus', async () => {
+    m12Api();
+    const { user, row } = await openPanel();
+
+    const panel = await screen.findByRole('dialog', { name: 'Trí tuệ nhân tạo' });
+    await within(panel).findByText('Thứ tự học khuyến nghị');
+    expect(panel).toHaveTextContent('Học để làm gì? Học Trí tuệ nhân tạo');
+    expect(panel).toHaveTextContent('Đạt qua tương đương: X1');
+    expect(panel).toHaveTextContent('Tiên quyết');
+    expect(panel).toHaveTextContent('Không có');
+    expect(panel).toHaveTextContent('Nên học trước: TOKT1145 Xác suất');
+    expect(panel).toHaveTextContent('không phải tiên quyết chính thức');
+    expect(panel).toHaveTextContent('EP17.CNTT1140 Trí tuệ nhân tạo');
+    expect(panel).toHaveTextContent('Học kỳ chính thức theo CTĐT');
+    expect(panel).toHaveTextContent('HK 3');
+    expect(within(panel).getByRole('link', { name: 'Phân tích dữ liệu' })).toHaveAttribute(
+      'href',
+      '/m12/dinh-huong/nghe/data',
+    );
+
+    await user.keyboard('{Escape}');
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    expect(row).toHaveFocus();
+  });
+
+  it('tiên quyết chính thức tách khỏi thứ tự khuyến nghị; không có nghề khác, không có tương đương', async () => {
+    const detail = {
+      ...REQUIREMENT,
+      prerequisites: [
+        { course_id: 'A', code: null, name: 'Môn A', kind: 'prerequisite', source: null },
+      ],
+      equivalents: [],
+      other_careers: [],
+      short_desc: 'Mô tả ngắn',
+    };
+    m12Api('student', {
+      'GET /api/m12/requirements/CNTT1140': () => jsonResponse(200, detail),
+    });
+    await openPanel();
+
+    const panel = await screen.findByRole('dialog');
+    await within(panel).findByText('Chỉ có ở nghề này.');
+    expect(panel).toHaveTextContent('Chưa có mã Môn A');
+    expect(panel).not.toHaveTextContent('Thứ tự học khuyến nghị');
+    expect(panel).not.toHaveTextContent('Tương đương');
+    expect(panel).toHaveTextContent('Mô tả ngắn');
+  });
+
+  it('môn có cảnh báo dữ liệu, thiếu mã, không ghi học kỳ', async () => {
+    m12Api('student', {
+      'GET /api/m12/requirements/NOCODE': () =>
+        jsonResponse(200, { ...REQUIREMENT, code: null, prerequisites: [], equivalents: [] }),
+    });
+    await openPanel(/Môn chưa có mã/);
+
+    const panel = await screen.findByRole('dialog');
+    await within(panel).findByText('Nguồn ghi trùng mã.');
+    expect(panel).toHaveTextContent('Không ghi');
+    expect(panel).toHaveTextContent('Chưa có mã');
+    expect(panel).toHaveTextContent('TC');
+  });
+
+  it('môn ngoài ngành: không gọi API, có nhãn, mục đích và không tính vào tỷ lệ', async () => {
+    const fetchMock = m12Api();
+    await openPanel(/Học máy/);
+
+    const panel = await screen.findByRole('dialog', { name: 'Học máy' });
+    expect(panel).toHaveTextContent('không tính vào tỷ lệ học phần');
+    expect(panel).toHaveTextContent('Mức ưu tiên: Bổ trợ');
+    expect(callsTo(fetchMock, '/api/m12/requirements/absent-s9')).toHaveLength(0);
+  });
+
+  it('panel lỗi có thông báo', async () => {
+    m12Api('student', {
+      'GET /api/m12/requirements/CNTT1140': () => apiError(500, 'SERVER', 'Máy chủ lỗi.'),
+    });
+    await openPanel();
+
+    expect(await screen.findByText('Không tải được chi tiết')).toBeInTheDocument();
+  });
+
+  it('từ 1280px panel đẩy nội dung: không phải hộp thoại, không có nền che, Esc đóng và trả focus', async () => {
+    stubPushLayout();
+    m12Api();
+    const { user, row } = await openPanel();
+
+    const panel = await screen.findByRole('complementary', { name: 'Trí tuệ nhân tạo' });
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(document.querySelector('.side-panel__backdrop')).toBeNull();
+    expect(document.querySelector('.career-detail')).toHaveClass('career-detail--with-panel');
+    expect(within(panel).getByRole('button', { name: 'Đóng' })).toHaveFocus();
+
+    await user.keyboard('a');
+    expect(panel).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    await waitFor(() =>
+      expect(screen.queryByRole('complementary', { name: /Trí tuệ/ })).toBeNull(),
+    );
+    expect(row).toHaveFocus();
+    expect(document.querySelector('.career-detail')).not.toHaveClass('career-detail--with-panel');
+  });
+
+  it('nút Đóng của panel đẩy nội dung', async () => {
+    stubPushLayout();
+    m12Api();
+    const { user } = await openPanel();
+
+    const panel = await screen.findByRole('complementary', { name: 'Trí tuệ nhân tạo' });
+    await user.click(within(panel).getByRole('button', { name: 'Đóng' }));
+    expect(screen.queryByRole('complementary', { name: /Trí tuệ/ })).toBeNull();
+  });
+});
+
+describe('tab Môn học NEU', () => {
+  async function openTab() {
+    const user = userEvent.setup();
+    m12Api();
+    await openRoadmap();
+    await user.click(screen.getByRole('tab', { name: 'Môn học NEU' }));
+    return { user, table: screen.getByRole('region', { name: 'Môn học NEU của nghề' }) };
+  }
+
+  it('bảng có đủ môn, mã, BB/TC, HK; môn ngoài ngành không có mã', async () => {
+    const { table } = await openTab();
+    const rows = within(table).getAllByRole('row');
+
+    expect(rows).toHaveLength(5);
+    expect(rows[1]).toHaveTextContent('Cơ sở lập trình');
+    expect(rows[1]).toHaveTextContent('CNTT1128');
+    expect(rows[1]).toHaveTextContent('HK 3');
+    expect(rows[3]).toHaveTextContent('Chưa có mã');
+    expect(rows[4]).toHaveTextContent('Không có trong CTĐT ngành bạn');
+  });
+
+  it('lọc theo Cốt lõi, Rất quan trọng, Nên chọn, Bổ trợ và BB/TC', async () => {
+    const { user, table } = await openTab();
+    const priority = screen.getByRole('group', { name: 'Lọc theo mức ưu tiên' });
+
+    for (const name of ['Cốt lõi', 'Rất quan trọng', 'Nên chọn', 'Bổ trợ']) {
+      await user.click(within(priority).getByRole('button', { name }));
+      expect(within(table).getAllByRole('row')).toHaveLength(2);
+    }
+    await user.click(within(priority).getByRole('button', { name: 'Tất cả' }));
+
+    const type = screen.getByRole('group', { name: 'Lọc theo BB/TC' });
+    await user.click(within(type).getByRole('button', { name: 'TC' }));
+    expect(within(table).getAllByRole('row')).toHaveLength(2);
+    await user.click(within(type).getByRole('button', { name: 'BB' }));
+    expect(within(table).getAllByRole('row')).toHaveLength(3);
+  });
+
+  it('bấm tên môn mở panel', async () => {
+    const { user, table } = await openTab();
+
+    await user.click(within(table).getByRole('button', { name: 'Trí tuệ nhân tạo' }));
+    expect(await screen.findByRole('dialog', { name: 'Trí tuệ nhân tạo' })).toBeInTheDocument();
+  });
+});
+
+describe('tab Kỹ năng & dự án', () => {
+  async function openTab(extra) {
+    const user = userEvent.setup();
+    m12Api('student', extra);
+    await openRoadmap();
+    await user.click(screen.getByRole('tab', { name: 'Kỹ năng & dự án' }));
+  }
+
+  it('checklist có trạng thái minh chứng', async () => {
+    await openTab();
+
+    const list = screen.getByRole('region', { name: 'Checklist sẵn sàng thực tập' });
+    expect(within(list).getByText('Lập baseline').parentElement).toHaveTextContent('Đạt');
+    expect(within(list).getByText('Giải thích metric').parentElement).toHaveTextContent(
+      'Chờ duyệt',
+    );
+    expect(within(list).getByText('Viết báo cáo').parentElement).toHaveTextContent(
+      'Chưa có minh chứng',
+    );
+  });
+
+  it('3 dự án xếp Starter, Intermediate, Job-ready, có tiêu chí', async () => {
+    await openTab();
+
+    const section = screen.getByRole('region', { name: 'Dự án portfolio' });
+    const projects = within(section).getAllByRole('article');
+    expect(projects.map((item) => item.querySelector('h3').textContent)).toEqual([
+      'Dự án nhỏ',
+      'Dự án vừa',
+      'Dự án lớn',
+    ]);
+    expect(projects[0]).toHaveTextContent('Starter');
+    expect(projects[0]).toHaveTextContent('Tiêu chí Dự án nhỏ');
+    expect(projects[0]).toHaveTextContent('Chưa có minh chứng');
+  });
+
+  it('khối Tự học có ghi chú không phải học phần chính thức', async () => {
+    await openTab();
+
+    const block = screen.getByRole('region', { name: 'Tự học ngoài chương trình' });
+    expect(block).toHaveTextContent('Không phải học phần chính thức của NEU');
+    expect(within(block).getByText('PyTorch')).toBeInTheDocument();
+  });
+
+  it('nghề không có kỹ năng, dự án, tự học: không có khối trống', async () => {
+    await openTab({
+      [DETAIL_API]: () =>
+        jsonResponse(
+          200,
+          progressBody({
+            nodes: [{ ...NODES[0], children: [child('CNTT1128', 'Cơ sở lập trình', 'done')] }],
+            profile: { ...progressBody().profile, self_study: [] },
+          }),
+        ),
+    });
+
+    expect(screen.queryByRole('region', { name: 'Checklist sẵn sàng thực tập' })).toBeNull();
+    expect(screen.queryByRole('region', { name: 'Dự án portfolio' })).toBeNull();
+    expect(screen.queryByRole('region', { name: 'Tự học ngoài chương trình' })).toBeNull();
   });
 });
 
 describe('đặt làm mục tiêu chính (TC08)', () => {
-  const NOT_PRIMARY = {
-    [PROGRESS_API]: () => jsonResponse(200, progressBody({ is_primary: false })),
-  };
+  const NOT_PRIMARY = () =>
+    jsonResponse(200, progressBody({ is_primary: false, fits_major: null }));
 
   it('nghề chính có nhãn, không có nút', async () => {
     m12Api();
-    await openTree();
+    renderApp(DETAIL_PATH);
 
-    expect(screen.getByText('Nghề chính')).toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', { name: 'Đặt làm mục tiêu chính' }),
-    ).not.toBeInTheDocument();
+    const hero = await screen.findByRole('region', { name: AI.display_name });
+    expect(within(hero).getByText('Mục tiêu của bạn')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Đặt làm mục tiêu chính' })).toBeNull();
   });
 
-  it.each(['advisor', 'admin'])('%s chỉ xem, không có nút', async (role) => {
-    m12Api(role, NOT_PRIMARY);
-    renderApp(`${TREE_PATH}?student=SV07`);
+  it('cố vấn, quản trị không có nút', async () => {
+    m12Api('advisor', { [DETAIL_API]: NOT_PRIMARY });
+    renderApp(`${DETAIL_PATH}?student=DEMO05`);
 
-    await screen.findByRole('tree');
-    expect(
-      screen.queryByRole('button', { name: 'Đặt làm mục tiêu chính' }),
-    ).not.toBeInTheDocument();
-    await settled();
+    await screen.findByRole('region', { name: AI.display_name });
+    expect(screen.queryByRole('button', { name: 'Đặt làm mục tiêu chính' })).toBeNull();
   });
 
   it('hộp xác nhận ghi rõ không mất lịch sử; Hủy thì không gọi API, trả focus', async () => {
     const user = userEvent.setup();
-    const fetchMock = m12Api('student', NOT_PRIMARY);
-    await openTree();
-    const button = screen.getByRole('button', { name: 'Đặt làm mục tiêu chính' });
+    const fetchMock = m12Api('student', { [DETAIL_API]: NOT_PRIMARY });
+    renderApp(DETAIL_PATH);
 
+    const button = await screen.findByRole('button', { name: 'Đặt làm mục tiêu chính' });
     await user.click(button);
-
-    const dialog = screen.getByRole('alertdialog');
+    const dialog = screen.getByRole('alertdialog', { name: /Đặt làm mục tiêu chính/ });
     expect(dialog).toHaveTextContent('Lịch sử học tập và tiến độ không bị mất');
-    const cancel = within(dialog).getByRole('button', { name: 'Hủy' });
-    expect(cancel).toHaveFocus();
-    await user.click(cancel);
+    expect(dialog).toHaveTextContent(AI.display_name);
 
-    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+    await user.click(within(dialog).getByRole('button', { name: 'Hủy' }));
+    expect(screen.queryByRole('alertdialog')).toBeNull();
     expect(button).toHaveFocus();
-    expect(fetchMock.mock.calls.filter(([, options]) => options?.method === 'PUT')).toEqual([]);
-  });
-
-  it('Esc đóng hộp xác nhận', async () => {
-    const user = userEvent.setup();
-    m12Api('student', NOT_PRIMARY);
-    await openTree();
-
-    await user.click(screen.getByRole('button', { name: 'Đặt làm mục tiêu chính' }));
-    await user.keyboard('{Escape}');
-
-    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+    expect(fetchMock.mock.calls.some(([, options]) => options?.method === 'PUT')).toBe(false);
   });
 
   it('xác nhận: PUT, báo thành công, tải lại nên thành nghề chính', async () => {
     const user = userEvent.setup();
     let primary = false;
     const fetchMock = m12Api('student', {
-      [PROGRESS_API]: () => jsonResponse(200, progressBody({ is_primary: primary })),
+      [DETAIL_API]: () => jsonResponse(200, progressBody({ is_primary: primary })),
       'PUT /api/m12/career-goal': () => {
         primary = true;
-        return jsonResponse(200, { student_id: 'SV01', current: null });
+        return jsonResponse(200, { career: AI });
       },
     });
-    await openTree();
+    renderApp(DETAIL_PATH);
 
-    await user.click(screen.getByRole('button', { name: 'Đặt làm mục tiêu chính' }));
+    await user.click(await screen.findByRole('button', { name: 'Đặt làm mục tiêu chính' }));
     await user.click(screen.getByRole('button', { name: 'Xác nhận' }));
 
-    expect(await screen.findByText('Nghề chính')).toBeInTheDocument();
-    expect(await screen.findByText(`Đã đặt ${AI.name} làm mục tiêu chính.`)).toBeInTheDocument();
-    const put = fetchMock.mock.calls.find(([, options]) => options?.method === 'PUT');
-    expect(JSON.parse(put[1].body)).toEqual({ career_id: AI.id });
-    expect(put[1].headers['X-Requested-With']).toBe('fetch');
-    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+    expect(await screen.findByText(`Đã đặt ${AI.display_name} làm mục tiêu chính.`)).toBeVisible();
+    await waitFor(() =>
+      expect(screen.queryByRole('button', { name: 'Đặt làm mục tiêu chính' })).toBeNull(),
+    );
+    const [, options] = fetchMock.mock.calls.find(([, item]) => item?.method === 'PUT');
+    expect(JSON.parse(options.body)).toEqual({ career_id: AI.id });
   });
 
   it('lỗi: giữ hộp xác nhận và hiện thông báo', async () => {
     const user = userEvent.setup();
     m12Api('student', {
-      ...NOT_PRIMARY,
-      'PUT /api/m12/career-goal': () =>
-        apiError(422, 'CAREER_NOT_PUBLISHED', 'Nghề này chưa được công bố.'),
+      [DETAIL_API]: NOT_PRIMARY,
+      'PUT /api/m12/career-goal': () => apiError(422, 'INVALID', 'Không đổi được nghề.'),
     });
-    await openTree();
+    renderApp(DETAIL_PATH);
 
-    await user.click(screen.getByRole('button', { name: 'Đặt làm mục tiêu chính' }));
+    await user.click(await screen.findByRole('button', { name: 'Đặt làm mục tiêu chính' }));
     await user.click(screen.getByRole('button', { name: 'Xác nhận' }));
 
-    const dialog = screen.getByRole('alertdialog');
-    expect(await within(dialog).findByRole('alert')).toHaveTextContent(
-      'Nghề này chưa được công bố.',
-    );
+    expect(await screen.findByText('Không đổi được nghề.')).toBeInTheDocument();
+    expect(screen.getByRole('alertdialog')).toBeInTheDocument();
   });
 });

@@ -41,7 +41,7 @@ describe('đăng nhập', () => {
 
     expect(await screen.findByRole('heading', { name: 'Đăng nhập' })).toBeInTheDocument();
     expect(currentPath()).toBe('/login');
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls.filter(([url]) => url === '/api/auth/me')).toHaveLength(1);
   });
 
   it('đăng nhập đúng thì về Tổng quan', async () => {

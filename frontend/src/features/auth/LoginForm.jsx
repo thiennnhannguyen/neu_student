@@ -3,9 +3,8 @@ import BrandLogo from '../../components/BrandLogo';
 import { useAuth } from './AuthContext';
 import { AlertIcon, EyeIcon, EyeOffIcon } from './LoginIcons';
 
-export default function LoginForm() {
+export default function LoginForm({ username, setUsername, passwordRef }) {
   const { login } = useAuth();
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [capsLockOn, setCapsLockOn] = useState(false);
@@ -64,6 +63,7 @@ export default function LoginForm() {
           <label htmlFor="login-password">Mật khẩu</label>
           <div className="password-input">
             <input
+              ref={passwordRef}
               id="login-password"
               name="password"
               type={passwordVisible ? 'text' : 'password'}

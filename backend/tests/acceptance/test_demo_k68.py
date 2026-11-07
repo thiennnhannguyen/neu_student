@@ -7,7 +7,6 @@ import pytest
 from sqlalchemy import select
 
 from app.extensions import db
-from app.models.m12 import CareerRequirement
 from app.models.shared import (
     Course,
     CourseEquivalency,
@@ -21,10 +20,13 @@ from app.services.data_quality_service import PROGRAM_COHORT_MISMATCH, check_dat
 from app.services.m11_loader import load_student_data
 from scripts import demo_k68_content as content
 from scripts.build_demo_k68 import DOC, OUT, SWAP_FIXES, Builder, build
+from tests.api.m11.helpers import QueryCounter
 from tests.helpers import login_as
 
 TABLES = load_profile_tables(PROFILE_DEMO_K68)
 PROGRAM_IDS = {code: value[0] for code, value in content.PROGRAMS.items()}
+GALLERY_FRESH = 28
+GALLERY_CACHED = 8
 VERSION_IDS = {code: f"pv-{code.lower()}-k68" for code in content.PROGRAM_ORDER}
 
 
@@ -528,14 +530,35 @@ def test_gallery_student_without_primary_still_sees_all_cards(demo_app):
     assert not any(item["is_primary"] for item in body["items"])
 
 
-def test_jaccard_only_uses_rows_of_the_student_program(ctx):
-    rows = db.session.execute(
-        select(CareerRequirement.course_id).where(
-            CareerRequirement.program_id == PROGRAM_IDS["KTPM"],
-            CareerRequirement.kind == "course",
-        )
-    )
-    assert all(row[0].startswith("EP17.") or row[0].startswith("LL") for row in rows)
+def test_jaccard_only_uses_rows_of_the_student_program(demo_app):
+    """Tính lại từ fixture: chỉ dòng của ngành sinh viên và kỹ năng dùng chung."""
+
+    def target_set(version_id):
+        return {
+            (row["course_id"], row["skill_id"])
+            for row in TABLES["career_requirements"]
+            if row["career_version_id"] == version_id
+            and row["program_id"] in (None, PROGRAM_IDS["KHMT"])
+        }
+
+    first, second = target_set("cv-ai-1"), target_set("cv-data-1")
+    items = {item["career"]["slug"]: item for item in gallery(demo_app, "demo05")["items"]}
+
+    closeness = items["data-analyst"]["closeness"]
+    assert closeness["numerator"] == len(first & second) > 0
+    assert closeness["denominator"] == len(first | second)
+
+
+def test_gallery_query_count_does_not_depend_on_number_of_careers(demo_app):
+    student = login_as(demo_app, "demo05")
+
+    with QueryCounter(demo_app) as fresh:
+        assert student.get("/api/m12/gallery").status_code == 200
+    with QueryCounter(demo_app) as cached:
+        assert student.get("/api/m12/gallery").status_code == 200
+
+    assert fresh.count == GALLERY_FRESH
+    assert cached.count == GALLERY_CACHED
 
 
 def test_only_the_assigned_advisor_can_view_a_student(demo_app):

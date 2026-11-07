@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes, useLocation } from 'react-router';
 import AppLayout from './components/AppLayout';
 import ComingSoonPage from './components/ComingSoonPage';
 import NotFoundPage from './components/NotFoundPage';
@@ -12,9 +12,8 @@ import RoleRoute from './features/auth/RoleRoute';
 import HomeRoute from './features/m11/HomeRoute';
 import ResultsPage from './features/m11/ResultsPage';
 import RisksPage from './features/m11/RisksPage';
-import AllCareersPage from './features/m12/AllCareersPage';
+import CareerDetailPage from './features/m12/CareerDetailPage';
 import CareersPage from './features/m12/CareersPage';
-import CareerTreePage from './features/m12/CareerTreePage';
 import ProfilePage from './features/profile/ProfilePage';
 
 // Recharts khá nặng nên chỉ tải khi mở trang Phân tích.
@@ -44,6 +43,12 @@ const IMPLEMENTED_PAGES = {
 const RESTRICTED_ITEMS = MENU_GROUPS.flatMap((group) => group.items).filter(
   (item) => item.path in IMPLEMENTED_PAGES,
 );
+
+/** Trang Xem tất cả cũ nay là lưới thẻ; giữ các tham số của đường dẫn cũ, như sinh viên đang chọn. */
+function OldAllCareersRedirect() {
+  const { search } = useLocation();
+  return <Navigate replace to={`/m12/dinh-huong${search}`} />;
+}
 
 export default function AppRoutes() {
   return (
@@ -79,8 +84,8 @@ export default function AppRoutes() {
               </Route>
             ))}
             <Route element={<RoleRoute roles={M11_READERS} />}>
-              <Route path="/m12/dinh-huong/tat-ca" element={<AllCareersPage />} />
-              <Route path="/m12/dinh-huong/nghe/:careerId" element={<CareerTreePage />} />
+              <Route path="/m12/dinh-huong/tat-ca" element={<OldAllCareersRedirect />} />
+              <Route path="/m12/dinh-huong/nghe/:slug" element={<CareerDetailPage />} />
             </Route>
             {PENDING_ITEMS.map((item) => (
               <Route key={item.path} element={<RoleRoute roles={item.roles} />}>

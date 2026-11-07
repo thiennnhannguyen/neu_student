@@ -34,7 +34,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 |----|----------|------------|
 | CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành, tag `cr-01`. Sau đó đổi màu, font và đưa lại nhãn mẫu theo D-152, D-156 |
 | CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Hoàn thành, tag `cr-02` (gồm lượt chỉnh CR-02b, D-187, D-188) |
-| CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề | Đang lập kế hoạch, chờ duyệt |
+| CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề | Chờ nghiệm thu, chưa gắn tag |
 
 ## Việc tồn đọng giao diện, làm ở giai đoạn 11
 
@@ -48,6 +48,11 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 1. Giai đoạn 10: mọi hàm đổi trạng thái `skill_evidences` (không chỉ hàm tạo) phải tăng `data_version`; mở rộng luật quét mã nguồn để bắt cả UPDATE.
 2. Khóa cache M11/M12 chưa có kỳ hiện tại; khi có API đổi kỳ hiện tại thì phải xóa cache hoặc đưa kỳ vào khóa.
 
+## Việc tương lai
+
+1. Landing page giới thiệu & định hướng từng nghề, route công khai dự kiến /nghe/:slug. Đã chuẩn bị: slug ổn định, nội dung nằm ở dữ liệu nghề, component `CareerHero`, `CareerRoadmap`, `CareerProjects`, `CareerIllustration`.
+2. API quản trị nghề chưa sửa được các trường mới của CR-03 (chỉ đọc được qua API người dùng).
+
 ## Điểm kiểm tra giữa giai đoạn 06 (API và test hợp đồng xong)
 
 1. Endpoint: 14/14 xong (11 đọc của M11, 1 POST nhập điểm, 2 danh sách sinh viên). Kế hoạch ghi nhầm là 15, bảng liệt kê đúng 14.
@@ -58,4 +63,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-CR-03: chờ quản lý dự án duyệt kế hoạch. Remote: https://github.com/thiennnhannguyen/neu_student.
+CR-03: chờ quản lý dự án nghiệm thu. Remote: https://github.com/thiennnhannguyen/neu_student.

@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { apiError, identityFor, jsonResponse, renderApp, stubApi } from '../../test/fakeApi';
@@ -231,5 +231,52 @@ describe('bàn phím', () => {
       expect(element.closest('.motif-mosaic')).toBeNull();
       expect(element.closest('.login-card')).not.toBeNull();
     }
+  });
+});
+
+describe('hộp tài khoản demo (profile demo-k68)', () => {
+  const ACCOUNTS = [
+    { username: 'demo05', full_name: 'Sinh viên DEMO05 (mẫu)', role: 'student' },
+    { username: 'gv2', full_name: 'Cố vấn 2 (mẫu)', role: 'advisor' },
+  ];
+
+  function withAccounts(handler) {
+    return stubApi({
+      'GET /api/auth/me': () => apiError(401, 'UNAUTHENTICATED', 'Bạn chưa đăng nhập.'),
+      'GET /api/auth/demo-accounts': handler,
+    });
+  }
+
+  it('hiện ngoài thẻ form; bấm thì điền tên đăng nhập, chuyển con trỏ sang mật khẩu', async () => {
+    const user = userEvent.setup();
+    withAccounts(() => jsonResponse(200, { accounts: ACCOUNTS }));
+    renderApp('/login');
+
+    const box = await screen.findByRole('region', { name: 'Tài khoản demo' });
+    expect(document.querySelector('.login-card')).not.toContainElement(box);
+    expect(box).not.toHaveTextContent('Demo@12345');
+
+    await user.click(within(box).getByRole('button', { name: /demo05/ }));
+    expect(screen.getByLabelText('Tên đăng nhập')).toHaveValue('demo05');
+    expect(screen.getByLabelText('Mật khẩu')).toHaveFocus();
+  });
+
+  it('profile test trả rỗng thì không có hộp', async () => {
+    const fetchMock = withAccounts(() => jsonResponse(200, { accounts: [] }));
+    renderApp('/login');
+
+    await screen.findByRole('heading', { name: 'Đăng nhập' });
+    await waitFor(() =>
+      expect(fetchMock.mock.calls.some(([url]) => url === '/api/auth/demo-accounts')).toBe(true),
+    );
+    expect(screen.queryByRole('region', { name: 'Tài khoản demo' })).toBeNull();
+  });
+
+  it('production trả 404 thì không có hộp, trang vẫn dùng được', async () => {
+    withAccounts(() => apiError(404, 'NOT_FOUND', 'Không tìm thấy.'));
+    renderApp('/login');
+
+    await screen.findByRole('heading', { name: 'Đăng nhập' });
+    expect(screen.queryByRole('region', { name: 'Tài khoản demo' })).toBeNull();
   });
 });

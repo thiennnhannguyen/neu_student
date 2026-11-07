@@ -33,12 +33,14 @@ Cấu hình cục bộ là tùy chọn: sao chép `backend/.env.example` thành 
 | `make lint` | Chạy ruff, ESLint và Prettier |
 | `make build` | Build frontend |
 | `make db-upgrade` | Tạo hoặc nâng cấp schema bằng migration |
-| `make seed` | Nâng cấp schema rồi xóa và nạp lại dữ liệu mẫu (`flask seed --reset`) |
+| `make seed` | Nâng cấp schema rồi xóa và nạp lại dữ liệu mẫu profile test (`flask seed --reset`) |
+| `make seed-demo` | Như trên với profile demo-k68: CTĐT K68, 10 nghề, 8 sinh viên demo (`flask seed --reset --profile demo-k68`) |
 
 Các lệnh chạy trong thư mục `backend`:
 
 ```bash
 .venv/bin/flask --app app seed --check     # So số bản ghi từng bảng với fixture
+.venv/bin/flask --app app seed --check --profile demo-k68
 .venv/bin/flask --app app grades add --student SV05 --course CNT101 --semester S3 --score 7.0
 ```
 
@@ -58,6 +60,7 @@ Mọi tài khoản dùng mật khẩu `Demo@12345`. Đây là dữ liệu mẫu,
 | Cố vấn | `gv1`, `gv2` |
 | Nhân sự hỗ trợ | `ht1`, `ht2` |
 | Sinh viên | `sv01` đến `sv07` |
+| Sinh viên (chỉ profile demo-k68) | `demo01` đến `demo08`; nhân sự hỗ trợ không có ở profile này |
 
 Backend mặc định dùng cổng 5001 vì macOS thường chiếm cổng 5000 cho AirPlay. Đổi cổng bằng biến `BACKEND_PORT`, ví dụ `make dev BACKEND_PORT=5055`; Vite đọc cùng biến này để chuyển `/api` sang backend, nên frontend và backend cùng origin.
 

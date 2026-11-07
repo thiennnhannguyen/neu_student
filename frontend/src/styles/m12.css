@@ -1,254 +1,4 @@
-/* Trang Định hướng nghề. Chỉ dùng token sẵn có, không thêm màu mới. */
-.m12-page .filter-bar {
-  margin-bottom: var(--space-20);
-}
-
-.primary-career {
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  margin-bottom: var(--space-20);
-  overflow: hidden;
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
-}
-
-.primary-career__body {
-  flex: 1;
-  min-width: 0;
-  padding: var(--space-20);
-}
-
-.primary-career__eyebrow,
-.primary-career__field,
-.related-career__field,
-.related-career__closeness,
-.career-section-note,
-.primary-career__note {
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-}
-
-.primary-career__name {
-  margin: var(--space-1) 0;
-}
-
-.primary-career__body .career-progress {
-  margin: var(--space-3) 0;
-}
-
-.primary-career__note {
-  margin-bottom: var(--space-3);
-}
-
-.primary-career__mosaic {
-  --motif-cell: 48px;
-  display: none;
-  flex: none;
-  align-self: flex-start;
-}
-
-.career-progress {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.career-progress__info {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  margin: 0;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-}
-
-.career-section-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-}
-
-.career-section-head h2,
-.career-section-title {
-  margin: 0;
-  font-size: var(--text-lg);
-}
-
-.career-section-title {
-  margin-top: var(--space-20);
-  margin-bottom: var(--space-2);
-}
-
-.career-section-note {
-  margin-bottom: var(--space-3);
-}
-
-.career-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-3);
-}
-
-.related-career__name {
-  margin: 0;
-  font-size: var(--text-md);
-}
-
-.related-career__name a,
-.requirement-panel__careers a {
-  color: var(--text-link);
-}
-
-.related-career .career-progress {
-  margin-top: var(--space-2);
-}
-
-.related-career .btn {
-  margin-top: var(--space-2);
-}
-
-.career-disclaimer {
-  margin: var(--space-20) 0 0;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-}
-
-.choose-career__lead {
-  margin: 0 0 var(--space-3);
-}
-
-/* Cây nghề */
-.career-tree-summary__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  margin-bottom: var(--space-3);
-}
-
-.career-tree,
-.career-tree ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.career-tree__group {
-  margin-bottom: var(--space-2);
-  overflow: hidden;
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-}
-
-.career-tree__group,
-.career-tree__item {
-  cursor: pointer;
-}
-
-.career-tree__row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  padding: var(--space-3);
-}
-
-.career-tree__row--group {
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-}
-
-.career-tree__item {
-  border-top: 1px solid var(--border-subtle);
-}
-
-.career-tree__item:hover,
-.career-tree__row--group:hover {
-  background: var(--surface-sunken);
-}
-
-.career-tree [role='treeitem']:focus-visible {
-  outline: 2px solid var(--neu-primary);
-  outline-offset: -2px;
-}
-
-.career-tree__chevron {
-  flex: none;
-  transition: transform var(--motion-fast, 120ms);
-}
-
-.career-tree__chevron--open {
-  transform: rotate(90deg);
-}
-
-.career-tree__title {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
-.career-tree__meta {
-  font-size: var(--text-sm);
-  font-weight: 400;
-  color: var(--text-secondary);
-}
-
-.career-tree__chips {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-}
-
-/* Panel chi tiết */
-.requirement-panel__status {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-  margin: 0 0 var(--space-2);
-}
-
-.requirement-panel__via {
-  margin: 0 0 var(--space-3);
-  font-weight: 600;
-}
-
-.requirement-panel__heading {
-  margin: var(--space-3) 0 var(--space-1);
-  font-size: var(--text-md);
-}
-
-.requirement-panel__careers {
-  padding-left: var(--space-3);
-  margin: 0;
-}
-
-@media (min-width: 768px) {
-  .career-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .primary-career__mosaic {
-    display: grid;
-  }
-}
-
-@media (min-width: 1024px) {
-  .career-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-/* Hình đại diện nghề. Tỷ lệ 16:10 theo viewBox 320 x 200. */
+/* Trang Định hướng nghề. Mọi màu lấy từ token. */
 .career-illustration {
   display: block;
   width: 100%;
@@ -256,6 +6,697 @@
   aspect-ratio: 16 / 10;
 }
 
+.career-disclaimer {
+  margin: var(--space-3) 0 0;
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+/* Bộ lọc */
+.career-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  align-items: center;
+  margin-bottom: var(--space-12);
+}
+
+.career-filter .search-box {
+  flex: 1 1 200px;
+  max-width: 320px;
+}
+
+.career-filter__sort {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.career-filter__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-20);
+}
+
+.career-filter__chip {
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  font: inherit;
+  font-size: var(--font-14);
+  color: var(--text-primary);
+  cursor: pointer;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  transition:
+    background-color var(--duration-fast),
+    border-color var(--duration-fast);
+}
+
+.career-filter__chip:hover {
+  border-color: var(--neu-primary);
+}
+
+.career-filter__chip[aria-pressed='true'] {
+  color: var(--text-on-primary);
+  background: var(--neu-primary);
+  border-color: var(--neu-primary);
+}
+
+.career-remind {
+  padding: var(--space-12) var(--space-3);
+  margin: 0 0 var(--space-3);
+  font-weight: 600;
+  color: var(--info-text);
+  background: var(--info-bg);
+  border-radius: var(--radius-md);
+}
+
+/* Lưới thẻ: 1 cột, 2 cột từ 640px, 3 cột từ 1024px, 4 cột từ 1280px. */
+.career-gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-20);
+}
+
+.career-gallery[aria-busy='true'] {
+  opacity: 0.7;
+}
+
+.career-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--text-primary);
+  text-decoration: none;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--duration-fast),
+    box-shadow var(--duration-fast);
+}
+
+.career-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.career-card:focus-visible {
+  outline: 3px solid var(--neu-accent);
+  outline-offset: 2px;
+}
+
+.career-card--primary {
+  border: 2px solid var(--neu-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.career-card__media {
+  position: relative;
+  display: block;
+}
+
+.career-card__goal {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  padding: var(--space-1) var(--space-12);
+  font-size: var(--font-12);
+  font-weight: 700;
+  color: var(--neu-primary);
+  background: var(--neu-white);
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+}
+
+.career-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+}
+
+.career-card__name {
+  font-size: var(--font-16);
+  line-height: var(--line-tight);
+}
+
+.career-card__en,
+.career-card__skill,
+.career-card__low {
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.career-card__mock {
+  font-size: var(--font-12);
+}
+
+.career-card__fit {
+  align-self: flex-start;
+  padding: 2px var(--space-2);
+  margin-top: var(--space-1);
+  font-size: var(--font-12);
+  font-weight: 600;
+  color: var(--info-text);
+  background: var(--info-bg);
+  border-radius: 999px;
+}
+
+.career-card__progress {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  margin-top: auto;
+  padding-top: var(--space-12);
+}
+
+.career-card__percent {
+  font-size: var(--font-30);
+  line-height: 1;
+  color: var(--neu-primary);
+}
+
+.career-card__percent-label {
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.career-card__track {
+  display: block;
+  height: 6px;
+  overflow: hidden;
+  background: var(--surface-sunken);
+  border-radius: 3px;
+}
+
+.career-card__fill {
+  display: block;
+  height: 100%;
+  background: var(--neu-primary);
+  border-radius: 3px;
+}
+
+.career-card__low {
+  font-size: var(--font-12);
+  font-style: italic;
+}
+
+/* Trang chi tiết */
+.career-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-20);
+  margin-bottom: var(--space-20);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.career-hero__media {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.career-hero__group,
+.career-hero__en {
+  margin: 0;
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.career-hero h1 {
+  margin: var(--space-1) 0;
+  font-size: var(--font-30);
+  line-height: var(--line-tight);
+}
+
+.career-hero__tagline {
+  margin: var(--space-12) 0 0;
+  font-size: var(--font-18);
+  font-weight: 600;
+  color: var(--neu-primary);
+}
+
+.career-hero__objective,
+.career-hero__note {
+  margin: var(--space-2) 0 0;
+}
+
+.career-hero__note {
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.career-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-12) 0 0;
+}
+
+.career-hero__body > .btn {
+  margin-top: var(--space-3);
+}
+
+.career-hero__progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.career-hero__rings {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.career-hero__coverage {
+  margin: 0;
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.progress-ring {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: center;
+  width: 112px;
+  text-align: center;
+}
+
+.progress-ring__chart {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.progress-ring__chart svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.progress-ring__track,
+.progress-ring__fill {
+  fill: none;
+  stroke-width: 10;
+}
+
+.progress-ring__track {
+  stroke: var(--surface-sunken);
+}
+
+.progress-ring__fill {
+  stroke: var(--neu-primary);
+  stroke-linecap: round;
+}
+
+.progress-ring__value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-24);
+  color: var(--neu-primary);
+}
+
+.progress-ring__label {
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.career-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.career-detail__main {
+  min-width: 0;
+}
+
+.career-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0 0 var(--space-3);
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+/* Timeline */
+.roadmap,
+.roadmap ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.roadmap__stage {
+  position: relative;
+  padding: 0 0 var(--space-4) var(--space-48);
+  cursor: pointer;
+}
+
+.roadmap__stage::before {
+  position: absolute;
+  top: 36px;
+  bottom: 0;
+  left: 17px;
+  width: 2px;
+  content: '';
+  background: var(--border-subtle);
+}
+
+.roadmap__stage:last-child::before {
+  display: none;
+}
+
+.roadmap__stage:focus-visible,
+.roadmap__item:focus-visible {
+  outline: 2px solid var(--neu-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.roadmap__marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-weight: 700;
+  color: var(--text-on-primary);
+  background: var(--neu-primary);
+  border-radius: 50%;
+}
+
+.roadmap__head {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  min-height: 36px;
+}
+
+.roadmap__chevron {
+  flex: none;
+  transition: transform var(--duration-fast);
+}
+
+.roadmap__chevron--open {
+  transform: rotate(90deg);
+}
+
+.roadmap__title {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-18);
+  font-weight: 700;
+}
+
+.roadmap__percent {
+  flex: none;
+  font-size: var(--font-18);
+  color: var(--neu-primary);
+}
+
+.roadmap__deliverable,
+.roadmap__empty {
+  display: block;
+  margin: var(--space-1) 0 var(--space-12);
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.roadmap__courses {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.roadmap__item {
+  padding: var(--space-12);
+  cursor: pointer;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast);
+}
+
+.roadmap__item:hover {
+  border-color: var(--neu-primary);
+}
+
+.roadmap__item--absent {
+  background: var(--surface-sunken);
+}
+
+.roadmap__course {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-12);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.roadmap__course-title {
+  display: flex;
+  flex: 1 1 220px;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.roadmap__course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-12);
+  font-size: var(--font-14);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.roadmap__course-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  align-items: center;
+}
+
+/* Bảng môn học */
+.career-courses__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-4);
+}
+
+.career-courses__link {
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--text-link);
+  text-align: left;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+.career-courses__link:hover {
+  text-decoration: underline;
+}
+
+/* Kỹ năng và dự án */
+.tabs__panel section + section {
+  margin-top: var(--space-4);
+}
+
+.tabs__panel section h2 {
+  margin: 0 0 var(--space-12);
+  font-size: var(--font-18);
+}
+
+.career-checklist {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.career-checklist li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-12);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.career-projects {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.career-project h3 {
+  margin: var(--space-1) 0;
+  font-size: var(--font-16);
+}
+
+.career-project p {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.career-project .career-project__level {
+  margin: 0;
+  font-size: var(--font-12);
+  font-weight: 700;
+  color: var(--neu-primary);
+  text-transform: uppercase;
+}
+
+.career-self-study p {
+  margin: 0 0 var(--space-12);
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.career-self-study ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.career-self-study li {
+  padding: var(--space-1) var(--space-12);
+  font-size: var(--font-14);
+  background: var(--surface-sunken);
+  border-radius: 999px;
+}
+
+/* Panel chi tiết môn */
+.side-panel--inline {
+  position: sticky;
+  inset: auto;
+  top: calc(var(--topbar-height) + var(--space-3));
+  width: auto;
+  max-height: calc(100vh - var(--topbar-height) - var(--space-32));
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.requirement-panel__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-12);
+}
+
+.requirement-panel__via,
+.requirement-panel__purpose {
+  margin: 0 0 var(--space-12);
+}
+
+.requirement-panel__via {
+  font-weight: 600;
+}
+
+.requirement-panel__warning {
+  padding: var(--space-2) var(--space-12);
+  margin: 0 0 var(--space-12);
+  font-size: var(--font-14);
+  color: var(--warning-text);
+  background: var(--warning-bg);
+  border-radius: var(--radius-sm);
+}
+
+.requirement-panel__source {
+  color: var(--text-secondary);
+}
+
+.requirement-panel__heading {
+  margin: var(--space-3) 0 var(--space-2);
+  font-size: var(--font-16);
+}
+
+.requirement-panel__careers {
+  padding-left: var(--space-20);
+  margin: 0;
+}
+
+.requirement-panel__careers a {
+  color: var(--text-link);
+}
+
+@media (min-width: 640px) {
+  .career-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .career-projects {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .career-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .career-hero {
+    grid-template-columns: 300px minmax(0, 1fr) auto;
+    align-items: start;
+  }
+}
+
+@media (min-width: 1280px) {
+  .career-gallery {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .career-detail--with-panel {
+    grid-template-columns: minmax(0, 1fr) 380px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .career-card,
+  .career-filter__chip,
+  .roadmap__chevron,
+  .roadmap__item {
+    transition: none;
+  }
+
+  .career-card:hover {
+    transform: none;
+  }
+}
+
+/* Trang duyệt minh họa, chỉ có ở dev. */
 .illustrations-sheet {
   max-width: 1360px;
   padding: var(--space-32);

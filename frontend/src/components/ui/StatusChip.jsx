@@ -27,6 +27,7 @@ export const STATUS_CHIPS = {
   not_started: { label: 'Chưa học', icon: Circle, tone: 'neutral' },
   pending: { label: 'Chờ duyệt', icon: Hourglass, tone: 'warning' },
   no_evidence: { label: 'Chưa có minh chứng', icon: FileQuestionMark, tone: 'neutral' },
+  not_in_program: { label: 'Không có trong CTĐT ngành bạn', icon: Ban, tone: 'neutral' },
   normal: { label: 'Bình thường', icon: ShieldCheck, tone: 'success' },
   watch: { label: 'Chú ý', icon: Eye, tone: 'warning' },
   warning: { label: 'Cảnh báo', icon: AlertTriangle, tone: 'danger' },
