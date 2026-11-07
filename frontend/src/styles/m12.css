@@ -247,3 +247,36 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* Hình đại diện nghề. Tỷ lệ 16:10 theo viewBox 320 x 200. */
+.career-illustration {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+}
+
+.illustrations-sheet {
+  max-width: 1360px;
+  padding: var(--space-32);
+  margin: 0 auto;
+}
+
+.illustrations-sheet__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-20);
+}
+
+.illustrations-sheet figure {
+  margin: 0;
+  overflow: hidden;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.illustrations-sheet figcaption {
+  padding: var(--space-12);
+  font-weight: 600;
+}

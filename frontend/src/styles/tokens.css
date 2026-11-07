@@ -12,6 +12,14 @@
 
   --neu-white: #ffffff;
 
+  /* Sắc nền của 6 nhóm nghề, trong dải xanh NEU. Mỗi màu đạt từ 4,5:1 trên nền trắng để dùng được cho chữ. */
+  --career-tone-1: #00528c;
+  --career-tone-2: #123f6d;
+  --career-tone-3: #1f6a8a;
+  --career-tone-4: #2a6fb0;
+  --career-tone-5: #0a2f52;
+  --career-tone-6: #3f6f96;
+
   /* Nền */
   --surface-canvas: #f4f8fc; /* Tint pha trắng, nhạt hơn --neu-tint rõ rệt. */
   --surface-card: #ffffff;

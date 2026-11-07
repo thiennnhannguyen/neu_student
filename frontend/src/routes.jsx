@@ -24,6 +24,9 @@ const AnalysisPage = lazy(() => import('./features/m11/AnalysisPage'));
 const StyleguidePage = import.meta.env.DEV
   ? lazy(() => import('./features/dev/StyleguidePage'))
   : null;
+const IllustrationsSheet = import.meta.env.DEV
+  ? lazy(() => import('./features/m12/illustrations/IllustrationsSheet'))
+  : null;
 
 const IMPLEMENTED_PAGES = {
   '/ho-so': <ProfilePage />,
@@ -47,6 +50,16 @@ export default function AppRoutes() {
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        {IllustrationsSheet && (
+          <Route
+            path="/dev/illustrations"
+            element={
+              <Suspense fallback={<p role="status">Đang tải trang...</p>}>
+                <IllustrationsSheet />
+              </Suspense>
+            }
+          />
+        )}
         {StyleguidePage && (
           <Route
             path="/dev/styleguide"

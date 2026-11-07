@@ -5,7 +5,14 @@ import { join } from 'node:path';
 import process from 'node:process';
 
 const ASSETS = join(process.cwd(), 'dist', 'assets');
-const FORBIDDEN = ['Hệ thống thiết kế NEU 2026', 'dev/styleguide', 'StyleguidePage', 'Demo@12345'];
+const FORBIDDEN = [
+  'Hệ thống thiết kế NEU 2026',
+  'dev/styleguide',
+  'StyleguidePage',
+  'dev/illustrations',
+  'IllustrationsSheet',
+  'Demo@12345',
+];
 const REQUIRED = 'Dữ liệu mẫu';
 
 if (!existsSync(ASSETS)) {
