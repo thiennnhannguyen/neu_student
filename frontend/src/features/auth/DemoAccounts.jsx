@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../../api/client';
 
-const ROLE_LABELS = { student: 'Sinh viên', advisor: 'Cố vấn', admin: 'Quản trị' };
+const ROLE_LABELS = {
+  student: 'Sinh viên',
+  advisor: 'Cố vấn',
+  admin: 'Quản trị',
+  support_staff: 'Hỗ trợ',
+};
 
 /**
  * Chỉ hiện khi chạy profile demo-k68: API trả danh sách rỗng ở profile test và 404 ở production,

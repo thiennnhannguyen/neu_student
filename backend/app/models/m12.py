@@ -163,9 +163,22 @@ class SkillEvidence(MockMixin, db.Model):
     reviewed_by = fk("users.id", nullable=True)
     reviewed_at = db.Column(db.DateTime)
     review_note = db.Column(db.Text)
+    submitted_at = db.Column(db.DateTime)
     __table_args__ = (
         db.CheckConstraint("status IN ('pending', 'approved', 'rejected')", name="status_valid"),
     )
+
+
+class SkillEvidenceAttachment(MockMixin, db.Model):
+    __tablename__ = "skill_evidence_attachments"
+    id = pk()
+    evidence_id = fk("skill_evidences.id", index=True)
+    stored_name = db.Column(db.String(128), nullable=False, unique=True)
+    original_name = db.Column(db.String(255), nullable=False)
+    content_type = db.Column(db.String(128), nullable=False)
+    size_bytes = db.Column(db.Integer, nullable=False)
+    sha256 = db.Column(db.String(64), nullable=False)
+    __table_args__ = (db.CheckConstraint("size_bytes > 0", name="size_positive"),)
 
 
 class LearningRoadmap(MockMixin, db.Model):
@@ -274,6 +287,12 @@ class ImprovementPlan(MockMixin, db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     __table_args__ = (
         db.CheckConstraint("status IN ('active', 'done', 'archived')", name="status_valid"),
+        db.Index(
+            "uq_improvement_plans_one_active",
+            "student_id",
+            unique=True,
+            sqlite_where=db.text("status = 'active'"),
+        ),
     )
 
 
@@ -326,6 +345,18 @@ class SupportMessage(MockMixin, db.Model):
     request_id = fk("support_requests.id", index=True)
     author_id = fk("users.id")
     body = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+
+class SupportStatusEvent(MockMixin, db.Model):
+    """Lịch sử đổi trạng thái để hiện timeline. Không sửa, không xóa."""
+
+    __tablename__ = "support_status_events"
+    id = pk()
+    request_id = fk("support_requests.id", index=True)
+    from_status = db.Column(db.String(16), nullable=False)
+    to_status = db.Column(db.String(16), nullable=False)
+    actor_id = fk("users.id")
     created_at = db.Column(db.DateTime, nullable=False)
 
 

@@ -136,7 +136,7 @@ describe('sidebar', () => {
 });
 
 describe('topbar', () => {
-  it('có đường dẫn phân cấp, chuông bị khóa có tooltip', async () => {
+  it('có đường dẫn phân cấp, chuông đã hoạt động', async () => {
     loggedInAs('student');
 
     renderApp('/m12/dinh-huong');
@@ -145,9 +145,9 @@ describe('topbar', () => {
     const crumbs = within(banner).getByRole('navigation', { name: 'Vị trí trang' });
     expect(within(crumbs).getByRole('link', { name: 'Tổng quan' })).toHaveAttribute('href', '/');
     expect(crumbs).toHaveTextContent('Định hướng & hỗ trợ');
-    const bell = within(banner).getByRole('button', { name: /Thông báo/ });
-    expect(bell).toHaveAttribute('aria-disabled', 'true');
-    expect(bell.closest('[data-tooltip]')).toHaveAttribute('data-tooltip', 'Có ở giai đoạn sau');
+    expect(within(banner).getByRole('button', { name: /Thông báo/ })).not.toHaveAttribute(
+      'aria-disabled',
+    );
   });
 
   it('trang không có trong menu vẫn có tên sản phẩm', async () => {
@@ -319,13 +319,13 @@ describe('trang theo vai trò', () => {
     expect(welcome.querySelector('.motif-mosaic')).toHaveAttribute('aria-hidden', 'true');
   });
 
-  it('trang đang phát triển ghi giai đoạn dự kiến và có nút về Tổng quan', async () => {
+  it('trang đang phát triển có nút về Tổng quan', async () => {
     loggedInAs('student');
 
     renderApp('/m12/hoc-lieu');
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Học liệu' })).toBeInTheDocument();
-    expect(screen.getByText('Đang phát triển. Dự kiến ở giai đoạn 10.')).toBeInTheDocument();
+    expect(screen.getByText('Đang phát triển.')).toBeInTheDocument();
     expect(
       within(screen.getByRole('main')).getByRole('link', { name: 'Về Tổng quan' }),
     ).toHaveAttribute('href', '/');

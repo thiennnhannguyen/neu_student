@@ -12,6 +12,7 @@ const browserGlobals = {
   URLSearchParams: 'readonly',
   document: 'readonly',
   fetch: 'readonly',
+  FormData: 'readonly',
   window: 'readonly',
 };
 

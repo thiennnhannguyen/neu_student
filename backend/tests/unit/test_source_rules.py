@@ -152,6 +152,8 @@ M12_MODULES = [
     "services/roadmap_api_service.py",
     "services/related_career_service.py",
     "services/support_service.py",
+    "services/evidence_service.py",
+    "services/improvement_service.py",
     "blueprints/m12.py",
 ]
 M11_INTERNAL_NAMES = {name.removesuffix(".py") for name in M11_SERVICES} | {"m11_loader"}
@@ -336,8 +338,6 @@ def m11_internal_imports(path: Path) -> list[str]:
 
 def test_every_m12_gate_module_of_this_phase_exists():
     for name in M12_MODULES:
-        if name == "services/support_service.py":
-            continue
         assert (APP_DIR / name).exists(), name
 
 
@@ -381,6 +381,27 @@ STUDENT_RESULT_MODELS = {"GradeAttempt", "Enrollment", "StudentCareerGoal", "Ski
 DATA_VERSION_EXEMPT = {"seed/seed.py"}
 
 
+def _changes_evidence_status(node: ast.FunctionDef) -> bool:
+    """Gán `.status` trong hàm nhắc tới minh chứng, hoặc gọi `update(SkillEvidence)`."""
+    text = ast.dump(node)
+    mentions_evidence = "SkillEvidence" in text or "evidence" in node.name.lower()
+    for item in ast.walk(node):
+        if isinstance(item, ast.Assign):
+            for target in item.targets:
+                if isinstance(target, ast.Attribute) and target.attr == "status":
+                    owner = target.value.id if isinstance(target.value, ast.Name) else ""
+                    if mentions_evidence or "evidence" in owner.lower():
+                        return True
+        if (
+            isinstance(item, ast.Call)
+            and isinstance(item.func, ast.Name)
+            and item.func.id == "update"
+            and any(isinstance(a, ast.Name) and a.id == "SkillEvidence" for a in item.args)
+        ):
+            return True
+    return False
+
+
 def writes_results_without_bump(source: str) -> list[str]:
     """Hàm tạo bản ghi quyết định kết quả của sinh viên mà không gọi bump_data_version."""
     problems = []
@@ -392,7 +413,8 @@ def writes_results_without_bump(source: str) -> list[str]:
             for call in ast.walk(node)
             if isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
         }
-        if called & STUDENT_RESULT_MODELS and "bump_data_version" not in called:
+        writes = called & STUDENT_RESULT_MODELS or _changes_evidence_status(node)
+        if writes and "bump_data_version" not in called:
             problems.append(node.name)
     return problems
 
@@ -428,6 +450,36 @@ def test_data_version_scanner_catches_missing_bump():
 @pytest.mark.parametrize("model", ["StudentCareerGoal", "SkillEvidence"])
 def test_data_version_scanner_covers_m12_results(model):
     assert writes_results_without_bump(f"def f():\n    db.add({model}())\n") == ["f"]
+
+
+@pytest.mark.parametrize(
+    "bad",
+    [
+        "def review_evidence(row):\n    row.status = 'approved'\n",
+        "def review(evidence):\n    evidence.status = 'approved'\n",
+        "def f():\n    db.session.execute(update(SkillEvidence).values(status='approved'))\n",
+        "def f(id):\n    row = get(SkillEvidence, id)\n    row.status = 'rejected'\n",
+    ],
+)
+def test_data_version_scanner_catches_evidence_status_update(bad):
+    assert writes_results_without_bump(bad) != []
+    assert writes_results_without_bump(bad.rstrip() + "\n    bump_data_version(s)\n") == []
+
+
+def test_data_version_scanner_ignores_status_of_other_tables():
+    assert writes_results_without_bump("def f(ticket):\n    ticket.status = 'done'\n") == []
+
+
+def test_evidence_review_function_is_scanned_and_bumps():
+    source = (APP_DIR / "services" / "evidence_service.py").read_text(encoding="utf8")
+    review = next(
+        n
+        for n in ast.walk(ast.parse(source))
+        if isinstance(n, ast.FunctionDef) and n.name == "_finish_review"
+    )
+
+    assert _changes_evidence_status(review)
+    assert writes_results_without_bump(source) == []
 
 
 def test_career_goal_service_bumps_data_version_when_changing_goal():

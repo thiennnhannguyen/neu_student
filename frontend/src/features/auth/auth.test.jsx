@@ -297,7 +297,13 @@ const EXPECTED_MENU = {
   advisor: {
     '': ['Tổng quan'],
     'HỌC TẬP': STUDY,
-    'ĐỊNH HƯỚNG & HỖ TRỢ': ['Định hướng nghề', 'Kế hoạch học tập', 'Học liệu', 'Yêu cầu hỗ trợ'],
+    'ĐỊNH HƯỚNG & HỖ TRỢ': [
+      'Định hướng nghề',
+      'Kế hoạch học tập',
+      'Học liệu',
+      'Duyệt minh chứng',
+      'Yêu cầu hỗ trợ',
+    ],
   },
   support_staff: {
     '': ['Tổng quan'],
@@ -306,7 +312,7 @@ const EXPECTED_MENU = {
   admin: {
     '': ['Tổng quan'],
     'HỌC TẬP': STUDY,
-    'ĐỊNH HƯỚNG & HỖ TRỢ': ['Định hướng nghề', 'Học liệu', 'Yêu cầu hỗ trợ'],
+    'ĐỊNH HƯỚNG & HỖ TRỢ': ['Định hướng nghề', 'Học liệu', 'Duyệt minh chứng', 'Yêu cầu hỗ trợ'],
     'QUẢN TRỊ': ['Nhật ký'],
   },
 };

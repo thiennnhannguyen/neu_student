@@ -12,6 +12,7 @@ ERROR_INFO = {
     404: ("NOT_FOUND", "Không tìm thấy tài nguyên."),
     405: ("METHOD_NOT_ALLOWED", "Phương thức không được hỗ trợ."),
     409: ("CONFLICT", "Dữ liệu bị xung đột."),
+    413: ("PAYLOAD_TOO_LARGE", "Tệp gửi lên quá lớn."),
     422: ("VALIDATION_ERROR", "Dữ liệu không hợp lệ."),
     500: ("INTERNAL_ERROR", "Hệ thống gặp lỗi. Vui lòng thử lại sau."),
 }
@@ -26,6 +27,8 @@ INTEGRITY_CONFLICTS = (
     ("career_versions.career_id", "DRAFT_EXISTS", "Nghề này đã có bản nháp."),
     ("course_skill_mappings.course_id", "CONFLICT", "Ánh xạ này đã tồn tại."),
     ("student_career_goals.student_id", "CONFLICT", "Nghề chính vừa được thay đổi, hãy thử lại."),
+    ("support_requests.code", "TICKET_CODE_CLASH", "Mã yêu cầu vừa bị trùng, hãy thử lại."),
+    ("improvement_plans.student_id", "PLAN_EXISTS", "Bạn đã có kế hoạch cải thiện."),
     ("FOREIGN KEY constraint failed", "CONFLICT", "Dữ liệu đang được sử dụng."),
 )
 

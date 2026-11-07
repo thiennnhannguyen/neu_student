@@ -1,4 +1,6 @@
-import { Card, StatusChip } from '../../components/ui';
+import { useState } from 'react';
+import { Button, Card, StatusChip } from '../../components/ui';
+import EvidencePanel from './evidence/EvidencePanel';
 import { chipStatus } from './labels';
 
 const LEVELS = ['Starter', 'Intermediate', 'Job-ready'];
@@ -22,7 +24,17 @@ function SelfStudy({ items, note }) {
 }
 
 /** Tab Kỹ năng & dự án. Hoàn thành chỉ qua minh chứng được duyệt (R7). */
-export default function CareerProjects({ nodes, selfStudy, selfStudyNote }) {
+export default function CareerProjects({ nodes, selfStudy, selfStudyNote, student, onChanged }) {
+  const [opened, setOpened] = useState(null);
+  const canAct = Boolean(student);
+  const evidenceButton = (child) =>
+    canAct && (
+      <Button variant="ghost" size="sm" onClick={() => setOpened(child)}>
+        {student.isStudent && ['not_started', 'rejected'].includes(child.status)
+          ? 'Nộp minh chứng'
+          : 'Xem minh chứng'}
+      </Button>
+    );
   const children = nodes.flatMap((node) => node.children);
   const skills = children.filter((child) => child.kind === 'skill');
   const projects = children
@@ -37,7 +49,10 @@ export default function CareerProjects({ nodes, selfStudy, selfStudyNote }) {
             {skills.map((skill) => (
               <li key={skill.id}>
                 <span>{skill.title}</span>
-                <StatusChip status={chipStatus(skill.kind, skill.status)} size="sm" />
+                <span className="career-checklist__actions">
+                  <StatusChip status={chipStatus(skill.kind, skill.status)} size="sm" />
+                  {evidenceButton(skill)}
+                </span>
               </li>
             ))}
           </ul>
@@ -53,12 +68,21 @@ export default function CareerProjects({ nodes, selfStudy, selfStudyNote }) {
                 <h3>{project.title}</h3>
                 {project.criteria && <p>{project.criteria}</p>}
                 <StatusChip status={chipStatus(project.kind, project.status)} size="sm" />
+                {evidenceButton(project)}
               </Card>
             ))}
           </div>
         </section>
       )}
       <SelfStudy items={selfStudy} note={selfStudyNote} />
+      {opened && (
+        <EvidencePanel
+          child={opened}
+          student={student}
+          onClose={() => setOpened(null)}
+          onChanged={onChanged}
+        />
+      )}
     </>
   );
 }

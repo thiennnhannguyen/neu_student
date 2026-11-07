@@ -6,7 +6,7 @@ export default function ComingSoonPage({ title, phase }) {
     <EmptyState
       heading="h1"
       title={title}
-      description={`Đang phát triển. Dự kiến ở giai đoạn ${phase}.`}
+      description={phase ? `Đang phát triển. Dự kiến ở giai đoạn ${phase}.` : 'Đang phát triển.'}
       action={
         <Button to="/" iconLeft={House}>
           Về Tổng quan

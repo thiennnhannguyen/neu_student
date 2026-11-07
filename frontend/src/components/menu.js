@@ -1,6 +1,8 @@
 import {
+  BadgeCheck,
   BellRing,
   BookOpen,
+  CalendarRange,
   ChartLine,
   ClipboardList,
   Compass,
@@ -9,7 +11,6 @@ import {
   LifeBuoy,
   ShieldAlert,
   UserRound,
-  CalendarRange,
 } from 'lucide-react';
 
 const STUDENT = 'student';
@@ -108,16 +109,23 @@ export const MENU_GROUPS = [
         path: '/m12/hoc-lieu',
         icon: BookOpen,
         roles: [STUDENT, ADVISOR, SUPPORT_STAFF, ADMIN],
-        phase: '10',
+      },
+      {
+        label: 'Duyệt minh chứng',
+        path: '/m12/duyet-minh-chung',
+        icon: BadgeCheck,
+        roles: [ADVISOR, ADMIN],
+        implemented: true,
       },
       {
         label: 'Yêu cầu hỗ trợ',
         path: '/m12/yeu-cau-ho-tro',
         icon: LifeBuoy,
         roles: [STUDENT, ADVISOR, SUPPORT_STAFF, ADMIN],
-        phase: '10',
+        implemented: true,
+        nested: true,
       },
-      { label: 'Nhắc nhở', path: '/m12/nhac-nho', icon: BellRing, roles: [STUDENT], phase: '10' },
+      { label: 'Nhắc nhở', path: '/m12/nhac-nho', icon: BellRing, roles: [STUDENT] },
       // Giai đoạn 10: { label: 'Duyệt minh chứng', roles: [ADVISOR] }
       // M12-15 giao diện (P1): { label: 'Quản trị nghề', roles: [ADMIN] }
     ],
@@ -155,10 +163,37 @@ const CAREER_SUBPAGES = [
   { prefix: `${CAREER_ROOT}/nghe/`, label: 'Chi tiết nghề' },
 ];
 
+const SUPPORT_ROOT = '/m12/yeu-cau-ho-tro';
+const RISK_ROOT = '/m11/canh-bao';
+const RISK_PLAN = `${RISK_ROOT}/ke-hoach`;
 const PLAN_ROOT = '/m12/ke-hoach';
 const PLAN_DIFF = `${PLAN_ROOT}/khac-biet`;
 
 function careerSubpageMeta(pathname) {
+  if (pathname.startsWith(`${SUPPORT_ROOT}/`)) {
+    const label = 'Chi tiết yêu cầu';
+    return {
+      title: label,
+      trail: [
+        { label: 'Tổng quan', to: '/' },
+        { label: 'Định hướng & hỗ trợ' },
+        { label: 'Yêu cầu hỗ trợ', to: SUPPORT_ROOT },
+        { label },
+      ],
+    };
+  }
+  if (pathname === RISK_PLAN) {
+    const label = 'Kế hoạch cải thiện';
+    return {
+      title: label,
+      trail: [
+        { label: 'Tổng quan', to: '/' },
+        { label: 'Học tập' },
+        { label: 'Cảnh báo', to: RISK_ROOT },
+        { label },
+      ],
+    };
+  }
   if (pathname === PLAN_DIFF) {
     const label = 'Khác biệt của lộ trình';
     return {

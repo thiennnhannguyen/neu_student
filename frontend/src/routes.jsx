@@ -14,8 +14,12 @@ import ResultsPage from './features/m11/ResultsPage';
 import RisksPage from './features/m11/RisksPage';
 import CareerDetailPage from './features/m12/CareerDetailPage';
 import CareersPage from './features/m12/CareersPage';
+import EvidenceReviewPage from './features/m12/evidence/EvidenceReviewPage';
 import PlanDiffPage from './features/m12/plan/PlanDiffPage';
 import PlanPage from './features/m12/plan/PlanPage';
+import SupportDetailPage from './features/m12/support/SupportDetailPage';
+import SupportListPage from './features/m12/support/SupportListPage';
+import ImprovementPlanPage from './features/m11/ImprovementPlanPage';
 import ProfilePage from './features/profile/ProfilePage';
 
 // Recharts khá nặng nên chỉ tải khi mở trang Phân tích.
@@ -40,6 +44,8 @@ const IMPLEMENTED_PAGES = {
   '/m11/canh-bao': <RisksPage />,
   '/m12/dinh-huong': <CareersPage />,
   '/m12/ke-hoach': <PlanPage />,
+  '/m12/duyet-minh-chung': <EvidenceReviewPage />,
+  '/m12/yeu-cau-ho-tro': <SupportListPage />,
   '/quan-tri/nhat-ky': <AuditLogPage />,
 };
 
@@ -90,7 +96,9 @@ export default function AppRoutes() {
               <Route path="/m12/dinh-huong/tat-ca" element={<OldAllCareersRedirect />} />
               <Route path="/m12/dinh-huong/nghe/:slug" element={<CareerDetailPage />} />
               <Route path="/m12/ke-hoach/khac-biet" element={<PlanDiffPage />} />
+              <Route path="/m11/canh-bao/ke-hoach" element={<ImprovementPlanPage />} />
             </Route>
+            <Route path="/m12/yeu-cau-ho-tro/:id" element={<SupportDetailPage />} />
             {PENDING_ITEMS.map((item) => (
               <Route key={item.path} element={<RoleRoute roles={item.roles} />}>
                 <Route

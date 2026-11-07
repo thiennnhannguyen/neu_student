@@ -1,5 +1,5 @@
 import { CalendarRange } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Navigate, useParams } from 'react-router';
 import { Button, EmptyState, PageHeader, Tabs } from '../../components/ui';
 import { withQuery } from '../m11/format';
@@ -58,6 +58,8 @@ function Detail({ student, data, reload }) {
           nodes={nodes}
           selfStudy={profile.self_study}
           selfStudyNote={profile.self_study_note}
+          student={student}
+          onChanged={reload}
         />
       ),
     },
@@ -119,6 +121,7 @@ export default function CareerDetailPage() {
   const { slug } = useParams();
   const student = useCareerStudent();
   const isOldLink = slug.startsWith(OLD_ID_PREFIX);
+  const last = useRef(null);
   const resource = useApiResource(
     student.needsStudent || isOldLink
       ? null
@@ -140,13 +143,17 @@ export default function CareerDetailPage() {
       </section>
     );
   }
+  // Tải lại sau thao tác (đặt mục tiêu, nộp minh chứng) thì giữ nguyên trang và tab đang mở.
+  if (resource.status === 'ok') {
+    last.current = { slug, data: resource.data };
+  }
+  const shown =
+    resource.status === 'loading' && last.current?.slug === slug
+      ? { status: 'ok', data: last.current.data, retry: resource.retry }
+      : resource;
   return (
     <section className="m12-page">
-      <ResourceView
-        resource={resource}
-        loadingText="Đang tải nghề..."
-        errorText="Không tải được nghề"
-      >
+      <ResourceView resource={shown} loadingText="Đang tải nghề..." errorText="Không tải được nghề">
         {(data) => <Detail key={slug} student={student} data={data} reload={resource.retry} />}
       </ResourceView>
     </section>

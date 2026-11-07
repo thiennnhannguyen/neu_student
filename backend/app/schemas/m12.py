@@ -2,6 +2,7 @@
 
 import re
 from decimal import Decimal
+from urllib.parse import urlparse
 
 from marshmallow import ValidationError, fields, validate, validates_schema
 
@@ -18,6 +19,14 @@ WEIGHT_FORMAT = re.compile(r"^\d{1,2}(\.\d{1,2})?$")
 RELATED_SORTS = ("closeness", "profile_fit")
 GALLERY_SORTS = ("default", "closeness")
 NO_CHANGES = "Cần gửi ít nhất một trường."
+EVIDENCE_MAX = 1000
+LINK_MAX = 512
+REVIEW_NOTE_MAX = 1000
+EVIDENCE_STATUSES = ("pending", "approved", "rejected")
+TICKET_STATUSES = ("new", "in_progress", "need_info", "done")
+TICKET_TITLE_MAX = 255
+TICKET_BODY_MAX = 5000
+PLAN_ITEM_MAX = 255
 
 
 def _text(**kwargs):
@@ -203,3 +212,69 @@ class RequirementUpdateSchema(PartialUpdateSchema):
     skill_id = _text(allow_none=True)
     weight = WeightText()
     source = _text(validate=_filled())
+
+
+def _web_link(value: str) -> None:
+    parts = urlparse(value)
+    if parts.scheme not in ("http", "https") or not parts.netloc:
+        raise ValidationError("Liên kết phải bắt đầu bằng http hoặc https.")
+    if len(value) > LINK_MAX:
+        raise ValidationError(f"Tối đa {LINK_MAX} ký tự.")
+
+
+class EvidenceCreateSchema(ApiSchema):
+    skill_id = _text(required=True, validate=_filled())
+    description = _text(required=True, validate=_filled(EVIDENCE_MAX))
+    link = _text(validate=_web_link)
+
+
+class EvidenceListQuerySchema(ApiSchema):
+    student_id = _text()
+    skill_id = _text()
+
+
+class EvidenceReviewQuerySchema(PageQuerySchema):
+    status = _text(validate=validate.OneOf(EVIDENCE_STATUSES))
+
+
+class EvidenceRejectSchema(ApiSchema):
+    note = _text(required=True, validate=_filled(REVIEW_NOTE_MAX))
+
+
+class EvidenceApproveSchema(ApiSchema):
+    note = _text(validate=_filled(REVIEW_NOTE_MAX))
+
+
+class SupportCreateSchema(ApiSchema):
+    title = _text(required=True, validate=_filled(TICKET_TITLE_MAX))
+    category_id = _text(required=True, validate=_filled())
+    description = _text(required=True, validate=_filled(TICKET_BODY_MAX))
+
+
+class SupportListQuerySchema(PageQuerySchema):
+    status = _text(validate=validate.OneOf(TICKET_STATUSES))
+    category_id = _text()
+
+
+class SupportMessageSchema(ApiSchema):
+    body = _text(required=True, validate=_filled(TICKET_BODY_MAX))
+
+
+class SupportStatusSchema(ApiSchema):
+    status = _text(required=True, validate=validate.OneOf(TICKET_STATUSES))
+
+
+class PlanItemCreateSchema(ApiSchema):
+    title = _text(required=True, validate=_filled(PLAN_ITEM_MAX))
+    due_date = fields.Date(allow_none=True)
+
+
+class PlanItemUpdateSchema(ApiSchema):
+    title = _text(validate=_filled(PLAN_ITEM_MAX))
+    due_date = fields.Date(allow_none=True)
+    done = fields.Boolean()
+
+    @validates_schema
+    def has_changes(self, data, **_kwargs):
+        if not data:
+            raise ValidationError(NO_CHANGES)

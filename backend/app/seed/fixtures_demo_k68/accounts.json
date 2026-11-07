@@ -47,6 +47,22 @@
       "is_mock": true
     },
     {
+      "id": "user-ht1",
+      "username": "ht1",
+      "full_name": "Nhân sự hỗ trợ 1 (mẫu)",
+      "role_id": "role-support_staff",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-ht2",
+      "username": "ht2",
+      "full_name": "Nhân sự hỗ trợ 2 (mẫu)",
+      "role_id": "role-support_staff",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
       "id": "user-demo01",
       "username": "demo01",
       "full_name": "Sinh viên DEMO01 (mẫu)",
@@ -248,6 +264,32 @@
       "id": "aa-gv2-DEMO08",
       "advisor_user_id": "user-gv2",
       "student_id": "DEMO08",
+      "is_mock": true
+    }
+  ],
+  "support_categories": [
+    {
+      "id": "cat-hocvu",
+      "name": "Học vụ (mẫu)",
+      "is_mock": true
+    },
+    {
+      "id": "cat-kythuat",
+      "name": "Kỹ thuật (mẫu)",
+      "is_mock": true
+    }
+  ],
+  "support_staff_categories": [
+    {
+      "id": "ssc-1",
+      "user_id": "user-ht1",
+      "category_id": "cat-hocvu",
+      "is_mock": true
+    },
+    {
+      "id": "ssc-2",
+      "user_id": "user-ht2",
+      "category_id": "cat-kythuat",
       "is_mock": true
     }
   ]

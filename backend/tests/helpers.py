@@ -3,7 +3,7 @@
 from datetime import date, datetime
 from decimal import Decimal
 
-from sqlalchemy import func, select, text
+from sqlalchemy import func, inspect, select, text
 
 from app.extensions import db
 
@@ -36,9 +36,15 @@ def run_sql(sql: str, **params):
 
 
 def count_all_tables() -> dict[str, int]:
+    """Bảng chưa có (test migration đếm cả ở revision cũ) tính là 0 dòng."""
     db.session.rollback()
+    existing = set(inspect(db.engine).get_table_names())
     return {
-        table.name: db.session.scalar(select(func.count()).select_from(table))
+        table.name: (
+            db.session.scalar(select(func.count()).select_from(table))
+            if table.name in existing
+            else 0
+        )
         for table in db.metadata.sorted_tables
     }
 

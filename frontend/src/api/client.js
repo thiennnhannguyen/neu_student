@@ -56,7 +56,8 @@ export async function apiRequest(path, { method = 'GET', body, signal } = {}) {
   if (WRITE_METHODS.has(upperMethod)) {
     headers['X-Requested-With'] = 'fetch';
   }
-  if (body !== undefined) {
+  const isForm = body instanceof FormData;
+  if (body !== undefined && !isForm) {
     headers['Content-Type'] = 'application/json';
   }
 
@@ -67,7 +68,7 @@ export async function apiRequest(path, { method = 'GET', body, signal } = {}) {
       credentials: 'include',
       headers,
       signal,
-      body: body === undefined ? undefined : JSON.stringify(body),
+      body: body === undefined || isForm ? body : JSON.stringify(body),
     });
   } catch (cause) {
     if (cause?.name === 'AbortError') {

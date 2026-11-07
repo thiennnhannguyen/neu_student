@@ -2855,6 +2855,389 @@ Giữ bản cũ (Q100). Thân giống `accept`. Không tạo phiên bản; banne
 }
 ```
 
+### Tệp đính kèm dùng chung
+
+Chỉ nhận pdf, png, jpg, jpeg, docx, kiểm cả đuôi lẫn byte đầu tệp; docx phải có `word/document.xml`. Tối đa 5 MB mỗi tệp. Sai: 422 `ATTACHMENT_INVALID`, `details.fields.files` ghi lý do. Toàn bộ request quá 16 MB: 413. Tệp lưu ngoài thư mục web với tên ngẫu nhiên, có sha256; tải về luôn dạng attachment kèm `X-Content-Type-Options: nosniff`, ngoài phạm vi trả 404.
+
+### `GET /api/m12/evidences`
+
+Lịch sử minh chứng của sinh viên, qua `resolve_target_student`. Tham số `student_id`, `skill_id`. Hỗ trợ viên 403. 7 truy vấn.
+
+<!-- contract: sv07 GET /api/m12/evidences -->
+```json
+{
+  "items": [
+    {
+      "attachments": [],
+      "description": "Báo cáo phân tích (mẫu)",
+      "id": "ev-sv07-data",
+      "link": "https://example.test/mau/data",
+      "review_note": null,
+      "reviewed_at": null,
+      "skill": {
+        "id": "prj-data",
+        "kind": "project",
+        "name": "Dự án phân tích dữ liệu (mẫu)"
+      },
+      "status": "pending",
+      "student_id": "SV07",
+      "submitted_at": null
+    },
+    {
+      "attachments": [],
+      "description": "Kho mã bài tập nhóm (mẫu)",
+      "id": "ev-sv07-git",
+      "link": "https://example.test/mau/git",
+      "review_note": "Đạt (mẫu)",
+      "reviewed_at": "2026-05-10T10:00:00Z",
+      "skill": {
+        "id": "sk-git",
+        "kind": "skill",
+        "name": "Git (mẫu)"
+      },
+      "status": "approved",
+      "student_id": "SV07",
+      "submitted_at": null
+    }
+  ],
+  "student_id": "SV07"
+}
+```
+
+### `POST /api/m12/evidences`
+
+Chỉ sinh viên. Multipart: `skill_id`, `description` (bắt buộc, tối đa 1.000 ký tự), `link` (http hoặc https, tùy chọn), `files` (tối đa 2). Kỹ năng không thuộc nghề nào: 422. Đang `pending` hoặc đã `approved`: 409 `EVIDENCE_EXISTS`; bị `rejected` thì nộp bản mới, lịch sử giữ nguyên. Tăng `data_version`, ghi audit.
+
+
+```json
+{
+  "attachments": [
+    {
+      "content_type": "application/pdf",
+      "id": "47a2376aa9c34f109245b0e34adab0bd",
+      "original_name": "bai-lam.pdf",
+      "size_bytes": 12,
+      "url": "/api/m12/evidences/b1c1c6f94efc44c08a5d7ff536de8154/attachments/47a2376aa9c34f109245b0e34adab0bd"
+    }
+  ],
+  "description": "Kho mã nhóm",
+  "id": "b1c1c6f94efc44c08a5d7ff536de8154",
+  "link": "https://example.test/kho",
+  "review_note": null,
+  "reviewed_at": null,
+  "skill": {
+    "id": "sk-git",
+    "kind": "skill",
+    "name": "Git (mẫu)"
+  },
+  "status": "pending",
+  "student_id": "SV04",
+  "submitted_at": "2026-11-07T07:15:49.866166Z"
+}
+```
+
+### `GET /api/m12/evidences/{id}/attachments/{attachment_id}`
+
+Trả tệp. Sinh viên chủ, cố vấn được phân công, quản trị viên. Người khác, kể cả hỗ trợ viên: 404.
+
+### `GET /api/m12/evidence-reviews`
+
+Cố vấn chỉ có sinh viên được phân công, quản trị viên có tất cả. Tham số `status` (`pending`, `approved`, `rejected`), `page`, `page_size`. Sinh viên và hỗ trợ viên 403. 7 truy vấn.
+
+<!-- contract: gv2 GET /api/m12/evidence-reviews?status=pending -->
+```json
+{
+  "items": [
+    {
+      "attachments": [],
+      "description": "Báo cáo phân tích (mẫu)",
+      "id": "ev-sv07-data",
+      "link": "https://example.test/mau/data",
+      "review_note": null,
+      "reviewed_at": null,
+      "skill": {
+        "id": "prj-data",
+        "kind": "project",
+        "name": "Dự án phân tích dữ liệu (mẫu)"
+      },
+      "status": "pending",
+      "student": {
+        "code": "SV07",
+        "id": "SV07",
+        "name": "Sinh viên 07 (mẫu)"
+      },
+      "student_id": "SV07",
+      "submitted_at": null
+    }
+  ],
+  "page": 1,
+  "page_size": 20,
+  "total": 1
+}
+```
+
+### `GET /api/m12/evidence-reviews/{id}`
+
+Cùng cấu trúc với một phần tử của `GET /api/m12/evidences`. Ngoài phạm vi: 404. 9 truy vấn.
+
+### `POST /api/m12/evidence-reviews/{id}/approve`, `/reject`
+
+Chỉ cố vấn được phân công; quản trị viên chỉ xem nên nhận 403. Ngoài phạm vi: 404. Thân `{"note": "..."}`; `reject` bắt buộc có `note`, thiếu thì 422. Không còn `pending`: 409 `EVIDENCE_REVIEWED`. Tăng `data_version`, ghi audit, tạo thông báo `evidence_review`.
+
+### `GET /api/m12/support-categories`
+
+<!-- contract: sv01 GET /api/m12/support-categories -->
+```json
+{
+  "items": [
+    {
+      "id": "cat-hocvu",
+      "name": "Học vụ (mẫu)"
+    },
+    {
+      "id": "cat-kythuat",
+      "name": "Kỹ thuật (mẫu)"
+    }
+  ]
+}
+```
+
+### `GET /api/m12/support-requests`
+
+Sinh viên có ticket của mình; hỗ trợ viên theo nhóm được gán, chỉ kèm tên và mã sinh viên; cố vấn theo sinh viên được phân công; quản trị viên có tất cả. Tham số `status`, `category_id`, `page`, `page_size`. 5 truy vấn.
+
+<!-- contract: sv01 GET /api/m12/support-requests -->
+```json
+{
+  "items": [
+    {
+      "category": {
+        "id": "cat-hocvu",
+        "name": "Học vụ (mẫu)"
+      },
+      "code": "HT-202609-0001",
+      "created_at": "2026-09-10T09:00:00Z",
+      "id": "req-sv01",
+      "status": "new",
+      "status_label": "Mới",
+      "student": {
+        "code": "SV01",
+        "name": "Sinh viên 01 (mẫu)"
+      },
+      "title": "Hỏi về đăng ký học phần (mẫu)",
+      "updated_at": "2026-09-10T09:00:00Z"
+    }
+  ],
+  "page": 1,
+  "page_size": 20,
+  "total": 1
+}
+```
+
+### `POST /api/m12/support-requests`
+
+Chỉ sinh viên. Multipart: `title`, `category_id`, `description`, `files` (tối đa 3). Mã `HT-YYYYMM-0001`, trùng do tạo đồng thời thì thử lại 3 lần, vẫn trùng thì 409 `TICKET_CODE_CLASH`. Mô tả và tệp là tin nhắn đầu tiên.
+
+### `GET /api/m12/support-requests/{id}`
+
+Ngoài phạm vi: 404. `can_reply` và `next_statuses` cho biết người đang xem làm được gì. `timeline` là lịch sử đổi trạng thái. 10 truy vấn.
+
+
+```json
+{
+  "can_reply": true,
+  "category": {
+    "id": "cat-hocvu",
+    "name": "Học vụ (mẫu)"
+  },
+  "code": "HT-202611-0001",
+  "created_at": "2026-11-07T07:15:50.110851Z",
+  "description": "Nội dung",
+  "id": "43c6ec90ccae4812b4e99333841f78f7",
+  "messages": [
+    {
+      "attachments": [
+        {
+          "content_type": "application/pdf",
+          "id": "4feb88214d314cd2ba87df86bdb6374b",
+          "original_name": "don.pdf",
+          "size_bytes": 12,
+          "url": "/api/m12/support-requests/43c6ec90ccae4812b4e99333841f78f7/attachments/4feb88214d314cd2ba87df86bdb6374b"
+        }
+      ],
+      "author": "Sinh viên 02 (mẫu)",
+      "body": "Nội dung",
+      "created_at": "2026-11-07T07:15:50.111747Z",
+      "id": "0a8e7ae37ece4d6d8cbc5f70b8ca0cef",
+      "is_mine": false
+    },
+    {
+      "attachments": [],
+      "author": "Nhân sự hỗ trợ 1 (mẫu)",
+      "body": "Đã nhận",
+      "created_at": "2026-11-07T07:15:50.165582Z",
+      "id": "e17134eb012a49e8a398146cd2a78694",
+      "is_mine": true
+    }
+  ],
+  "next_statuses": [
+    "done",
+    "need_info"
+  ],
+  "status": "in_progress",
+  "status_label": "Đang xử lý",
+  "student": {
+    "code": "SV02",
+    "name": "Sinh viên 02 (mẫu)"
+  },
+  "timeline": [
+    {
+      "actor": "Nhân sự hỗ trợ 1 (mẫu)",
+      "created_at": "2026-11-07T07:15:50.162084Z",
+      "from_status": "new",
+      "to_label": "Đang xử lý",
+      "to_status": "in_progress"
+    }
+  ],
+  "title": "Xin hỏi",
+  "updated_at": "2026-11-07T07:15:50.165582Z"
+}
+```
+
+### `POST /api/m12/support-requests/{id}/messages`
+
+Multipart: `body`, `files` (tối đa 3). Hỗ trợ viên đúng nhóm, quản trị viên: khi chưa hoàn thành. Sinh viên: chỉ khi `need_info`, sau đó tự về `in_progress`; khác đi là 409 `TICKET_NOT_NEED_INFO`. Cố vấn chỉ đọc: 403. Đã hoàn thành: 409 `TICKET_DONE`. Tin nhắn không sửa, không xóa.
+
+### `POST /api/m12/support-requests/{id}/status`
+
+Hỗ trợ viên đúng nhóm, quản trị viên. Thân `{"status": "..."}`. `new` → `in_progress`; `in_progress` → `need_info`, `done`; `need_info` → `in_progress`, `done`. Sai: 409 `INVALID_TRANSITION`. Không mở lại ticket đã hoàn thành.
+
+### `GET /api/m12/support-requests/{id}/attachments/{attachment_id}`
+
+Trả tệp, cùng phạm vi với ticket. Ngoài phạm vi: 404.
+
+### `GET /api/m12/improvement-plan`
+
+Tham số `student_id`. `active_rules` là quy tắc ở mức `watch`, `warning`; `new_rules` là quy tắc chưa có trong kế hoạch. Chưa tạo thì `plan` null. 19 truy vấn.
+
+<!-- contract: sv04 GET /api/m12/improvement-plan -->
+```json
+{
+  "active_rules": [
+    {
+      "level": "warning",
+      "rule_code": "gpa"
+    },
+    {
+      "level": "warning",
+      "rule_code": "debt"
+    }
+  ],
+  "disclaimer": "Khuyến nghị tham khảo, không thay thế quyết định của cố vấn và nhà trường",
+  "new_rules": [
+    "gpa",
+    "debt"
+  ],
+  "plan": null,
+  "student_id": "SV04"
+}
+```
+
+### `POST /api/m12/improvement-plan`
+
+Chỉ sinh viên. Sinh checklist từ `risk_action_templates` theo mã quy tắc của M11. Đã có kế hoạch: 409 `PLAN_EXISTS`. Không có quy tắc nào cần: 422 `NO_ACTIVE_RISK`.
+
+<!-- contract: sv04 POST /api/m12/improvement-plan {} -->
+```json
+{
+  "active_rules": [
+    {
+      "level": "warning",
+      "rule_code": "gpa"
+    },
+    {
+      "level": "warning",
+      "rule_code": "debt"
+    }
+  ],
+  "disclaimer": "Khuyến nghị tham khảo, không thay thế quyết định của cố vấn và nhà trường",
+  "new_rules": [],
+  "plan": {
+    "created_at": "2026-11-07T07:15:50.312834Z",
+    "id": "6fc6a4aae04c45d397ca939c4e1d031d",
+    "items": [
+      {
+        "done": false,
+        "due_date": null,
+        "id": "80db968907e14e868c6d664050541b52",
+        "order": 1,
+        "title": "Đặt lịch gặp cố vấn học tập (mẫu)"
+      },
+      {
+        "done": false,
+        "due_date": null,
+        "id": "98bdf27e5dfc44ed8e55e936376491bf",
+        "order": 2,
+        "title": "Chọn 2 môn cần ưu tiên cải thiện trong kỳ (mẫu)"
+      }
+    ],
+    "source_rule_codes": [
+      "gpa",
+      "debt"
+    ],
+    "title": "Kế hoạch cải thiện"
+  },
+  "student_id": "SV04"
+}
+```
+
+### Các thao tác trên kế hoạch cải thiện
+
+Chỉ sinh viên chủ kế hoạch, người khác 404; đều trả cùng cấu trúc với `GET`.
+- `POST /api/m12/improvement-plan/{id}/items`: `title`, `due_date`; 201.
+- `PATCH /api/m12/improvement-plan/{id}/items/{item_id}`: `title`, `due_date`, `done`; cần ít nhất 1 trường.
+- `DELETE /api/m12/improvement-plan/{id}/items/{item_id}`.
+- `POST /api/m12/improvement-plan/{id}/new-risks`: chỉ thêm mục cho quy tắc mới, không đụng mục đã sửa; không có quy tắc mới: 409 `NO_NEW_RISK`.
+
+### `GET /api/notifications`
+
+Thông báo của chính người đang đăng nhập, mới nhất trước. `dedupe_key` chống trùng ở DB. Với sinh viên có lộ trình, request này cũng sinh thông báo khi lộ trình có đề xuất (Q106): so dấu phiên bản trước, chỉ tính đề xuất khi dấu đổi, mỗi dấu tính 1 lần. Số truy vấn: 9 khi chưa có lộ trình, 13 khi có lộ trình, 60 ở lần đầu sau khi dấu đổi.
+
+<!-- contract: sv01 GET /api/notifications -->
+```json
+{
+  "items": [
+    {
+      "body": "Xin hỏi",
+      "created_at": "2026-11-07T07:15:50.375376Z",
+      "id": 1,
+      "kind": "ticket_update",
+      "link": "/m12/yeu-cau-ho-tro/x",
+      "read": false,
+      "title": "HT-202611-0001: Có tin nhắn mới"
+    }
+  ],
+  "note": "Thông báo lộ trình cập nhật khi bạn mở ứng dụng.",
+  "page": 1,
+  "page_size": 20,
+  "total": 1,
+  "unread_count": 1
+}
+```
+
+### `POST /api/notifications/{id}/read`
+
+Không phải của mình: 404.
+
+### `POST /api/notifications/read-all`
+
+<!-- contract: sv01 POST /api/notifications/read-all 200 {} -->
+```json
+{
+  "unread_count": 0
+}
+```
+
 ### `GET /api/auth/demo-accounts`
 
 Công khai. Tên tài khoản của profile `demo-k68`, không có mật khẩu. Profile test trả `accounts` rỗng; production trả 404.

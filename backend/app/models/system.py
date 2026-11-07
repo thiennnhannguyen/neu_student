@@ -18,7 +18,8 @@ class Notification(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     __table_args__ = (
         db.CheckConstraint(
-            "kind IN ('plan_due', 'ticket_update', 'roadmap_proposal', 'career_version')",
+            "kind IN ('plan_due', 'ticket_update', 'roadmap_proposal', 'career_version', "
+            "'evidence_review')",
             name="kind_valid",
         ),
         db.UniqueConstraint("user_id", "dedupe_key"),

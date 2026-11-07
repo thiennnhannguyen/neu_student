@@ -1159,3 +1159,431 @@
   flex-wrap: wrap;
   gap: var(--space-12);
 }
+
+/* Minh chứng */
+.career-checklist__actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.ui-textarea {
+  width: 100%;
+  min-height: auto;
+  padding: var(--space-2) var(--space-12);
+  resize: vertical;
+}
+
+.evidence-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  align-items: stretch;
+}
+
+.evidence-form > .btn {
+  align-self: flex-start;
+}
+
+.evidence-note {
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.evidence-history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: 0;
+  margin: 0 0 var(--space-3);
+  list-style: none;
+}
+
+.evidence-history li {
+  padding: var(--space-12);
+  background: var(--surface-sunken);
+  border-radius: var(--radius-md);
+}
+
+.evidence-history p {
+  margin: var(--space-1) 0 0;
+  overflow-wrap: anywhere;
+}
+
+.evidence-history__tag {
+  margin-left: var(--space-2);
+  font-size: var(--font-12);
+  color: var(--text-secondary);
+}
+
+.evidence-review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding-top: var(--space-3);
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.evidence-review__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.attachment-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: 0;
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-14);
+  list-style: none;
+}
+
+.attachment-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.attachment-list a {
+  display: inline-flex;
+  gap: var(--space-1);
+  align-items: center;
+  overflow-wrap: anywhere;
+}
+
+.attachment-list span {
+  color: var(--text-secondary);
+}
+
+/* Yêu cầu hỗ trợ */
+.ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0 0 var(--space-3);
+  list-style: none;
+}
+
+.ticket-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-12) var(--space-3);
+  color: var(--text-primary);
+  text-decoration: none;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.ticket-row:hover {
+  border-color: var(--neu-primary);
+}
+
+.ticket-row__main {
+  display: flex;
+  flex: 1 1 220px;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ticket-row__code,
+.ticket-row__meta {
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.ticket-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.ticket-detail__main h2 {
+  margin: var(--space-2) 0 var(--space-3);
+  font-size: var(--font-20);
+  overflow-wrap: anywhere;
+}
+
+.ticket-detail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  align-items: center;
+  margin: 0;
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.ticket-detail__side {
+  padding: var(--space-3);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.ticket-detail__side h3 {
+  margin: 0 0 var(--space-12);
+  font-size: var(--font-16);
+}
+
+.ticket-thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: 0;
+  margin: 0 0 var(--space-3);
+  list-style: none;
+}
+
+.ticket-message {
+  padding: var(--space-12) var(--space-3);
+  margin-right: var(--space-32);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.ticket-message--mine {
+  margin-right: 0;
+  margin-left: var(--space-32);
+  background: var(--neu-tint);
+  border-color: var(--neu-tint);
+}
+
+.ticket-message__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: space-between;
+  margin: 0 0 var(--space-1);
+  font-size: var(--font-14);
+}
+
+.ticket-message__head time {
+  color: var(--text-secondary);
+}
+
+.ticket-message__body {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.ticket-reply {
+  padding: var(--space-3);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.ticket-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: 0 0 0 var(--space-3);
+  margin: 0;
+  list-style: none;
+  border-left: 2px solid var(--border-subtle);
+}
+
+.ticket-timeline li {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-14);
+}
+
+.ticket-timeline span,
+.ticket-timeline time {
+  color: var(--text-secondary);
+}
+
+.ticket-status-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: stretch;
+  padding-top: var(--space-3);
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Kế hoạch cải thiện */
+.plan-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0 0 var(--space-3);
+  list-style: none;
+}
+
+.plan-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  align-items: center;
+  padding: var(--space-12);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.plan-item .plan-item__title {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.plan-item .plan-item__date {
+  flex: 0 0 170px;
+  width: 170px;
+}
+
+.plan-item--done .plan-item__title {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+
+.plan-item-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  max-width: 640px;
+}
+
+.plan-item-add .ui-input {
+  flex: 1 1 240px;
+  width: auto;
+}
+
+/* Thông báo */
+.notification-bell {
+  position: relative;
+}
+
+.notification-bell__count {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 18px;
+  padding: 0 4px;
+  font-size: var(--font-12);
+  font-weight: 700;
+  line-height: 18px;
+  color: var(--neu-white);
+  text-align: center;
+  background: var(--neu-red);
+  border-radius: 999px;
+}
+
+.notification-panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  z-index: 40;
+  width: min(380px, calc(100vw - 32px));
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.notification-panel__head {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-12) var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.notification-panel__head h2 {
+  margin: 0;
+  font-size: var(--font-16);
+}
+
+.notification-panel__empty {
+  padding: var(--space-3);
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.notification-panel__list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.notification-item {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--space-12) var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.notification-item a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-size: var(--font-14);
+  color: var(--text-primary);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.notification-item a span,
+.notification-item a time {
+  color: var(--text-secondary);
+}
+
+.notification-item--unread {
+  background: var(--surface-sunken);
+}
+
+.notification-item__tag {
+  flex: 0 0 auto;
+  font-size: var(--font-12);
+  font-weight: 600;
+  color: var(--neu-primary);
+}
+
+.notification-panel__note {
+  padding: var(--space-2) var(--space-3);
+  margin: 0;
+  font-size: var(--font-12);
+  color: var(--text-secondary);
+}
+
+@media (max-width: 767px) {
+  .ticket-detail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ticket-message,
+  .ticket-message--mine {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .notification-panel {
+    position: fixed;
+    top: calc(var(--topbar-height) + var(--space-1));
+    right: 16px;
+  }
+}

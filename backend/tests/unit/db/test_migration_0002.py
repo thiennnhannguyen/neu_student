@@ -43,7 +43,16 @@ def table_and_index_definitions():
         "'course_prerequisites', "
         # Migration 0008 thêm cột và chỉ mục vào các bảng này.
         "'learning_roadmaps', 'roadmap_versions', 'roadmap_items', "
-        "'uq_learning_roadmaps_student') ORDER BY name"
+        "'uq_learning_roadmaps_student', "
+        # Migration 0010 đổi các bảng này.
+        "'skill_evidences', 'notifications', 'improvement_plans', 'risk_action_templates', "
+        "'skill_evidence_attachments', 'support_status_events', "
+        "'uq_improvement_plans_one_active', "
+        "'ix_skill_evidence_attachments_evidence_id', 'ix_support_status_events_request_id', "
+        "'ix_notifications_user_read', 'sqlite_autoindex_skill_evidence_attachments_1', "
+        "'sqlite_autoindex_skill_evidence_attachments_2', "
+        "'sqlite_autoindex_support_status_events_1', 'sqlite_autoindex_notifications_1') "
+        "ORDER BY name"
     )
     return [tuple(row) for row in rows]
 

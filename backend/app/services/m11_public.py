@@ -16,6 +16,7 @@ from app.services.effective_attempt_service import (
 )
 from app.services.m11_loader import load_rule_version, load_student_data
 from app.services.m11_types import StudentData
+from app.services.risk_service import assess_risk
 
 # Chỉ các trạng thái này được tick xanh (R6, Q64).
 COMPLETED_COURSE_STATUSES = COMPLETED_STATUSES
@@ -187,6 +188,12 @@ def get_roadmap_facts(student_id: str) -> RoadmapFacts:
         in_progress=frozenset(c for c, s in statuses.items() if s == COURSE_IN_PROGRESS),
         program_id=data.program_id,
     )
+
+
+def get_risk_levels(student_id: str) -> tuple[tuple[str, str], ...]:
+    """(mã quy tắc, mức) theo đúng thứ tự của M11."""
+    outcomes = assess_risk(load_student_data(student_id)).outcomes
+    return tuple((outcome.rule_code, outcome.level) for outcome in outcomes)
 
 
 def get_rule_version(cohort: str) -> str | None:

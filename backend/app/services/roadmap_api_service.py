@@ -4,6 +4,7 @@ from sqlalchemy import func, select
 
 from app.common import audit, clock
 from app.common.errors import ApiError
+from app.common.result_cache import app_cache
 from app.extensions import db
 from app.models.m12 import (
     Career,
@@ -26,6 +27,7 @@ from app.services.career_api_service import (
 from app.services.career_loader import load_career_versions
 from app.services.career_progress_service import current_career_id, evaluations_for
 from app.services.completion_service import STATUS_DONE
+from app.services.notification_service import notify
 from app.services.roadmap_service import (
     PRIORITY_RANK,
     RANK_NO_PRIORITY,
@@ -44,6 +46,7 @@ from app.services.roadmap_service import (
 
 GRADUATION_SEMESTERS = 8
 RECOMMENDED_ORDER = "recommended_order"
+NOTICE_CACHE_KEY = "roadmap_notice_cache"
 STATUS_ACTIVE = "active"
 STATUS_ARCHIVED = "archived"
 NOTE = (
@@ -741,3 +744,40 @@ def dismiss_proposal(actor: User, student: Student, roadmap: LearningRoadmap, st
         None,
         {"stamp": stamp},
     )
+
+
+# --- Thông báo (Q106) ---
+
+
+def notify_if_proposal(student: Student) -> None:
+    """So dấu trước, chỉ tính đề xuất khi dấu đổi. Mỗi dấu tính 1 lần và có tối đa 1 thông báo."""
+    roadmap = _roadmap_of(student.id)
+    if roadmap is None:
+        return
+    active = _active_version(roadmap.id)
+    career_id = current_career_id(student.id)
+    if career_id is None:
+        return
+    stamp = stamp_of(
+        student.data_version,
+        latest_published(career_id).id,
+        m11_public.get_rule_version(student.cohort),
+    )
+    if stamp == _version_stamp(active) or stamp == active.dismissed_stamp:
+        return
+
+    def changed() -> bool:
+        items = _items_of(active.id)
+        facts = m11_public.get_roadmap_facts(student.id)
+        proposal = _proposal(student, active, items, facts)
+        return _plan_changes(active, items, proposal[0])
+
+    if app_cache(NOTICE_CACHE_KEY).get_or_compute((roadmap.id, active.id, stamp), changed):
+        notify(
+            student.user_id,
+            "roadmap_proposal",
+            "Lộ trình có thay đổi",
+            "Hãy xem khác biệt rồi quyết định áp dụng hay giữ bản cũ.",
+            "/m12/ke-hoach/khac-biet",
+            f"roadmap:{roadmap.id}:{stamp}"[:128],
+        )

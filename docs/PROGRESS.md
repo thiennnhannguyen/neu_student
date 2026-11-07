@@ -24,7 +24,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 07 | Xây Career Graph và API M12 | Hoàn thành, tag `phase-07`, CI xanh | Không có |
 | 08 | Đồng bộ tiến độ M11–M12, tỷ lệ nghề, trang Định hướng nghề | Hoàn thành, tag `phase-08`, CI xanh. Đạt 235/235 ở commit `fd18024` | Không có |
 | 09 | Lập lộ trình theo kỳ (M12-07, M12-08); M12-09 hoãn | Đạt, tag `phase-09` | Không có |
-| 10 | Học liệu, yêu cầu hỗ trợ, thông báo, luồng nộp/duyệt `skill_evidences` (P1) | Chưa bắt đầu | Không có |
+| 10 | Minh chứng, yêu cầu hỗ trợ, kế hoạch cải thiện, thông báo (bản thu gọn) | Chờ nghiệm thu, chưa gắn tag | Không có |
 | 11 | Thiết kế responsive theo NEU 2026; đưa thư viện họa tiết vào khung ứng dụng (dải ở navbar) và bổ sung họa tiết còn thiếu (D-154) | Chưa bắt đầu | Không có |
 | 12 | Kiểm thử tích hợp, triển khai cục bộ, báo cáo | Chưa bắt đầu | Không có |
 
@@ -45,11 +45,12 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tồn đọng kỹ thuật
 
-1. Giai đoạn 10: mọi hàm đổi trạng thái `skill_evidences` (không chỉ hàm tạo) phải tăng `data_version`; mở rộng luật quét mã nguồn để bắt cả UPDATE.
+1. (Đã xử lý ở GĐ10) Mọi hàm đổi trạng thái `skill_evidences` (không chỉ hàm tạo) phải tăng `data_version`; mở rộng luật quét mã nguồn để bắt cả UPDATE.
 2. Khóa cache M11/M12 chưa có kỳ hiện tại; khi có API đổi kỳ hiện tại thì phải xóa cache hoặc đưa kỳ vào khóa.
 
 ## Việc tương lai
 
+0. Hoãn từ giai đoạn 10: M12-11 Học liệu, M12-14 Nhắc nhở định kỳ; giữ trang "Đang phát triển".
 1. Landing page giới thiệu & định hướng từng nghề, route công khai dự kiến /nghe/:slug. Đã chuẩn bị: slug ổn định, nội dung nằm ở dữ liệu nghề, component `CareerHero`, `CareerRoadmap`, `CareerProjects`, `CareerIllustration`.
 2. API quản trị nghề chưa sửa được các trường mới của CR-03 (chỉ đọc được qua API người dùng).
 
@@ -63,4 +64,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Giai đoạn 10: lập kế hoạch, chờ duyệt. Remote: https://github.com/thiennnhannguyen/neu_student.
+Giai đoạn 10: chờ quản lý dự án nghiệm thu. Remote: https://github.com/thiennnhannguyen/neu_student.

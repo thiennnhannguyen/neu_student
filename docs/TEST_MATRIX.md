@@ -107,7 +107,7 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | TC10 | Đổi nghề liên quan và xem tất cả hoạt động | 08 | Đạt: `test_tc10_related_sorts_differently_and_filters_by_field`; Vitest `trang Xem tất cả (TC10)` |
 | TC11 | Lộ trình không xếp môn trước tiên quyết | 09 | Đạt: `test_tc11_random_roadmaps_obey_hard_constraints` (50 lộ trình mỗi profile), `test_algorithm_against_exhaustive_search`, `test_move_before_prerequisite_is_422_and_db_unchanged` |
 | TC12 | Môn không mở kỳ này được ghi dự kiến/chưa xác minh | 09 | Đạt: `test_tc12_no_offering_is_du_kien_and_open_is_confirmed`, `test_tc12_closed_offering_is_never_used`; Vitest nhóm `Kế hoạch học tập: các cột kỳ` |
-| TC13 | Sinh viên không xem được ticket của người khác | 10 | Dữ liệu: Ticket SV01, SV02; chưa có test |
+| TC13 | Sinh viên không xem được ticket của người khác | 10 | Đạt: `test_tc13_student_cannot_read_ticket_of_other_student`, `test_tc13_cannot_download_attachment_of_other_student`, `test_tc13_staff_of_other_category_gets_404` |
 | TC14 | Giao diện mobile, bàn phím, trạng thái rỗng | Mọi giai đoạn có UI, 11 | Dữ liệu: SV05; chưa có test |
 
 ## CR-01
@@ -257,3 +257,14 @@ File nằm trong `backend/tests/`, trừ dòng ghi rõ `frontend/`.
 | Không khả thi, không 500 | `test_required_course_closed_everywhere_is_infeasible_with_reason_not_500` |
 | DEMO05 đúng HK, ưu tiên nghề chính | `test_demo05_planned_courses_follow_curriculum_semester`, `test_demo05_primary_career_electives_are_preferred`, `test_demo05_thesis_is_last_and_practicum_just_before` |
 | Giao diện | `features/m12/plan/plan.test.jsx` |
+
+## Giai đoạn 10: minh chứng, hỗ trợ, kế hoạch cải thiện, thông báo
+
+| Yêu cầu | Test |
+|---------|------|
+| Tệp: đuôi, nội dung, 6 MB, tên ngẫu nhiên | `tests/api/m12/test_attachments.py` |
+| Minh chứng, % trên mọi nghề, `data_version` | `tests/api/m12/test_evidences.py`; luật quét `test_data_version_scanner_catches_evidence_status_update` |
+| Ticket, Q26, tin nhắn | `tests/api/m12/test_support.py` |
+| Kế hoạch cải thiện, mọi quy tắc có mẫu | `tests/api/m12/test_improvement.py` |
+| Thông báo, chống trùng, Q106 | `tests/api/test_notifications.py` |
+| Giao diện | `features/m12/work.test.jsx`; Vitest nhóm `Cảnh báo` |

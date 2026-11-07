@@ -590,7 +590,7 @@ def test_demo_accounts_lists_students_advisors_and_admin_without_passwords(demo_
     body = demo_app.test_client().get("/api/auth/demo-accounts").get_json()
     names = [item["username"] for item in body["accounts"]]
 
-    assert names == [f"demo0{i}" for i in range(1, 9)] + ["gv1", "gv2", "admin"]
+    assert names == [f"demo0{i}" for i in range(1, 9)] + ["gv1", "gv2", "admin", "ht1"]
     assert "Demo@" not in json.dumps(body)
 
 
@@ -603,6 +603,8 @@ SHARED_TABLES = {
     "risk_action_templates",
     "roles",
     "semesters",
+    "support_categories",
+    "support_staff_categories",
     "users",
 }
 

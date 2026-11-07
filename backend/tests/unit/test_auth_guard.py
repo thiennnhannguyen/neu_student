@@ -169,6 +169,36 @@ M12_STUDENT_WRITE_ROUTES = {
     ("POST", "/api/m12/roadmaps/<roadmap_id>/proposal/accept"),
     ("POST", "/api/m12/roadmaps/<roadmap_id>/proposal/dismiss"),
 }
+# Giai đoạn 10: mỗi route khai báo đúng vai trò của nó.
+READER_NAMES = {"student", "advisor", "admin"}
+EVERYONE_NAMES = READER_NAMES | {"support_staff"}
+M12_WORK_ROUTES = {
+    ("GET", "/api/m12/evidences"): READER_NAMES,
+    ("POST", "/api/m12/evidences"): {"student"},
+    ("GET", "/api/m12/evidences/<evidence_id>/attachments/<attachment_id>"): EVERYONE_NAMES,
+    ("GET", "/api/m12/evidence-reviews"): {"advisor", "admin"},
+    ("GET", "/api/m12/evidence-reviews/<evidence_id>"): {"advisor", "admin"},
+    ("POST", "/api/m12/evidence-reviews/<evidence_id>/approve"): {"advisor"},
+    ("POST", "/api/m12/evidence-reviews/<evidence_id>/reject"): {"advisor"},
+    ("GET", "/api/m12/support-categories"): EVERYONE_NAMES,
+    ("GET", "/api/m12/support-requests"): EVERYONE_NAMES,
+    ("POST", "/api/m12/support-requests"): {"student"},
+    ("GET", "/api/m12/support-requests/<request_id>"): EVERYONE_NAMES,
+    ("POST", "/api/m12/support-requests/<request_id>/messages"): EVERYONE_NAMES,
+    ("POST", "/api/m12/support-requests/<request_id>/status"): EVERYONE_NAMES,
+    ("GET", "/api/m12/support-requests/<request_id>/attachments/<attachment_id>"): EVERYONE_NAMES,
+    ("GET", "/api/m12/improvement-plan"): READER_NAMES,
+    ("POST", "/api/m12/improvement-plan"): {"student"},
+    ("POST", "/api/m12/improvement-plan/<plan_id>/new-risks"): {"student"},
+    ("POST", "/api/m12/improvement-plan/<plan_id>/items"): {"student"},
+    ("PATCH", "/api/m12/improvement-plan/<plan_id>/items/<item_id>"): {"student"},
+    ("DELETE", "/api/m12/improvement-plan/<plan_id>/items/<item_id>"): {"student"},
+}
+NOTIFICATION_ROUTES = {
+    ("GET", "/api/notifications"),
+    ("POST", "/api/notifications/<int:notification_id>/read"),
+    ("POST", "/api/notifications/read-all"),
+}
 M12_ADMIN_ROUTES = {
     ("GET", "/api/admin/audit-logs/entities"),
     ("GET", "/api/admin/careers"),
@@ -246,6 +276,8 @@ def test_route_registry_covers_all_expected_api_routes():
         ("GET", "/api/m11/metrics-glossary"),
         *M12_USER_ROUTES,
         *M12_STUDENT_WRITE_ROUTES,
+        *M12_WORK_ROUTES,
+        *NOTIFICATION_ROUTES,
         *M12_ADMIN_ROUTES,
     }
 
@@ -265,9 +297,18 @@ def test_m11_and_grade_entry_routes_declare_exact_roles():
     }
 
     new_writes = M12_STUDENT_WRITE_ROUTES - M12_USER_ROUTES
-    assert len(policies) == 14 + 1 + len(M12_USER_ROUTES) + len(new_writes) + len(M12_ADMIN_ROUTES)
+    assert len(policies) == (
+        14
+        + 1
+        + len(M12_USER_ROUTES)
+        + len(new_writes)
+        + len(M12_WORK_ROUTES)
+        + len(M12_ADMIN_ROUTES)
+    )
     for (method, path), roles in policies.items():
-        if (method, path) in M12_STUDENT_WRITE_ROUTES:
+        if (method, path) in M12_WORK_ROUTES:
+            assert roles == M12_WORK_ROUTES[(method, path)], path
+        elif (method, path) in M12_STUDENT_WRITE_ROUTES:
             assert roles == {"student"}
         elif path.startswith(("/api/m11/", "/api/m12/")):
             assert roles == readers, path

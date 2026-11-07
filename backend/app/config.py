@@ -1,7 +1,9 @@
 """Cấu hình ứng dụng theo môi trường."""
 
 import os
+import tempfile
 from datetime import timedelta
+from pathlib import Path
 
 
 class BaseConfig:
@@ -15,6 +17,12 @@ class BaseConfig:
     # Hết hạn sau 2 giờ không hoạt động: cookie được ký lại ở mỗi request.
     PERMANENT_SESSION_LIFETIME = timedelta(hours=2)
     SESSION_REFRESH_EACH_REQUEST = True
+    # Ngoài thư mục phục vụ web, có trong .gitignore. Tệp chỉ tải được qua API có kiểm quyền.
+    UPLOAD_DIR = os.environ.get("UPLOAD_DIR") or str(
+        Path(__file__).resolve().parents[1] / "uploads"
+    )
+    # 3 tệp, mỗi tệp 5 MB, cộng phần còn lại của form. Tệp lẻ quá 5 MB được service báo riêng.
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 
 
 class DevelopmentConfig(BaseConfig):
@@ -25,6 +33,7 @@ class TestingConfig(BaseConfig):
     TESTING = True
     SECRET_KEY = "test-only"
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    UPLOAD_DIR = tempfile.mkdtemp(prefix="neu-student-upload-test-")
 
 
 class ProductionConfig(BaseConfig):

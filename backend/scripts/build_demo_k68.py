@@ -651,7 +651,11 @@ class Builder:
         academic = json.loads(_text(TEST_FIXTURES / "academic.json"))
         semesters = json.loads(_text(TEST_FIXTURES / "semesters.json"))
         plans = json.loads(_text(TEST_FIXTURES / "plans.json"))
-        staff = [row for row in accounts["users"] if row["username"] in ("admin", "gv1", "gv2")]
+        staff = [
+            row
+            for row in accounts["users"]
+            if row["username"] in ("admin", "gv1", "gv2", "ht1", "ht2")
+        ]
         self.build_courses()
         self.build_programs()
         self.build_prerequisites()
@@ -666,6 +670,11 @@ class Builder:
             "accounts.json": {
                 key: self.tables[key]
                 for key in ("roles", "users", "students", "advisor_assignments")
+            }
+            | {
+                # Q104: dùng chung với profile test, giữ nguyên id.
+                "support_categories": accounts["support_categories"],
+                "support_staff_categories": accounts["support_staff_categories"],
             },
             "courses.json": {
                 key: self.tables[key]
@@ -722,6 +731,8 @@ class Builder:
             "- Vị trí trong lộ trình (Q99): Khóa luận tốt nghiệp ở kỳ cuối của tầm lộ trình, "
             "Chuyên đề thực tế ưu tiên kỳ ngay trước. Tài liệu nguồn không ghi học kỳ của 2 môn "
             "này, cần xác minh với trường.",
+            "- Cẩm nang không có kỹ năng dùng chung giữa các nghề; cơ chế dùng chung được kiểm ở "
+            "profile test.",
             f"- CTĐT K68 dùng làm CTĐT mẫu cho sinh viên K66, K67: “{content.PROGRAM_NOTE}”.",
             f"- Tiên quyết: chỉ dựng từ mục 4 cẩm nang, nguồn “{content.SOURCE_ORDER}”. "
             "M11 không dùng các cạnh này để chặn đăng ký.",

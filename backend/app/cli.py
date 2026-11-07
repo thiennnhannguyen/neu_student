@@ -9,6 +9,7 @@ from app.common.errors import ApiError
 from app.common.transaction import transaction
 from app.extensions import db
 from app.models.shared import Course
+from app.services import attachment_service
 from app.services.grades_service import DEFAULT_ACTOR, add_grade_result
 
 grades_cli = AppGroup("grades", help="Quản lý kết quả học phần mẫu.")
@@ -40,3 +41,12 @@ def add_grade(student, course, semester, score, actor):
 
 def register_grades_command(app: Flask) -> None:
     app.cli.add_command(grades_cli)
+
+
+def register_clean_uploads_command(app: Flask) -> None:
+    @app.cli.command("clean-uploads", help="Xóa tệp tải lên ở máy dev, dùng sau khi seed lại.")
+    def clean_uploads():
+        try:
+            click.echo(f"Đã xóa {attachment_service.clean_all()} tệp.")
+        except ApiError as error:
+            raise click.ClickException(error.message) from error

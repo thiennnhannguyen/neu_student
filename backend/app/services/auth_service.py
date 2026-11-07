@@ -4,7 +4,7 @@ from datetime import timedelta
 from functools import lru_cache
 
 from flask import current_app
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.common import audit, clock
@@ -12,6 +12,8 @@ from app.common.errors import ApiError
 from app.extensions import db
 from app.models.shared import Role, Student, User
 
+DEMO_SUPPORT_USERNAME = "ht1"
+DEMO_STAFF_ORDER = {"advisor": 0, "admin": 1, "support_staff": 2}
 DEMO_CODE_PREFIX = "DEMO"
 MAX_FAILED_ATTEMPTS = 5
 FAILED_WINDOW = timedelta(minutes=15)
@@ -111,7 +113,7 @@ def describe_user(user: User) -> dict:
 
 
 def demo_accounts() -> list[dict]:
-    """Tài khoản của profile demo-k68: 8 sinh viên DEMO, cố vấn của họ và quản trị."""
+    """Tài khoản của profile demo-k68: 8 sinh viên DEMO, cố vấn, quản trị và ht1 (Q104)."""
     if current_app.config["APP_CONFIG_NAME"] == "production":
         raise ApiError(404)
     students = db.session.execute(
@@ -125,9 +127,10 @@ def demo_accounts() -> list[dict]:
     staff = db.session.execute(
         select(User.username, User.full_name, Role.name)
         .join(Role, Role.id == User.role_id)
-        .where(Role.name.in_(("advisor", "admin")))
-        .order_by(Role.name.desc(), User.username)
+        .where(or_(Role.name.in_(("advisor", "admin")), User.username == DEMO_SUPPORT_USERNAME))
+        .order_by(User.username)
     ).all()
+    staff = sorted(staff, key=lambda row: DEMO_STAFF_ORDER[row.name])
     return [
         {"username": row.username, "full_name": row.full_name, "role": "student"}
         for row in students

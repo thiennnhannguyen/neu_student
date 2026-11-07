@@ -48,6 +48,8 @@ Các lệnh chạy trong thư mục `backend`:
 
 Sau khi lấy mã mới có migration, chạy lại `make seed`.
 
+Tệp tải lên nằm ở `backend/uploads/` (không commit). Seed lại không xóa tệp cũ: chạy `make clean-uploads` để dọn, lệnh này chỉ dùng ở máy dev và bị từ chối ở production.
+
 Đổi profile bằng `make seed` hoặc `make seed-demo` không cần khởi động lại `make dev`: id nghề của hai profile khác nhau. Chỉ cần khởi động lại khi seed lại cùng profile sau khi đã sửa fixture: cây nghề của bản đã công bố được cache trong tiến trình theo id phiên bản.
 
 ## Tài khoản demo (dữ liệu mẫu)

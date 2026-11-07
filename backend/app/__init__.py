@@ -13,8 +13,10 @@ from app.blueprints.auth import auth_bp
 from app.blueprints.health import health_bp
 from app.blueprints.m11 import m11_bp
 from app.blueprints.m12 import m12_bp
+from app.blueprints.m12_work import m12_work_bp
+from app.blueprints.notifications import notifications_bp
 from app.blueprints.students import students_bp
-from app.cli import register_grades_command
+from app.cli import register_clean_uploads_command, register_grades_command
 from app.common.auth_guard import register_csrf_check
 from app.common.errors import register_error_handlers
 from app.config import CONFIGS
@@ -59,7 +61,18 @@ def create_app(config_name: str | None = None, overrides: dict | None = None) ->
     register_csrf_check(app)
     register_seed_command(app)
     register_grades_command(app)
-    for blueprint in (health_bp, auth_bp, students_bp, admin_bp, advisor_bp, m11_bp, m12_bp):
+    register_clean_uploads_command(app)
+    for blueprint in (
+        health_bp,
+        auth_bp,
+        students_bp,
+        admin_bp,
+        advisor_bp,
+        m11_bp,
+        m12_bp,
+        m12_work_bp,
+        notifications_bp,
+    ):
         app.register_blueprint(blueprint)
 
     return app

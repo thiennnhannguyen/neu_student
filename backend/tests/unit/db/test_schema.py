@@ -48,7 +48,7 @@ def test_all_tables_exist(app):
         )
     )
     assert tables - {"alembic_version"} == set(db.metadata.tables)
-    assert len(db.metadata.tables) == 42
+    assert len(db.metadata.tables) == 44
 
 
 def test_expected_triggers_exist(app):

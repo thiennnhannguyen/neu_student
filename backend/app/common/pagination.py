@@ -42,12 +42,19 @@ def _page_params(page, page_size) -> tuple[int, int]:
     return parsed_page, parsed_size
 
 
-def paginate(query: Select, page=None, page_size=None) -> dict:
-    """Chạy câu select theo trang. Người gọi phải tự order_by để kết quả ổn định."""
+def paginate(query: Select, page=None, page_size=None, scalars: bool = True) -> dict:
+    """Chạy câu select theo trang. Người gọi phải tự order_by để kết quả ổn định.
+
+    `scalars=False` khi câu select có nhiều cột hoặc nhiều model: mỗi phần tử là một hàng.
+    """
     parsed_page, parsed_size = _page_params(page, page_size)
-    total = db.session.scalar(select(func.count()).select_from(query.order_by(None).subquery()))
     offset = (parsed_page - 1) * parsed_size
-    items = db.session.scalars(query.limit(parsed_size).offset(offset)).all()
+    if scalars:
+        total = db.session.scalar(select(func.count()).select_from(query.order_by(None).subquery()))
+        items = db.session.scalars(query.limit(parsed_size).offset(offset)).all()
+    else:
+        total = db.session.scalar(query.order_by(None).with_only_columns(func.count()))
+        items = db.session.execute(query.limit(parsed_size).offset(offset)).all()
     return {"items": items, "page": parsed_page, "page_size": parsed_size, "total": total}
 
 

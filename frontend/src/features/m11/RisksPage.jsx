@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { apiRequest } from '../../api/client';
+import { useAuth } from '../auth/AuthContext';
 import { Button, Card, StatusChip } from '../../components/ui';
 import { formatCount, formatDecimal, withQuery } from './format';
 import { DISCLAIMER, RULE_NAMES } from './labels';
@@ -54,6 +58,61 @@ function RiskRuleCard({ outcome }) {
   );
 }
 
+const PLAN_API = '/api/m12/improvement-plan';
+const PLAN_PAGE = '/m11/canh-bao/ke-hoach';
+
+/** Q107: đã có kế hoạch thì mở kế hoạch đó. Cố vấn chỉ xem. */
+function ImprovementAction({ scope }) {
+  const { role } = useAuth();
+  const navigate = useNavigate();
+  const resource = useApiResource(withQuery(PLAN_API, { student_id: scope.studentId }));
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const planPage = withQuery(PLAN_PAGE, { student: scope.studentId });
+  if (resource.status !== 'ok') {
+    return null;
+  }
+  const { plan, active_rules: rules } = resource.data;
+  if (plan) {
+    return (
+      <div>
+        <Button variant="secondary" to={planPage}>
+          Xem kế hoạch
+        </Button>
+      </div>
+    );
+  }
+  if (role !== 'student') {
+    return <p className="reference-line">Sinh viên chưa tạo kế hoạch cải thiện.</p>;
+  }
+  if (rules.length === 0) {
+    return <p className="reference-line">Không có quy tắc nào cần lập kế hoạch cải thiện.</p>;
+  }
+  async function create() {
+    setBusy(true);
+    setError('');
+    try {
+      await apiRequest(PLAN_API, { method: 'POST', body: {} });
+      navigate(planPage);
+    } catch (cause) {
+      setError(cause.message);
+      setBusy(false);
+    }
+  }
+  return (
+    <div>
+      <Button loading={busy} onClick={create}>
+        Tạo kế hoạch cải thiện
+      </Button>
+      {error && (
+        <p role="alert" className="status-error">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function RisksContent({ scope }) {
   const resource = useApiResource(withQuery('/api/m11/risks', scope.query));
   const semesterName = scope.semesters.data.items.find((i) => i.id === scope.semesterId)?.name;
@@ -87,10 +146,7 @@ function RisksContent({ scope }) {
             />
             <DataWarnings warnings={data.meta.data_warnings} />
           </div>
-          <div>
-            <Button disabled>Tạo kế hoạch cải thiện</Button>
-            <p className="reference-line">Có ở giai đoạn sau</p>
-          </div>
+          <ImprovementAction scope={scope} />
         </div>
       )}
     </ResourceView>

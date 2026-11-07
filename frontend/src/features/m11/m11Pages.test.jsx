@@ -1338,13 +1338,69 @@ describe('Cảnh báo', () => {
     expect(screen.getByRole('heading', { name: 'GPA tích lũy' })).toBeInTheDocument();
   });
 
-  it('nút tạo kế hoạch bị khóa, có ghi chú', async () => {
-    m11Api('student');
+  const PLAN_API = 'GET /api/m12/improvement-plan';
+  const plan = (extra) => () =>
+    jsonResponse(200, {
+      plan: null,
+      active_rules: [{ rule_code: 'gpa', level: 'warning' }],
+      new_rules: ['gpa'],
+      disclaimer: 'x',
+      ...extra,
+    });
 
+  it('nút Tạo kế hoạch hoạt động: gọi API rồi mở trang kế hoạch', async () => {
+    const user = userEvent.setup();
+    const fetchMock = m11Api('student', {
+      [PLAN_API]: plan(),
+      'POST /api/m12/improvement-plan': () => jsonResponse(201, {}),
+    });
     renderApp('/m11/canh-bao');
 
-    expect(await screen.findByRole('button', { name: 'Tạo kế hoạch cải thiện' })).toBeDisabled();
-    expect(screen.getByText('Có ở giai đoạn sau')).toBeInTheDocument();
+    await user.click(await screen.findByRole('button', { name: 'Tạo kế hoạch cải thiện' }));
+
+    expect(await screen.findByRole('heading', { name: 'Kế hoạch cải thiện' })).toBeInTheDocument();
+    expect(fetchMock.mock.calls.some(([, options]) => options?.method === 'POST')).toBe(true);
+  });
+
+  it('tạo lỗi thì báo rõ, ở lại trang', async () => {
+    const user = userEvent.setup();
+    m11Api('student', {
+      [PLAN_API]: plan(),
+      'POST /api/m12/improvement-plan': () => apiError(422, 'NO_ACTIVE_RISK', 'Không có rủi ro'),
+    });
+    renderApp('/m11/canh-bao');
+
+    await user.click(await screen.findByRole('button', { name: 'Tạo kế hoạch cải thiện' }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Không có rủi ro');
+  });
+
+  it('đã có kế hoạch thì nút đổi thành Xem kế hoạch', async () => {
+    m11Api('student', { [PLAN_API]: plan({ plan: { id: 'p', items: [] } }) });
+    renderApp('/m11/canh-bao');
+
+    expect(await screen.findByRole('link', { name: 'Xem kế hoạch' })).toHaveAttribute(
+      'href',
+      '/m11/canh-bao/ke-hoach',
+    );
+    expect(screen.queryByRole('button', { name: 'Tạo kế hoạch cải thiện' })).toBeNull();
+  });
+
+  it('không có rủi ro thì không có nút tạo', async () => {
+    m11Api('student', { [PLAN_API]: plan({ active_rules: [] }) });
+    renderApp('/m11/canh-bao');
+
+    expect(
+      await screen.findByText('Không có quy tắc nào cần lập kế hoạch cải thiện.'),
+    ).toBeInTheDocument();
+  });
+
+  it('cố vấn không có nút tạo', async () => {
+    m11Api('advisor', { [PLAN_API]: plan() });
+    renderApp('/m11/canh-bao?student=SV04');
+
+    expect(await screen.findByText('Sinh viên chưa tạo kế hoạch cải thiện.')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Tạo kế hoạch cải thiện' })).toBeNull();
   });
 
   it('khóa không có quy chế: quy tắc không có bằng chứng', async () => {

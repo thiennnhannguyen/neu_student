@@ -1,4 +1,4 @@
-import { Bell, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import { useLocation } from 'react-router';
 import ScopeChip from '../features/m11/ScopeChip';
@@ -7,6 +7,7 @@ import useStudentOptions from '../features/m11/useStudentOptions';
 import { pageMetaFor } from './menu';
 import Badge from './ui/Badge';
 import { Breadcrumb } from './ui/PageHeader';
+import NotificationBell from '../features/notifications/NotificationBell';
 import UserMenu from './UserMenu';
 
 /** Thanh trên cùng chỉ có đường dẫn phân cấp; tiêu đề trang là h1 duy nhất, nằm trong trang. */
@@ -42,16 +43,7 @@ export default function Topbar({ menuOpen, onToggleMenu }) {
         <Badge tone="outline" className="mock-badge">
           Dữ liệu mẫu
         </Badge>
-        <span className="tooltip-host" data-tooltip="Có ở giai đoạn sau">
-          <button
-            type="button"
-            className="icon-button"
-            aria-label="Thông báo, có ở giai đoạn sau"
-            aria-disabled="true"
-          >
-            <Bell size={20} aria-hidden="true" />
-          </button>
-        </span>
+        <NotificationBell />
         <UserMenu onLogoutError={setLogoutError} />
       </div>
       {error && (

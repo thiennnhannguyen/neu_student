@@ -79,7 +79,7 @@ describe('khung ứng dụng', () => {
     expect(
       await screen.findByRole('heading', { name: 'Không tìm thấy trang' }),
     ).toBeInTheDocument();
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls.filter(([url]) => url === '/api/auth/me')).toHaveLength(1);
   });
 
   it('trang chưa làm hiện "Đang phát triển"', async () => {

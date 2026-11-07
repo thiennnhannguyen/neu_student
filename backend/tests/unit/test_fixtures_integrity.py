@@ -341,7 +341,7 @@ def test_each_risk_rule_has_action_templates(tables):
     counts = {}
     for row in tables["risk_action_templates"]:
         counts[row["rule_code"]] = counts.get(row["rule_code"], 0) + 1
-    assert set(counts) == {"gpa_low", "debt_credits", "registration"}
+    assert set(counts) == {"gpa", "debt", "registration"}
     assert all(2 <= count <= 3 for count in counts.values())
 
 
