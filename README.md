@@ -137,6 +137,7 @@ Backend chạy dev mặc định ở cổng 5001 vì macOS thường chiếm 500
 - **Khóa cache:** khóa cache M11, M12 chưa có kỳ hiện tại. Khi có chức năng đổi kỳ hiện tại phải xóa cache hoặc đưa kỳ vào khóa.
 - **Dữ liệu K68:** do nhóm tổng hợp từ CTĐT và cẩm nang nghề, không phải dữ liệu chính thức của trường. Tín chỉ và tiên quyết của một số môn là giả định, xem `docs/DATA_K68.md`.
 - **Chức năng hoãn:** M12-09 So sánh nghề, M12-11 Học liệu, M12-14 Nhắc nhở; giao diện của M12-15 Quản trị nghề (API đã có).
+- **Ghi đồng thời:** SQLite chỉ cho một tiến trình ghi tại một thời điểm. `GET /api/notifications` đã xử lý trường hợp bị khóa (D-281), các request ghi khác vẫn có thể báo lỗi khi nhiều người ghi cùng lúc. Số p95 đo tuần tự nên không phản ánh tải đồng thời.
 - **Thông báo lộ trình** chỉ sinh khi sinh viên mở ứng dụng, không có lịch chạy nền.
 - **Đăng xuất** ở một thiết bị sẽ đăng xuất mọi thiết bị của tài khoản đó.
 
@@ -159,3 +160,4 @@ Backend chạy dev mặc định ở cổng 5001 vì macOS thường chiếm 500
 - [docs/DECISIONS.md](docs/DECISIONS.md): quyết định
 - [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md): kịch bản demo 10 phút
 - [docs/REPORT_MATERIALS.md](docs/REPORT_MATERIALS.md): tư liệu kỹ thuật cho báo cáo
+- [docs/RELEASE_NOTES.md](docs/RELEASE_NOTES.md): ghi chú phát hành v1.0

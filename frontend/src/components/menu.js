@@ -28,7 +28,7 @@ export const ROLE_LABELS = {
 export const M11_READERS = [STUDENT, ADVISOR, ADMIN];
 
 /**
- * `implemented: true` là trang đã làm; còn lại hiện "Đang phát triển", `phase` là giai đoạn dự kiến.
+ * `implemented: true` là trang đã làm; còn lại hiện "Đang phát triển".
  * `inSidebar: false` là trang có route nhưng nằm ở menu người dùng.
  * `nested: true` là trang có trang con; mở trang con thì mục này vẫn sáng ở sidebar.
  * `title` hiện ở sidebar, `crumb` hiện ở đường dẫn phân cấp; `id` giữ tên nội bộ của module.

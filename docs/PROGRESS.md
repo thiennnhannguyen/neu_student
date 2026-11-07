@@ -25,8 +25,8 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 08 | Đồng bộ tiến độ M11–M12, tỷ lệ nghề, trang Định hướng nghề | Hoàn thành, tag `phase-08`, CI xanh. Đạt 235/235 ở commit `fd18024` | Không có |
 | 09 | Lập lộ trình theo kỳ (M12-07, M12-08); M12-09 hoãn | Đạt, tag `phase-09` | Không có |
 | 10 | Minh chứng, yêu cầu hỗ trợ, kế hoạch cải thiện, thông báo (bản thu gọn) | Đạt, tag `phase-10` | Không có |
-| 11 | Thiết kế responsive theo NEU 2026; đưa thư viện họa tiết vào khung ứng dụng (dải ở navbar) và bổ sung họa tiết còn thiếu (D-154) | Xong trên `main`, chờ nghiệm thu (gộp giai đoạn cuối) | Không có |
-| 12 | Kiểm thử tích hợp, triển khai cục bộ, báo cáo | Xong trên `main`, chờ nghiệm thu, chưa gắn `v1.0` | Không có |
+| 11 | Thiết kế responsive theo NEU 2026; đưa thư viện họa tiết vào khung ứng dụng (dải ở navbar) và bổ sung họa tiết còn thiếu (D-154) | Hoàn thành, tag `v1.0` (gộp giai đoạn cuối) | Không có |
+| 12 | Kiểm thử tích hợp, triển khai cục bộ, báo cáo | Hoàn thành, quản lý dự án nghiệm thu, tag `v1.0` | Không có |
 
 ## Yêu cầu thay đổi
 
@@ -47,9 +47,11 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tương lai
 
-0. Hoãn từ giai đoạn 10: M12-11 Học liệu, M12-14 Nhắc nhở định kỳ; giữ trang "Đang phát triển".
-1. Landing page giới thiệu & định hướng từng nghề, route công khai dự kiến /nghe/:slug. Đã chuẩn bị: slug ổn định, nội dung nằm ở dữ liệu nghề, component `CareerHero`, `CareerRoadmap`, `CareerProjects`, `CareerIllustration`.
-2. API quản trị nghề chưa sửa được các trường mới của CR-03 (chỉ đọc được qua API người dùng).
+1. Landing page giới thiệu và định hướng từng nghề, route công khai dự kiến `/nghe/:slug`. Đã chuẩn bị: slug ổn định, nội dung nằm ở dữ liệu nghề, component `CareerHero`, `CareerRoadmap`, `CareerProjects`, `CareerIllustration`.
+2. Giao diện quản trị nghề M12-15 (API đã có). API quản trị hiện chưa sửa được các trường mới của CR-03, chỉ đọc được qua API người dùng.
+3. Các chức năng đã hoãn: M12-09 So sánh nghề, M12-11 Học liệu, M12-14 Nhắc nhở (2 trang sau đang hiện "Đang phát triển").
+4. Khóa cache M11, M12 theo kỳ hiện tại: khi có chức năng đổi kỳ hiện tại phải xóa cache hoặc đưa kỳ vào khóa.
+5. Xử lý ghi đồng thời trên SQLite: `GET /api/notifications` đã xử lý (D-281), các request ghi khác vẫn có thể báo lỗi khi nhiều người ghi cùng lúc.
 
 ## Điểm kiểm tra giữa giai đoạn 06 (API và test hợp đồng xong)
 
@@ -61,4 +63,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Giai đoạn cuối (11 + 12): chờ quản lý dự án nghiệm thu, rồi gắn `v1.0`. Remote: https://github.com/thiennnhannguyen/neu_student.
+Dự án hoàn thành ở `v1.0`, xem `docs/RELEASE_NOTES.md`. Các việc còn lại nằm ở mục Việc tương lai. Remote: https://github.com/thiennnhannguyen/neu_student.

@@ -319,5 +319,6 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | 5 kịch bản đầu–cuối, kịch bản 2 thêm 375px | `frontend/e2e/flows.spec.mjs` |
 | Axe 11 trang: 0 lỗi serious/critical | `frontend/e2e/a11y.spec.mjs` |
 | 24 trang × 375, 768, 1280: không tràn ngang, 1 `h1`, họa tiết đúng vị trí; nhãn thẻ chỉ số 1 dòng | `frontend/e2e/sweep.spec.mjs` |
+| 16 trang có dữ liệu riêng: API chậm có khung đang tải, API lỗi có nút Thử lại, cả 2 trạng thái có 1 `h1` | `frontend/e2e/sweep.spec.mjs` |
 | Thông báo: SQLite khóa không làm hỏng danh sách, không ghi lại, đang tải và lỗi không báo rỗng | `backend/tests/api/test_notifications.py`, `frontend/src/features/m12/work.test.jsx` |
 | Dòng kỳ tham chiếu chung, dòng Q80 rút gọn, ô lọc nhật ký từ API | `frontend/src/features/m11/m11Pages.test.jsx`, `frontend/src/features/admin/AuditLogPage.test.jsx` |

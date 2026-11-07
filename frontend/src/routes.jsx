@@ -101,10 +101,7 @@ export default function AppRoutes() {
             <Route path="/m12/yeu-cau-ho-tro/:id" element={<SupportDetailPage />} />
             {PENDING_ITEMS.map((item) => (
               <Route key={item.path} element={<RoleRoute roles={item.roles} />}>
-                <Route
-                  path={item.path}
-                  element={<ComingSoonPage title={item.label} phase={item.phase} />}
-                />
+                <Route path={item.path} element={<ComingSoonPage title={item.label} />} />
               </Route>
             ))}
             <Route path="*" element={<NotFoundPage />} />
