@@ -1,6 +1,7 @@
 export const NO_CODE = 'Chưa có mã';
 export const NOT_IN_PROGRAM = 'Không có trong CTĐT ngành bạn';
-export const LOW_COVERAGE = 'Ngành bạn có ít môn cho nghề này';
+export const METER_NOTE =
+  'Cả thanh là toàn bộ môn của nghề: đoạn đậm là môn đã đạt, đoạn nhạt là môn còn lại trong CTĐT ngành bạn, đoạn sọc chéo là môn ngoài CTĐT ngành bạn. Số % lớn chỉ tính trên môn có trong CTĐT ngành bạn, nên có thể cao hơn phần đậm của thanh.';
 export const NOT_RECRUITMENT = 'Tỷ lệ không phản ánh khả năng được tuyển dụng';
 export const K68_NOTE =
   'Danh mục theo CTĐT K68 – 2026 do nhóm tổng hợp; tín chỉ, tiên quyết là giả định.';
@@ -36,7 +37,26 @@ export function typeLabel(requirementType) {
   return { required: 'BB', elective: 'TC' }[requirementType] ?? null;
 }
 
-/** Nhãn ngắn của nhóm nghề: bỏ phần "Nhóm 1 – " và hậu tố mẫu của dữ liệu. */
+export function lowCoverageText(coverage) {
+  return `Ngành bạn có ${coverage.numerator}/${coverage.denominator} môn của nghề`;
+}
+
+const GROUP_SHORT = {
+  'Phát triển Web và phần mềm': 'Web & phần mềm',
+  'Trí tuệ nhân tạo và dữ liệu': 'AI & dữ liệu',
+  'Phân tích nghiệp vụ và sản phẩm số': 'Nghiệp vụ & sản phẩm',
+  'Hạ tầng, Cloud và vận hành': 'Hạ tầng & Cloud',
+  'An ninh mạng và bảo mật': 'An ninh mạng',
+  'Kiểm thử và chất lượng phần mềm': 'Kiểm thử',
+};
+
+/** Tên trên chip lọc. Nhóm không có tên ngắn (profile test) giữ tên đầy đủ. */
+export function groupShortLabel(group) {
+  const full = groupLabel(group);
+  return GROUP_SHORT[full] ?? full;
+}
+
+/** Tên đầy đủ của nhóm nghề: bỏ phần "Nhóm 1 – " và hậu tố mẫu của dữ liệu. */
 export function groupLabel(group) {
   return group.replace(/^Nhóm \d+ – /, '').replace(/ \(mẫu\)$/, '');
 }

@@ -411,9 +411,9 @@ class Builder:
                     )
                     continue
                 entry = {
-                    "id": f"req-{key}-{row.number:02d}-{program}",
+                    "id": f"req-k68-{key}-{row.number:02d}-{program}",
                     "career_version_id": version_id,
-                    "career_node_id": f"node-{key}-{row.stage}",
+                    "career_node_id": f"node-k68-{key}-{row.stage}",
                     "kind": "course",
                     "course_id": code,
                     "skill_id": None,
@@ -459,9 +459,9 @@ class Builder:
         def skill_requirement(version_id, key, node, identifier, target, kind):
             _row(
                 requirements,
-                id=f"req-{key}-{identifier}",
+                id=f"req-k68-{key}-{identifier}",
                 career_version_id=version_id,
-                career_node_id=f"node-{key}-{node}",
+                career_node_id=f"node-k68-{key}-{node}",
                 kind=kind,
                 course_id=None,
                 skill_id=target,
@@ -481,10 +481,13 @@ class Builder:
         for order, career in enumerate(self.careers, start=1):
             info = content.CAREERS[career.number]
             key = info["key"]
-            version_id = f"cv-{key}-1"
+            note = content.SELF_STUDY_NOTES.get(career.number)
+            if note is not None and note not in career.self_study:
+                raise ValueError(f"Cẩm nang không còn câu lưu ý: {note}")
+            version_id = f"cv-k68-{key}-1"
             _row(
                 careers,
-                id=f"career-{key}",
+                id=f"career-k68-{key}",
                 slug=info["slug"],
                 name=info["name"],
                 field=career.group.split(" – ", 1)[1],
@@ -498,7 +501,8 @@ class Builder:
                     ],
                     "note": career.orientation,
                 },
-                self_study=career.self_study,
+                self_study=[item for item in career.self_study if item != note],
+                self_study_note=note,
                 illustration_key=info["illustration"],
                 tagline=info["tagline"],
                 sort_order=order,
@@ -506,7 +510,7 @@ class Builder:
             _row(
                 versions,
                 id=version_id,
-                career_id=f"career-{key}",
+                career_id=f"career-k68-{key}",
                 version=1,
                 status="published",
                 published_at=PUBLISHED_AT,
@@ -514,7 +518,7 @@ class Builder:
             for stage in career.stages:
                 _row(
                     nodes,
-                    id=f"node-{key}-{stage.number}",
+                    id=f"node-k68-{key}-{stage.number}",
                     career_version_id=version_id,
                     name=stage.name,
                     order=stage.number,
@@ -523,11 +527,11 @@ class Builder:
                 )
             requirements.extend(self._course_rows(career, key, version_id))
             for number, item in enumerate(career.checklist, start=1):
-                target = skill_id(f"sk-{key}-{number}", item, "skill")
+                target = skill_id(f"sk-k68-{key}-{number}", item, "skill")
                 node = content.SKILL_STAGE_OVERRIDES.get((career.number, item), 5)
                 skill_requirement(version_id, key, node, f"sk{number}", target, "skill")
             for level, name, criteria in career.projects:
-                target = skill_id(f"pj-{key}-{level.lower()}", name, "project", level, criteria)
+                target = skill_id(f"pj-k68-{key}-{level.lower()}", name, "project", level, criteria)
                 skill_requirement(version_id, key, 5, f"pj-{level.lower()}", target, "project")
         self.tables["careers"] = careers
         self.tables["career_versions"] = versions
@@ -614,7 +618,7 @@ class Builder:
                 goals,
                 id=f"goal-{student_id}-{person['goal']}",
                 student_id=student_id,
-                career_id=f"career-{person['goal']}",
+                career_id=f"career-k68-{person['goal']}",
                 is_primary=True,
                 started_at="2026-09-05T08:00:00",
                 ended_at=None,

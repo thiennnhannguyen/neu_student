@@ -92,6 +92,7 @@ def career_profile(career: Career) -> dict:
         "objective": career.objective,
         "major_fit": career.major_fit,
         "self_study": career.self_study or [],
+        "self_study_note": career.self_study_note,
     }
 
 

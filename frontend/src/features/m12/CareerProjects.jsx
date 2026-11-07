@@ -3,7 +3,7 @@ import { chipStatus } from './labels';
 
 const LEVELS = ['Starter', 'Intermediate', 'Job-ready'];
 
-function SelfStudy({ items }) {
+function SelfStudy({ items, note }) {
   if (items.length === 0) {
     return null;
   }
@@ -16,12 +16,13 @@ function SelfStudy({ items }) {
           <li key={item}>{item}</li>
         ))}
       </ul>
+      {note && <p className="career-self-study__note">Lưu ý: {note}</p>}
     </section>
   );
 }
 
 /** Tab Kỹ năng & dự án. Hoàn thành chỉ qua minh chứng được duyệt (R7). */
-export default function CareerProjects({ nodes, selfStudy }) {
+export default function CareerProjects({ nodes, selfStudy, selfStudyNote }) {
   const children = nodes.flatMap((node) => node.children);
   const skills = children.filter((child) => child.kind === 'skill');
   const projects = children
@@ -57,7 +58,7 @@ export default function CareerProjects({ nodes, selfStudy }) {
           </div>
         </section>
       )}
-      <SelfStudy items={selfStudy} />
+      <SelfStudy items={selfStudy} note={selfStudyNote} />
     </>
   );
 }

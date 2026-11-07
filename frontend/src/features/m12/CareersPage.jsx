@@ -5,7 +5,8 @@ import { withQuery } from '../m11/format';
 import useApiResource from '../m11/useApiResource';
 import { ResourceView } from '../m11/ui';
 import CareerCard from './CareerCard';
-import { groupLabel, NOT_RECRUITMENT, RATE_NOTE } from './labels';
+import { MeterLegend } from './CareerMeter';
+import { groupLabel, groupShortLabel, METER_NOTE, NOT_RECRUITMENT, RATE_NOTE } from './labels';
 import useCareerStudent from './useCareerStudent';
 
 export const PICK_STUDENT_HINT =
@@ -14,8 +15,12 @@ export const PICK_STUDENT_HINT =
 const SEARCH_DELAY_MS = 250;
 
 function GroupChips({ groups, selected, onSelect }) {
-  const chips = [{ value: '', label: 'Tất cả' }].concat(
-    groups.map((group) => ({ value: group, label: groupLabel(group) })),
+  const chips = [{ value: '', label: 'Tất cả', full: 'Tất cả' }].concat(
+    groups.map((group) => ({
+      value: group,
+      label: groupShortLabel(group),
+      full: groupLabel(group),
+    })),
   );
   return (
     <div className="career-filter__chips" role="group" aria-label="Lọc theo nhóm nghề">
@@ -24,6 +29,8 @@ function GroupChips({ groups, selected, onSelect }) {
           key={chip.value}
           type="button"
           className="career-filter__chip"
+          title={chip.full}
+          aria-label={chip.full}
           aria-pressed={selected === chip.value}
           onClick={() => onSelect(chip.value)}
         >
@@ -48,11 +55,14 @@ function Gallery({ data, student, group, setFilter, busy }) {
       {data.items.length === 0 ? (
         <EmptyState title="Không có nghề phù hợp" />
       ) : (
-        <div className="career-gallery" aria-busy={busy}>
-          {data.items.map((item) => (
-            <CareerCard key={item.career.id} item={item} link={student.link} />
-          ))}
-        </div>
+        <>
+          <MeterLegend />
+          <div className="career-gallery" aria-busy={busy}>
+            {data.items.map((item) => (
+              <CareerCard key={item.career.id} item={item} link={student.link} />
+            ))}
+          </div>
+        </>
       )}
     </>
   );
@@ -116,7 +126,7 @@ export default function CareersPage() {
         title="Định hướng nghề"
         actions={
           <InfoPopover label="Giải thích tỷ lệ">
-            {RATE_NOTE} {NOT_RECRUITMENT}.
+            {RATE_NOTE} {METER_NOTE} {NOT_RECRUITMENT}.
           </InfoPopover>
         }
       />

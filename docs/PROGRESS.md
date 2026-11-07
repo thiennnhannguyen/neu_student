@@ -34,7 +34,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 |----|----------|------------|
 | CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành, tag `cr-01`. Sau đó đổi màu, font và đưa lại nhãn mẫu theo D-152, D-156 |
 | CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Hoàn thành, tag `cr-02` (gồm lượt chỉnh CR-02b, D-187, D-188) |
-| CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề | Chờ nghiệm thu, chưa gắn tag |
+| CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề, kèm CR-03b | Đạt, tag `cr-03` |
 
 ## Việc tồn đọng giao diện, làm ở giai đoạn 11
 
@@ -63,4 +63,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-CR-03: chờ quản lý dự án nghiệm thu. Remote: https://github.com/thiennnhannguyen/neu_student.
+Giai đoạn 09: lập kế hoạch, chờ duyệt. Remote: https://github.com/thiennnhannguyen/neu_student.

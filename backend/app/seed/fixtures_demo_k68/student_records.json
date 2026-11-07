@@ -2685,7 +2685,7 @@
     {
       "id": "goal-DEMO01-backend",
       "student_id": "DEMO01",
-      "career_id": "career-backend",
+      "career_id": "career-k68-backend",
       "is_primary": true,
       "started_at": "2026-09-05T08:00:00",
       "ended_at": null,
@@ -2694,7 +2694,7 @@
     {
       "id": "goal-DEMO02-data",
       "student_id": "DEMO02",
-      "career_id": "career-data",
+      "career_id": "career-k68-data",
       "is_primary": true,
       "started_at": "2026-09-05T08:00:00",
       "ended_at": null,
@@ -2703,7 +2703,7 @@
     {
       "id": "goal-DEMO03-qa",
       "student_id": "DEMO03",
-      "career_id": "career-qa",
+      "career_id": "career-k68-qa",
       "is_primary": true,
       "started_at": "2026-09-05T08:00:00",
       "ended_at": null,
@@ -2712,7 +2712,7 @@
     {
       "id": "goal-DEMO04-fullstack",
       "student_id": "DEMO04",
-      "career_id": "career-fullstack",
+      "career_id": "career-k68-fullstack",
       "is_primary": true,
       "started_at": "2026-09-05T08:00:00",
       "ended_at": null,
@@ -2721,7 +2721,7 @@
     {
       "id": "goal-DEMO05-ai",
       "student_id": "DEMO05",
-      "career_id": "career-ai",
+      "career_id": "career-k68-ai",
       "is_primary": true,
       "started_at": "2026-09-05T08:00:00",
       "ended_at": null,
@@ -2730,7 +2730,7 @@
     {
       "id": "goal-DEMO06-data",
       "student_id": "DEMO06",
-      "career_id": "career-data",
+      "career_id": "career-k68-data",
       "is_primary": true,
       "started_at": "2026-09-05T08:00:00",
       "ended_at": null,
@@ -2739,7 +2739,7 @@
     {
       "id": "goal-DEMO07-cybersecurity",
       "student_id": "DEMO07",
-      "career_id": "career-cybersecurity",
+      "career_id": "career-k68-cybersecurity",
       "is_primary": true,
       "started_at": "2026-09-05T08:00:00",
       "ended_at": null,
@@ -2748,7 +2748,7 @@
     {
       "id": "goal-DEMO08-devops",
       "student_id": "DEMO08",
-      "career_id": "career-devops",
+      "career_id": "career-k68-devops",
       "is_primary": true,
       "started_at": "2026-09-05T08:00:00",
       "ended_at": null,
@@ -2759,7 +2759,7 @@
     {
       "id": "ev-DEMO01-1",
       "student_id": "DEMO01",
-      "skill_id": "sk-backend-1",
+      "skill_id": "sk-k68-backend-1",
       "description": "Minh chứng cho: Xây REST API (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "approved",
@@ -2771,7 +2771,7 @@
     {
       "id": "ev-DEMO01-2",
       "student_id": "DEMO01",
-      "skill_id": "sk-backend-2",
+      "skill_id": "sk-k68-backend-2",
       "description": "Minh chứng cho: Thiết kế SQL chuẩn (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "pending",
@@ -2783,7 +2783,7 @@
     {
       "id": "ev-DEMO02-1",
       "student_id": "DEMO02",
-      "skill_id": "sk-data-1",
+      "skill_id": "sk-k68-data-1",
       "description": "Minh chứng cho: Viết SQL JOIN, GROUP BY và window (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "pending",
@@ -2795,7 +2795,7 @@
     {
       "id": "ev-DEMO03-1",
       "student_id": "DEMO03",
-      "skill_id": "sk-qa-1",
+      "skill_id": "sk-k68-qa-1",
       "description": "Minh chứng cho: Viết test plan/test case (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "approved",
@@ -2807,7 +2807,7 @@
     {
       "id": "ev-DEMO03-2",
       "student_id": "DEMO03",
-      "skill_id": "sk-qa-3",
+      "skill_id": "sk-k68-qa-3",
       "description": "Minh chứng cho: Báo bug tái hiện được (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "pending",
@@ -2819,7 +2819,7 @@
     {
       "id": "ev-DEMO04-1",
       "student_id": "DEMO04",
-      "skill_id": "sk-fullstack-3",
+      "skill_id": "sk-k68-fullstack-3",
       "description": "Minh chứng cho: Database chuẩn (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "pending",
@@ -2831,7 +2831,7 @@
     {
       "id": "ev-DEMO05-1",
       "student_id": "DEMO05",
-      "skill_id": "sk-ai-1",
+      "skill_id": "sk-k68-ai-1",
       "description": "Minh chứng cho: Biết chia tập dữ liệu đúng (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "approved",
@@ -2843,7 +2843,7 @@
     {
       "id": "ev-DEMO05-2",
       "student_id": "DEMO05",
-      "skill_id": "sk-ai-2",
+      "skill_id": "sk-k68-ai-2",
       "description": "Minh chứng cho: Lập baseline (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "pending",
@@ -2855,7 +2855,7 @@
     {
       "id": "ev-DEMO06-1",
       "student_id": "DEMO06",
-      "skill_id": "sk-data-2",
+      "skill_id": "sk-k68-data-2",
       "description": "Minh chứng cho: Làm sạch dữ liệu (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "pending",
@@ -2867,7 +2867,7 @@
     {
       "id": "ev-DEMO07-1",
       "student_id": "DEMO07",
-      "skill_id": "sk-cybersecurity-1",
+      "skill_id": "sk-k68-cybersecurity-1",
       "description": "Minh chứng cho: Hiểu mạng và Linux (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "approved",
@@ -2879,7 +2879,7 @@
     {
       "id": "ev-DEMO07-2",
       "student_id": "DEMO07",
-      "skill_id": "sk-cybersecurity-3",
+      "skill_id": "sk-k68-cybersecurity-3",
       "description": "Minh chứng cho: Đọc và phân loại log (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "approved",
@@ -2891,7 +2891,7 @@
     {
       "id": "ev-DEMO08-1",
       "student_id": "DEMO08",
-      "skill_id": "sk-devops-1",
+      "skill_id": "sk-k68-devops-1",
       "description": "Minh chứng cho: Dùng Linux và SSH (mẫu)",
       "link": "https://example.test/mau/minh-chung",
       "status": "pending",

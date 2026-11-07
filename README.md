@@ -48,7 +48,7 @@ Các lệnh chạy trong thư mục `backend`:
 
 Sau khi lấy mã mới có migration, chạy lại `make seed`.
 
-Khởi động lại `make dev` sau khi seed lại: cây nghề của bản đã công bố được cache trong tiến trình theo id phiên bản.
+Đổi profile bằng `make seed` hoặc `make seed-demo` không cần khởi động lại `make dev`: id nghề của hai profile khác nhau. Chỉ cần khởi động lại khi seed lại cùng profile sau khi đã sửa fixture: cây nghề của bản đã công bố được cache trong tiến trình theo id phiên bản.
 
 ## Tài khoản demo (dữ liệu mẫu)
 

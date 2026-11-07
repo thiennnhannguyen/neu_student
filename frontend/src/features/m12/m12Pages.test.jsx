@@ -3,7 +3,14 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { apiError, jsonResponse, pendingResponse, renderApp } from '../../test/fakeApi';
 import { callsTo } from '../m11/testData';
-import { chipStatus, groupLabel, percentText, priorityLabel, typeLabel } from './labels';
+import {
+  chipStatus,
+  groupLabel,
+  groupShortLabel,
+  percentText,
+  priorityLabel,
+  typeLabel,
+} from './labels';
 import {
   AI,
   ANALYST,
@@ -72,6 +79,8 @@ describe('nhãn', () => {
     expect(typeLabel(null)).toBeNull();
     expect(groupLabel('Nhóm 2 – Trí tuệ nhân tạo và dữ liệu')).toBe('Trí tuệ nhân tạo và dữ liệu');
     expect(groupLabel('Phần mềm (mẫu)')).toBe('Phần mềm');
+    expect(groupShortLabel('Nhóm 4 – Hạ tầng, Cloud và vận hành')).toBe('Hạ tầng & Cloud');
+    expect(groupShortLabel('Phần mềm (mẫu)')).toBe('Phần mềm');
   });
 });
 
@@ -108,7 +117,7 @@ describe('lưới thẻ nghề', () => {
     expect(within(card).getByText('22%')).toHaveClass('career-card__percent');
     expect(within(card).getByText('Kỹ năng & dự án 33%')).toBeInTheDocument();
     expect(card).not.toHaveTextContent('2/9');
-    expect(within(card).getByRole('progressbar')).toHaveAttribute('aria-valuenow', '22');
+    expect(within(card).getByRole('progressbar')).toHaveAttribute('aria-valuenow', '2');
     expect(document.querySelector('main, body')).not.toHaveTextContent(DISCLAIMER);
   });
 
@@ -132,6 +141,7 @@ describe('lưới thẻ nghề', () => {
             galleryItem(AI, {
               course_progress: progress(0, 0),
               skill_progress: progress(0, 0, 'kỹ năng & dự án'),
+              coverage: { numerator: 0, denominator: 0, percent: null },
             }),
           ]),
         ),
@@ -146,13 +156,93 @@ describe('lưới thẻ nghề', () => {
     expect(bar).toHaveAttribute('aria-valuetext', '—');
   });
 
-  it('coverage dưới 50% hiện đúng 1 dòng nhỏ, đủ thì không có', async () => {
-    m12Api();
+  it('coverage dưới 50% ghi số cụ thể ở đúng 1 thẻ, đủ thì không có', async () => {
+    m12Api('student', {
+      [GALLERY_API]: () =>
+        jsonResponse(
+          200,
+          galleryBody([
+            galleryItem(AI),
+            galleryItem(BACKEND, {
+              low_coverage: true,
+              coverage: { numerator: 5, denominator: 12, percent: 42 },
+            }),
+          ]),
+        ),
+    });
     renderApp('/m12/dinh-huong');
 
     await screen.findAllByRole('link', { name: /Kỹ sư/ });
-    expect(screen.getAllByText('Ngành bạn có ít môn cho nghề này')).toHaveLength(1);
-    expect(cardLink(BACKEND.display_name)).toHaveTextContent('Ngành bạn có ít môn cho nghề này');
+    expect(screen.getAllByText('Ngành bạn có 5/12 môn của nghề')).toHaveLength(1);
+    expect(cardLink(BACKEND.display_name)).toHaveTextContent('Ngành bạn có 5/12 môn của nghề');
+    expect(cardLink(AI.display_name)).not.toHaveTextContent('Ngành bạn có');
+  });
+
+  it('thanh 3 đoạn: dài theo y, đậm là đã đạt, nhạt là còn lại, sọc là ngoài CTĐT', async () => {
+    m12Api('student', {
+      [GALLERY_API]: () =>
+        jsonResponse(
+          200,
+          galleryBody([
+            galleryItem(AI, {
+              course_progress: progress(5, 5),
+              coverage: { numerator: 5, denominator: 12, percent: 42 },
+            }),
+            galleryItem(BACKEND, {
+              course_progress: progress(7, 9),
+              coverage: { numerator: 9, denominator: 12, percent: 75 },
+            }),
+          ]),
+        ),
+    });
+    renderApp('/m12/dinh-huong');
+    await screen.findAllByRole('link', { name: /Kỹ sư/ });
+
+    // Số % giữ theo Q92 dù thanh chỉ đậm 5/12.
+    const full = cardLink(AI.display_name);
+    expect(within(full).getByText('100%')).toBeInTheDocument();
+    expect(full.querySelector('.career-meter__segment--done').style.flexGrow).toBe('5');
+    expect(full.querySelector('.career-meter__segment--remaining')).toBeNull();
+    expect(full.querySelector('.career-meter__segment--outside').style.flexGrow).toBe('7');
+
+    const card = cardLink(BACKEND.display_name);
+    expect(card.querySelector('.career-meter__segment--done').style.flexGrow).toBe('7');
+    expect(card.querySelector('.career-meter__segment--remaining').style.flexGrow).toBe('2');
+    expect(card.querySelector('.career-meter__segment--outside').style.flexGrow).toBe('3');
+    const bar = within(card).getByRole('progressbar');
+    expect(bar).toHaveAttribute('aria-valuemax', '12');
+    expect(bar).toHaveAttribute(
+      'aria-valuetext',
+      '7 môn đã đạt, 2 môn còn lại trong CTĐT, 3 môn ngoài CTĐT ngành bạn',
+    );
+  });
+
+  it('InfoPopover và chú giải giải thích đủ 3 đoạn', async () => {
+    const user = userEvent.setup();
+    m12Api();
+    renderApp('/m12/dinh-huong');
+
+    await user.click(await screen.findByRole('button', { name: 'Giải thích tỷ lệ' }));
+    const note = document.querySelector('.info-popover__content');
+    expect(note).toHaveTextContent('đoạn đậm là môn đã đạt');
+    expect(note).toHaveTextContent('đoạn nhạt là môn còn lại trong CTĐT ngành bạn');
+    expect(note).toHaveTextContent('đoạn sọc chéo là môn ngoài CTĐT ngành bạn');
+    const legend = document.querySelector('.career-meter-legend');
+    expect(legend).toHaveTextContent('Đã đạt');
+    expect(legend).toHaveTextContent('Còn lại trong CTĐT');
+    expect(legend).toHaveTextContent('Ngoài CTĐT ngành bạn');
+  });
+
+  it('chip nhóm dùng tên ngắn, tên đầy đủ ở title và aria-label', async () => {
+    const full = 'Nhóm 2 – Trí tuệ nhân tạo và dữ liệu';
+    m12Api('student', {
+      [GALLERY_API]: () => jsonResponse(200, galleryBody(undefined, { groups: [full] })),
+    });
+    renderApp('/m12/dinh-huong');
+
+    const chip = await screen.findByRole('button', { name: 'Trí tuệ nhân tạo và dữ liệu' });
+    expect(chip).toHaveTextContent(/^AI & dữ liệu$/);
+    expect(chip).toHaveAttribute('title', 'Trí tuệ nhân tạo và dữ liệu');
   });
 
   it('cả thẻ là một liên kết tới trang chi tiết theo slug, nhận được focus', async () => {
@@ -337,6 +427,8 @@ describe('trang chi tiết nghề: Hero', () => {
     expect(within(hero).getByText('22%')).toBeInTheDocument();
     expect(within(hero).getByText('33%')).toBeInTheDocument();
     expect(hero).toHaveTextContent('Ngành của bạn có 12/14 môn của nghề');
+    expect(hero.querySelector('.career-meter__segment--outside').style.flexGrow).toBe('2');
+    expect(hero.querySelector('.career-meter-legend')).toHaveTextContent('Ngoài CTĐT ngành bạn');
     expect(hero).not.toHaveTextContent('2/9 học phần');
 
     await user.click(within(hero).getByRole('button', { name: 'Giải thích tỷ lệ' }));
@@ -747,6 +839,26 @@ describe('tab Kỹ năng & dự án', () => {
     expect(projects[0]).toHaveTextContent('Starter');
     expect(projects[0]).toHaveTextContent('Tiêu chí Dự án nhỏ');
     expect(projects[0]).toHaveTextContent('Chưa có minh chứng');
+  });
+
+  it('câu lưu ý nằm dưới khối Tự học, không phải một mục trong danh sách', async () => {
+    const body = progressBody();
+    await openTab({
+      [DETAIL_API]: () =>
+        jsonResponse(200, {
+          ...body,
+          profile: { ...body.profile, self_study_note: 'chỉ thực hành trên hệ thống được phép' },
+        }),
+    });
+
+    const block = screen.getByRole('region', { name: 'Tự học ngoài chương trình' });
+    const note = within(block).getByText(/chỉ thực hành trên hệ thống được phép/);
+    expect(note.tagName).toBe('P');
+    expect(
+      within(block)
+        .getAllByRole('listitem')
+        .map((item) => item.textContent),
+    ).toEqual(['PyTorch', 'FastAPI']);
   });
 
   it('khối Tự học có ghi chú không phải học phần chính thức', async () => {

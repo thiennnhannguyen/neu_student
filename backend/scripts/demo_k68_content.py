@@ -5,12 +5,15 @@ Tagline, nơi đặt 30 môn cẩm nang không nhắc trong lộ trình, hồ s�
 """
 
 PROGRAMS = {
-    "CNTT": ("prog-cntt", "Công nghệ thông tin", "7480201"),
-    "KTPM": ("prog-ktpm", "Kỹ thuật phần mềm – EP17", "7480103"),
-    "KHMT": ("prog-khmt", "Khoa học máy tính", "7480101"),
-    "ATTT": ("prog-attt", "An toàn thông tin", "7480202"),
+    "CNTT": ("prog-k68-cntt", "Công nghệ thông tin", "7480201"),
+    "KTPM": ("prog-k68-ktpm", "Kỹ thuật phần mềm – EP17", "7480103"),
+    "KHMT": ("prog-k68-khmt", "Khoa học máy tính", "7480101"),
+    "ATTT": ("prog-k68-attt", "An toàn thông tin", "7480202"),
 }
 PROGRAM_ORDER = ("CNTT", "KTPM", "KHMT", "ATTT")
+
+# Câu lưu ý nằm lẫn trong danh sách tự học của cẩm nang: tách ra, không phải kỹ năng.
+SELF_STUDY_NOTES = {"08": "chỉ thực hành trên hệ thống được phép"}
 
 # Thứ tự 01–10 đúng cẩm nang. fit: cột "Ngành nên ưu tiên" ở bảng mục 5 (Q97).
 CAREERS = {

@@ -1,28 +1,28 @@
 {
   "programs": [
     {
-      "id": "prog-cntt",
+      "id": "prog-k68-cntt",
       "name": "Công nghệ thông tin",
       "code": "CNTT",
       "degree_code": "7480201",
       "is_mock": true
     },
     {
-      "id": "prog-ktpm",
+      "id": "prog-k68-ktpm",
       "name": "Kỹ thuật phần mềm – EP17",
       "code": "KTPM",
       "degree_code": "7480103",
       "is_mock": true
     },
     {
-      "id": "prog-khmt",
+      "id": "prog-k68-khmt",
       "name": "Khoa học máy tính",
       "code": "KHMT",
       "degree_code": "7480101",
       "is_mock": true
     },
     {
-      "id": "prog-attt",
+      "id": "prog-k68-attt",
       "name": "An toàn thông tin",
       "code": "ATTT",
       "degree_code": "7480202",
@@ -32,7 +32,7 @@
   "program_versions": [
     {
       "id": "pv-cntt-k68",
-      "program_id": "prog-cntt",
+      "program_id": "prog-k68-cntt",
       "version": 1,
       "effective_cohort": "K68",
       "name": "CTĐT Công nghệ thông tin K68 – 2026",
@@ -45,7 +45,7 @@
     },
     {
       "id": "pv-ktpm-k68",
-      "program_id": "prog-ktpm",
+      "program_id": "prog-k68-ktpm",
       "version": 1,
       "effective_cohort": "K68",
       "name": "CTĐT Kỹ thuật phần mềm – EP17 K68 – 2026",
@@ -58,7 +58,7 @@
     },
     {
       "id": "pv-khmt-k68",
-      "program_id": "prog-khmt",
+      "program_id": "prog-k68-khmt",
       "version": 1,
       "effective_cohort": "K68",
       "name": "CTĐT Khoa học máy tính K68 – 2026",
@@ -71,7 +71,7 @@
     },
     {
       "id": "pv-attt-k68",
-      "program_id": "prog-attt",
+      "program_id": "prog-k68-attt",
       "version": 1,
       "effective_cohort": "K68",
       "name": "CTĐT An toàn thông tin K68 – 2026",

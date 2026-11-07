@@ -1650,6 +1650,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
     "name_en": null,
     "objective": null,
     "self_study": [],
+    "self_study_note": null,
     "slug": "backend",
     "tagline": null
   },
@@ -2040,6 +2041,7 @@ Nội dung giới thiệu nghề, không phụ thuộc sinh viên. 404 khi khôn
   "name_en": null,
   "objective": null,
   "self_study": [],
+  "self_study_note": null,
   "slug": "ai_engineer",
   "tagline": null
 }
@@ -2414,6 +2416,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
     "name_en": null,
     "objective": null,
     "self_study": [],
+    "self_study_note": null,
     "slug": "backend",
     "tagline": null
   },

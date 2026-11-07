@@ -1,12 +1,13 @@
 import { Badge, InfoPopover } from '../../components/ui';
 import CareerIllustration from './illustrations/CareerIllustration';
-import { groupLabel, NOT_RECRUITMENT, RATE_NOTE } from './labels';
+import CareerMeter, { MeterLegend } from './CareerMeter';
+import { groupLabel, METER_NOTE, NOT_RECRUITMENT, RATE_NOTE } from './labels';
 import ProgressRing from './ProgressRing';
 
 function Fractions({ course, skill, disclaimer }) {
   return (
     <InfoPopover label="Giải thích tỷ lệ">
-      {course.formula}; {skill.formula}. {RATE_NOTE} {disclaimer ?? NOT_RECRUITMENT}.
+      {course.formula}; {skill.formula}. {RATE_NOTE} {METER_NOTE} {disclaimer ?? NOT_RECRUITMENT}.
     </InfoPopover>
   );
 }
@@ -48,6 +49,14 @@ export default function CareerHero({ profile, progress, action, isPrimary, fit }
             <ProgressRing percent={progress.course.percent} label="Học phần" />
             <ProgressRing percent={progress.skill.percent} label="Kỹ năng & dự án" />
             <Fractions {...progress} />
+          </div>
+          <div className="career-hero__meter">
+            <CareerMeter
+              done={progress.course.numerator}
+              coverage={progress.coverage}
+              label={`Học phần của ${profile.display_name}`}
+            />
+            <MeterLegend />
           </div>
           <p className="career-hero__coverage">
             Ngành của bạn có {progress.coverage.numerator}/{progress.coverage.denominator} môn của

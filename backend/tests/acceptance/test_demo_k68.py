@@ -13,7 +13,12 @@ from app.models.shared import (
     CoursePrerequisite,
     ProgramVersion,
 )
-from app.seed.seed import PROFILE_DEMO_K68, check_database, load_profile_tables
+from app.seed.seed import (
+    PROFILE_DEMO_K68,
+    PROFILE_TEST,
+    check_database,
+    load_profile_tables,
+)
 from app.services.career_graph_service import find_prerequisite_cycles, validate_for_publish
 from app.services.career_loader import load_career_version
 from app.services.data_quality_service import PROGRAM_COHORT_MISMATCH, check_data_quality
@@ -235,12 +240,12 @@ def test_ten_careers_in_handbook_order_with_six_groups():
 
 def test_q97_major_fit_uses_table_section_five_and_keeps_orientation_verbatim():
     careers = {row["id"]: row for row in TABLES["careers"]}
-    assert [item["code"] for item in careers["career-backend"]["major_fit"]["programs"]] == [
+    assert [item["code"] for item in careers["career-k68-backend"]["major_fit"]["programs"]] == [
         "CNTT",
         "KTPM",
         "KHMT",
     ]
-    assert careers["career-backend"]["major_fit"]["note"] == (
+    assert careers["career-k68-backend"]["major_fit"]["note"] == (
         "Ưu tiên CNTT/KTPM; KHMT phù hợp với logic và dữ liệu; ATTT có lợi thế về bảo mật."
     )
 
@@ -278,8 +283,8 @@ def test_course_requirements_store_priority_and_purpose():
 
 def test_q93_extra_labels_map_to_recommended():
     rows = {row["id"]: row for row in TABLES["career_requirements"]}
-    assert rows["req-ai-08-CNTT"]["priority"] == "recommended"  # Nên học
-    assert rows["req-data-11-CNTT"]["priority"] == "recommended"  # Tùy chọn
+    assert rows["req-k68-ai-08-CNTT"]["priority"] == "recommended"  # Nên học
+    assert rows["req-k68-data-11-CNTT"]["priority"] == "recommended"  # Tùy chọn
 
 
 def test_requirements_are_checklist_plus_three_projects():
@@ -450,14 +455,14 @@ def test_stage_progress_only_counts_courses(demo_app):
 
 def test_requirement_detail_shows_purpose_order_equivalents_and_other_careers(demo_app):
     client = login_as(demo_app, "demo03")
-    body = client.get("/api/m12/requirements/req-ai-02-KTPM").get_json()
+    body = client.get("/api/m12/requirements/req-k68-ai-02-KTPM").get_json()
 
     assert body["code"] == "EP17.TOKT1145"
     assert body["purpose"]
     assert body["equivalents"][0]["code"] == "TOKT1145"
     assert {career["slug"] for career in body["other_careers"]} == {"data-analyst"}
 
-    body = client.get("/api/m12/requirements/req-ai-06-KHMT").get_json()
+    body = client.get("/api/m12/requirements/req-k68-ai-06-KHMT").get_json()
     prerequisite = {item["code"]: item for item in body["prerequisites"]}
     assert prerequisite["TOKT1145"]["kind"] == "recommended_order"
     assert prerequisite["TOKT1145"]["source"].startswith("Thứ tự sư phạm")
@@ -470,7 +475,7 @@ def test_requirement_detail_hides_equivalency_that_is_not_approved(demo_app):
         db.session.commit()
     client = login_as(demo_app, "demo03")
 
-    assert client.get("/api/m12/requirements/req-ai-02-KTPM").get_json()["equivalents"] == []
+    assert client.get("/api/m12/requirements/req-k68-ai-02-KTPM").get_json()["equivalents"] == []
 
 
 # --- Lưới thẻ ---
@@ -551,7 +556,7 @@ def test_jaccard_only_uses_rows_of_the_student_program(demo_app):
             and row["program_id"] in (None, PROGRAM_IDS["KHMT"])
         }
 
-    first, second = target_set("cv-ai-1"), target_set("cv-data-1")
+    first, second = target_set("cv-k68-ai-1"), target_set("cv-k68-data-1")
     items = {item["career"]["slug"]: item for item in gallery(demo_app, "demo05")["items"]}
 
     closeness = items["data-analyst"]["closeness"]
@@ -587,3 +592,64 @@ def test_demo_accounts_lists_students_advisors_and_admin_without_passwords(demo_
 
     assert names == [f"demo0{i}" for i in range(1, 9)] + ["gv1", "gv2", "admin"]
     assert "Demo@" not in json.dumps(body)
+
+
+# --- CR-03b ---
+
+SHARED_TABLES = {
+    "academic_rules",
+    "grade_scales",
+    "grade_scale_levels",
+    "risk_action_templates",
+    "roles",
+    "semesters",
+    "users",
+}
+
+
+def test_profile_ids_are_separate_so_caches_cannot_mix():
+    test_tables = load_profile_tables(PROFILE_TEST)
+    for table, rows in TABLES.items():
+        if table in SHARED_TABLES or not rows or "id" not in rows[0]:
+            continue
+        ours = {row["id"] for row in rows}
+        theirs = {row["id"] for row in test_tables.get(table, [])}
+        assert ours.isdisjoint(theirs), table
+
+
+def test_tables_shared_by_both_profiles_have_identical_rows():
+    test_tables = load_profile_tables(PROFILE_TEST)
+    for table in SHARED_TABLES:
+        theirs = {row["id"]: row for row in test_tables[table]}
+        for row in TABLES[table]:
+            if row["id"] in theirs:
+                assert row == theirs[row["id"]], (table, row["id"])
+
+
+def test_career_ids_carry_the_k68_prefix():
+    assert all(row["id"].startswith("career-k68-") for row in TABLES["careers"])
+    assert all(row["id"].startswith("cv-k68-") for row in TABLES["career_versions"])
+    assert all(row["id"].startswith("node-k68-") for row in TABLES["career_nodes"])
+    assert all(row["id"].startswith("req-k68-") for row in TABLES["career_requirements"])
+    assert all(row["id"].startswith("prog-k68-") for row in TABLES["programs"])
+
+
+def test_permission_note_is_a_note_not_a_self_study_item():
+    careers = {row["id"]: row for row in TABLES["careers"]}
+    note = "chỉ thực hành trên hệ thống được phép"
+    security = careers["career-k68-cybersecurity"]
+
+    assert security["self_study_note"] == note
+    assert note not in security["self_study"]
+    assert len(security["self_study"]) == 9
+    others = [row for row in careers.values() if row is not security]
+    assert all(row["self_study_note"] is None for row in others)
+
+
+def test_switching_profile_without_restart_does_not_serve_the_other_tree(http_app, demo_app):
+    """Hai profile có cache cây riêng theo id phiên bản: nghề Backend không trùng id."""
+    test_body = login_as(http_app, "sv01").get("/api/m12/careers/slug/backend").get_json()
+    demo_body = login_as(demo_app, "demo01").get("/api/m12/careers/slug/backend-developer")
+
+    assert demo_body.status_code == 200
+    assert test_body["latest_version"]["id"] != demo_body.get_json()["latest_version"]["id"]

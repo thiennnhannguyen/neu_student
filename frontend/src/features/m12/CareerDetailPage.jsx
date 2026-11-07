@@ -52,7 +52,13 @@ function Detail({ student, data, reload }) {
     {
       id: 'skills',
       label: 'Kỹ năng & dự án',
-      content: <CareerProjects nodes={nodes} selfStudy={profile.self_study} />,
+      content: (
+        <CareerProjects
+          nodes={nodes}
+          selfStudy={profile.self_study}
+          selfStudyNote={profile.self_study_note}
+        />
+      ),
     },
   ];
   return (

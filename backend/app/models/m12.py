@@ -18,6 +18,7 @@ class Career(MockMixin, db.Model):
     objective = db.Column(db.Text)
     major_fit = db.Column(db.JSON)
     self_study = db.Column(db.JSON)
+    self_study_note = db.Column(db.String(255))
     illustration_key = db.Column(db.String(32))
     tagline = db.Column(db.String(80))
     sort_order = db.Column(db.Integer)

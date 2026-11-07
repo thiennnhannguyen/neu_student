@@ -7,7 +7,8 @@
       "field": "Dữ liệu và AI (mẫu)",
       "name_key": "ai engineer (mau)",
       "is_mock": true,
-      "illustration_key": "ai"
+      "illustration_key": "ai",
+      "self_study_note": null
     },
     {
       "id": "career-data_analyst",
@@ -16,7 +17,8 @@
       "field": "Dữ liệu và AI (mẫu)",
       "name_key": "data analyst (mau)",
       "is_mock": true,
-      "illustration_key": "data"
+      "illustration_key": "data",
+      "self_study_note": null
     },
     {
       "id": "career-ml_engineer",
@@ -25,7 +27,8 @@
       "field": "Dữ liệu và AI (mẫu)",
       "name_key": "machine learning engineer (mau)",
       "is_mock": true,
-      "illustration_key": "ai"
+      "illustration_key": "ai",
+      "self_study_note": null
     },
     {
       "id": "career-backend",
@@ -34,7 +37,8 @@
       "field": "Phần mềm (mẫu)",
       "name_key": "backend developer (mau)",
       "is_mock": true,
-      "illustration_key": "backend"
+      "illustration_key": "backend",
+      "self_study_note": null
     },
     {
       "id": "career-finance",
@@ -43,7 +47,8 @@
       "field": "Tài chính (mẫu)",
       "name_key": "chuyen vien phan tich tai chinh (mau)",
       "is_mock": true,
-      "illustration_key": null
+      "illustration_key": null,
+      "self_study_note": null
     },
     {
       "id": "career-marketing",
@@ -52,7 +57,8 @@
       "field": "Marketing (mẫu)",
       "name_key": "chuyen vien marketing so (mau)",
       "is_mock": true,
-      "illustration_key": null
+      "illustration_key": null,
+      "self_study_note": null
     }
   ],
   "career_versions": [
