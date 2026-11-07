@@ -194,6 +194,8 @@ def load_student_data(student_id: str, semester_id: str | None = None) -> Studen
         cohort=student.cohort,
         entry_semester_order=by_id[student.entry_semester_id].order,
         program=ProgramRef(version.id, version.name, version.effective_cohort),
+        program_id=version.program_id,
+        applies_to_cohorts=tuple(version.applies_to_cohorts or ()),
         rule=_to_rule_ref(rule),
         scale=_load_scale(rule, student.cohort),
         semesters=semesters,
@@ -203,7 +205,13 @@ def load_student_data(student_id: str, semester_id: str | None = None) -> Studen
         enrollments=_load_enrollments(student.id),
         attempts=_load_attempts(student.id),
         requirements=tuple(
-            RequirementRef(row.course_id, row.requirement_type, row.elective_group_id)
+            RequirementRef(
+                row.course_id,
+                row.requirement_type,
+                row.elective_group_id,
+                row.planned_semester,
+                row.data_warning,
+            )
             for row in db.session.scalars(
                 select(CurriculumRequirement)
                 .where(CurriculumRequirement.program_version_id == version.id)
@@ -221,9 +229,9 @@ def load_student_data(student_id: str, semester_id: str | None = None) -> Studen
         prerequisites=tuple(
             PrerequisiteRef(row.course_id, row.prerequisite_course_id)
             for row in db.session.scalars(
-                select(CoursePrerequisite).order_by(
-                    CoursePrerequisite.course_id, CoursePrerequisite.prerequisite_course_id
-                )
+                select(CoursePrerequisite)
+                .where(CoursePrerequisite.kind == "prerequisite")
+                .order_by(CoursePrerequisite.course_id, CoursePrerequisite.prerequisite_course_id)
             )
         ),
         equivalencies=_load_equivalencies(version.id),

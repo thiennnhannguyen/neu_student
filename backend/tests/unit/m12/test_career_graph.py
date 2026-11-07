@@ -88,6 +88,7 @@ def test_tree_has_all_fields_for_course_and_skill():
             "title": "Nhóm n",
             "short_desc": "Mô tả",
             "order": 1,
+            "deliverable": None,
             "children": [
                 {
                     "id": "r1",
@@ -98,6 +99,12 @@ def test_tree_has_all_fields_for_course_and_skill():
                     "code": "AAA",
                     "skill_id": None,
                     "weight": "1.00",
+                    "level": None,
+                    "criteria": None,
+                    "program_id": None,
+                    "subject_key": None,
+                    "priority": None,
+                    "purpose": None,
                 },
                 {
                     "id": "r2",
@@ -108,6 +115,12 @@ def test_tree_has_all_fields_for_course_and_skill():
                     "code": None,
                     "skill_id": "sk",
                     "weight": "1.00",
+                    "level": None,
+                    "criteria": None,
+                    "program_id": None,
+                    "subject_key": None,
+                    "priority": None,
+                    "purpose": None,
                 },
             ],
         }

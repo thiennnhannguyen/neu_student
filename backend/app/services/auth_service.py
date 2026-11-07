@@ -3,13 +3,16 @@
 from datetime import timedelta
 from functools import lru_cache
 
+from flask import current_app
 from sqlalchemy import select
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.common import audit, clock
+from app.common.errors import ApiError
 from app.extensions import db
-from app.models.shared import Student, User
+from app.models.shared import Role, Student, User
 
+DEMO_CODE_PREFIX = "DEMO"
 MAX_FAILED_ATTEMPTS = 5
 FAILED_WINDOW = timedelta(minutes=15)
 LOCK_DURATION = timedelta(minutes=15)
@@ -105,3 +108,27 @@ def describe_user(user: User) -> dict:
         "role": user.role_name,
         "student_id": student_id,
     }
+
+
+def demo_accounts() -> list[dict]:
+    """Tài khoản của profile demo-k68: 8 sinh viên DEMO, cố vấn của họ và quản trị."""
+    if current_app.config["APP_CONFIG_NAME"] == "production":
+        raise ApiError(404)
+    students = db.session.execute(
+        select(User.username, User.full_name, Student.student_code)
+        .join(Student, Student.user_id == User.id)
+        .where(Student.student_code.like(f"{DEMO_CODE_PREFIX}%"))
+        .order_by(Student.student_code)
+    ).all()
+    if not students:
+        return []
+    staff = db.session.execute(
+        select(User.username, User.full_name, Role.name)
+        .join(Role, Role.id == User.role_id)
+        .where(Role.name.in_(("advisor", "admin")))
+        .order_by(Role.name.desc(), User.username)
+    ).all()
+    return [
+        {"username": row.username, "full_name": row.full_name, "role": "student"}
+        for row in students
+    ] + [{"username": row.username, "full_name": row.full_name, "role": row.name} for row in staff]

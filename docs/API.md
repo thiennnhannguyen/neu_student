@@ -895,24 +895,53 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
         {
           "code": "CNT102",
           "course_id": "CNT102",
+          "criteria": null,
           "id": "req-node-cv-ai_engineer-1-1-CNT102",
           "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
           "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
           "skill_id": null,
+          "subject_key": null,
           "title": "Lập trình Python (mẫu)",
           "weight": "1.00"
         },
         {
           "code": "CNT202",
           "course_id": "CNT202",
+          "criteria": null,
           "id": "req-node-cv-ai_engineer-1-1-CNT202",
           "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
           "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt.",
           "skill_id": null,
+          "subject_key": null,
           "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "id": "req-node-cv-ai_engineer-1-1-sk-git",
+          "kind": "skill",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "short_desc": "Quản lý phiên bản mã nguồn khi làm việc nhóm; chỉ tính đạt khi minh chứng được duyệt.",
+          "skill_id": "sk-git",
+          "subject_key": null,
+          "title": "Git (mẫu)",
           "weight": "1.00"
         }
       ],
+      "deliverable": null,
       "id": "node-cv-ai_engineer-1-1",
       "kind": "group",
       "order": 1,
@@ -924,29 +953,190 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
         {
           "code": "MAU102",
           "course_id": "MAU102",
+          "criteria": null,
           "id": "req-node-cv-ai_engineer-1-2-MAU102",
           "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
           "short_desc": "Cung cấp công cụ ma trận mà môn Học máy của CTĐT mẫu yêu cầu học trước.",
           "skill_id": null,
+          "subject_key": null,
           "title": "Đại số tuyến tính (mẫu)",
           "weight": "1.00"
         },
         {
           "code": "MAU103",
           "course_id": "MAU103",
+          "criteria": null,
           "id": "req-node-cv-ai_engineer-1-2-MAU103",
           "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
           "short_desc": "Nền suy luận từ dữ liệu, mở đường vào Nhập môn khoa học dữ liệu.",
           "skill_id": null,
+          "subject_key": null,
           "title": "Xác suất thống kê (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "code": "MAU105",
+          "course_id": "MAU105",
+          "criteria": null,
+          "id": "req-node-cv-ai_engineer-1-2-MAU105",
+          "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "short_desc": "Học phần chung giúp đọc tài liệu chuyên ngành bằng tiếng Anh.",
+          "skill_id": null,
+          "subject_key": null,
+          "title": "Tiếng Anh cơ bản (mẫu)",
           "weight": "1.00"
         }
       ],
+      "deliverable": null,
       "id": "node-cv-ai_engineer-1-2",
       "kind": "group",
       "order": 2,
       "short_desc": "Nền toán và tiếng Anh để đọc hiểu mô hình cùng tài liệu chuyên môn.",
       "title": "Toán và dữ liệu (mẫu)"
+    },
+    {
+      "children": [
+        {
+          "code": "KDL301",
+          "course_id": "KDL301",
+          "criteria": null,
+          "id": "req-node-cv-ai_engineer-1-3-KDL301",
+          "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "short_desc": "Môn trung tâm của khối mô hình, là tiên quyết của học sâu và triển khai mô hình.",
+          "skill_id": null,
+          "subject_key": null,
+          "title": "Học máy (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "code": "KDL302",
+          "course_id": "KDL302",
+          "criteria": null,
+          "id": "req-node-cv-ai_engineer-1-3-KDL302",
+          "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "short_desc": "Môn nâng cao tiếp nối Học máy, là điều kiện để học xử lý ngôn ngữ.",
+          "skill_id": null,
+          "subject_key": null,
+          "title": "Học sâu (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "code": "KDL303",
+          "course_id": "KDL303",
+          "criteria": null,
+          "id": "req-node-cv-ai_engineer-1-3-KDL303",
+          "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "short_desc": "Môn ứng dụng chuyên sâu của khối mô hình, học sau môn Học sâu.",
+          "skill_id": null,
+          "subject_key": null,
+          "title": "Xử lý ngôn ngữ tự nhiên (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "id": "req-node-cv-ai_engineer-1-3-sk-eval",
+          "kind": "skill",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "short_desc": "Chọn thước đo phù hợp và đọc đúng kết quả trước khi đưa mô hình vào dùng.",
+          "skill_id": "sk-eval",
+          "subject_key": null,
+          "title": "Đánh giá mô hình (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "deliverable": null,
+      "id": "node-cv-ai_engineer-1-3",
+      "kind": "group",
+      "order": 3,
+      "short_desc": "Phần lõi của nghề: xây dựng mô hình và biết đánh giá chúng.",
+      "title": "Mô hình AI (mẫu)"
+    },
+    {
+      "children": [
+        {
+          "code": "CNT102",
+          "course_id": "CNT102",
+          "criteria": null,
+          "id": "req-node-cv-ai_engineer-1-4-CNT102",
+          "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
+          "skill_id": null,
+          "subject_key": null,
+          "title": "Lập trình Python (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "code": "KDL304",
+          "course_id": "KDL304",
+          "criteria": null,
+          "id": "req-node-cv-ai_engineer-1-4-KDL304",
+          "kind": "course",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "short_desc": "Môn đưa mô hình vào sử dụng thực tế, học sau khi đã qua Học máy.",
+          "skill_id": null,
+          "subject_key": null,
+          "title": "Triển khai mô hình học máy (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "id": "req-node-cv-ai_engineer-1-4-prj-data",
+          "kind": "project",
+          "level": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "short_desc": "Sản phẩm thực hành: đi từ dữ liệu thô đến kết luận có minh chứng.",
+          "skill_id": "prj-data",
+          "subject_key": null,
+          "title": "Dự án phân tích dữ liệu (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "deliverable": null,
+      "id": "node-cv-ai_engineer-1-4",
+      "kind": "group",
+      "order": 4,
+      "short_desc": "Đưa mô hình vào sử dụng và chứng minh năng lực qua sản phẩm.",
+      "title": "Thực hành (mẫu)"
     }
   ],
   "version": {
@@ -967,28 +1157,54 @@ Chi tiết một yêu cầu đã duyệt của bản published mới nhất; tr�
   "code": "CNT102",
   "course_id": "CNT102",
   "credits": 3,
+  "criteria": null,
+  "equivalents": [],
   "id": "req-node-cv-ai_engineer-1-1-CNT102",
   "kind": "course",
+  "level": null,
   "other_careers": [
     {
       "id": "career-backend",
-      "name": "Backend Developer (mẫu)"
+      "name": "Backend Developer (mẫu)",
+      "slug": "backend"
     },
     {
       "id": "career-marketing",
-      "name": "Chuyên viên marketing số (mẫu)"
+      "name": "Chuyên viên marketing số (mẫu)",
+      "slug": "marketing"
+    },
+    {
+      "id": "career-finance",
+      "name": "Chuyên viên phân tích tài chính (mẫu)",
+      "slug": "finance"
+    },
+    {
+      "id": "career-data_analyst",
+      "name": "Data Analyst (mẫu)",
+      "slug": "data_analyst"
+    },
+    {
+      "id": "career-ml_engineer",
+      "name": "Machine Learning Engineer (mẫu)",
+      "slug": "ml_engineer"
     }
   ],
   "prerequisites": [
     {
       "code": "CNT101",
       "course_id": "CNT101",
-      "name": "Nhập môn lập trình (mẫu)"
+      "kind": "prerequisite",
+      "name": "Nhập môn lập trình (mẫu)",
+      "source": null
     }
   ],
+  "priority": null,
+  "program_id": null,
+  "purpose": null,
   "resources": [],
   "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
   "skill_id": null,
+  "subject_key": null,
   "title": "Lập trình Python (mẫu)",
   "weight": "1.00"
 }
@@ -1078,15 +1294,22 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
     "name": "Backend Developer (mẫu)",
     "slug": "backend"
   },
-  "computed_at": "2026-11-06T17:59:40.776712Z",
+  "computed_at": "2026-11-07T01:02:09.457309Z",
   "course_progress": {
     "denominator": 8,
     "formula": "7/8 học phần",
     "numerator": 7,
+    "percent": 88,
     "value": "0.8750"
+  },
+  "coverage": {
+    "denominator": 8,
+    "numerator": 8,
+    "percent": 100
   },
   "data_warnings": [],
   "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
+  "fits_major": null,
   "is_primary": true,
   "nodes": [
     {
@@ -1094,12 +1317,22 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
         {
           "code": "CNT101",
           "course_id": "CNT101",
+          "criteria": null,
+          "data_warning": null,
           "id": "req-node-cv-backend-1-1-CNT101",
           "kind": "course",
+          "level": null,
+          "not_in_program": false,
           "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
           "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu.",
           "skill_id": null,
           "status": "done",
+          "subject_key": null,
           "title": "Nhập môn lập trình (mẫu)",
           "via_course": null,
           "weight": "1.00"
@@ -1107,17 +1340,58 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
         {
           "code": "CNT102",
           "course_id": "CNT102",
+          "criteria": null,
+          "data_warning": null,
           "id": "req-node-cv-backend-1-1-CNT102",
           "kind": "course",
+          "level": null,
+          "not_in_program": false,
           "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
           "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
           "skill_id": null,
           "status": "done",
+          "subject_key": null,
           "title": "Lập trình Python (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-1-sk-git",
+          "kind": "skill",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": null,
+          "short_desc": "Quản lý phiên bản mã nguồn khi làm việc nhóm; chỉ tính đạt khi minh chứng được duyệt.",
+          "skill_id": "sk-git",
+          "status": "not_started",
+          "subject_key": null,
+          "title": "Git (mẫu)",
           "via_course": null,
           "weight": "1.00"
         }
       ],
+      "course_progress": {
+        "denominator": 2,
+        "formula": "2/2 học phần",
+        "numerator": 2,
+        "percent": 100,
+        "value": "1.0000"
+      },
+      "deliverable": null,
       "id": "node-cv-backend-1-1",
       "kind": "group",
       "order": 1,
@@ -1129,12 +1403,22 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
         {
           "code": "CNT202",
           "course_id": "CNT202",
+          "criteria": null,
+          "data_warning": null,
           "id": "req-node-cv-backend-1-2-CNT202",
           "kind": "course",
+          "level": null,
+          "not_in_program": false,
           "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": null,
           "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt.",
           "skill_id": null,
           "status": "done_via_equivalency",
+          "subject_key": null,
           "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
           "via_course": {
             "code": "CNT201",
@@ -1145,29 +1429,235 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
         {
           "code": "CNT203",
           "course_id": "CNT203",
+          "criteria": null,
+          "data_warning": null,
           "id": "req-node-cv-backend-1-2-CNT203",
           "kind": "course",
+          "level": null,
+          "not_in_program": false,
           "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
           "short_desc": "Môn nền về lưu trữ, là tiên quyết của backend, công nghệ phần mềm và kho dữ liệu.",
           "skill_id": null,
           "status": "done",
+          "subject_key": null,
           "title": "Cơ sở dữ liệu (mẫu)",
           "via_course": null,
           "weight": "1.00"
         }
       ],
+      "course_progress": {
+        "denominator": 2,
+        "formula": "2/2 học phần",
+        "numerator": 2,
+        "percent": 100,
+        "value": "1.0000"
+      },
+      "deliverable": null,
       "id": "node-cv-backend-1-2",
       "kind": "group",
       "order": 2,
       "short_desc": "Cách tổ chức dữ liệu và xử lý hiệu quả bên trong dịch vụ.",
       "title": "Dữ liệu và thuật toán (mẫu)"
+    },
+    {
+      "children": [
+        {
+          "code": "CNT204",
+          "course_id": "CNT204",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-3-CNT204",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn nền về kết nối hệ thống, cần trước khi học hệ phân tán và an toàn thông tin.",
+          "skill_id": null,
+          "status": "done",
+          "subject_key": null,
+          "title": "Mạng máy tính (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": "CNT301",
+          "course_id": "CNT301",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-3-CNT301",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn ứng dụng khối phần mềm, kết hợp lập trình và lưu trữ để xây dựng dịch vụ.",
+          "skill_id": null,
+          "status": "done",
+          "subject_key": null,
+          "title": "Phát triển web backend (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-3-sk-api",
+          "kind": "skill",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": null,
+          "short_desc": "Thiết kế giao tiếp giữa các dịch vụ sao cho rõ ràng và dễ dùng lại.",
+          "skill_id": "sk-api",
+          "status": "not_started",
+          "subject_key": null,
+          "title": "Thiết kế REST API (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        }
+      ],
+      "course_progress": {
+        "denominator": 2,
+        "formula": "2/2 học phần",
+        "numerator": 2,
+        "percent": 100,
+        "value": "1.0000"
+      },
+      "deliverable": null,
+      "id": "node-cv-backend-1-3",
+      "kind": "group",
+      "order": 3,
+      "short_desc": "Xây dựng dịch vụ để ứng dụng khác gọi được qua mạng.",
+      "title": "Dịch vụ (mẫu)"
+    },
+    {
+      "children": [
+        {
+          "code": "CNT302",
+          "course_id": "CNT302",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-4-CNT302",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn về quy trình làm phần mềm nhóm, là điều kiện để làm đồ án chuyên ngành.",
+          "skill_id": null,
+          "status": "done",
+          "subject_key": null,
+          "title": "Công nghệ phần mềm (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": "CNT303",
+          "course_id": "CNT303",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-4-CNT303",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn nâng cao của khối hệ thống, học sau khi đã có nền dịch vụ web và mạng.",
+          "skill_id": null,
+          "status": "in_progress",
+          "subject_key": null,
+          "title": "Hệ thống phân tán (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-4-prj-web",
+          "kind": "project",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": null,
+          "short_desc": "Sản phẩm thực hành: một dịch vụ chạy được, có lưu trữ và giao tiếp qua API.",
+          "skill_id": "prj-web",
+          "status": "not_started",
+          "subject_key": null,
+          "title": "Dự án xây dựng dịch vụ web (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        }
+      ],
+      "course_progress": {
+        "denominator": 2,
+        "formula": "1/2 học phần",
+        "numerator": 1,
+        "percent": 50,
+        "value": "0.5000"
+      },
+      "deliverable": null,
+      "id": "node-cv-backend-1-4",
+      "kind": "group",
+      "order": 4,
+      "short_desc": "Làm phần mềm theo nhóm và giữ hệ thống chạy tốt khi lớn dần.",
+      "title": "Hệ thống (mẫu)"
     }
   ],
   "outside_curriculum_count": 0,
+  "profile": {
+    "display_name": "Backend Developer",
+    "field": "Phần mềm (mẫu)",
+    "group": "Phần mềm (mẫu)",
+    "id": "career-backend",
+    "illustration_key": "backend",
+    "is_mock": true,
+    "major_fit": null,
+    "name": "Backend Developer (mẫu)",
+    "name_en": null,
+    "objective": null,
+    "self_study": [],
+    "slug": "backend",
+    "tagline": null
+  },
   "skill_progress": {
     "denominator": 3,
     "formula": "0/3 kỹ năng & dự án",
     "numerator": 0,
+    "percent": 0,
     "value": "0.0000"
   },
   "student_id": "SV01",
@@ -1198,13 +1688,20 @@ Nghề chính và 3 nghề liên quan đầu theo `closeness`. Chưa có nghề 
       "denominator": 9,
       "formula": "2/9 học phần",
       "numerator": 2,
+      "percent": 22,
       "value": "0.2222"
+    },
+    "coverage": {
+      "denominator": 9,
+      "numerator": 9,
+      "percent": 100
     },
     "outside_curriculum_count": 4,
     "skill_progress": {
       "denominator": 3,
       "formula": "1/3 kỹ năng & dự án",
       "numerator": 1,
+      "percent": 33,
       "value": "0.3333"
     }
   },
@@ -1225,12 +1722,19 @@ Nghề chính và 3 nghề liên quan đầu theo `closeness`. Chưa có nghề 
         "denominator": 8,
         "formula": "1/8 học phần",
         "numerator": 1,
+        "percent": 13,
         "value": "0.1250"
+      },
+      "coverage": {
+        "denominator": 8,
+        "numerator": 8,
+        "percent": 100
       },
       "skill_progress": {
         "denominator": 3,
         "formula": "1/3 kỹ năng & dự án",
         "numerator": 1,
+        "percent": 33,
         "value": "0.3333"
       }
     },
@@ -1250,12 +1754,51 @@ Nghề chính và 3 nghề liên quan đầu theo `closeness`. Chưa có nghề 
         "denominator": 7,
         "formula": "1/7 học phần",
         "numerator": 1,
+        "percent": 14,
         "value": "0.1429"
+      },
+      "coverage": {
+        "denominator": 7,
+        "numerator": 7,
+        "percent": 100
       },
       "skill_progress": {
         "denominator": 3,
         "formula": "1/3 kỹ năng & dự án",
         "numerator": 1,
+        "percent": 33,
+        "value": "0.3333"
+      }
+    },
+    {
+      "career": {
+        "field": "Phần mềm (mẫu)",
+        "id": "career-backend",
+        "name": "Backend Developer (mẫu)",
+        "slug": "backend"
+      },
+      "closeness": {
+        "denominator": 20,
+        "numerator": 3,
+        "value": "0.1500"
+      },
+      "course_progress": {
+        "denominator": 8,
+        "formula": "2/8 học phần",
+        "numerator": 2,
+        "percent": 25,
+        "value": "0.2500"
+      },
+      "coverage": {
+        "denominator": 8,
+        "numerator": 8,
+        "percent": 100
+      },
+      "skill_progress": {
+        "denominator": 3,
+        "formula": "1/3 kỹ năng & dự án",
+        "numerator": 1,
+        "percent": 33,
         "value": "0.3333"
       }
     }
@@ -1275,7 +1818,9 @@ Tham số `student_id`, `sort` (`closeness` mặc định, hoặc `profile_fit`)
   "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
   "fields": [
     "Dữ liệu và AI (mẫu)",
-    "Marketing (mẫu)"
+    "Marketing (mẫu)",
+    "Phần mềm (mẫu)",
+    "Tài chính (mẫu)"
   ],
   "items": [
     {
@@ -1294,12 +1839,19 @@ Tham số `student_id`, `sort` (`closeness` mặc định, hoặc `profile_fit`)
         "denominator": 5,
         "formula": "2/5 học phần",
         "numerator": 2,
+        "percent": 40,
         "value": "0.4000"
+      },
+      "coverage": {
+        "denominator": 5,
+        "numerator": 5,
+        "percent": 100
       },
       "skill_progress": {
         "denominator": 3,
         "formula": "0/3 kỹ năng & dự án",
         "numerator": 0,
+        "percent": 0,
         "value": "0.0000"
       }
     },
@@ -1319,12 +1871,19 @@ Tham số `student_id`, `sort` (`closeness` mặc định, hoặc `profile_fit`)
         "denominator": 6,
         "formula": "2/6 học phần",
         "numerator": 2,
+        "percent": 33,
         "value": "0.3333"
+      },
+      "coverage": {
+        "denominator": 6,
+        "numerator": 6,
+        "percent": 100
       },
       "skill_progress": {
         "denominator": 3,
         "formula": "0/3 kỹ năng & dự án",
         "numerator": 0,
+        "percent": 0,
         "value": "0.0000"
       }
     }
@@ -1353,6 +1912,535 @@ Lỗi khi đổi nghề chính kèm `student_id` trên URL:
     "details": {},
     "message": "Không được chỉ định sinh viên khi đổi nghề chính."
   }
+}
+```
+
+### `GET /api/m12/gallery`
+
+Lưới thẻ nghề của trang Định hướng nghề (CR-03). Sinh viên chưa có nghề chính vẫn có đủ thẻ. Tham số `student_id`, `sort` (`default`: nghề chính, nghề hợp ngành, còn lại; `closeness`: nghề chính rồi Jaccard giảm dần), `group` (khớp đúng), `q` (tên Việt hoặc Anh, không phân biệt dấu).
+
+`percent` là số nguyên làm tròn half-up từ phân số, mẫu số 0 thì null. `coverage` = số môn có trong CTĐT ngành / tổng số môn riêng biệt của nghề (Q92); `low_coverage` khi dưới 50%. `fits_major` theo bảng mục 5 của cẩm nang (Q97).
+
+<!-- contract: sv07 GET /api/m12/gallery?q=ai -->
+```json
+{
+  "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
+  "groups": [
+    "Dữ liệu và AI (mẫu)",
+    "Phần mềm (mẫu)",
+    "Marketing (mẫu)",
+    "Tài chính (mẫu)"
+  ],
+  "has_primary": true,
+  "items": [
+    {
+      "career": {
+        "display_name": "AI Engineer",
+        "field": "Dữ liệu và AI (mẫu)",
+        "group": "Dữ liệu và AI (mẫu)",
+        "id": "career-ai_engineer",
+        "illustration_key": "ai",
+        "is_mock": true,
+        "name": "AI Engineer (mẫu)",
+        "name_en": null,
+        "slug": "ai_engineer",
+        "tagline": null
+      },
+      "closeness": null,
+      "course_progress": {
+        "denominator": 9,
+        "formula": "2/9 học phần",
+        "numerator": 2,
+        "percent": 22,
+        "value": "0.2222"
+      },
+      "coverage": {
+        "denominator": 9,
+        "numerator": 9,
+        "percent": 100
+      },
+      "fits_major": null,
+      "is_primary": true,
+      "low_coverage": false,
+      "skill_progress": {
+        "denominator": 3,
+        "formula": "1/3 kỹ năng & dự án",
+        "numerator": 1,
+        "percent": 33,
+        "value": "0.3333"
+      }
+    },
+    {
+      "career": {
+        "display_name": "Chuyên viên phân tích tài chính",
+        "field": "Tài chính (mẫu)",
+        "group": "Tài chính (mẫu)",
+        "id": "career-finance",
+        "illustration_key": null,
+        "is_mock": true,
+        "name": "Chuyên viên phân tích tài chính (mẫu)",
+        "name_en": null,
+        "slug": "finance",
+        "tagline": null
+      },
+      "closeness": {
+        "denominator": 19,
+        "numerator": 1,
+        "value": "0.0526"
+      },
+      "course_progress": {
+        "denominator": 5,
+        "formula": "2/5 học phần",
+        "numerator": 2,
+        "percent": 40,
+        "value": "0.4000"
+      },
+      "coverage": {
+        "denominator": 5,
+        "numerator": 5,
+        "percent": 100
+      },
+      "fits_major": null,
+      "is_primary": false,
+      "low_coverage": false,
+      "skill_progress": {
+        "denominator": 3,
+        "formula": "0/3 kỹ năng & dự án",
+        "numerator": 0,
+        "percent": 0,
+        "value": "0.0000"
+      }
+    }
+  ],
+  "sort": "default",
+  "student_id": "SV07"
+}
+```
+
+### `GET /api/m12/careers/slug/{slug}`
+
+Nội dung giới thiệu nghề, không phụ thuộc sinh viên. 404 khi không có nghề hoặc nghề chưa có bản công bố.
+
+<!-- contract: sv07 GET /api/m12/careers/slug/ai_engineer -->
+```json
+{
+  "display_name": "AI Engineer",
+  "field": "Dữ liệu và AI (mẫu)",
+  "group": "Dữ liệu và AI (mẫu)",
+  "id": "career-ai_engineer",
+  "illustration_key": "ai",
+  "is_mock": true,
+  "latest_version": {
+    "id": "cv-ai_engineer-1",
+    "published_at": "2026-08-20T09:00:00Z",
+    "version": 1
+  },
+  "major_fit": null,
+  "name": "AI Engineer (mẫu)",
+  "name_en": null,
+  "objective": null,
+  "self_study": [],
+  "slug": "ai_engineer",
+  "tagline": null
+}
+```
+
+### `GET /api/m12/progress/careers/slug/{slug}`
+
+Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có `deliverable` và `course_progress` riêng (chỉ đếm học phần). Mỗi `children[]` có `requirement_type`, `planned_semester`, `priority`, `purpose`, `data_warning`. Môn của nghề mà CTĐT ngành không có: `not_in_program` true, `status` `not_in_program`, `code` null và không vào mẫu số.
+
+<!-- contract: sv01 GET /api/m12/progress/careers/slug/backend -->
+```json
+{
+  "career": {
+    "field": "Phần mềm (mẫu)",
+    "id": "career-backend",
+    "name": "Backend Developer (mẫu)",
+    "slug": "backend"
+  },
+  "computed_at": "2026-11-07T01:02:09.839795Z",
+  "course_progress": {
+    "denominator": 8,
+    "formula": "7/8 học phần",
+    "numerator": 7,
+    "percent": 88,
+    "value": "0.8750"
+  },
+  "coverage": {
+    "denominator": 8,
+    "numerator": 8,
+    "percent": 100
+  },
+  "data_warnings": [],
+  "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
+  "fits_major": null,
+  "is_primary": true,
+  "nodes": [
+    {
+      "children": [
+        {
+          "code": "CNT101",
+          "course_id": "CNT101",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-1-CNT101",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu.",
+          "skill_id": null,
+          "status": "done",
+          "subject_key": null,
+          "title": "Nhập môn lập trình (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": "CNT102",
+          "course_id": "CNT102",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-1-CNT102",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
+          "skill_id": null,
+          "status": "done",
+          "subject_key": null,
+          "title": "Lập trình Python (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-1-sk-git",
+          "kind": "skill",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": null,
+          "short_desc": "Quản lý phiên bản mã nguồn khi làm việc nhóm; chỉ tính đạt khi minh chứng được duyệt.",
+          "skill_id": "sk-git",
+          "status": "not_started",
+          "subject_key": null,
+          "title": "Git (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        }
+      ],
+      "course_progress": {
+        "denominator": 2,
+        "formula": "2/2 học phần",
+        "numerator": 2,
+        "percent": 100,
+        "value": "1.0000"
+      },
+      "deliverable": null,
+      "id": "node-cv-backend-1-1",
+      "kind": "group",
+      "order": 1,
+      "short_desc": "Năng lực lập trình phía máy chủ, là điều kiện đầu tiên của nghề.",
+      "title": "Ngôn ngữ phía server (mẫu)"
+    },
+    {
+      "children": [
+        {
+          "code": "CNT202",
+          "course_id": "CNT202",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-2-CNT202",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": null,
+          "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt.",
+          "skill_id": null,
+          "status": "done_via_equivalency",
+          "subject_key": null,
+          "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+          "via_course": {
+            "code": "CNT201",
+            "course_id": "CNT201"
+          },
+          "weight": "1.00"
+        },
+        {
+          "code": "CNT203",
+          "course_id": "CNT203",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-2-CNT203",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn nền về lưu trữ, là tiên quyết của backend, công nghệ phần mềm và kho dữ liệu.",
+          "skill_id": null,
+          "status": "done",
+          "subject_key": null,
+          "title": "Cơ sở dữ liệu (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        }
+      ],
+      "course_progress": {
+        "denominator": 2,
+        "formula": "2/2 học phần",
+        "numerator": 2,
+        "percent": 100,
+        "value": "1.0000"
+      },
+      "deliverable": null,
+      "id": "node-cv-backend-1-2",
+      "kind": "group",
+      "order": 2,
+      "short_desc": "Cách tổ chức dữ liệu và xử lý hiệu quả bên trong dịch vụ.",
+      "title": "Dữ liệu và thuật toán (mẫu)"
+    },
+    {
+      "children": [
+        {
+          "code": "CNT204",
+          "course_id": "CNT204",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-3-CNT204",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn nền về kết nối hệ thống, cần trước khi học hệ phân tán và an toàn thông tin.",
+          "skill_id": null,
+          "status": "done",
+          "subject_key": null,
+          "title": "Mạng máy tính (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": "CNT301",
+          "course_id": "CNT301",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-3-CNT301",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn ứng dụng khối phần mềm, kết hợp lập trình và lưu trữ để xây dựng dịch vụ.",
+          "skill_id": null,
+          "status": "done",
+          "subject_key": null,
+          "title": "Phát triển web backend (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-3-sk-api",
+          "kind": "skill",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": null,
+          "short_desc": "Thiết kế giao tiếp giữa các dịch vụ sao cho rõ ràng và dễ dùng lại.",
+          "skill_id": "sk-api",
+          "status": "not_started",
+          "subject_key": null,
+          "title": "Thiết kế REST API (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        }
+      ],
+      "course_progress": {
+        "denominator": 2,
+        "formula": "2/2 học phần",
+        "numerator": 2,
+        "percent": 100,
+        "value": "1.0000"
+      },
+      "deliverable": null,
+      "id": "node-cv-backend-1-3",
+      "kind": "group",
+      "order": 3,
+      "short_desc": "Xây dựng dịch vụ để ứng dụng khác gọi được qua mạng.",
+      "title": "Dịch vụ (mẫu)"
+    },
+    {
+      "children": [
+        {
+          "code": "CNT302",
+          "course_id": "CNT302",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-4-CNT302",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn về quy trình làm phần mềm nhóm, là điều kiện để làm đồ án chuyên ngành.",
+          "skill_id": null,
+          "status": "done",
+          "subject_key": null,
+          "title": "Công nghệ phần mềm (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": "CNT303",
+          "course_id": "CNT303",
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-4-CNT303",
+          "kind": "course",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": "required",
+          "short_desc": "Môn nâng cao của khối hệ thống, học sau khi đã có nền dịch vụ web và mạng.",
+          "skill_id": null,
+          "status": "in_progress",
+          "subject_key": null,
+          "title": "Hệ thống phân tán (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        },
+        {
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "data_warning": null,
+          "id": "req-node-cv-backend-1-4-prj-web",
+          "kind": "project",
+          "level": null,
+          "not_in_program": false,
+          "outside_curriculum": false,
+          "planned_semester": null,
+          "priority": null,
+          "program_id": null,
+          "purpose": null,
+          "requirement_type": null,
+          "short_desc": "Sản phẩm thực hành: một dịch vụ chạy được, có lưu trữ và giao tiếp qua API.",
+          "skill_id": "prj-web",
+          "status": "not_started",
+          "subject_key": null,
+          "title": "Dự án xây dựng dịch vụ web (mẫu)",
+          "via_course": null,
+          "weight": "1.00"
+        }
+      ],
+      "course_progress": {
+        "denominator": 2,
+        "formula": "1/2 học phần",
+        "numerator": 1,
+        "percent": 50,
+        "value": "0.5000"
+      },
+      "deliverable": null,
+      "id": "node-cv-backend-1-4",
+      "kind": "group",
+      "order": 4,
+      "short_desc": "Làm phần mềm theo nhóm và giữ hệ thống chạy tốt khi lớn dần.",
+      "title": "Hệ thống (mẫu)"
+    }
+  ],
+  "outside_curriculum_count": 0,
+  "profile": {
+    "display_name": "Backend Developer",
+    "field": "Phần mềm (mẫu)",
+    "group": "Phần mềm (mẫu)",
+    "id": "career-backend",
+    "illustration_key": "backend",
+    "is_mock": true,
+    "major_fit": null,
+    "name": "Backend Developer (mẫu)",
+    "name_en": null,
+    "objective": null,
+    "self_study": [],
+    "slug": "backend",
+    "tagline": null
+  },
+  "skill_progress": {
+    "denominator": 3,
+    "formula": "0/3 kỹ năng & dự án",
+    "numerator": 0,
+    "percent": 0,
+    "value": "0.0000"
+  },
+  "student_id": "SV01",
+  "version": {
+    "id": "cv-backend-1",
+    "published_at": "2026-08-20T09:00:00Z",
+    "version": 1
+  }
+}
+```
+
+### `GET /api/auth/demo-accounts`
+
+Công khai. Tên tài khoản của profile `demo-k68`, không có mật khẩu. Profile test trả `accounts` rỗng; production trả 404.
+
+<!-- contract: sv01 GET /api/auth/demo-accounts -->
+```json
+{
+  "accounts": []
 }
 ```
 
@@ -1514,20 +2602,38 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
 ```json
 {
   "career_id": "career-backend",
-  "id": "1cd1acb5a7344a97902fbe1ec0ac484e",
+  "id": "a1eab081c56f48c6b4371dc4876ada96",
   "nodes": [
     {
-      "id": "dc95dc950dd74fbb942e5ad453722b2b",
+      "id": "9ba78c33de4e48d2b4936531154773bf",
       "name": "Ngôn ngữ phía server (mẫu)",
       "order": 1,
       "requirements": [
         {
           "approved_at": "2026-08-15T09:00:00Z",
           "approved_by": "user-admin",
+          "code": "CNT101",
+          "course_id": "CNT101",
+          "criteria": null,
+          "id": "9777b082886745a9bd9fae3a6720027c",
+          "kind": "course",
+          "level": null,
+          "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Nhập môn lập trình (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
           "code": "CNT102",
           "course_id": "CNT102",
-          "id": "1606d1064b2f4aaf8713664a7686ad62",
+          "criteria": null,
+          "id": "e0abea4eca9b426797021d5c508bf7e6",
           "kind": "course",
+          "level": null,
           "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
           "skill_id": null,
           "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
@@ -1538,55 +2644,173 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
         {
           "approved_at": "2026-08-15T09:00:00Z",
           "approved_by": "user-admin",
-          "code": "CNT101",
-          "course_id": "CNT101",
-          "id": "34cd05fd38e24e11bcb307bb1f50d81a",
-          "kind": "course",
-          "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu.",
-          "skill_id": null,
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "id": "e6e916b1a2af46869cdfb17e1b538efb",
+          "kind": "skill",
+          "level": null,
+          "short_desc": "Quản lý phiên bản mã nguồn khi làm việc nhóm; chỉ tính đạt khi minh chứng được duyệt.",
+          "skill_id": "sk-git",
           "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Nhập môn lập trình (mẫu)",
+          "title": "Git (mẫu)",
           "weight": "1.00"
         }
       ],
       "short_desc": "Năng lực lập trình phía máy chủ, là điều kiện đầu tiên của nghề."
     },
     {
-      "id": "331b12160c5a449ebe1e83ba6eb343a8",
+      "id": "e3c862abd9e04a9aba5b0f77b0f9f0e0",
       "name": "Dữ liệu và thuật toán (mẫu)",
       "order": 2,
       "requirements": [
         {
           "approved_at": "2026-08-15T09:00:00Z",
           "approved_by": "user-admin",
-          "code": "CNT203",
-          "course_id": "CNT203",
-          "id": "6b4cb5db79254e1287831295045b996b",
-          "kind": "course",
-          "short_desc": "Môn nền về lưu trữ, là tiên quyết của backend, công nghệ phần mềm và kho dữ liệu.",
-          "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
-          "status": "approved",
-          "title": "Cơ sở dữ liệu (mẫu)",
-          "weight": "1.00"
-        },
-        {
-          "approved_at": "2026-08-15T09:00:00Z",
-          "approved_by": "user-admin",
           "code": "CNT202",
           "course_id": "CNT202",
-          "id": "a45b10d9fcb849fe991f45f2b23e1273",
+          "criteria": null,
+          "id": "46db3ff2801a4042982e167b82e1a868",
           "kind": "course",
+          "level": null,
           "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt.",
           "skill_id": null,
           "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
           "status": "approved",
           "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
           "weight": "1.00"
+        },
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT203",
+          "course_id": "CNT203",
+          "criteria": null,
+          "id": "c017e079cd9e4e6b95a0fd7c52b58843",
+          "kind": "course",
+          "level": null,
+          "short_desc": "Môn nền về lưu trữ, là tiên quyết của backend, công nghệ phần mềm và kho dữ liệu.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Cơ sở dữ liệu (mẫu)",
+          "weight": "1.00"
         }
       ],
       "short_desc": "Cách tổ chức dữ liệu và xử lý hiệu quả bên trong dịch vụ."
+    },
+    {
+      "id": "a991f25f49b0490c9a751609770cfe20",
+      "name": "Dịch vụ (mẫu)",
+      "order": 3,
+      "requirements": [
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT301",
+          "course_id": "CNT301",
+          "criteria": null,
+          "id": "0bb886ed84044f3a9d28e9099d9efa4f",
+          "kind": "course",
+          "level": null,
+          "short_desc": "Môn ứng dụng khối phần mềm, kết hợp lập trình và lưu trữ để xây dựng dịch vụ.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Phát triển web backend (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "id": "662b7933243f412d884f03ab9bee6294",
+          "kind": "skill",
+          "level": null,
+          "short_desc": "Thiết kế giao tiếp giữa các dịch vụ sao cho rõ ràng và dễ dùng lại.",
+          "skill_id": "sk-api",
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Thiết kế REST API (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT204",
+          "course_id": "CNT204",
+          "criteria": null,
+          "id": "7fc88d4bdbee463c8efd5deafce934e3",
+          "kind": "course",
+          "level": null,
+          "short_desc": "Môn nền về kết nối hệ thống, cần trước khi học hệ phân tán và an toàn thông tin.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Mạng máy tính (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "short_desc": "Xây dựng dịch vụ để ứng dụng khác gọi được qua mạng."
+    },
+    {
+      "id": "2e76c9cd7cca438287df7ba0e348f66b",
+      "name": "Hệ thống (mẫu)",
+      "order": 4,
+      "requirements": [
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT303",
+          "course_id": "CNT303",
+          "criteria": null,
+          "id": "27aa3dc3151d4ff7ae4e6dd5e5876545",
+          "kind": "course",
+          "level": null,
+          "short_desc": "Môn nâng cao của khối hệ thống, học sau khi đã có nền dịch vụ web và mạng.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Hệ thống phân tán (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "id": "e0a2e0ea87ec4e52a6d8a7bfa3270ec3",
+          "kind": "project",
+          "level": null,
+          "short_desc": "Sản phẩm thực hành: một dịch vụ chạy được, có lưu trữ và giao tiếp qua API.",
+          "skill_id": "prj-web",
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Dự án xây dựng dịch vụ web (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "approved_at": "2026-08-15T09:00:00Z",
+          "approved_by": "user-admin",
+          "code": "CNT302",
+          "course_id": "CNT302",
+          "criteria": null,
+          "id": "ec0b7a5d45f34e61b0c0431365c6a26b",
+          "kind": "course",
+          "level": null,
+          "short_desc": "Môn về quy trình làm phần mềm nhóm, là điều kiện để làm đồ án chuyên ngành.",
+          "skill_id": null,
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "approved",
+          "title": "Công nghệ phần mềm (mẫu)",
+          "weight": "1.00"
+        }
+      ],
+      "short_desc": "Làm phần mềm theo nhóm và giữ hệ thống chạy tốt khi lớn dần."
     }
   ],
   "published_at": null,
@@ -1615,8 +2839,10 @@ Xem được cả draft, có yêu cầu draft, nguồn, người duyệt.
           "approved_by": null,
           "code": "CNT102",
           "course_id": "CNT102",
+          "criteria": null,
           "id": "req-node-cv-data_analyst-2-1-CNT102",
           "kind": "course",
+          "level": null,
           "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
           "skill_id": null,
           "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
@@ -1629,13 +2855,31 @@ Xem được cả draft, có yêu cầu draft, nguồn, người duyệt.
           "approved_by": null,
           "code": "KDL306",
           "course_id": "KDL306",
+          "criteria": null,
           "id": "req-node-cv-data_analyst-2-1-KDL306",
           "kind": "course",
+          "level": null,
           "short_desc": "Môn mở rộng về xử lý quy mô lớn, học sau môn nhập môn dữ liệu.",
           "skill_id": null,
           "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
           "status": "draft",
           "title": "Phân tích dữ liệu lớn (mẫu)",
+          "weight": "1.00"
+        },
+        {
+          "approved_at": null,
+          "approved_by": null,
+          "code": null,
+          "course_id": null,
+          "criteria": null,
+          "id": "req-node-cv-data_analyst-2-1-sk-sql",
+          "kind": "skill",
+          "level": null,
+          "short_desc": "Tự lấy và tổng hợp dữ liệu từ cơ sở dữ liệu để trả lời câu hỏi phân tích.",
+          "skill_id": "sk-sql",
+          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "status": "draft",
+          "title": "Viết truy vấn SQL (mẫu)",
           "weight": "1.00"
         }
       ],
@@ -1687,8 +2931,10 @@ Chạy `validate_for_publish`. Đạt: draft thành published, 200.
           "approved_by": "user-admin",
           "code": "CNT101",
           "course_id": "CNT101",
+          "criteria": null,
           "id": "req-nhap",
           "kind": "course",
+          "level": null,
           "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu.",
           "skill_id": null,
           "source": "Nguồn mẫu",
@@ -1700,7 +2946,7 @@ Chạy `validate_for_publish`. Đạt: draft thành published, 200.
       "short_desc": null
     }
   ],
-  "published_at": "2026-11-06T17:22:05.588910Z",
+  "published_at": "2026-11-07T01:02:10.567817Z",
   "status": "published",
   "version": 1
 }

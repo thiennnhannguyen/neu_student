@@ -1,0 +1,2248 @@
+{
+  "course_groups": [
+    {
+      "id": "group-chung",
+      "slug": "chung",
+      "name": "Học phần chung",
+      "is_mock": true
+    },
+    {
+      "id": "group-truong",
+      "slug": "truong",
+      "name": "Học phần của trường",
+      "is_mock": true
+    },
+    {
+      "id": "group-nen-tang",
+      "slug": "nen-tang",
+      "name": "Học phần nền tảng ngành",
+      "is_mock": true
+    },
+    {
+      "id": "group-co-so",
+      "slug": "co-so",
+      "name": "Cơ sở ngành",
+      "is_mock": true
+    },
+    {
+      "id": "group-nganh",
+      "slug": "nganh",
+      "name": "Kiến thức ngành",
+      "is_mock": true
+    },
+    {
+      "id": "group-tu-chon",
+      "slug": "tu-chon",
+      "name": "Học phần riêng bổ sung của EP17",
+      "is_mock": true
+    },
+    {
+      "id": "group-khoa-luan",
+      "slug": "khoa-luan",
+      "name": "Khóa luận tốt nghiệp",
+      "is_mock": true
+    }
+  ],
+  "courses": [
+    {
+      "id": "CNTT1100",
+      "code": "CNTT1100",
+      "name": "Blockchain và ứng dụng",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1101",
+      "code": "CNTT1101",
+      "name": "Chuyên đề thực tế – An toàn thông tin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1102",
+      "code": "CNTT1102",
+      "name": "Đánh giá lỗ hổng bảo mật và kiểm thử xâm nhập",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1103",
+      "code": "CNTT1103",
+      "name": "Hệ điều hành Linux/Unix",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1104",
+      "code": "CNTT1104",
+      "name": "Khóa luận tốt nghiệp – An toàn thông tin",
+      "credits": 10,
+      "counts_gpa": true,
+      "course_group_id": "group-khoa-luan",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1105",
+      "code": "CNTT1105",
+      "name": "Mật mã và bảo mật thông tin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1107",
+      "code": "CNTT1107",
+      "name": "Hệ điều hành",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-co-so",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1112",
+      "code": "CNTT1112",
+      "name": "Kiến trúc máy tính",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1114",
+      "code": "CNTT1114",
+      "name": "Mạng máy tính và truyền số liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1116",
+      "code": "CNTT1116",
+      "name": "Nhập môn công nghệ thông tin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nen-tang",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1117",
+      "code": "CNTT1117",
+      "name": "Phân tích và thiết kế hệ thống",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1118",
+      "code": "CNTT1118",
+      "name": "Phân tích và thiết kế thuật toán",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1121",
+      "code": "CNTT1121",
+      "name": "Quản trị mạng",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1128",
+      "code": "CNTT1128",
+      "name": "Cơ sở lập trình",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-co-so",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1131",
+      "code": "CNTT1131",
+      "name": "Lập trình hướng đối tượng",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1133",
+      "code": "CNTT1133",
+      "name": "Lập trình ứng dụng",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1137",
+      "code": "CNTT1137",
+      "name": "Phân tích nghiệp vụ",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1140",
+      "code": "CNTT1140",
+      "name": "Trí tuệ nhân tạo",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1145",
+      "code": "CNTT1145",
+      "name": "Các công nghệ ảo hóa",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1149",
+      "code": "CNTT1149",
+      "name": "Công nghệ đa phương tiện",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1152",
+      "code": "CNTT1152",
+      "name": "Hệ quản trị cơ sở dữ liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1153",
+      "code": "CNTT1153",
+      "name": "Lập trình Java",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1154",
+      "code": "CNTT1154",
+      "name": "Mạng kết nối vạn vật",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1157",
+      "code": "CNTT1157",
+      "name": "Phát triển ứng dụng di động",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1159",
+      "code": "CNTT1159",
+      "name": "Quản lý dự án Công nghệ thông tin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1164",
+      "code": "CNTT1164",
+      "name": "Thiết kế và lập trình web",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1165",
+      "code": "CNTT1165",
+      "name": "Thiết kế WEB",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1166",
+      "code": "CNTT1166",
+      "name": "Xử lý ảnh",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1167",
+      "code": "CNTT1167",
+      "name": "Điện toán đám mây",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1168",
+      "code": "CNTT1168",
+      "name": "An toàn và bảo mật thông tin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1174",
+      "code": "CNTT1174",
+      "name": "Đồ họa máy tính",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1175",
+      "code": "CNTT1175",
+      "name": "Dữ liệu phi cấu trúc",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1176",
+      "code": "CNTT1176",
+      "name": "Hệ hỗ trợ ra quyết định",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1177",
+      "code": "CNTT1177",
+      "name": "Học máy",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1180",
+      "code": "CNTT1180",
+      "name": "Lập trình Python",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1181",
+      "code": "CNTT1181",
+      "name": "Phát hiện tri thức từ dữ liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1182",
+      "code": "CNTT1182",
+      "name": "Phương pháp tính",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-co-so",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1186",
+      "code": "CNTT1186",
+      "name": "Các công nghệ hiện đại trong công nghệ thông tin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1187",
+      "code": "CNTT1187",
+      "name": "Lập trình phân tích dữ liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1188",
+      "code": "CNTT1188",
+      "name": "Lập trình Web",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1190",
+      "code": "CNTT1190",
+      "name": "Phát triển phần mềm hướng dịch vụ",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1191",
+      "code": "CNTT1191",
+      "name": "Vật lý đại cương",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nen-tang",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1192",
+      "code": "CNTT1192",
+      "name": "Tiếng Anh chuyên ngành",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1193",
+      "code": "CNTT1193",
+      "name": "Khóa luận tốt nghiệp – Công nghệ thông tin",
+      "credits": 10,
+      "counts_gpa": true,
+      "course_group_id": "group-khoa-luan",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1194",
+      "code": "CNTT1194",
+      "name": "Khóa luận tốt nghiệp – Khoa học máy tính",
+      "credits": 10,
+      "counts_gpa": true,
+      "course_group_id": "group-khoa-luan",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1195",
+      "code": "CNTT1195",
+      "name": "Chuyên đề thực tế – Khoa học máy tính",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1196",
+      "code": "CNTT1196",
+      "name": "Chuyên đề thực tế – Công nghệ thông tin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1197",
+      "code": "CNTT1197",
+      "name": "An ninh không gian mạng",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1198",
+      "code": "CNTT1198",
+      "name": "Bảo mật dịch vụ Cloud",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "CNTT1199",
+      "code": "CNTT1199",
+      "name": "Bảo mật phần mềm và cơ sở dữ liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1107",
+      "code": "EP17.CNTT1107",
+      "name": "Hệ điều hành",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-co-so",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1108",
+      "code": "EP17.CNTT1108",
+      "name": "Chuyên đề thực tế – Kỹ thuật phần mềm",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1109",
+      "code": "EP17.CNTT1109",
+      "name": "Kiến trúc và thiết kế phần mềm",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1110",
+      "code": "EP17.CNTT1110",
+      "name": "Khóa luận tốt nghiệp – Kỹ thuật phần mềm",
+      "credits": 10,
+      "counts_gpa": true,
+      "course_group_id": "group-khoa-luan",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1111",
+      "code": "EP17.CNTT1111",
+      "name": "Lập trình Game",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT11112",
+      "code": "EP17.CNTT11112",
+      "name": "Tích hợp và triển khai phần mềm",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT11113",
+      "code": "EP17.CNTT11113",
+      "name": "Tương tác người máy",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT11114",
+      "code": "EP17.CNTT11114",
+      "name": "Phát triển ứng dụng trí tuệ nhân tạo",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1116",
+      "code": "EP17.CNTT1116",
+      "name": "Nhập môn công nghệ thông tin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nen-tang",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1117",
+      "code": "EP17.CNTT1117",
+      "name": "Phân tích và thiết kế hệ thống",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1128",
+      "code": "EP17.CNTT1128",
+      "name": "Cơ sở lập trình",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-co-so",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1131",
+      "code": "EP17.CNTT1131",
+      "name": "Lập trình hướng đối tượng",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-co-so",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1133",
+      "code": "EP17.CNTT1133",
+      "name": "Lập trình ứng dụng",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1137",
+      "code": "EP17.CNTT1137",
+      "name": "Phân tích nghiệp vụ",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1152",
+      "code": "EP17.CNTT1152",
+      "name": "Hệ quản trị cơ sở dữ liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1153",
+      "code": "EP17.CNTT1153",
+      "name": "Lập trình Java",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1157",
+      "code": "EP17.CNTT1157",
+      "name": "Phát triển ứng dụng di động",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1159",
+      "code": "EP17.CNTT1159",
+      "name": "Quản lý dự án Công nghệ thông tin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1164",
+      "code": "EP17.CNTT1164",
+      "name": "Thiết kế và lập trình WEB",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1167",
+      "code": "EP17.CNTT1167",
+      "name": "Điện toán đám mây",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1178",
+      "code": "EP17.CNTT1178",
+      "name": "Kiểm thử và đảm bảo chất lượng phần mềm",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1180",
+      "code": "EP17.CNTT1180",
+      "name": "Lập trình Python",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1182",
+      "code": "EP17.CNTT1182",
+      "name": "Phương pháp tính",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-co-so",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1187",
+      "code": "EP17.CNTT1187",
+      "name": "Lập trình phân tích dữ liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1190",
+      "code": "EP17.CNTT1190",
+      "name": "Phát triển phần mềm hướng dịch vụ",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1192",
+      "code": "EP17.CNTT1192",
+      "name": "Tiếng Anh chuyên ngành",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.CNTT1199",
+      "code": "EP17.CNTT1199",
+      "name": "Bảo mật phần mềm và cơ sở dữ liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.KHMA1101",
+      "code": "EP17.KHMA1101",
+      "name": "Kinh tế vi mô 1",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.KHMI1101",
+      "code": "EP17.KHMI1101",
+      "name": "Kinh tế vĩ mô 1",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.LUCS1129",
+      "code": "EP17.LUCS1129",
+      "name": "Pháp luật đại cương",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-chung",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.NNKC1168",
+      "code": "EP17.NNKC1168",
+      "name": "Ngoại ngữ 1",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.NNKC1169",
+      "code": "EP17.NNKC1169",
+      "name": "Ngoại ngữ 2",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.NNKC1170",
+      "code": "EP17.NNKC1170",
+      "name": "Ngoại ngữ 3",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.QTTH1102",
+      "code": "EP17.QTTH1102",
+      "name": "Quản trị kinh doanh 1",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.SONGSONG",
+      "code": null,
+      "name": "Lập trình song song và phân tán",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.TIHT1101",
+      "code": "EP17.TIHT1101",
+      "name": "Cấu trúc dữ liệu và giải thuật",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nen-tang",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.TIHT1104",
+      "code": "EP17.TIHT1104",
+      "name": "Kỹ nghệ phần mềm",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.TIHT1123",
+      "code": "EP17.TIHT1123",
+      "name": "Ứng dụng trí tuệ nhân tạo trong kinh doanh và quản lý",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.TIKT1130",
+      "code": "EP17.TIKT1130",
+      "name": "Cơ sở dữ liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nen-tang",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.TIKT1135",
+      "code": "EP17.TIKT1135",
+      "name": "Phát triển phần mềm mã nguồn mở và ứng dụng",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.TOCB1101",
+      "code": "EP17.TOCB1101",
+      "name": "Đại số",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.TOCB1107",
+      "code": "EP17.TOCB1107",
+      "name": "Toán rời rạc",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nen-tang",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "EP17.TOKT1145",
+      "code": "EP17.TOKT1145",
+      "name": "Lý thuyết xác suất và thống kê toán",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "KHMA1101",
+      "code": "KHMA1101",
+      "name": "Kinh tế vi mô 1",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "KHMI1101",
+      "code": "KHMI1101",
+      "name": "Kinh tế vĩ mô 1",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "LLDL1102",
+      "code": "LLDL1102",
+      "name": "Lịch sử Đảng Cộng sản Việt Nam",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-chung",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "LLNL1105",
+      "code": "LLNL1105",
+      "name": "Triết học Mác – Lênin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-chung",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "LLNL1106",
+      "code": "LLNL1106",
+      "name": "Kinh tế chính trị Mác – Lênin",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-chung",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "LLNL1107",
+      "code": "LLNL1107",
+      "name": "Chủ nghĩa xã hội khoa học",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-chung",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "LLTT1101",
+      "code": "LLTT1101",
+      "name": "Tư tưởng Hồ Chí Minh",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-chung",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "LUCS1129",
+      "code": "LUCS1129",
+      "name": "Pháp luật đại cương",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-chung",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "LUKD1175",
+      "code": "LUKD1175",
+      "name": "Pháp luật trong Thương mại điện tử",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "NNKC1131",
+      "code": "NNKC1131",
+      "name": "Tiếng Anh 1",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "NNKC1132",
+      "code": "NNKC1132",
+      "name": "Tiếng Anh 2",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "NNKC1133",
+      "code": "NNKC1133",
+      "name": "Tiếng Anh 3",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "TIHT1101",
+      "code": "TIHT1101",
+      "name": "Cấu trúc dữ liệu và giải thuật",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nen-tang",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "TIHT1121",
+      "code": "TIHT1121",
+      "name": "Kiến trúc doanh nghiệp",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "TIKT1129",
+      "code": "TIKT1129",
+      "name": "Hệ thống thương mại điện tử",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "TIKT1130",
+      "code": "TIKT1130",
+      "name": "Cơ sở dữ liệu",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-nen-tang",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "TIKT1135",
+      "code": "TIKT1135",
+      "name": "Phát triển phần mềm mã nguồn mở và ứng dụng",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "TOCB1101",
+      "code": "TOCB1101",
+      "name": "Đại số tuyến tính",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "TOCB1107",
+      "code": "TOCB1107",
+      "name": "Toán rời rạc",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-co-so",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "TOKT1145",
+      "code": "TOKT1145",
+      "name": "Lý thuyết xác suất và thống kê toán",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    }
+  ],
+  "course_prerequisites": [
+    {
+      "id": "pre-CNTT1103-CNTT1107",
+      "course_id": "CNTT1103",
+      "prerequisite_course_id": "CNTT1107",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1103-CNTT1114",
+      "course_id": "CNTT1103",
+      "prerequisite_course_id": "CNTT1114",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1105-CNTT1107",
+      "course_id": "CNTT1105",
+      "prerequisite_course_id": "CNTT1107",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1105-CNTT1114",
+      "course_id": "CNTT1105",
+      "prerequisite_course_id": "CNTT1114",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1131-CNTT1128",
+      "course_id": "CNTT1131",
+      "prerequisite_course_id": "CNTT1128",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1137-CNTT1117",
+      "course_id": "CNTT1137",
+      "prerequisite_course_id": "CNTT1117",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1140-CNTT1180",
+      "course_id": "CNTT1140",
+      "prerequisite_course_id": "CNTT1180",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1140-TOCB1101",
+      "course_id": "CNTT1140",
+      "prerequisite_course_id": "TOCB1101",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1140-TOKT1145",
+      "course_id": "CNTT1140",
+      "prerequisite_course_id": "TOKT1145",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1152-TIKT1130",
+      "course_id": "CNTT1152",
+      "prerequisite_course_id": "TIKT1130",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1159-CNTT1117",
+      "course_id": "CNTT1159",
+      "prerequisite_course_id": "CNTT1117",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1167-CNTT1107",
+      "course_id": "CNTT1167",
+      "prerequisite_course_id": "CNTT1107",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1167-CNTT1114",
+      "course_id": "CNTT1167",
+      "prerequisite_course_id": "CNTT1114",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1168-CNTT1107",
+      "course_id": "CNTT1168",
+      "prerequisite_course_id": "CNTT1107",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1168-CNTT1114",
+      "course_id": "CNTT1168",
+      "prerequisite_course_id": "CNTT1114",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1177-CNTT1180",
+      "course_id": "CNTT1177",
+      "prerequisite_course_id": "CNTT1180",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1177-TOCB1101",
+      "course_id": "CNTT1177",
+      "prerequisite_course_id": "TOCB1101",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1177-TOKT1145",
+      "course_id": "CNTT1177",
+      "prerequisite_course_id": "TOKT1145",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1181-CNTT1180",
+      "course_id": "CNTT1181",
+      "prerequisite_course_id": "CNTT1180",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1181-TOCB1101",
+      "course_id": "CNTT1181",
+      "prerequisite_course_id": "TOCB1101",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1181-TOKT1145",
+      "course_id": "CNTT1181",
+      "prerequisite_course_id": "TOKT1145",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1188-CNTT1165",
+      "course_id": "CNTT1188",
+      "prerequisite_course_id": "CNTT1165",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-EP17.CNTT11112-EP17.CNTT1107",
+      "course_id": "EP17.CNTT11112",
+      "prerequisite_course_id": "EP17.CNTT1107",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-EP17.CNTT1131-EP17.CNTT1128",
+      "course_id": "EP17.CNTT1131",
+      "prerequisite_course_id": "EP17.CNTT1128",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-EP17.CNTT1137-EP17.CNTT1117",
+      "course_id": "EP17.CNTT1137",
+      "prerequisite_course_id": "EP17.CNTT1117",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-EP17.CNTT1152-EP17.TIKT1130",
+      "course_id": "EP17.CNTT1152",
+      "prerequisite_course_id": "EP17.TIKT1130",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-EP17.CNTT1159-EP17.CNTT1117",
+      "course_id": "EP17.CNTT1159",
+      "prerequisite_course_id": "EP17.CNTT1117",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-EP17.CNTT1167-EP17.CNTT1107",
+      "course_id": "EP17.CNTT1167",
+      "prerequisite_course_id": "EP17.CNTT1107",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-EP17.CNTT1178-EP17.CNTT1117",
+      "course_id": "EP17.CNTT1178",
+      "prerequisite_course_id": "EP17.CNTT1117",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-EP17.TIHT1101-EP17.CNTT1128",
+      "course_id": "EP17.TIHT1101",
+      "prerequisite_course_id": "EP17.CNTT1128",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-TIHT1101-CNTT1128",
+      "course_id": "TIHT1101",
+      "prerequisite_course_id": "CNTT1128",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    }
+  ],
+  "course_equivalencies": [
+    {
+      "id": "eq-CNTT1107",
+      "course_a_id": "EP17.CNTT1107",
+      "course_b_id": "CNTT1107",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1116",
+      "course_a_id": "EP17.CNTT1116",
+      "course_b_id": "CNTT1116",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1117",
+      "course_a_id": "EP17.CNTT1117",
+      "course_b_id": "CNTT1117",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1128",
+      "course_a_id": "EP17.CNTT1128",
+      "course_b_id": "CNTT1128",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1131",
+      "course_a_id": "EP17.CNTT1131",
+      "course_b_id": "CNTT1131",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1133",
+      "course_a_id": "EP17.CNTT1133",
+      "course_b_id": "CNTT1133",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1137",
+      "course_a_id": "EP17.CNTT1137",
+      "course_b_id": "CNTT1137",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1152",
+      "course_a_id": "EP17.CNTT1152",
+      "course_b_id": "CNTT1152",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1153",
+      "course_a_id": "EP17.CNTT1153",
+      "course_b_id": "CNTT1153",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1157",
+      "course_a_id": "EP17.CNTT1157",
+      "course_b_id": "CNTT1157",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1159",
+      "course_a_id": "EP17.CNTT1159",
+      "course_b_id": "CNTT1159",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1164",
+      "course_a_id": "EP17.CNTT1164",
+      "course_b_id": "CNTT1164",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1167",
+      "course_a_id": "EP17.CNTT1167",
+      "course_b_id": "CNTT1167",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1180",
+      "course_a_id": "EP17.CNTT1180",
+      "course_b_id": "CNTT1180",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1182",
+      "course_a_id": "EP17.CNTT1182",
+      "course_b_id": "CNTT1182",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1187",
+      "course_a_id": "EP17.CNTT1187",
+      "course_b_id": "CNTT1187",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1190",
+      "course_a_id": "EP17.CNTT1190",
+      "course_b_id": "CNTT1190",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1192",
+      "course_a_id": "EP17.CNTT1192",
+      "course_b_id": "CNTT1192",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-CNTT1199",
+      "course_a_id": "EP17.CNTT1199",
+      "course_b_id": "CNTT1199",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-KHMA1101",
+      "course_a_id": "EP17.KHMA1101",
+      "course_b_id": "KHMA1101",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-KHMI1101",
+      "course_a_id": "EP17.KHMI1101",
+      "course_b_id": "KHMI1101",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-LUCS1129",
+      "course_a_id": "EP17.LUCS1129",
+      "course_b_id": "LUCS1129",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-TIHT1101",
+      "course_a_id": "EP17.TIHT1101",
+      "course_b_id": "TIHT1101",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-TIKT1130",
+      "course_a_id": "EP17.TIKT1130",
+      "course_b_id": "TIKT1130",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-TIKT1135",
+      "course_a_id": "EP17.TIKT1135",
+      "course_b_id": "TIKT1135",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-TOCB1107",
+      "course_a_id": "EP17.TOCB1107",
+      "course_b_id": "TOCB1107",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
+      "id": "eq-TOKT1145",
+      "course_a_id": "EP17.TOKT1145",
+      "course_b_id": "TOKT1145",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    }
+  ],
+  "course_equivalency_scopes": [
+    {
+      "id": "eqs-eq-CNTT1107-cntt",
+      "equivalency_id": "eq-CNTT1107",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1107-ktpm",
+      "equivalency_id": "eq-CNTT1107",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1107-khmt",
+      "equivalency_id": "eq-CNTT1107",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1107-attt",
+      "equivalency_id": "eq-CNTT1107",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1116-cntt",
+      "equivalency_id": "eq-CNTT1116",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1116-ktpm",
+      "equivalency_id": "eq-CNTT1116",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1116-khmt",
+      "equivalency_id": "eq-CNTT1116",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1116-attt",
+      "equivalency_id": "eq-CNTT1116",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1117-cntt",
+      "equivalency_id": "eq-CNTT1117",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1117-ktpm",
+      "equivalency_id": "eq-CNTT1117",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1117-khmt",
+      "equivalency_id": "eq-CNTT1117",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1117-attt",
+      "equivalency_id": "eq-CNTT1117",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1128-cntt",
+      "equivalency_id": "eq-CNTT1128",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1128-ktpm",
+      "equivalency_id": "eq-CNTT1128",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1128-khmt",
+      "equivalency_id": "eq-CNTT1128",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1128-attt",
+      "equivalency_id": "eq-CNTT1128",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1131-cntt",
+      "equivalency_id": "eq-CNTT1131",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1131-ktpm",
+      "equivalency_id": "eq-CNTT1131",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1131-khmt",
+      "equivalency_id": "eq-CNTT1131",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1133-ktpm",
+      "equivalency_id": "eq-CNTT1133",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1133-khmt",
+      "equivalency_id": "eq-CNTT1133",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1133-attt",
+      "equivalency_id": "eq-CNTT1133",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1137-cntt",
+      "equivalency_id": "eq-CNTT1137",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1137-ktpm",
+      "equivalency_id": "eq-CNTT1137",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1152-cntt",
+      "equivalency_id": "eq-CNTT1152",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1152-ktpm",
+      "equivalency_id": "eq-CNTT1152",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1152-khmt",
+      "equivalency_id": "eq-CNTT1152",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1152-attt",
+      "equivalency_id": "eq-CNTT1152",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1153-cntt",
+      "equivalency_id": "eq-CNTT1153",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1153-ktpm",
+      "equivalency_id": "eq-CNTT1153",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1153-khmt",
+      "equivalency_id": "eq-CNTT1153",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1153-attt",
+      "equivalency_id": "eq-CNTT1153",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1157-cntt",
+      "equivalency_id": "eq-CNTT1157",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1157-ktpm",
+      "equivalency_id": "eq-CNTT1157",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1157-khmt",
+      "equivalency_id": "eq-CNTT1157",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1159-cntt",
+      "equivalency_id": "eq-CNTT1159",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1159-ktpm",
+      "equivalency_id": "eq-CNTT1159",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1159-khmt",
+      "equivalency_id": "eq-CNTT1159",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1159-attt",
+      "equivalency_id": "eq-CNTT1159",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1164-ktpm",
+      "equivalency_id": "eq-CNTT1164",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1164-attt",
+      "equivalency_id": "eq-CNTT1164",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1167-cntt",
+      "equivalency_id": "eq-CNTT1167",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1167-ktpm",
+      "equivalency_id": "eq-CNTT1167",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1180-ktpm",
+      "equivalency_id": "eq-CNTT1180",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1180-khmt",
+      "equivalency_id": "eq-CNTT1180",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1180-attt",
+      "equivalency_id": "eq-CNTT1180",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1182-cntt",
+      "equivalency_id": "eq-CNTT1182",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1182-ktpm",
+      "equivalency_id": "eq-CNTT1182",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1182-khmt",
+      "equivalency_id": "eq-CNTT1182",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1182-attt",
+      "equivalency_id": "eq-CNTT1182",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1187-cntt",
+      "equivalency_id": "eq-CNTT1187",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1187-ktpm",
+      "equivalency_id": "eq-CNTT1187",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1187-attt",
+      "equivalency_id": "eq-CNTT1187",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1190-ktpm",
+      "equivalency_id": "eq-CNTT1190",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1190-khmt",
+      "equivalency_id": "eq-CNTT1190",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1192-cntt",
+      "equivalency_id": "eq-CNTT1192",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1192-ktpm",
+      "equivalency_id": "eq-CNTT1192",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1192-khmt",
+      "equivalency_id": "eq-CNTT1192",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1192-attt",
+      "equivalency_id": "eq-CNTT1192",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1199-ktpm",
+      "equivalency_id": "eq-CNTT1199",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1199-attt",
+      "equivalency_id": "eq-CNTT1199",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-KHMA1101-cntt",
+      "equivalency_id": "eq-KHMA1101",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-KHMA1101-ktpm",
+      "equivalency_id": "eq-KHMA1101",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-KHMA1101-khmt",
+      "equivalency_id": "eq-KHMA1101",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-KHMA1101-attt",
+      "equivalency_id": "eq-KHMA1101",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-KHMI1101-cntt",
+      "equivalency_id": "eq-KHMI1101",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-KHMI1101-ktpm",
+      "equivalency_id": "eq-KHMI1101",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-KHMI1101-khmt",
+      "equivalency_id": "eq-KHMI1101",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-KHMI1101-attt",
+      "equivalency_id": "eq-KHMI1101",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-LUCS1129-cntt",
+      "equivalency_id": "eq-LUCS1129",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-LUCS1129-ktpm",
+      "equivalency_id": "eq-LUCS1129",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-LUCS1129-khmt",
+      "equivalency_id": "eq-LUCS1129",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-LUCS1129-attt",
+      "equivalency_id": "eq-LUCS1129",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIHT1101-cntt",
+      "equivalency_id": "eq-TIHT1101",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIHT1101-ktpm",
+      "equivalency_id": "eq-TIHT1101",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIHT1101-khmt",
+      "equivalency_id": "eq-TIHT1101",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIHT1101-attt",
+      "equivalency_id": "eq-TIHT1101",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIKT1130-cntt",
+      "equivalency_id": "eq-TIKT1130",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIKT1130-ktpm",
+      "equivalency_id": "eq-TIKT1130",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIKT1130-khmt",
+      "equivalency_id": "eq-TIKT1130",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIKT1130-attt",
+      "equivalency_id": "eq-TIKT1130",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIKT1135-ktpm",
+      "equivalency_id": "eq-TIKT1135",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TIKT1135-attt",
+      "equivalency_id": "eq-TIKT1135",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TOCB1107-cntt",
+      "equivalency_id": "eq-TOCB1107",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TOCB1107-ktpm",
+      "equivalency_id": "eq-TOCB1107",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TOCB1107-khmt",
+      "equivalency_id": "eq-TOCB1107",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TOCB1107-attt",
+      "equivalency_id": "eq-TOCB1107",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TOKT1145-cntt",
+      "equivalency_id": "eq-TOKT1145",
+      "program_version_id": "pv-cntt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TOKT1145-ktpm",
+      "equivalency_id": "eq-TOKT1145",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TOKT1145-khmt",
+      "equivalency_id": "eq-TOKT1145",
+      "program_version_id": "pv-khmt-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-TOKT1145-attt",
+      "equivalency_id": "eq-TOKT1145",
+      "program_version_id": "pv-attt-k68",
+      "is_mock": true
+    }
+  ]
+}

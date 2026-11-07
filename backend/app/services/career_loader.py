@@ -42,6 +42,12 @@ def _requirement_data(row: CareerRequirement) -> RequirementData:
         status=row.status,
         approved_by=row.approved_by,
         approved_at=row.approved_at,
+        program_id=row.program_id,
+        subject_key=row.subject_key,
+        subject_name=row.subject_name,
+        also_covers=tuple(row.also_covers or ()),
+        priority=row.priority,
+        purpose=row.purpose,
     )
 
 
@@ -84,7 +90,12 @@ def load_career_versions(version_ids: Iterable[str]) -> dict[str, CareerVersionD
     }
     skills = {
         skill.id: SkillData(
-            id=skill.id, name=skill.name, kind=skill.kind, short_desc=skill.short_desc
+            id=skill.id,
+            name=skill.name,
+            kind=skill.kind,
+            short_desc=skill.short_desc,
+            level=skill.level,
+            criteria=skill.criteria,
         )
         for skill in loaded_skills
     }
@@ -103,6 +114,7 @@ def load_career_versions(version_ids: Iterable[str]) -> dict[str, CareerVersionD
                 order=node.order,
                 short_desc=node.short_desc,
                 requirements=tuple(by_node.get(node.id, ())),
+                deliverable=node.deliverable,
             )
         )
     return {

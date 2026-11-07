@@ -12,10 +12,12 @@ from app.services.career_graph_service import (
     RequirementData,
 )
 from app.services.completion_service import (
+    CurriculumFacts,
     ProgressInput,
     ViaCourse,
     best_evidence_statuses,
     evaluate,
+    percent_of,
     ratio_text,
 )
 from app.services.related_career_service import jaccard, sort_related
@@ -285,3 +287,108 @@ def test_ties_go_by_name_and_null_goes_last():
 
     assert names(sort_related(items, "closeness")) == ["a", "z", "m", "n"]
     assert names(sort_related(items, "profile_fit")) == ["a", "m", "z", "n"]
+
+
+# --- CR-03: phần trăm, độ phủ, yêu cầu theo ngành ---
+
+
+@pytest.mark.parametrize(
+    ("numerator", "denominator", "expected"),
+    [
+        (2, 9, 22),
+        (1, 3, 33),
+        (2, 3, 67),
+        (1, 8, 13),  # 12,5 làm tròn lên
+        (1, 200, 1),  # 0,5 làm tròn lên
+        (3, 8, 38),  # 37,5
+        (0, 5, 0),
+        (5, 5, 100),
+        (1, 0, None),
+        (0, 0, None),
+    ],
+)
+def test_percent_is_half_up_from_exact_fraction(numerator, denominator, expected):
+    assert percent_of(numerator, denominator) == expected
+
+
+def for_program(req, program, subject, also=()):
+    return replace(
+        req,
+        program_id=program,
+        subject_key=subject,
+        subject_name=f"Môn {subject}",
+        also_covers=tuple(also),
+        priority="core",
+        purpose="Để làm gì",
+    )
+
+
+def test_requirement_of_another_program_is_not_in_denominator():
+    v = version(
+        [
+            for_program(course("a1", "A1"), "p1", "a"),
+            for_program(course("a2", "A2"), "p2", "a"),
+            for_program(course("b2", "B2"), "p2", "b"),
+        ]
+    )
+    result = evaluate(
+        v,
+        replace(
+            data({"A1": "done", "A2": "not_started", "B2": "not_started"}, ["A1"]), program_id="p1"
+        ),
+    )
+
+    assert result.course_progress.formula == "1/1 học phần"
+    assert result.course_progress.percent == 100
+    assert set(result.states) == {"a1"}
+    assert (result.coverage.numerator, result.coverage.denominator) == (1, 2)
+    assert [subject.key for subject in result.absent_subjects["n0"]] == ["b"]
+    assert result.absent_subjects["n0"][0].name == "Môn b"
+    assert result.absent_subjects["n0"][0].priority == "core"
+
+
+def test_merged_subject_is_not_absent():
+    v = version(
+        [for_program(course("a1", "A"), "p1", "a", also=["b"])],
+        [for_program(course("b2", "B"), "p2", "b")],
+    )
+    result = evaluate(
+        v, replace(data({"A": "not_started", "B": "not_started"}, ["A"]), program_id="p1")
+    )
+
+    assert result.absent_subjects == {}
+    assert (result.coverage.numerator, result.coverage.denominator) == (1, 1)
+
+
+def test_requirement_without_program_applies_to_everyone_with_full_coverage():
+    result = evaluate(version([course("a", "A")]), data({"A": "done"}, ["A"]))
+
+    assert result.coverage.percent == 100
+    assert result.absent_subjects == {}
+
+
+def test_draft_requirement_is_neither_counted_nor_absent():
+    draft = for_program(course("a2", "A2", status="draft"), "p2", "a")
+    result = evaluate(version([draft]), replace(data({}, []), program_id="p1"))
+
+    assert result.absent_subjects == {}
+    assert result.coverage.denominator == 0
+    assert result.coverage.percent is None
+
+
+def test_node_progress_counts_courses_only_and_is_null_without_courses():
+    v = version([course("a", "A"), skill("s", "S")], [skill("t", "T")])
+    result = evaluate(v, data({"A": "done"}, ["A"], {"S": "approved", "T": "approved"}))
+
+    assert result.node_progress["n0"].formula == "1/1 học phần"
+    assert result.node_progress["n1"].percent is None
+    assert result.skill_progress.percent == 100
+
+
+def test_state_carries_curriculum_facts():
+    facts = CurriculumFacts("elective", 4, "Cảnh báo")
+    result = evaluate(
+        version([course("a", "A")]), replace(data({"A": "done"}, ["A"]), curriculum={"A": facts})
+    )
+
+    assert result.states["a"].curriculum == facts

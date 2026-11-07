@@ -22,6 +22,13 @@ jobs:
       - run: ruff check .
       - run: ruff format --check .
       - run: pytest
+      - name: Seed demo-k68 rồi kiểm tra
+        env:
+          DATABASE_URL: sqlite:////tmp/demo-k68.db
+        run: |
+          flask --app app db upgrade
+          flask --app app seed --reset --profile demo-k68
+          flask --app app seed --check --profile demo-k68
 
   frontend:
     runs-on: ubuntu-latest

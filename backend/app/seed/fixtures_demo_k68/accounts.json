@@ -1,0 +1,254 @@
+{
+  "roles": [
+    {
+      "id": "role-student",
+      "name": "student",
+      "is_mock": true
+    },
+    {
+      "id": "role-advisor",
+      "name": "advisor",
+      "is_mock": true
+    },
+    {
+      "id": "role-support_staff",
+      "name": "support_staff",
+      "is_mock": true
+    },
+    {
+      "id": "role-admin",
+      "name": "admin",
+      "is_mock": true
+    }
+  ],
+  "users": [
+    {
+      "id": "user-admin",
+      "username": "admin",
+      "full_name": "Quản trị viên (mẫu)",
+      "role_id": "role-admin",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-gv1",
+      "username": "gv1",
+      "full_name": "Cố vấn 1 (mẫu)",
+      "role_id": "role-advisor",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-gv2",
+      "username": "gv2",
+      "full_name": "Cố vấn 2 (mẫu)",
+      "role_id": "role-advisor",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-demo01",
+      "username": "demo01",
+      "full_name": "Sinh viên DEMO01 (mẫu)",
+      "role_id": "role-student",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-demo02",
+      "username": "demo02",
+      "full_name": "Sinh viên DEMO02 (mẫu)",
+      "role_id": "role-student",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-demo03",
+      "username": "demo03",
+      "full_name": "Sinh viên DEMO03 (mẫu)",
+      "role_id": "role-student",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-demo04",
+      "username": "demo04",
+      "full_name": "Sinh viên DEMO04 (mẫu)",
+      "role_id": "role-student",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-demo05",
+      "username": "demo05",
+      "full_name": "Sinh viên DEMO05 (mẫu)",
+      "role_id": "role-student",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-demo06",
+      "username": "demo06",
+      "full_name": "Sinh viên DEMO06 (mẫu)",
+      "role_id": "role-student",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-demo07",
+      "username": "demo07",
+      "full_name": "Sinh viên DEMO07 (mẫu)",
+      "role_id": "role-student",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
+      "id": "user-demo08",
+      "username": "demo08",
+      "full_name": "Sinh viên DEMO08 (mẫu)",
+      "role_id": "role-student",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    }
+  ],
+  "students": [
+    {
+      "id": "DEMO01",
+      "user_id": "user-demo01",
+      "student_code": "DEMO01",
+      "cohort": "K66",
+      "program_version_id": "pv-cntt-k68",
+      "entry_semester_id": "S1",
+      "contact_email": "demo01@example.test",
+      "contact_phone": "0910000001",
+      "is_mock": true
+    },
+    {
+      "id": "DEMO02",
+      "user_id": "user-demo02",
+      "student_code": "DEMO02",
+      "cohort": "K67",
+      "program_version_id": "pv-cntt-k68",
+      "entry_semester_id": "S3",
+      "contact_email": "demo02@example.test",
+      "contact_phone": "0910000002",
+      "is_mock": true
+    },
+    {
+      "id": "DEMO03",
+      "user_id": "user-demo03",
+      "student_code": "DEMO03",
+      "cohort": "K66",
+      "program_version_id": "pv-ktpm-k68",
+      "entry_semester_id": "S1",
+      "contact_email": "demo03@example.test",
+      "contact_phone": "0910000003",
+      "is_mock": true
+    },
+    {
+      "id": "DEMO04",
+      "user_id": "user-demo04",
+      "student_code": "DEMO04",
+      "cohort": "K67",
+      "program_version_id": "pv-ktpm-k68",
+      "entry_semester_id": "S3",
+      "contact_email": "demo04@example.test",
+      "contact_phone": "0910000004",
+      "is_mock": true
+    },
+    {
+      "id": "DEMO05",
+      "user_id": "user-demo05",
+      "student_code": "DEMO05",
+      "cohort": "K66",
+      "program_version_id": "pv-khmt-k68",
+      "entry_semester_id": "S1",
+      "contact_email": "demo05@example.test",
+      "contact_phone": "0910000005",
+      "is_mock": true
+    },
+    {
+      "id": "DEMO06",
+      "user_id": "user-demo06",
+      "student_code": "DEMO06",
+      "cohort": "K67",
+      "program_version_id": "pv-khmt-k68",
+      "entry_semester_id": "S3",
+      "contact_email": "demo06@example.test",
+      "contact_phone": "0910000006",
+      "is_mock": true
+    },
+    {
+      "id": "DEMO07",
+      "user_id": "user-demo07",
+      "student_code": "DEMO07",
+      "cohort": "K66",
+      "program_version_id": "pv-attt-k68",
+      "entry_semester_id": "S1",
+      "contact_email": "demo07@example.test",
+      "contact_phone": "0910000007",
+      "is_mock": true
+    },
+    {
+      "id": "DEMO08",
+      "user_id": "user-demo08",
+      "student_code": "DEMO08",
+      "cohort": "K67",
+      "program_version_id": "pv-attt-k68",
+      "entry_semester_id": "S3",
+      "contact_email": "demo08@example.test",
+      "contact_phone": "0910000008",
+      "is_mock": true
+    }
+  ],
+  "advisor_assignments": [
+    {
+      "id": "aa-gv1-DEMO01",
+      "advisor_user_id": "user-gv1",
+      "student_id": "DEMO01",
+      "is_mock": true
+    },
+    {
+      "id": "aa-gv1-DEMO02",
+      "advisor_user_id": "user-gv1",
+      "student_id": "DEMO02",
+      "is_mock": true
+    },
+    {
+      "id": "aa-gv1-DEMO03",
+      "advisor_user_id": "user-gv1",
+      "student_id": "DEMO03",
+      "is_mock": true
+    },
+    {
+      "id": "aa-gv1-DEMO04",
+      "advisor_user_id": "user-gv1",
+      "student_id": "DEMO04",
+      "is_mock": true
+    },
+    {
+      "id": "aa-gv2-DEMO05",
+      "advisor_user_id": "user-gv2",
+      "student_id": "DEMO05",
+      "is_mock": true
+    },
+    {
+      "id": "aa-gv2-DEMO06",
+      "advisor_user_id": "user-gv2",
+      "student_id": "DEMO06",
+      "is_mock": true
+    },
+    {
+      "id": "aa-gv2-DEMO07",
+      "advisor_user_id": "user-gv2",
+      "student_id": "DEMO07",
+      "is_mock": true
+    },
+    {
+      "id": "aa-gv2-DEMO08",
+      "advisor_user_id": "user-gv2",
+      "student_id": "DEMO08",
+      "is_mock": true
+    }
+  ]
+}

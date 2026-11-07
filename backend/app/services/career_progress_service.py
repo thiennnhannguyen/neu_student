@@ -14,7 +14,9 @@ from app.models.shared import Student
 from app.services import m11_public
 from app.services.career_api_service import (
     cached_nodes,
+    career_profile,
     career_summary,
+    fits_major,
     iso_time,
     latest_published,
     version_summary,
@@ -23,7 +25,9 @@ from app.services.career_graph_service import CareerVersionData
 from app.services.career_loader import load_career_versions
 from app.services.completion_service import (
     DISCLAIMER,
+    AbsentSubject,
     CareerEvaluation,
+    CurriculumFacts,
     Progress,
     ProgressInput,
     ViaCourse,
@@ -32,6 +36,7 @@ from app.services.completion_service import (
 )
 
 CACHE_KEY = "career_progress_cache"
+NOT_IN_PROGRAM = "not_in_program"
 
 
 def progress_cache() -> ResultCache:
@@ -59,6 +64,13 @@ def _progress_input(student_id: str, versions: Iterable[CareerVersionData]) -> P
         via_courses={
             course_id: ViaCourse(via.course_id, via.code)
             for course_id, via in facts.via_courses.items()
+        },
+        program_id=facts.program_id,
+        curriculum={
+            course_id: CurriculumFacts(
+                entry.requirement_type, entry.planned_semester, entry.data_warning
+            )
+            for course_id, entry in facts.curriculum.items()
         },
     )
 
@@ -99,7 +111,17 @@ def progress_json(progress: Progress) -> dict:
         "numerator": progress.numerator,
         "denominator": progress.denominator,
         "value": progress.value,
+        "percent": progress.percent,
         "formula": progress.formula,
+    }
+
+
+def coverage_json(evaluation: CareerEvaluation) -> dict:
+    coverage = evaluation.coverage
+    return {
+        "numerator": coverage.numerator,
+        "denominator": coverage.denominator,
+        "percent": coverage.percent,
     }
 
 
@@ -116,11 +138,58 @@ def current_career_id(student_id: str) -> str | None:
 def _child_with_state(child: dict, evaluation: CareerEvaluation) -> dict:
     state = evaluation.states[child["id"]]
     via = state.via_course
+    curriculum = state.curriculum
     return {
         **child,
         "status": state.status,
         "outside_curriculum": state.outside_curriculum,
+        "not_in_program": False,
         "via_course": {"course_id": via.course_id, "code": via.code} if via else None,
+        "requirement_type": curriculum.requirement_type if curriculum else None,
+        "planned_semester": curriculum.planned_semester if curriculum else None,
+        "data_warning": curriculum.data_warning if curriculum else None,
+    }
+
+
+def _absent_child(subject: AbsentSubject) -> dict:
+    """Không có mã: cấm gắn nhầm mã của ngành khác cho sinh viên ngành này."""
+    return {
+        "id": f"absent-{subject.key}",
+        "kind": "course",
+        "title": subject.name,
+        "short_desc": None,
+        "course_id": None,
+        "code": None,
+        "skill_id": None,
+        "level": None,
+        "criteria": None,
+        "weight": None,
+        "program_id": None,
+        "subject_key": subject.key,
+        "priority": subject.priority,
+        "purpose": subject.purpose,
+        "status": NOT_IN_PROGRAM,
+        "outside_curriculum": False,
+        "not_in_program": True,
+        "via_course": None,
+        "requirement_type": None,
+        "planned_semester": None,
+        "data_warning": None,
+    }
+
+
+def _node_with_state(node: dict, evaluation: CareerEvaluation) -> dict:
+    return {
+        **node,
+        "course_progress": progress_json(evaluation.node_progress[node["id"]]),
+        "children": [
+            *(
+                _child_with_state(child, evaluation)
+                for child in node["children"]
+                if child["id"] in evaluation.states
+            ),
+            *(_absent_child(subject) for subject in evaluation.absent_subjects.get(node["id"], ())),
+        ],
     }
 
 
@@ -139,14 +208,18 @@ def career_progress(student: Student, career_id: str) -> dict:
         "course_progress": progress_json(evaluation.course_progress),
         "skill_progress": progress_json(evaluation.skill_progress),
         "disclaimer": DISCLAIMER,
+        "coverage": coverage_json(evaluation),
+        "fits_major": fits_major(career, evaluation.program_id),
+        "profile": career_profile(career),
         "outside_curriculum_count": evaluation.outside_curriculum_count,
         "computed_at": computed_at,
         "data_warnings": list(evaluation.warnings),
-        "nodes": [
-            {
-                **node,
-                "children": [_child_with_state(child, evaluation) for child in node["children"]],
-            }
-            for node in cached_nodes(version.id)
-        ],
+        "nodes": [_node_with_state(node, evaluation) for node in cached_nodes(version.id)],
     }
+
+
+def career_progress_by_slug(student: Student, slug: str) -> dict:
+    career_id = db.session.scalar(select(Career.id).where(Career.slug == slug))
+    if career_id is None:
+        raise ApiError(404)
+    return career_progress(student, career_id)

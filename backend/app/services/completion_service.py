@@ -29,12 +29,22 @@ class ViaCourse:
 
 
 @dataclass(frozen=True)
+class CurriculumFacts:
+    requirement_type: str
+    planned_semester: int | None
+    data_warning: str | None
+
+
+@dataclass(frozen=True)
 class ProgressInput:
     course_statuses: Mapping[str, str]
     curriculum_course_ids: frozenset[str]
     # skill_id -> approved | pending; không có nghĩa là chưa có minh chứng còn hiệu lực.
     evidence_statuses: Mapping[str, str] = field(default_factory=dict)
     via_courses: Mapping[str, ViaCourse] = field(default_factory=dict)
+    # Ngành của sinh viên. Yêu cầu gắn với ngành khác không vào mẫu số (Q92).
+    program_id: str | None = None
+    curriculum: Mapping[str, CurriculumFacts] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -43,6 +53,10 @@ class Progress:
     denominator: int
     value: str | None
     formula: str
+
+    @property
+    def percent(self) -> int | None:
+        return percent_of(self.numerator, self.denominator)
 
     @property
     def ratio(self) -> Fraction | None:
@@ -55,6 +69,17 @@ class RequirementState:
     status: str
     outside_curriculum: bool = False
     via_course: ViaCourse | None = None
+    curriculum: CurriculumFacts | None = None
+
+
+@dataclass(frozen=True)
+class AbsentSubject:
+    """Môn của nghề mà CTĐT ngành của sinh viên không có. Hiện ra nhưng không vào mẫu số (Q92)."""
+
+    key: str
+    name: str
+    priority: str | None
+    purpose: str | None
 
 
 @dataclass(frozen=True)
@@ -64,6 +89,18 @@ class CareerEvaluation:
     skill_progress: Progress
     outside_curriculum_count: int
     warnings: tuple[dict, ...]
+    program_id: str | None = None
+    # Số môn của nghề có trong CTĐT ngành / tổng số môn riêng biệt của nghề.
+    coverage: Progress = field(default_factory=lambda: _progress(0, 0, "môn"))
+    node_progress: Mapping[str, Progress] = field(default_factory=dict)
+    absent_subjects: Mapping[str, tuple[AbsentSubject, ...]] = field(default_factory=dict)
+
+
+def percent_of(numerator: int, denominator: int) -> int | None:
+    """Số nguyên, làm tròn half-up từ phân số chính xác. Mẫu số 0 thì null."""
+    if denominator == 0:
+        return None
+    return (2 * 100 * numerator + denominator) // (2 * denominator)
 
 
 def ratio_text(numerator: int, denominator: int) -> str | None:
@@ -101,7 +138,42 @@ def _state(requirement: RequirementData, data: ProgressInput) -> RequirementStat
         status=data.course_statuses[course_id],
         outside_curriculum=course_id not in data.curriculum_course_ids,
         via_course=data.via_courses.get(course_id),
+        curriculum=data.curriculum.get(course_id),
     )
+
+
+def _applies(requirement: RequirementData, program_id: str | None) -> bool:
+    return requirement.program_id is None or requirement.program_id == program_id
+
+
+def _absent_subjects(
+    version: CareerVersionData, program_id: str | None
+) -> dict[str, tuple[AbsentSubject, ...]]:
+    """Môn có ở ngành khác mà ngành này không có. Môn gộp vào yêu cầu khác không tính là thiếu."""
+    covered: set[str] = set()
+    for node in version.nodes:
+        for requirement in node.requirements:
+            if requirement.status == "approved" and _applies(requirement, program_id):
+                covered.update(requirement.also_covers)
+                if requirement.subject_key:
+                    covered.add(requirement.subject_key)
+    absent: dict[str, tuple[AbsentSubject, ...]] = {}
+    for node in version.nodes:
+        subjects = {
+            requirement.subject_key: AbsentSubject(
+                requirement.subject_key,
+                requirement.subject_name,
+                requirement.priority,
+                requirement.purpose,
+            )
+            for requirement in node.requirements
+            if requirement.status == "approved"
+            and requirement.subject_key
+            and requirement.subject_key not in covered
+        }
+        if subjects:
+            absent[node.id] = tuple(subjects[key] for key in sorted(subjects))
+    return absent
 
 
 def _progress(numerator: int, denominator: int, label: str) -> Progress:
@@ -118,17 +190,27 @@ def evaluate(version: CareerVersionData, data: ProgressInput) -> CareerEvaluatio
     states: dict[str, RequirementState] = {}
     course_states: dict[str, RequirementState] = {}
     skill_states: dict[str, RequirementState] = {}
+    node_progress: dict[str, Progress] = {}
     for node in version.nodes:
+        node_courses: dict[str, RequirementState] = {}
         for requirement in node.requirements:
-            if requirement.status != "approved":
+            if requirement.status != "approved" or not _applies(requirement, data.program_id):
                 continue
             state = _state(requirement, data)
             states[requirement.id] = state
             if requirement.kind == "course":
                 course_states[requirement.course_id] = state
+                node_courses[requirement.course_id] = state
             else:
                 skill_states[requirement.skill_id] = state
+        node_progress[node.id] = _progress(
+            sum(s.status in COMPLETED_COURSE_STATUSES for s in node_courses.values()),
+            len(node_courses),
+            "học phần",
+        )
 
+    absent = _absent_subjects(version, data.program_id)
+    absent_count = sum(len(subjects) for subjects in absent.values())
     courses_done = sum(s.status in COMPLETED_COURSE_STATUSES for s in course_states.values())
     skills_done = sum(s.status == STATUS_DONE for s in skill_states.values())
     warnings = []
@@ -146,4 +228,8 @@ def evaluate(version: CareerVersionData, data: ProgressInput) -> CareerEvaluatio
         skill_progress=_progress(skills_done, len(skill_states), "kỹ năng & dự án"),
         outside_curriculum_count=sum(s.outside_curriculum for s in course_states.values()),
         warnings=tuple(warnings),
+        program_id=data.program_id,
+        coverage=_progress(len(course_states), len(course_states) + absent_count, "môn"),
+        node_progress=node_progress,
+        absent_subjects=absent,
     )

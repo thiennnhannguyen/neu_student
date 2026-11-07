@@ -1,0 +1,76 @@
+{
+  "semesters": [
+    {
+      "id": "S1",
+      "name": "HK1 2024-2025 (mẫu)",
+      "order": 1,
+      "start_date": "2024-09-02",
+      "end_date": "2025-01-15",
+      "is_current": false,
+      "is_mock": true
+    },
+    {
+      "id": "S2",
+      "name": "HK2 2024-2025 (mẫu)",
+      "order": 2,
+      "start_date": "2025-02-10",
+      "end_date": "2025-06-20",
+      "is_current": false,
+      "is_mock": true
+    },
+    {
+      "id": "S3",
+      "name": "HK1 2025-2026 (mẫu)",
+      "order": 3,
+      "start_date": "2025-09-01",
+      "end_date": "2026-01-15",
+      "is_current": false,
+      "is_mock": true
+    },
+    {
+      "id": "S4",
+      "name": "HK2 2025-2026 (mẫu)",
+      "order": 4,
+      "start_date": "2026-02-09",
+      "end_date": "2026-06-19",
+      "is_current": false,
+      "is_mock": true
+    },
+    {
+      "id": "S5",
+      "name": "HK1 2026-2027 (mẫu)",
+      "order": 5,
+      "start_date": "2026-09-01",
+      "end_date": "2027-01-15",
+      "is_current": true,
+      "is_mock": true
+    },
+    {
+      "id": "S6",
+      "name": "HK2 2026-2027 (mẫu)",
+      "order": 6,
+      "start_date": "2027-02-08",
+      "end_date": "2027-06-18",
+      "is_current": false,
+      "is_mock": true
+    },
+    {
+      "id": "S7",
+      "name": "HK1 2027-2028 (mẫu)",
+      "order": 7,
+      "start_date": "2027-09-01",
+      "end_date": "2028-01-14",
+      "is_current": false,
+      "is_mock": true
+    },
+    {
+      "id": "S8",
+      "name": "HK2 2027-2028 (mẫu)",
+      "order": 8,
+      "start_date": "2028-02-14",
+      "end_date": "2028-06-23",
+      "is_current": false,
+      "is_mock": true
+    }
+  ]
+}

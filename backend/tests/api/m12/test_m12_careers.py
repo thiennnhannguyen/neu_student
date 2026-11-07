@@ -317,7 +317,13 @@ def test_requirement_course_detail(student):
     assert body["credits"] == 3
     assert body["title"] == "Lập trình Python (mẫu)"
     assert body["prerequisites"] == [
-        {"course_id": "CNT101", "code": "CNT101", "name": "Nhập môn lập trình (mẫu)"}
+        {
+            "course_id": "CNT101",
+            "code": "CNT101",
+            "name": "Nhập môn lập trình (mẫu)",
+            "kind": "prerequisite",
+            "source": None,
+        }
     ]
     assert body["resources"] == []
     other = {career["id"] for career in body["other_careers"]}
@@ -422,7 +428,7 @@ def test_missing_requirement_is_404(student):
         ("/api/m12/careers", 5, 5),
         (f"/api/m12/careers/{AI}", 10, 4),
         (f"/api/m12/careers/{AI}/tree", 10, 4),
-        (f"/api/m12/requirements/{CNT102_IN_AI_NODE_1}", 14, 8),
+        (f"/api/m12/requirements/{CNT102_IN_AI_NODE_1}", 15, 9),
     ],
 )
 def test_query_count_is_fixed(http_app, student, path, fresh, cached):

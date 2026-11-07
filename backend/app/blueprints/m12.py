@@ -17,6 +17,7 @@ from app.schemas.m11 import TargetQuerySchema
 from app.schemas.m12 import (
     CareerGoalSchema,
     CareerListQuerySchema,
+    GalleryQuerySchema,
     GoalHistoryQuerySchema,
     RelatedQuerySchema,
 )
@@ -43,6 +44,12 @@ def list_careers():
 @require_roles(*READER_ROLES)
 def get_career(career_id):
     return jsonify(career_api_service.career_detail(career_id))
+
+
+@m12_bp.get("/careers/slug/<slug>")
+@require_roles(*READER_ROLES)
+def get_career_by_slug(slug):
+    return jsonify(career_api_service.career_detail_by_slug(slug))
 
 
 @m12_bp.get("/careers/<career_id>/tree")
@@ -101,6 +108,20 @@ def _target(schema) -> tuple:
 def get_career_progress(career_id):
     student, _args = _target(TargetQuerySchema())
     return jsonify(career_progress_service.career_progress(student, career_id))
+
+
+@m12_bp.get("/progress/careers/slug/<slug>")
+@require_roles(*READER_ROLES)
+def get_career_progress_by_slug(slug):
+    student, _args = _target(TargetQuerySchema())
+    return jsonify(career_progress_service.career_progress_by_slug(student, slug))
+
+
+@m12_bp.get("/gallery")
+@require_roles(*READER_ROLES)
+def get_gallery():
+    student, args = _target(GalleryQuerySchema())
+    return jsonify(related_career_service.gallery(student, args))
 
 
 @m12_bp.get("/my-careers")

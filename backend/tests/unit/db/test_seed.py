@@ -168,3 +168,10 @@ def test_check_ignores_audit_logs_because_login_writes_them(seeded_app):
 
     assert result.exit_code == 0
     assert "Khớp fixture" in result.output
+
+
+def test_profile_without_fixtures_is_rejected(seeded_app, monkeypatch, tmp_path):
+    monkeypatch.setitem(seed_module.PROFILE_DIRS, seed_module.PROFILE_DEMO_K68, tmp_path)
+
+    with pytest.raises(seed_module.SeedError):
+        seed_module.reset_database(seed_module.PROFILE_DEMO_K68)

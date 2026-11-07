@@ -31,6 +31,8 @@ class SkillData:
     name: str
     kind: str
     short_desc: str | None = None
+    level: str | None = None
+    criteria: str | None = None
 
 
 @dataclass(frozen=True)
@@ -44,6 +46,12 @@ class RequirementData:
     status: str
     approved_by: str | None
     approved_at: datetime | None
+    program_id: str | None = None
+    subject_key: str | None = None
+    subject_name: str | None = None
+    also_covers: tuple[str, ...] = ()
+    priority: str | None = None
+    purpose: str | None = None
 
 
 @dataclass(frozen=True)
@@ -53,6 +61,7 @@ class NodeData:
     order: int
     short_desc: str | None
     requirements: tuple[RequirementData, ...]
+    deliverable: str | None = None
 
 
 @dataclass(frozen=True)
@@ -104,6 +113,8 @@ def _target_fields(version: CareerVersionData, requirement: RequirementData) -> 
             "course_id": course.id,
             "code": course.code,
             "skill_id": None,
+            "level": None,
+            "criteria": None,
         }
     skill = version.skills[requirement.skill_id]
     return {
@@ -112,6 +123,8 @@ def _target_fields(version: CareerVersionData, requirement: RequirementData) -> 
         "course_id": None,
         "code": None,
         "skill_id": skill.id,
+        "level": skill.level,
+        "criteria": skill.criteria,
     }
 
 
@@ -128,12 +141,17 @@ def build_tree(version: CareerVersionData) -> list[dict]:
             "title": node.name,
             "short_desc": _short(node.short_desc),
             "order": node.order,
+            "deliverable": node.deliverable,
             "children": [
                 {
                     "id": requirement.id,
                     "kind": requirement.kind,
                     **_target_fields(version, requirement),
                     "weight": _weight_text(requirement.weight),
+                    "program_id": requirement.program_id,
+                    "subject_key": requirement.subject_key,
+                    "priority": requirement.priority,
+                    "purpose": requirement.purpose,
                 }
                 for requirement in node.requirements
                 if requirement.status == "approved"
@@ -281,7 +299,13 @@ def _node_errors(version: CareerVersionData, node: NodeData) -> list[PublishErro
     errors = []
     seen = set()
     for requirement in node.requirements:
-        target = (requirement.kind, requirement.course_id, requirement.skill_id)
+        # Cùng một mã có thể là yêu cầu riêng của từng ngành.
+        target = (
+            requirement.kind,
+            requirement.course_id,
+            requirement.skill_id,
+            requirement.program_id,
+        )
         if target in seen:
             label = _target_label(version, requirement)
             errors.append(

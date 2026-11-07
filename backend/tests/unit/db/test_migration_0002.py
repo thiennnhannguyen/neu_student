@@ -37,7 +37,10 @@ def table_and_index_definitions():
         "AND name NOT IN ('users', 'students', "
         # Migration 0004 đổi các bảng này, nên chúng khác nhau giữa bản 0002 và bản mới nhất.
         "'careers', 'skills', 'career_nodes', 'courses', "
-        "'uq_careers_name_key', 'uq_skills_name_key') ORDER BY name"
+        "'uq_careers_name_key', 'uq_skills_name_key', "
+        # Migration 0006 thêm cột vào các bảng này.
+        "'career_requirements', 'programs', 'program_versions', 'curriculum_requirements', "
+        "'course_prerequisites') ORDER BY name"
     )
     return [tuple(row) for row in rows]
 

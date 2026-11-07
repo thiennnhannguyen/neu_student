@@ -16,6 +16,12 @@ from app.extensions import db
 
 FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures"
 EXPECTED_FILE = "expected_results.json"
+PROFILE_TEST = "test"
+PROFILE_DEMO_K68 = "demo-k68"
+PROFILE_DIRS = {
+    PROFILE_TEST: FIXTURES_DIR,
+    PROFILE_DEMO_K68: Path(__file__).resolve().parent / "fixtures_demo_k68",
+}
 # Đăng nhập cũng ghi nhật ký, nên số dòng của bảng này không phản ánh việc lệch dữ liệu mẫu.
 TABLES_NOT_CHECKED = {"audit_logs"}
 
@@ -24,12 +30,21 @@ class SeedError(Exception):
     pass
 
 
-def load_fixture_tables() -> dict[str, list[dict]]:
+def _read_tables(directory: Path) -> dict[str, list[dict]]:
     tables = {}
-    for path in sorted(FIXTURES_DIR.glob("*.json")):
+    for path in sorted(directory.glob("*.json")):
         if path.name != EXPECTED_FILE:
             tables.update(json.loads(path.read_text(encoding="utf8")))
     return tables
+
+
+def load_fixture_tables() -> dict[str, list[dict]]:
+    """Profile test, nguồn của mọi test và 235 mục."""
+    return _read_tables(FIXTURES_DIR)
+
+
+def load_profile_tables(profile: str) -> dict[str, list[dict]]:
+    return load_fixture_tables() if profile == PROFILE_TEST else _read_tables(PROFILE_DIRS[profile])
 
 
 def _convert_value(column, value):
@@ -89,11 +104,13 @@ def _next_data_version(connection) -> int:
     return max(int(time.time()), previous + 1)
 
 
-def reset_database() -> dict[str, int]:
+def reset_database(profile: str = PROFILE_TEST) -> dict[str, int]:
     """Xóa rồi nạp lại trong 1 transaction. Lỗi ở bất kỳ bước nào thì DB không đổi."""
     if current_app.config["APP_CONFIG_NAME"] == "production":
         raise SeedError("Không được chạy seed --reset ở production.")
-    tables = load_fixture_tables()
+    tables = load_profile_tables(profile)
+    if not tables:
+        raise SeedError(f"Profile {profile} chưa có fixture.")
     unknown = set(tables) - set(db.metadata.tables)
     if unknown:
         raise SeedError(f"Fixture có bảng không tồn tại trong model: {sorted(unknown)}")
@@ -119,9 +136,9 @@ def reset_database() -> dict[str, int]:
     return {name: len(rows) for name, rows in tables.items()}
 
 
-def check_database() -> list[str]:
+def check_database(profile: str = PROFILE_TEST) -> list[str]:
     """Trả về danh sách bảng có số bản ghi lệch với fixture."""
-    tables = load_fixture_tables()
+    tables = load_profile_tables(profile)
     problems = []
     for table in db.metadata.sorted_tables:
         if table.name in TABLES_NOT_CHECKED:
@@ -137,18 +154,25 @@ def register_seed_command(app: Flask) -> None:
     @app.cli.command("seed")
     @click.option("--reset", is_flag=True, help="Xóa rồi nạp lại từ fixture.")
     @click.option("--check", is_flag=True, help="So số bản ghi từng bảng với fixture.")
-    def seed_command(reset, check):
+    @click.option(
+        "--profile",
+        type=click.Choice(list(PROFILE_DIRS)),
+        default=PROFILE_TEST,
+        show_default=True,
+        help="Bộ dữ liệu: test (mọi test, 235 mục) hoặc demo-k68 (CTĐT K68, 10 nghề).",
+    )
+    def seed_command(reset, check, profile):
         """Nạp hoặc kiểm tra dữ liệu mẫu."""
         if reset == check:
             raise click.UsageError("Cần đúng một tùy chọn: --reset hoặc --check.")
         try:
             if reset:
                 started = time.perf_counter()
-                counts = reset_database()
+                counts = reset_database(profile)
                 elapsed = time.perf_counter() - started
                 click.echo(f"Seed xong: {sum(counts.values())} bản ghi, {elapsed:.2f} giây.")
             else:
-                problems = check_database()
+                problems = check_database(profile)
                 if problems:
                     raise click.ClickException("Lệch fixture: " + "; ".join(problems))
                 click.echo("Khớp fixture.")

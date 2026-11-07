@@ -16,7 +16,7 @@ from app.common.errors import ApiError
 from app.extensions import db
 from app.models.shared import User
 
-PUBLIC_ENDPOINTS = {"health.health", "auth.login", "auth.me"}
+PUBLIC_ENDPOINTS = {"health.health", "auth.login", "auth.me", "auth.demo_accounts"}
 # gv1 phụ trách SV01 đến SV04, gv2 phụ trách SV05 đến SV07.
 OWN_ID = {"sv01": "SV01", "gv1": "user-gv1", "admin": "user-admin", "ht1": "user-ht1"}
 ASSIGNED_ID = "SV02"
@@ -155,6 +155,9 @@ M12_USER_ROUTES = {
     ("GET", "/api/m12/progress/careers/<career_id>"),
     ("GET", "/api/m12/my-careers"),
     ("GET", "/api/m12/related"),
+    ("GET", "/api/m12/gallery"),
+    ("GET", "/api/m12/careers/slug/<slug>"),
+    ("GET", "/api/m12/progress/careers/slug/<slug>"),
 }
 M12_ADMIN_ROUTES = {
     ("GET", "/api/admin/audit-logs/entities"),
@@ -210,6 +213,7 @@ def test_route_registry_covers_all_expected_api_routes():
     assert rules == {
         ("GET", "/api/health"),
         ("POST", "/api/auth/login"),
+        ("GET", "/api/auth/demo-accounts"),
         ("POST", "/api/auth/logout"),
         ("GET", "/api/auth/me"),
         ("GET", "/api/students/me"),

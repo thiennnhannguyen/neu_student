@@ -96,6 +96,8 @@ class RequirementRef:
     course_id: str
     requirement_type: str
     elective_group_id: str | None
+    planned_semester: int | None = None
+    data_warning: str | None = None
 
 
 @dataclass(frozen=True)
@@ -139,6 +141,9 @@ class StudentData:
     elective_groups: tuple[ElectiveGroupRef, ...]
     prerequisites: tuple[PrerequisiteRef, ...]
     equivalencies: tuple[EquivalencyRef, ...]
+    program_id: str | None = None
+    # Khóa được khai báo áp dụng thêm, ngoài effective_cohort của CTĐT.
+    applies_to_cohorts: tuple[str, ...] = ()
 
     @cached_property
     def course_by_id(self) -> dict[str, CourseRef]:

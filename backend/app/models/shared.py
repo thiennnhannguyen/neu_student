@@ -53,6 +53,8 @@ class Program(MockMixin, db.Model):
     __tablename__ = "programs"
     id = pk()
     name = db.Column(db.String(128), nullable=False, unique=True)
+    code = db.Column(db.String(16))
+    degree_code = db.Column(db.String(16))
 
 
 class ProgramVersion(MockMixin, db.Model):
@@ -63,6 +65,8 @@ class ProgramVersion(MockMixin, db.Model):
     effective_cohort = db.Column(db.String(16), nullable=False)
     name = db.Column(db.String(128), nullable=False)
     note = db.Column(db.Text)
+    # Các khóa được khai báo áp dụng thêm. Rỗng thì chỉ áp dụng cho effective_cohort.
+    applies_to_cohorts = db.Column(db.JSON)
     __table_args__ = (db.UniqueConstraint("program_id", "effective_cohort", "version"),)
 
 
@@ -116,7 +120,9 @@ class CoursePrerequisite(MockMixin, db.Model):
     id = pk()
     course_id = fk("courses.id")
     prerequisite_course_id = fk("courses.id")
+    # prerequisite: có hiệu lực ở M11. recommended_order: chỉ hiển thị, không chặn đăng ký (CR-03).
     kind = db.Column(db.String(16), nullable=False, default="prerequisite")
+    source = db.Column(db.Text)
     __table_args__ = (
         db.UniqueConstraint("course_id", "prerequisite_course_id"),
         db.CheckConstraint("course_id <> prerequisite_course_id", name="not_self"),
@@ -166,6 +172,9 @@ class CurriculumRequirement(MockMixin, db.Model):
     course_id = fk("courses.id")
     requirement_type = db.Column(db.String(16), nullable=False)
     elective_group_id = fk("elective_groups.id", nullable=True)
+    planned_semester = db.Column(db.Integer)
+    curriculum_group = db.Column(db.String(64))
+    data_warning = db.Column(db.Text)
     __table_args__ = (
         db.UniqueConstraint("program_version_id", "course_id"),
         db.CheckConstraint("requirement_type IN ('required', 'elective')", name="type_valid"),

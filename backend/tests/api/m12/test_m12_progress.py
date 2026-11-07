@@ -138,6 +138,7 @@ def test_progress_fields(sv07):
         "numerator": 2,
         "denominator": 9,
         "value": "0.2222",
+        "percent": 22,
         "formula": "2/9 học phần",
     }
     assert body["skill_progress"]["formula"] == "1/3 kỹ năng & dự án"

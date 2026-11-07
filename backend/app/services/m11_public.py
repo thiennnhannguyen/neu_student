@@ -1,7 +1,7 @@
 """Cổng duy nhất để M12 đọc dữ liệu M11 (D-25). Service M12 chỉ được import module này."""
 
 from collections.abc import Iterable, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from app.common.errors import ApiError
 from app.services.curriculum_service import curriculum_course_ids
@@ -27,12 +27,21 @@ class CourseRefPublic:
 
 
 @dataclass(frozen=True)
+class CurriculumEntry:
+    requirement_type: str
+    planned_semester: int | None
+    data_warning: str | None
+
+
+@dataclass(frozen=True)
 class CourseFacts:
     """Những gì M12 cần biết về các môn của một sinh viên, nạp dữ liệu đúng 1 lần."""
 
     statuses: Mapping[str, str]
     curriculum_course_ids: frozenset[str]
     via_courses: Mapping[str, CourseRefPublic]
+    program_id: str | None = None
+    curriculum: Mapping[str, CurriculumEntry] = field(default_factory=dict)
 
 
 def get_passed_course_ids(student_id: str) -> frozenset[str]:
@@ -83,7 +92,18 @@ def _via_courses(data: StudentData, statuses: Mapping[str, str]) -> dict[str, Co
 def get_course_facts(student_id: str, course_ids: Iterable[str]) -> CourseFacts:
     data = load_student_data(student_id)
     statuses = {course_id: _status_of(data, course_id) for course_id in course_ids}
-    return CourseFacts(statuses, curriculum_course_ids(data), _via_courses(data, statuses))
+    return CourseFacts(
+        statuses,
+        curriculum_course_ids(data),
+        _via_courses(data, statuses),
+        data.program_id,
+        {
+            row.course_id: CurriculumEntry(
+                row.requirement_type, row.planned_semester, row.data_warning
+            )
+            for row in data.requirements
+        },
+    )
 
 
 def get_rule_version(cohort: str) -> str | None:

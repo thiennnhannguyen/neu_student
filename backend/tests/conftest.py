@@ -11,7 +11,7 @@ from itsdangerous import TimestampSigner
 from app import create_app
 from app.common import clock
 from app.extensions import db
-from app.seed.seed import reset_database
+from app.seed.seed import PROFILE_DEMO_K68, reset_database
 
 
 def make_app(path):
@@ -46,6 +46,28 @@ def _app_from(template, tmp_path):
     with app.app_context():
         yield app
         db.session.remove()
+        db.engine.dispose()
+
+
+@pytest.fixture(scope="session")
+def demo_template(tmp_path_factory, migrated_template):
+    path = tmp_path_factory.mktemp("db") / "demo.db"
+    shutil.copy(migrated_template, path)
+    app = make_app(path)
+    with app.app_context():
+        reset_database(PROFILE_DEMO_K68)
+        db.engine.dispose()
+    return path
+
+
+@pytest.fixture
+def demo_app(demo_template, tmp_path):
+    """App đã seed profile demo-k68, không đẩy sẵn app context (cùng lý do với http_app)."""
+    path = tmp_path / "demo.db"
+    shutil.copy(demo_template, path)
+    app = make_app(path)
+    yield app
+    with app.app_context():
         db.engine.dispose()
 
 

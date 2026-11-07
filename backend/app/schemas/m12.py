@@ -16,6 +16,7 @@ REQUIREMENT_KINDS = ("course", "skill", "project")
 SKILL_KINDS = ("skill", "project")
 WEIGHT_FORMAT = re.compile(r"^\d{1,2}(\.\d{1,2})?$")
 RELATED_SORTS = ("closeness", "profile_fit")
+GALLERY_SORTS = ("default", "closeness")
 NO_CHANGES = "Cần gửi ít nhất một trường."
 
 
@@ -107,6 +108,13 @@ class RelatedQuerySchema(GoalHistoryQuerySchema):
         validate=validate.Range(min=0, max=100, error="Mức tiến độ phải từ 0 đến 100."),
         error_messages={"invalid": "Mức tiến độ phải là số nguyên."},
     )
+
+
+class GalleryQuerySchema(ApiSchema):
+    student_id = _text()
+    sort = _text(validate=validate.OneOf(GALLERY_SORTS, error="Cách sắp xếp không hợp lệ."))
+    group = _text()
+    q = _text()
 
 
 class CareerGoalSchema(ApiSchema):

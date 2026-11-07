@@ -59,7 +59,7 @@ def _configuration_warnings(data: StudentData) -> list[DataWarning]:
                 f"Không tìm thấy thang điểm cho khóa {data.cohort}.",
             )
         )
-    if data.program.effective_cohort != data.cohort:
+    if data.cohort != data.program.effective_cohort and data.cohort not in data.applies_to_cohorts:
         warnings.append(
             DataWarning(
                 PROGRAM_COHORT_MISMATCH,

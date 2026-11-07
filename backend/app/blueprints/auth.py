@@ -13,6 +13,13 @@ from app.services import auth_service
 auth_bp = Blueprint("auth", __name__, url_prefix="/api/auth")
 
 
+@auth_bp.get("/demo-accounts")
+@public_route
+def demo_accounts():
+    """Chỉ tên đăng nhập, không có mật khẩu. Profile test trả rỗng; production trả 404."""
+    return jsonify({"accounts": auth_service.demo_accounts()})
+
+
 @auth_bp.post("/login")
 @public_route
 def login():

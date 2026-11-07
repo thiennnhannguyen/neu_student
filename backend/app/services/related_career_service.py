@@ -13,12 +13,24 @@ from app.common.text import normalize_name
 from app.extensions import db
 from app.models.m12 import Career, CareerRequirement
 from app.models.shared import Student
-from app.services.career_api_service import career_summary, latest_published_versions
-from app.services.career_progress_service import current_career_id, evaluations_for, progress_json
+from app.services.career_api_service import (
+    career_card,
+    career_summary,
+    fits_major,
+    latest_published_versions,
+)
+from app.services.career_progress_service import (
+    coverage_json,
+    current_career_id,
+    evaluations_for,
+    progress_json,
+)
 from app.services.completion_service import DISCLAIMER, CareerEvaluation, ratio_text
 
 SORT_CLOSENESS = "closeness"
 SORT_PROFILE_FIT = "profile_fit"
+SORT_DEFAULT = "default"
+GALLERY_LAST = 10**6
 MY_CAREERS_RELATED = 3
 NO_PRIMARY_WARNING = {
     "code": "NO_PRIMARY_CAREER",
@@ -62,21 +74,23 @@ def _catalog() -> list[tuple[Career, str]]:
     return [(row[0], row[1]) for row in rows]
 
 
-def _requirement_sets(version_ids: list[str]) -> dict[str, frozenset]:
-    """Yêu cầu đã duyệt. Tách theo loại để id học phần và id kỹ năng không bao giờ trùng nhau."""
+def _requirement_sets(version_ids: list[str], program_id: str | None) -> dict[str, frozenset]:
+    """Yêu cầu đã duyệt, chỉ của ngành này. Tách loại để id môn và id kỹ năng không trùng nhau."""
     sets: dict[str, set] = {version_id: set() for version_id in version_ids}
     rows = db.session.execute(
         select(
             CareerRequirement.career_version_id,
             CareerRequirement.course_id,
             CareerRequirement.skill_id,
+            CareerRequirement.program_id,
         ).where(
             CareerRequirement.career_version_id.in_(version_ids),
             CareerRequirement.status == "approved",
         )
     )
-    for version_id, course_id, skill_id in rows:
-        sets[version_id].add(("course", course_id) if course_id else ("skill", skill_id))
+    for version_id, course_id, skill_id, requirement_program in rows:
+        if requirement_program is None or requirement_program == program_id:
+            sets[version_id].add(("course", course_id) if course_id else ("skill", skill_id))
     return {version_id: frozenset(items) for version_id, items in sets.items()}
 
 
@@ -86,6 +100,7 @@ def _with_progress(career: Career, evaluation: CareerEvaluation, closeness: dict
         "closeness": closeness,
         "course_progress": progress_json(evaluation.course_progress),
         "skill_progress": progress_json(evaluation.skill_progress),
+        "coverage": coverage_json(evaluation),
         "_name_key": career.name_key,
         "_course_ratio": evaluation.course_progress.ratio
         if evaluation.course_progress.ratio is not None
@@ -101,7 +116,8 @@ def _all_items(student: Student) -> tuple[Career | None, CareerEvaluation | None
     catalog = _catalog()
     version_ids = [version_id for _career, version_id in catalog]
     evaluations = evaluations_for(student, version_ids)
-    requirement_sets = _requirement_sets(version_ids)
+    program_id = evaluations[version_ids[0]][0].program_id if version_ids else None
+    requirement_sets = _requirement_sets(version_ids, program_id)
     primary_id = current_career_id(student.id)
     primary = next(((c, v) for c, v in catalog if c.id == primary_id), None)
     items = []
@@ -157,10 +173,87 @@ def my_careers(student: Student) -> dict:
             "career": career_summary(primary),
             "course_progress": progress_json(evaluation.course_progress),
             "skill_progress": progress_json(evaluation.skill_progress),
+            "coverage": coverage_json(evaluation),
             "outside_curriculum_count": evaluation.outside_curriculum_count,
         },
         "related": [
             _public(item) for item in sort_related(items, SORT_CLOSENESS)[:MY_CAREERS_RELATED]
         ],
+        "disclaimer": DISCLAIMER,
+    }
+
+
+def _gallery_item(
+    career: Career, evaluation: CareerEvaluation, primary_id: str | None, closeness: dict | None
+) -> dict:
+    coverage = evaluation.coverage
+    fit = fits_major(career, evaluation.program_id)
+    return {
+        "career": career_card(career),
+        "is_primary": career.id == primary_id,
+        "fits_major": fit,
+        "course_progress": progress_json(evaluation.course_progress),
+        "skill_progress": progress_json(evaluation.skill_progress),
+        "coverage": coverage_json(evaluation),
+        # So bằng số nguyên để không sai vì làm tròn. Mẫu số 0 thì không cảnh báo.
+        "low_coverage": 2 * coverage.numerator < coverage.denominator,
+        "closeness": closeness,
+        "_name_key": career.name_key,
+        "_order": career.sort_order if career.sort_order is not None else GALLERY_LAST,
+    }
+
+
+def _gallery_sorted(items: list[dict], sort: str) -> list[dict]:
+    """Nghề chính luôn đầu. Mặc định: nghề hợp ngành rồi còn lại; hòa thì theo thứ tự cẩm nang."""
+    ordered = sorted(items, key=lambda item: (item["_order"], item["_name_key"]))
+    if sort == SORT_CLOSENESS:
+        ordered = sorted(ordered, key=_closeness_ratio, reverse=True)
+    else:
+        ordered = sorted(ordered, key=lambda item: item["fits_major"] is None)
+    return sorted(ordered, key=lambda item: not item["is_primary"])
+
+
+def gallery(student: Student, args: dict) -> dict:
+    """Lưới thẻ nghề. Sinh viên chưa có nghề chính vẫn có đủ thẻ và tiến độ."""
+    catalog = _catalog()
+    version_ids = [version_id for _career, version_id in catalog]
+    evaluations = evaluations_for(student, version_ids)
+    program_id = evaluations[version_ids[0]][0].program_id if version_ids else None
+    sets = _requirement_sets(version_ids, program_id)
+    primary_id = current_career_id(student.id)
+    primary_version = next((v for c, v in catalog if c.id == primary_id), None)
+    items = [
+        _gallery_item(
+            career,
+            evaluations[version_id][0],
+            primary_id,
+            jaccard(sets[primary_version], sets[version_id])
+            if primary_version and version_id != primary_version
+            else None,
+        )
+        for career, version_id in catalog
+    ]
+    groups = list(
+        dict.fromkeys(
+            item["career"]["group"]
+            for item in sorted(items, key=lambda item: (item["_order"], item["_name_key"]))
+        )
+    )
+    if selected := (args.get("group") or "").strip():
+        items = [item for item in items if item["career"]["group"] == selected]
+    if keyword := normalize_name(args.get("q") or ""):
+        items = [
+            item
+            for item in items
+            if keyword in item["_name_key"]
+            or keyword in normalize_name(item["career"]["name_en"] or "")
+        ]
+    sort = args.get("sort") or SORT_DEFAULT
+    return {
+        "student_id": student.id,
+        "sort": sort,
+        "has_primary": primary_version is not None,
+        "groups": groups,
+        "items": [_public(item) for item in _gallery_sorted(items, sort)],
         "disclaimer": DISCLAIMER,
     }

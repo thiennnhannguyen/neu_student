@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from sqlalchemy import func, select
+from sqlalchemy import case, func, or_, select
 
 from app.common.errors import ApiError
 from app.common.pagination import paginate
@@ -10,11 +10,12 @@ from app.common.result_cache import ResultCache, app_cache
 from app.common.text import normalize_name
 from app.extensions import db
 from app.models.m12 import Career, CareerRequirement, CareerVersion
-from app.models.shared import Course, CoursePrerequisite
+from app.models.shared import Course, CourseEquivalency, CoursePrerequisite
 from app.services.career_graph_service import build_tree
 from app.services.career_loader import load_career_version
 
 CACHE_KEY = "career_tree_cache"
+MOCK_SUFFIX = " (mẫu)"
 
 
 def tree_cache() -> ResultCache:
@@ -67,6 +68,39 @@ def career_summary(career: Career) -> dict:
     return {"id": career.id, "slug": career.slug, "name": career.name, "field": career.field}
 
 
+def display_name(career: Career) -> str:
+    """Tiêu đề thẻ không có hậu tố mẫu; nhãn "(mẫu)" nhỏ do giao diện hiện theo is_mock."""
+    return career.name.removesuffix(MOCK_SUFFIX)
+
+
+def career_card(career: Career) -> dict:
+    return {
+        **career_summary(career),
+        "display_name": display_name(career),
+        "name_en": career.name_en,
+        "group": career.career_group or career.field,
+        "illustration_key": career.illustration_key,
+        "tagline": career.tagline,
+        "is_mock": career.is_mock,
+    }
+
+
+def career_profile(career: Career) -> dict:
+    """Toàn bộ nội dung giới thiệu nghề, không phụ thuộc sinh viên."""
+    return {
+        **career_card(career),
+        "objective": career.objective,
+        "major_fit": career.major_fit,
+        "self_study": career.self_study or [],
+    }
+
+
+def fits_major(career: Career, program_id: str | None) -> dict | None:
+    """Ngành của sinh viên có nằm trong nhóm ngành ưu tiên của nghề không (bảng mục 5, Q97)."""
+    programs = (career.major_fit or {}).get("programs", [])
+    return next((item for item in programs if item["id"] == program_id), None)
+
+
 def _published_career(career_id: str) -> tuple[Career, CareerVersion]:
     career = db.session.get(Career, career_id)
     version = latest_published(career_id) if career else None
@@ -106,8 +140,19 @@ def career_detail(career_id: str) -> dict:
         **career_summary(career),
         "latest_version": version_summary(version),
         "node_count": len(nodes),
-        "requirement_count": sum(len(node["children"]) for node in nodes),
+        # Cùng một môn ở nhiều ngành chỉ đếm 1 lần.
+        "requirement_count": len(
+            {child["subject_key"] or child["id"] for node in nodes for child in node["children"]}
+        ),
     }
+
+
+def career_detail_by_slug(slug: str) -> dict:
+    career = db.session.scalar(select(Career).where(Career.slug == slug))
+    version = latest_published(career.id) if career else None
+    if version is None:
+        raise ApiError(404)
+    return {**career_profile(career), "latest_version": version_summary(version)}
 
 
 def cached_nodes(version_id: str) -> list[dict]:
@@ -131,7 +176,7 @@ def _other_careers(requirement: CareerRequirement, career_id: str) -> list[dict]
     """Nghề khác có bản published mới nhất dùng cùng học phần hoặc kỹ năng, yêu cầu đã duyệt."""
     latest = latest_published_versions().subquery()
     query = (
-        select(Career.id, Career.name)
+        select(Career.id, Career.slug, Career.name)
         .join(latest, latest.c.career_id == Career.id)
         .join(CareerRequirement, CareerRequirement.career_version_id == latest.c.id)
         .where(CareerRequirement.status == "approved", Career.id != career_id)
@@ -142,17 +187,56 @@ def _other_careers(requirement: CareerRequirement, career_id: str) -> list[dict]
         query = query.where(CareerRequirement.course_id == requirement.course_id)
     else:
         query = query.where(CareerRequirement.skill_id == requirement.skill_id)
-    return [{"id": row.id, "name": row.name} for row in db.session.execute(query)]
+    return [{"id": row.id, "slug": row.slug, "name": row.name} for row in db.session.execute(query)]
 
 
 def _course_prerequisites(course_id: str) -> list[dict]:
     rows = db.session.execute(
-        select(Course.id, Course.code, Course.name)
+        select(
+            Course.id,
+            Course.code,
+            Course.name,
+            CoursePrerequisite.kind,
+            CoursePrerequisite.source,
+        )
         .join(CoursePrerequisite, CoursePrerequisite.prerequisite_course_id == Course.id)
         .where(CoursePrerequisite.course_id == course_id)
         .order_by(Course.id)
     )
-    return [{"course_id": row.id, "code": row.code, "name": row.name} for row in rows]
+    return [
+        {
+            "course_id": row.id,
+            "code": row.code,
+            "name": row.name,
+            "kind": row.kind,
+            "source": row.source,
+        }
+        for row in rows
+    ]
+
+
+def _course_equivalents(course_id: str) -> list[dict]:
+    """Cặp đã duyệt, chỉ để hiển thị. Việc có tính đạt hay không vẫn do M11 quyết định theo CTĐT."""
+    other = case(
+        (CourseEquivalency.course_a_id == course_id, CourseEquivalency.course_b_id),
+        else_=CourseEquivalency.course_a_id,
+    )
+    rows = db.session.execute(
+        select(Course.id, Course.code, Course.name, CourseEquivalency.source)
+        .join(CourseEquivalency, Course.id == other)
+        .where(
+            CourseEquivalency.status == "approved",
+            or_(
+                CourseEquivalency.course_a_id == course_id,
+                CourseEquivalency.course_b_id == course_id,
+            ),
+        )
+        .order_by(Course.id)
+    )
+    return [
+        {"course_id": row.id, "code": row.code, "name": row.name, "source": row.source}
+        for row in rows
+    ]
 
 
 def requirement_detail(requirement_id: str) -> dict:
@@ -174,6 +258,7 @@ def requirement_detail(requirement_id: str) -> dict:
         **child,
         "credits": course.credits if course else None,
         "prerequisites": _course_prerequisites(course.id) if course else [],
+        "equivalents": _course_equivalents(course.id) if course else [],
         "other_careers": _other_careers(requirement, version.career_id),
         "resources": [],
     }

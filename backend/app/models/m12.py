@@ -12,6 +12,15 @@ class Career(MockMixin, db.Model):
     field = db.Column(db.String(64), nullable=False, server_default="")
     # Tên đã chuẩn hóa (D-194), để DB chặn trùng tên kể cả khi hai admin tạo cùng lúc.
     name_key = db.Column(db.String(128), nullable=False, server_default="")
+    # Nội dung giới thiệu nằm ở dữ liệu để landing page sau này dùng lại (CR-03).
+    name_en = db.Column(db.String(128))
+    career_group = db.Column(db.String(64))
+    objective = db.Column(db.Text)
+    major_fit = db.Column(db.JSON)
+    self_study = db.Column(db.JSON)
+    illustration_key = db.Column(db.String(32))
+    tagline = db.Column(db.String(80))
+    sort_order = db.Column(db.Integer)
     __table_args__ = (db.Index("uq_careers_name_key", "name_key", unique=True),)
 
 
@@ -40,6 +49,7 @@ class CareerNode(MockMixin, db.Model):
     name = db.Column(db.String(128), nullable=False)
     order = db.Column(db.Integer, nullable=False)
     short_desc = db.Column(db.String(120))
+    deliverable = db.Column(db.Text)
     # Đích của khóa ngoại phức hợp từ career_requirements.
     __table_args__ = (db.UniqueConstraint("id", "career_version_id"),)
 
@@ -51,6 +61,8 @@ class Skill(MockMixin, db.Model):
     kind = db.Column(db.String(16), nullable=False)
     name_key = db.Column(db.String(128), nullable=False, server_default="")
     short_desc = db.Column(db.String(120))
+    level = db.Column(db.String(16))
+    criteria = db.Column(db.Text)
     __table_args__ = (
         db.CheckConstraint("kind IN ('skill', 'project')", name="kind_valid"),
         db.Index("uq_skills_name_key", "name_key", unique=True),
@@ -70,6 +82,15 @@ class CareerRequirement(MockMixin, db.Model):
     status = db.Column(db.String(16), nullable=False, default="draft")
     approved_by = fk("users.id", nullable=True)
     approved_at = db.Column(db.DateTime)
+    # Rỗng là áp dụng cho mọi ngành. Có giá trị thì chỉ tính cho sinh viên của ngành đó (Q92).
+    program_id = db.Column(db.String(64), db.ForeignKey("programs.id"))
+    # Một dòng trong cẩm nang. Cùng khóa ở các ngành khác nhau là cùng một môn của nghề.
+    subject_key = db.Column(db.String(64))
+    subject_name = db.Column(db.String(128))
+    # Khóa môn khác mà yêu cầu này đã bao gồm vì 2 dòng cẩm nang cùng 1 mã ở ngành này.
+    also_covers = db.Column(db.JSON)
+    priority = db.Column(db.String(16))
+    purpose = db.Column(db.Text)
     __table_args__ = (
         db.ForeignKeyConstraint(
             ["career_node_id", "career_version_id"],
