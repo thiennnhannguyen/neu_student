@@ -85,9 +85,9 @@ describe('khung ứng dụng', () => {
   it('trang chưa làm hiện "Đang phát triển"', async () => {
     loggedInAs('student');
 
-    renderApp('/m12/ke-hoach');
+    renderApp('/m12/hoc-lieu');
 
-    expect(await screen.findByRole('heading', { name: 'Kế hoạch học tập' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Học liệu' })).toBeInTheDocument();
     expect(screen.getByText(/Đang phát triển/)).toBeInTheDocument();
   });
 });

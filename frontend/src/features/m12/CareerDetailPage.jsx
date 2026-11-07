@@ -1,6 +1,7 @@
+import { CalendarRange } from 'lucide-react';
 import { useState } from 'react';
 import { Navigate, useParams } from 'react-router';
-import { EmptyState, PageHeader, Tabs } from '../../components/ui';
+import { Button, EmptyState, PageHeader, Tabs } from '../../components/ui';
 import { withQuery } from '../m11/format';
 import useApiResource from '../m11/useApiResource';
 import { DataWarnings, ResourceView } from '../m11/ui';
@@ -74,13 +75,23 @@ function Detail({ student, data, reload }) {
           disclaimer: data.disclaimer,
         }}
         action={
-          student.isStudent &&
-          !data.is_primary && (
-            <SetGoalButton
-              career={{ id: data.career.id, name: profile.display_name }}
-              onChanged={reload}
-            />
-          )
+          <div className="career-hero__actions">
+            {student.isStudent && !data.is_primary && (
+              <SetGoalButton
+                career={{ id: data.career.id, name: profile.display_name }}
+                onChanged={reload}
+              />
+            )}
+            {data.is_primary && (
+              <Button
+                variant="secondary"
+                iconLeft={CalendarRange}
+                to={student.link('/m12/ke-hoach')}
+              >
+                Xem lộ trình theo học kỳ
+              </Button>
+            )}
+          </div>
         }
       />
       <DataWarnings warnings={data.data_warnings} />

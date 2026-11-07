@@ -100,7 +100,8 @@ export const MENU_GROUPS = [
         path: '/m12/ke-hoach',
         icon: CalendarRange,
         roles: [STUDENT, ADVISOR],
-        phase: '09',
+        implemented: true,
+        nested: true,
       },
       {
         label: 'Học liệu',
@@ -154,7 +155,22 @@ const CAREER_SUBPAGES = [
   { prefix: `${CAREER_ROOT}/nghe/`, label: 'Chi tiết nghề' },
 ];
 
+const PLAN_ROOT = '/m12/ke-hoach';
+const PLAN_DIFF = `${PLAN_ROOT}/khac-biet`;
+
 function careerSubpageMeta(pathname) {
+  if (pathname === PLAN_DIFF) {
+    const label = 'Khác biệt của lộ trình';
+    return {
+      title: label,
+      trail: [
+        { label: 'Tổng quan', to: '/' },
+        { label: 'Định hướng & hỗ trợ' },
+        { label: 'Kế hoạch học tập', to: PLAN_ROOT },
+        { label },
+      ],
+    };
+  }
   const sub = CAREER_SUBPAGES.find((entry) => pathname.startsWith(entry.prefix));
   if (!sub) {
     return null;

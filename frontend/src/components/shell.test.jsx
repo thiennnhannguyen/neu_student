@@ -322,12 +322,10 @@ describe('trang theo vai trò', () => {
   it('trang đang phát triển ghi giai đoạn dự kiến và có nút về Tổng quan', async () => {
     loggedInAs('student');
 
-    renderApp('/m12/ke-hoach');
+    renderApp('/m12/hoc-lieu');
 
-    expect(
-      await screen.findByRole('heading', { level: 1, name: 'Kế hoạch học tập' }),
-    ).toBeInTheDocument();
-    expect(screen.getByText('Đang phát triển. Dự kiến ở giai đoạn 09.')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { level: 1, name: 'Học liệu' })).toBeInTheDocument();
+    expect(screen.getByText('Đang phát triển. Dự kiến ở giai đoạn 10.')).toBeInTheDocument();
     expect(
       within(screen.getByRole('main')).getByRole('link', { name: 'Về Tổng quan' }),
     ).toHaveAttribute('href', '/');
