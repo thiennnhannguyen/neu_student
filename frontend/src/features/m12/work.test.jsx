@@ -1,7 +1,7 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
-import { apiError, jsonResponse, renderApp } from '../../test/fakeApi';
+import { apiError, jsonResponse, pendingResponse, renderApp } from '../../test/fakeApi';
 import { formatDateTime } from '../m11/format';
 import { callsTo, m11Api } from '../m11/testData';
 import { m12Api, NODES, progressBody } from './testData';
@@ -913,6 +913,46 @@ async function bell(items = [notice(1), notice(2, { read: true })], unread = 1, 
 }
 
 describe('chuông thông báo', () => {
+  it('đang tải không ghi là chưa có thông báo', async () => {
+    const user = userEvent.setup();
+    m11Api('student', { [NOTICES]: pendingResponse().handler });
+    renderApp('/m11/canh-bao');
+
+    await user.click(await screen.findByRole('button', { name: 'Thông báo' }));
+
+    expect(screen.getByText('Đang tải thông báo...')).toBeInTheDocument();
+    expect(screen.queryByText('Chưa có thông báo.')).toBeNull();
+  });
+
+  it('lỗi không ghi là chưa có thông báo, có Thử lại', async () => {
+    const user = userEvent.setup();
+    let calls = 0;
+    const fetchMock = m11Api('student', {
+      [NOTICES]: () => {
+        calls += 1;
+        return calls === 1
+          ? apiError(500, 'INTERNAL_ERROR', 'Lỗi')
+          : jsonResponse(200, {
+              items: [],
+              unread_count: 0,
+              note: '',
+              page: 1,
+              page_size: 20,
+              total: 0,
+            });
+      },
+    });
+    renderApp('/m11/canh-bao');
+
+    await user.click(await screen.findByRole('button', { name: 'Thông báo' }));
+
+    expect(await screen.findByText('Không tải được thông báo.')).toBeInTheDocument();
+    expect(screen.queryByText('Chưa có thông báo.')).toBeNull();
+    await user.click(screen.getByRole('button', { name: 'Thử lại' }));
+    expect(await screen.findByText('Chưa có thông báo.')).toBeInTheDocument();
+    expect(callsTo(fetchMock, '/api/notifications').length).toBeGreaterThan(1);
+  });
+
   it('có số chưa đọc; mở panel thấy danh sách và chú thích', async () => {
     const { user, button } = await bell();
 

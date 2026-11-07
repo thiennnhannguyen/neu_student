@@ -93,22 +93,22 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 
 ## Nghiệm thu TC01–TC14
 
-| TC | Tình huống | Giai đoạn dự kiến | Trạng thái |
-|----|-----------|-------------------|------------|
-| TC01 | Đăng nhập đúng/sai; truy cập trái quyền bị từ chối | 04 | Dữ liệu: Tài khoản 4 vai trò; chưa có test |
-| TC02 | Hai học phần thiếu mã không bị gộp; GPA không sai | 05 | Dữ liệu: SV03; chưa có test |
-| TC03 | Một môn học lại nhiều lần không cộng trùng tín chỉ | 05 | Dữ liệu: SV02; chưa có test |
-| TC04 | Chuyển học kỳ biểu đồ và thống kê đổi đúng | 05, 06 | Dữ liệu: SV01; chưa có test |
-| TC05 | Quy chế khác phiên bản không áp sai ngưỡng | 05 | Dữ liệu: SV04, SV06; chưa có test |
-| TC06 | Hoàn thành Python → mọi cây nghề liên quan tick xanh | 08 | Đạt: `test_tc06_cnt102_is_green_on_all_six_careers`, `test_tc06_new_passing_grade_changes_every_tree_immediately` |
-| TC07 | Môn đang học không được tick xanh | 08 | Đạt: `test_tc07_in_progress_is_shown_and_not_counted` |
-| TC08 | Đổi nghề chính giữ nguyên lịch sử học tập | 07, 08 | Đạt: `test_sv07_changes_to_analyst_and_back`, `test_tc08_changing_primary_and_back_keeps_each_rate`; Vitest `đặt làm mục tiêu chính (TC08)` |
-| TC09 | Tỷ lệ nghề A khác nghề B khi yêu cầu khác nhau | 08 | Đạt: `test_tc09_rates_differ_between_careers_and_match_expected` |
-| TC10 | Đổi nghề liên quan và xem tất cả hoạt động | 08 | Đạt: `test_tc10_related_sorts_differently_and_filters_by_field`; Vitest `trang Xem tất cả (TC10)` |
-| TC11 | Lộ trình không xếp môn trước tiên quyết | 09 | Đạt: `test_tc11_random_roadmaps_obey_hard_constraints` (50 lộ trình mỗi profile), `test_algorithm_against_exhaustive_search`, `test_move_before_prerequisite_is_422_and_db_unchanged` |
-| TC12 | Môn không mở kỳ này được ghi dự kiến/chưa xác minh | 09 | Đạt: `test_tc12_no_offering_is_du_kien_and_open_is_confirmed`, `test_tc12_closed_offering_is_never_used`; Vitest nhóm `Kế hoạch học tập: các cột kỳ` |
-| TC13 | Sinh viên không xem được ticket của người khác | 10 | Đạt: `test_tc13_student_cannot_read_ticket_of_other_student`, `test_tc13_cannot_download_attachment_of_other_student`, `test_tc13_staff_of_other_category_gets_404` |
-| TC14 | Giao diện mobile, bàn phím, trạng thái rỗng | Mọi giai đoạn có UI, 11 | Dữ liệu: SV05; chưa có test |
+| TC | Tình huống | File test | Kết quả |
+|----|-----------|-----------|---------|
+| TC01 | Đăng nhập đúng/sai; truy cập trái quyền bị từ chối | `backend/tests/acceptance/test_tc01_auth.py`; `frontend/e2e/flows.spec.mjs` kịch bản 1 | Đạt |
+| TC02 | Hai học phần thiếu mã không bị gộp; GPA không sai | `backend/tests/acceptance/test_tc02.py`; `test_tc02_two_courses_without_code_stay_separate_through_api` trong `backend/tests/acceptance/test_m11_api_expected.py` | Đạt |
+| TC03 | Một môn học lại nhiều lần không cộng trùng tín chỉ | `backend/tests/acceptance/test_tc03.py`; `test_tc03_retake_counts_once_and_policy_changes_gpa_through_api` trong `backend/tests/acceptance/test_m11_api_expected.py` | Đạt |
+| TC04 | Chuyển học kỳ biểu đồ và thống kê đổi đúng | `test_tc04_changing_semester_changes_overview_credits_compare` trong `backend/tests/acceptance/test_m11_api_expected.py`; nhóm `bộ lọc kỳ` trong `frontend/src/features/m11/m11Pages.test.jsx` | Đạt |
+| TC05 | Quy chế khác phiên bản không áp sai ngưỡng | `backend/tests/acceptance/test_tc05.py`; `test_tc05_same_numbers_different_level_through_api` trong `backend/tests/acceptance/test_m11_api_expected.py` | Đạt |
+| TC06 | Hoàn thành Python → mọi cây nghề liên quan tick xanh | `test_tc06_cnt102_is_green_on_all_six_careers`, `test_tc06_new_passing_grade_changes_every_tree_immediately` trong `backend/tests/api/m12/test_m12_progress.py`; `backend/tests/acceptance/test_end_to_end_m11_m12.py` | Đạt |
+| TC07 | Môn đang học không được tick xanh | `test_tc07_in_progress_is_shown_and_not_counted` trong `backend/tests/api/m12/test_m12_progress.py` | Đạt |
+| TC08 | Đổi nghề chính giữ nguyên lịch sử học tập | `backend/tests/acceptance/test_tc08_career_change.py`; `test_tc08_changing_primary_and_back_keeps_each_rate` trong `backend/tests/api/m12/test_m12_progress.py`; nhóm `đặt làm mục tiêu chính (TC08)` trong `frontend/src/features/m12/m12Pages.test.jsx` | Đạt |
+| TC09 | Tỷ lệ nghề A khác nghề B khi yêu cầu khác nhau | `test_tc09_rates_differ_between_careers_and_match_expected` trong `backend/tests/api/m12/test_m12_progress.py` | Đạt |
+| TC10 | Đổi nghề liên quan và xem tất cả hoạt động | `test_tc10_related_sorts_differently_and_filters_by_field` trong `backend/tests/api/m12/test_m12_progress.py`; nhóm `trang lưới thẻ thay trang Xem tất cả (TC10)` trong `frontend/src/features/m12/m12Pages.test.jsx`; `frontend/e2e/flows.spec.mjs` kịch bản 2 | Đạt |
+| TC11 | Lộ trình không xếp môn trước tiên quyết | `test_tc11_random_roadmaps_obey_hard_constraints` (50 lộ trình ngẫu nhiên) trong `backend/tests/acceptance/test_roadmap_properties.py` | Đạt |
+| TC12 | Môn không mở kỳ này được ghi dự kiến/chưa xác minh | `test_tc12_no_offering_is_du_kien_and_open_is_confirmed`, `test_tc12_closed_offering_is_never_used` trong `backend/tests/api/m12/test_roadmaps.py` | Đạt |
+| TC13 | Sinh viên không xem được ticket của người khác | `test_tc13_student_cannot_read_ticket_of_other_student`, `test_tc13_cannot_download_attachment_of_other_student`, `test_tc13_staff_of_other_category_gets_404` trong `backend/tests/api/m12/test_support.py` | Đạt |
+| TC14 | Giao diện mobile, bàn phím, trạng thái rỗng | `frontend/e2e/sweep.spec.mjs` (24 trang ở 375, 768, 1280); `frontend/e2e/flows.spec.mjs` kịch bản 2 (bàn phím, 1440 và 375); `frontend/e2e/a11y.spec.mjs` (11 trang); nhóm `phạm vi xem trên điện thoại` và trạng thái rỗng trong `frontend/src/features/m11/m11Pages.test.jsx`; `frontend/src/features/m12/work.test.jsx` | Đạt |
 
 ## CR-01
 
@@ -276,10 +276,10 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 
 | Mã | Chức năng | Endpoint | Màn hình | Test | Trạng thái |
 |----|-----------|----------|----------|------|------------|
-| C01 | Đăng nhập, đăng xuất và phiên làm việc | `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`, `GET /api/auth/demo-accounts` | `/login` | `acceptance/test_tc01_auth.py`, `features/auth/LoginForm.test.jsx`, `features/auth/auth.test.jsx` | Đã làm |
+| C01 | Đăng nhập, đăng xuất và phiên làm việc | `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`, `GET /api/auth/demo-accounts` | `/login` | `acceptance/test_tc01_auth.py`, `features/auth/LoginForm.test.jsx`, `features/auth/auth.test.jsx`, `e2e/flows.spec.mjs` | Đã làm |
 | C02 | Phân quyền và bảo vệ dữ liệu | Mọi route (`require_roles`, ngoài phạm vi trả 404) | `RoleRoute`, trang không có quyền | `unit/test_auth_guard.py`, `api/m11/test_m11_permissions.py`, `api/m12/test_admin_permissions.py`, `routes.test.jsx` | Đã làm |
 | C03 | Hồ sơ sinh viên và chương trình | `GET /api/students/me`, `GET /api/students/{id}`, `PATCH /api/students/me/contact` | `/ho-so` | `api/test_students_api.py`, `features/profile/ProfilePage.test.jsx` | Đã làm |
-| C04 | Thông báo trong hệ thống | `GET /api/notifications`, `POST /api/notifications/{id}/read`, `POST /api/notifications/read-all` | Chuông trên thanh đầu trang | `api/test_notifications.py`, `features/m12/work.test.jsx` | Đã làm |
+| C04 | Thông báo trong hệ thống | `GET /api/notifications`, `POST /api/notifications/{id}/read`, `POST /api/notifications/read-all` | Chuông trên thanh đầu trang | `api/test_notifications.py`, `features/m12/work.test.jsx`, `e2e/flows.spec.mjs` | Đã làm |
 | C05 | Quản trị và nhật ký thay đổi | `GET /api/admin/audit-logs`, `GET /api/admin/audit-logs/entities`, `GET /api/admin/students`, `POST /api/admin/grade-attempts` | `/quan-tri/nhat-ky` | `api/test_audit_logs_api.py`, `api/m12/test_admin_careers.py`, `unit/test_audit.py`, `api/m11/test_m11_writes_and_directory.py`, `features/admin/AuditLogPage.test.jsx` | Đã làm |
 | M11-01 | Dashboard học tập | `GET /api/m11/overview` | `/` (Tổng quan) | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
 | M11-02 | Bảng điểm và lịch sử học phần | `GET /api/m11/grades`, `GET /api/m11/grades/{course_id}/attempts` | `/m11/ket-qua` | `api/m11/test_m11_grades.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
@@ -295,15 +295,29 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | M12-01 | Chọn nghề nghiệp mục tiêu chính | `GET /api/m12/career-goal`, `PUT /api/m12/career-goal`, `GET /api/m12/career-goal/history` | `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_goal.py`, `acceptance/test_tc08_career_change.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
 | M12-02 | Danh sách nghề liên quan và xem tất cả | `GET /api/m12/gallery`, `GET /api/m12/careers`, `GET /api/m12/related`, `GET /api/m12/my-careers` | `/m12/dinh-huong` | `api/m12/test_m12_gallery.py`, `api/m12/test_m12_careers.py`, `api/m12/test_m12_progress.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
 | M12-03 | Cây mục tiêu nghề nghiệp | `GET /api/m12/careers/{id}`, `GET /api/m12/careers/slug/{slug}`, `GET /api/m12/careers/{id}/tree`, `GET /api/m12/progress/careers/slug/{slug}` | `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_careers.py`, `api/m12/test_m12_progress.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
-| M12-04 | Đồng bộ môn đạt trên mọi cây | `GET /api/m12/progress/careers/{id}`, `GET /api/m12/gallery` | `/m12/dinh-huong`, `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_progress.py`, `acceptance/test_m12_expected.py` | Đã làm |
+| M12-04 | Đồng bộ môn đạt trên mọi cây | `GET /api/m12/progress/careers/{id}`, `GET /api/m12/gallery` | `/m12/dinh-huong`, `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_progress.py`, `acceptance/test_m12_expected.py`, `acceptance/test_end_to_end_m11_m12.py` | Đã làm |
 | M12-05 | Tỷ lệ hoàn thành riêng từng nghề | `GET /api/m12/progress/careers/{id}`, `GET /api/m12/gallery` | `/m12/dinh-huong`, `/m12/dinh-huong/nghe/:slug` | `acceptance/test_m12_expected.py`, `api/m12/test_m12_progress.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
 | M12-06 | Chi tiết học phần/kỹ năng | `GET /api/m12/requirements/{id}` | Panel môn ở `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_careers.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
-| M12-07 | Lộ trình học theo học kỳ | `POST /api/m12/roadmaps/generate`, `GET /api/m12/roadmaps/current`, `PATCH /api/m12/roadmaps/{id}/items/{item}`, `GET /api/m12/roadmaps/{id}/versions` | `/m12/ke-hoach` | `api/m12/test_roadmaps.py`, `acceptance/test_roadmap_properties.py`, `features/m12/plan/plan.test.jsx` | Đã làm |
-| M12-08 | Điều chỉnh lộ trình khi thay đổi | `GET /api/m12/roadmaps/{id}/proposal`, `POST /api/m12/roadmaps/{id}/proposal/accept`, `POST /api/m12/roadmaps/{id}/proposal/dismiss` | `/m12/ke-hoach/khac-biet` | `api/m12/test_roadmaps.py`, `features/m12/plan/plan.test.jsx` | Đã làm |
+| M12-07 | Lộ trình học theo học kỳ | `POST /api/m12/roadmaps/generate`, `GET /api/m12/roadmaps/current`, `PATCH /api/m12/roadmaps/{id}/items/{item}`, `GET /api/m12/roadmaps/{id}/versions` | `/m12/ke-hoach` | `api/m12/test_roadmaps.py`, `acceptance/test_roadmap_properties.py`, `features/m12/plan/plan.test.jsx`, `e2e/flows.spec.mjs` | Đã làm |
+| M12-08 | Điều chỉnh lộ trình khi thay đổi | `GET /api/m12/roadmaps/{id}/proposal`, `POST /api/m12/roadmaps/{id}/proposal/accept`, `POST /api/m12/roadmaps/{id}/proposal/dismiss` | `/m12/ke-hoach/khac-biet` | `api/m12/test_roadmaps.py`, `acceptance/test_end_to_end_m11_m12.py`, `features/m12/plan/plan.test.jsx`, `e2e/flows.spec.mjs` | Đã làm |
 | M12-09 | So sánh nghề nghiệp | Không có | Không có | Không có | Hoãn ở giai đoạn 09; P2 theo `AGENTS.md` |
 | M12-10 | Kế hoạch cải thiện học tập | `GET /api/m12/improvement-plan`, `POST /api/m12/improvement-plan`, `POST .../{plan}/items`, `PATCH`, `DELETE .../{plan}/items/{item}`, `POST .../{plan}/new-risks` | `/m11/canh-bao/ke-hoach` | `api/m12/test_improvement.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
 | M12-11 | Tra cứu hướng dẫn và học liệu | Không có | `/m12/hoc-lieu` hiện "Đang phát triển." | `components/shell.test.jsx` | Hoãn ở giai đoạn 10 theo yêu cầu quản lý dự án (bản thu gọn) |
 | M12-12 | Gửi yêu cầu hỗ trợ | `GET /api/m12/support-categories`, `POST /api/m12/support-requests` | `/m12/yeu-cau-ho-tro` | `api/m12/test_support.py`, `api/m12/test_attachments.py`, `features/m12/work.test.jsx` | Đã làm |
-| M12-13 | Theo dõi và phản hồi yêu cầu | `GET /api/m12/support-requests`, `GET /api/m12/support-requests/{id}`, `POST .../{id}/messages`, `POST .../{id}/status`, `GET .../{id}/attachments/{attachment}` | `/m12/yeu-cau-ho-tro`, `/m12/yeu-cau-ho-tro/:id` | `api/m12/test_support.py`, `features/m12/work.test.jsx` | Đã làm |
+| M12-13 | Theo dõi và phản hồi yêu cầu | `GET /api/m12/support-requests`, `GET /api/m12/support-requests/{id}`, `POST .../{id}/messages`, `POST .../{id}/status`, `GET .../{id}/attachments/{attachment}` | `/m12/yeu-cau-ho-tro`, `/m12/yeu-cau-ho-tro/:id` | `api/m12/test_support.py`, `features/m12/work.test.jsx`, `e2e/flows.spec.mjs` | Đã làm |
 | M12-14 | Nhắc nhở kế hoạch | Không có | `/m12/nhac-nho` hiện "Đang phát triển." | `components/shell.test.jsx` | Hoãn ở giai đoạn 10 theo yêu cầu quản lý dự án (bản thu gọn) |
 | M12-15 | Quản trị danh mục nghề và ánh xạ | `/api/admin/careers`, `/api/admin/career-versions`, `/api/admin/career-nodes`, `/api/admin/requirements`, `/api/admin/skills`, `/api/admin/course-skill-mappings` | Chỉ API; giao diện chưa làm | `api/m12/test_admin_careers.py`, `api/m12/test_admin_versions.py`, `api/m12/test_admin_permissions.py` | API đã làm; giao diện hoãn (P1, D-36) |
+
+## Giai đoạn cuối: đóng gói, e2e, tiếp cận, bảo mật
+
+| Yêu cầu | Test |
+|---------|------|
+| Phục vụ bản build, ranh giới `/api`, đi ngược thư mục, thiếu bản build | `backend/tests/api/test_spa.py` |
+| `production` và `local-prod`: `SECRET_KEY`, cookie Secure, DEBUG, cảnh báo | `backend/tests/unit/test_app_factory.py` |
+| `docs/ROUTES.md` khớp route thật, route công khai đúng danh sách | `backend/tests/unit/test_routes_doc.py`, `backend/tests/unit/test_auth_guard.py` |
+| Liên thông điểm mới → GPA → cây nghề → % → đề xuất → thông báo | `backend/tests/acceptance/test_end_to_end_m11_m12.py` |
+| 5 kịch bản đầu–cuối, kịch bản 2 thêm 375px | `frontend/e2e/flows.spec.mjs` |
+| Axe 11 trang: 0 lỗi serious/critical | `frontend/e2e/a11y.spec.mjs` |
+| 24 trang × 375, 768, 1280: không tràn ngang, 1 `h1`, họa tiết đúng vị trí; nhãn thẻ chỉ số 1 dòng | `frontend/e2e/sweep.spec.mjs` |
+| Thông báo: SQLite khóa không làm hỏng danh sách, không ghi lại, đang tải và lỗi không báo rỗng | `backend/tests/api/test_notifications.py`, `frontend/src/features/m12/work.test.jsx` |
+| Dòng kỳ tham chiếu chung, dòng Q80 rút gọn, ô lọc nhật ký từ API | `frontend/src/features/m11/m11Pages.test.jsx`, `frontend/src/features/admin/AuditLogPage.test.jsx` |

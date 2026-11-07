@@ -25,8 +25,8 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 08 | Đồng bộ tiến độ M11–M12, tỷ lệ nghề, trang Định hướng nghề | Hoàn thành, tag `phase-08`, CI xanh. Đạt 235/235 ở commit `fd18024` | Không có |
 | 09 | Lập lộ trình theo kỳ (M12-07, M12-08); M12-09 hoãn | Đạt, tag `phase-09` | Không có |
 | 10 | Minh chứng, yêu cầu hỗ trợ, kế hoạch cải thiện, thông báo (bản thu gọn) | Đạt, tag `phase-10` | Không có |
-| 11 | Thiết kế responsive theo NEU 2026; đưa thư viện họa tiết vào khung ứng dụng (dải ở navbar) và bổ sung họa tiết còn thiếu (D-154) | Chưa bắt đầu | Không có |
-| 12 | Kiểm thử tích hợp, triển khai cục bộ, báo cáo | Chưa bắt đầu | Không có |
+| 11 | Thiết kế responsive theo NEU 2026; đưa thư viện họa tiết vào khung ứng dụng (dải ở navbar) và bổ sung họa tiết còn thiếu (D-154) | Xong trên `main`, chờ nghiệm thu (gộp giai đoạn cuối) | Không có |
+| 12 | Kiểm thử tích hợp, triển khai cục bộ, báo cáo | Xong trên `main`, chờ nghiệm thu, chưa gắn `v1.0` | Không có |
 
 ## Yêu cầu thay đổi
 
@@ -36,12 +36,9 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Hoàn thành, tag `cr-02` (gồm lượt chỉnh CR-02b, D-187, D-188) |
 | CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề, kèm CR-03b | Đạt, tag `cr-03` |
 
-## Việc tồn đọng giao diện, làm ở giai đoạn 11
+## Việc tồn đọng giao diện
 
-1. Nhãn `MetricCard` xuống dòng ở lưới 2×2 trên 375px.
-2. Dòng Q80 trên di động rút còn "Chưa có kết quả · Gần nhất S2: 1,88".
-3. Trang Phân tích chỉ giữ 1 dòng kỳ tham chiếu chung thay vì ở từng thẻ.
-4. Ô lọc đối tượng của trang Nhật ký dùng `GET /api/admin/audit-logs/entities` thay cho danh sách cố định của D-178 (D-202).
+Đã xử lý hết ở giai đoạn cuối: nhãn `MetricCard`, dòng Q80 trên di động, 1 dòng kỳ tham chiếu ở trang Phân tích, ô lọc đối tượng của trang Nhật ký.
 
 ## Việc tồn đọng kỹ thuật
 
@@ -64,4 +61,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Giai đoạn cuối (11 + 12): chờ duyệt kế hoạch. Remote: https://github.com/thiennnhannguyen/neu_student.
+Giai đoạn cuối (11 + 12): chờ quản lý dự án nghiệm thu, rồi gắn `v1.0`. Remote: https://github.com/thiennnhannguyen/neu_student.

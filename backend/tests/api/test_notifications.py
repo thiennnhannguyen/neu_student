@@ -1,6 +1,7 @@
 """Thông báo: chỉ của mình, đọc, đọc tất cả, chống trùng, thông báo lộ trình (Q106)."""
 
 from sqlalchemy import func, select
+from sqlalchemy.exc import OperationalError
 
 from app.common import clock
 from app.extensions import db
@@ -211,6 +212,41 @@ def test_stale_without_plan_change_gives_no_notification_and_computes_once(http_
     assert len(calls) == 1
 
 
+def test_locked_database_does_not_break_the_list_and_next_read_creates_notice(
+    http_app, monkeypatch
+):
+    client = login_as(http_app, "sv07")
+    roadmap = post(client, "/api/m12/roadmaps/generate").get_json()["roadmap"]
+    fail(http_app, failing_course(roadmap))
+
+    def locked(*_args, **_kwargs):
+        raise OperationalError("INSERT", {}, Exception("database is locked"))
+
+    with monkeypatch.context() as patch:
+        patch.setattr(roadmap_api_service, "notify", locked)
+        response = client.get(URL)
+        assert response.status_code == 200
+        assert response.get_json()["items"] == []
+    assert proposal_notices(http_app) == []
+
+    assert client.get(URL).status_code == 200
+    assert len(proposal_notices(http_app)) == 1
+
+
+def test_existing_notice_is_not_written_again(http_app, monkeypatch):
+    client = login_as(http_app, "sv07")
+    roadmap = post(client, "/api/m12/roadmaps/generate").get_json()["roadmap"]
+    fail(http_app, failing_course(roadmap))
+    client.get(URL)
+    assert len(proposal_notices(http_app)) == 1
+
+    def must_not_write(*_args, **_kwargs):
+        raise AssertionError("Không được ghi lại")
+
+    monkeypatch.setattr(roadmap_api_service, "notify", must_not_write)
+    assert client.get(URL).status_code == 200
+
+
 def test_query_count_without_roadmap_is_fixed(http_app):
     client = login_as(http_app, "sv01")
 
@@ -233,5 +269,5 @@ def test_query_counts_with_roadmap(http_app):
         assert client.get(URL).status_code == 200
 
     assert fresh.count == 13
-    assert stale.count == 60
-    assert again.count == 13
+    assert stale.count == 61
+    assert again.count == 14

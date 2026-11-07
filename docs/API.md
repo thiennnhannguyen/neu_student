@@ -3214,7 +3214,7 @@ Chỉ sinh viên chủ kế hoạch, người khác 404; đều trả cùng cấ
 
 ### `GET /api/notifications`
 
-Thông báo của chính người đang đăng nhập, mới nhất trước. `dedupe_key` chống trùng ở DB. Với sinh viên có lộ trình, request này cũng sinh thông báo khi lộ trình có đề xuất (Q106): so dấu phiên bản trước, chỉ tính đề xuất khi dấu đổi, mỗi dấu tính 1 lần. Số truy vấn: 9 khi chưa có lộ trình, 13 khi có lộ trình, 60 ở lần đầu sau khi dấu đổi.
+Thông báo của chính người đang đăng nhập, mới nhất trước. `dedupe_key` chống trùng ở DB. Với sinh viên có lộ trình, request này cũng sinh thông báo khi lộ trình có đề xuất (Q106): so dấu phiên bản trước, chỉ tính đề xuất khi dấu đổi, mỗi dấu tính 1 lần. Số truy vấn: 9 khi chưa có lộ trình, 13 khi có lộ trình, 61 ở lần đầu sau khi dấu đổi, 14 ở các lần sau khi lộ trình còn đề xuất.
 
 <!-- contract: sv01 GET /api/notifications -->
 ```json

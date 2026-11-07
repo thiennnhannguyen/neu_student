@@ -30,6 +30,17 @@ def notify(user_id: str, kind: str, title: str, body: str | None, link: str | No
     )
 
 
+def has_notice(user_id: str, key: str) -> bool:
+    return (
+        db.session.scalar(
+            select(Notification.id).where(
+                Notification.user_id == user_id, Notification.dedupe_key == key
+            )
+        )
+        is not None
+    )
+
+
 def _json(row: Notification) -> dict:
     return {
         "id": row.id,

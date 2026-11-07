@@ -15,16 +15,21 @@ export default function NotificationBell() {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0);
+  const [status, setStatus] = useState('loading');
   const rootRef = useRef(null);
   const buttonRef = useRef(null);
 
   useEffect(() => {
     const controller = new AbortController();
     apiRequest(`${URL}?page_size=20`, { signal: controller.signal })
-      .then(setData)
+      .then((body) => {
+        setData(body);
+        setStatus('ok');
+      })
       .catch((cause) => {
         if (cause.name !== 'AbortError') {
           setData(EMPTY);
+          setStatus('error');
         }
       });
     return () => controller.abort();
@@ -100,9 +105,23 @@ export default function NotificationBell() {
               {error}
             </p>
           )}
-          {data.items.length === 0 ? (
+          {status === 'loading' && (
+            <p role="status" className="notification-panel__empty">
+              Đang tải thông báo...
+            </p>
+          )}
+          {status === 'error' && (
+            <div role="alert" className="notification-panel__empty">
+              <p>Không tải được thông báo.</p>
+              <Button variant="ghost" size="sm" onClick={() => setAttempt((value) => value + 1)}>
+                Thử lại
+              </Button>
+            </div>
+          )}
+          {status === 'ok' && data.items.length === 0 && (
             <p className="notification-panel__empty">Chưa có thông báo.</p>
-          ) : (
+          )}
+          {data.items.length > 0 && (
             <ul className="notification-panel__list">
               {data.items.map((item) => (
                 <li

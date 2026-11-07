@@ -1,5 +1,9 @@
+import os
 import sqlite3
+import subprocess
+import sys
 from datetime import timedelta
+from pathlib import Path
 
 import pytest
 
@@ -105,3 +109,30 @@ def test_production_ignores_cookie_env(monkeypatch, capsys):
 
 def test_local_prod_has_debug_off(monkeypatch):
     assert local_prod(monkeypatch, "false").config["DEBUG"] is False
+
+
+def start_in_new_process(config: str, **env: str) -> subprocess.CompletedProcess:
+    """Tiến trình thật: cấu hình đọc biến môi trường lúc import, monkeypatch không kiểm được."""
+    clean = {k: v for k, v in os.environ.items() if k != "SECRET_KEY"}
+    return subprocess.run(
+        [sys.executable, "-c", f"from app import create_app; create_app({config!r})"],
+        cwd=Path(__file__).resolve().parents[2],
+        env={**clean, **env},
+        capture_output=True,
+        text=True,
+    )
+
+
+@pytest.mark.parametrize("config", ["production", "local-prod"])
+def test_real_process_without_secret_key_does_not_start(config):
+    result = start_in_new_process(config)
+
+    assert result.returncode != 0
+    assert "Phải đặt SECRET_KEY" in result.stderr
+
+
+@pytest.mark.parametrize("config", ["production", "local-prod"])
+def test_real_process_reads_secret_key_from_environment(config):
+    result = start_in_new_process(config, SECRET_KEY="tu-moi-truong")
+
+    assert result.returncode == 0, result.stderr

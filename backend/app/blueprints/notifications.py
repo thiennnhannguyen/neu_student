@@ -1,7 +1,8 @@
 """Thông báo của chính người đang đăng nhập."""
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, current_app, jsonify, request
 from flask_login import current_user
+from sqlalchemy.exc import OperationalError
 
 from app.common.auth_guard import (
     ROLE_ADMIN,
@@ -23,12 +24,16 @@ EVERYONE = (ROLE_STUDENT, ROLE_ADVISOR, ROLE_ADMIN, ROLE_SUPPORT_STAFF)
 @require_roles(*EVERYONE)
 def list_notifications():
     args = load_or_422(PageQuerySchema(), request.args.to_dict())
-    with transaction():
-        # Q106: không có lịch chạy nên thông báo lộ trình được sinh lúc người dùng mở ứng dụng.
-        if current_user.role_name == ROLE_STUDENT:
-            roadmap_api_service.notify_if_proposal(
-                student_service.get_student_of_user(current_user)
-            )
+    try:
+        with transaction():
+            # Q106: không có lịch chạy nên thông báo lộ trình được sinh lúc người dùng mở ứng dụng.
+            if current_user.role_name == ROLE_STUDENT:
+                roadmap_api_service.notify_if_proposal(
+                    student_service.get_student_of_user(current_user)
+                )
+    except OperationalError as error:
+        # SQLite báo khóa khi tranh ghi. Danh sách vẫn đọc được; lần mở sau sẽ sinh lại (D-281).
+        current_app.logger.warning("Chưa sinh được thông báo lộ trình: %s", error)
     return jsonify(
         notification_service.list_notifications(
             current_user.id, args.get("page"), args.get("page_size")

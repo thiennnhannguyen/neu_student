@@ -105,3 +105,19 @@ test.describe('nhãn thẻ chỉ số ở 375px', () => {
     }
   });
 });
+
+for (const [width, shown, hidden] of [
+  [375, '.q80-short', '.q80-long'],
+  [1280, '.q80-long', '.q80-short'],
+]) {
+  test.describe(`dòng Q80 ở ${width}px`, () => {
+    test.use({ viewport: { width, height: 812 } });
+
+    test('chỉ hiện đúng một bản của dòng', async ({ page }) => {
+      await login(page, 'demo05');
+      await page.goto('/');
+      await expect(page.locator(shown)).toBeVisible();
+      await expect(page.locator(hidden)).toBeHidden();
+    });
+  });
+}

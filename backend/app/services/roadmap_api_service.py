@@ -27,7 +27,7 @@ from app.services.career_api_service import (
 from app.services.career_loader import load_career_versions
 from app.services.career_progress_service import current_career_id, evaluations_for
 from app.services.completion_service import STATUS_DONE
-from app.services.notification_service import notify
+from app.services.notification_service import has_notice, notify
 from app.services.roadmap_service import (
     PRIORITY_RANK,
     RANK_NO_PRIORITY,
@@ -773,11 +773,14 @@ def notify_if_proposal(student: Student) -> None:
         return _plan_changes(active, items, proposal[0])
 
     if app_cache(NOTICE_CACHE_KEY).get_or_compute((roadmap.id, active.id, stamp), changed):
-        notify(
-            student.user_id,
-            "roadmap_proposal",
-            "Lộ trình có thay đổi",
-            "Hãy xem khác biệt rồi quyết định áp dụng hay giữ bản cũ.",
-            "/m12/ke-hoach/khac-biet",
-            f"roadmap:{roadmap.id}:{stamp}"[:128],
-        )
+        key = f"roadmap:{roadmap.id}:{stamp}"[:128]
+        # Đã có thì không ghi, để request đọc không phải giành khóa ghi của SQLite.
+        if not has_notice(student.user_id, key):
+            notify(
+                student.user_id,
+                "roadmap_proposal",
+                "Lộ trình có thay đổi",
+                "Hãy xem khác biệt rồi quyết định áp dụng hay giữ bản cũ.",
+                "/m12/ke-hoach/khac-biet",
+                key,
+            )
