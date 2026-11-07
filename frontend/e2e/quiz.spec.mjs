@@ -22,6 +22,12 @@ function rightOptions(prompt) {
     .map((row) => plain(row.text));
 }
 
+/** Khớp nguyên nhãn: đáp án này có thể là chuỗi con của đáp án khác, bấm nhầm sẽ bỏ chọn. */
+function optionLabel(group, text) {
+  const escaped = text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return group.locator('label').filter({ hasText: new RegExp(`^\\s*${escaped}\\s*$`) });
+}
+
 async function answerAll(page, correct = true) {
   const groups = page.locator('.quiz-question fieldset');
   await expect(groups).toHaveCount(10);
@@ -31,8 +37,9 @@ async function answerAll(page, correct = true) {
     const right = rightOptions(legend);
     if (correct) {
       for (const text of right) {
-        await group.locator('label', { hasText: text }).first().click();
+        await optionLabel(group, text).click();
       }
+      await expect(group.locator('input:checked')).toHaveCount(right.length);
     } else {
       const wrong = group.locator('label').filter({ hasNotText: right[0] }).first();
       await wrong.click();
