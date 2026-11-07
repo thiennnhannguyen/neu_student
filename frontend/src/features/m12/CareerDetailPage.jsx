@@ -153,6 +153,7 @@ export default function CareerDetailPage() {
       : resource;
   return (
     <section className="m12-page">
+      {shown.status !== 'ok' && <PageHeader title="Chi tiết nghề" />}
       <ResourceView resource={shown} loadingText="Đang tải nghề..." errorText="Không tải được nghề">
         {(data) => <Detail key={slug} student={student} data={data} reload={resource.retry} />}
       </ResourceView>

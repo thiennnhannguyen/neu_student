@@ -22,7 +22,7 @@ const PAGES = [
   ['demo05', '/khong-co-trang-nay'],
   ['gv2', '/'],
   ['gv2', '/m12/duyet-minh-chung'],
-  ['gv2', '/m11/ket-qua?student_id=DEMO05'],
+  ['gv2', '/m11/ket-qua?student=DEMO05'],
   ['gv2', '/m12/yeu-cau-ho-tro'],
   ['ht1', '/'],
   ['ht1', '/m12/yeu-cau-ho-tro'],
@@ -75,6 +75,65 @@ for (const width of WIDTHS) {
     }
   });
 }
+
+// Trang có dữ liệu riêng: khi API chậm phải có khung đang tải, khi API lỗi phải có nút Thử lại.
+// Trạng thái rỗng phụ thuộc dữ liệu từng trang, được kiểm ở Vitest.
+const DATA_PAGES = [
+  ['demo05', '/'],
+  ['demo05', '/ho-so'],
+  ['demo05', '/m11/ket-qua'],
+  ['demo05', '/m11/phan-tich'],
+  ['demo05', '/m11/canh-bao'],
+  ['demo05', '/m11/canh-bao/ke-hoach'],
+  ['demo05', '/m12/dinh-huong'],
+  ['demo05', '/m12/dinh-huong/nghe/ai-engineer'],
+  ['demo05', '/m12/ke-hoach'],
+  ['demo05', '/m12/ke-hoach/khac-biet'],
+  ['demo05', '/m12/yeu-cau-ho-tro'],
+  ['demo05', '/m12/yeu-cau-ho-tro/khong-co'],
+  ['gv2', '/m12/duyet-minh-chung'],
+  ['gv2', '/m11/ket-qua?student=DEMO05'],
+  ['ht1', '/m12/yeu-cau-ho-tro'],
+  ['admin', '/quan-tri/nhat-ky'],
+];
+const isPageData = (url) =>
+  url.pathname.startsWith('/api/') && !/^\/api\/(auth|notifications)(\/|$)/.test(url.pathname);
+
+test.describe('đang tải và lỗi', () => {
+  test.use({ viewport: { width: 1280, height: 900 } });
+
+  for (const [username, path] of DATA_PAGES) {
+    test(`${username} ${path}: đang tải`, async ({ page }) => {
+      await login(page, username);
+      let release;
+      const gate = new Promise((resolve) => {
+        release = resolve;
+      });
+      await page.route(isPageData, async (route) => {
+        await gate;
+        await route.abort().catch(() => {});
+      });
+      await page.goto(path);
+      await expect(page.locator('main .skeleton, main .resource-loading').first()).toBeAttached();
+      await expect(page.locator('h1')).toHaveCount(1);
+      release();
+    });
+
+    test(`${username} ${path}: lỗi`, async ({ page }) => {
+      await login(page, username);
+      await page.route(isPageData, (route) =>
+        route.fulfill({
+          status: 500,
+          contentType: 'application/json',
+          body: JSON.stringify({ error: { code: 'INTERNAL_ERROR', message: 'Lỗi thử nghiệm' } }),
+        }),
+      );
+      await page.goto(path);
+      await expect(page.getByRole('button', { name: 'Thử lại' }).first()).toBeVisible();
+      await expect(page.locator('h1')).toHaveCount(1);
+    });
+  }
+});
 
 test.describe('nhãn thẻ chỉ số ở 375px', () => {
   test.use({ viewport: { width: 375, height: 812 } });

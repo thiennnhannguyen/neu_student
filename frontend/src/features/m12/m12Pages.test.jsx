@@ -498,6 +498,7 @@ describe('trang chi tiết nghề: Hero', () => {
     renderApp(DETAIL_PATH);
 
     expect(await screen.findByText('Không tải được nghề')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Chi tiết nghề' })).toBeVisible();
   });
 
   it('cố vấn chưa chọn sinh viên: hướng dẫn, không gọi API', async () => {

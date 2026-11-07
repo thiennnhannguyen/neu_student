@@ -162,7 +162,7 @@ Giới hạn đã biết (D-261): đối chứng vét cạn trên 3.000 bài to�
 |----------|---------|
 | pytest | 2277 passed, 5590 dòng, coverage 100% |
 | Vitest | 19 file, 639 passed |
-| Playwright | 92 passed |
+| Playwright | 124 passed |
 | Seed | 546 bản ghi (test), 1394 bản ghi (demo-k68); 2 `seed --check` khớp fixture |
 
 ### 5.2. Theo giai đoạn
@@ -176,7 +176,7 @@ Giới hạn đã biết (D-261): đối chứng vét cạn trên 3.000 bài to�
 | CR-03 | 1955 | 532 | 30 chỗ; lượt đầu bắt 27, sau xử lý bắt 30 |
 | 09 | 2082 | 570 | 30 chỗ; lượt đầu bắt 29, sau xử lý bắt 30 |
 | 10 | 2224 | 632 | 30 chỗ: bắt 29, 1 chỗ tương đương; phần sửa sau nghiệm thu thêm 14 chỗ, bắt 14 |
-| Cuối | 2277 | 639 | 29 chỗ; lượt đầu bắt 26, lọt 2, 1 chỗ không áp được; sau xử lý bắt cả 3 chỗ này, tổng 29/29 |
+| Cuối | 2277 | 639 | 29 chỗ; lượt đầu bắt 26, lọt 2, 1 chỗ không áp được; sau xử lý bắt cả 3 chỗ này, tổng 29/29; thêm 1 chỗ (bỏ `h1` trang nghề khi tải và lỗi) bị bắt |
 
 Ở các giai đoạn 07, 08, CR-03, 09, sau khi thêm test tôi chỉ chạy lại đúng những chỗ đã lọt, không chạy lại toàn bộ.
 
@@ -196,6 +196,7 @@ Giới hạn đã biết (D-261): đối chứng vét cạn trên 3.000 bài to�
 | 5 kịch bản đầu–cuối, kịch bản 2 chạy thêm ở 375px | 6 test đạt, trên profile demo-k68, bản build qua gunicorn |
 | Axe, 11 trang | 0 lỗi serious/critical. Lượt đầu tìm ra 4 loại lỗi serious, đã sửa (D-282) |
 | Rà trang | 24 trang × 375, 768, 1280 = 72 lượt: không tràn ngang, 1 `h1`, họa tiết đúng vị trí |
+| Đang tải và lỗi | 16 trang có dữ liệu riêng ở 1280: chặn API để thấy khung đang tải, trả 500 để thấy nút Thử lại, cả 2 trạng thái có 1 `h1` = 32 lượt. Trạng thái rỗng kiểm ở Vitest |
 | Khác | Nhãn thẻ chỉ số 1 dòng ở 375px; dòng Q80 ở 375 và 1280 |
 
 ### 5.5. Hiệu năng
