@@ -1,6 +1,7 @@
 import { Eye, FilterX, ListFilter } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { apiRequest } from '../../api/client';
+import useApiResource from '../m11/useApiResource';
 import {
   Button,
   Card,
@@ -20,12 +21,26 @@ import {
 const PAGE_SIZE = 20;
 const EMPTY_FILTERS = { entity: '', actor: '', from: '', to: '' };
 const NO_VALUE = '—';
-/** Các đối tượng hiện có ghi nhật ký. Thêm loại mới thì thêm ở đây. */
-const ENTITIES = [
-  ['student', 'Sinh viên (student)'],
-  ['user', 'Tài khoản (user)'],
-  ['grade_attempt', 'Kết quả học phần (grade_attempt)'],
-];
+/** Danh sách lấy từ API; loại chưa có tên ở đây thì hiện mã gốc. */
+const ENTITY_NAMES = {
+  career: 'Nghề',
+  career_goal: 'Mục tiêu nghề',
+  career_node: 'Nhóm năng lực',
+  career_requirement: 'Yêu cầu của nghề',
+  career_version: 'Phiên bản nghề',
+  course_skill_mapping: 'Ánh xạ môn và kỹ năng',
+  grade_attempt: 'Kết quả học phần',
+  roadmap_version: 'Phiên bản lộ trình',
+  skill: 'Kỹ năng',
+  skill_evidence: 'Minh chứng',
+  student: 'Sinh viên',
+  support_request: 'Yêu cầu hỗ trợ',
+  user: 'Tài khoản',
+};
+
+function entityLabel(entity) {
+  return ENTITY_NAMES[entity] ? `${ENTITY_NAMES[entity]} (${entity})` : entity;
+}
 
 /** Ô ngày theo giờ địa phương, đổi sang mốc UTC cho đúng ngày người dùng chọn. */
 function dayBound(value, time) {
@@ -115,6 +130,8 @@ export default function AuditLogPage() {
   const [applied, setApplied] = useState({ filters: EMPTY_FILTERS, page: 1, attempt: 0 });
   const [state, setState] = useState({ status: 'loading' });
   const [fieldErrors, setFieldErrors] = useState({});
+  const entities = useApiResource('/api/admin/audit-logs/entities');
+  const entityItems = entities.status === 'ok' ? entities.data.items : [];
 
   useEffect(() => {
     const controller = new AbortController();
@@ -172,12 +189,17 @@ export default function AuditLogPage() {
           >
             <SearchBox value={draft.actor} onChange={updateDraft('actor')} />
           </FormField>
-          <FormField id="audit-entity" label="Đối tượng" errors={fieldErrors.entity}>
+          <FormField
+            id="audit-entity"
+            label="Đối tượng"
+            errors={fieldErrors.entity}
+            hint={entities.status === 'error' ? 'Không tải được danh sách đối tượng.' : undefined}
+          >
             <Select value={draft.entity} onChange={updateDraft('entity')}>
               <option value="">Tất cả đối tượng</option>
-              {ENTITIES.map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
+              {entityItems.map((entity) => (
+                <option key={entity} value={entity}>
+                  {entityLabel(entity)}
                 </option>
               ))}
             </Select>

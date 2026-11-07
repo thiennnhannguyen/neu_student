@@ -431,6 +431,9 @@
 .roadmap__stage {
   position: relative;
   padding: 0 0 var(--space-4) var(--space-48);
+}
+
+.roadmap__stage-row {
   cursor: pointer;
 }
 
@@ -448,7 +451,7 @@
   display: none;
 }
 
-.roadmap__stage:focus-visible,
+.roadmap__stage-row:focus-visible,
 .roadmap__item:focus-visible {
   outline: 2px solid var(--neu-accent);
   outline-offset: 2px;

@@ -166,6 +166,10 @@ describe('tỷ lệ tương phản', () => {
     expect(contrast(token(foreground), token(background))).toBeGreaterThanOrEqual(4.5);
   });
 
+  it('chữ NEU lớn ở trang đăng nhập đạt từ 3:1 trên nền primary (axe)', () => {
+    expect(contrast(token('neu-tint'), token('neu-primary'))).toBeGreaterThanOrEqual(3);
+  });
+
   it('viền đậm của ô nhập đạt từ 3:1 trên thẻ và nền chìm', () => {
     expect(contrast(token('border-strong'), token('surface-card'))).toBeGreaterThanOrEqual(3);
     expect(contrast(token('border-strong'), token('surface-sunken'))).toBeGreaterThanOrEqual(3);

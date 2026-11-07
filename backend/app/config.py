@@ -23,6 +23,10 @@ class BaseConfig:
     )
     # 3 tệp, mỗi tệp 5 MB, cộng phần còn lại của form. Tệp lẻ quá 5 MB được service báo riêng.
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+    # Bản build của giao diện, Flask phục vụ ở cùng cổng với API.
+    FRONTEND_DIST = os.environ.get("FRONTEND_DIST") or str(
+        Path(__file__).resolve().parents[2] / "frontend" / "dist"
+    )
 
 
 class DevelopmentConfig(BaseConfig):
@@ -41,8 +45,16 @@ class ProductionConfig(BaseConfig):
     SESSION_COOKIE_SECURE = True
 
 
+class LocalProdConfig(ProductionConfig):
+    """Bản build chạy trên máy cá nhân qua http://localhost. Không dùng để triển khai thật.
+
+    Cookie vẫn Secure trừ khi biến môi trường SESSION_COOKIE_SECURE ghi rõ false (D-275).
+    """
+
+
 CONFIGS = {
     "development": DevelopmentConfig,
     "testing": TestingConfig,
     "production": ProductionConfig,
+    "local-prod": LocalProdConfig,
 }

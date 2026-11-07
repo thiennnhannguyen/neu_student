@@ -2,6 +2,7 @@
 
 import os
 import sqlite3
+import sys
 from pathlib import Path
 
 from flask import Flask
@@ -15,6 +16,7 @@ from app.blueprints.m11 import m11_bp
 from app.blueprints.m12 import m12_bp
 from app.blueprints.m12_work import m12_work_bp
 from app.blueprints.notifications import notifications_bp
+from app.blueprints.spa import SpaPathConverter, spa_bp
 from app.blueprints.students import students_bp
 from app.cli import register_clean_uploads_command, register_grades_command
 from app.common.auth_guard import register_csrf_check
@@ -27,6 +29,8 @@ from app.services.auth_service import load_session_user
 MIGRATIONS_DIR = Path(__file__).resolve().parent.parent / "migrations"
 # Migration 0002 dùng ALTER TABLE ... DROP COLUMN, có từ SQLite 3.35.
 MIN_SQLITE_VERSION = (3, 35, 0)
+LOCAL_PROD = "local-prod"
+LOCAL_PROD_WARNING = "Chế độ chạy cục bộ – cookie không Secure, không dùng để triển khai thật"
 
 
 def check_sqlite_version() -> None:
@@ -37,19 +41,28 @@ def check_sqlite_version() -> None:
         )
 
 
+def _apply_local_prod(app: Flask) -> None:
+    if os.environ.get("SESSION_COOKIE_SECURE", "").strip().lower() == "false":
+        app.config["SESSION_COOKIE_SECURE"] = False
+        print(LOCAL_PROD_WARNING, file=sys.stderr, flush=True)
+
+
 def create_app(config_name: str | None = None, overrides: dict | None = None) -> Flask:
     check_sqlite_version()
     name = config_name or os.environ.get("APP_CONFIG", "development")
     if name not in CONFIGS:
         raise ValueError(f"APP_CONFIG không hợp lệ: {name}")
 
-    # Backend chỉ phục vụ API. Giai đoạn 12 mới thêm route phục vụ SPA đã build.
+    # Thư mục static tắt theo D-115: bản build đi qua blueprint spa.
     app = Flask(__name__, static_folder=None)
     app.config.from_object(CONFIGS[name])
     app.config["APP_CONFIG_NAME"] = name
+    app.url_map.converters["spa"] = SpaPathConverter
     app.config.update(overrides or {})
     if not app.config.get("SECRET_KEY"):
         raise RuntimeError("Phải đặt SECRET_KEY khi chạy production.")
+    if name == LOCAL_PROD:
+        _apply_local_prod(app)
 
     db.init_app(app)
     migrate.init_app(app, db, directory=str(MIGRATIONS_DIR))
@@ -72,6 +85,7 @@ def create_app(config_name: str | None = None, overrides: dict | None = None) ->
         m12_bp,
         m12_work_bp,
         notifications_bp,
+        spa_bp,
     ):
         app.register_blueprint(blueprint)
 

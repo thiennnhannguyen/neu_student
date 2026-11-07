@@ -240,7 +240,7 @@ describe('lưới thẻ nghề', () => {
     });
     renderApp('/m12/dinh-huong');
 
-    const chip = await screen.findByRole('button', { name: 'Trí tuệ nhân tạo và dữ liệu' });
+    const chip = await screen.findByRole('button', { name: /Trí tuệ nhân tạo và dữ liệu$/ });
     expect(chip).toHaveTextContent(/^AI & dữ liệu$/);
     expect(chip).toHaveAttribute('title', 'Trí tuệ nhân tạo và dữ liệu');
   });
@@ -267,7 +267,7 @@ describe('lưới thẻ nghề', () => {
     const all = within(chips).getByRole('button', { name: 'Tất cả' });
     expect(all).toHaveAttribute('aria-pressed', 'true');
 
-    const data = within(chips).getByRole('button', { name: 'Trí tuệ nhân tạo và dữ liệu' });
+    const data = within(chips).getByRole('button', { name: /Trí tuệ nhân tạo và dữ liệu$/ });
     await user.click(data);
     await waitFor(() => expect(data).toHaveAttribute('aria-pressed', 'true'));
     expect(decodeURIComponent(search().replaceAll('+', ' '))).toContain(
@@ -540,12 +540,14 @@ describe('tab Lộ trình học', () => {
     m12Api();
     const tree = await openRoadmap();
 
-    const stage = within(tree).getByRole('treeitem', { name: 'Toán + lập trình' });
+    const stage = within(tree).getByRole('treeitem', { name: /^Toán \+ lập trình/ });
     expect(within(stage).getByText('67%')).toBeInTheDocument();
     expect(stage).toHaveTextContent('Sản phẩm cần đạt: Python, NumPy');
-    const last = within(tree).getByRole('treeitem', { name: 'Portfolio' });
+    expect(stage).toHaveAccessibleName(/Toán \+ lập trình 67% Sản phẩm cần đạt/);
+    expect(stage).not.toHaveAccessibleName(/Cơ sở lập trình/);
+    const last = within(tree).getByRole('treeitem', { name: /^Portfolio/ });
     expect(within(last).getByText('—')).toBeInTheDocument();
-    expect(last).toHaveTextContent('Giai đoạn này là dự án, không có học phần.');
+    expect(last.closest('li')).toHaveTextContent('Giai đoạn này là dự án, không có học phần.');
   });
 
   it('chỉ có học phần trong timeline; mã theo ngành, BB/TC, HK n, mức ưu tiên và chip luôn thấy', async () => {
@@ -588,7 +590,7 @@ describe('tab Lộ trình học', () => {
     const user = userEvent.setup();
     m12Api();
     const tree = await openRoadmap();
-    const first = within(tree).getByRole('treeitem', { name: 'Toán + lập trình' });
+    const first = within(tree).getByRole('treeitem', { name: /^Toán \+ lập trình/ });
     first.focus();
 
     await user.keyboard('{ArrowDown}');
@@ -605,7 +607,7 @@ describe('tab Lộ trình học', () => {
     await user.keyboard('{ArrowRight}');
     expect(within(tree).getByRole('treeitem', { name: /Cơ sở lập trình/ })).toHaveFocus();
     await user.keyboard('{End}');
-    expect(within(tree).getByRole('treeitem', { name: 'Portfolio' })).toHaveFocus();
+    expect(within(tree).getByRole('treeitem', { name: /^Portfolio/ })).toHaveFocus();
     await user.keyboard('{ArrowUp}');
     expect(within(tree).getByRole('treeitem', { name: /Học máy/ })).toHaveFocus();
     await user.keyboard('{Home}');
@@ -620,7 +622,7 @@ describe('tab Lộ trình học', () => {
     const user = userEvent.setup();
     m12Api();
     const tree = await openRoadmap();
-    const first = within(tree).getByRole('treeitem', { name: 'Toán + lập trình' });
+    const first = within(tree).getByRole('treeitem', { name: /^Toán \+ lập trình/ });
 
     await user.click(first.querySelector('.roadmap__title'));
     expect(first).toHaveAttribute('aria-expanded', 'false');
@@ -640,7 +642,9 @@ describe('SidePanel của môn', () => {
     const user = userEvent.setup();
     m12Api();
     const tree = await openRoadmap();
-    within(tree).getByRole('treeitem', { name: 'Toán + lập trình' }).focus();
+    within(tree)
+      .getByRole('treeitem', { name: /^Toán \+ lập trình/ })
+      .focus();
 
     await user.keyboard('{ArrowDown}{Enter}');
     expect(await screen.findByRole('dialog', { name: 'Cơ sở lập trình' })).toBeInTheDocument();

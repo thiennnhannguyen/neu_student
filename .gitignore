@@ -32,3 +32,7 @@ coverage/
 
 # Ảnh bộ nhận diện chỉ để tham chiếu, không đưa lên repo public (Q71)
 docs/brand/reference/*.png
+
+# Playwright
+frontend/test-results/
+frontend/playwright-report/

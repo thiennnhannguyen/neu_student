@@ -490,6 +490,7 @@ describe('Tổng quan: GPA học kỳ trống (Q80)', () => {
     const gpaCard = card('GPA học kỳ');
     expect(await within(gpaCard).findByText('Kỳ này chưa có kết quả')).toBeInTheDocument();
     expect(await within(gpaCard).findByText('Kỳ gần nhất có điểm (S4): 3,11')).toBeInTheDocument();
+    expect(within(gpaCard).getByText('Chưa có kết quả · Gần nhất S4: 3,11')).toBeInTheDocument();
     expect(within(gpaCard).getByText('—')).toBeInTheDocument();
     expect(screen.getByText(/Kỳ tham chiếu Kỳ S5/)).toBeInTheDocument();
     expect(callsTo(fetchMock, '/api/m11/gpa-trend')[0].get('semester_id')).toBe('S5');
@@ -511,6 +512,7 @@ describe('Tổng quan: GPA học kỳ trống (Q80)', () => {
     expect(await screen.findByText('Kỳ này chưa có kết quả')).toBeInTheDocument();
     await settled();
     expect(screen.queryByText(/Kỳ gần nhất có điểm/)).not.toBeInTheDocument();
+    expect(screen.getByText('Chưa có kết quả')).toBeInTheDocument();
   });
 
   it('lỗi khi đọc kỳ gần nhất: vẫn có dòng đầu, không làm hỏng trang', async () => {
@@ -937,6 +939,32 @@ describe('Kết quả', () => {
 });
 
 describe('Phân tích', () => {
+  it('cả trang chỉ có 1 dòng kỳ tham chiếu chung, không nằm trong thẻ', async () => {
+    m11Api('student');
+    renderApp('/m11/phan-tich');
+
+    await screen.findByText('Xu hướng GPA');
+    const lines = await screen.findAllByText(/Kỳ tham chiếu/);
+    await settled();
+    expect(screen.getAllByText(/Kỳ tham chiếu/)).toHaveLength(1);
+    expect(lines[0].closest('.ui-card, .card')).toBeNull();
+  });
+
+  it('mọi phần đều lỗi: không có dòng kỳ tham chiếu', async () => {
+    const failed = () => apiError(500, 'INTERNAL_ERROR', 'Lỗi');
+    m11Api('student', {
+      'GET /api/m11/gpa-trend': failed,
+      'GET /api/m11/credits': failed,
+      'GET /api/m11/curriculum-check': failed,
+      'GET /api/m11/strengths': failed,
+    });
+    renderApp('/m11/phan-tich');
+
+    await screen.findAllByRole('alert');
+    await settled();
+    expect(screen.queryByText(/Kỳ tham chiếu/)).toBeNull();
+  });
+
   it('biểu đồ có câu tóm tắt và bảng cho trình đọc màn hình, dùng chuỗi gốc', async () => {
     m11Api('student');
 

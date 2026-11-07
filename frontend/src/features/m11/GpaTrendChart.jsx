@@ -68,7 +68,11 @@ export default function GpaTrendChart({ trend, thresholds = null }) {
       <figcaption>{trend.summary}</figcaption>
       <div className="trend-chart__plot" aria-hidden="true">
         <ResponsiveContainer width="100%" height={300}>
-          <ComposedChart data={data} margin={{ top: 24, right: 16, bottom: 0, left: -24 }}>
+          <ComposedChart
+            accessibilityLayer={false}
+            data={data}
+            margin={{ top: 24, right: 16, bottom: 0, left: -24 }}
+          >
             <CartesianGrid vertical={false} stroke="var(--border-subtle)" />
             <XAxis
               dataKey="label"

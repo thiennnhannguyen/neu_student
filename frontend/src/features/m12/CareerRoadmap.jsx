@@ -139,45 +139,42 @@ export default function CareerRoadmap({ label, nodes, onSelect }) {
         const open = expanded.has(node.id);
         const courses = courseChildren(node);
         return (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- phím xử lý ở gốc cây
-          <li
-            key={node.id}
-            ref={bind(node.id)}
-            role="treeitem"
-            aria-expanded={open}
-            aria-level={1}
-            aria-labelledby={`stage-${node.id}`}
-            aria-selected={false}
-            tabIndex={activeId === node.id ? 0 : -1}
-            className="roadmap__stage"
-            onClick={(event) => {
-              event.stopPropagation();
-              setActiveId(node.id);
-              setOpen(node.id, !open);
-            }}
-          >
+          <li key={node.id} role="none" className="roadmap__stage">
             <span className="roadmap__marker" aria-hidden="true">
               {node.order}
             </span>
-            <span className="roadmap__head">
-              <ChevronRight
-                size={16}
-                aria-hidden="true"
-                className={`roadmap__chevron${open ? ' roadmap__chevron--open' : ''}`}
-              />
-              <span id={`stage-${node.id}`} className="roadmap__title">
-                {node.title}
-              </span>
-              <strong className="roadmap__percent">
-                {percentText(node.course_progress?.percent)}
-              </strong>
-            </span>
-            {node.deliverable && (
-              <span className="roadmap__deliverable">
-                <strong>Sản phẩm cần đạt: </strong>
-                {node.deliverable}
-              </span>
-            )}
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events -- phím xử lý ở gốc cây */}
+            <div
+              ref={bind(node.id)}
+              role="treeitem"
+              aria-expanded={open}
+              aria-level={1}
+              aria-selected={false}
+              tabIndex={activeId === node.id ? 0 : -1}
+              className="roadmap__stage-row"
+              onClick={() => {
+                setActiveId(node.id);
+                setOpen(node.id, !open);
+              }}
+            >
+              <span className="roadmap__head">
+                <ChevronRight
+                  size={16}
+                  aria-hidden="true"
+                  className={`roadmap__chevron${open ? ' roadmap__chevron--open' : ''}`}
+                />
+                <span className="roadmap__title">{node.title}</span>{' '}
+                <strong className="roadmap__percent">
+                  {percentText(node.course_progress?.percent)}
+                </strong>
+              </span>{' '}
+              {node.deliverable && (
+                <span className="roadmap__deliverable">
+                  <strong>Sản phẩm cần đạt: </strong>
+                  {node.deliverable}
+                </span>
+              )}
+            </div>
             {open &&
               (courses.length > 0 ? (
                 <ul role="group" className="roadmap__courses">

@@ -16,7 +16,15 @@ from app.common.errors import ApiError
 from app.extensions import db
 from app.models.shared import User
 
-PUBLIC_ENDPOINTS = {"health.health", "auth.login", "auth.me", "auth.demo_accounts"}
+PUBLIC_ENDPOINTS = {
+    "health.health",
+    "auth.login",
+    "auth.me",
+    "auth.demo_accounts",
+    # Bản build của giao diện, không có dữ liệu (D-115).
+    "spa.index",
+    "spa.page",
+}
 # gv1 phụ trách SV01 đến SV04, gv2 phụ trách SV05 đến SV07.
 OWN_ID = {"sv01": "SV01", "gv1": "user-gv1", "admin": "user-admin", "ht1": "user-ht1"}
 ASSIGNED_ID = "SV02"
@@ -251,6 +259,8 @@ def test_route_registry_covers_all_expected_api_routes():
     }
 
     assert rules == {
+        ("GET", "/"),
+        ("GET", "/<spa:path>"),
         ("GET", "/api/health"),
         ("POST", "/api/auth/login"),
         ("GET", "/api/auth/demo-accounts"),

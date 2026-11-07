@@ -17,7 +17,7 @@ const browserGlobals = {
 };
 
 export default [
-  { ignores: ['dist/', 'coverage/'] },
+  { ignores: ['dist/', 'coverage/', 'test-results/', 'playwright-report/'] },
   js.configs.recommended,
   {
     files: ['src/**/*.{js,jsx}'],
@@ -41,8 +41,10 @@ export default [
     },
   },
   {
-    files: ['*.config.js'],
-    languageOptions: { globals: { process: 'readonly' } },
+    files: ['*.config.js', '*.config.mjs', 'e2e/**/*.mjs'],
+    languageOptions: {
+      globals: { process: 'readonly', document: 'readonly' },
+    },
   },
   prettier,
 ];

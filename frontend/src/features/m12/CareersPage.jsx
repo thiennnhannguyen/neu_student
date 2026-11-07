@@ -30,7 +30,7 @@ function GroupChips({ groups, selected, onSelect }) {
           type="button"
           className="career-filter__chip"
           title={chip.full}
-          aria-label={chip.full}
+          aria-label={chip.label === chip.full ? undefined : `${chip.label}: ${chip.full}`}
           aria-pressed={selected === chip.value}
           onClick={() => onSelect(chip.value)}
         >

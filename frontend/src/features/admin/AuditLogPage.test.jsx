@@ -16,7 +16,11 @@ const LOG = {
 };
 
 function logsApi(handler) {
-  return loggedInAs('admin', { 'GET /api/admin/audit-logs': handler });
+  return loggedInAs('admin', {
+    'GET /api/admin/audit-logs': handler,
+    'GET /api/admin/audit-logs/entities': () =>
+      jsonResponse(200, { items: ['skill_evidence', 'student', 'loai_moi'] }),
+  });
 }
 
 function page(items, overrides = {}) {
@@ -26,7 +30,7 @@ function page(items, overrides = {}) {
 function logCalls(fetchMock) {
   return fetchMock.mock.calls
     .map(([url]) => String(url))
-    .filter((url) => url.startsWith('/api/admin/audit-logs'))
+    .filter((url) => url.startsWith('/api/admin/audit-logs?'))
     .map((url) => new URL(url, 'http://x').searchParams);
 }
 
@@ -203,5 +207,30 @@ describe('trang Nhật ký', () => {
 
     await user.click(screen.getByRole('button', { name: 'Trang trước' }));
     expect(await screen.findByText('Trang 1 / 2 (21 bản ghi)')).toBeInTheDocument();
+  });
+
+  it('ô Đối tượng lấy danh sách từ API, loại chưa có tên thì hiện mã gốc', async () => {
+    logsApi(() => jsonResponse(200, { items: [], page: 1, page_size: 20, total: 0 }));
+    renderApp('/quan-tri/nhat-ky');
+
+    const select = await screen.findByLabelText('Đối tượng');
+    expect(
+      await within(select).findByRole('option', { name: 'Minh chứng (skill_evidence)' }),
+    ).toBeInTheDocument();
+    expect(within(select).getByRole('option', { name: 'Sinh viên (student)' })).toBeInTheDocument();
+    expect(within(select).getByRole('option', { name: 'loai_moi' })).toBeInTheDocument();
+    expect(within(select).queryByRole('option', { name: /grade_attempt/ })).toBeNull();
+  });
+
+  it('không tải được danh sách đối tượng: vẫn dùng được trang, ghi rõ', async () => {
+    loggedInAs('admin', {
+      'GET /api/admin/audit-logs': () =>
+        jsonResponse(200, { items: [], page: 1, page_size: 20, total: 0 }),
+      'GET /api/admin/audit-logs/entities': () => apiError(500, 'INTERNAL_ERROR', 'Lỗi'),
+    });
+    renderApp('/quan-tri/nhat-ky');
+
+    expect(await screen.findByText('Không tải được danh sách đối tượng.')).toBeInTheDocument();
+    expect(within(screen.getByLabelText('Đối tượng')).getAllByRole('option')).toHaveLength(1);
   });
 });

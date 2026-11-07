@@ -1,94 +1,161 @@
 # NEU Student Learning Platform: M11 và M12
 
-Bài tập lớn: M11 Phân tích học tập và M12 Hỗ trợ người học.
+Bài tập lớn gồm hai module dùng chung một tài khoản và một dữ liệu học tập:
 
-**Toàn bộ dữ liệu là dữ liệu mẫu.** Hệ thống không kết nối dữ liệu thật của Đại học Kinh tế Quốc dân. Mọi mã môn, ngưỡng và chương trình đào tạo trong sản phẩm đều không phải thông tin chính thức.
+- **M11 Phân tích học tập:** GPA học kỳ và tích lũy, tiến độ tín chỉ, đối chiếu chương trình, điểm mạnh và yếu, so sánh học kỳ, cảnh báo học vụ.
+- **M12 Hỗ trợ người học:** định hướng nghề, cây mục tiêu, tỷ lệ hoàn thành theo từng nghề, lộ trình theo học kỳ, minh chứng kỹ năng, kế hoạch cải thiện, yêu cầu hỗ trợ.
 
-## Trạng thái
-
-Đã có schema, dữ liệu mẫu, đăng nhập, phân quyền, hồ sơ sinh viên và nhật ký thay đổi. Chưa có chức năng M11, M12; các mục đó hiện "Đang phát triển". Xem [docs/PROGRESS.md](docs/PROGRESS.md).
+**Toàn bộ dữ liệu là dữ liệu mẫu.** Hệ thống không kết nối dữ liệu thật của Đại học Kinh tế Quốc dân. Đây là sản phẩm bài tập lớn, không phải hệ thống chính thức của trường. Phần trăm hoàn thành chỉ đo mức đáp ứng yêu cầu đã khai báo, không phải xác suất được tuyển dụng.
 
 ## Yêu cầu
 
-- Python 3.12 trở lên, kèm SQLite từ 3.35 (ứng dụng kiểm tra khi khởi động và dừng kèm thông báo nếu thấp hơn)
-- Node.js 24
-- GNU Make
+- Python 3.12 trở lên, kèm SQLite từ 3.35 (ứng dụng kiểm tra khi khởi động và dừng kèm thông báo rõ).
+- Node.js 24.
+- GNU Make trên macOS, Linux. Windows không cần Make, xem [phần Windows](#chạy-trên-windows).
 
-## Cài đặt
+## Chạy nhanh
+
+```bash
+make install       # dùng python3.12; bản khác: make install PYTHON=python3.13
+make seed-demo     # profile demo-k68: CTĐT K68, 10 nghề, 8 sinh viên demo
+make dev           # Flask cổng 5001, Vite cổng 5173
+```
+
+Mở http://localhost:5173. Dùng `make seed` thay cho `make seed-demo` để có profile test.
+
+| Profile | Lệnh | Nội dung | Dùng để |
+|---------|------|----------|---------|
+| `demo-k68` | `make seed-demo` | CTĐT K68, cẩm nang 10 nghề, sinh viên `demo01` đến `demo08` | Trình diễn định hướng nghề và lộ trình |
+| test | `make seed` | Bộ dữ liệu tính tay ở `docs/DATA_MOCK.md`, sinh viên `sv01` đến `sv07` | Kiểm thử, cảnh báo học vụ (`sv04`) |
+
+Đổi profile không cần khởi động lại `make dev`.
+
+## Chạy bản build ở một cổng
+
+### macOS, Linux
 
 ```bash
 make install
+make seed-demo
+make prod-local    # build frontend rồi chạy gunicorn
 ```
 
-Lệnh này dùng `python3.12`. Nếu máy dùng bản khác từ 3.12 trở lên: `make install PYTHON=python3.13`.
+Mở http://localhost:8000. Đổi cổng: `make prod-local PROD_PORT=8080`. Nếu cổng hay gunicorn gặp vấn đề, `make prod-local-flask` chạy cùng cấu hình và cùng bản build bằng `flask run`.
 
-Cấu hình cục bộ là tùy chọn: sao chép `backend/.env.example` thành `backend/.env`. Makefile tự nạp file này. Không commit file `.env`.
+### Chạy trên Windows
 
-## Lệnh thường dùng
+gunicorn không chạy được trên Windows, nên dùng `flask run`, không cần thêm gói nào. Trong PowerShell, từ thư mục gốc của repo:
 
-| Lệnh | Tác dụng |
-|------|----------|
-| `make dev` | Chạy Flask (cổng `BACKEND_PORT`, mặc định 5001) và Vite (cổng 5173). Mở http://localhost:5173 |
-| `make test` | Chạy pytest (kèm coverage) và Vitest |
-| `make lint` | Chạy ruff, ESLint và Prettier |
-| `make build` | Build frontend |
-| `make db-upgrade` | Tạo hoặc nâng cấp schema bằng migration |
-| `make seed` | Nâng cấp schema rồi xóa và nạp lại dữ liệu mẫu profile test (`flask seed --reset`) |
-| `make seed-demo` | Như trên với profile demo-k68: CTĐT K68, 10 nghề, 8 sinh viên demo (`flask seed --reset --profile demo-k68`) |
-
-Các lệnh chạy trong thư mục `backend`:
-
-```bash
-.venv/bin/flask --app app seed --check     # So số bản ghi từng bảng với fixture
-.venv/bin/flask --app app seed --check --profile demo-k68
-.venv/bin/flask --app app grades add --student SV05 --course CNT101 --semester S3 --score 7.0
+```powershell
+cd frontend
+npm ci
+npm run build
+cd ..\backend
+py -3.12 -m venv .venv
+.venv\Scripts\pip install -r requirements.txt
+.venv\Scripts\flask --app app db upgrade
+.venv\Scripts\flask --app app seed --reset --profile demo-k68
+$env:APP_CONFIG = "local-prod"
+$env:SESSION_COOKIE_SECURE = "false"
+$env:SECRET_KEY = [guid]::NewGuid().ToString("N")
+.venv\Scripts\flask --app app run --port 8000
 ```
 
-`flask seed --reset` xóa cả nhật ký thay đổi và từ chối chạy ở production. `flask seed --check` không so bảng `audit_logs`, vì đăng nhập cũng ghi vào bảng này.
+Mở http://localhost:8000. Các lệnh này chưa được chạy thử trên máy Windows; lệnh tương đương `make prod-local-flask` đã chạy thử trên macOS.
 
-Sau khi lấy mã mới có migration, chạy lại `make seed`.
+### Cấu hình `local-prod`
 
-Tệp tải lên nằm ở `backend/uploads/` (không commit). Seed lại không xóa tệp cũ: chạy `make clean-uploads` để dọn, lệnh này chỉ dùng ở máy dev và bị từ chối ở production.
+`make prod-local` dùng cấu hình `local-prod`. **Cookie phiên không có cờ Secure vì chạy qua `http://localhost`**, nên không dùng cấu hình này để triển khai thật. Khi khởi động, ứng dụng in cảnh báo:
 
-Đổi profile bằng `make seed` hoặc `make seed-demo` không cần khởi động lại `make dev`: id nghề của hai profile khác nhau. Chỉ cần khởi động lại khi seed lại cùng profile sau khi đã sửa fixture: cây nghề của bản đã công bố được cache trong tiến trình theo id phiên bản.
+```
+Chế độ chạy cục bộ – cookie không Secure, không dùng để triển khai thật
+```
+
+- `SECRET_KEY` có sẵn trong môi trường thì dùng, chưa có thì sinh ngẫu nhiên mỗi lần chạy và không ghi ra file. Khởi động lại thì phải đăng nhập lại.
+- Thiếu bản build, các trang trả 503 kèm hướng dẫn `make build`. API vẫn chạy.
+
+Cấu hình `production` luôn có cookie Secure, tắt DEBUG và bắt buộc `SECRET_KEY`: thiếu thì không khởi động. Chạy `production` qua HTTP thường sẽ không đăng nhập được, đây là hành vi đúng.
 
 ## Tài khoản demo (dữ liệu mẫu)
 
 Mọi tài khoản dùng mật khẩu `Demo@12345`. Đây là dữ liệu mẫu, chỉ dùng để demo.
 
-| Vai trò | Tên đăng nhập |
-|---------|---------------|
-| Quản trị | `admin` |
-| Cố vấn | `gv1`, `gv2` |
-| Nhân sự hỗ trợ | `ht1`, `ht2` |
-| Sinh viên | `sv01` đến `sv07` |
-| Sinh viên (chỉ profile demo-k68) | `demo01` đến `demo08`; nhân sự hỗ trợ không có ở profile này |
+| Vai trò | Profile `demo-k68` | Profile test |
+|---------|--------------------|--------------|
+| Sinh viên | `demo01` đến `demo08` | `sv01` đến `sv07` |
+| Cố vấn | `gv1`, `gv2` | `gv1`, `gv2` |
+| Nhân sự hỗ trợ | `ht1`, `ht2` | `ht1`, `ht2` |
+| Quản trị | `admin` | `admin` |
 
-Backend mặc định dùng cổng 5001 vì macOS thường chiếm cổng 5000 cho AirPlay. Đổi cổng bằng biến `BACKEND_PORT`, ví dụ `make dev BACKEND_PORT=5055`; Vite đọc cùng biến này để chuyển `/api` sang backend, nên frontend và backend cùng origin.
+## Cấu trúc thư mục
+
+```
+backend/
+  app/
+    blueprints/      API theo nhóm; spa.py phục vụ bản build
+    services/        nghiệp vụ; m11_public.py là cổng duy nhất M12 đọc dữ liệu M11
+    models/          bảng dữ liệu
+    seed/            fixture của 2 profile
+  migrations/        Alembic
+  scripts/           list_routes.py, perf_p95.py, dựng dữ liệu K68
+  tests/             unit, api, acceptance
+frontend/
+  src/components/    hệ thống thiết kế và khung ứng dụng
+  src/features/      trang theo module
+  e2e/               Playwright và axe
+docs/                đặc tả, API, route, quyết định, ma trận kiểm thử, kịch bản demo
+```
+
+## Kiểm thử
+
+| Lệnh | Tác dụng |
+|------|----------|
+| `make test` | pytest (coverage bắt buộc 100%) và Vitest |
+| `make lint` | ruff, ESLint, Prettier |
+| `make check-bundle` | Build rồi kiểm tra bản production không có trang dev |
+| `make e2e` | Build rồi chạy Playwright trên bản build: 5 kịch bản, axe, rà trang |
+
+Lần đầu chạy e2e cần tải trình duyệt: `cd frontend && npx playwright install chromium`. E2E dùng CSDL riêng trong thư mục tạm và cổng 8100, không đụng CSDL của `make dev`.
+
+Các lệnh khác trong thư mục `backend`:
+
+```bash
+.venv/bin/flask --app app seed --check                      # so số bản ghi với fixture
+.venv/bin/flask --app app seed --check --profile demo-k68
+.venv/bin/flask --app app grades add --student SV05 --course CNT101 --semester S3 --score 7.0
+.venv/bin/python -m scripts.list_routes                     # sinh lại docs/ROUTES.md
+.venv/bin/python -m scripts.perf_p95                        # đo p95 trên CSDL ×20
+```
+
+Tệp tải lên nằm ở `backend/uploads/` (không commit). Seed lại không xóa tệp cũ: chạy `make clean-uploads`, lệnh này bị từ chối ở production.
+
+Backend chạy dev mặc định ở cổng 5001 vì macOS thường chiếm 5000 cho AirPlay; đổi bằng `make dev BACKEND_PORT=5055`.
 
 ## Giới hạn đã biết
 
-- Đăng xuất ở một thiết bị sẽ đăng xuất mọi thiết bị của tài khoản đó.
+- **Thuật toán lộ trình:** đối chứng vét cạn trên 3.000 bài toán nhỏ cho 9/1.104 ca có cách xếp bị báo không khả thi sai, 0 ca báo khả thi sai (D-261).
+- **Khóa cache:** khóa cache M11, M12 chưa có kỳ hiện tại. Khi có chức năng đổi kỳ hiện tại phải xóa cache hoặc đưa kỳ vào khóa.
+- **Dữ liệu K68:** do nhóm tổng hợp từ CTĐT và cẩm nang nghề, không phải dữ liệu chính thức của trường. Tín chỉ và tiên quyết của một số môn là giả định, xem `docs/DATA_K68.md`.
+- **Chức năng hoãn:** M12-09 So sánh nghề, M12-11 Học liệu, M12-14 Nhắc nhở; giao diện của M12-15 Quản trị nghề (API đã có).
+- **Thông báo lộ trình** chỉ sinh khi sinh viên mở ứng dụng, không có lịch chạy nền.
+- **Đăng xuất** ở một thiết bị sẽ đăng xuất mọi thiết bị của tài khoản đó.
 
-## Logo và màu
+## Logo và họa tiết
 
-- Mọi ảnh của giao diện đặt trong `frontend/public/images/`, chia thư mục con theo mục đích (hiện có `brand/`), và khai báo đường dẫn ở `frontend/src/constants/images.js`.
-- Logo và ảnh tòa nhà do quản lý dự án cung cấp: `frontend/public/images/brand/logo_neu.svg`, `toa_nha_a2.svg`. Nếu logo tải lỗi, trang hiện chữ "NEU".
-- Không đặt ảnh trong `frontend/dist/`: đó là thư mục build, bị xóa sạch mỗi lần build.
-- Màu trong `frontend/src/styles/tokens.css` được lấy mẫu từ keyvisual NEU 2026, cần đối chiếu mã màu chính thức khi có file brand guideline.
-- Họa tiết trên trang đăng nhập là SVG hình học do nhóm tự vẽ theo cùng phong cách, không phải tài nguyên chính thức. Font Inter được tự host nên chạy được khi không có mạng.
+- Logo và ảnh tòa nhà do quản lý dự án cung cấp, nằm trong `frontend/public/images/brand/`. Không đặt ảnh trong `frontend/dist/` vì thư mục này bị xóa mỗi lần build.
+- Màu trong `frontend/src/styles/tokens.css` theo trang màu thương hiệu lưu ở `docs/brand/reference/`.
+- Họa tiết là SVG hình học do nhóm tự vẽ theo cùng phong cách, không phải tài nguyên chính thức.
 
 ## Tài liệu
 
 - [AGENTS.md](AGENTS.md): quy tắc dự án
 - [docs/spec/spec.md](docs/spec/spec.md): đặc tả
 - [docs/API.md](docs/API.md): API
+- [docs/ROUTES.md](docs/ROUTES.md): mọi route và chính sách quyền
 - [docs/DATA_MODEL.md](docs/DATA_MODEL.md): mô hình dữ liệu
 - [docs/DATA_MOCK.md](docs/DATA_MOCK.md): dữ liệu mẫu và số tính tay
-- [docs/TEST_MATRIX.md](docs/TEST_MATRIX.md): ma trận kiểm thử
+- [docs/DATA_K68.md](docs/DATA_K68.md): dữ liệu CTĐT K68 và cẩm nang nghề
+- [docs/TEST_MATRIX.md](docs/TEST_MATRIX.md): ma trận kiểm thử và ánh xạ mã chức năng
 - [docs/DECISIONS.md](docs/DECISIONS.md): quyết định
-
-## Styleguide và kiểm tra bản build
-
-- `/dev/styleguide` trình bày token, thang chữ và mọi component, chỉ có khi chạy `make dev`.
-- `make check-bundle` build rồi kiểm tra bản production không chứa styleguide.
+- [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md): kịch bản demo 10 phút
+- [docs/REPORT_MATERIALS.md](docs/REPORT_MATERIALS.md): tư liệu kỹ thuật cho báo cáo

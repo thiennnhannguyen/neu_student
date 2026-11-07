@@ -46,15 +46,21 @@ function NoSemesterResult({ query }) {
   const point = trend.status === 'ok' ? gradedPoints(trend.data.points).at(-1) : null;
   return (
     <>
-      <span>Kỳ này chưa có kết quả</span>
-      {point && (
-        <>
-          {' · '}
-          <span>
-            Kỳ gần nhất có điểm ({point.semester_id}): {formatDecimal(point.value)}
-          </span>
-        </>
-      )}
+      <span className="q80-long">
+        <span>Kỳ này chưa có kết quả</span>
+        {point && (
+          <>
+            {' · '}
+            <span>
+              Kỳ gần nhất có điểm ({point.semester_id}): {formatDecimal(point.value)}
+            </span>
+          </>
+        )}
+      </span>
+      <span className="q80-short">
+        Chưa có kết quả
+        {point && ` · Gần nhất ${point.semester_id}: ${formatDecimal(point.value)}`}
+      </span>
     </>
   );
 }

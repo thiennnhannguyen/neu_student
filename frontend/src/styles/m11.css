@@ -146,7 +146,15 @@
   font-size: var(--font-14);
 }
 
+.q80-short {
+  display: none;
+}
+
 .metric-grid + .reference-line {
+  margin-top: var(--space-12);
+}
+
+.grid-12 + .reference-line {
   margin-top: var(--space-12);
 }
 
@@ -281,6 +289,31 @@
 
   .metric-grid .metric-card__value {
     font-size: var(--font-30);
+  }
+
+  /* Nhãn trên một dòng ở lưới 2×2. */
+  .metric-grid .metric-card__label,
+  .metric-grid .metric-card__link {
+    font-size: var(--font-14);
+    white-space: nowrap;
+  }
+
+  /* Vùng bấm giữ 44px; phần trong suốt của nút lấn vào khoảng đệm để nhãn dài vẫn đủ chỗ. */
+  .metric-grid .metric-card__head {
+    gap: 0;
+  }
+
+  .metric-grid .metric-card__head .icon-button {
+    flex: none;
+    margin: 0 -12px 0 -14px;
+  }
+
+  .q80-long {
+    display: none;
+  }
+
+  .q80-short {
+    display: inline;
   }
 
   /*
