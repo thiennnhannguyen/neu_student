@@ -1,6 +1,6 @@
 # Mô hình dữ liệu
 
-Có 44 bảng, toàn bộ là dữ liệu mẫu. Model trong `backend/app/models/` là nguồn của schema, tạo qua migration `backend/migrations/`. Mọi khóa ngoại dùng `ON DELETE RESTRICT`, `PRAGMA foreign_keys=ON` bật cho mọi kết nối SQLite. Mọi bảng có `is_mock`, trừ `audit_logs` và `notifications`. Khóa chính kiểu chuỗi, giữ id của fixture; bản ghi tạo khi chạy dùng UUID; `audit_logs` và `notifications` dùng số nguyên tự tăng.
+Có 54 bảng, toàn bộ là dữ liệu mẫu. Model trong `backend/app/models/` là nguồn của schema, tạo qua migration `backend/migrations/`. Mọi khóa ngoại dùng `ON DELETE RESTRICT`, `PRAGMA foreign_keys=ON` bật cho mọi kết nối SQLite. Mọi bảng có `is_mock`, trừ `audit_logs` và `notifications`. Khóa chính kiểu chuỗi, giữ id của fixture; bản ghi tạo khi chạy dùng UUID; `audit_logs` và `notifications` dùng số nguyên tự tăng.
 
 Điểm, GPA và ngưỡng dùng `Numeric` tỷ lệ cố định, đọc ra `Decimal`. SQLite lưu chúng dưới dạng số thực, nên cấm `SUM`, `AVG` trên cột điểm trong SQL.
 
@@ -127,6 +127,22 @@ erDiagram
 |------|-------|
 | `notifications` | Thông báo trong hệ thống. |
 | `audit_logs` | Nhật ký thay đổi, chỉ thêm, không sửa. Đã dùng cho `flask grades add`. |
+
+### Khung năng lực, bài kiểm tra, chứng chỉ (CR-04)
+
+| Bảng | Cột chính | Ghi chú |
+|------|-----------|---------|
+| `career_modules` | `career_version_id`, `program_id`, `order`, `title`, `objectives`, `extra_knowledge`, `practice`, `skill_id` | Mỗi mô-đun ứng với đúng 1 kỹ năng (`skill_id` unique) |
+| `career_module_courses` | `module_id`, `course_id`, `order`, `takeaways` | BB/TC, học kỳ lấy từ `curriculum_requirements` |
+| `career_milestones`, `career_milestone_modules` | `name`, `projects`; `milestone_id`, `module_id` | Thực tập sinh, Fresher, Junior |
+| `career_suggested_electives` | `career_version_id`, `program_id`, `course_id`, `order` | Bộ tự chọn đề xuất |
+| `quiz_questions` | `module_id`, `kind`, `prompt`, `code_snippet`, `explanation`, `status`, `verification`, `approved_by`, `approved_at` | Chỉ câu `approved` được dùng |
+| `quiz_options` | `question_id`, `order`, `text`, `is_correct` | |
+| `quiz_attempts` | `student_id`, `module_id`, `attempt_no`, `status`, `started_at`, `deadline_at`, `submitted_at`, `correct_count`, `total`, `met_threshold` | Index unique một phần: tối đa 1 lượt `in_progress` mỗi sinh viên, mỗi mô-đun |
+| `quiz_attempt_questions` | `attempt_id`, `question_id`, `order`, `option_order`, `selected_option_ids`, `is_correct` | |
+| `certificates` | `code`, `student_id`, `module_id`, `attempt_id`, `student_name`, `module_title`, `correct_count`, `total`, `issued_at`, `revoked_at` | `code` unique, 1 chứng chỉ mỗi sinh viên, mỗi mô-đun |
+
+`skill_evidences` có thêm `source` (`submission`, `quiz`).
 
 ## Ràng buộc yêu cầu
 

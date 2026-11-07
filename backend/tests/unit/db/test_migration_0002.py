@@ -34,6 +34,13 @@ def trigger_definitions():
 def table_and_index_definitions():
     rows = run_sql(
         "SELECT name, sql FROM sqlite_master WHERE type IN ('table', 'index') "
+        "AND name NOT LIKE '%quiz_%' AND name NOT LIKE '%career_m%' "
+        "AND name NOT LIKE '%certificates%' "
+        "AND name NOT LIKE '%career_suggested_%' "
+        "AND name NOT LIKE 'quiz_%' AND name NOT LIKE 'career_m%' AND name != 'certificates' "
+        "AND name != 'career_suggested_electives' AND name NOT LIKE 'ix_quiz_%' "
+        "AND name NOT LIKE 'ix_career_m%' AND name NOT LIKE 'ix_certificates_%' "
+        "AND name NOT LIKE 'ix_career_suggested_%' AND name != 'uq_quiz_attempt_one_open' "
         "AND name NOT IN ('users', 'students', "
         # Migration 0004 đổi các bảng này, nên chúng khác nhau giữa bản 0002 và bản mới nhất.
         "'careers', 'skills', 'career_nodes', 'courses', "

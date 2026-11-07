@@ -21,9 +21,10 @@ NOTE = (
     "Lịch dự kiến, không phải lịch mở lớp chính thức. "
     "Tín chỉ và tiên quyết của CTĐT K68 là giả định."
 )
-QUERIES_CURRENT = 32
-QUERIES_CURRENT_STALE = 63
-QUERIES_PROPOSAL = 37
+# Tăng 1 ở CR-04: đọc ghi chú của CTĐT để dẫn nguồn.
+QUERIES_CURRENT = 33
+QUERIES_CURRENT_STALE = 64
+QUERIES_PROPOSAL = 38
 
 
 def post(client, url, json=None):
@@ -776,18 +777,26 @@ def test_demo05_planned_courses_follow_curriculum_semester(demo05):
 def test_demo05_primary_career_electives_are_preferred(demo05):
     _client, roadmap = demo05
 
-    assert {"CNTT1177", "CNTT1175", "CNTT1166"} <= set(placement(roadmap))
+    # CNTT1166 không có trong CTĐT KHMT theo PDF nên không được xếp.
+    placed = set(placement(roadmap))
+    assert {"CNTT1177", "CNTT1175"} <= placed
+    assert "CNTT1166" not in placed
 
 
 def test_demo05_thesis_is_last_and_practicum_just_before(demo05):
-    _client, roadmap = demo05
+    client, roadmap = demo05
     found = placement(roadmap)
 
     assert found["CNTT1194"] == "S8"
-    assert found["CNTT1195"] == "S7"
-    assert item_of(roadmap, "CNTT1194")["assumed_position"] is True
-    assert item_of(roadmap, "CNTT1195")["assumed_position"] is True
-    assert item_of(roadmap, "CNTT1194")["semester_alignment"] is None
+    # PDF ghi Chuyên đề thực tế ở HK5, nên xếp như môn thường, không có vị trí giả định.
+    assert "NEU" in found
+    assert item_of(roadmap, "CNTT1194")["assumed_position"] is False
+    assert item_of(roadmap, "NEU")["assumed_position"] is False
+    note = client.get(CURRENT).get_json()["note"]
+    assert note.endswith("dữ liệu sinh viên là mẫu")
+    assert "giả định" not in note
+    # PDF ghi Khóa luận ở HK8 nên có so sánh với CTĐT.
+    assert item_of(roadmap, "CNTT1194")["semester_alignment"]["kind"] == "on_time"
     assert "Khóa luận" in item_of(roadmap, "CNTT1194")["reason"]
 
 

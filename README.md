@@ -25,7 +25,7 @@ Mở http://localhost:5173. Dùng `make seed` thay cho `make seed-demo` để c�
 
 | Profile | Lệnh | Nội dung | Dùng để |
 |---------|------|----------|---------|
-| `demo-k68` | `make seed-demo` | CTĐT K68, cẩm nang 10 nghề, sinh viên `demo01` đến `demo08` | Trình diễn định hướng nghề và lộ trình |
+| `demo-k68` | `make seed-demo` | CTĐT KHMT theo PDF Trường công bố, CTĐT K68 của 3 ngành khác, cẩm nang 10 nghề, sinh viên `thiennhan`, `demo01` đến `demo08` | Trình diễn định hướng nghề và lộ trình |
 | test | `make seed` | Bộ dữ liệu tính tay ở `docs/DATA_MOCK.md`, sinh viên `sv01` đến `sv07` | Kiểm thử, cảnh báo học vụ (`sv04`) |
 
 Đổi profile không cần khởi động lại `make dev`.
@@ -82,7 +82,7 @@ Mọi tài khoản dùng mật khẩu `Demo@12345`. Đây là dữ liệu mẫu,
 
 | Vai trò | Profile `demo-k68` | Profile test |
 |---------|--------------------|--------------|
-| Sinh viên | `demo01` đến `demo08` | `sv01` đến `sv07` |
+| Sinh viên | `thiennhan`, `demo01` đến `demo08` | `sv01` đến `sv07` |
 | Cố vấn | `gv1`, `gv2` | `gv1`, `gv2` |
 | Nhân sự hỗ trợ | `ht1`, `ht2` | `ht1`, `ht2` |
 | Quản trị | `admin` | `admin` |
@@ -135,9 +135,10 @@ Backend chạy dev mặc định ở cổng 5001 vì macOS thường chiếm 500
 
 - **Thuật toán lộ trình:** đối chứng vét cạn trên 3.000 bài toán nhỏ cho 9/1.104 ca có cách xếp bị báo không khả thi sai, 0 ca báo khả thi sai (D-261).
 - **Khóa cache:** khóa cache M11, M12 chưa có kỳ hiện tại. Khi có chức năng đổi kỳ hiện tại phải xóa cache hoặc đưa kỳ vào khóa.
-- **Dữ liệu K68:** do nhóm tổng hợp từ CTĐT và cẩm nang nghề, không phải dữ liệu chính thức của trường. Tín chỉ và tiên quyết của một số môn là giả định, xem `docs/DATA_K68.md`.
+- **Dữ liệu CTĐT:** KHMT theo PDF Trường công bố, xem `docs/DATA_OFFICIAL.md`, gồm các chỗ PDF không rõ. CNTT, KTPM, ATTT do nhóm tổng hợp, tín chỉ và tiên quyết của một số môn là giả định, xem `docs/DATA_K68.md`.
 - **Chức năng hoãn:** M12-09 So sánh nghề, M12-11 Học liệu, M12-14 Nhắc nhở; giao diện của M12-15 Quản trị nghề (API đã có).
 - **Ghi đồng thời:** SQLite chỉ cho một tiến trình ghi tại một thời điểm. `GET /api/notifications` đã xử lý trường hợp bị khóa (D-281), các request ghi khác vẫn có thể báo lỗi khi nhiều người ghi cùng lúc. Số p95 đo tuần tự nên không phản ánh tải đồng thời.
+- **Chứng chỉ số:** chứng nhận hoàn thành bài kiểm tra trên nền tảng bài tập lớn, không phải chứng chỉ của Trường. Chưa có API thu hồi.
 - **Thông báo lộ trình** chỉ sinh khi sinh viên mở ứng dụng, không có lịch chạy nền.
 - **Đăng xuất** ở một thiết bị sẽ đăng xuất mọi thiết bị của tài khoản đó.
 
@@ -156,6 +157,8 @@ Backend chạy dev mặc định ở cổng 5001 vì macOS thường chiếm 500
 - [docs/DATA_MODEL.md](docs/DATA_MODEL.md): mô hình dữ liệu
 - [docs/DATA_MOCK.md](docs/DATA_MOCK.md): dữ liệu mẫu và số tính tay
 - [docs/DATA_K68.md](docs/DATA_K68.md): dữ liệu CTĐT K68 và cẩm nang nghề
+- [docs/DATA_OFFICIAL.md](docs/DATA_OFFICIAL.md): CTĐT KHMT theo PDF, khác biệt với K68
+- [docs/QUIZ_VERIFICATION.md](docs/QUIZ_VERIFICATION.md): câu hỏi đã chạy thật và câu chỉ dựa trên lý thuyết
 - [docs/TEST_MATRIX.md](docs/TEST_MATRIX.md): ma trận kiểm thử và ánh xạ mã chức năng
 - [docs/DECISIONS.md](docs/DECISIONS.md): quyết định
 - [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md): kịch bản demo 10 phút

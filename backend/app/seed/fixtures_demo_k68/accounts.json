@@ -63,6 +63,14 @@
       "is_mock": true
     },
     {
+      "id": "user-thiennhan",
+      "username": "thiennhan",
+      "full_name": "Nguyễn Thiện Nhân",
+      "role_id": "role-student",
+      "demo_password": "Demo@12345",
+      "is_mock": true
+    },
+    {
       "id": "user-demo01",
       "username": "demo01",
       "full_name": "Sinh viên DEMO01",
@@ -129,6 +137,17 @@
   ],
   "students": [
     {
+      "id": "NEU-KHMT-001",
+      "user_id": "user-thiennhan",
+      "student_code": "NEU-KHMT-001",
+      "cohort": "K66",
+      "program_version_id": "pv-khmt-66",
+      "entry_semester_id": "S1",
+      "contact_email": "thiennhan@example.test",
+      "contact_phone": "0910000001",
+      "is_mock": true
+    },
+    {
       "id": "DEMO01",
       "user_id": "user-demo01",
       "student_code": "DEMO01",
@@ -136,7 +155,7 @@
       "program_version_id": "pv-cntt-k68",
       "entry_semester_id": "S1",
       "contact_email": "demo01@example.test",
-      "contact_phone": "0910000001",
+      "contact_phone": "0910000002",
       "is_mock": true
     },
     {
@@ -147,7 +166,7 @@
       "program_version_id": "pv-cntt-k68",
       "entry_semester_id": "S3",
       "contact_email": "demo02@example.test",
-      "contact_phone": "0910000002",
+      "contact_phone": "0910000003",
       "is_mock": true
     },
     {
@@ -158,7 +177,7 @@
       "program_version_id": "pv-ktpm-k68",
       "entry_semester_id": "S1",
       "contact_email": "demo03@example.test",
-      "contact_phone": "0910000003",
+      "contact_phone": "0910000004",
       "is_mock": true
     },
     {
@@ -169,7 +188,7 @@
       "program_version_id": "pv-ktpm-k68",
       "entry_semester_id": "S3",
       "contact_email": "demo04@example.test",
-      "contact_phone": "0910000004",
+      "contact_phone": "0910000005",
       "is_mock": true
     },
     {
@@ -177,10 +196,10 @@
       "user_id": "user-demo05",
       "student_code": "DEMO05",
       "cohort": "K66",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "entry_semester_id": "S1",
       "contact_email": "demo05@example.test",
-      "contact_phone": "0910000005",
+      "contact_phone": "0910000006",
       "is_mock": true
     },
     {
@@ -188,10 +207,10 @@
       "user_id": "user-demo06",
       "student_code": "DEMO06",
       "cohort": "K67",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "entry_semester_id": "S3",
       "contact_email": "demo06@example.test",
-      "contact_phone": "0910000006",
+      "contact_phone": "0910000007",
       "is_mock": true
     },
     {
@@ -202,7 +221,7 @@
       "program_version_id": "pv-attt-k68",
       "entry_semester_id": "S1",
       "contact_email": "demo07@example.test",
-      "contact_phone": "0910000007",
+      "contact_phone": "0910000008",
       "is_mock": true
     },
     {
@@ -213,11 +232,17 @@
       "program_version_id": "pv-attt-k68",
       "entry_semester_id": "S3",
       "contact_email": "demo08@example.test",
-      "contact_phone": "0910000008",
+      "contact_phone": "0910000009",
       "is_mock": true
     }
   ],
   "advisor_assignments": [
+    {
+      "id": "aa-gv2-NEU-KHMT-001",
+      "advisor_user_id": "user-gv2",
+      "student_id": "NEU-KHMT-001",
+      "is_mock": true
+    },
     {
       "id": "aa-gv1-DEMO01",
       "advisor_user_id": "user-gv1",

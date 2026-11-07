@@ -4,7 +4,7 @@ Sinh tự động từ `app.url_map` bằng `python -m scripts.list_routes`, kh�
 Chính sách `public` là không cần đăng nhập. Còn lại là các vai trò được gọi; ngoài phạm vi dữ liệu
 thì service trả 404. Route ghi (POST, PUT, PATCH, DELETE) còn cần header `X-Requested-With: fetch`.
 
-Tổng 99 route, 6 route công khai.
+Tổng 108 route, 7 route công khai.
 
 ## Route công khai
 
@@ -16,6 +16,7 @@ Tổng 99 route, 6 route công khai.
 | `/api/auth/login` | POST |
 | `/api/auth/me` | GET |
 | `/api/health` | GET |
+| `/api/public/certificates/<code>` | GET |
 
 ## Mọi route
 
@@ -74,6 +75,9 @@ Tổng 99 route, 6 route công khai.
 | `/api/m11/risks` | GET | admin, advisor, student |
 | `/api/m11/semesters` | GET | admin, advisor, student |
 | `/api/m11/strengths` | GET | admin, advisor, student |
+| `/api/m12/attempts/<attempt_id>` | GET | student |
+| `/api/m12/attempts/<attempt_id>/answers/<question_id>` | PUT | student |
+| `/api/m12/attempts/<attempt_id>/submit` | POST | student |
 | `/api/m12/career-goal` | GET | admin, advisor, student |
 | `/api/m12/career-goal` | PUT | student |
 | `/api/m12/career-goal/history` | GET | admin, advisor, student |
@@ -81,6 +85,9 @@ Tổng 99 route, 6 route công khai.
 | `/api/m12/careers/<career_id>` | GET | admin, advisor, student |
 | `/api/m12/careers/<career_id>/tree` | GET | admin, advisor, student |
 | `/api/m12/careers/slug/<slug>` | GET | admin, advisor, student |
+| `/api/m12/careers/slug/<slug>/framework` | GET | admin, advisor, student |
+| `/api/m12/certificates` | GET | admin, advisor, student |
+| `/api/m12/certificates/<code>` | GET | admin, advisor, student |
 | `/api/m12/evidence-reviews` | GET | admin, advisor |
 | `/api/m12/evidence-reviews/<evidence_id>` | GET | admin, advisor |
 | `/api/m12/evidence-reviews/<evidence_id>/approve` | POST | advisor |
@@ -95,6 +102,8 @@ Tổng 99 route, 6 route công khai.
 | `/api/m12/improvement-plan/<plan_id>/items/<item_id>` | DELETE | student |
 | `/api/m12/improvement-plan/<plan_id>/items/<item_id>` | PATCH | student |
 | `/api/m12/improvement-plan/<plan_id>/new-risks` | POST | student |
+| `/api/m12/modules/<module_id>/attempts` | POST | student |
+| `/api/m12/modules/<module_id>/review` | GET | student |
 | `/api/m12/my-careers` | GET | admin, advisor, student |
 | `/api/m12/progress/careers/<career_id>` | GET | admin, advisor, student |
 | `/api/m12/progress/careers/slug/<slug>` | GET | admin, advisor, student |
@@ -117,6 +126,7 @@ Tổng 99 route, 6 route công khai.
 | `/api/notifications` | GET | admin, advisor, student, support_staff |
 | `/api/notifications/<int:notification_id>/read` | POST | admin, advisor, student, support_staff |
 | `/api/notifications/read-all` | POST | admin, advisor, student, support_staff |
+| `/api/public/certificates/<code>` | GET | public |
 | `/api/students/<student_id>` | GET | admin, advisor, student |
 | `/api/students/me` | GET | student |
 | `/api/students/me/contact` | PATCH | student |

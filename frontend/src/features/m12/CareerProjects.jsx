@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, StatusChip } from '../../components/ui';
+import { Button, Card, StatusChip, StatusLegend } from '../../components/ui';
 import EvidencePanel from './evidence/EvidencePanel';
 import { chipStatus } from './labels';
 
@@ -24,16 +24,27 @@ function SelfStudy({ items, note }) {
 }
 
 /** Tab Kỹ năng & dự án. Hoàn thành chỉ qua minh chứng được duyệt (R7). */
-export default function CareerProjects({ nodes, selfStudy, selfStudyNote, student, onChanged }) {
+export default function CareerProjects({
+  nodes,
+  selfStudy,
+  selfStudyNote,
+  student,
+  onChanged,
+  moduleSkillIds = new Set(),
+}) {
   const [opened, setOpened] = useState(null);
   const canAct = Boolean(student);
   const evidenceButton = (child) =>
-    canAct && (
-      <Button variant="ghost" size="sm" onClick={() => setOpened(child)}>
-        {student.isStudent && ['not_started', 'rejected'].includes(child.status)
-          ? 'Nộp minh chứng'
-          : 'Xem minh chứng'}
-      </Button>
+    moduleSkillIds.has(child.skill_id) ? (
+      <span className="career-checklist__note">Đạt qua bài kiểm tra, xem tab Khung năng lực</span>
+    ) : (
+      canAct && (
+        <Button variant="ghost" size="sm" onClick={() => setOpened(child)}>
+          {student.isStudent && ['not_started', 'rejected'].includes(child.status)
+            ? 'Nộp minh chứng'
+            : 'Xem minh chứng'}
+        </Button>
+      )
     );
   const children = nodes.flatMap((node) => node.children);
   const skills = children.filter((child) => child.kind === 'skill');
@@ -45,12 +56,13 @@ export default function CareerProjects({ nodes, selfStudy, selfStudyNote, studen
       {skills.length > 0 && (
         <section aria-labelledby="career-checklist">
           <h2 id="career-checklist">Checklist sẵn sàng thực tập</h2>
+          <StatusLegend statuses={['done', 'pending', 'no_evidence']} />
           <ul className="career-checklist">
             {skills.map((skill) => (
               <li key={skill.id}>
                 <span>{skill.title}</span>
                 <span className="career-checklist__actions">
-                  <StatusChip status={chipStatus(skill.kind, skill.status)} size="sm" />
+                  <StatusChip status={chipStatus(skill.kind, skill.status)} />
                   {evidenceButton(skill)}
                 </span>
               </li>
@@ -67,7 +79,7 @@ export default function CareerProjects({ nodes, selfStudy, selfStudyNote, studen
                 <p className="career-project__level">{project.level}</p>
                 <h3>{project.title}</h3>
                 {project.criteria && <p>{project.criteria}</p>}
-                <StatusChip status={chipStatus(project.kind, project.status)} size="sm" />
+                <StatusChip status={chipStatus(project.kind, project.status)} />
                 {evidenceButton(project)}
               </Card>
             ))}

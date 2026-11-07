@@ -25,7 +25,7 @@ RULE = {"K66": "rule-k66", "K67": "rule-k67"}
 ENTRY = {"K66": 1, "K67": 3}
 CURRENT_ORDER = 5
 PRIORITY = {"core": 0, "very_important": 1, "recommended": 2, "supporting": 3}
-FEASIBLE_COUNTS = {PROFILE_TEST: 50, PROFILE_DEMO_K68: 46}
+FEASIBLE_COUNTS = {PROFILE_TEST: 50, PROFILE_DEMO_K68: 47}
 
 
 def _edges(tables, kind):

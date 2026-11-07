@@ -20,7 +20,7 @@ export { default as SearchBox } from './SearchBox';
 export { default as Select } from './Select';
 export { default as SidePanel } from './SidePanel';
 export { default as Skeleton } from './Skeleton';
-export { default as StatusChip } from './StatusChip';
+export { default as StatusChip, StatusLegend } from './StatusChip';
 export { default as Tabs } from './Tabs';
 export { ToastProvider, useToast } from './Toast';
 export { default as Tooltip } from './Tooltip';

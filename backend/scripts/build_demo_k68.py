@@ -4,6 +4,8 @@
 Chạy: .venv/bin/python -m scripts.build_demo_k68. Test chạy lại hàm build() và so với file đã commit.
 """
 
+import base64
+import hashlib
 import html
 import json
 import re
@@ -12,7 +14,9 @@ from decimal import Decimal
 from pathlib import Path
 
 from app.common.text import normalize_name
+from scripts import backend_modules as modules
 from scripts import demo_k68_content as content
+from scripts import khmt_official as official
 
 BACKEND = Path(__file__).resolve().parents[1]
 ROOT = BACKEND.parent
@@ -20,17 +24,13 @@ SPEC = ROOT / "docs" / "spec"
 OUT = BACKEND / "app" / "seed" / "fixtures_demo_k68"
 TEST_FIXTURES = BACKEND / "app" / "seed" / "fixtures"
 DOC = ROOT / "docs" / "DATA_K68.md"
+OFFICIAL_DOC = ROOT / "docs" / "DATA_OFFICIAL.md"
 PROGRAM_BY_SECTION = {"1": "CNTT", "2": "KTPM", "3": "KHMT", "4": "ATTT"}
 PUBLISHED_AT = "2026-11-07T08:00:00"
 APPROVED_AT = "2026-11-07T07:00:00"
 NO_CODE_ID = "EP17.SONGSONG"
 PARALLEL_NAME = "Lập trình song song và phân tán"
 CODE_FIXES = {"EP17.CNTT1112": "EP17.CNTT11112", "EP17.CNTT1113": "EP17.CNTT11113"}
-# Cẩm nang đảo 2 mã này ở dòng KTPM; nạp theo mã đúng của từng môn.
-SWAP_FIXES = {
-    ("KTPM", "Kinh tế vi mô 1"): "EP17.KHMA1101",
-    ("KTPM", "Kinh tế vĩ mô 1"): "EP17.KHMI1101",
-}
 LANGUAGE = re.compile(r"NNKC")
 GROUPS = {
     "1": ("group-chung", "chung", "Học phần chung"),
@@ -44,6 +44,30 @@ GROUPS = {
 }
 # Mã thuộc nhiều nhóm giữa các ngành: lấy nhóm không phải tự chọn.
 GROUP_RANK = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "thesis": 5, "6": 6, "extra": 7}
+
+
+def fixed_code(program: str, row_name: str, code: str) -> str:
+    """Mã đúng của một dòng cẩm nang: 2 môn kinh tế theo tên (PDF), KHMT theo mã trong PDF."""
+    plain = official.ECONOMICS_CODE_BY_NAME.get(row_name)
+    if plain:
+        return f"EP17.{plain}" if program == "KTPM" else plain
+    return official.K68_TO_OFFICIAL.get(code, code) if program == "KHMT" else code
+
+
+def modules_career_key() -> str:
+    return "backend"
+
+
+def module_row_id(order: int) -> str:
+    return f"module-backend-khmt-{order}"
+
+
+def module_skill_id(order: int) -> str:
+    return f"sk-backend-khmt-m{order}"
+
+
+def version_id_of(program: str) -> str:
+    return official.VERSION_ID if program == "KHMT" else f"pv-{program.lower()}-k68"
 
 
 @dataclass
@@ -223,6 +247,7 @@ def _row(table: list, **values) -> None:
 class Builder:
     def __init__(self):
         self.curriculum = parse_curriculum(_text(SPEC / "ctdt-k68-2026.md"))
+        self.k68_khmt = self.curriculum.pop("KHMT")
         self.careers = parse_handbook(_text(SPEC / "lo-trinh-10-nghe-k68.md"))
         self.report = Report()
         self.tables: dict[str, list[dict]] = {}
@@ -230,16 +255,25 @@ class Builder:
             assign_stages(career, self.report)
         # (ngành, mã đúng) -> (loại BB/TC, học kỳ) theo cẩm nang.
         self.planned: dict[tuple[str, str], tuple[str, int | None]] = {}
+        self._k68_planned: dict[str, int | None] = {}
         for career in self.careers:
             for row in career.rows:
                 for program, (code, kind, semester) in row.codes.items():
-                    fixed = SWAP_FIXES.get((program, row.name), code)
-                    self.planned[(program, fixed)] = (kind, semester)
+                    self.planned[(program, fixed_code(program, row.name, code))] = (kind, semester)
+                    if program == "KHMT":
+                        self._k68_planned[code] = semester
 
     def _entries(self, program: str) -> list[tuple[str, str | None, str, str]]:
         """(id, mã, tên, nhóm). Mã đã sửa theo cẩm nang; môn trùng mã thì mã rỗng (Q94)."""
+        if program == "KHMT":
+            return [
+                (row[0], row[1], row[6] or row[2], official.GROUPS[row[5]][0])
+                for row in official.ROWS
+            ]
         entries = []
         for code, name, group in self.curriculum[program]:
+            plain = code.removeprefix("EP17.")
+            name = official.ECONOMICS_NAME_BY_CODE.get(plain, name)
             if code == "EP17.CNTT1107" and name == PARALLEL_NAME:
                 entries.append((NO_CODE_ID, None, name, group))
             else:
@@ -258,16 +292,32 @@ class Builder:
         group_rows, course_rows = [], []
         for _id, slug, name in {GROUPS[key][0]: GROUPS[key] for key in GROUPS}.values():
             _row(group_rows, id=_id, slug=slug, name=name)
+        pdf = {row[0]: row for row in official.ROWS}
         for course_id in sorted(names):
             code, name = names[course_id]
+            credits = 10 if groups[course_id] == "thesis" else 3
+            if course_id in pdf:
+                name, credits = pdf[course_id][2], pdf[course_id][3]
+            credits = official.SHARED_CREDITS.get(course_id, credits)
             _row(
                 course_rows,
                 id=course_id,
                 code=code,
                 name=name,
-                credits=10 if groups[course_id] == "thesis" else 3,
+                credits=credits,
                 counts_gpa=True,
                 course_group_id=GROUPS[groups[course_id]][0],
+                short_desc=None,
+            )
+        for course_id, code, name, credits in official.NOT_COUNTED:
+            _row(
+                course_rows,
+                id=course_id,
+                code=code,
+                name=name,
+                credits=credits,
+                counts_gpa=False,
+                course_group_id=GROUPS["1"][0],
                 short_desc=None,
             )
         self.tables["course_groups"] = group_rows
@@ -278,9 +328,12 @@ class Builder:
         programs, versions, electives, requirements = [], [], [], []
         for program in content.PROGRAM_ORDER:
             program_id, name, degree = content.PROGRAMS[program]
-            version_id = f"pv-{program.lower()}-k68"
+            version_id = version_id_of(program)
             elective_id = f"eg-{version_id}"
             _row(programs, id=program_id, name=name, code=program, degree_code=degree)
+            if program == "KHMT":
+                self._official_program(program_id, name, versions, electives, requirements)
+                continue
             _row(
                 versions,
                 id=version_id,
@@ -317,6 +370,43 @@ class Builder:
         self.tables["program_versions"] = versions
         self.tables["elective_groups"] = electives
         self.tables["curriculum_requirements"] = requirements
+
+    @staticmethod
+    def _official_program(program_id, name, versions, electives, requirements) -> None:
+        version_id = official.VERSION_ID
+        _row(
+            versions,
+            id=version_id,
+            program_id=program_id,
+            version=1,
+            effective_cohort="K66",
+            name=f"CTĐT {name} – áp dụng từ K66",
+            note=official.NOTE,
+            applies_to_cohorts=["K67"],
+        )
+        for key, (group_name, credits) in official.ELECTIVE_GROUPS.items():
+            _row(
+                electives,
+                id=f"eg-{version_id}-{key}",
+                program_version_id=version_id,
+                name=group_name,
+                min_credits=credits,
+            )
+        for course_id, _code, _name, _credits, semester, group, _old in official.ROWS:
+            _key, label, kind, elective, _total = official.GROUPS[group]
+            _row(
+                requirements,
+                id=f"cr-{version_id}-{course_id}",
+                program_version_id=version_id,
+                course_id=course_id,
+                requirement_type=kind,
+                elective_group_id=f"eg-{version_id}-{elective}" if elective else None,
+                planned_semester=semester,
+                curriculum_group=label,
+                data_warning=official.warning(course_id),
+                # PDF ghi học kỳ của Chuyên đề thực tế nên không cần vị trí giả định (Q99).
+                schedule_role="thesis" if group == "khoa-luan" else None,
+            )
 
     @staticmethod
     def _warning(program: str, course_id: str, code: str | None) -> str | None:
@@ -363,7 +453,7 @@ class Builder:
         """Chỉ cặp EP17.X và X cùng tên (không phân biệt hoa thường, Q96)."""
         rows, scopes = [], []
         names = self.course_names
-        versions = {program: f"pv-{program.lower()}-k68" for program in content.PROGRAM_ORDER}
+        versions = {program: version_id_of(program) for program in content.PROGRAM_ORDER}
         members = {
             program: {course_id for course_id, *_rest in self._entries(program)}
             for program in content.PROGRAM_ORDER
@@ -403,7 +493,7 @@ class Builder:
             for row in sorted(career.rows, key=lambda item: (item.stage, item.number)):
                 if program not in row.codes:
                     continue
-                code = SWAP_FIXES.get((program, row.name), row.codes[program][0])
+                code = fixed_code(program, row.name, row.codes[program][0])
                 subject = f"{key}-{row.number:02d}"
                 if code in used:
                     used[code]["also_covers"].append(subject)
@@ -457,7 +547,7 @@ class Builder:
                 )
             return skill_by_key[name_key]
 
-        def skill_requirement(version_id, key, node, identifier, target, kind):
+        def skill_requirement(version_id, key, node, identifier, target, kind, program_id=None):
             _row(
                 requirements,
                 id=f"req-k68-{key}-{identifier}",
@@ -471,7 +561,7 @@ class Builder:
                 status="approved",
                 approved_by="user-admin",
                 approved_at=APPROVED_AT,
-                program_id=None,
+                program_id=program_id,
                 subject_key=None,
                 subject_name=None,
                 also_covers=None,
@@ -530,10 +620,43 @@ class Builder:
             for number, item in enumerate(career.checklist, start=1):
                 target = skill_id(f"sk-k68-{key}-{number}", item, "skill")
                 node = content.SKILL_STAGE_OVERRIDES.get((career.number, item), 5)
-                skill_requirement(version_id, key, node, f"sk{number}", target, "skill")
+                if key != modules_career_key():
+                    skill_requirement(version_id, key, node, f"sk{number}", target, "skill")
+                    continue
+                # Backend với KHMT: 10 mô-đun thay cho 6 kỹ năng này, các ngành khác giữ nguyên.
+                for program in content.PROGRAM_ORDER:
+                    if program != "KHMT":
+                        skill_requirement(
+                            version_id,
+                            key,
+                            node,
+                            f"sk{number}-{program}",
+                            target,
+                            "skill",
+                            content.PROGRAMS[program][0],
+                        )
             for level, name, criteria in career.projects:
                 target = skill_id(f"pj-k68-{key}-{level.lower()}", name, "project", level, criteria)
                 skill_requirement(version_id, key, 5, f"pj-{level.lower()}", target, "project")
+            if key == modules_career_key():
+                for module in modules.MODULES:
+                    order = module["order"]
+                    target = skill_id(
+                        module_skill_id(order),
+                        f"Mô-đun {order}: {module['title']}",
+                        "skill",
+                        None,
+                        "Đạt bài kiểm tra mô-đun",
+                    )
+                    skill_requirement(
+                        version_id,
+                        key,
+                        modules.MODULE_STAGE[order],
+                        f"m{order}",
+                        target,
+                        "skill",
+                        content.PROGRAMS["KHMT"][0],
+                    )
         self.tables["careers"] = careers
         self.tables["career_versions"] = versions
         self.tables["career_nodes"] = nodes
@@ -551,12 +674,13 @@ class Builder:
         skills = {row["name"]: row["id"] for row in self.tables["skills"]}
         for index, person in enumerate(content.STUDENTS, start=1):
             student_id = person["id"]
-            user_id = f"user-{student_id.lower()}"
+            username = person.get("username", student_id.lower())
+            user_id = f"user-{username}"
             _row(
                 users,
                 id=user_id,
-                username=student_id.lower(),
-                full_name=f"Sinh viên {student_id}",
+                username=username,
+                full_name=person.get("full_name", f"Sinh viên {student_id}"),
                 role_id="role-student",
                 demo_password="Demo@12345",
             )
@@ -566,9 +690,9 @@ class Builder:
                 user_id=user_id,
                 student_code=student_id,
                 cohort=person["cohort"],
-                program_version_id=f"pv-{person['program'].lower()}-k68",
+                program_version_id=version_id_of(person["program"]),
                 entry_semester_id=person["entry"],
-                contact_email=f"{student_id.lower()}@example.test",
+                contact_email=f"{username}@example.test",
                 contact_phone=f"09100000{index:02d}",
             )
             _row(
@@ -579,7 +703,8 @@ class Builder:
             )
             tries: dict[str, int] = {}
             for semester, results in person["results"].items():
-                for course_id, score in results.items():
+                for raw_id, score in results.items():
+                    course_id = self._student_course(person, raw_id)
                     tries[course_id] = tries.get(course_id, 0) + 1
                     value = Decimal(score)
                     level = [row for row in levels if Decimal(str(row["min_score"])) <= value][-1]
@@ -606,7 +731,8 @@ class Builder:
                         grade_4=level["grade_4"],
                         passed=level["passed"],
                     )
-            for course_id in person["in_progress"]:
+            for raw_id in person["in_progress"]:
+                course_id = self._student_course(person, raw_id)
                 _row(
                     enrollments,
                     id=f"enr-{student_id}-{course_id}-S5",
@@ -637,6 +763,7 @@ class Builder:
                     reviewed_by=f"user-{person['advisor']}" if reviewed else None,
                     reviewed_at="2026-10-15T08:00:00" if reviewed else None,
                     review_note=None,
+                    source="submission",
                 )
         self.tables["users"] = users
         self.tables["students"] = students
@@ -645,6 +772,191 @@ class Builder:
         self.tables["grade_attempts"] = attempts
         self.tables["student_career_goals"] = goals
         self.tables["skill_evidences"] = evidences
+
+    def build_framework(self) -> None:
+        version_id = f"cv-k68-{modules_career_key()}-1"
+        program_id = content.PROGRAMS["KHMT"][0]
+        tables = {
+            name: []
+            for name in (
+                "career_modules",
+                "career_module_courses",
+                "career_milestones",
+                "career_milestone_modules",
+                "career_suggested_electives",
+                "quiz_questions",
+                "quiz_options",
+                "quiz_attempts",
+                "quiz_attempt_questions",
+                "certificates",
+            )
+        }
+        for module in modules.MODULES:
+            order = module["order"]
+            module_id = module_row_id(order)
+            _row(
+                tables["career_modules"],
+                id=module_id,
+                career_version_id=version_id,
+                program_id=program_id,
+                order=order,
+                title=module["title"],
+                objectives=module["objectives"],
+                extra_knowledge=module["extra"],
+                practice=module["practice"],
+                skill_id=module_skill_id(order),
+            )
+            for position, (course_id, takeaways) in enumerate(module["courses"].items(), start=1):
+                _row(
+                    tables["career_module_courses"],
+                    id=f"{module_id}-{course_id}",
+                    module_id=module_id,
+                    course_id=course_id,
+                    order=position,
+                    takeaways=takeaways,
+                )
+            for number, question in enumerate(module["questions"], start=1):
+                question_id = f"q-m{order}-{number:02d}"
+                _row(
+                    tables["quiz_questions"],
+                    id=question_id,
+                    module_id=module_id,
+                    order=number,
+                    kind=question["kind"],
+                    prompt=question["prompt"],
+                    code_snippet=question["code"],
+                    explanation=question["explanation"],
+                    status="approved",
+                    verification=question["check"],
+                    approved_by="user-admin",
+                    approved_at=APPROVED_AT,
+                )
+                for index, text in enumerate(question["options"]):
+                    marked = text.startswith("**") and text.endswith("**")
+                    if marked != (index in question["answers"]):
+                        raise ValueError(f"Đáp án không khớp: {question_id} {text}")
+                    _row(
+                        tables["quiz_options"],
+                        id=f"{question_id}-{'abcd'[index]}",
+                        question_id=question_id,
+                        order=index,
+                        text=text.strip("*") if marked else text,
+                        is_correct=index in question["answers"],
+                    )
+        for position, (name, members, projects) in enumerate(modules.MILESTONES, start=1):
+            milestone_id = f"milestone-backend-khmt-{position}"
+            _row(
+                tables["career_milestones"],
+                id=milestone_id,
+                career_version_id=version_id,
+                program_id=program_id,
+                order=position,
+                name=name,
+                projects=projects,
+            )
+            for order in members:
+                _row(
+                    tables["career_milestone_modules"],
+                    id=f"{milestone_id}-m{order}",
+                    milestone_id=milestone_id,
+                    module_id=module_row_id(order),
+                )
+        for position, course_id in enumerate(modules.SUGGESTED_ELECTIVES, start=1):
+            _row(
+                tables["career_suggested_electives"],
+                id=f"elective-backend-khmt-{course_id}",
+                career_version_id=version_id,
+                program_id=program_id,
+                course_id=course_id,
+                order=position,
+            )
+        self.tables.update(tables)
+        for order, day in ((1, "2026-10-10"), (2, "2026-10-20")):
+            self._passed_quiz(order, f"{day}T09:00:00", f"{day}T09:12:00")
+
+    def _passed_quiz(self, order: int, started: str, submitted: str) -> None:
+        """thiennhan đạt 9/10 ở mô-đun này: đủ lượt làm bài, chứng chỉ và kỹ năng đạt."""
+        student_id = "NEU-KHMT-001"
+        module = modules.MODULES[order - 1]
+        module_id = module_row_id(order)
+        attempt_id = f"att-quiz-{student_id}-m{order}"
+        questions = module["questions"][: modules.QUIZ_QUESTION_COUNT]
+        _row(
+            self.tables["quiz_attempts"],
+            id=attempt_id,
+            student_id=student_id,
+            module_id=module_id,
+            attempt_no=1,
+            status="submitted",
+            started_at=started,
+            deadline_at=f"{started[:11]}09:15:00",
+            submitted_at=submitted,
+            correct_count=len(questions) - 1,
+            total=len(questions),
+            met_threshold=True,
+        )
+        for number, question in enumerate(questions, start=1):
+            question_id = f"q-m{order}-{number:02d}"
+            ids = [f"{question_id}-{'abcd'[i]}" for i in range(len(question["options"]))]
+            right = [ids[i] for i in question["answers"]]
+            wrong = next(item for item in ids if item not in right)
+            is_correct = number != len(questions)
+            _row(
+                self.tables["quiz_attempt_questions"],
+                id=f"{attempt_id}-q{number:02d}",
+                attempt_id=attempt_id,
+                question_id=question_id,
+                order=number,
+                option_order=ids,
+                selected_option_ids=right if is_correct else [wrong],
+                is_correct=is_correct,
+            )
+        code = base64.urlsafe_b64encode(hashlib.sha256(attempt_id.encode()).digest()[:18]).decode()
+        _row(
+            self.tables["certificates"],
+            id=f"cert-{student_id}-m{order}",
+            code=code,
+            student_id=student_id,
+            module_id=module_id,
+            attempt_id=attempt_id,
+            student_name="Nguyễn Thiện Nhân",
+            module_title=module["title"],
+            correct_count=len(questions) - 1,
+            total=len(questions),
+            issued_at=submitted,
+            revoked_at=None,
+        )
+        _row(
+            self.tables["skill_evidences"],
+            id=f"ev-{student_id}-quiz-m{order}",
+            student_id=student_id,
+            skill_id=module_skill_id(order),
+            description=f"Đạt bài kiểm tra mô-đun: {module['title']}",
+            link=None,
+            status="approved",
+            reviewed_by=None,
+            reviewed_at=submitted,
+            review_note=None,
+            source="quiz",
+        )
+
+    @staticmethod
+    def _student_course(person: dict, course_id: str) -> str:
+        if person["program"] == "KHMT":
+            return official.K68_TO_OFFICIAL.get(course_id, course_id)
+        return course_id
+
+    def official_document(self) -> str:
+        k68 = {}
+        for code, name, group in self.k68_khmt:
+            k68[code] = (
+                name,
+                10 if group == "thesis" else official.SHARED_CREDITS.get(code, 3),
+                group,
+            )
+        for code in ("LLNL1106", "LLNL1107"):
+            k68[code] = (k68[code][0], 3, k68[code][2])
+        return official.document(k68, {code: self._k68_planned.get(code) for code in k68})
 
     def build(self) -> dict[str, dict[str, list[dict]]]:
         accounts = json.loads(_text(TEST_FIXTURES / "accounts.json"))
@@ -662,6 +974,7 @@ class Builder:
         self.build_equivalencies()
         self.build_careers()
         self.build_people({"users": staff, "grade_scale_levels": academic["grade_scale_levels"]})
+        self.build_framework()
         self.tables["roles"] = accounts["roles"]
         return {
             "academic.json": academic,
@@ -705,6 +1018,21 @@ class Builder:
                     "skills",
                 )
             },
+            "framework.json": {
+                key: self.tables[key]
+                for key in (
+                    "career_modules",
+                    "career_module_courses",
+                    "career_milestones",
+                    "career_milestone_modules",
+                    "career_suggested_electives",
+                    "quiz_questions",
+                    "quiz_options",
+                    "quiz_attempts",
+                    "quiz_attempt_questions",
+                    "certificates",
+                )
+            },
             "student_records.json": {
                 key: self.tables[key]
                 for key in (
@@ -727,13 +1055,14 @@ class Builder:
             "",
             "## Giả định của nhóm",
             "",
-            "- Tín chỉ: khóa luận 10, còn lại 3. Mọi môn đều tính vào GPA.",
+            "- Tín chỉ của CNTT, KTPM, ATTT: khóa luận 10, còn lại 3, trừ `LLNL1106`, `LLNL1107` là 2. "
+            "Mọi môn đều tính vào GPA. KHMT theo PDF, xem `docs/DATA_OFFICIAL.md`.",
             "- Vị trí trong lộ trình (Q99): Khóa luận tốt nghiệp ở kỳ cuối của tầm lộ trình, "
             "Chuyên đề thực tế ưu tiên kỳ ngay trước. Tài liệu nguồn không ghi học kỳ của 2 môn "
             "này, cần xác minh với trường.",
             "- Cẩm nang không có kỹ năng dùng chung giữa các nghề; cơ chế dùng chung được kiểm ở "
             "profile test.",
-            f"- CTĐT K68 dùng làm CTĐT mẫu cho sinh viên K66, K67: “{content.PROGRAM_NOTE}”.",
+            f"- CTĐT K68 dùng làm CTĐT mẫu cho sinh viên K66, K67 của CNTT, KTPM, ATTT: “{content.PROGRAM_NOTE}”.",
             f"- Tiên quyết: chỉ dựng từ mục 4 cẩm nang, nguồn “{content.SOURCE_ORDER}”. "
             "M11 không dùng các cạnh này để chặn đăng ký.",
             "- “Security” trong mục 4 là An toàn và bảo mật thông tin, Mật mã và bảo mật thông tin; "
@@ -756,9 +1085,8 @@ class Builder:
             "| EP17.CNTT1113 → EP17.CNTT11113 | Tương tác người máy: như trên | Dùng theo cẩm nang |",
             "| EP17.CNTT1107 | Tài liệu CTĐT ghi cho cả Hệ điều hành và Lập trình song song và phân "
             "tán | Hệ điều hành giữ mã; môn còn lại để mã rỗng, kèm cảnh báo (Q94) |",
-            "| EP17.KHMA1101, EP17.KHMI1101 | Cẩm nang ghi đảo ở dòng KTPM của Data Analyst, và cả "
-            "Business Analyst | Nạp theo tên đúng trong tài liệu CTĐT; học kỳ đi theo tên môn, chưa "
-            "xác minh |",
+            "| KHMA1101, KHMI1101, kể cả mã EP17 | Tài liệu K68 và cẩm nang đảo so với PDF | Theo PDF: "
+            "KHMI1101 là vi mô, KHMA1101 là vĩ mô; học kỳ đi theo tên môn |",
             "| KHMA1101, KHMI1101 (ATTT) | Ảnh ATTT ghi hai dòng cùng tên “Kinh tế vi mô 1” (Phần "
             "III mục 4); học kỳ không ghi | Học kỳ rỗng, kèm cảnh báo |",
             "| NNKC1131–1133, EP17.NNKC1168–1170 | Học kỳ Ngoại ngữ/Tiếng Anh không ghi | Học kỳ "
@@ -800,7 +1128,7 @@ class Builder:
             cells = []
             for program in content.PROGRAM_ORDER:
                 codes = {
-                    SWAP_FIXES.get((program, row.name), row.codes[program][0])
+                    fixed_code(program, row.name, row.codes[program][0])
                     for row in career.rows
                     if program in row.codes
                 }
@@ -832,9 +1160,10 @@ class Builder:
         return "\n".join(lines)
 
 
-def build() -> tuple[dict[str, dict[str, list[dict]]], str]:
+def build() -> tuple[dict[str, dict[str, list[dict]]], str, str]:
     builder = Builder()
-    return builder.build(), builder.document()
+    fixtures = builder.build()
+    return fixtures, builder.document(), builder.official_document()
 
 
 def _schedule_role(name: str) -> str | None:
@@ -847,13 +1176,14 @@ def _schedule_role(name: str) -> str | None:
 
 
 def main() -> None:
-    fixtures, document = build()
+    fixtures, document, official_document = build()
     OUT.mkdir(exist_ok=True)
     for name, data in fixtures.items():
         (OUT / name).write_text(
             json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf8"
         )
     DOC.write_text(document, encoding="utf8")
+    OFFICIAL_DOC.write_text(official_document, encoding="utf8")
 
 
 if __name__ == "__main__":

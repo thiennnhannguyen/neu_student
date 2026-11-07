@@ -322,3 +322,20 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | 16 trang có dữ liệu riêng: API chậm có khung đang tải, API lỗi có nút Thử lại, cả 2 trạng thái có 1 `h1` | `frontend/e2e/sweep.spec.mjs` |
 | Thông báo: SQLite khóa không làm hỏng danh sách, không ghi lại, đang tải và lỗi không báo rỗng | `backend/tests/api/test_notifications.py`, `frontend/src/features/m12/work.test.jsx` |
 | Dòng kỳ tham chiếu chung, dòng Q80 rút gọn, ô lọc nhật ký từ API | `frontend/src/features/m11/m11Pages.test.jsx`, `frontend/src/features/admin/AuditLogPage.test.jsx` |
+
+## CR-04: KHMT theo PDF, Backend chuyên sâu, bài kiểm tra, chứng chỉ
+
+| Yêu cầu | Test |
+|---------|------|
+| Mọi mã trong PDF, tổng 130 TC, nhóm 4/6 và 10/15, Ngoại ngữ, cảnh báo HK3/HK4, GDTC, GDQP, KHMA/KHMI | `backend/tests/acceptance/test_khmt_official.py` |
+| Hồ sơ `thiennhan`, đứng đầu Tài khoản demo | `test_khmt_official.py`, `test_demo_k68.py` |
+| Ngân hàng câu hỏi: từ 15 câu, có giải thích, đủ 4 loại, không có từ cấm | `backend/tests/api/m12/test_quiz.py` |
+| Câu hỏi có thể chạy thật | `backend/tests/content/test_quiz_checks.py`, tổng hợp ở `docs/QUIZ_VERIFICATION.md` |
+| Chấm đúng, biên 80%, câu nhiều đáp án, chỉ câu approved | `test_quiz.py` |
+| Không lộ đáp án trước khi nộp | `test_start_gives_ten_questions_in_time_without_answers`, `test_reading_open_attempt_does_not_leak_answers` |
+| Hết giờ tự nộp, nộp lại 409, thời gian chờ, mở trùng | `test_late_read_auto_submits_saved_answers`, `test_submit_twice_is_409_and_grades_once`, `test_cooldown_*`, `test_two_requests_opening_at_once_lose_with_409` |
+| Chứng chỉ chỉ cấp khi đạt, mã sai 404, xác thực chỉ có 4 trường cộng câu miễn trừ | `test_below_80_percent_*`, `test_wrong_verification_code_is_404`, `test_public_verification_shows_only_the_allowed_fields` |
+| Lọc kỹ năng theo ngành: Backend KHMT mẫu số 13, ngành khác 9 | `test_backend_denominator_is_13_for_khmt_and_9_for_other_program` |
+| Trạng thái chỉ còn icon, có aria-label, tooltip, chú giải | `frontend/src/components/ui/ui.test.jsx` |
+| Giao diện khung năng lực, làm bài, ôn tập, chứng chỉ, xác thực | `frontend/src/features/m12/framework/framework.test.jsx` |
+| E2E thiennhan làm mô-đun 3, đạt, chứng chỉ, xác thực khi chưa đăng nhập; axe các trang mới | `frontend/e2e/quiz.spec.mjs` |

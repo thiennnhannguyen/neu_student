@@ -164,7 +164,11 @@ class SkillEvidence(MockMixin, db.Model):
     reviewed_at = db.Column(db.DateTime)
     review_note = db.Column(db.Text)
     submitted_at = db.Column(db.DateTime)
+    source = db.Column(
+        db.String(16), nullable=False, default="submission", server_default="submission"
+    )
     __table_args__ = (
+        db.CheckConstraint("source IN ('submission', 'quiz')", name="source_valid"),
         db.CheckConstraint("status IN ('pending', 'approved', 'rejected')", name="status_valid"),
     )
 
@@ -370,3 +374,152 @@ class SupportAttachment(MockMixin, db.Model):
     size_bytes = db.Column(db.Integer, nullable=False)
     sha256 = db.Column(db.String(64), nullable=False)
     __table_args__ = (db.CheckConstraint("size_bytes > 0", name="size_positive"),)
+
+
+class CareerModule(MockMixin, db.Model):
+    """Khung năng lực của một nghề cho một ngành. Mỗi mô-đun ứng với đúng 1 kỹ năng."""
+
+    __tablename__ = "career_modules"
+    id = pk()
+    career_version_id = fk("career_versions.id", index=True)
+    program_id = fk("programs.id")
+    order = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.String(128), nullable=False)
+    objectives = db.Column(db.JSON, nullable=False)
+    extra_knowledge = db.Column(db.JSON, nullable=False)
+    practice = db.Column(db.JSON, nullable=False)
+    skill_id = db.Column(
+        db.String(64), db.ForeignKey("skills.id", ondelete="RESTRICT"), nullable=False, unique=True
+    )
+    __table_args__ = (
+        db.UniqueConstraint(
+            "career_version_id", "program_id", "order", name="uq_career_module_order"
+        ),
+    )
+
+
+class CareerModuleCourse(MockMixin, db.Model):
+    __tablename__ = "career_module_courses"
+    id = pk()
+    module_id = fk("career_modules.id", index=True)
+    course_id = fk("courses.id")
+    order = db.Column(db.Integer, nullable=False)
+    takeaways = db.Column(db.JSON, nullable=False)
+    __table_args__ = (db.UniqueConstraint("module_id", "course_id", name="uq_module_course"),)
+
+
+class CareerMilestone(MockMixin, db.Model):
+    __tablename__ = "career_milestones"
+    id = pk()
+    career_version_id = fk("career_versions.id", index=True)
+    program_id = fk("programs.id")
+    order = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(64), nullable=False)
+    projects = db.Column(db.JSON, nullable=False)
+
+
+class CareerMilestoneModule(MockMixin, db.Model):
+    __tablename__ = "career_milestone_modules"
+    id = pk()
+    milestone_id = fk("career_milestones.id", index=True)
+    module_id = fk("career_modules.id")
+    __table_args__ = (db.UniqueConstraint("milestone_id", "module_id", name="uq_milestone_module"),)
+
+
+class CareerSuggestedElective(MockMixin, db.Model):
+    __tablename__ = "career_suggested_electives"
+    id = pk()
+    career_version_id = fk("career_versions.id", index=True)
+    program_id = fk("programs.id")
+    course_id = fk("courses.id")
+    order = db.Column(db.Integer, nullable=False)
+
+
+class QuizQuestion(MockMixin, db.Model):
+    __tablename__ = "quiz_questions"
+    id = pk()
+    module_id = fk("career_modules.id", index=True)
+    order = db.Column(db.Integer, nullable=False)
+    kind = db.Column(db.String(16), nullable=False)
+    prompt = db.Column(db.Text, nullable=False)
+    code_snippet = db.Column(db.Text)
+    explanation = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(16), nullable=False, default="draft")
+    verification = db.Column(db.String(16), nullable=False, default="theory")
+    approved_by = fk("users.id", nullable=True)
+    approved_at = db.Column(db.DateTime)
+    __table_args__ = (
+        db.CheckConstraint("kind IN ('single', 'multi', 'code', 'http')", name="kind_valid"),
+        db.CheckConstraint("status IN ('draft', 'approved')", name="status_valid"),
+        db.CheckConstraint("verification IN ('run', 'theory')", name="verification_valid"),
+    )
+
+
+class QuizOption(MockMixin, db.Model):
+    __tablename__ = "quiz_options"
+    id = pk()
+    question_id = fk("quiz_questions.id", index=True)
+    order = db.Column(db.Integer, nullable=False)
+    text = db.Column(db.Text, nullable=False)
+    is_correct = db.Column(db.Boolean, nullable=False)
+
+
+class QuizAttempt(MockMixin, db.Model):
+    __tablename__ = "quiz_attempts"
+    id = pk()
+    student_id = fk("students.id", index=True)
+    module_id = fk("career_modules.id")
+    attempt_no = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.String(16), nullable=False, default="in_progress")
+    started_at = db.Column(db.DateTime, nullable=False)
+    deadline_at = db.Column(db.DateTime, nullable=False)
+    submitted_at = db.Column(db.DateTime)
+    correct_count = db.Column(db.Integer)
+    total = db.Column(db.Integer, nullable=False)
+    met_threshold = db.Column(db.Boolean)
+    __table_args__ = (
+        db.CheckConstraint(
+            "status IN ('in_progress', 'submitted', 'expired')", name="status_valid"
+        ),
+        db.UniqueConstraint("student_id", "module_id", "attempt_no", name="uq_quiz_attempt_no"),
+        db.Index(
+            "uq_quiz_attempt_one_open",
+            "student_id",
+            "module_id",
+            unique=True,
+            sqlite_where=db.text("status = 'in_progress'"),
+        ),
+    )
+
+
+class QuizAttemptQuestion(MockMixin, db.Model):
+    __tablename__ = "quiz_attempt_questions"
+    id = pk()
+    attempt_id = fk("quiz_attempts.id", index=True)
+    question_id = fk("quiz_questions.id")
+    order = db.Column(db.Integer, nullable=False)
+    option_order = db.Column(db.JSON, nullable=False)
+    selected_option_ids = db.Column(db.JSON, nullable=False, default=list)
+    is_correct = db.Column(db.Boolean)
+    __table_args__ = (db.UniqueConstraint("attempt_id", "question_id", name="uq_attempt_question"),)
+
+
+class Certificate(MockMixin, db.Model):
+    __tablename__ = "certificates"
+    id = pk()
+    code = db.Column(db.String(64), nullable=False, unique=True)
+    student_id = fk("students.id", index=True)
+    module_id = fk("career_modules.id")
+    attempt_id = db.Column(
+        db.String(64),
+        db.ForeignKey("quiz_attempts.id", ondelete="RESTRICT"),
+        nullable=False,
+        unique=True,
+    )
+    student_name = db.Column(db.String(128), nullable=False)
+    module_title = db.Column(db.String(128), nullable=False)
+    correct_count = db.Column(db.Integer, nullable=False)
+    total = db.Column(db.Integer, nullable=False)
+    issued_at = db.Column(db.DateTime, nullable=False)
+    revoked_at = db.Column(db.DateTime)
+    __table_args__ = (db.UniqueConstraint("student_id", "module_id", name="uq_certificate_module"),)

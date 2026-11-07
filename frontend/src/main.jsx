@@ -11,6 +11,7 @@ import './styles/ui.css';
 import './styles/shell.css';
 import './styles/m11.css';
 import './styles/m12.css';
+import './styles/framework.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -36,7 +36,7 @@ export default function MetricCard({
       </div>
       <div className="metric-card__value-row">
         <p className="metric-card__value">{value}</p>
-        {status && <StatusChip status={status} size="sm" />}
+        {status && <StatusChip status={status} />}
       </div>
       {hint && <p className="metric-card__detail">{hint}</p>}
       {footer}

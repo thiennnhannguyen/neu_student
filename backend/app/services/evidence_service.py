@@ -11,6 +11,7 @@ from app.common.pagination import paginate
 from app.extensions import db
 from app.models.m12 import (
     Career,
+    CareerModule,
     CareerNode,
     CareerRequirement,
     Skill,
@@ -99,6 +100,15 @@ def submit(
             422,
             message="Kỹ năng không thuộc nghề nào.",
             details={"fields": {"skill_id": ["Kỹ năng không thuộc nghề nào."]}},
+        )
+    module_skill = db.session.scalar(
+        select(CareerModule.id).where(CareerModule.skill_id == skill_id).limit(1)
+    )
+    if module_skill is not None:
+        raise ApiError(
+            422,
+            message="Kỹ năng này đạt qua bài kiểm tra mô-đun, không nộp minh chứng.",
+            code="SKILL_NEEDS_QUIZ",
         )
     current = db.session.scalar(
         select(SkillEvidence.id).where(

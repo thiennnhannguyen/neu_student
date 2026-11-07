@@ -16,7 +16,7 @@ from app.models.m12 import (
     RoadmapVersion,
     Skill,
 )
-from app.models.shared import CourseOffering, CoursePrerequisite, Student, User
+from app.models.shared import CourseOffering, CoursePrerequisite, ProgramVersion, Student, User
 from app.services import m11_public
 from app.services.career_api_service import (
     display_name,
@@ -53,8 +53,18 @@ NOTE = (
     "Lịch dự kiến, không phải lịch mở lớp chính thức. "
     "Tín chỉ và tiên quyết của CTĐT K68 là giả định."
 )
+SCHEDULE_NOTE = "Lịch dự kiến, không phải lịch mở lớp chính thức. "
+PUBLISHED_SOURCE = "Theo CTĐT do Trường công bố"
 NOT_ACTIVE = "Bản lộ trình này không còn hiệu lực."
 OUTDATED = "Dữ liệu vừa thay đổi. Hãy xem lại khác biệt rồi áp dụng."
+
+
+def _note(student: Student) -> str:
+    """CTĐT theo văn bản Trường công bố thì dẫn nguồn, không gọi là giả định."""
+    version = db.session.get(ProgramVersion, student.program_version_id)
+    if version.note and version.note.startswith(PUBLISHED_SOURCE):
+        return f"{SCHEDULE_NOTE}{version.note}"
+    return NOTE
 
 
 def _horizon(facts: m11_public.RoadmapFacts) -> tuple[PlanSemester, ...]:
@@ -479,7 +489,7 @@ def current_roadmap(student: Student) -> dict:
             "student_id": student.id,
             "roadmap": None,
             "has_primary": has_primary,
-            "note": NOTE,
+            "note": _note(student),
         }
     active = _active_version(roadmap.id)
     items = _items_of(active.id)
@@ -498,7 +508,7 @@ def current_roadmap(student: Student) -> dict:
     return {
         "student_id": student.id,
         "has_primary": has_primary,
-        "note": NOTE,
+        "note": _note(student),
         "roadmap": {
             "id": roadmap.id,
             "career": _career_json(career),
@@ -671,7 +681,7 @@ def proposal_detail(student: Student, roadmap: LearningRoadmap) -> dict:
     facts = m11_public.get_roadmap_facts(student.id)
     proposal = _proposal(student, active, items, facts)
     if proposal is None or not _plan_changes(active, items, proposal[0]):
-        return {"roadmap_id": roadmap.id, "has_proposal": False, "note": NOTE}
+        return {"roadmap_id": roadmap.id, "has_proposal": False, "note": _note(student)}
     plan, stamp, _parts = proposal
     before, after = _placement_of_items(items), _placement_of_plan(plan)
     diff = diff_placements(before, after)
@@ -685,7 +695,7 @@ def proposal_detail(student: Student, roadmap: LearningRoadmap) -> dict:
         "has_proposal": True,
         "dismissed": stamp == active.dismissed_stamp,
         "stamp": stamp,
-        "note": NOTE,
+        "note": _note(student),
         "career_before": _career_json(db.session.get(Career, roadmap.career_id)),
         "career_after": _career_json(current_career),
         "added": [{**labels[k], "semester": names.get(s)} for k, s in diff.added],

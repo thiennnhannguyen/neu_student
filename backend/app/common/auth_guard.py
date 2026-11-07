@@ -23,7 +23,7 @@ CSRF_HEADER_VALUE = "fetch"
 
 
 def public_route(view):
-    """Route không cần đăng nhập. Chỉ dùng cho health, login, me."""
+    """Route không cần đăng nhập. Danh sách đã duyệt nằm ở test_routes_doc.py."""
     view.auth_policy = PUBLIC_POLICY
     return view
 

@@ -1,7 +1,7 @@
 import { CalendarRange } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { Navigate, useParams } from 'react-router';
-import { Button, EmptyState, PageHeader, Tabs } from '../../components/ui';
+import { Navigate, useParams, useSearchParams } from 'react-router';
+import { Button, EmptyState, PageHeader, StatusLegend, Tabs } from '../../components/ui';
 import { withQuery } from '../m11/format';
 import useApiResource from '../m11/useApiResource';
 import { DataWarnings, ResourceView } from '../m11/ui';
@@ -10,17 +10,38 @@ import CareerHero from './CareerHero';
 import CareerProjects from './CareerProjects';
 import CareerRoadmap from './CareerRoadmap';
 import { PICK_STUDENT_HINT } from './CareersPage';
+import CompetencyFramework from './framework/CompetencyFramework';
 import { K68_NOTE, NOT_RECRUITMENT } from './labels';
 import RequirementPanel from './RequirementPanel';
 import SetGoalButton from './SetGoalButton';
 import useCareerStudent from './useCareerStudent';
 import useMediaQuery from './useMediaQuery';
 
+const COURSE_STATUSES = [
+  'done',
+  'done_via_equivalency',
+  'exempt',
+  'in_progress',
+  'failed',
+  'not_started',
+  'pending',
+  'no_evidence',
+];
 const OLD_ID_PREFIX = 'career-';
 const PUSH_PANEL_QUERY = '(min-width: 1280px)';
 
-function Detail({ student, data, reload }) {
+function Detail({ student, data, reload, slug }) {
   const [selected, setSelected] = useState(null);
+  const [params] = useSearchParams();
+  const framework = useApiResource(
+    withQuery(`/api/m12/careers/slug/${slug}/framework`, student.query),
+  );
+  // Tải lại khung năng lực thì giữ dữ liệu cũ, để tab và thông báo lỗi không bị dựng lại.
+  const shownFramework = useRef(null);
+  if (framework.status === 'ok') {
+    shownFramework.current = framework.data;
+  }
+  const modules = shownFramework.current?.modules ?? [];
   const pushes = useMediaQuery(PUSH_PANEL_QUERY);
   const { profile, nodes } = data;
   const tabs = [
@@ -37,6 +58,7 @@ function Detail({ student, data, reload }) {
               <strong>Học kỳ chính thức theo CTĐT:</strong> nhãn HK ở từng môn.
             </span>
           </p>
+          <StatusLegend statuses={COURSE_STATUSES} />
           <CareerRoadmap
             label={`Lộ trình ${profile.display_name}`}
             nodes={nodes}
@@ -60,9 +82,25 @@ function Detail({ student, data, reload }) {
           selfStudyNote={profile.self_study_note}
           student={student}
           onChanged={reload}
+          moduleSkillIds={new Set(modules.map((module) => module.skill_id))}
         />
       ),
     },
+    ...(modules.length > 0
+      ? [
+          {
+            id: 'framework',
+            label: 'Khung năng lực',
+            content: (
+              <CompetencyFramework
+                data={shownFramework.current}
+                student={student}
+                onChanged={framework.retry}
+              />
+            ),
+          },
+        ]
+      : []),
   ];
   return (
     <>
@@ -99,7 +137,14 @@ function Detail({ student, data, reload }) {
       <DataWarnings warnings={data.data_warnings} />
       <div className={`career-detail${selected && pushes ? ' career-detail--with-panel' : ''}`}>
         <div className="career-detail__main">
-          <Tabs tabs={tabs} label="Nội dung nghề" idPrefix="career" />
+          <Tabs
+            // Tab Khung năng lực có sau khi tải xong: dựng lại để mở đúng tab theo đường dẫn.
+            key={modules.length > 0 ? 'with-framework' : 'plain'}
+            tabs={tabs}
+            label="Nội dung nghề"
+            idPrefix="career"
+            initial={params.get('tab')}
+          />
         </div>
         {selected && (
           <RequirementPanel
@@ -112,7 +157,9 @@ function Detail({ student, data, reload }) {
         )}
       </div>
       <p className="career-disclaimer">{NOT_RECRUITMENT}.</p>
-      {profile.major_fit && <p className="career-disclaimer">{K68_NOTE}</p>}
+      {profile.major_fit && (
+        <p className="career-disclaimer">{shownFramework.current?.program_note ?? K68_NOTE}</p>
+      )}
     </>
   );
 }
@@ -155,7 +202,9 @@ export default function CareerDetailPage() {
     <section className="m12-page">
       {shown.status !== 'ok' && <PageHeader title="Chi tiết nghề" />}
       <ResourceView resource={shown} loadingText="Đang tải nghề..." errorText="Không tải được nghề">
-        {(data) => <Detail key={slug} student={student} data={data} reload={resource.retry} />}
+        {(data) => (
+          <Detail key={slug} slug={slug} student={student} data={data} reload={resource.retry} />
+        )}
       </ResourceView>
     </section>
   );

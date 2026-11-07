@@ -1,6 +1,262 @@
 {
   "enrollments": [
     {
+      "id": "enr-NEU-KHMT-001-LLNL1105-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLNL1105",
+      "semester_id": "S1",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-LLNL1106-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLNL1106",
+      "semester_id": "S1",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-TOCB1101-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TOCB1101",
+      "semester_id": "S1",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-KHMT.NN1-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMT.NN1",
+      "semester_id": "S1",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1116-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1116",
+      "semester_id": "S1",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1191-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1191",
+      "semester_id": "S1",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-TOCB1107-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TOCB1107",
+      "semester_id": "S1",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-LUCS1129-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LUCS1129",
+      "semester_id": "S2",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-LLNL1107-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLNL1107",
+      "semester_id": "S2",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-KHMI1101-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMI1101",
+      "semester_id": "S2",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-TOKT1145-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TOKT1145",
+      "semester_id": "S2",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-KHMT.NN2-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMT.NN2",
+      "semester_id": "S2",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-TIKT1130-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TIKT1130",
+      "semester_id": "S2",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1128-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1128",
+      "semester_id": "S2",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-LLLSD1102-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLLSD1102",
+      "semester_id": "S3",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-LLDL1101-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLDL1101",
+      "semester_id": "S3",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-KHMA1101-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMA1101",
+      "semester_id": "S3",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-KHMT.NN3-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMT.NN3",
+      "semester_id": "S3",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-TIHT1101-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TIHT1101",
+      "semester_id": "S3",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1182-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1182",
+      "semester_id": "S3",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1107-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1107",
+      "semester_id": "S3",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1131-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1131",
+      "semester_id": "S3",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1112-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1112",
+      "semester_id": "S4",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1152-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1152",
+      "semester_id": "S4",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1192-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1192",
+      "semester_id": "S4",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1114-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1114",
+      "semester_id": "S4",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1165-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1165",
+      "semester_id": "S4",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1153-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1153",
+      "semester_id": "S4",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-TIHT1101-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TIHT1101",
+      "semester_id": "S4",
+      "status": "final",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1180-S5",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1180",
+      "semester_id": "S5",
+      "status": "in_progress",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1117-S5",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1117",
+      "semester_id": "S5",
+      "status": "in_progress",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1188-S5",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1188",
+      "semester_id": "S5",
+      "status": "in_progress",
+      "is_mock": true
+    },
+    {
       "id": "enr-DEMO01-LLNL1105-S1",
       "student_id": "DEMO01",
       "course_id": "LLNL1105",
@@ -585,9 +841,9 @@
       "is_mock": true
     },
     {
-      "id": "enr-DEMO05-NNKC1131-S1",
+      "id": "enr-DEMO05-KHMT.NN1-S1",
       "student_id": "DEMO05",
-      "course_id": "NNKC1131",
+      "course_id": "KHMT.NN1",
       "semester_id": "S1",
       "status": "final",
       "is_mock": true
@@ -625,9 +881,9 @@
       "is_mock": true
     },
     {
-      "id": "enr-DEMO05-NNKC1132-S2",
+      "id": "enr-DEMO05-KHMT.NN2-S2",
       "student_id": "DEMO05",
-      "course_id": "NNKC1132",
+      "course_id": "KHMT.NN2",
       "semester_id": "S2",
       "status": "final",
       "is_mock": true
@@ -1098,6 +1354,412 @@
     }
   ],
   "grade_attempts": [
+    {
+      "id": "att-NEU-KHMT-001-LLNL1105-S1",
+      "enrollment_id": "enr-NEU-KHMT-001-LLNL1105-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLNL1105",
+      "semester_id": "S1",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 7.5,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-LLNL1106-S1",
+      "enrollment_id": "enr-NEU-KHMT-001-LLNL1106-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLNL1106",
+      "semester_id": "S1",
+      "attempt_no": 1,
+      "credits": 2,
+      "score_10": 7.0,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-TOCB1101-S1",
+      "enrollment_id": "enr-NEU-KHMT-001-TOCB1101-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TOCB1101",
+      "semester_id": "S1",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 8.0,
+      "letter": "B+",
+      "grade_4": 3.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-KHMT.NN1-S1",
+      "enrollment_id": "enr-NEU-KHMT-001-KHMT.NN1-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMT.NN1",
+      "semester_id": "S1",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 7.5,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1116-S1",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1116-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1116",
+      "semester_id": "S1",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 8.5,
+      "letter": "A",
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1191-S1",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1191-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1191",
+      "semester_id": "S1",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 6.5,
+      "letter": "C+",
+      "grade_4": 2.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-TOCB1107-S1",
+      "enrollment_id": "enr-NEU-KHMT-001-TOCB1107-S1",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TOCB1107",
+      "semester_id": "S1",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 8.0,
+      "letter": "B+",
+      "grade_4": 3.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-LUCS1129-S2",
+      "enrollment_id": "enr-NEU-KHMT-001-LUCS1129-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LUCS1129",
+      "semester_id": "S2",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 7.0,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-LLNL1107-S2",
+      "enrollment_id": "enr-NEU-KHMT-001-LLNL1107-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLNL1107",
+      "semester_id": "S2",
+      "attempt_no": 1,
+      "credits": 2,
+      "score_10": 7.5,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-KHMI1101-S2",
+      "enrollment_id": "enr-NEU-KHMT-001-KHMI1101-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMI1101",
+      "semester_id": "S2",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 6.5,
+      "letter": "C+",
+      "grade_4": 2.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-TOKT1145-S2",
+      "enrollment_id": "enr-NEU-KHMT-001-TOKT1145-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TOKT1145",
+      "semester_id": "S2",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 3.0,
+      "letter": "F",
+      "grade_4": 0.0,
+      "passed": false,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-KHMT.NN2-S2",
+      "enrollment_id": "enr-NEU-KHMT-001-KHMT.NN2-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMT.NN2",
+      "semester_id": "S2",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 7.0,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-TIKT1130-S2",
+      "enrollment_id": "enr-NEU-KHMT-001-TIKT1130-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TIKT1130",
+      "semester_id": "S2",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 9.0,
+      "letter": "A",
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1128-S2",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1128-S2",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1128",
+      "semester_id": "S2",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 9.5,
+      "letter": "A",
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-LLLSD1102-S3",
+      "enrollment_id": "enr-NEU-KHMT-001-LLLSD1102-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLLSD1102",
+      "semester_id": "S3",
+      "attempt_no": 1,
+      "credits": 2,
+      "score_10": 7.5,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-LLDL1101-S3",
+      "enrollment_id": "enr-NEU-KHMT-001-LLDL1101-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "LLDL1101",
+      "semester_id": "S3",
+      "attempt_no": 1,
+      "credits": 2,
+      "score_10": 8.0,
+      "letter": "B+",
+      "grade_4": 3.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-KHMA1101-S3",
+      "enrollment_id": "enr-NEU-KHMT-001-KHMA1101-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMA1101",
+      "semester_id": "S3",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 7.0,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-KHMT.NN3-S3",
+      "enrollment_id": "enr-NEU-KHMT-001-KHMT.NN3-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "KHMT.NN3",
+      "semester_id": "S3",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 7.0,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-TIHT1101-S3",
+      "enrollment_id": "enr-NEU-KHMT-001-TIHT1101-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TIHT1101",
+      "semester_id": "S3",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 3.8,
+      "letter": "F",
+      "grade_4": 0.0,
+      "passed": false,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1182-S3",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1182-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1182",
+      "semester_id": "S3",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 7.5,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1107-S3",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1107-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1107",
+      "semester_id": "S3",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 8.0,
+      "letter": "B+",
+      "grade_4": 3.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1131-S3",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1131-S3",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1131",
+      "semester_id": "S3",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 8.5,
+      "letter": "A",
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1112-S4",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1112-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1112",
+      "semester_id": "S4",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 7.0,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1152-S4",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1152-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1152",
+      "semester_id": "S4",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 9.0,
+      "letter": "A",
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1192-S4",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1192-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1192",
+      "semester_id": "S4",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 7.5,
+      "letter": "B",
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1114-S4",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1114-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1114",
+      "semester_id": "S4",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 8.0,
+      "letter": "B+",
+      "grade_4": 3.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1165-S4",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1165-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1165",
+      "semester_id": "S4",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 8.5,
+      "letter": "A",
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-CNTT1153-S4",
+      "enrollment_id": "enr-NEU-KHMT-001-CNTT1153-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1153",
+      "semester_id": "S4",
+      "attempt_no": 1,
+      "credits": 3,
+      "score_10": 8.0,
+      "letter": "B+",
+      "grade_4": 3.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "att-NEU-KHMT-001-TIHT1101-S4",
+      "enrollment_id": "enr-NEU-KHMT-001-TIHT1101-S4",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "TIHT1101",
+      "semester_id": "S4",
+      "attempt_no": 2,
+      "credits": 3,
+      "score_10": 8.0,
+      "letter": "B+",
+      "grade_4": 3.5,
+      "passed": true,
+      "is_mock": true
+    },
     {
       "id": "att-DEMO01-LLNL1105-S1",
       "enrollment_id": "enr-DEMO01-LLNL1105-S1",
@@ -1953,10 +2615,10 @@
       "is_mock": true
     },
     {
-      "id": "att-DEMO05-NNKC1131-S1",
-      "enrollment_id": "enr-DEMO05-NNKC1131-S1",
+      "id": "att-DEMO05-KHMT.NN1-S1",
+      "enrollment_id": "enr-DEMO05-KHMT.NN1-S1",
       "student_id": "DEMO05",
-      "course_id": "NNKC1131",
+      "course_id": "KHMT.NN1",
       "semester_id": "S1",
       "attempt_no": 1,
       "credits": 3,
@@ -2023,10 +2685,10 @@
       "is_mock": true
     },
     {
-      "id": "att-DEMO05-NNKC1132-S2",
-      "enrollment_id": "enr-DEMO05-NNKC1132-S2",
+      "id": "att-DEMO05-KHMT.NN2-S2",
+      "enrollment_id": "enr-DEMO05-KHMT.NN2-S2",
       "student_id": "DEMO05",
-      "course_id": "NNKC1132",
+      "course_id": "KHMT.NN2",
       "semester_id": "S2",
       "attempt_no": 1,
       "credits": 3,
@@ -2683,6 +3345,15 @@
   ],
   "student_career_goals": [
     {
+      "id": "goal-NEU-KHMT-001-backend",
+      "student_id": "NEU-KHMT-001",
+      "career_id": "career-k68-backend",
+      "is_primary": true,
+      "started_at": "2026-09-05T08:00:00",
+      "ended_at": null,
+      "is_mock": true
+    },
+    {
       "id": "goal-DEMO01-backend",
       "student_id": "DEMO01",
       "career_id": "career-k68-backend",
@@ -2757,6 +3428,19 @@
   ],
   "skill_evidences": [
     {
+      "id": "ev-NEU-KHMT-001-1",
+      "student_id": "NEU-KHMT-001",
+      "skill_id": "pj-k68-backend-starter",
+      "description": "Minh chứng cho: API quản lý sinh viên",
+      "link": "https://example.test/mau/minh-chung",
+      "status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "review_note": null,
+      "source": "submission",
+      "is_mock": true
+    },
+    {
       "id": "ev-DEMO01-1",
       "student_id": "DEMO01",
       "skill_id": "sk-k68-backend-1",
@@ -2766,6 +3450,7 @@
       "reviewed_by": "user-gv1",
       "reviewed_at": "2026-10-15T08:00:00",
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2778,6 +3463,7 @@
       "reviewed_by": null,
       "reviewed_at": null,
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2790,6 +3476,7 @@
       "reviewed_by": null,
       "reviewed_at": null,
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2802,6 +3489,7 @@
       "reviewed_by": "user-gv1",
       "reviewed_at": "2026-10-15T08:00:00",
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2814,6 +3502,7 @@
       "reviewed_by": null,
       "reviewed_at": null,
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2826,6 +3515,7 @@
       "reviewed_by": null,
       "reviewed_at": null,
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2838,6 +3528,7 @@
       "reviewed_by": "user-gv2",
       "reviewed_at": "2026-10-15T08:00:00",
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2850,6 +3541,7 @@
       "reviewed_by": null,
       "reviewed_at": null,
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2862,6 +3554,7 @@
       "reviewed_by": null,
       "reviewed_at": null,
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2874,6 +3567,7 @@
       "reviewed_by": "user-gv2",
       "reviewed_at": "2026-10-15T08:00:00",
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2886,6 +3580,7 @@
       "reviewed_by": "user-gv2",
       "reviewed_at": "2026-10-15T08:00:00",
       "review_note": null,
+      "source": "submission",
       "is_mock": true
     },
     {
@@ -2898,6 +3593,33 @@
       "reviewed_by": null,
       "reviewed_at": null,
       "review_note": null,
+      "source": "submission",
+      "is_mock": true
+    },
+    {
+      "id": "ev-NEU-KHMT-001-quiz-m1",
+      "student_id": "NEU-KHMT-001",
+      "skill_id": "sk-backend-khmt-m1",
+      "description": "Đạt bài kiểm tra mô-đun: Nền tảng lập trình và thuật toán",
+      "link": null,
+      "status": "approved",
+      "reviewed_by": null,
+      "reviewed_at": "2026-10-10T09:12:00",
+      "review_note": null,
+      "source": "quiz",
+      "is_mock": true
+    },
+    {
+      "id": "ev-NEU-KHMT-001-quiz-m2",
+      "student_id": "NEU-KHMT-001",
+      "skill_id": "sk-backend-khmt-m2",
+      "description": "Đạt bài kiểm tra mô-đun: Ngôn ngữ backend và OOP",
+      "link": null,
+      "status": "approved",
+      "reviewed_by": null,
+      "reviewed_at": "2026-10-20T09:12:00",
+      "review_note": null,
+      "source": "quiz",
       "is_mock": true
     }
   ]

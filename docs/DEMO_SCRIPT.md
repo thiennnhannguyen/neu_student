@@ -20,6 +20,7 @@ Mở terminal 2 để seed giữa các phần. Đổi profile không cần khở
 | 3. Nộp và duyệt minh chứng | 2 phút | demo-k68 | `demo05`, `gv2` |
 | 4. Đổi nghề và khác biệt lộ trình | 1,5 phút | demo-k68 | `demo05` |
 | 5. Công bố bản nghề lỗi bị chặn | 2 phút | test | `admin` |
+| 6. Bài kiểm tra và chứng chỉ (phần thêm của CR-04, nếu còn giờ) | 2 phút | demo-k68 | `thiennhan` |
 
 ## Phần 1. Cảnh báo và kế hoạch cải thiện (profile test)
 
@@ -40,8 +41,8 @@ Terminal 2: `make seed-demo`
 |------|-----------|----------|--------------------|
 | 2.1 | `demo05` | Đăng nhập, vào **Định hướng nghề** | Lưới 10 nghề. Thẻ có nhãn "Mục tiêu của bạn": Kỹ sư Trí tuệ nhân tạo **42% học phần**, Kỹ năng & dự án **11%**. Cùng dữ liệu nhưng Lập trình viên Backend **64%**: mỗi nghề một tỷ lệ riêng |
 | 2.2 | `demo05` | Bấm thẻ Kỹ sư Trí tuệ nhân tạo | Hero có 42% và 11%, câu "Ngành của bạn có 12/14 môn của nghề" |
-| 2.3 | `demo05` | Tab **Lộ trình học**, bấm một môn | Bấm **Đại số tuyến tính**: panel bên phải có "Học để làm gì?", mã `TOCB1101`, Tiên quyết "Không có", "Các nghề khác dùng môn này: Chỉ có ở nghề này." Nhấn **Esc**: panel đóng, con trỏ về đúng môn vừa mở |
-| 2.4 | `demo05` | Bấm **Xem lộ trình theo học kỳ**, rồi **Tạo lộ trình** | Trang Kế hoạch học tập có **3 kỳ**, dòng "Còn lại 67 tín chỉ trong 3 kỳ", "Chưa có lịch mở lớp – mọi kỳ là dự kiến". Kỳ đầu `HK2 2026-2027`, **21/25 tín chỉ**, mỗi môn có nhãn "Đúng HK CTĐT" hoặc "Lệch HK CTĐT (+1 kỳ)" |
+| 2.3 | `demo05` | Tab **Lộ trình học**, bấm một môn | Bấm **Đại số**: panel bên phải có "Học để làm gì?", mã `TOCB1101`, Tiên quyết "Không có", "Các nghề khác dùng môn này: Chỉ có ở nghề này." Nhấn **Esc**: panel đóng, con trỏ về đúng môn vừa mở |
+| 2.4 | `demo05` | Bấm **Xem lộ trình theo học kỳ**, rồi **Tạo lộ trình** | Trang Kế hoạch học tập có **3 kỳ**, dòng "Còn lại 64 tín chỉ trong 3 kỳ", "Chưa có lịch mở lớp – mọi kỳ là dự kiến". Kỳ đầu `HK2 2026-2027`, **24/25 tín chỉ**, mỗi môn có nhãn "Đúng HK CTĐT" hoặc "Lệch HK CTĐT (+1 kỳ)" hoặc "(+2 kỳ)" |
 
 ## Phần 3. Nộp và duyệt minh chứng (tiếp tục profile demo-k68)
 
@@ -60,7 +61,7 @@ Terminal 2: `make seed-demo`
 |------|-----------|----------|--------------------|
 | 4.1 | `demo05` | Mở nghề Chuyên viên Phân tích dữ liệu, bấm **Đặt làm mục tiêu chính**, **Xác nhận** | Hero của nghề này có nhãn "Mục tiêu của bạn" |
 | 4.2 | `demo05` | Vào **Kế hoạch học tập** | Lộ trình cũ còn nguyên, vẫn ghi Nghề chính "Kỹ sư Trí tuệ nhân tạo". Có dòng "Lộ trình có thay đổi" và liên kết **Xem khác biệt**: hệ thống không tự ghi đè |
-| 4.3 | `demo05` | Bấm **Xem khác biệt** | "Nghề chính đổi từ Kỹ sư Trí tuệ nhân tạo sang Chuyên viên Phân tích dữ liệu. Học phần: thêm 2 · bớt 2 · chuyển kỳ 0". Hai cột Bản hiện tại và Bản đề xuất, ví dụ bớt Dữ liệu phi cấu trúc (CNTT1175), Học máy (CNTT1177) |
+| 4.3 | `demo05` | Bấm **Xem khác biệt** | "Nghề chính đổi từ Kỹ sư Trí tuệ nhân tạo sang Chuyên viên Phân tích dữ liệu. Học phần: thêm 1 · bớt 2 · chuyển kỳ 0". Hai cột Bản hiện tại và Bản đề xuất: bớt Xử lý ảnh (CNTT1166), Học máy (CNTT1177), thêm Phát triển ứng dụng di động (CNTT1157) |
 | 4.4 | `demo05` | Bấm **Áp dụng** | Thông báo "Đã áp dụng lộ trình mới." |
 
 ## Phần 5. Công bố bản nghề lỗi bị chặn (profile test)
@@ -130,7 +131,7 @@ Output thật:
 
 ```
 tests/api/m12/test_admin_versions.py::test_publish_with_cycle_returns_path_and_rolls_back PASSED [100%]
-============================== 1 passed in 0.94s ===============================
+============================== 1 passed in 0.98s ===============================
 ```
 
 Lỗi mà test này kiểm, in ra từ cùng tình huống để trình chiếu:
@@ -160,6 +161,20 @@ Lỗi mà test này kiểm, in ra từ cùng tình huống để trình chiếu:
 ```
 
 Người xem cần thấy đường đi của vòng lặp được chỉ rõ, và thông báo "1 passed" nghĩa là bản nghề bị chặn đúng như mong đợi.
+
+## Phần 6. Bài kiểm tra và chứng chỉ (profile demo-k68)
+
+Terminal 2: `make seed-demo`
+
+| Bước | Tài khoản | Thao tác | Người xem cần thấy |
+|------|-----------|----------|--------------------|
+| 6.1 | `thiennhan` | Đăng nhập, mở Định hướng nghề, nghề Lập trình viên Backend, tab **Khung năng lực** | 3 mốc nghề, 10 mô-đun. Mô-đun 1, 2 "Đã đạt", có **Xem chứng chỉ** và **Ôn tập**. Cuối trang có bộ tự chọn đề xuất và dòng "Theo CTĐT do Trường công bố (nguồn: courses.neu.edu.vn) – dữ liệu sinh viên là mẫu" |
+| 6.2 | `thiennhan` | Mô-đun 3, bấm **Làm bài kiểm tra** | 10 câu, đồng hồ đếm ngược 15 phút, nhãn "Câu hỏi do nhóm biên soạn" |
+| 6.3 | `thiennhan` | Trả lời, **Nộp bài** | Điểm, giải thích từng câu. Từ 8/10 trở lên có **Xem chứng chỉ** |
+| 6.4 | `thiennhan` | Mở chứng chỉ | Tên, mô-đun, điểm, ngày cấp, mã, QR, câu "không phải chứng chỉ của Trường Đại học Kinh tế Quốc dân" |
+| 6.5 | Chưa đăng nhập | Mở đường dẫn dưới QR trong cửa sổ ẩn danh | Trang Xác thực chứng chỉ chỉ có họ tên, mô-đun, ngày cấp, hiệu lực |
+
+Phần này không có trong lần chạy tay từng bước của script demo: luồng 6.1–6.5 do e2e `frontend/e2e/quiz.spec.mjs` chạy thật trên bản build.
 
 ## Nếu có sự cố khi demo
 

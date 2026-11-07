@@ -32,7 +32,7 @@ function CourseRow({ child }) {
         </span>
       </span>
       <span className="roadmap__course-chips">
-        <StatusChip status={chipStatus(child.kind, child.status)} size="sm" />
+        <StatusChip status={chipStatus(child.kind, child.status)} />
         {child.outside_curriculum && <Badge tone="outline">Ngoài CTĐT</Badge>}
       </span>
     </span>

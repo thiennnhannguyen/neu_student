@@ -1,8 +1,8 @@
-import { LogOut, UserRound } from 'lucide-react';
+import { Award, LogOut, UserRound } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { apiRequest } from '../api/client';
 import { useAuth } from '../features/auth/AuthContext';
-import { ROLE_LABELS } from './menu';
+import { CERTIFICATES_PATH, ROLE_LABELS } from './menu';
 import Avatar from './ui/Avatar';
 import DropdownMenu from './ui/DropdownMenu';
 
@@ -49,7 +49,12 @@ export default function UserMenu({ onLogoutError }) {
   }
 
   const items = [
-    ...(role === 'student' ? [{ label: 'Hồ sơ', icon: UserRound, to: '/ho-so' }] : []),
+    ...(role === 'student'
+      ? [
+          { label: 'Hồ sơ', icon: UserRound, to: '/ho-so' },
+          { label: 'Chứng chỉ của tôi', icon: Award, to: CERTIFICATES_PATH },
+        ]
+      : []),
     { label: 'Đăng xuất', icon: LogOut, onSelect: handleLogout },
   ];
 

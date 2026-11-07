@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DataTable, StatusChip } from '../../components/ui';
+import { DataTable, StatusChip, StatusLegend } from '../../components/ui';
 import { courseChildren } from './CareerRoadmap';
 import { chipStatus, NO_CODE, PRIORITIES, priorityLabel, typeLabel } from './labels';
 
@@ -64,7 +64,7 @@ export default function CareerCourses({ nodes, onSelect }) {
     {
       key: 'status',
       header: 'Trạng thái',
-      render: (row) => <StatusChip status={chipStatus(row.kind, row.status)} size="sm" />,
+      render: (row) => <StatusChip status={chipStatus(row.kind, row.status)} />,
     },
   ];
   return (
@@ -78,6 +78,16 @@ export default function CareerCourses({ nodes, onSelect }) {
         />
         <FilterGroup label="Lọc theo BB/TC" options={TYPES} selected={type} onSelect={setType} />
       </div>
+      <StatusLegend
+        statuses={[
+          'done',
+          'done_via_equivalency',
+          'exempt',
+          'in_progress',
+          'failed',
+          'not_started',
+        ]}
+      />
       <DataTable
         columns={columns}
         rows={rows}

@@ -14,6 +14,10 @@ import ResultsPage from './features/m11/ResultsPage';
 import RisksPage from './features/m11/RisksPage';
 import CareerDetailPage from './features/m12/CareerDetailPage';
 import CareersPage from './features/m12/CareersPage';
+import { CertificatePage, CertificatesPage } from './features/m12/framework/Certificates';
+import QuizPage from './features/m12/framework/QuizPage';
+import QuizReviewPage from './features/m12/framework/QuizReviewPage';
+import VerifyCertificatePage from './features/m12/framework/VerifyCertificatePage';
 import EvidenceReviewPage from './features/m12/evidence/EvidenceReviewPage';
 import PlanDiffPage from './features/m12/plan/PlanDiffPage';
 import PlanPage from './features/m12/plan/PlanPage';
@@ -64,6 +68,7 @@ export default function AppRoutes() {
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/xac-thuc/:code" element={<VerifyCertificatePage />} />
         {IllustrationsSheet && (
           <Route
             path="/dev/illustrations"
@@ -97,6 +102,10 @@ export default function AppRoutes() {
               <Route path="/m12/dinh-huong/nghe/:slug" element={<CareerDetailPage />} />
               <Route path="/m12/ke-hoach/khac-biet" element={<PlanDiffPage />} />
               <Route path="/m11/canh-bao/ke-hoach" element={<ImprovementPlanPage />} />
+              <Route path="/m12/chung-chi" element={<CertificatesPage />} />
+              <Route path="/m12/chung-chi/:code" element={<CertificatePage />} />
+              <Route path="/m12/lam-bai/:attemptId" element={<QuizPage />} />
+              <Route path="/m12/on-tap/:moduleId" element={<QuizReviewPage />} />
             </Route>
             <Route path="/m12/yeu-cau-ho-tro/:id" element={<SupportDetailPage />} />
             {PENDING_ITEMS.map((item) => (

@@ -34,7 +34,7 @@ import {
   useToast,
 } from '.';
 import { initialsOf } from './Avatar';
-import { STATUS_CHIPS } from './StatusChip';
+import { STATUS_CHIPS, StatusLegend } from './StatusChip';
 
 function inRouter(node) {
   return render(<MemoryRouter>{node}</MemoryRouter>);
@@ -146,11 +146,53 @@ describe('StatusChip', () => {
     );
   });
 
-  it.each(Object.entries(STATUS_CHIPS))('%s luôn có biểu tượng và chữ', (status, chip) => {
-    render(<StatusChip status={status} />);
+  const ICON_ONLY = [
+    'done',
+    'done_via_equivalency',
+    'exempt',
+    'in_progress',
+    'failed',
+    'not_started',
+    'pending',
+    'no_evidence',
+  ];
 
-    const element = screen.getByText(chip.label);
-    expect(element.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+  it.each(ICON_ONLY)('%s chỉ có biểu tượng, kèm aria-label và tooltip chữ', (status) => {
+    const { label } = STATUS_CHIPS[status];
+    const { container } = render(<StatusChip status={status} />);
+
+    const icon = screen.getByRole('img', { name: label });
+    expect(icon).toHaveAttribute('title', label);
+    expect(icon.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+    expect(screen.queryByText(label)).toBeNull();
+    expect(container.querySelector('.badge')).toBeNull();
+  });
+
+  it.each(Object.keys(STATUS_CHIPS).filter((status) => !ICON_ONLY.includes(status)))(
+    '%s có biểu tượng và chữ thường, không có khối nền',
+    (status) => {
+      const { container } = render(<StatusChip status={status} />);
+
+      const element = screen.getByText(STATUS_CHIPS[status].label);
+      expect(element.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+      expect(container.querySelector('.badge')).toBeNull();
+    },
+  );
+
+  it('Đạt qua tương đương có thêm biểu tượng liên kết nhỏ', () => {
+    render(<StatusChip status="done_via_equivalency" />);
+
+    expect(
+      screen.getByRole('img', { name: 'Đạt qua tương đương' }).querySelectorAll('svg'),
+    ).toHaveLength(2);
+  });
+
+  it('chú giải có chữ cho từng biểu tượng', () => {
+    render(<StatusLegend statuses={['done', 'failed']} />);
+
+    const legend = screen.getByRole('list', { name: 'Chú giải trạng thái' });
+    expect(within(legend).getByText('Đạt')).toBeInTheDocument();
+    expect(within(legend).getByText('Chưa đạt')).toBeInTheDocument();
   });
 
   it('chỉ trạng thái đã đạt mới có màu thành công (R6)', () => {
@@ -809,8 +851,8 @@ describe('các nhánh còn lại của component', () => {
       </>,
     );
 
-    expect(screen.getByText('Điểm mạnh')).toHaveClass('badge--success');
-    expect(screen.getByText('Điểm yếu')).toHaveClass('badge--warning');
+    expect(screen.getByText('Điểm mạnh')).toHaveClass('status-icon--success');
+    expect(screen.getByText('Điểm yếu')).toHaveClass('status-icon--warning');
   });
 
   it('ErrorState compact không có họa tiết', () => {
@@ -883,11 +925,11 @@ describe('CR-02b', () => {
   it('MetricCard: có status thì có viền theo mức và nhãn nhỏ; không có thì không', () => {
     const { container, rerender } = render(<MetricCard label="L" value="1" status="watch" />);
     expect(container.firstChild).toHaveClass('metric-card--watch');
-    expect(screen.getByText('Chú ý')).toHaveClass('status-chip--sm');
+    expect(screen.getByText('Chú ý')).toHaveClass('status-text');
 
     rerender(<MetricCard label="L" value="1" />);
     expect(container.firstChild.className).toBe('metric-card');
-    expect(container.querySelector('.status-chip')).toBeNull();
+    expect(container.querySelector('.status-text')).toBeNull();
   });
 
   it('DataTable truyền className cho bảng', () => {

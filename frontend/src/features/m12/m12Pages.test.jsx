@@ -560,7 +560,7 @@ describe('tab Lộ trình học', () => {
     expect(row).toHaveTextContent('BB');
     expect(row).toHaveTextContent('HK 3');
     expect(row).toHaveTextContent('Cốt lõi');
-    expect(row).toHaveTextContent('Đạt');
+    expect(within(row).getByRole('img', { name: 'Đạt' })).toBeInTheDocument();
     expect(within(tree).queryByRole('treeitem', { name: /Lập baseline/ })).toBeNull();
   });
 
@@ -822,13 +822,14 @@ describe('tab Kỹ năng & dự án', () => {
     await openTab();
 
     const list = screen.getByRole('region', { name: 'Checklist sẵn sàng thực tập' });
-    expect(within(list).getByText('Lập baseline').parentElement).toHaveTextContent('Đạt');
-    expect(within(list).getByText('Giải thích metric').parentElement).toHaveTextContent(
-      'Chờ duyệt',
-    );
-    expect(within(list).getByText('Viết báo cáo').parentElement).toHaveTextContent(
-      'Chưa có minh chứng',
-    );
+    const row = (name) => within(list).getByText(name).parentElement;
+    expect(within(row('Lập baseline')).getByRole('img', { name: 'Đạt' })).toBeInTheDocument();
+    expect(
+      within(row('Giải thích metric')).getByRole('img', { name: 'Chờ duyệt' }),
+    ).toBeInTheDocument();
+    expect(
+      within(row('Viết báo cáo')).getByRole('img', { name: 'Chưa có minh chứng' }),
+    ).toBeInTheDocument();
   });
 
   it('3 dự án xếp Starter, Intermediate, Job-ready, có tiêu chí', async () => {
@@ -843,7 +844,9 @@ describe('tab Kỹ năng & dự án', () => {
     ]);
     expect(projects[0]).toHaveTextContent('Starter');
     expect(projects[0]).toHaveTextContent('Tiêu chí Dự án nhỏ');
-    expect(projects[0]).toHaveTextContent('Chưa có minh chứng');
+    expect(
+      within(projects[0]).getByRole('img', { name: 'Chưa có minh chứng' }),
+    ).toBeInTheDocument();
   });
 
   it('câu lưu ý nằm dưới khối Tự học, không phải một mục trong danh sách', async () => {

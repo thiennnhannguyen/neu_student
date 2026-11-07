@@ -222,6 +222,10 @@ def _web_link(value: str) -> None:
         raise ValidationError(f"Tối đa {LINK_MAX} ký tự.")
 
 
+class QuizAnswerSchema(ApiSchema):
+    option_ids = fields.List(fields.String(), required=True)
+
+
 class EvidenceCreateSchema(ApiSchema):
     skill_id = _text(required=True, validate=_filled())
     description = _text(required=True, validate=_filled(EVIDENCE_MAX))

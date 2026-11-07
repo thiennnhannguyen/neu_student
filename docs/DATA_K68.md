@@ -6,10 +6,10 @@ Sinh bằng `backend/scripts/build_demo_k68.py` từ `docs/spec/ctdt-k68-2026.md
 
 ## Giả định của nhóm
 
-- Tín chỉ: khóa luận 10, còn lại 3. Mọi môn đều tính vào GPA.
+- Tín chỉ của CNTT, KTPM, ATTT: khóa luận 10, còn lại 3, trừ `LLNL1106`, `LLNL1107` là 2. Mọi môn đều tính vào GPA. KHMT theo PDF, xem `docs/DATA_OFFICIAL.md`.
 - Vị trí trong lộ trình (Q99): Khóa luận tốt nghiệp ở kỳ cuối của tầm lộ trình, Chuyên đề thực tế ưu tiên kỳ ngay trước. Tài liệu nguồn không ghi học kỳ của 2 môn này, cần xác minh với trường.
 - Cẩm nang không có kỹ năng dùng chung giữa các nghề; cơ chế dùng chung được kiểm ở profile test.
-- CTĐT K68 dùng làm CTĐT mẫu cho sinh viên K66, K67: “Áp dụng mẫu cho K66–K68 – giả định của nhóm”.
+- CTĐT K68 dùng làm CTĐT mẫu cho sinh viên K66, K67 của CNTT, KTPM, ATTT: “Áp dụng mẫu cho K66–K68 – giả định của nhóm”.
 - Tiên quyết: chỉ dựng từ mục 4 cẩm nang, nguồn “Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức”. M11 không dùng các cạnh này để chặn đăng ký.
 - “Security” trong mục 4 là An toàn và bảo mật thông tin, Mật mã và bảo mật thông tin; “Cloud” là Điện toán đám mây; “CI/CD” là Tích hợp và triển khai phần mềm.
 - Tương đương: chỉ cặp EP17.X và X cùng tên, nguồn “Trùng tên học phần K68 – nhóm duyệt”. So tên không phân biệt hoa thường (Thiết kế và lập trình WEB / web).
@@ -24,7 +24,7 @@ Sinh bằng `backend/scripts/build_demo_k68.py` từ `docs/spec/ctdt-k68-2026.md
 | EP17.CNTT1112 → EP17.CNTT11112 | Tích hợp và triển khai phần mềm: tài liệu CTĐT ghi 4 chữ số, cẩm nang ghi 5 | Dùng theo cẩm nang |
 | EP17.CNTT1113 → EP17.CNTT11113 | Tương tác người máy: như trên | Dùng theo cẩm nang |
 | EP17.CNTT1107 | Tài liệu CTĐT ghi cho cả Hệ điều hành và Lập trình song song và phân tán | Hệ điều hành giữ mã; môn còn lại để mã rỗng, kèm cảnh báo (Q94) |
-| EP17.KHMA1101, EP17.KHMI1101 | Cẩm nang ghi đảo ở dòng KTPM của Data Analyst, và cả Business Analyst | Nạp theo tên đúng trong tài liệu CTĐT; học kỳ đi theo tên môn, chưa xác minh |
+| KHMA1101, KHMI1101, kể cả mã EP17 | Tài liệu K68 và cẩm nang đảo so với PDF | Theo PDF: KHMI1101 là vi mô, KHMA1101 là vĩ mô; học kỳ đi theo tên môn |
 | KHMA1101, KHMI1101 (ATTT) | Ảnh ATTT ghi hai dòng cùng tên “Kinh tế vi mô 1” (Phần III mục 4); học kỳ không ghi | Học kỳ rỗng, kèm cảnh báo |
 | NNKC1131–1133, EP17.NNKC1168–1170 | Học kỳ Ngoại ngữ/Tiếng Anh không ghi | Học kỳ rỗng, không tự điền, kèm cảnh báo |
 | Thiết kế Web, Lập trình Web (KTPM, ATTT) | Hai dòng cẩm nang cùng 1 mã | Gộp thành 1 yêu cầu ở giai đoạn sớm hơn, xem bảng dưới |

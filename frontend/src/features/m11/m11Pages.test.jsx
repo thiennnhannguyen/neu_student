@@ -269,7 +269,7 @@ describe('Tổng quan', () => {
     expect(within(card('Số môn chưa đạt')).getByText('2')).toBeInTheDocument();
     expect(
       within(screen.getByRole('link', { name: /Mức cảnh báo chung/ })).getByText('Cảnh báo'),
-    ).toHaveClass('status-chip');
+    ).toHaveClass('status-text');
     expect(screen.getByRole('link', { name: /Mức cảnh báo chung/ })).toHaveTextContent('tham khảo');
   });
 
@@ -296,7 +296,7 @@ describe('Tổng quan', () => {
       expect(found).toHaveClass('metric-card--warning');
       return found;
     });
-    expect(within(gpa).getByText('Cảnh báo')).toHaveClass('status-chip--sm');
+    expect(within(gpa).getByText('Cảnh báo')).toHaveClass('status-text');
     const credits = card('Tín chỉ đạt');
     expect(credits).toHaveClass('metric-card--watch');
     expect(within(credits).getByText('Chú ý')).toBeInTheDocument();
@@ -567,16 +567,16 @@ describe('Kết quả', () => {
   });
 
   it.each(STATUS_ROWS)(
-    'trạng thái %s có chữ "%s" và biểu tượng, không chỉ màu',
+    'trạng thái %s có biểu tượng tên "%s", không chỉ màu',
     async (status, label) => {
       m11Api('student', oneRow(gradeRow({ status })));
 
       renderApp('/m11/ket-qua');
 
       const table = await screen.findByRole('table');
-      const badge = within(table).getByText(label);
-      expect(badge).toHaveClass('status-chip');
-      expect(badge.querySelector('svg[aria-hidden="true"]')).toBeInTheDocument();
+      const icon = within(table).getByRole('img', { name: label });
+      expect(icon).toHaveClass('status-icon');
+      expect(icon.querySelector('svg[aria-hidden="true"]')).toBeInTheDocument();
     },
   );
 
@@ -666,7 +666,7 @@ describe('Kết quả', () => {
     renderApp('/m11/ket-qua?semester=all&status=not_started');
 
     const table = await screen.findByRole('table');
-    expect(within(table).getByText('Chưa học')).toBeInTheDocument();
+    expect(within(table).getByRole('img', { name: 'Chưa học' })).toBeInTheDocument();
     expect(screen.getByLabelText('Học kỳ')).toHaveValue('all');
     const last = callsTo(fetchMock, '/api/m11/grades').at(-1);
     expect(last.has('semester_id')).toBe(false);
@@ -775,10 +775,10 @@ describe('Kết quả', () => {
       'Lần thứ 2 · HK1 2025-2026',
       'Lần thứ 3 · HK1 2026-2027',
     ]);
-    expect(within(items[0]).getByText('Chưa đạt')).toBeInTheDocument();
+    expect(within(items[0]).getByRole('img', { name: 'Chưa đạt' })).toBeInTheDocument();
     expect(within(items[0]).queryByText('Lần được tính')).not.toBeInTheDocument();
     expect(within(items[1]).getByText('Lần được tính')).toBeInTheDocument();
-    expect(within(items[2]).getByText('Đang học')).toBeInTheDocument();
+    expect(within(items[2]).getByRole('img', { name: 'Đang học' })).toBeInTheDocument();
     expect(callsTo(fetchMock, '/api/m11/grades/MAU101/attempts')[0].get('student_id')).toBe('SV02');
 
     await user.keyboard('{Escape}');
@@ -1340,7 +1340,7 @@ describe('Cảnh báo', () => {
     renderApp('/m11/canh-bao');
 
     await screen.findByText(RISKS.outcomes[0].reason);
-    const chips = document.querySelectorAll('.status-chip');
+    const chips = document.querySelectorAll('.status-text');
     expect(chips.length).toBeGreaterThan(0);
     for (const badge of chips) {
       expect(badge.textContent.trim().length).toBeGreaterThan(2);
@@ -1360,7 +1360,7 @@ describe('Cảnh báo', () => {
 
     renderApp('/m11/canh-bao');
 
-    expect(await screen.findByText('Chưa đủ dữ liệu')).toHaveClass('status-chip');
+    expect(await screen.findByText('Chưa đủ dữ liệu')).toHaveClass('status-text');
     expect(screen.getByRole('heading', { name: 'GPA tích lũy' })).toBeInTheDocument();
   });
 

@@ -162,6 +162,7 @@ const CAREER_SUBPAGES = [
   { prefix: `${CAREER_ROOT}/nghe/`, label: 'Chi tiết nghề' },
 ];
 
+export const CERTIFICATES_PATH = '/m12/chung-chi';
 const SUPPORT_ROOT = '/m12/yeu-cau-ho-tro';
 const RISK_ROOT = '/m11/canh-bao';
 const RISK_PLAN = `${RISK_ROOT}/ke-hoach`;
@@ -169,6 +170,35 @@ const PLAN_ROOT = '/m12/ke-hoach';
 const PLAN_DIFF = `${PLAN_ROOT}/khac-biet`;
 
 function careerSubpageMeta(pathname) {
+  const quizLabel = [
+    ['/m12/lam-bai/', 'Bài kiểm tra'],
+    ['/m12/on-tap/', 'Ôn tập'],
+  ].find(([prefix]) => pathname.startsWith(prefix))?.[1];
+  if (quizLabel) {
+    return {
+      title: quizLabel,
+      trail: [
+        { label: 'Tổng quan', to: '/' },
+        { label: 'Định hướng & hỗ trợ' },
+        { label: 'Định hướng nghề', to: CAREER_ROOT },
+        { label: quizLabel },
+      ],
+    };
+  }
+  if (pathname.startsWith(CERTIFICATES_PATH)) {
+    const exact = pathname === CERTIFICATES_PATH;
+    const label = exact ? 'Chứng chỉ của tôi' : 'Chứng chỉ';
+    return {
+      title: label,
+      trail: exact
+        ? [{ label: 'Tổng quan', to: '/' }, { label }]
+        : [
+            { label: 'Tổng quan', to: '/' },
+            { label: 'Chứng chỉ của tôi', to: CERTIFICATES_PATH },
+            { label },
+          ],
+    };
+  }
   if (pathname.startsWith(`${SUPPORT_ROOT}/`)) {
     const label = 'Chi tiết yêu cầu';
     return {

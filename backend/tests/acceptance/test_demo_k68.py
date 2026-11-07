@@ -24,15 +24,17 @@ from app.services.career_loader import load_career_version
 from app.services.data_quality_service import PROGRAM_COHORT_MISMATCH, check_data_quality
 from app.services.m11_loader import load_student_data
 from scripts import demo_k68_content as content
-from scripts.build_demo_k68 import DOC, OUT, SWAP_FIXES, Builder, build
+from scripts import khmt_official as official
+from scripts.build_demo_k68 import DOC, OFFICIAL_DOC, OUT, Builder, build, fixed_code, version_id_of
 from tests.api.m11.helpers import QueryCounter
 from tests.helpers import login_as
 
 TABLES = load_profile_tables(PROFILE_DEMO_K68)
+OFFICIAL_IDS = {row[0] for row in official.ROWS}
 PROGRAM_IDS = {code: value[0] for code, value in content.PROGRAMS.items()}
 GALLERY_FRESH = 28
 GALLERY_CACHED = 8
-VERSION_IDS = {code: f"pv-{code.lower()}-k68" for code in content.PROGRAM_ORDER}
+VERSION_IDS = {code: version_id_of(code) for code in content.PROGRAM_ORDER}
 
 
 def in_context(app):
@@ -65,12 +67,13 @@ def children(body):
 
 
 def test_committed_fixtures_and_document_match_the_generator():
-    fixtures, document = build()
+    fixtures, document, official_document = build()
     for name, data in fixtures.items():
         assert json.loads((OUT / name).read_text(encoding="utf8")) == json.loads(
             json.dumps(data, ensure_ascii=False)
         ), name
     assert DOC.read_text(encoding="utf8") == document
+    assert OFFICIAL_DOC.read_text(encoding="utf8") == official_document
 
 
 def test_seed_check_passes(ctx):
@@ -89,7 +92,7 @@ def test_four_programs_with_all_groups_verbatim_names_and_thesis():
         (row["program_version_id"], row["curriculum_group"])
         for row in TABLES["curriculum_requirements"]
     )
-    for program in ("cntt", "khmt", "attt"):
+    for program in ("cntt", "attt"):
         version = f"pv-{program}-k68"
         assert groups[(version, "Học phần chung")] == 6
         assert groups[(version, "Học phần của trường")] == 7
@@ -103,16 +106,24 @@ def test_four_programs_with_all_groups_verbatim_names_and_thesis():
     names = {row["id"]: row for row in TABLES["courses"]}
     for program, entries in builder.curriculum.items():
         for code, name, _group in entries:
-            if name != "Lập trình song song và phân tán":
+            plain = code.removeprefix("EP17.")
+            name = official.ECONOMICS_NAME_BY_CODE.get(plain, name)
+            if name != "Lập trình song song và phân tán" and code not in OFFICIAL_IDS:
                 target = {"EP17.CNTT1112": "EP17.CNTT11112", "EP17.CNTT1113": "EP17.CNTT11113"}
                 assert names[target.get(code, code)]["name"] == name, (program, code)
-    assert all(row["min_credits"] == 30 for row in TABLES["elective_groups"])
+    assert all(
+        row["min_credits"] == 30
+        for row in TABLES["elective_groups"]
+        if row["program_version_id"] != official.VERSION_ID
+    )
 
 
-def test_credits_are_ten_for_thesis_and_three_otherwise():
+def test_credits_outside_the_pdf_are_ten_for_thesis_and_three_otherwise():
+    pdf = OFFICIAL_IDS | {row[0] for row in official.NOT_COUNTED}
     for course in TABLES["courses"]:
-        is_thesis = course["course_group_id"] == "group-khoa-luan"
-        assert course["credits"] == (10 if is_thesis else 3), course["id"]
+        if course["id"] not in pdf:
+            is_thesis = course["course_group_id"] == "group-khoa-luan"
+            assert course["credits"] == (10 if is_thesis else 3), course["id"]
 
 
 def test_five_digit_ep17_codes_are_kept_and_old_ones_are_gone():
@@ -130,8 +141,9 @@ def test_every_handbook_code_is_in_the_curriculum_of_the_right_program():
     for career in builder.careers:
         for row in career.rows:
             for program, (code, _kind, _semester) in row.codes.items():
-                fixed = SWAP_FIXES.get((program, row.name), code)
-                assert (VERSION_IDS[program], fixed) in members, (career.number, program, fixed)
+                fixed = fixed_code(program, row.name, code)
+                if (program, fixed) != ("KHMT", "CNTT1166"):
+                    assert (VERSION_IDS[program], fixed) in members, (career.number, program, fixed)
                 total += 1
     assert total > 300
 
@@ -143,7 +155,7 @@ def test_planned_semester_and_type_follow_the_handbook():
     }
     assert rows[("pv-cntt-k68", "CNTT1165")]["planned_semester"] == 4
     assert rows[("pv-cntt-k68", "CNTT1165")]["requirement_type"] == "elective"
-    assert rows[("pv-khmt-k68", "CNTT1180")]["requirement_type"] == "required"
+    assert rows[(official.VERSION_ID, "CNTT1180")]["requirement_type"] == "required"
     assert rows[("pv-attt-k68", "CNTT1180")]["requirement_type"] == "elective"
     assert rows[("pv-ktpm-k68", "EP17.CNTT1107")]["requirement_type"] == "required"
     assert rows[("pv-ktpm-k68", "EP17.CNTT1128")]["planned_semester"] == 3
@@ -182,14 +194,15 @@ def test_q94_parallel_course_has_no_code():
 
 def test_equivalencies_only_for_ep17_pairs_with_the_same_name(ctx):
     rows = db.session.scalars(select(CourseEquivalency)).all()
-    assert len(rows) == 27
+    assert len(rows) == 28
     for row in rows:
         first, second = (
             db.session.get(Course, row.course_a_id),
             db.session.get(Course, row.course_b_id),
         )
         assert first.code == f"EP17.{second.code}"
-        assert first.name.casefold() == second.name.casefold()
+        if second.id not in OFFICIAL_IDS:
+            assert first.name.casefold() == second.name.casefold()
         assert row.status == "approved"
         assert row.source == "Trùng tên học phần K68 – nhóm duyệt"
     pairs = {(row.course_a_id, row.course_b_id) for row in rows}
@@ -297,7 +310,8 @@ def test_requirements_are_checklist_plus_three_projects():
         "Job-ready": 10,
     }
     assert all(row["criteria"] for row in projects.values())
-    assert sum(row["kind"] == "skill" for row in rows) == 57
+    # 57 kỹ năng, trong đó 6 của Backend nhân 3 ngành (+12), cộng 10 mô-đun của KHMT.
+    assert sum(row["kind"] == "skill" for row in rows) == 79
 
 
 def test_all_versions_pass_publish_validation(ctx):
@@ -309,7 +323,7 @@ def test_all_versions_pass_publish_validation(ctx):
 
 
 def test_eight_students_two_per_program_with_four_and_two_terms():
-    students = TABLES["students"]
+    students = [row for row in TABLES["students"] if row["id"].startswith("DEMO")]
     assert Counter(row["program_version_id"] for row in students) == dict.fromkeys(
         VERSION_IDS.values(), 2
     )
@@ -361,9 +375,14 @@ def test_evidences_include_both_statuses():
 
 def test_q95_program_declares_cohorts_and_no_mismatch_warning(ctx):
     for version in db.session.scalars(select(ProgramVersion)):
-        assert version.effective_cohort == "K68"
-        assert version.applies_to_cohorts == ["K66", "K67"]
-        assert version.note == "Áp dụng mẫu cho K66–K68 – giả định của nhóm"
+        if version.id == official.VERSION_ID:
+            assert version.effective_cohort == "K66"
+            assert version.applies_to_cohorts == ["K67"]
+            assert version.note == official.NOTE
+        else:
+            assert version.effective_cohort == "K68"
+            assert version.applies_to_cohorts == ["K66", "K67"]
+            assert version.note == "Áp dụng mẫu cho K66–K68 – giả định của nhóm"
     for person in content.STUDENTS:
         warnings = check_data_quality(load_student_data(person["id"]))
         assert PROGRAM_COHORT_MISMATCH not in {item.code for item in warnings}
@@ -590,7 +609,7 @@ def test_demo_accounts_lists_students_advisors_and_admin_without_passwords(demo_
     body = demo_app.test_client().get("/api/auth/demo-accounts").get_json()
     names = [item["username"] for item in body["accounts"]]
 
-    assert names == [f"demo0{i}" for i in range(1, 9)] + ["gv1", "gv2", "admin", "ht1"]
+    assert names == ["thiennhan", *[f"demo0{i}" for i in range(1, 9)], "gv1", "gv2", "admin", "ht1"]
     assert "Demo@" not in json.dumps(body)
 
 

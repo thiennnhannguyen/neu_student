@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { apiRequest } from '../../../api/client';
-import { Button, FormField, Input, SidePanel, StatusChip, useToast } from '../../../components/ui';
+import {
+  Button,
+  FormField,
+  Input,
+  SidePanel,
+  StatusChip,
+  StatusLegend,
+  useToast,
+} from '../../../components/ui';
 import { withQuery } from '../../m11/format';
 import useApiResource from '../../m11/useApiResource';
 import { ResourceView } from '../../m11/ui';
@@ -101,30 +109,33 @@ function History({ rows }) {
     return <p>Chưa có minh chứng.</p>;
   }
   return (
-    <ul className="evidence-history">
-      {rows.map((row) => (
-        <li key={row.id}>
-          <StatusChip status={statusOf(row)} size="sm" />
-          {row.status === 'approved' && <span className="evidence-history__tag">Đã duyệt</span>}
-          {row.status === 'rejected' && <span className="evidence-history__tag">Bị từ chối</span>}
-          <p>{row.description}</p>
-          {row.link && (
-            <p>
-              <a href={row.link} target="_blank" rel="noreferrer">
-                {row.link}
-              </a>
-            </p>
-          )}
-          {row.review_note && (
-            <p>
-              <strong>Nhận xét: </strong>
-              {row.review_note}
-            </p>
-          )}
-          <AttachmentList items={row.attachments} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <StatusLegend statuses={['done', 'pending', 'failed']} />
+      <ul className="evidence-history">
+        {rows.map((row) => (
+          <li key={row.id}>
+            <StatusChip status={statusOf(row)} />
+            {row.status === 'approved' && <span className="evidence-history__tag">Đã duyệt</span>}
+            {row.status === 'rejected' && <span className="evidence-history__tag">Bị từ chối</span>}
+            <p>{row.description}</p>
+            {row.link && (
+              <p>
+                <a href={row.link} target="_blank" rel="noreferrer">
+                  {row.link}
+                </a>
+              </p>
+            )}
+            {row.review_note && (
+              <p>
+                <strong>Nhận xét: </strong>
+                {row.review_note}
+              </p>
+            )}
+            <AttachmentList items={row.attachments} />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 

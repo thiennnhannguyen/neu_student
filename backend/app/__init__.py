@@ -14,6 +14,7 @@ from app.blueprints.auth import auth_bp
 from app.blueprints.health import health_bp
 from app.blueprints.m11 import m11_bp
 from app.blueprints.m12 import m12_bp
+from app.blueprints.m12_quiz import m12_quiz_bp, public_certificates_bp
 from app.blueprints.m12_work import m12_work_bp
 from app.blueprints.notifications import notifications_bp
 from app.blueprints.spa import SpaPathConverter, spa_bp
@@ -84,6 +85,8 @@ def create_app(config_name: str | None = None, overrides: dict | None = None) ->
         m11_bp,
         m12_bp,
         m12_work_bp,
+        m12_quiz_bp,
+        public_certificates_bp,
         notifications_bp,
         spa_bp,
     ):

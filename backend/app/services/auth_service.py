@@ -15,6 +15,7 @@ from app.models.shared import Role, Student, User
 DEMO_SUPPORT_USERNAME = "ht1"
 DEMO_STAFF_ORDER = {"advisor": 0, "admin": 1, "support_staff": 2}
 DEMO_CODE_PREFIX = "DEMO"
+FEATURED_STUDENT_CODE = "NEU-KHMT-001"
 MAX_FAILED_ATTEMPTS = 5
 FAILED_WINDOW = timedelta(minutes=15)
 LOCK_DURATION = timedelta(minutes=15)
@@ -113,14 +114,19 @@ def describe_user(user: User) -> dict:
 
 
 def demo_accounts() -> list[dict]:
-    """Tài khoản của profile demo-k68: 8 sinh viên DEMO, cố vấn, quản trị và ht1 (Q104)."""
+    """Profile demo-k68: thiennhan đứng đầu, 8 sinh viên DEMO, cố vấn, quản trị, ht1."""
     if current_app.config["APP_CONFIG_NAME"] == "production":
         raise ApiError(404)
     students = db.session.execute(
         select(User.username, User.full_name, Student.student_code)
         .join(Student, Student.user_id == User.id)
-        .where(Student.student_code.like(f"{DEMO_CODE_PREFIX}%"))
-        .order_by(Student.student_code)
+        .where(
+            or_(
+                Student.student_code.like(f"{DEMO_CODE_PREFIX}%"),
+                Student.student_code == FEATURED_STUDENT_CODE,
+            )
+        )
+        .order_by(Student.student_code != FEATURED_STUDENT_CODE, Student.student_code)
     ).all()
     if not students:
         return []

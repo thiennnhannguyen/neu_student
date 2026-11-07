@@ -4147,3 +4147,18 @@ Nội dung đổi thì ánh xạ về `draft`.
 }
 ```
 
+### Khung năng lực, bài kiểm tra, chứng chỉ (CR-04)
+
+| Method, đường dẫn | Vai trò | Mô tả, lỗi |
+|-------------------|---------|------------|
+| `GET /api/m12/careers/slug/{slug}/framework` | student, advisor, admin | Mô-đun, mốc nghề, bộ tự chọn. Ngành hoặc nghề chưa có khung: `modules` rỗng |
+| `POST /api/m12/modules/{id}/attempts` | student | Mở lượt: 201; đang có lượt: 200. 409 `QUIZ_ALREADY_PASSED`, `QUIZ_COOLDOWN` (`details.retry_at`), `QUIZ_NOT_READY`, `QUIZ_ALREADY_OPEN` |
+| `GET /api/m12/attempts/{id}` | student | Đang làm: không có đáp án. Đã đóng hoặc quá hạn: kết quả kèm đáp án, giải thích |
+| `PUT /api/m12/attempts/{id}/answers/{question_id}` | student | Body `{"option_ids": []}`. 409 `ATTEMPT_CLOSED`, 422 lựa chọn sai |
+| `POST /api/m12/attempts/{id}/submit` | student | Kết quả. Quá hạn: chấm theo đáp án đã lưu. Nộp lại: 409 `ATTEMPT_CLOSED` |
+| `GET /api/m12/modules/{id}/review` | student | Ôn tập, không chấm. 409 `NOTHING_TO_REVIEW` |
+| `GET /api/m12/certificates` | student, advisor, admin | Chứng chỉ của sinh viên |
+| `GET /api/m12/certificates/{code}` | student, advisor, admin | Ngoài phạm vi: 404 |
+| `GET /api/public/certificates/{code}` | công khai | Chỉ `student_name`, `module_title`, `issued_at`, `valid`, `notice`. Mã sai: 404 |
+
+Cấu hình: `QUIZ_QUESTION_COUNT` (10), `QUIZ_DURATION_MINUTES` (15), `QUIZ_PASS_PERCENT` (80), `QUIZ_RETRY_COOLDOWN_MINUTES` (10). `POST /api/m12/evidences` với kỹ năng của mô-đun: 422 `SKILL_NEEDS_QUIZ`.

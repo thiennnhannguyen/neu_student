@@ -10,6 +10,7 @@ APPROVED_PUBLIC = {
     ("/api/auth/login", "POST"),
     ("/api/auth/me", "GET"),
     ("/api/health", "GET"),
+    ("/api/public/certificates/<code>", "GET"),
 }
 
 

@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
 
 /** tabs: [{ id, label, content }]. Phím mũi tên, Home, End đổi tab theo mẫu ARIA. */
-export default function Tabs({ tabs, label, idPrefix = 'tabs' }) {
-  const [selected, setSelected] = useState(tabs[0].id);
+export default function Tabs({ tabs, label, idPrefix = 'tabs', initial = null }) {
+  const [selected, setSelected] = useState(
+    tabs.some((tab) => tab.id === initial) ? initial : tabs[0].id,
+  );
   const buttons = useRef({});
 
   function move(event, index) {

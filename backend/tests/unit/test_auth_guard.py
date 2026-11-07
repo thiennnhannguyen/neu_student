@@ -24,6 +24,8 @@ PUBLIC_ENDPOINTS = {
     # Bản build của giao diện, không có dữ liệu (D-115).
     "spa.index",
     "spa.page",
+    # Trang xác thực chứng chỉ (CR-04): chỉ trả tên, mô-đun, ngày cấp, hiệu lực.
+    "public_certificates.verify_certificate",
 }
 # gv1 phụ trách SV01 đến SV04, gv2 phụ trách SV05 đến SV07.
 OWN_ID = {"sv01": "SV01", "gv1": "user-gv1", "admin": "user-admin", "ht1": "user-ht1"}
@@ -181,6 +183,14 @@ M12_STUDENT_WRITE_ROUTES = {
 READER_NAMES = {"student", "advisor", "admin"}
 EVERYONE_NAMES = READER_NAMES | {"support_staff"}
 M12_WORK_ROUTES = {
+    ("GET", "/api/m12/careers/slug/<slug>/framework"): READER_NAMES,
+    ("POST", "/api/m12/modules/<module_id>/attempts"): {"student"},
+    ("GET", "/api/m12/modules/<module_id>/review"): {"student"},
+    ("GET", "/api/m12/attempts/<attempt_id>"): {"student"},
+    ("PUT", "/api/m12/attempts/<attempt_id>/answers/<question_id>"): {"student"},
+    ("POST", "/api/m12/attempts/<attempt_id>/submit"): {"student"},
+    ("GET", "/api/m12/certificates"): READER_NAMES,
+    ("GET", "/api/m12/certificates/<code>"): READER_NAMES,
     ("GET", "/api/m12/evidences"): READER_NAMES,
     ("POST", "/api/m12/evidences"): {"student"},
     ("GET", "/api/m12/evidences/<evidence_id>/attachments/<attachment_id>"): EVERYONE_NAMES,
@@ -259,6 +269,7 @@ def test_route_registry_covers_all_expected_api_routes():
     }
 
     assert rules == {
+        ("GET", "/api/public/certificates/<code>"),
         ("GET", "/"),
         ("GET", "/<spa:path>"),
         ("GET", "/api/health"),

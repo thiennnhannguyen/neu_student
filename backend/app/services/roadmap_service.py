@@ -720,7 +720,7 @@ def describe_course(
         planned_semester=course.planned_semester,
         is_pinned=pinned,
         is_primary_career=in_career,
-        assumed_position=course.role is not None,
+        assumed_position=course.role is not None and course.planned_semester is None,
         added_for_floor=added_for_floor,
     )
 

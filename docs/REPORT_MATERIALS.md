@@ -72,7 +72,7 @@ erDiagram
   users ||--o{ audit_logs : ""
 ```
 
-Toàn bộ 44 bảng ở `docs/DATA_MODEL.md`.
+Toàn bộ 54 bảng ở `docs/DATA_MODEL.md`.
 
 ## 3. API theo nhóm
 

@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import { Button, FormField, Pagination, SearchBox, Select } from '../../components/ui';
+import {
+  Button,
+  FormField,
+  Pagination,
+  SearchBox,
+  Select,
+  StatusLegend,
+} from '../../components/ui';
 import { STATUS_CHIPS } from '../../components/ui/StatusChip';
 import AttemptHistoryPanel from './AttemptHistoryPanel';
 import { withQuery } from './format';
@@ -99,6 +106,7 @@ function ResultsContent({ scope }) {
           )?.name;
           return (
             <>
+              <StatusLegend statuses={GRADE_STATUS_CODES} />
               <GradesTable rows={data.items} onOpenHistory={setHistory} />
               {lastPage > 1 ? (
                 <Pagination

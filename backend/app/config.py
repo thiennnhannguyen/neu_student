@@ -14,6 +14,11 @@ class BaseConfig:
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = False
+    # Bài kiểm tra mô-đun (CR-04).
+    QUIZ_QUESTION_COUNT = int(os.environ.get("QUIZ_QUESTION_COUNT", "10"))
+    QUIZ_DURATION_MINUTES = int(os.environ.get("QUIZ_DURATION_MINUTES", "15"))
+    QUIZ_PASS_PERCENT = int(os.environ.get("QUIZ_PASS_PERCENT", "80"))
+    QUIZ_RETRY_COOLDOWN_MINUTES = int(os.environ.get("QUIZ_RETRY_COOLDOWN_MINUTES", "10"))
     # Hết hạn sau 2 giờ không hoạt động: cookie được ký lại ở mỗi request.
     PERMANENT_SESSION_LIFETIME = timedelta(hours=2)
     SESSION_REFRESH_EACH_REQUEST = True

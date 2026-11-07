@@ -137,7 +137,7 @@
     {
       "id": "CNTT1116",
       "code": "CNTT1116",
-      "name": "Nhập môn công nghệ thông tin",
+      "name": "Nhập môn Công nghệ thông tin",
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-nen-tang",
@@ -307,7 +307,7 @@
     {
       "id": "CNTT1165",
       "code": "CNTT1165",
-      "name": "Thiết kế WEB",
+      "name": "Thiết kế Web",
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-tu-chon",
@@ -385,6 +385,16 @@
       "is_mock": true
     },
     {
+      "id": "CNTT1178",
+      "code": "CNTT1178",
+      "name": "Kiểm thử và đảm bảo chất lượng phần mềm",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
       "id": "CNTT1180",
       "code": "CNTT1180",
       "name": "Lập trình Python",
@@ -417,7 +427,7 @@
     {
       "id": "CNTT1186",
       "code": "CNTT1186",
-      "name": "Các công nghệ hiện đại trong công nghệ thông tin",
+      "name": "Các công nghệ hiện đại trong CNTT",
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-tu-chon",
@@ -487,20 +497,10 @@
     {
       "id": "CNTT1194",
       "code": "CNTT1194",
-      "name": "Khóa luận tốt nghiệp – Khoa học máy tính",
+      "name": "Khóa luận tốt nghiệp",
       "credits": 10,
       "counts_gpa": true,
       "course_group_id": "group-khoa-luan",
-      "short_desc": null,
-      "is_mock": true
-    },
-    {
-      "id": "CNTT1195",
-      "code": "CNTT1195",
-      "name": "Chuyên đề thực tế – Khoa học máy tính",
-      "credits": 3,
-      "counts_gpa": true,
-      "course_group_id": "group-nganh",
       "short_desc": null,
       "is_mock": true
     },
@@ -817,7 +817,7 @@
     {
       "id": "EP17.KHMA1101",
       "code": "EP17.KHMA1101",
-      "name": "Kinh tế vi mô 1",
+      "name": "Kinh tế vĩ mô 1",
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-truong",
@@ -827,7 +827,7 @@
     {
       "id": "EP17.KHMI1101",
       "code": "EP17.KHMI1101",
-      "name": "Kinh tế vĩ mô 1",
+      "name": "Kinh tế vi mô 1",
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-truong",
@@ -977,7 +977,7 @@
     {
       "id": "KHMA1101",
       "code": "KHMA1101",
-      "name": "Kinh tế vi mô 1",
+      "name": "Kinh tế vĩ mô 1",
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-truong",
@@ -987,10 +987,50 @@
     {
       "id": "KHMI1101",
       "code": "KHMI1101",
-      "name": "Kinh tế vĩ mô 1",
+      "name": "Kinh tế vi mô 1",
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "KHMT.NN1",
+      "code": null,
+      "name": "Ngoại ngữ 1",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "KHMT.NN2",
+      "code": null,
+      "name": "Ngoại ngữ 2",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "KHMT.NN3",
+      "code": null,
+      "name": "Ngoại ngữ 3",
+      "credits": 3,
+      "counts_gpa": true,
+      "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "LLDL1101",
+      "code": "LLDL1101",
+      "name": "Tư tưởng Hồ Chí Minh",
+      "credits": 2,
+      "counts_gpa": true,
+      "course_group_id": "group-chung",
       "short_desc": null,
       "is_mock": true
     },
@@ -1005,9 +1045,19 @@
       "is_mock": true
     },
     {
+      "id": "LLLSD1102",
+      "code": "LLLSD1102",
+      "name": "Lịch sử Đảng Cộng sản Việt Nam",
+      "credits": 2,
+      "counts_gpa": true,
+      "course_group_id": "group-chung",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
       "id": "LLNL1105",
       "code": "LLNL1105",
-      "name": "Triết học Mác – Lênin",
+      "name": "Triết học Mác - Lê Nin",
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-chung",
@@ -1017,8 +1067,8 @@
     {
       "id": "LLNL1106",
       "code": "LLNL1106",
-      "name": "Kinh tế chính trị Mác – Lênin",
-      "credits": 3,
+      "name": "Kinh tế chính trị Mác - Lê Nin",
+      "credits": 2,
       "counts_gpa": true,
       "course_group_id": "group-chung",
       "short_desc": null,
@@ -1028,7 +1078,7 @@
       "id": "LLNL1107",
       "code": "LLNL1107",
       "name": "Chủ nghĩa xã hội khoa học",
-      "credits": 3,
+      "credits": 2,
       "counts_gpa": true,
       "course_group_id": "group-chung",
       "short_desc": null,
@@ -1061,6 +1111,16 @@
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-tu-chon",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "NEU",
+      "code": "NEU",
+      "name": "Chuyên đề thực tế",
+      "credits": 4,
+      "counts_gpa": true,
+      "course_group_id": "group-nganh",
       "short_desc": null,
       "is_mock": true
     },
@@ -1147,7 +1207,7 @@
     {
       "id": "TOCB1101",
       "code": "TOCB1101",
-      "name": "Đại số tuyến tính",
+      "name": "Đại số",
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-truong",
@@ -1171,6 +1231,26 @@
       "credits": 3,
       "counts_gpa": true,
       "course_group_id": "group-truong",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "GDTC",
+      "code": "GDTC",
+      "name": "Giáo dục thể chất",
+      "credits": 3,
+      "counts_gpa": false,
+      "course_group_id": "group-chung",
+      "short_desc": null,
+      "is_mock": true
+    },
+    {
+      "id": "GDQP",
+      "code": "GDQP",
+      "name": "Giáo dục Quốc phòng - An ninh",
+      "credits": 8,
+      "counts_gpa": false,
+      "course_group_id": "group-chung",
       "short_desc": null,
       "is_mock": true
     }
@@ -1316,6 +1396,14 @@
       "id": "pre-CNTT1177-TOKT1145",
       "course_id": "CNTT1177",
       "prerequisite_course_id": "TOKT1145",
+      "kind": "recommended_order",
+      "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
+      "is_mock": true
+    },
+    {
+      "id": "pre-CNTT1178-CNTT1117",
+      "course_id": "CNTT1178",
+      "prerequisite_course_id": "CNTT1117",
       "kind": "recommended_order",
       "source": "Thứ tự sư phạm khuyến nghị – không phải tiên quyết chính thức",
       "is_mock": true
@@ -1557,6 +1645,16 @@
       "is_mock": true
     },
     {
+      "id": "eq-CNTT1178",
+      "course_a_id": "EP17.CNTT1178",
+      "course_b_id": "CNTT1178",
+      "status": "approved",
+      "source": "Trùng tên học phần K68 – nhóm duyệt",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "is_mock": true
+    },
+    {
       "id": "eq-CNTT1180",
       "course_a_id": "EP17.CNTT1180",
       "course_b_id": "CNTT1180",
@@ -1713,7 +1811,7 @@
     {
       "id": "eqs-eq-CNTT1107-khmt",
       "equivalency_id": "eq-CNTT1107",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1737,7 +1835,7 @@
     {
       "id": "eqs-eq-CNTT1116-khmt",
       "equivalency_id": "eq-CNTT1116",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1761,7 +1859,7 @@
     {
       "id": "eqs-eq-CNTT1117-khmt",
       "equivalency_id": "eq-CNTT1117",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1785,7 +1883,7 @@
     {
       "id": "eqs-eq-CNTT1128-khmt",
       "equivalency_id": "eq-CNTT1128",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1809,7 +1907,7 @@
     {
       "id": "eqs-eq-CNTT1131-khmt",
       "equivalency_id": "eq-CNTT1131",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1821,7 +1919,7 @@
     {
       "id": "eqs-eq-CNTT1133-khmt",
       "equivalency_id": "eq-CNTT1133",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1857,7 +1955,7 @@
     {
       "id": "eqs-eq-CNTT1152-khmt",
       "equivalency_id": "eq-CNTT1152",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1881,7 +1979,7 @@
     {
       "id": "eqs-eq-CNTT1153-khmt",
       "equivalency_id": "eq-CNTT1153",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1905,7 +2003,7 @@
     {
       "id": "eqs-eq-CNTT1157-khmt",
       "equivalency_id": "eq-CNTT1157",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1923,7 +2021,7 @@
     {
       "id": "eqs-eq-CNTT1159-khmt",
       "equivalency_id": "eq-CNTT1159",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1957,6 +2055,18 @@
       "is_mock": true
     },
     {
+      "id": "eqs-eq-CNTT1178-ktpm",
+      "equivalency_id": "eq-CNTT1178",
+      "program_version_id": "pv-ktpm-k68",
+      "is_mock": true
+    },
+    {
+      "id": "eqs-eq-CNTT1178-khmt",
+      "equivalency_id": "eq-CNTT1178",
+      "program_version_id": "pv-khmt-66",
+      "is_mock": true
+    },
+    {
       "id": "eqs-eq-CNTT1180-ktpm",
       "equivalency_id": "eq-CNTT1180",
       "program_version_id": "pv-ktpm-k68",
@@ -1965,7 +2075,7 @@
     {
       "id": "eqs-eq-CNTT1180-khmt",
       "equivalency_id": "eq-CNTT1180",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -1989,7 +2099,7 @@
     {
       "id": "eqs-eq-CNTT1182-khmt",
       "equivalency_id": "eq-CNTT1182",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -2025,7 +2135,7 @@
     {
       "id": "eqs-eq-CNTT1190-khmt",
       "equivalency_id": "eq-CNTT1190",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -2043,7 +2153,7 @@
     {
       "id": "eqs-eq-CNTT1192-khmt",
       "equivalency_id": "eq-CNTT1192",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -2079,7 +2189,7 @@
     {
       "id": "eqs-eq-KHMA1101-khmt",
       "equivalency_id": "eq-KHMA1101",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -2103,7 +2213,7 @@
     {
       "id": "eqs-eq-KHMI1101-khmt",
       "equivalency_id": "eq-KHMI1101",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -2127,7 +2237,7 @@
     {
       "id": "eqs-eq-LUCS1129-khmt",
       "equivalency_id": "eq-LUCS1129",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -2151,7 +2261,7 @@
     {
       "id": "eqs-eq-TIHT1101-khmt",
       "equivalency_id": "eq-TIHT1101",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -2175,7 +2285,7 @@
     {
       "id": "eqs-eq-TIKT1130-khmt",
       "equivalency_id": "eq-TIKT1130",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -2211,7 +2321,7 @@
     {
       "id": "eqs-eq-TOCB1107-khmt",
       "equivalency_id": "eq-TOCB1107",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
@@ -2235,7 +2345,7 @@
     {
       "id": "eqs-eq-TOKT1145-khmt",
       "equivalency_id": "eq-TOKT1145",
-      "program_version_id": "pv-khmt-k68",
+      "program_version_id": "pv-khmt-66",
       "is_mock": true
     },
     {
