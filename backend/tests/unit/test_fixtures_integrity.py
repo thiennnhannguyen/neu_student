@@ -198,9 +198,9 @@ def test_curriculum_versions_differ_by_at_least_two_courses(tables, program):
     assert len(difference) >= 2
 
 
-def test_eight_semesters_exactly_one_current(tables):
+def test_ten_semesters_exactly_one_current(tables):
     semesters = sorted(tables["semesters"], key=lambda s: s["order"])
-    assert len(semesters) == 8
+    assert len(semesters) == 10
     assert [s["id"] for s in semesters if s["is_current"]] == ["S5"]
     assert semesters[0]["name"] == "HK1 2024-2025 (mẫu)"
     assert semesters[4]["name"] == "HK1 2026-2027 (mẫu)"

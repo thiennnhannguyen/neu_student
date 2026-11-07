@@ -2436,6 +2436,419 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
 }
 ```
 
+### Lộ trình học theo học kỳ (M12-07, M12-08)
+
+Đọc: sinh viên (của mình), cố vấn (sinh viên được phân công), quản trị viên, qua `resolve_target_student`. Ghi: chỉ sinh viên chủ lộ trình. Hỗ trợ viên 403. Không được xem lộ trình thì 404. Mỗi sinh viên có 1 lộ trình; mỗi lần tạo, sửa tay hoặc áp dụng đề xuất là 1 phiên bản mới, bản cũ thành `archived`.
+
+Số truy vấn cố định: `GET /roadmaps/current` 32 khi bản còn mới, 63 khi đã cũ (vì tính cả bản đề xuất); `GET /roadmaps/{id}/proposal` 37.
+
+### `POST /api/m12/roadmaps/generate`
+
+Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có nghề chính: 422 `NO_PRIMARY_CAREER`. Không xếp hết thì vẫn lưu phần xếp được, `infeasible` là true và `unplaced` có từng môn kèm lý do; không nới ràng buộc cứng.
+
+`confidence`: `confirmed` khi có lịch mở lớp, `du_kien` khi không có dữ liệu. `semester_alignment.kind`: `on_time`, `early`, `late`, kèm `offset` là số kỳ lệch; null khi CTĐT không ghi HK. `assumed_position` true với Khóa luận và Chuyên đề thực tế (Q99). `outside_curriculum` là môn của nghề ngoài CTĐT, không xếp kỳ (Q102); `absent_subjects` là môn ngành không có, chỉ có tên.
+
+<!-- contract: sv07 POST /api/m12/roadmaps/generate {} -->
+```json
+{
+  "has_primary": true,
+  "note": "Lịch dự kiến, không phải lịch mở lớp chính thức. Tín chỉ và tiên quyết của CTĐT K68 là giả định.",
+  "roadmap": {
+    "absent_subjects": [],
+    "career": {
+      "display_name": "AI Engineer",
+      "id": "career-ai_engineer",
+      "illustration_key": "ai",
+      "name": "AI Engineer (mẫu)",
+      "slug": "ai_engineer"
+    },
+    "has_proposal": false,
+    "id": "619eccce7f9944788daf3338f7f9c8c8",
+    "infeasible": false,
+    "outside_curriculum": [
+      {
+        "assumed_position": false,
+        "confidence": "du_kien",
+        "course": {
+          "code": "KDL301",
+          "credits": 3,
+          "id": "KDL301",
+          "name": "Học máy (mẫu)"
+        },
+        "depends_on_pending_result": false,
+        "id": "26478da47679448591bfbbf4cca46ada",
+        "is_pinned": false,
+        "is_primary_career": false,
+        "kind": "course",
+        "outside_curriculum": true,
+        "prerequisites": [
+          {
+            "code": "KDL201",
+            "course_id": "KDL201",
+            "name": "Nhập môn khoa học dữ liệu (mẫu)",
+            "status": "not_done"
+          },
+          {
+            "code": "MAU102",
+            "course_id": "MAU102",
+            "name": "Đại số tuyến tính (mẫu)",
+            "status": "in_progress"
+          }
+        ],
+        "reason": "Môn của nghề ngoài CTĐT ngành bạn, chỉ để tham khảo.",
+        "semester_alignment": null
+      },
+      {
+        "assumed_position": false,
+        "confidence": "du_kien",
+        "course": {
+          "code": "KDL302",
+          "credits": 3,
+          "id": "KDL302",
+          "name": "Học sâu (mẫu)"
+        },
+        "depends_on_pending_result": false,
+        "id": "11c9465b76444145aba533c3c1712ca8",
+        "is_pinned": false,
+        "is_primary_career": false,
+        "kind": "course",
+        "outside_curriculum": true,
+        "prerequisites": [
+          {
+            "code": "KDL301",
+            "course_id": "KDL301",
+            "name": "Học máy (mẫu)",
+            "status": "not_done"
+          }
+        ],
+        "reason": "Môn của nghề ngoài CTĐT ngành bạn, chỉ để tham khảo.",
+        "semester_alignment": null
+      }
+    ],
+    "semesters": [
+      {
+        "credits": 9,
+        "id": "S6",
+        "items": [
+          {
+            "assumed_position": false,
+            "confidence": "confirmed",
+            "course": {
+              "code": "CNT202",
+              "credits": 3,
+              "id": "CNT202",
+              "name": "Cấu trúc dữ liệu và giải thuật (mẫu)"
+            },
+            "depends_on_pending_result": false,
+            "id": "6770f6bb6cbb4e4db7672efd8d35bdbf",
+            "is_pinned": false,
+            "is_primary_career": true,
+            "kind": "course",
+            "outside_curriculum": false,
+            "prerequisites": [
+              {
+                "code": "CNT102",
+                "course_id": "CNT102",
+                "name": "Lập trình Python (mẫu)",
+                "status": "done"
+              }
+            ],
+            "reason": "CTĐT không ghi học kỳ, xếp để cân bằng tín chỉ, môn của nghề chính.",
+            "semester_alignment": null
+          },
+          {
+            "assumed_position": false,
+            "confidence": "du_kien",
+            "course": {
+              "code": "CNT204",
+              "credits": 3,
+              "id": "CNT204",
+              "name": "Mạng máy tính (mẫu)"
+            },
+            "depends_on_pending_result": false,
+            "id": "35051dda288f41238561fd296ef29f5a",
+            "is_pinned": false,
+            "is_primary_career": false,
+            "kind": "course",
+            "outside_curriculum": false,
+            "prerequisites": [
+              {
+                "code": "CNT101",
+                "course_id": "CNT101",
+                "name": "Nhập môn lập trình (mẫu)",
+                "status": "done"
+              }
+            ],
+            "reason": "CTĐT không ghi học kỳ, xếp để cân bằng tín chỉ.",
+            "semester_alignment": null
+          }
+        ],
+        "max_credits": 28,
+        "min_credits": 8,
+        "name": "HK2 2026-2027 (mẫu)",
+        "order": 6,
+        "skills": [
+          {
+            "confidence": "du_kien",
+            "id": "173c806343f248c39bdf0ada80b7d138",
+            "kind": "project",
+            "reason": "Gợi ý sớm vì chưa có môn liên quan trong lộ trình, không chiếm tín chỉ.",
+            "skill": {
+              "id": "prj-data",
+              "name": "Dự án phân tích dữ liệu (mẫu)"
+            }
+          },
+          {
+            "confidence": "du_kien",
+            "id": "7b19f79203cd4994b793cf1b8f4d4603",
+            "kind": "skill",
+            "reason": "Gợi ý sớm vì chưa có môn liên quan trong lộ trình, không chiếm tín chỉ.",
+            "skill": {
+              "id": "sk-eval",
+              "name": "Đánh giá mô hình (mẫu)"
+            }
+          }
+        ]
+      },
+      {
+        "credits": 9,
+        "id": "S7",
+        "items": [
+          {
+            "assumed_position": false,
+            "confidence": "du_kien",
+            "course": {
+              "code": "CNT205",
+              "credits": 3,
+              "id": "CNT205",
+              "name": "Hệ điều hành (mẫu)"
+            },
+            "depends_on_pending_result": false,
+            "id": "251f4bc4a5c9403da439d26e82e185df",
+            "is_pinned": false,
+            "is_primary_career": false,
+            "kind": "course",
+            "outside_curriculum": false,
+            "prerequisites": [
+              {
+                "code": "CNT101",
+                "course_id": "CNT101",
+                "name": "Nhập môn lập trình (mẫu)",
+                "status": "done"
+              }
+            ],
+            "reason": "CTĐT không ghi học kỳ, xếp để cân bằng tín chỉ.",
+            "semester_alignment": null
+          },
+          {
+            "assumed_position": false,
+            "confidence": "du_kien",
+            "course": {
+              "code": "CNT302",
+              "credits": 3,
+              "id": "CNT302",
+              "name": "Công nghệ phần mềm (mẫu)"
+            },
+            "depends_on_pending_result": true,
+            "id": "503103ae0a904463b0e9a5f82702ea9e",
+            "is_pinned": false,
+            "is_primary_career": false,
+            "kind": "course",
+            "outside_curriculum": false,
+            "prerequisites": [
+              {
+                "code": "CNT203",
+                "course_id": "CNT203",
+                "name": "Cơ sở dữ liệu (mẫu)",
+                "status": "in_progress"
+              }
+            ],
+            "reason": "CTĐT không ghi học kỳ, xếp để cân bằng tín chỉ.",
+            "semester_alignment": null
+          }
+        ],
+        "max_credits": 28,
+        "min_credits": 8,
+        "name": "HK1 2027-2028 (mẫu)",
+        "order": 7,
+        "skills": []
+      }
+    ],
+    "stale": false,
+    "totals": {
+      "credits_remaining": 36,
+      "semesters_remaining": 5
+    },
+    "unplaced": [],
+    "version": {
+      "based_on_version_id": null,
+      "created_at": "2026-11-07T03:28:51.197554Z",
+      "id": "1f584afad1ee4d1884a4bba1f4e64637",
+      "infeasible": false,
+      "status": "active",
+      "version": 1
+    }
+  },
+  "student_id": "SV07"
+}
+```
+
+### `GET /api/m12/roadmaps/current`
+
+Tham số `student_id`. Chưa tạo thì `roadmap` null. Đã tạo thì cùng cấu trúc với response của `generate`. `stale` true khi dấu `data_version`, bản nghề hoặc `rule_version` đã khác; `has_proposal` true khi bản đề xuất thật sự khác bản active và sinh viên chưa bỏ qua đúng thay đổi đó.
+
+<!-- contract: sv07 GET /api/m12/roadmaps/current -->
+```json
+{
+  "has_primary": true,
+  "note": "Lịch dự kiến, không phải lịch mở lớp chính thức. Tín chỉ và tiên quyết của CTĐT K68 là giả định.",
+  "roadmap": null,
+  "student_id": "SV07"
+}
+```
+
+### `GET /api/m12/roadmaps/{id}/versions`
+
+<!-- contract: sv07 GET /api/m12/roadmaps/{roadmap}/versions -->
+```json
+{
+  "items": [
+    {
+      "based_on_version_id": null,
+      "created_at": "2026-11-07T03:28:51.331828Z",
+      "id": "50e9969902cc401692c64d1660e07bc9",
+      "infeasible": false,
+      "status": "active",
+      "version": 1
+    }
+  ],
+  "roadmap_id": "5608b39e0501469290e88fdd8d5255b4"
+}
+```
+
+### `PATCH /api/m12/roadmaps/{id}/items/{item_id}`
+
+Thân `{"semester_id": "S7"}`. Chuyển kỳ 1 học phần, các môn khác giữ nguyên; thành công trả cùng cấu trúc với `current`. Vi phạm ràng buộc cứng: 422 `ROADMAP_RULE_VIOLATION`, `details.violations` có `code` là `PREREQUISITE`, `ABOVE_MAX_CREDITS`, `BELOW_MIN_CREDITS`, `OFFERING_CLOSED`, `THESIS_LAST_SEMESTER`, `ALREADY_TAKEN` hoặc `NOT_IN_PROGRAM`; DB không đổi. Kỳ ngoài tầm lộ trình: 422 `SEMESTER_OUT_OF_RANGE`. Kỹ năng, dự án, môn ngoài CTĐT: 422 `ITEM_NOT_MOVABLE`.
+
+<!-- contract: sv07 PATCH /api/m12/roadmaps/{roadmap}/items/{item} 422 {"semester_id": "S2"} -->
+```json
+{
+  "error": {
+    "code": "SEMESTER_OUT_OF_RANGE",
+    "details": {
+      "fields": {
+        "semester_id": [
+          "Kỳ này nằm ngoài tầm lộ trình."
+        ]
+      }
+    },
+    "message": "Kỳ này nằm ngoài tầm lộ trình."
+  }
+}
+```
+
+### `GET /api/m12/roadmaps/{id}/proposal`
+
+Bản đề xuất tính khi đọc, không ghi DB. Không có thay đổi:
+
+<!-- contract: sv07 GET /api/m12/roadmaps/{roadmap}/proposal -->
+```json
+{
+  "has_proposal": false,
+  "note": "Lịch dự kiến, không phải lịch mở lớp chính thức. Tín chỉ và tiên quyết của CTĐT K68 là giả định.",
+  "roadmap_id": "cad891c831454d6ab0e1973633d7523c"
+}
+```
+
+Có thay đổi (ví dụ sinh viên vừa trượt một môn đang học). `stamp` gửi lại khi áp dụng hoặc bỏ qua; môn đã chuyển tay được giữ nếu còn đúng ràng buộc cứng (Q101):
+
+```json
+{
+  "added": [
+    {
+      "code": "CNT203",
+      "credits": 3,
+      "id": "CNT203",
+      "kind": "course",
+      "name": "Cơ sở dữ liệu (mẫu)",
+      "semester": "HK2 2026-2027 (mẫu)"
+    }
+  ],
+  "career_after": {
+    "display_name": "AI Engineer",
+    "id": "career-ai_engineer",
+    "illustration_key": "ai",
+    "name": "AI Engineer (mẫu)",
+    "slug": "ai_engineer"
+  },
+  "career_before": {
+    "display_name": "AI Engineer",
+    "id": "career-ai_engineer",
+    "illustration_key": "ai",
+    "name": "AI Engineer (mẫu)",
+    "slug": "ai_engineer"
+  },
+  "dismissed": false,
+  "has_proposal": true,
+  "infeasible": false,
+  "moved": [
+    {
+      "code": "CNT205",
+      "credits": 3,
+      "from_semester": "HK1 2027-2028 (mẫu)",
+      "id": "CNT205",
+      "kind": "course",
+      "name": "Hệ điều hành (mẫu)",
+      "to_semester": "HK2 2027-2028 (mẫu)"
+    },
+    {
+      "code": "CNT301",
+      "credits": 3,
+      "from_semester": "HK2 2026-2027 (mẫu)",
+      "id": "CNT301",
+      "kind": "course",
+      "name": "Phát triển web backend (mẫu)",
+      "to_semester": "HK1 2027-2028 (mẫu)"
+    }
+  ],
+  "note": "Lịch dự kiến, không phải lịch mở lớp chính thức. Tín chỉ và tiên quyết của CTĐT K68 là giả định.",
+  "removed": [],
+  "roadmap_id": "d200de6d0a5a49fba9729d52fc34d1d0",
+  "stamp": "1794022131|cv-ai_engineer-1|K67-mau-v1",
+  "unplaced": []
+}
+```
+
+### `POST /api/m12/roadmaps/{id}/proposal/accept`
+
+Thân `{"stamp": "..."}`. Tạo phiên bản mới từ đề xuất, đổi `career_id` nếu nghề chính đã đổi; trả cùng cấu trúc với `current`. Dữ liệu đã đổi so với `stamp`, hoặc không có đề xuất: 409 `PROPOSAL_OUTDATED`, DB không đổi.
+
+<!-- contract: sv07 POST /api/m12/roadmaps/{roadmap}/proposal/accept 409 {"stamp": "cu"} -->
+```json
+{
+  "error": {
+    "code": "PROPOSAL_OUTDATED",
+    "details": {},
+    "message": "Dữ liệu vừa thay đổi. Hãy xem lại khác biệt rồi áp dụng."
+  }
+}
+```
+
+### `POST /api/m12/roadmaps/{id}/proposal/dismiss`
+
+Giữ bản cũ (Q100). Thân giống `accept`. Không tạo phiên bản; banner ẩn tới khi có thay đổi mới.
+
+<!-- contract: sv07 POST /api/m12/roadmaps/{roadmap}/proposal/dismiss 409 {"stamp": "cu"} -->
+```json
+{
+  "error": {
+    "code": "PROPOSAL_OUTDATED",
+    "details": {},
+    "message": "Dữ liệu vừa thay đổi. Hãy xem lại khác biệt rồi áp dụng."
+  }
+}
+```
+
 ### `GET /api/auth/demo-accounts`
 
 Công khai. Tên tài khoản của profile `demo-k68`, không có mật khẩu. Profile test trả `accounts` rỗng; production trả 404.

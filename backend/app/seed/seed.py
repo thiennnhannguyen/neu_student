@@ -121,6 +121,9 @@ def reset_database(profile: str = PROFILE_TEST) -> dict[str, int]:
         for name, _sql in triggers:
             connection.exec_driver_sql(f'DROP TRIGGER "{name}"')
         data_version = _next_data_version(connection)
+        # Khóa ngoại trỏ về chính bảng này: chuỗi phiên bản không xóa được theo thứ tự bảng.
+        versions = db.metadata.tables["roadmap_versions"]
+        connection.execute(versions.update().values(based_on_version_id=None))
         for table in reversed(db.metadata.sorted_tables):
             connection.execute(table.delete())
         # Tạo lại trigger trước khi nạp để dữ liệu mẫu cũng phải qua các ràng buộc này.

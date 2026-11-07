@@ -175,6 +175,8 @@ class CurriculumRequirement(MockMixin, db.Model):
     planned_semester = db.Column(db.Integer)
     curriculum_group = db.Column(db.String(64))
     data_warning = db.Column(db.Text)
+    # thesis: bắt buộc ở kỳ cuối của lộ trình; practicum: ưu tiên kỳ ngay trước (giả định của nhóm).
+    schedule_role = db.Column(db.String(16))
     __table_args__ = (
         db.UniqueConstraint("program_version_id", "course_id"),
         db.CheckConstraint("requirement_type IN ('required', 'elective')", name="type_valid"),

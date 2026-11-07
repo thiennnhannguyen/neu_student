@@ -40,7 +40,10 @@ def table_and_index_definitions():
         "'uq_careers_name_key', 'uq_skills_name_key', "
         # Migration 0006 thêm cột vào các bảng này.
         "'career_requirements', 'programs', 'program_versions', 'curriculum_requirements', "
-        "'course_prerequisites') ORDER BY name"
+        "'course_prerequisites', "
+        # Migration 0008 thêm cột và chỉ mục vào các bảng này.
+        "'learning_roadmaps', 'roadmap_versions', 'roadmap_items', "
+        "'uq_learning_roadmaps_student') ORDER BY name"
     )
     return [tuple(row) for row in rows]
 

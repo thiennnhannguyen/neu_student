@@ -117,6 +117,14 @@ class GalleryQuerySchema(ApiSchema):
     q = _text()
 
 
+class RoadmapMoveSchema(ApiSchema):
+    semester_id = _text(required=True, validate=_filled())
+
+
+class RoadmapStampSchema(ApiSchema):
+    stamp = _text(required=True, validate=_filled())
+
+
 class CareerGoalSchema(ApiSchema):
     career_id = _text(required=True, validate=_filled())
 

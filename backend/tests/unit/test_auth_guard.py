@@ -158,6 +158,16 @@ M12_USER_ROUTES = {
     ("GET", "/api/m12/gallery"),
     ("GET", "/api/m12/careers/slug/<slug>"),
     ("GET", "/api/m12/progress/careers/slug/<slug>"),
+    ("GET", "/api/m12/roadmaps/current"),
+    ("GET", "/api/m12/roadmaps/<roadmap_id>/versions"),
+    ("GET", "/api/m12/roadmaps/<roadmap_id>/proposal"),
+}
+M12_STUDENT_WRITE_ROUTES = {
+    ("PUT", "/api/m12/career-goal"),
+    ("POST", "/api/m12/roadmaps/generate"),
+    ("PATCH", "/api/m12/roadmaps/<roadmap_id>/items/<item_id>"),
+    ("POST", "/api/m12/roadmaps/<roadmap_id>/proposal/accept"),
+    ("POST", "/api/m12/roadmaps/<roadmap_id>/proposal/dismiss"),
 }
 M12_ADMIN_ROUTES = {
     ("GET", "/api/admin/audit-logs/entities"),
@@ -235,6 +245,7 @@ def test_route_registry_covers_all_expected_api_routes():
         ("GET", "/api/m11/compare"),
         ("GET", "/api/m11/metrics-glossary"),
         *M12_USER_ROUTES,
+        *M12_STUDENT_WRITE_ROUTES,
         *M12_ADMIN_ROUTES,
     }
 
@@ -253,9 +264,10 @@ def test_m11_and_grade_entry_routes_declare_exact_roles():
         if rule.rule.startswith(("/api/m11/", "/api/m12/", "/api/admin/", "/api/advisor/"))
     }
 
-    assert len(policies) == 14 + 1 + len(M12_USER_ROUTES) + len(M12_ADMIN_ROUTES)
+    new_writes = M12_STUDENT_WRITE_ROUTES - M12_USER_ROUTES
+    assert len(policies) == 14 + 1 + len(M12_USER_ROUTES) + len(new_writes) + len(M12_ADMIN_ROUTES)
     for (method, path), roles in policies.items():
-        if (method, path) == ("PUT", "/api/m12/career-goal"):
+        if (method, path) in M12_STUDENT_WRITE_ROUTES:
             assert roles == {"student"}
         elif path.startswith(("/api/m11/", "/api/m12/")):
             assert roles == readers, path

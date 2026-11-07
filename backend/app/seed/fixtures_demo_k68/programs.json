@@ -123,6 +123,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -134,6 +135,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -145,6 +147,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -156,6 +159,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -167,6 +171,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -178,6 +183,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -189,6 +195,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -200,6 +207,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -211,6 +219,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -222,6 +231,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -233,6 +243,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -244,6 +255,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -255,6 +267,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -266,6 +279,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -277,6 +291,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -288,6 +303,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -299,6 +315,7 @@
       "planned_semester": 3,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -310,6 +327,7 @@
       "planned_semester": null,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -321,6 +339,7 @@
       "planned_semester": 2,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -332,6 +351,7 @@
       "planned_semester": 3,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -343,6 +363,7 @@
       "planned_semester": 3,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -354,6 +375,7 @@
       "planned_semester": 3,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -365,6 +387,7 @@
       "planned_semester": 3,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -376,6 +399,7 @@
       "planned_semester": null,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -387,6 +411,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -398,6 +423,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -409,6 +435,7 @@
       "planned_semester": null,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": "practicum",
       "is_mock": true
     },
     {
@@ -420,6 +447,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -431,6 +459,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -442,6 +471,7 @@
       "planned_semester": 6,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -453,6 +483,7 @@
       "planned_semester": 6,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -464,6 +495,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -475,6 +507,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -486,6 +519,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -497,6 +531,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -508,6 +543,7 @@
       "planned_semester": 5,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -519,6 +555,7 @@
       "planned_semester": 5,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -530,6 +567,7 @@
       "planned_semester": 5,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -541,6 +579,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -552,6 +591,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -563,6 +603,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -574,6 +615,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -585,6 +627,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -596,6 +639,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -607,6 +651,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -618,6 +663,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -629,6 +675,7 @@
       "planned_semester": null,
       "curriculum_group": "Khóa luận tốt nghiệp",
       "data_warning": null,
+      "schedule_role": "thesis",
       "is_mock": true
     },
     {
@@ -640,6 +687,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -651,6 +699,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -662,6 +711,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -673,6 +723,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -684,6 +735,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -695,6 +747,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -706,6 +759,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -717,6 +771,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -728,6 +783,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Cẩm nang ghi đảo mã EP17.KHMA1101 và EP17.KHMI1101 ở dòng KTPM (nghề Data Analyst, Business Analyst). Đã nạp theo tên đúng trong tài liệu CTĐT; học kỳ đi theo tên môn, chưa xác minh.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -739,6 +795,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -750,6 +807,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -761,6 +819,7 @@
       "planned_semester": 3,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Cẩm nang ghi đảo mã EP17.KHMA1101 và EP17.KHMI1101 ở dòng KTPM (nghề Data Analyst, Business Analyst). Đã nạp theo tên đúng trong tài liệu CTĐT; học kỳ đi theo tên môn, chưa xác minh.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -772,6 +831,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -783,6 +843,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -794,6 +855,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -805,6 +867,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -816,6 +879,7 @@
       "planned_semester": 3,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -827,6 +891,7 @@
       "planned_semester": 1,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -838,6 +903,7 @@
       "planned_semester": 3,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -849,6 +915,7 @@
       "planned_semester": 3,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -860,6 +927,7 @@
       "planned_semester": 3,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": "Tài liệu CTĐT ghi EP17.CNTT1107 cho cả Hệ điều hành và Lập trình song song và phân tán; cần xác nhận với trường.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -871,6 +939,7 @@
       "planned_semester": 3,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -882,6 +951,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -893,6 +963,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -904,6 +975,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -915,6 +987,7 @@
       "planned_semester": null,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -926,6 +999,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -937,6 +1011,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -948,6 +1023,7 @@
       "planned_semester": null,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": "practicum",
       "is_mock": true
     },
     {
@@ -959,6 +1035,7 @@
       "planned_semester": 6,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -970,6 +1047,7 @@
       "planned_semester": 6,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -981,6 +1059,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -992,6 +1071,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1003,6 +1083,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1014,6 +1095,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": "Nguồn ghi EP17.CNTT1107, trùng với Hệ điều hành.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1025,6 +1107,7 @@
       "planned_semester": 5,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1036,6 +1119,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1047,6 +1131,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1058,6 +1143,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": "Tài liệu CTĐT ghi EP17.CNTT1113; dùng mã EP17.CNTT11113 theo cẩm nang.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1069,6 +1155,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1080,6 +1167,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1091,6 +1179,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": "Tài liệu CTĐT ghi EP17.CNTT1112; dùng mã EP17.CNTT11112 theo cẩm nang.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1102,6 +1191,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1113,6 +1203,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1124,6 +1215,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1135,6 +1227,7 @@
       "planned_semester": 5,
       "curriculum_group": "Học phần riêng bổ sung của EP17",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1146,6 +1239,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần riêng bổ sung của EP17",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1157,6 +1251,7 @@
       "planned_semester": null,
       "curriculum_group": "Khóa luận tốt nghiệp",
       "data_warning": null,
+      "schedule_role": "thesis",
       "is_mock": true
     },
     {
@@ -1168,6 +1263,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1179,6 +1275,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1190,6 +1287,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1201,6 +1299,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1212,6 +1311,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1223,6 +1323,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1234,6 +1335,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1245,6 +1347,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1256,6 +1359,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1267,6 +1371,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1278,6 +1383,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1289,6 +1395,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1300,6 +1407,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1311,6 +1419,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1322,6 +1431,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1333,6 +1443,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1344,6 +1455,7 @@
       "planned_semester": 3,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1355,6 +1467,7 @@
       "planned_semester": null,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1366,6 +1479,7 @@
       "planned_semester": 2,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1377,6 +1491,7 @@
       "planned_semester": 3,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1388,6 +1503,7 @@
       "planned_semester": 3,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1399,6 +1515,7 @@
       "planned_semester": 3,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1410,6 +1527,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1421,6 +1539,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1432,6 +1551,7 @@
       "planned_semester": null,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1443,6 +1563,7 @@
       "planned_semester": null,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": "practicum",
       "is_mock": true
     },
     {
@@ -1454,6 +1575,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1465,6 +1587,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1476,6 +1599,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1487,6 +1611,7 @@
       "planned_semester": 6,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1498,6 +1623,7 @@
       "planned_semester": 6,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1509,6 +1635,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1520,6 +1647,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1531,6 +1659,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1542,6 +1671,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1553,6 +1683,7 @@
       "planned_semester": 5,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1564,6 +1695,7 @@
       "planned_semester": 5,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1575,6 +1707,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1586,6 +1719,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1597,6 +1731,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1608,6 +1743,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1619,6 +1755,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1630,6 +1767,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1641,6 +1779,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1652,6 +1791,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1663,6 +1803,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1674,6 +1815,7 @@
       "planned_semester": null,
       "curriculum_group": "Khóa luận tốt nghiệp",
       "data_warning": null,
+      "schedule_role": "thesis",
       "is_mock": true
     },
     {
@@ -1685,6 +1827,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1696,6 +1839,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1707,6 +1851,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1718,6 +1863,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1729,6 +1875,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1740,6 +1887,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần chung",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1751,6 +1899,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1762,6 +1911,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1773,6 +1923,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Học kỳ Ngoại ngữ/Tiếng Anh không ghi trong nguồn; để trống, không tự điền.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1784,6 +1935,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Ảnh ATTT ghi hai dòng cùng tên “Kinh tế vi mô 1” với mã KHMI1101 và KHMA1101; cần xác nhận với trường. Học kỳ không ghi trong nguồn nên để trống.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1795,6 +1947,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1806,6 +1959,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần của trường",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1817,6 +1971,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần của trường",
       "data_warning": "Ảnh ATTT ghi hai dòng cùng tên “Kinh tế vi mô 1” với mã KHMI1101 và KHMA1101; cần xác nhận với trường. Học kỳ không ghi trong nguồn nên để trống.",
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1828,6 +1983,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1839,6 +1995,7 @@
       "planned_semester": 1,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1850,6 +2007,7 @@
       "planned_semester": 2,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1861,6 +2019,7 @@
       "planned_semester": 3,
       "curriculum_group": "Học phần nền tảng ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1872,6 +2031,7 @@
       "planned_semester": null,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1883,6 +2043,7 @@
       "planned_semester": 2,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1894,6 +2055,7 @@
       "planned_semester": 3,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1905,6 +2067,7 @@
       "planned_semester": 3,
       "curriculum_group": "Cơ sở ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1916,6 +2079,7 @@
       "planned_semester": 3,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1927,6 +2091,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1938,6 +2103,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1949,6 +2115,7 @@
       "planned_semester": 4,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1960,6 +2127,7 @@
       "planned_semester": null,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": "practicum",
       "is_mock": true
     },
     {
@@ -1971,6 +2139,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1982,6 +2151,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -1993,6 +2163,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2004,6 +2175,7 @@
       "planned_semester": 5,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2015,6 +2187,7 @@
       "planned_semester": 6,
       "curriculum_group": "Kiến thức ngành",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2026,6 +2199,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2037,6 +2211,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2048,6 +2223,7 @@
       "planned_semester": 4,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2059,6 +2235,7 @@
       "planned_semester": 5,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2070,6 +2247,7 @@
       "planned_semester": 5,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2081,6 +2259,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2092,6 +2271,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2103,6 +2283,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2114,6 +2295,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2125,6 +2307,7 @@
       "planned_semester": 6,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2136,6 +2319,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2147,6 +2331,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2158,6 +2343,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2169,6 +2355,7 @@
       "planned_semester": 7,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2180,6 +2367,7 @@
       "planned_semester": null,
       "curriculum_group": "Học phần tự chọn",
       "data_warning": null,
+      "schedule_role": null,
       "is_mock": true
     },
     {
@@ -2191,6 +2379,7 @@
       "planned_semester": null,
       "curriculum_group": "Khóa luận tốt nghiệp",
       "data_warning": null,
+      "schedule_role": "thesis",
       "is_mock": true
     }
   ]

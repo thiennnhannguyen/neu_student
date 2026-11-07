@@ -298,7 +298,7 @@ class Builder:
                 name="Tự chọn: chọn 10 học phần (30 tín chỉ)",
                 min_credits=30,
             )
-            for course_id, code, _name, group in self._entries(program):
+            for course_id, code, name, group in self._entries(program):
                 kind, semester = self.planned.get((program, course_id), (None, None))
                 required = group not in ("6", "extra") if kind is None else kind == "BB"
                 _row(
@@ -311,6 +311,7 @@ class Builder:
                     planned_semester=semester,
                     curriculum_group=GROUPS[group][2],
                     data_warning=self._warning(program, course_id, code),
+                    schedule_role=_schedule_role(name),
                 )
         self.tables["programs"] = programs
         self.tables["program_versions"] = versions
@@ -718,6 +719,9 @@ class Builder:
             "## Giả định của nhóm",
             "",
             "- Tín chỉ: khóa luận 10, còn lại 3. Mọi môn đều tính vào GPA.",
+            "- Vị trí trong lộ trình (Q99): Khóa luận tốt nghiệp ở kỳ cuối của tầm lộ trình, "
+            "Chuyên đề thực tế ưu tiên kỳ ngay trước. Tài liệu nguồn không ghi học kỳ của 2 môn "
+            "này, cần xác minh với trường.",
             f"- CTĐT K68 dùng làm CTĐT mẫu cho sinh viên K66, K67: “{content.PROGRAM_NOTE}”.",
             f"- Tiên quyết: chỉ dựng từ mục 4 cẩm nang, nguồn “{content.SOURCE_ORDER}”. "
             "M11 không dùng các cạnh này để chặn đăng ký.",
@@ -820,6 +824,15 @@ class Builder:
 def build() -> tuple[dict[str, dict[str, list[dict]]], str]:
     builder = Builder()
     return builder.build(), builder.document()
+
+
+def _schedule_role(name: str) -> str | None:
+    """Q99: tài liệu nguồn không ghi học kỳ của 2 loại môn này, vị trí là giả định của nhóm."""
+    if name.startswith("Khóa luận tốt nghiệp"):
+        return "thesis"
+    if name.startswith("Chuyên đề thực tế"):
+        return "practicum"
+    return None
 
 
 def main() -> None:

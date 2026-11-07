@@ -211,6 +211,7 @@ def load_student_data(student_id: str, semester_id: str | None = None) -> Studen
                 row.elective_group_id,
                 row.planned_semester,
                 row.data_warning,
+                row.schedule_role,
             )
             for row in db.session.scalars(
                 select(CurriculumRequirement)

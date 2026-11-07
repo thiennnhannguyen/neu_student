@@ -7,11 +7,14 @@ from app.common.auth_guard import (
     ROLE_ADMIN,
     ROLE_ADVISOR,
     ROLE_STUDENT,
+    can_access_student,
     require_roles,
     resolve_target_student,
 )
 from app.common.errors import ApiError
 from app.common.transaction import transaction
+from app.extensions import db
+from app.models.shared import Student
 from app.schemas.common import load_or_422
 from app.schemas.m11 import TargetQuerySchema
 from app.schemas.m12 import (
@@ -20,12 +23,15 @@ from app.schemas.m12 import (
     GalleryQuerySchema,
     GoalHistoryQuerySchema,
     RelatedQuerySchema,
+    RoadmapMoveSchema,
+    RoadmapStampSchema,
 )
 from app.services import (
     career_api_service,
     career_goal_service,
     career_progress_service,
     related_career_service,
+    roadmap_api_service,
     student_service,
 )
 
@@ -136,3 +142,79 @@ def get_my_careers():
 def get_related():
     student, args = _target(RelatedQuerySchema())
     return jsonify(related_career_service.list_related(student, args))
+
+
+def _readable_roadmap(roadmap_id: str):
+    """Người không được xem sinh viên này nhận 404, không tiết lộ lộ trình có tồn tại."""
+    roadmap = roadmap_api_service.owned_roadmap(roadmap_id)
+    if not can_access_student(current_user, roadmap.student_id):
+        raise ApiError(404)
+    return roadmap
+
+
+def _student_of(roadmap):
+    return db.session.get(Student, roadmap.student_id)
+
+
+@m12_bp.post("/roadmaps/generate")
+@require_roles(ROLE_STUDENT)
+def post_generate_roadmap():
+    student = student_service.get_student_of_user(current_user)
+    with transaction():
+        roadmap_api_service.generate_roadmap(current_user, student)
+    return jsonify(roadmap_api_service.current_roadmap(student)), 201
+
+
+@m12_bp.get("/roadmaps/current")
+@require_roles(*READER_ROLES)
+def get_current_roadmap():
+    student, _args = _target(TargetQuerySchema())
+    return jsonify(roadmap_api_service.current_roadmap(student))
+
+
+@m12_bp.get("/roadmaps/<roadmap_id>/versions")
+@require_roles(*READER_ROLES)
+def get_roadmap_versions(roadmap_id):
+    return jsonify(roadmap_api_service.list_versions(_readable_roadmap(roadmap_id)))
+
+
+@m12_bp.patch("/roadmaps/<roadmap_id>/items/<item_id>")
+@require_roles(ROLE_STUDENT)
+def patch_roadmap_item(roadmap_id, item_id):
+    roadmap = _readable_roadmap(roadmap_id)
+    payload = load_or_422(RoadmapMoveSchema(), request.get_json(silent=True))
+    student = _student_of(roadmap)
+    with transaction():
+        roadmap_api_service.move_item(
+            current_user, student, roadmap, item_id, payload["semester_id"]
+        )
+    return jsonify(roadmap_api_service.current_roadmap(student))
+
+
+@m12_bp.get("/roadmaps/<roadmap_id>/proposal")
+@require_roles(*READER_ROLES)
+def get_roadmap_proposal(roadmap_id):
+    roadmap = _readable_roadmap(roadmap_id)
+    return jsonify(roadmap_api_service.proposal_detail(_student_of(roadmap), roadmap))
+
+
+@m12_bp.post("/roadmaps/<roadmap_id>/proposal/accept")
+@require_roles(ROLE_STUDENT)
+def post_roadmap_proposal_accept(roadmap_id):
+    roadmap = _readable_roadmap(roadmap_id)
+    payload = load_or_422(RoadmapStampSchema(), request.get_json(silent=True))
+    student = _student_of(roadmap)
+    with transaction():
+        roadmap_api_service.accept_proposal(current_user, student, roadmap, payload["stamp"])
+    return jsonify(roadmap_api_service.current_roadmap(student))
+
+
+@m12_bp.post("/roadmaps/<roadmap_id>/proposal/dismiss")
+@require_roles(ROLE_STUDENT)
+def post_roadmap_proposal_dismiss(roadmap_id):
+    roadmap = _readable_roadmap(roadmap_id)
+    payload = load_or_422(RoadmapStampSchema(), request.get_json(silent=True))
+    student = _student_of(roadmap)
+    with transaction():
+        roadmap_api_service.dismiss_proposal(current_user, student, roadmap, payload["stamp"])
+    return jsonify(roadmap_api_service.current_roadmap(student))

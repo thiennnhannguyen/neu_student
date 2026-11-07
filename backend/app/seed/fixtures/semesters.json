@@ -71,6 +71,24 @@
       "end_date": "2028-06-23",
       "is_current": false,
       "is_mock": true
+    },
+    {
+      "id": "S9",
+      "name": "HK1 2028-2029 (mẫu)",
+      "order": 9,
+      "start_date": "2028-09-04",
+      "end_date": "2029-01-19",
+      "is_current": false,
+      "is_mock": true
+    },
+    {
+      "id": "S10",
+      "name": "HK2 2028-2029 (mẫu)",
+      "order": 10,
+      "start_date": "2029-02-12",
+      "end_date": "2029-06-22",
+      "is_current": false,
+      "is_mock": true
     }
   ]
 }

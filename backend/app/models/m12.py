@@ -173,6 +173,7 @@ class LearningRoadmap(MockMixin, db.Model):
     id = pk()
     student_id = fk("students.id", index=True)
     career_id = fk("careers.id")
+    __table_args__ = (db.Index("uq_learning_roadmaps_student", "student_id", unique=True),)
 
 
 class RoadmapVersion(MockMixin, db.Model):
@@ -184,6 +185,13 @@ class RoadmapVersion(MockMixin, db.Model):
     based_on_version_id = fk("roadmap_versions.id", nullable=True)
     created_by = fk("users.id", nullable=True)
     created_at = db.Column(db.DateTime, nullable=False)
+    # Dấu dữ liệu lúc tạo bản này. Khác hiện tại nghĩa là bản đã cũ (R11).
+    data_version = db.Column(db.Integer)
+    career_version_id = db.Column(db.String(64), db.ForeignKey("career_versions.id"))
+    rule_version = db.Column(db.String(32))
+    infeasible = db.Column(db.Boolean, nullable=False, default=False, server_default=db.false())
+    unplaced = db.Column(db.JSON)
+    dismissed_stamp = db.Column(db.String(128))
     __table_args__ = (
         db.UniqueConstraint("roadmap_id", "version"),
         db.CheckConstraint("status IN ('active', 'proposal', 'archived')", name="status_valid"),
@@ -211,6 +219,16 @@ class RoadmapItem(MockMixin, db.Model):
         db.Boolean, nullable=False, default=False, server_default=db.false()
     )
     note = db.Column(db.Text)
+    alignment = db.Column(db.String(16))
+    alignment_offset = db.Column(db.Integer)
+    planned_semester = db.Column(db.Integer)
+    is_pinned = db.Column(db.Boolean, nullable=False, default=False, server_default=db.false())
+    is_primary_career = db.Column(
+        db.Boolean, nullable=False, default=False, server_default=db.false()
+    )
+    assumed_position = db.Column(
+        db.Boolean, nullable=False, default=False, server_default=db.false()
+    )
     __table_args__ = (
         db.CheckConstraint("confidence IN ('confirmed', 'du_kien')", name="confidence_valid"),
         db.CheckConstraint("(course_id IS NULL) <> (skill_id IS NULL)", name="course_or_skill"),

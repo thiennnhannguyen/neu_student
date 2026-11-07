@@ -43,6 +43,13 @@ REQUIRED_ROUTES = {
     ("GET", "/api/m12/related"),
     ("GET", "/api/m12/gallery"),
     ("GET", "/api/m12/careers/slug/ai_engineer"),
+    ("POST", "/api/m12/roadmaps/generate"),
+    ("GET", "/api/m12/roadmaps/current"),
+    ("GET", "/api/m12/roadmaps/{roadmap}/versions"),
+    ("PATCH", "/api/m12/roadmaps/{roadmap}/items/{item}"),
+    ("GET", "/api/m12/roadmaps/{roadmap}/proposal"),
+    ("POST", "/api/m12/roadmaps/{roadmap}/proposal/accept"),
+    ("POST", "/api/m12/roadmaps/{roadmap}/proposal/dismiss"),
     ("GET", "/api/m12/progress/careers/slug/backend"),
     ("GET", "/api/auth/demo-accounts"),
     ("GET", "/api/admin/audit-logs/entities"),
@@ -108,6 +115,17 @@ def shape_problems(example, actual, path="$") -> list[str]:
     return []
 
 
+def with_real_ids(client, url: str) -> str:
+    """Id lộ trình sinh ngẫu nhiên nên ví dụ ghi {roadmap}, {item}: tạo lộ trình rồi thay vào."""
+    if "{roadmap}" not in url:
+        return url
+    roadmap = client.post("/api/m12/roadmaps/generate", json={}, headers=FETCH_HEADER).get_json()[
+        "roadmap"
+    ]
+    item = next(item for column in roadmap["semesters"] for item in column["items"])
+    return url.replace("{roadmap}", roadmap["id"]).replace("{item}", item["id"])
+
+
 def test_every_new_endpoint_has_an_example():
     documented = {(b["method"], b["url"].split("?")[0]) for b in contract_blocks()}
 
@@ -121,7 +139,8 @@ def test_real_response_matches_documented_example(http_app, block):
     body = json.loads(block["body"]) if block["body"] else None
     headers = FETCH_HEADER if block["method"] != "GET" else {}
 
-    response = client.open(block["url"], method=block["method"], json=body, headers=headers)
+    url = with_real_ids(client, block["url"])
+    response = client.open(url, method=block["method"], json=body, headers=headers)
 
     expected = int(block["status"]) if block["status"] else DEFAULT_STATUS[block["method"]]
     assert response.status_code == expected, response.get_data(as_text=True)

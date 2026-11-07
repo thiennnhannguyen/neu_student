@@ -98,6 +98,7 @@ class RequirementRef:
     elective_group_id: str | None
     planned_semester: int | None = None
     data_warning: str | None = None
+    schedule_role: str | None = None
 
 
 @dataclass(frozen=True)

@@ -149,6 +149,7 @@ M12_MODULES = [
     "schemas/m12.py",
     "services/completion_service.py",
     "services/roadmap_service.py",
+    "services/roadmap_api_service.py",
     "services/related_career_service.py",
     "services/support_service.py",
     "blueprints/m12.py",
@@ -335,7 +336,7 @@ def m11_internal_imports(path: Path) -> list[str]:
 
 def test_every_m12_gate_module_of_this_phase_exists():
     for name in M12_MODULES:
-        if name == "services/roadmap_service.py" or name == "services/support_service.py":
+        if name == "services/support_service.py":
             continue
         assert (APP_DIR / name).exists(), name
 

@@ -8,6 +8,7 @@ from app.services.curriculum_service import curriculum_course_ids
 from app.services.effective_attempt_service import (
     COMPLETED_STATUSES,
     COURSE_DONE_VIA_EQUIVALENCY,
+    COURSE_IN_PROGRESS,
     course_status,
     effective_attempts,
     in_progress_course_ids,
@@ -103,6 +104,88 @@ def get_course_facts(student_id: str, course_ids: Iterable[str]) -> CourseFacts:
             )
             for row in data.requirements
         },
+    )
+
+
+@dataclass(frozen=True)
+class RoadmapSemester:
+    id: str
+    name: str
+    order: int
+
+
+@dataclass(frozen=True)
+class RoadmapCourse:
+    id: str
+    code: str | None
+    name: str
+    credits: int
+
+
+@dataclass(frozen=True)
+class RoadmapRequirement:
+    course_id: str
+    requirement_type: str
+    elective_group_id: str | None
+    planned_semester: int | None
+    schedule_role: str | None
+
+
+@dataclass(frozen=True)
+class RoadmapGroup:
+    id: str
+    name: str
+    min_credits: int
+
+
+@dataclass(frozen=True)
+class RoadmapFacts:
+    """Dữ liệu M11 cho lộ trình, nạp đúng 1 lần. `prerequisites` chỉ có tiên quyết chính thức."""
+
+    entry_order: int
+    current_order: int
+    semesters: tuple[RoadmapSemester, ...]
+    min_credits: int
+    max_credits: int
+    rule_version: str
+    courses: Mapping[str, RoadmapCourse]
+    requirements: tuple[RoadmapRequirement, ...]
+    groups: tuple[RoadmapGroup, ...]
+    prerequisites: Mapping[str, tuple[str, ...]]
+    completed: frozenset[str]
+    in_progress: frozenset[str]
+    program_id: str | None
+
+
+def get_roadmap_facts(student_id: str) -> RoadmapFacts:
+    data = load_student_data(student_id)
+    statuses = {course.id: course_status(data, course.id) for course in data.courses}
+    prerequisites: dict[str, list[str]] = {}
+    for row in data.prerequisites:
+        prerequisites.setdefault(row.course_id, []).append(row.prerequisite_course_id)
+    return RoadmapFacts(
+        entry_order=data.entry_semester_order,
+        current_order=data.current_semester.order,
+        semesters=tuple(RoadmapSemester(s.id, s.name, s.order) for s in data.semesters),
+        min_credits=data.rule.registration_min_credits,
+        max_credits=data.rule.registration_max_credits,
+        rule_version=data.rule.rule_version,
+        courses={c.id: RoadmapCourse(c.id, c.code, c.name, c.credits) for c in data.courses},
+        requirements=tuple(
+            RoadmapRequirement(
+                row.course_id,
+                row.requirement_type,
+                row.elective_group_id,
+                row.planned_semester,
+                row.schedule_role,
+            )
+            for row in data.requirements
+        ),
+        groups=tuple(RoadmapGroup(g.id, g.name, g.min_credits) for g in data.elective_groups),
+        prerequisites={course: tuple(sorted(ids)) for course, ids in prerequisites.items()},
+        completed=frozenset(c for c, s in statuses.items() if s in COMPLETED_STATUSES),
+        in_progress=frozenset(c for c, s in statuses.items() if s == COURSE_IN_PROGRESS),
+        program_id=data.program_id,
     )
 
 
