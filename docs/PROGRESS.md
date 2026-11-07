@@ -24,7 +24,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | 07 | Xây Career Graph và API M12 | Hoàn thành, tag `phase-07`, CI xanh | Không có |
 | 08 | Đồng bộ tiến độ M11–M12, tỷ lệ nghề, trang Định hướng nghề | Hoàn thành, tag `phase-08`, CI xanh. Đạt 235/235 ở commit `fd18024` | Không có |
 | 09 | Lập lộ trình theo kỳ (M12-07, M12-08); M12-09 hoãn | Đạt, tag `phase-09` | Không có |
-| 10 | Minh chứng, yêu cầu hỗ trợ, kế hoạch cải thiện, thông báo (bản thu gọn) | Chờ nghiệm thu, chưa gắn tag | Không có |
+| 10 | Minh chứng, yêu cầu hỗ trợ, kế hoạch cải thiện, thông báo (bản thu gọn) | Đạt, tag `phase-10` | Không có |
 | 11 | Thiết kế responsive theo NEU 2026; đưa thư viện họa tiết vào khung ứng dụng (dải ở navbar) và bổ sung họa tiết còn thiếu (D-154) | Chưa bắt đầu | Không có |
 | 12 | Kiểm thử tích hợp, triển khai cục bộ, báo cáo | Chưa bắt đầu | Không có |
 
@@ -64,4 +64,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Giai đoạn 10: chờ quản lý dự án nghiệm thu. Remote: https://github.com/thiennnhannguyen/neu_student.
+Giai đoạn cuối (11 + 12): chờ duyệt kế hoạch. Remote: https://github.com/thiennnhannguyen/neu_student.

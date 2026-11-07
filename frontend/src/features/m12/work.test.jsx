@@ -2,6 +2,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { apiError, jsonResponse, renderApp } from '../../test/fakeApi';
+import { formatDateTime } from '../m11/format';
 import { callsTo, m11Api } from '../m11/testData';
 import { m12Api, NODES, progressBody } from './testData';
 
@@ -215,7 +216,13 @@ describe('nộp minh chứng', () => {
 const REVIEWS = 'GET /api/m12/evidence-reviews';
 
 function reviewRow(extra = {}) {
-  return evidence({ student: { id: 'DEMO05', code: 'DEMO05', name: 'Sinh viên 5' }, ...extra });
+  return evidence({
+    student: { id: 'DEMO05', code: 'DEMO05', name: 'Sinh viên 5' },
+    careers: [{ id: 'c-ai', name: 'AI Engineer', group: 'Nền tảng' }],
+    submitted_at: '2026-03-02T01:30:00Z',
+    previous_submissions: 0,
+    ...extra,
+  });
 }
 
 function reviewList(items = [reviewRow()]) {
@@ -243,6 +250,66 @@ describe('Duyệt minh chứng', () => {
     await waitFor(() =>
       expect(callsTo(fetchMock, '/api/m12/evidence-reviews').at(-1).get('status')).toBe('rejected'),
     );
+  });
+
+  it('bảng có nghề, nhóm năng lực, ngày nộp, tệp tải được và số lần nộp trước', async () => {
+    m11Api('advisor', {
+      [REVIEWS]: reviewList([
+        reviewRow({
+          previous_submissions: 2,
+          careers: [
+            { id: 'c-ai', name: 'AI Engineer', group: 'Nền tảng' },
+            { id: 'c-da', name: 'Data Analyst', group: 'Công cụ' },
+          ],
+          attachments: [{ id: 'a1', original_name: 'bai.pdf', size_bytes: 2048, url: '/tep/a1' }],
+        }),
+      ]),
+    });
+    renderApp('/m12/duyet-minh-chung');
+
+    const row = (await screen.findByRole('rowheader', { name: /Sinh viên 5/ })).closest('tr');
+    expect(within(row).getByText('AI Engineer: Nền tảng')).toBeInTheDocument();
+    expect(within(row).getByText('Data Analyst: Công cụ')).toBeInTheDocument();
+    expect(row).toHaveTextContent(formatDateTime('2026-03-02T01:30:00Z'));
+    expect(within(row).getByRole('link', { name: 'bai.pdf' })).toHaveAttribute('href', '/tep/a1');
+    expect(screen.getByRole('columnheader', { name: 'Số lần nộp trước' })).toBeInTheDocument();
+    expect(within(row).getByRole('cell', { name: '2' })).toBeInTheDocument();
+  });
+
+  it('bảng ghi rõ khi thiếu ngày nộp, tệp đính kèm hoặc nghề', async () => {
+    m11Api('advisor', {
+      [REVIEWS]: reviewList([reviewRow({ submitted_at: null, careers: [] })]),
+    });
+    renderApp('/m12/duyet-minh-chung');
+
+    const row = (await screen.findByRole('rowheader', { name: /Sinh viên 5/ })).closest('tr');
+    expect(row).toHaveTextContent('Chưa ghi nhận');
+    expect(row).toHaveTextContent('Không có');
+    expect(row).toHaveTextContent('Không thuộc nghề nào');
+  });
+
+  it('panel có nghề, nhóm năng lực, ngày nộp, tệp tải được và số lần nộp trước', async () => {
+    const { panel } = await openReview('advisor', {
+      [REVIEWS]: reviewList([
+        reviewRow({
+          previous_submissions: 1,
+          attachments: [{ id: 'a1', original_name: 'bai.pdf', size_bytes: 2048, url: '/tep/a1' }],
+        }),
+      ]),
+    });
+
+    expect(within(panel).getByText('AI Engineer: Nền tảng')).toBeInTheDocument();
+    expect(panel).toHaveTextContent(`Ngày nộp: ${formatDateTime('2026-03-02T01:30:00Z')}`);
+    expect(panel).toHaveTextContent('Số lần nộp trước: 1');
+    expect(within(panel).getByRole('link', { name: 'bai.pdf' })).toHaveAttribute('href', '/tep/a1');
+    expect(panel).not.toHaveTextContent('Không có tệp đính kèm.');
+  });
+
+  it('panel ghi rõ khi không có tệp đính kèm', async () => {
+    const { panel } = await openReview();
+
+    expect(panel).toHaveTextContent('Không có tệp đính kèm.');
+    expect(panel).toHaveTextContent('Số lần nộp trước: 0');
   });
 
   it('không có minh chứng thì ghi rõ; chọn Tất cả thì không gửi status', async () => {

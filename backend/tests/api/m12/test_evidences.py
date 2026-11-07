@@ -5,9 +5,17 @@ import io
 import pytest
 from sqlalchemy import select
 
+from app.common import clock
 from app.extensions import db
-from app.models.m12 import SkillEvidence, SkillEvidenceAttachment
-from app.models.shared import Student
+from app.models.m12 import (
+    Career,
+    CareerNode,
+    CareerRequirement,
+    CareerVersion,
+    SkillEvidence,
+    SkillEvidenceAttachment,
+)
+from app.models.shared import Program, ProgramVersion, Student, User
 from app.models.system import AuditLog, Notification
 from tests.api.m11.helpers import QueryCounter
 from tests.helpers import FETCH_HEADER, error_code, login_as
@@ -15,7 +23,7 @@ from tests.helpers import FETCH_HEADER, error_code, login_as
 PDF = b"%PDF-1.7 mau"
 EVIDENCES = "/api/m12/evidences"
 REVIEWS = "/api/m12/evidence-reviews"
-QUERIES_REVIEW_LIST = 7
+QUERIES_REVIEW_LIST = 9
 
 
 def submit(client, skill_id="sk-git", files=(), **extra):
@@ -347,6 +355,157 @@ def test_demo05_checklist_skill(demo_app):
     assert data_version(demo_app, "DEMO05") == version + 1
 
 
+def pending_row(client, student_id):
+    items = client.get(f"{REVIEWS}?status=pending&page_size=100").get_json()["items"]
+    return next(item for item in items if item["student_id"] == student_id)
+
+
+def test_review_row_shows_careers_date_files_and_previous_submissions(http_app):
+    student = login_as(http_app, "sv04")
+    advisor = login_as(http_app, advisor_of(http_app, "SV04"))
+    first = submit(student, files=[("bai.pdf", PDF)]).get_json()
+    assert first["submitted_at"] is not None
+
+    row = pending_row(advisor, "SV04")
+    assert row["previous_submissions"] == 0
+    assert row["submitted_at"] == first["submitted_at"]
+    assert [item["original_name"] for item in row["attachments"]] == ["bai.pdf"]
+    download = advisor.get(row["attachments"][0]["url"])
+    assert download.status_code == 200
+    assert download.data == PDF
+    with http_app.app_context():
+        expected = sorted(
+            db.session.execute(
+                select(Career.id, Career.name, CareerNode.name)
+                .join(CareerVersion, CareerVersion.career_id == Career.id)
+                .join(CareerRequirement, CareerRequirement.career_version_id == CareerVersion.id)
+                .join(CareerNode, CareerNode.id == CareerRequirement.career_node_id)
+                .where(CareerRequirement.skill_id == "sk-git", CareerVersion.status == "published")
+            ).all(),
+            key=lambda item: item[1],
+        )
+    assert len(expected) >= 2
+    shown = [(item["id"], item["name"], item["group"]) for item in row["careers"]]
+    assert shown == [tuple(item) for item in expected]
+
+    review(advisor, first["id"], "reject", "Thiếu liên kết")
+    second = submit(student).get_json()
+    assert pending_row(advisor, "SV04")["previous_submissions"] == 1
+    assert advisor.get(f"{REVIEWS}/{second['id']}").get_json()["previous_submissions"] == 1
+    assert advisor.get(f"{REVIEWS}/{first['id']}").get_json()["previous_submissions"] == 0
+
+
+def test_previous_submissions_counts_only_same_student_and_skill(http_app):
+    submit(login_as(http_app, "sv02"))
+    submit(login_as(http_app, "sv04"), skill_id="sk-sql")
+    submit(login_as(http_app, "sv04"))
+    advisor = login_as(http_app, advisor_of(http_app, "SV04"))
+
+    items = advisor.get(f"{REVIEWS}?status=pending&page_size=100").get_json()["items"]
+
+    assert {item["previous_submissions"] for item in items if item["student_id"] == "SV04"} == {0}
+
+
+def test_seed_row_without_date_counts_as_earlier(http_app):
+    with http_app.app_context():
+        db.session.add(
+            SkillEvidence(
+                id="ev-cu",
+                student_id="SV04",
+                skill_id="sk-git",
+                description="Bản cũ",
+                status="rejected",
+                is_mock=True,
+            )
+        )
+        db.session.commit()
+    submit(login_as(http_app, "sv04"))
+    advisor = login_as(http_app, advisor_of(http_app, "SV04"))
+
+    assert pending_row(advisor, "SV04")["previous_submissions"] == 1
+    old = advisor.get(f"{REVIEWS}/ev-cu").get_json()
+    assert old["submitted_at"] is None
+    assert old["previous_submissions"] == 0
+
+
+def add_career(slug, skill_id, version=1, program_id=None, status="approved"):
+    db.session.add(
+        Career(id=f"c-{slug}", slug=slug, name=slug, name_key=slug, field="Mẫu", is_mock=True)
+    )
+    add_version(slug, skill_id, version, program_id, status)
+
+
+def add_version(slug, skill_id, version, program_id=None, status="approved"):
+    version_id = f"v-{slug}-{version}"
+    db.session.add(
+        CareerVersion(
+            id=version_id,
+            career_id=f"c-{slug}",
+            version=version,
+            status="draft",
+            is_mock=True,
+        )
+    )
+    db.session.flush()
+    db.session.add(
+        CareerNode(
+            id=f"n-{slug}-{version}",
+            career_version_id=version_id,
+            name=f"Nhóm {version}",
+            order=1,
+            is_mock=True,
+        )
+    )
+    db.session.flush()
+    if skill_id:
+        db.session.add(
+            CareerRequirement(
+                id=f"r-{slug}-{version}",
+                career_version_id=version_id,
+                career_node_id=f"n-{slug}-{version}",
+                kind="skill",
+                skill_id=skill_id,
+                source="Mẫu",
+                status=status,
+                approved_by=db.session.scalar(select(User.id).limit(1))
+                if status == "approved"
+                else None,
+                approved_at=clock.utcnow() if status == "approved" else None,
+                program_id=program_id,
+                is_mock=True,
+            )
+        )
+        db.session.flush()
+    row = db.session.get(CareerVersion, version_id)
+    row.status = "published"
+    row.published_at = clock.utcnow()
+    db.session.flush()
+
+
+def test_careers_use_latest_published_approved_and_student_program(http_app):
+    with http_app.app_context():
+        program_id = db.session.scalar(
+            select(ProgramVersion.program_id)
+            .join(Student, Student.program_version_id == ProgramVersion.id)
+            .where(Student.id == "SV04")
+        )
+        db.session.add(Program(id="p-khac", code="KHAC", name="Ngành khác", is_mock=True))
+        db.session.flush()
+        add_career("dung-nganh", "sk-git", program_id=program_id)
+        add_career("nganh-khac", "sk-git", program_id="p-khac")
+        add_career("chua-duyet", "sk-git", status="draft")
+        add_career("ban-cu", "sk-git")
+        add_version("ban-cu", None, 2)
+        db.session.commit()
+    submit(login_as(http_app, "sv04"))
+
+    careers = pending_row(login_as(http_app, advisor_of(http_app, "SV04")), "SV04")["careers"]
+
+    names = {item["name"] for item in careers}
+    assert "dung-nganh" in names
+    assert names.isdisjoint({"nganh-khac", "chua-duyet", "ban-cu"})
+
+
 def test_query_count_of_review_list(http_app):
     submit(login_as(http_app, "sv04"))
     advisor = login_as(http_app, advisor_of(http_app, "SV04"))
@@ -367,4 +526,4 @@ def test_query_counts_of_student_list_and_review_detail(http_app):
         assert advisor.get(f"{REVIEWS}/{evidence}").status_code == 200
 
     assert listed.count == 7
-    assert detail.count == 9
+    assert detail.count == 10

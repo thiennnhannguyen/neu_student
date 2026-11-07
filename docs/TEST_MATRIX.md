@@ -267,4 +267,43 @@ File nằm trong `backend/tests/`, trừ dòng ghi rõ `frontend/`.
 | Ticket, Q26, tin nhắn | `tests/api/m12/test_support.py` |
 | Kế hoạch cải thiện, mọi quy tắc có mẫu | `tests/api/m12/test_improvement.py` |
 | Thông báo, chống trùng, Q106 | `tests/api/test_notifications.py` |
+| Trang duyệt: nghề, nhóm năng lực, ngày nộp, tệp tải được, số lần nộp trước | `test_review_row_shows_careers_date_files_and_previous_submissions`, `test_previous_submissions_counts_only_same_student_and_skill`, `test_seed_row_without_date_counts_as_earlier`, `test_careers_use_latest_published_approved_and_student_program`; Vitest nhóm `Duyệt minh chứng` |
 | Giao diện | `features/m12/work.test.jsx`; Vitest nhóm `Cảnh báo` |
+
+## Ánh xạ mã chức năng → endpoint → màn hình → test
+
+Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch cải thiện, `C04` là Thông báo.
+
+| Mã | Chức năng | Endpoint | Màn hình | Test | Trạng thái |
+|----|-----------|----------|----------|------|------------|
+| C01 | Đăng nhập, đăng xuất và phiên làm việc | `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`, `GET /api/auth/demo-accounts` | `/login` | `acceptance/test_tc01_auth.py`, `features/auth/LoginForm.test.jsx`, `features/auth/auth.test.jsx` | Đã làm |
+| C02 | Phân quyền và bảo vệ dữ liệu | Mọi route (`require_roles`, ngoài phạm vi trả 404) | `RoleRoute`, trang không có quyền | `unit/test_auth_guard.py`, `api/m11/test_m11_permissions.py`, `api/m12/test_admin_permissions.py`, `routes.test.jsx` | Đã làm |
+| C03 | Hồ sơ sinh viên và chương trình | `GET /api/students/me`, `GET /api/students/{id}`, `PATCH /api/students/me/contact` | `/ho-so` | `api/test_students_api.py`, `features/profile/ProfilePage.test.jsx` | Đã làm |
+| C04 | Thông báo trong hệ thống | `GET /api/notifications`, `POST /api/notifications/{id}/read`, `POST /api/notifications/read-all` | Chuông trên thanh đầu trang | `api/test_notifications.py`, `features/m12/work.test.jsx` | Đã làm |
+| C05 | Quản trị và nhật ký thay đổi | `GET /api/admin/audit-logs`, `GET /api/admin/audit-logs/entities`, `GET /api/admin/students`, `POST /api/admin/grade-attempts` | `/quan-tri/nhat-ky` | `api/test_audit_logs_api.py`, `api/m12/test_admin_careers.py`, `unit/test_audit.py`, `api/m11/test_m11_writes_and_directory.py`, `features/admin/AuditLogPage.test.jsx` | Đã làm |
+| M11-01 | Dashboard học tập | `GET /api/m11/overview` | `/` (Tổng quan) | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-02 | Bảng điểm và lịch sử học phần | `GET /api/m11/grades`, `GET /api/m11/grades/{course_id}/attempts` | `/m11/ket-qua` | `api/m11/test_m11_grades.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-03 | Tính GPA học kỳ và tích lũy | `GET /api/m11/overview`, `GET /api/m11/gpa-trend` | `/`, `/m11/ket-qua` | `acceptance/test_m11_expected.py`, `acceptance/test_m11_api_expected.py`, `acceptance/test_m11_differential.py` | Đã làm |
+| M11-04 | Xu hướng GPA | `GET /api/m11/gpa-trend` | `/`, `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-05 | Tiến độ tín chỉ | `GET /api/m11/credits` | `/`, `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-06 | Đối chiếu chương trình đào tạo | `GET /api/m11/curriculum-check` | `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-07 | Phân tích điểm mạnh/yếu | `GET /api/m11/strengths` | `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-08 | So sánh học kỳ | `GET /api/m11/compare` | `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-09 | Cảnh báo nguy cơ học vụ | `GET /api/m11/risks` | `/m11/canh-bao` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-10 | Giải thích chỉ số và bộ lọc | `GET /api/m11/metrics-glossary`, `GET /api/m11/semesters` | Mọi trang M11 (giải thích chỉ số, bộ lọc kỳ) | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-11 | Dữ liệu thiếu, học lại và tương đương | `GET /api/m11/grades`, `GET /api/m11/overview` | `/m11/ket-qua` | `acceptance/test_tc02.py`, `acceptance/test_tc03.py`, `acceptance/test_m11_edge_cases.py` | Đã làm |
+| M12-01 | Chọn nghề nghiệp mục tiêu chính | `GET /api/m12/career-goal`, `PUT /api/m12/career-goal`, `GET /api/m12/career-goal/history` | `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_goal.py`, `acceptance/test_tc08_career_change.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
+| M12-02 | Danh sách nghề liên quan và xem tất cả | `GET /api/m12/gallery`, `GET /api/m12/careers`, `GET /api/m12/related`, `GET /api/m12/my-careers` | `/m12/dinh-huong` | `api/m12/test_m12_gallery.py`, `api/m12/test_m12_careers.py`, `api/m12/test_m12_progress.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
+| M12-03 | Cây mục tiêu nghề nghiệp | `GET /api/m12/careers/{id}`, `GET /api/m12/careers/slug/{slug}`, `GET /api/m12/careers/{id}/tree`, `GET /api/m12/progress/careers/slug/{slug}` | `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_careers.py`, `api/m12/test_m12_progress.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
+| M12-04 | Đồng bộ môn đạt trên mọi cây | `GET /api/m12/progress/careers/{id}`, `GET /api/m12/gallery` | `/m12/dinh-huong`, `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_progress.py`, `acceptance/test_m12_expected.py` | Đã làm |
+| M12-05 | Tỷ lệ hoàn thành riêng từng nghề | `GET /api/m12/progress/careers/{id}`, `GET /api/m12/gallery` | `/m12/dinh-huong`, `/m12/dinh-huong/nghe/:slug` | `acceptance/test_m12_expected.py`, `api/m12/test_m12_progress.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
+| M12-06 | Chi tiết học phần/kỹ năng | `GET /api/m12/requirements/{id}` | Panel môn ở `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_careers.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
+| M12-07 | Lộ trình học theo học kỳ | `POST /api/m12/roadmaps/generate`, `GET /api/m12/roadmaps/current`, `PATCH /api/m12/roadmaps/{id}/items/{item}`, `GET /api/m12/roadmaps/{id}/versions` | `/m12/ke-hoach` | `api/m12/test_roadmaps.py`, `acceptance/test_roadmap_properties.py`, `features/m12/plan/plan.test.jsx` | Đã làm |
+| M12-08 | Điều chỉnh lộ trình khi thay đổi | `GET /api/m12/roadmaps/{id}/proposal`, `POST /api/m12/roadmaps/{id}/proposal/accept`, `POST /api/m12/roadmaps/{id}/proposal/dismiss` | `/m12/ke-hoach/khac-biet` | `api/m12/test_roadmaps.py`, `features/m12/plan/plan.test.jsx` | Đã làm |
+| M12-09 | So sánh nghề nghiệp | Không có | Không có | Không có | Hoãn ở giai đoạn 09; P2 theo `AGENTS.md` |
+| M12-10 | Kế hoạch cải thiện học tập | `GET /api/m12/improvement-plan`, `POST /api/m12/improvement-plan`, `POST .../{plan}/items`, `PATCH`, `DELETE .../{plan}/items/{item}`, `POST .../{plan}/new-risks` | `/m11/canh-bao/ke-hoach` | `api/m12/test_improvement.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M12-11 | Tra cứu hướng dẫn và học liệu | Không có | `/m12/hoc-lieu` hiện "Đang phát triển." | `components/shell.test.jsx` | Hoãn ở giai đoạn 10 theo yêu cầu quản lý dự án (bản thu gọn) |
+| M12-12 | Gửi yêu cầu hỗ trợ | `GET /api/m12/support-categories`, `POST /api/m12/support-requests` | `/m12/yeu-cau-ho-tro` | `api/m12/test_support.py`, `api/m12/test_attachments.py`, `features/m12/work.test.jsx` | Đã làm |
+| M12-13 | Theo dõi và phản hồi yêu cầu | `GET /api/m12/support-requests`, `GET /api/m12/support-requests/{id}`, `POST .../{id}/messages`, `POST .../{id}/status`, `GET .../{id}/attachments/{attachment}` | `/m12/yeu-cau-ho-tro`, `/m12/yeu-cau-ho-tro/:id` | `api/m12/test_support.py`, `features/m12/work.test.jsx` | Đã làm |
+| M12-14 | Nhắc nhở kế hoạch | Không có | `/m12/nhac-nho` hiện "Đang phát triển." | `components/shell.test.jsx` | Hoãn ở giai đoạn 10 theo yêu cầu quản lý dự án (bản thu gọn) |
+| M12-15 | Quản trị danh mục nghề và ánh xạ | `/api/admin/careers`, `/api/admin/career-versions`, `/api/admin/career-nodes`, `/api/admin/requirements`, `/api/admin/skills`, `/api/admin/course-skill-mappings` | Chỉ API; giao diện chưa làm | `api/m12/test_admin_careers.py`, `api/m12/test_admin_versions.py`, `api/m12/test_admin_permissions.py` | API đã làm; giao diện hoãn (P1, D-36) |

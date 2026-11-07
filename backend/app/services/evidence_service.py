@@ -1,6 +1,7 @@
 """Minh chứng kỹ năng, dự án (R7). Mọi đổi trạng thái tăng data_version trong cùng transaction."""
 
-from sqlalchemy import select
+from sqlalchemy import and_, func, or_, select
+from sqlalchemy.orm import aliased
 
 from app.common import audit, clock
 from app.common.auth_guard import ROLE_ADVISOR, can_access_student
@@ -9,15 +10,17 @@ from app.common.errors import ApiError
 from app.common.pagination import paginate
 from app.extensions import db
 from app.models.m12 import (
+    Career,
+    CareerNode,
     CareerRequirement,
     Skill,
     SkillEvidence,
     SkillEvidenceAttachment,
 )
-from app.models.shared import AdvisorAssignment, Student, User
+from app.models.shared import AdvisorAssignment, ProgramVersion, Student, User
 from app.services import attachment_service
 from app.services.attachment_service import CheckedFile, StoredFiles
-from app.services.career_api_service import iso_time
+from app.services.career_api_service import iso_time, latest_published_versions
 from app.services.notification_service import notify
 
 PENDING = "pending"
@@ -156,6 +159,76 @@ def attachment_file(user: User, evidence_id: str, attachment_id: str):
     return attachment_service.send_stored(item.stored_name, item.original_name, item.content_type)
 
 
+def _careers_of(evidence_ids: list[str]) -> dict[str, list[dict]]:
+    """Nghề, nhóm năng lực chứa kỹ năng: bản published mới nhất, đúng ngành của sinh viên (Q92)."""
+    latest = latest_published_versions().subquery()
+    rows = db.session.execute(
+        select(SkillEvidence.id, Career.id, Career.name, CareerNode.name, CareerNode.order)
+        .join(Student, Student.id == SkillEvidence.student_id)
+        .join(ProgramVersion, ProgramVersion.id == Student.program_version_id)
+        .join(
+            CareerRequirement,
+            and_(
+                CareerRequirement.skill_id == SkillEvidence.skill_id,
+                CareerRequirement.status == "approved",
+                or_(
+                    CareerRequirement.program_id.is_(None),
+                    CareerRequirement.program_id == ProgramVersion.program_id,
+                ),
+            ),
+        )
+        .join(latest, latest.c.id == CareerRequirement.career_version_id)
+        .join(Career, Career.id == latest.c.career_id)
+        .join(CareerNode, CareerNode.id == CareerRequirement.career_node_id)
+        .where(SkillEvidence.id.in_(evidence_ids))
+        .distinct()
+        .order_by(Career.name, CareerNode.order)
+    )
+    found: dict[str, list[dict]] = {}
+    for evidence_id, career_id, career_name, group_name, _order in rows:
+        found.setdefault(evidence_id, []).append(
+            {"id": career_id, "name": career_name, "group": group_name}
+        )
+    return found
+
+
+def _previous_counts(evidence_ids: list[str]) -> dict[str, int]:
+    """Số lần nộp trước của cùng sinh viên, cùng kỹ năng. Bản seed không có ngày nộp là cũ nhất."""
+    earlier = aliased(SkillEvidence)
+    rows = db.session.execute(
+        select(SkillEvidence.id, func.count(earlier.id))
+        .join(
+            earlier,
+            and_(
+                earlier.student_id == SkillEvidence.student_id,
+                earlier.skill_id == SkillEvidence.skill_id,
+                or_(
+                    earlier.submitted_at < SkillEvidence.submitted_at,
+                    and_(earlier.submitted_at.is_(None), SkillEvidence.submitted_at.is_not(None)),
+                ),
+            ),
+        )
+        .where(SkillEvidence.id.in_(evidence_ids))
+        .group_by(SkillEvidence.id)
+    )
+    return {evidence_id: count for evidence_id, count in rows}
+
+
+def _review_json(rows: list[SkillEvidence]) -> list[dict]:
+    """Cố vấn cần thêm nghề, nhóm năng lực và số lần nộp trước để quyết định."""
+    ids = [row.id for row in rows]
+    careers = _careers_of(ids)
+    previous = _previous_counts(ids)
+    return [
+        {
+            **detail,
+            "careers": careers.get(detail["id"], []),
+            "previous_submissions": previous.get(detail["id"], 0),
+        }
+        for detail in _many_json(rows)
+    ]
+
+
 def review_queue(user: User, args: dict) -> dict:
     """Cố vấn chỉ có sinh viên được phân công; quản trị viên xem tất cả."""
     query = select(SkillEvidence, Student, User).join(
@@ -175,7 +248,7 @@ def review_queue(user: User, args: dict) -> dict:
     query = query.order_by(SkillEvidence.submitted_at.desc(), SkillEvidence.id)
     result = paginate(query, args.get("page"), args.get("page_size"), scalars=False)
     rows = result["items"]
-    details = _many_json([row[0] for row in rows])
+    details = _review_json([row[0] for row in rows])
     result["items"] = [
         {
             **detail,
@@ -187,7 +260,7 @@ def review_queue(user: User, args: dict) -> dict:
 
 
 def review_detail(user: User, evidence_id: str) -> dict:
-    return evidence_detail(_readable(user, evidence_id).id)
+    return _review_json([_readable(user, evidence_id)])[0]
 
 
 def _reviewable(user: User, evidence_id: str) -> SkillEvidence:

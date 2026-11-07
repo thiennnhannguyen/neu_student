@@ -13,7 +13,7 @@ import {
   useToast,
 } from '../../../components/ui';
 import { useAuth } from '../../auth/AuthContext';
-import { withQuery } from '../../m11/format';
+import { formatDateTime, withQuery } from '../../m11/format';
 import useApiResource from '../../m11/useApiResource';
 import { ResourceView } from '../../m11/ui';
 import AttachmentList from '../AttachmentList';
@@ -28,6 +28,25 @@ const STATUSES = [
 
 function statusLabel(status) {
   return STATUSES.find((item) => item.value === status).label;
+}
+
+function submittedText(row) {
+  return row.submitted_at ? formatDateTime(row.submitted_at) : 'Chưa ghi nhận';
+}
+
+function CareerGroups({ careers }) {
+  if (careers.length === 0) {
+    return 'Không thuộc nghề nào';
+  }
+  return (
+    <ul className="evidence-careers">
+      {careers.map((item) => (
+        <li key={`${item.id}-${item.group}`}>
+          {item.name}: {item.group}
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 function fieldError(cause) {
@@ -103,6 +122,16 @@ function ReviewPanel({ row, canReview, onClose, onDone }) {
         <strong>Trạng thái: </strong>
         {statusLabel(row.status)}
       </p>
+      <p>
+        <strong>Ngày nộp: </strong>
+        {submittedText(row)}
+      </p>
+      <p>
+        <strong>Số lần nộp trước: </strong>
+        {row.previous_submissions}
+      </p>
+      <h3>Nghề, nhóm năng lực</h3>
+      <CareerGroups careers={row.careers} />
       <h3>Mô tả</h3>
       <p>{row.description}</p>
       {row.link && (
@@ -112,7 +141,12 @@ function ReviewPanel({ row, canReview, onClose, onDone }) {
           </a>
         </p>
       )}
-      <AttachmentList items={row.attachments} />
+      <h3>Tệp đính kèm</h3>
+      {row.attachments.length === 0 ? (
+        <p>Không có tệp đính kèm.</p>
+      ) : (
+        <AttachmentList items={row.attachments} />
+      )}
       {row.review_note && (
         <p>
           <strong>Nhận xét: </strong>
@@ -145,6 +179,19 @@ export default function EvidenceReviewPage() {
       render: (row) => `${row.student.name} (${row.student.code})`,
     },
     { key: 'skill', header: 'Kỹ năng, dự án', render: (row) => row.skill.name },
+    {
+      key: 'careers',
+      header: 'Nghề, nhóm năng lực',
+      render: (row) => <CareerGroups careers={row.careers} />,
+    },
+    { key: 'submitted', header: 'Ngày nộp', render: submittedText },
+    {
+      key: 'files',
+      header: 'Tệp đính kèm',
+      render: (row) =>
+        row.attachments.length === 0 ? 'Không có' : <AttachmentList items={row.attachments} />,
+    },
+    { key: 'previous', header: 'Số lần nộp trước', render: (row) => row.previous_submissions },
     { key: 'status', header: 'Trạng thái', render: (row) => statusLabel(row.status) },
     {
       key: 'open',

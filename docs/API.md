@@ -2942,7 +2942,7 @@ Trả tệp. Sinh viên chủ, cố vấn được phân công, quản trị vi�
 
 ### `GET /api/m12/evidence-reviews`
 
-Cố vấn chỉ có sinh viên được phân công, quản trị viên có tất cả. Tham số `status` (`pending`, `approved`, `rejected`), `page`, `page_size`. Sinh viên và hỗ trợ viên 403. 7 truy vấn.
+Cố vấn chỉ có sinh viên được phân công, quản trị viên có tất cả. Tham số `status` (`pending`, `approved`, `rejected`), `page`, `page_size`. Sinh viên và hỗ trợ viên 403. Mỗi dòng có thêm `careers` (nghề và nhóm năng lực `group` chứa kỹ năng, lấy từ bản published mới nhất, đúng ngành của sinh viên), `previous_submissions` (số lần nộp trước của cùng sinh viên, cùng kỹ năng; bản seed không có ngày nộp là cũ nhất). `submitted_at` là ngày nộp, `attachments[].url` tải được qua API có kiểm quyền. 9 truy vấn.
 
 <!-- contract: gv2 GET /api/m12/evidence-reviews?status=pending -->
 ```json
@@ -2950,9 +2950,22 @@ Cố vấn chỉ có sinh viên được phân công, quản trị viên có t�
   "items": [
     {
       "attachments": [],
+      "careers": [
+        {
+          "group": "Thực hành (mẫu)",
+          "id": "career-ai_engineer",
+          "name": "AI Engineer (mẫu)"
+        },
+        {
+          "group": "Truyền đạt (mẫu)",
+          "id": "career-data_analyst",
+          "name": "Data Analyst (mẫu)"
+        }
+      ],
       "description": "Báo cáo phân tích (mẫu)",
       "id": "ev-sv07-data",
       "link": "https://example.test/mau/data",
+      "previous_submissions": 0,
       "review_note": null,
       "reviewed_at": null,
       "skill": {
@@ -2978,7 +2991,7 @@ Cố vấn chỉ có sinh viên được phân công, quản trị viên có t�
 
 ### `GET /api/m12/evidence-reviews/{id}`
 
-Cùng cấu trúc với một phần tử của `GET /api/m12/evidences`. Ngoài phạm vi: 404. 9 truy vấn.
+Cùng cấu trúc với một phần tử của `GET /api/m12/evidences`, thêm `careers` và `previous_submissions`. Ngoài phạm vi: 404. 10 truy vấn.
 
 ### `POST /api/m12/evidence-reviews/{id}/approve`, `/reject`
 
