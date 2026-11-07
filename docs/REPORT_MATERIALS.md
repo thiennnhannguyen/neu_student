@@ -158,7 +158,12 @@ Giới hạn đã biết (D-261): đối chứng vét cạn trên 3.000 bài to�
 
 ### 5.1. Tổng hợp cuối
 
-{{TONG_HOP}}
+| Nội dung | Kết quả |
+|----------|---------|
+| pytest | 2277 passed, 5590 dòng, coverage 100% |
+| Vitest | 19 file, 639 passed |
+| Playwright | 92 passed |
+| Seed | 546 bản ghi (test), 1394 bản ghi (demo-k68); 2 `seed --check` khớp fixture |
 
 ### 5.2. Theo giai đoạn
 
@@ -171,7 +176,7 @@ Giới hạn đã biết (D-261): đối chứng vét cạn trên 3.000 bài to�
 | CR-03 | 1955 | 532 | 30 chỗ; lượt đầu bắt 27, sau xử lý bắt 30 |
 | 09 | 2082 | 570 | 30 chỗ; lượt đầu bắt 29, sau xử lý bắt 30 |
 | 10 | 2224 | 632 | 30 chỗ: bắt 29, 1 chỗ tương đương; phần sửa sau nghiệm thu thêm 14 chỗ, bắt 14 |
-| Cuối | {{CUOI_PYTEST}} | {{CUOI_VITEST}} | {{CUOI_MUT}} |
+| Cuối | 2277 | 639 | 29 chỗ; lượt đầu bắt 26, lọt 2, 1 chỗ không áp được; sau xử lý bắt cả 3 chỗ này, tổng 29/29 |
 
 Ở các giai đoạn 07, 08, CR-03, 09, sau khi thêm test tôi chỉ chạy lại đúng những chỗ đã lọt, không chạy lại toàn bộ.
 
@@ -186,19 +191,63 @@ Giới hạn đã biết (D-261): đối chứng vét cạn trên 3.000 bài to�
 
 ### 5.4. E2E và tiếp cận
 
-{{E2E}}
+| Nội dung | Kết quả |
+|----------|---------|
+| 5 kịch bản đầu–cuối, kịch bản 2 chạy thêm ở 375px | 6 test đạt, trên profile demo-k68, bản build qua gunicorn |
+| Axe, 11 trang | 0 lỗi serious/critical. Lượt đầu tìm ra 4 loại lỗi serious, đã sửa (D-282) |
+| Rà trang | 24 trang × 375, 768, 1280 = 72 lượt: không tràn ngang, 1 `h1`, họa tiết đúng vị trí |
+| Khác | Nhãn thẻ chỉ số 1 dòng ở 375px; dòng Q80 ở 375 và 1280 |
 
 ### 5.5. Hiệu năng
 
 Máy dev Apple M5, SQLite, gunicorn 1 worker, gọi tuần tự, nên số này **không phản ánh tải đồng thời**. CSDL ×20 của profile demo-k68: 160 sinh viên. Chạy lại bằng `python -m scripts.perf_p95`.
 
-{{P95}}
+160 sinh viên, gunicorn 1 worker, gọi tuần tự, mục tiêu p95 < 300 ms.
+Mỗi endpoint: lần đầu 160 mẫu, các lần sau 320 mẫu. Lỗi HTTP: 0.
+
+| Endpoint | Lần đầu p95 (ms) | Đánh giá | Các lần sau p95 (ms) | Đánh giá |
+|---|---|---|---|---|
+| `GET /api/m11/overview` | 3.7 | đạt | 1.0 | đạt |
+| `GET /api/m11/grades` | 4.4 | đạt | 1.1 | đạt |
+| `GET /api/m12/progress/careers/{id}` | 4.7 | đạt | 1.3 | đạt |
+| `GET /api/m12/gallery` | 23.3 | đạt | 1.9 | đạt |
+| `GET /api/m12/roadmaps/current` | 7.8 | đạt | 7.7 | đạt |
+| `GET /api/notifications` | 1.8 | đạt | 1.5 | đạt |
+
+Ngay sau khi có điểm mới làm lộ trình lỗi thời (lần đọc đầu):
+
+| Endpoint | p95 (ms) | Đánh giá |
+|---|---|---|
+| `GET /api/notifications` | 13.5 | đạt |
+| `GET /api/m12/roadmaps/current` | 10.1 | đạt |
 
 ## 6. Ảnh chụp
 
 Ở `docs/screenshots/final/`, mỗi màn hình có 2 bản 1440 và 375. Profile demo-k68, riêng cảnh báo và kế hoạch cải thiện dùng `sv04` của profile test.
 
-{{ANH}}
+| Màn hình | Tên tệp (thêm `-1440.png` hoặc `-375.png`) |
+|---|---|
+| Đăng nhập | `dang-nhap` |
+| Tổng quan M11 | `tong-quan-demo05` |
+| Hồ sơ | `ho-so-demo05` |
+| Kết quả | `m11-ket-qua-demo05` |
+| Phân tích | `m11-phan-tich-demo05` |
+| Cảnh báo (`sv04`, profile test) | `m11-canh-bao-sv04` |
+| Kế hoạch cải thiện (`sv04`, profile test) | `m11-ke-hoach-cai-thien-sv04` |
+| Lưới nghề | `m12-luoi-nghe-demo05` |
+| Chi tiết nghề AI Engineer | `m12-nghe-ai-demo05` |
+| Panel môn | `m12-panel-mon-demo05` |
+| Tab Kỹ năng & dự án | `m12-nghe-ky-nang-demo05` |
+| Kế hoạch học tập | `m12-ke-hoach-demo05` |
+| Khác biệt lộ trình | `m12-khac-biet-demo05` |
+| Học liệu (Đang phát triển) | `m12-hoc-lieu-demo05` |
+| Duyệt minh chứng (`gv2`) | `m12-duyet-minh-chung-gv2` |
+| Panel duyệt (`gv2`) | `m12-duyet-panel-gv2` |
+| Danh sách yêu cầu hỗ trợ | `m12-ticket-danh-sach-demo05` |
+| Chi tiết yêu cầu | `m12-ticket-chi-tiet-demo05` |
+| Xử lý yêu cầu (`ht1`) | `m12-ticket-xu-ly-ht1` |
+| Panel thông báo | `thong-bao-demo05` |
+| Nhật ký (`admin`) | `quan-tri-nhat-ky-admin` |
 
 ## 7. Nguồn dữ liệu
 

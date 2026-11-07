@@ -1,6 +1,6 @@
 # Mô hình dữ liệu
 
-Có 42 bảng, toàn bộ là dữ liệu mẫu. Model trong `backend/app/models/` là nguồn của schema, tạo qua migration `backend/migrations/`. Mọi khóa ngoại dùng `ON DELETE RESTRICT`, `PRAGMA foreign_keys=ON` bật cho mọi kết nối SQLite. Mọi bảng có `is_mock`, trừ `audit_logs` và `notifications`. Khóa chính kiểu chuỗi, giữ id của fixture; bản ghi tạo khi chạy dùng UUID; `audit_logs` và `notifications` dùng số nguyên tự tăng.
+Có 44 bảng, toàn bộ là dữ liệu mẫu. Model trong `backend/app/models/` là nguồn của schema, tạo qua migration `backend/migrations/`. Mọi khóa ngoại dùng `ON DELETE RESTRICT`, `PRAGMA foreign_keys=ON` bật cho mọi kết nối SQLite. Mọi bảng có `is_mock`, trừ `audit_logs` và `notifications`. Khóa chính kiểu chuỗi, giữ id của fixture; bản ghi tạo khi chạy dùng UUID; `audit_logs` và `notifications` dùng số nguyên tự tăng.
 
 Điểm, GPA và ngưỡng dùng `Numeric` tỷ lệ cố định, đọc ra `Decimal`. SQLite lưu chúng dưới dạng số thực, nên cấm `SUM`, `AVG` trên cột điểm trong SQL.
 
@@ -56,6 +56,8 @@ erDiagram
     users ||--o{ support_staff_categories : user_id
     support_requests ||--o{ support_messages : request_id
     support_messages ||--o{ support_attachments : message_id
+    support_requests ||--o{ support_status_events : request_id
+    skill_evidences ||--o{ skill_evidence_attachments : evidence_id
     users ||--o{ notifications : user_id
     users ||--o{ audit_logs : actor_id
 ```
@@ -92,7 +94,7 @@ erDiagram
 | `academic_rules` | Quy chế theo khóa: `retake_policy`, ngưỡng cảnh báo, ngưỡng nhóm môn. |
 | `grade_attempts` | Kết quả một lần học. Là nguồn sự thật của trạng thái đạt. Chỉ đăng ký `final`, `exempt` mới có attempt. |
 
-### M12 (20)
+### M12 (22)
 
 | Bảng | Mô tả |
 |------|-------|
@@ -114,7 +116,9 @@ erDiagram
 | `support_categories` | Nhóm vấn đề hỗ trợ. |
 | `support_staff_categories` | Nhóm vấn đề được gán cho nhân sự hỗ trợ. |
 | `support_requests` | Ticket, mã dạng `HT-YYYYMM-0001`. **API chưa dùng tới GĐ10.** |
-| `support_messages` | Phản hồi trong ticket. **API chưa dùng tới GĐ10.** |
+| `support_messages` | Phản hồi trong ticket. |
+| `support_status_events` | Lịch sử đổi trạng thái của ticket. |
+| `skill_evidence_attachments` | Tệp đính kèm của minh chứng. |
 | `support_attachments` | Tệp đính kèm, tên lưu duy nhất, có `sha256`. **Chưa dùng tới GĐ10.** |
 
 ### System (2)
