@@ -162,10 +162,6 @@
   color: var(--text-secondary);
 }
 
-.career-card__mock {
-  font-size: var(--font-12);
-}
-
 .career-card__fit {
   align-self: flex-start;
   padding: 2px var(--space-2);

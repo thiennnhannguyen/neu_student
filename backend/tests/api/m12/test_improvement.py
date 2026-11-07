@@ -13,11 +13,11 @@ from tests.helpers import FETCH_HEADER, error_code, login_as
 URL = "/api/m12/improvement-plan"
 DISCLAIMER = "Khuyến nghị tham khảo, không thay thế quyết định của cố vấn và nhà trường"
 SV04_ITEMS = [
-    "Đặt lịch gặp cố vấn học tập (mẫu)",
-    "Chọn 2 môn cần ưu tiên cải thiện trong kỳ (mẫu)",
-    "Lập lịch ôn tập theo tuần (mẫu)",
-    "Liệt kê các môn còn nợ (mẫu)",
-    "Kiểm tra lịch mở lớp của môn cần học lại (mẫu)",
+    "Đặt lịch gặp cố vấn học tập",
+    "Chọn 2 môn cần ưu tiên cải thiện trong kỳ",
+    "Lập lịch ôn tập theo tuần",
+    "Liệt kê các môn còn nợ",
+    "Kiểm tra lịch mở lớp của môn cần học lại",
 ]
 QUERIES_DESCRIBE = 19
 

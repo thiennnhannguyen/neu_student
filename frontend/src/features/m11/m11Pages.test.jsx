@@ -63,9 +63,7 @@ describe('chọn sinh viên', () => {
     const fetchMock = m11Api('advisor', {
       'GET /api/advisor/students': () =>
         jsonResponse(200, {
-          items: [
-            { id: 'SV04', student_code: 'SV04', full_name: 'Sinh viên 04 (mẫu)', cohort: 'K66' },
-          ],
+          items: [{ id: 'SV04', student_code: 'SV04', full_name: 'Sinh viên 04', cohort: 'K66' }],
           page: 1,
           page_size: 100,
           total: 1,
@@ -74,7 +72,7 @@ describe('chọn sinh viên', () => {
     const user = userEvent.setup();
 
     renderApp('/');
-    await screen.findByRole('option', { name: 'SV04 – Sinh viên 04 (mẫu)' });
+    await screen.findByRole('option', { name: 'SV04 – Sinh viên 04' });
     await user.selectOptions(screen.getByLabelText('Sinh viên'), 'SV04');
 
     expect(await screen.findByText('3,11')).toBeInTheDocument();
@@ -136,7 +134,7 @@ describe('chọn sinh viên', () => {
 
     renderApp('/');
 
-    expect(await screen.findByText('Chào Người dùng support_staff (mẫu)')).toBeInTheDocument();
+    expect(await screen.findByText('Chào Người dùng support_staff')).toBeInTheDocument();
     expect(screen.queryByLabelText('Sinh viên')).not.toBeInTheDocument();
     expect(callsTo(fetchMock, '/api/m11/overview')).toEqual([]);
   });
@@ -182,9 +180,9 @@ describe('bộ lọc kỳ', () => {
     renderApp('/');
 
     expect(
-      await screen.findByRole('option', { name: 'HK1 2026-2027 (mẫu) – hiện tại' }),
+      await screen.findByRole('option', { name: 'HK1 2026-2027 – hiện tại' }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'HK2 2025-2026 (mẫu)' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'HK2 2025-2026' })).toBeInTheDocument();
   });
 
   it('mặc định là kỳ hiện tại, mở URL có kỳ thì dùng kỳ đó', async () => {
@@ -759,7 +757,7 @@ describe('Kết quả', () => {
         gradeRow({
           course_id: 'MAU101',
           code: 'MAU101',
-          name: 'Giải tích (mẫu)',
+          name: 'Giải tích',
           has_retake: true,
         }),
       ),
@@ -773,9 +771,9 @@ describe('Kết quả', () => {
     const dialog = await screen.findByRole('dialog');
     const items = await within(dialog).findAllByRole('listitem');
     expect(items.map((item) => item.querySelector('p').textContent)).toEqual([
-      'Lần thứ 1 · HK1 2024-2025 (mẫu)',
-      'Lần thứ 2 · HK1 2025-2026 (mẫu)',
-      'Lần thứ 3 · HK1 2026-2027 (mẫu)',
+      'Lần thứ 1 · HK1 2024-2025',
+      'Lần thứ 2 · HK1 2025-2026',
+      'Lần thứ 3 · HK1 2026-2027',
     ]);
     expect(within(items[0]).getByText('Chưa đạt')).toBeInTheDocument();
     expect(within(items[0]).queryByText('Lần được tính')).not.toBeInTheDocument();
@@ -1467,8 +1465,8 @@ describe('Cảnh báo', () => {
 describe('phạm vi xem trên điện thoại', () => {
   const STUDENTS = {
     items: [
-      { id: 'SV04', student_code: 'SV04', full_name: 'Sinh viên 04 (mẫu)', cohort: 'K66' },
-      { id: 'SV07', student_code: 'SV07', full_name: 'Sinh viên 07 (mẫu)', cohort: 'K66' },
+      { id: 'SV04', student_code: 'SV04', full_name: 'Sinh viên 04', cohort: 'K66' },
+      { id: 'SV07', student_code: 'SV07', full_name: 'Sinh viên 07', cohort: 'K66' },
     ],
     page: 1,
     page_size: 100,
@@ -1623,7 +1621,7 @@ describe('phạm vi xem trên điện thoại', () => {
 
     renderApp('/');
 
-    await screen.findByText('Chào Người dùng support_staff (mẫu)');
+    await screen.findByText('Chào Người dùng support_staff');
     expect(screen.queryByRole('button', { name: /Đang xem/ })).not.toBeInTheDocument();
   });
 

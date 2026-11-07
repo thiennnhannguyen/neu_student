@@ -65,7 +65,7 @@ Giá trị mẫu – cần đối chiếu quy chế NEU. Ngưỡng K67 cố ý l
 
 ### Điểm mạnh, yếu theo nhóm môn (M11-07)
 
-Giá trị mẫu, K66 và K67 cùng ngưỡng. Mỗi học phần thuộc 1 nhóm: Toán, Lập trình, Hệ thống, Dữ liệu, Kinh tế, Đại cương (đều có hậu tố "(mẫu)").
+Giá trị mẫu, K66 và K67 cùng ngưỡng. Mỗi học phần thuộc 1 nhóm: Toán, Lập trình, Hệ thống, Dữ liệu, Kinh tế, Đại cương (đều có hậu tố "").
 
 GPA nhóm dùng attempt hiệu lực, chỉ gồm môn tính GPA đã có kết quả. Từ 3,2 là `strong` (mạnh), dưới 2,0 là `weak` (yếu), còn lại là `normal`. Nhóm có dưới 2 môn là `insufficient_data` (chưa đủ dữ liệu), không kết luận. Kết quả không suy ra năng lực nghề.
 

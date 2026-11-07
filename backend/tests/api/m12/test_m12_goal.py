@@ -72,7 +72,7 @@ def test_current_goal(http_app):
     body = login_as(http_app, "sv07").get(GOAL).get_json()
 
     assert body["student_id"] == "SV07"
-    assert body["current"]["career"] == {"id": AI, "name": "AI Engineer (mẫu)"}
+    assert body["current"]["career"] == {"id": AI, "name": "AI Engineer"}
     assert body["current"]["started_at"] == "2026-03-01T08:00:00Z"
 
 

@@ -58,9 +58,9 @@ const SHADOWS = ['sm', 'md', 'lg'];
 const VARIANTS = ['primary', 'secondary', 'ghost', 'danger'];
 const SIZES = ['sm', 'md', 'lg'];
 const SAMPLE_ROWS = [
-  { id: 1, code: 'CNT101', name: 'Nhập môn lập trình (mẫu)', status: 'done' },
-  { id: 2, code: null, name: 'Chuyên đề thực tế (mẫu)', status: 'in_progress' },
-  { id: 3, code: 'MAU101', name: 'Giải tích (mẫu)', status: 'failed' },
+  { id: 1, code: 'CNT101', name: 'Nhập môn lập trình', status: 'done' },
+  { id: 2, code: null, name: 'Chuyên đề thực tế', status: 'in_progress' },
+  { id: 3, code: 'MAU101', name: 'Giải tích', status: 'failed' },
 ];
 
 /** Đọc màu thật của token từ trình duyệt, để bảng không lệch với tokens.css. */
@@ -348,9 +348,9 @@ export default function StyleguidePage() {
               Mở ConfirmDialog
             </Button>
             <InfoPopover label="Thông tin thêm">Nội dung giải thích ngắn.</InfoPopover>
-            <Avatar name="Sinh viên 01 (mẫu)" size="sm" />
-            <Avatar name="Sinh viên 01 (mẫu)" size="md" />
-            <Avatar name="Sinh viên 01 (mẫu)" size="lg" />
+            <Avatar name="Sinh viên 01" size="sm" />
+            <Avatar name="Sinh viên 01" size="md" />
+            <Avatar name="Sinh viên 01" size="lg" />
           </div>
           <ToastDemo />
           {confirm && (

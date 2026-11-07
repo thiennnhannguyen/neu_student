@@ -6,12 +6,12 @@ import { apiError, jsonResponse, loggedInAs, pendingResponse, renderApp } from '
 const PROFILE = {
   id: 'SV01',
   student_code: 'SV01',
-  full_name: 'Sinh viên 1 (mẫu)',
+  full_name: 'Sinh viên 1',
   cohort: 'K66',
-  program: { id: 'prog', name: 'Công nghệ thông tin (mẫu)' },
-  program_version: { id: 'pv', name: 'CTĐT K66 (mẫu)', version: 1 },
-  current_semester: { id: 'S5', name: 'Học kỳ 5 (mẫu)' },
-  advisors: ['Cố vấn 1 (mẫu)'],
+  program: { id: 'prog', name: 'Công nghệ thông tin' },
+  program_version: { id: 'pv', name: 'CTĐT K66', version: 1 },
+  current_semester: { id: 'S5', name: 'Học kỳ 5' },
+  advisors: ['Cố vấn 1'],
   contact_email: 'sv01@example.test',
   contact_phone: '0900000001',
   is_mock: true,
@@ -40,14 +40,7 @@ describe('trang Hồ sơ', () => {
     // Tiêu đề đã hiện từ lúc đang tải, nên phải chờ theo dữ liệu.
     expect(await screen.findByText('SV01')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Hồ sơ' })).toBeInTheDocument();
-    for (const text of [
-      'SV01',
-      'K66',
-      'Công nghệ thông tin (mẫu)',
-      'CTĐT K66 (mẫu)',
-      'Học kỳ 5 (mẫu)',
-      'Cố vấn 1 (mẫu)',
-    ]) {
+    for (const text of ['SV01', 'K66', 'Công nghệ thông tin', 'CTĐT K66', 'Học kỳ 5', 'Cố vấn 1']) {
       expect(screen.getByText(text)).toBeInTheDocument();
     }
     expect(screen.getByText('sv01@example.test')).toBeInTheDocument();

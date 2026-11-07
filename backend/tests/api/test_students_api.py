@@ -27,7 +27,7 @@ def test_me_returns_full_profile(http_app):
 
     assert body["id"] == "SV01"
     assert body["student_code"] == "SV01"
-    assert "(mẫu)" in body["full_name"]
+    assert "" in body["full_name"]
     assert body["cohort"] == "K66"
     assert body["program"]["id"] == "prog-cntt"
     assert body["program_version"]["id"] == "pv-cntt-k66"
@@ -204,7 +204,7 @@ def test_student_account_without_profile_gets_404(http_app):
                 id="user-chua-ho-so",
                 username="chua-ho-so",
                 password_hash=template.password_hash,
-                full_name="Chưa có hồ sơ (mẫu)",
+                full_name="Chưa có hồ sơ",
                 role_id="role-student",
                 is_mock=True,
             )

@@ -34,7 +34,7 @@ def add_career_without_published(app, career_id="career-rong"):
     execute(
         app,
         "INSERT INTO careers (id, slug, name, field, name_key, is_mock) "
-        "VALUES (:id, 'rong', 'Nghề chưa công bố (mẫu)', 'Phần mềm (mẫu)', "
+        "VALUES (:id, 'rong', 'Nghề chưa công bố', 'Phần mềm', "
         "'nghe chua cong bo (mau)', 1)",
         id=career_id,
     )
@@ -86,7 +86,7 @@ def test_list_has_six_careers_with_latest_version(student):
     analyst = next(item for item in body["items"] if item["id"] == ANALYST)
     assert analyst["latest_version"]["id"] == "cv-data_analyst-1"
     assert analyst["latest_version"]["version"] == 1
-    assert analyst["field"] == "Dữ liệu và AI (mẫu)"
+    assert analyst["field"] == "Dữ liệu và AI"
 
 
 def test_list_hides_career_with_only_draft(http_app, student):
@@ -103,8 +103,8 @@ def test_list_hides_career_with_only_draft(http_app, student):
     [
         ({"q": "engineer"}, {AI, "career-ml_engineer"}),
         ({"q": "AI ENGINEER"}, {AI}),
-        ({"q": "mẫu", "field": "Phần mềm (mẫu)"}, {BACKEND}),
-        ({"field": "Dữ liệu và AI (mẫu)"}, {AI, ANALYST, "career-ml_engineer"}),
+        ({"q": "backend", "field": "Phần mềm"}, {BACKEND}),
+        ({"field": "Dữ liệu và AI"}, {AI, ANALYST, "career-ml_engineer"}),
         ({"field": "Dữ liệu"}, set()),
         ({"q": "khong co nghe nay"}, set()),
         (
@@ -121,10 +121,10 @@ def test_list_filters(student, query, expected):
 
 
 def test_keyword_ignores_accents(student):
-    with_accent = student.get("/api/m12/careers", query_string={"q": "mẫu"}).get_json()
-    without = student.get("/api/m12/careers", query_string={"q": "MAU"}).get_json()
+    with_accent = student.get("/api/m12/careers", query_string={"q": "phân tích"}).get_json()
+    without = student.get("/api/m12/careers", query_string={"q": "PHAN TICH"}).get_json()
 
-    assert with_accent["total"] == without["total"] == 6
+    assert with_accent["total"] == without["total"] == 1
 
 
 def test_keyword_percent_is_literal(student):
@@ -149,7 +149,7 @@ def test_list_bad_input_is_422(student, query):
 def test_detail_has_counts_of_ai_engineer(student):
     body = student.get(f"/api/m12/careers/{AI}").get_json()
 
-    assert body["name"] == "AI Engineer (mẫu)"
+    assert body["name"] == "AI Engineer"
     assert body["node_count"] == 4
     assert body["requirement_count"] == 13
 
@@ -315,12 +315,12 @@ def test_requirement_course_detail(student):
 
     assert body["code"] == "CNT102"
     assert body["credits"] == 3
-    assert body["title"] == "Lập trình Python (mẫu)"
+    assert body["title"] == "Lập trình Python"
     assert body["prerequisites"] == [
         {
             "course_id": "CNT101",
             "code": "CNT101",
-            "name": "Nhập môn lập trình (mẫu)",
+            "name": "Nhập môn lập trình",
             "kind": "prerequisite",
             "source": None,
         }
@@ -452,10 +452,10 @@ def test_query_count_of_tree_does_not_depend_on_size(http_app, student):
 
 def test_tree_is_cached_by_version_and_career_name_is_read_fresh(http_app, student):
     first = student.get(f"/api/m12/careers/{AI}/tree").get_json()
-    execute(http_app, "UPDATE careers SET name = 'Tên mới (mẫu)' WHERE id = :id", id=AI)
+    execute(http_app, "UPDATE careers SET name = 'Tên mới' WHERE id = :id", id=AI)
 
     second = student.get(f"/api/m12/careers/{AI}/tree").get_json()
 
-    assert second["career"]["name"] == "Tên mới (mẫu)"
+    assert second["career"]["name"] == "Tên mới"
     assert second["nodes"] == first["nodes"]
     assert list(http_app.extensions["career_tree_cache"]._entries) == ["cv-ai_engineer-1"]

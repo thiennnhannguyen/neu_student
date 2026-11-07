@@ -19,8 +19,8 @@ from tests.helpers import error_code, login_as
 CAREERS = "/api/admin/careers"
 SKILLS = "/api/admin/skills"
 MAPPINGS = "/api/admin/course-skill-mappings"
-NEW_CAREER = {"name": "Kỹ sư dữ liệu (mẫu)", "field": "Dữ liệu và AI (mẫu)"}
-NEW_SKILL = {"name": "Viết tài liệu (mẫu)", "kind": "skill", "short_desc": "Viết rõ ràng."}
+NEW_CAREER = {"name": "Kỹ sư dữ liệu", "field": "Dữ liệu và AI"}
+NEW_SKILL = {"name": "Viết tài liệu", "kind": "skill", "short_desc": "Viết rõ ràng."}
 NEW_MAPPING = {
     "course_id": "CNT305",
     "skill_id": "sk-api",
@@ -34,7 +34,7 @@ def admin(http_app):
     return login_as(http_app, "admin")
 
 
-def add_unused_skill(app, skill_id="sk-tam", name="Tạm (mẫu)"):
+def add_unused_skill(app, skill_id="sk-tam", name="Tạm"):
     execute(
         app,
         "INSERT INTO skills (id, name, kind, name_key, is_mock) "
@@ -49,7 +49,7 @@ def add_unused_career(app, career_id="career-tam"):
     execute(
         app,
         "INSERT INTO careers (id, slug, name, field, name_key, is_mock) "
-        "VALUES (:id, 'tam', 'Tạm (mẫu)', 'x', 'tam (mau)', 1)",
+        "VALUES (:id, 'tam', 'Tạm', 'x', 'tam (mau)', 1)",
         id=career_id,
     )
     return career_id
@@ -86,15 +86,15 @@ def test_create_career(http_app, admin):
 
     assert response.status_code == 201
     body = response.get_json()
-    assert body["slug"] == "ky_su_du_lieu_mau"
-    assert body["field"] == "Dữ liệu và AI (mẫu)"
+    assert body["slug"] == "ky_su_du_lieu"
+    assert body["field"] == "Dữ liệu và AI"
     assert body["published_version"] is None
     assert audit_count(http_app) == audits + 1
     log = last_audit(http_app)
     assert (log.action, log.entity, log.entity_id) == ("career.create", "career", body["id"])
     assert log.actor_id == "user-admin"
     key = scalar(http_app, "SELECT name_key FROM careers WHERE id = :id", id=body["id"])
-    assert key == "ky su du lieu (mau)"
+    assert key == "ky su du lieu"
 
 
 def test_new_career_without_version_is_hidden_from_users(http_app, admin):
@@ -107,7 +107,7 @@ def test_new_career_without_version_is_hidden_from_users(http_app, admin):
 
 @pytest.mark.parametrize(
     "name",
-    ["AI ENGINEER (MẪU)", "ai engineer (mau)", "  AI   Engineer (mẫu) ", "Ai Engineer (Mẫu)"],
+    ["AI ENGINEER", "ai engineer", "  AI   Engineer ", "Ai Engineer"],
 )
 def test_duplicate_career_name_is_409(http_app, admin, name):
     audits = audit_count(http_app)
@@ -152,30 +152,26 @@ def test_create_career_bad_body_is_422(admin, body, field):
 
 
 def test_update_career_changes_name_key_keeps_slug(http_app, admin):
-    response = admin.patch(f"{CAREERS}/{AI}", json={"name": "Kỹ sư AI (mẫu)"}, headers=FETCH)
+    response = admin.patch(f"{CAREERS}/{AI}", json={"name": "Kỹ sư AI"}, headers=FETCH)
 
     assert response.status_code == 200
     assert response.get_json()["slug"] == "ai_engineer"
-    assert scalar(http_app, "SELECT name_key FROM careers WHERE id = :id", id=AI) == (
-        "ky su ai (mau)"
-    )
+    assert scalar(http_app, "SELECT name_key FROM careers WHERE id = :id", id=AI) == ("ky su ai")
     log = last_audit(http_app)
     assert log.action == "career.update"
-    assert log.before["name"] == "AI Engineer (mẫu)"
-    assert log.after["name"] == "Kỹ sư AI (mẫu)"
+    assert log.before["name"] == "AI Engineer"
+    assert log.after["name"] == "Kỹ sư AI"
 
 
 def test_update_career_to_own_name_with_other_case_is_allowed(http_app, admin):
-    response = admin.patch(f"{CAREERS}/{AI}", json={"name": "AI ENGINEER (mẫu)"}, headers=FETCH)
+    response = admin.patch(f"{CAREERS}/{AI}", json={"name": "AI ENGINEER"}, headers=FETCH)
 
     assert response.status_code == 200
-    assert response.get_json()["name"] == "AI ENGINEER (mẫu)"
+    assert response.get_json()["name"] == "AI ENGINEER"
 
 
 def test_update_career_to_other_name_is_409(admin):
-    response = admin.patch(
-        f"{CAREERS}/{AI}", json={"name": "backend developer (mẫu)"}, headers=FETCH
-    )
+    response = admin.patch(f"{CAREERS}/{AI}", json={"name": "backend developer"}, headers=FETCH)
 
     assert response.status_code == 409
     assert error_code(response) == "DUPLICATE_NAME"
@@ -186,7 +182,7 @@ def test_update_career_without_change_writes_no_audit(http_app, admin):
 
     response = admin.patch(
         f"{CAREERS}/{AI}",
-        json={"name": " AI Engineer (mẫu) ", "field": "Dữ liệu và AI (mẫu)"},
+        json={"name": " AI Engineer ", "field": "Dữ liệu và AI"},
         headers=FETCH,
     )
 
@@ -203,9 +199,9 @@ def test_same_name_race_is_409_from_db_not_500(admin, monkeypatch):
     monkeypatch.setattr(career_admin_service, "_ensure_name_free", lambda *_a: None)
 
     requests = [
-        admin.post(CAREERS, json={"name": "AI Engineer (mẫu)", "field": "x"}, headers=FETCH),
-        admin.patch(f"{CAREERS}/{AI}", json={"name": "backend developer (mẫu)"}, headers=FETCH),
-        admin.post(SKILLS, json={**NEW_SKILL, "name": "Git (mẫu)"}, headers=FETCH),
+        admin.post(CAREERS, json={"name": "AI Engineer", "field": "x"}, headers=FETCH),
+        admin.patch(f"{CAREERS}/{AI}", json={"name": "backend developer"}, headers=FETCH),
+        admin.post(SKILLS, json={**NEW_SKILL, "name": "Git"}, headers=FETCH),
     ]
 
     assert [response.status_code for response in requests] == [409, 409, 409]
@@ -283,7 +279,7 @@ def test_create_and_get_skill(http_app, admin):
     assert (log.action, log.entity) == ("skill.create", "skill")
 
 
-@pytest.mark.parametrize("name", ["GIT (MẪU)", "git (mau)"])
+@pytest.mark.parametrize("name", ["GIT", "git"])
 def test_duplicate_skill_name_is_409(admin, name):
     response = admin.post(SKILLS, json={"name": name, "kind": "skill"}, headers=FETCH)
 
@@ -318,7 +314,7 @@ def test_skill_in_published_cannot_be_changed(http_app, admin, change):
 
     assert response.status_code == 409
     assert error_code(response) == "SKILL_IN_PUBLISHED"
-    assert scalar(http_app, "SELECT name FROM skills WHERE id = 'sk-git'") == "Git (mẫu)"
+    assert scalar(http_app, "SELECT name FROM skills WHERE id = 'sk-git'") == "Git"
     assert audit_count(http_app) == audits
 
 
@@ -346,7 +342,7 @@ def test_skill_only_in_draft_can_be_changed(http_app, admin):
 def test_update_skill_to_taken_name_is_409(http_app, admin):
     skill_id = add_unused_skill(http_app)
 
-    response = admin.patch(f"{SKILLS}/{skill_id}", json={"name": "GIT (mau)"}, headers=FETCH)
+    response = admin.patch(f"{SKILLS}/{skill_id}", json={"name": "GIT"}, headers=FETCH)
 
     assert error_code(response) == "DUPLICATE_NAME"
 

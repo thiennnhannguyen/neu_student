@@ -71,7 +71,7 @@ def test_accepts_primary_career_that_has_ended():
 def test_rejects_two_courses_with_same_code():
     assert_rejected(
         "INSERT INTO courses (id, code, name, credits, counts_gpa, course_group_id, is_mock) "
-        "VALUES ('x', 'CNT101', 'Khác (mẫu)', 3, 1, 'group-prog', 1)",
+        "VALUES ('x', 'CNT101', 'Khác', 3, 1, 'group-prog', 1)",
         "UNIQUE constraint failed: courses.code",
     )
 
@@ -80,11 +80,11 @@ def test_accepts_two_null_code_courses_with_same_name_as_separate_records():
     rows = run_sql(
         "SELECT id, code, name FROM courses WHERE id IN ('course-cd-a', 'course-cd-b') ORDER BY id"
     ).all()
-    assert [(r.code, r.name) for r in rows] == [(None, "Chuyên đề thực tế (mẫu)")] * 2
+    assert [(r.code, r.name) for r in rows] == [(None, "Chuyên đề thực tế")] * 2
     assert rows[0].id != rows[1].id
     run_sql(
         "INSERT INTO courses (id, code, name, credits, counts_gpa, course_group_id, is_mock) "
-        "VALUES ('course-cd-c', NULL, 'Chuyên đề thực tế (mẫu)', 2, 1, 'group-general', 1)"
+        "VALUES ('course-cd-c', NULL, 'Chuyên đề thực tế', 2, 1, 'group-general', 1)"
     )
     total = run_sql("SELECT COUNT(*) FROM courses WHERE code IS NULL").scalar()
     assert total == 3

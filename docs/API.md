@@ -67,11 +67,11 @@ Chỉ `student`. Tài khoản chưa có hồ sơ trả 404.
 
 ```json
 {
-  "id": "SV01", "student_code": "SV01", "full_name": "Sinh viên 01 (mẫu)", "cohort": "K66",
+  "id": "SV01", "student_code": "SV01", "full_name": "Sinh viên 01", "cohort": "K66",
   "program": {"id": "prog-cntt", "name": "..."},
   "program_version": {"id": "pv-cntt-k66", "name": "...", "version": 1},
   "current_semester": {"id": "S5", "name": "..."},
-  "advisors": ["Cố vấn 1 (mẫu)"],
+  "advisors": ["Cố vấn 1"],
   "contact_email": "sv01@example.test", "contact_phone": "0900000001", "is_mock": true
 }
 ```
@@ -135,13 +135,13 @@ Danh sách kỳ. `student`, `advisor`, `admin`. Các kỳ từ kỳ nhập học
     {
       "id": "S3",
       "is_current": false,
-      "name": "HK1 2025-2026 (mẫu)",
+      "name": "HK1 2025-2026",
       "order": 3
     },
     {
       "id": "S4",
       "is_current": false,
-      "name": "HK2 2025-2026 (mẫu)",
+      "name": "HK2 2025-2026",
       "order": 4
     }
   ]
@@ -161,7 +161,7 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
       {
         "code": "NO_SEMESTER_DATA",
         "course_id": null,
-        "message": "Kỳ HK1 2025-2026 (mẫu) không có dữ liệu đăng ký.",
+        "message": "Kỳ HK1 2025-2026 không có dữ liệu đăng ký.",
         "semester_id": "S3"
       }
     ],
@@ -225,7 +225,7 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
   },
   "semester": {
     "id": "S5",
-    "name": "HK1 2026-2027 (mẫu)"
+    "name": "HK1 2026-2027"
   }
 }
 ```
@@ -246,17 +246,17 @@ Bảng điểm. Tham số: `semester_id`, `q` (tên hoặc mã môn, không phâ
       "data_warnings": [
         {
           "code": "MISSING_CODE",
-          "message": "Học phần Chưa có mã – Chuyên đề thực tế (mẫu) chưa có mã môn."
+          "message": "Học phần Chưa có mã – Chuyên đề thực tế chưa có mã môn."
         }
       ],
       "grade_4": "4.00",
       "has_retake": false,
       "letter": "A",
-      "name": "Chuyên đề thực tế (mẫu)",
+      "name": "Chuyên đề thực tế",
       "score_10": "9.00",
       "semester": {
         "id": "S3",
-        "name": "HK1 2025-2026 (mẫu)",
+        "name": "HK1 2025-2026",
         "order": 3
       },
       "status": "done",
@@ -270,17 +270,17 @@ Bảng điểm. Tham số: `semester_id`, `q` (tên hoặc mã môn, không phâ
       "data_warnings": [
         {
           "code": "MISSING_CODE",
-          "message": "Học phần Chưa có mã – Chuyên đề thực tế (mẫu) chưa có mã môn."
+          "message": "Học phần Chưa có mã – Chuyên đề thực tế chưa có mã môn."
         }
       ],
       "grade_4": "1.50",
       "has_retake": false,
       "letter": "D+",
-      "name": "Chuyên đề thực tế (mẫu)",
+      "name": "Chuyên đề thực tế",
       "score_10": "5.20",
       "semester": {
         "id": "S4",
-        "name": "HK2 2025-2026 (mẫu)",
+        "name": "HK2 2025-2026",
         "order": 4
       },
       "status": "done",
@@ -293,7 +293,7 @@ Bảng điểm. Tham số: `semester_id`, `q` (tên hoặc mã môn, không phâ
       {
         "code": "MISSING_CODE",
         "course_id": "course-cd-a",
-        "message": "Học phần Chưa có mã – Chuyên đề thực tế (mẫu) chưa có mã môn.",
+        "message": "Học phần Chưa có mã – Chuyên đề thực tế chưa có mã môn.",
         "semester_id": null
       }
     ],
@@ -316,7 +316,7 @@ Lịch sử các lần học. Xếp theo `semesters.order`; `ordinal` ("lần th
   "course": {
     "code": "MAU101",
     "course_id": "MAU101",
-    "name": "Giải tích (mẫu)"
+    "name": "Giải tích"
   },
   "items": [
     {
@@ -328,7 +328,7 @@ Lịch sử các lần học. Xếp theo `semesters.order`; `ordinal` ("lần th
       "score_10": "3.00",
       "semester": {
         "id": "S1",
-        "name": "HK1 2024-2025 (mẫu)",
+        "name": "HK1 2024-2025",
         "order": 1
       },
       "status": "final"
@@ -342,7 +342,7 @@ Lịch sử các lần học. Xếp theo `semesters.order`; `ordinal` ("lần th
       "score_10": "4.50",
       "semester": {
         "id": "S2",
-        "name": "HK2 2024-2025 (mẫu)",
+        "name": "HK2 2024-2025",
         "order": 2
       },
       "status": "final"
@@ -371,7 +371,7 @@ Xu hướng GPA. `points` từ kỳ nhập học đến kỳ đang chọn. `dire
       {
         "code": "MISSING_CODE",
         "course_id": "course-cd-a",
-        "message": "Học phần Chưa có mã – Chuyên đề thực tế (mẫu) chưa có mã môn.",
+        "message": "Học phần Chưa có mã – Chuyên đề thực tế chưa có mã môn.",
         "semester_id": null
       }
     ],
@@ -380,20 +380,20 @@ Xu hướng GPA. `points` từ kỳ nhập học đến kỳ đang chọn. `dire
   },
   "points": [
     {
-      "name": "HK1 2024-2025 (mẫu)",
+      "name": "HK1 2024-2025",
       "order": 1,
       "semester_id": "S1",
       "value": "3.25"
     },
     {
-      "name": "HK2 2024-2025 (mẫu)",
+      "name": "HK2 2024-2025",
       "order": 2,
       "semester_id": "S2",
       "value": "3.00"
     }
   ],
   "stable_delta": "0.10",
-  "summary": "GPA kỳ HK2 2025-2026 (mẫu) ổn định so với kỳ HK1 2025-2026 (mẫu), chênh 0,07."
+  "summary": "GPA kỳ HK2 2025-2026 ổn định so với kỳ HK1 2025-2026, chênh 0,07."
 }
 ```
 
@@ -412,7 +412,7 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
       "label": null,
       "min_credits": 6,
       "missing_credits": 3,
-      "name": "Nhóm tự chọn CNTT (mẫu)",
+      "name": "Nhóm tự chọn CNTT",
       "passed_credits": 3
     },
     {
@@ -421,7 +421,7 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
       "label": null,
       "min_credits": 2,
       "missing_credits": 0,
-      "name": "Nhóm chuyên đề (mẫu)",
+      "name": "Nhóm chuyên đề",
       "passed_credits": 2
     }
   ],
@@ -433,7 +433,7 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
       {
         "code": "MISSING_CODE",
         "course_id": "course-cd-a",
-        "message": "Học phần Chưa có mã – Chuyên đề thực tế (mẫu) chưa có mã môn.",
+        "message": "Học phần Chưa có mã – Chuyên đề thực tế chưa có mã môn.",
         "semester_id": null
       }
     ],
@@ -467,10 +467,10 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
           "code": "CNT301",
           "course_id": "CNT301",
           "credits": 3,
-          "name": "Phát triển web backend (mẫu)"
+          "name": "Phát triển web backend"
         }
       ],
-      "name": "Hệ thống phân tán (mẫu)"
+      "name": "Hệ thống phân tán"
     },
     {
       "code": "CNT401",
@@ -481,10 +481,10 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
           "code": "CNT302",
           "course_id": "CNT302",
           "credits": 3,
-          "name": "Công nghệ phần mềm (mẫu)"
+          "name": "Công nghệ phần mềm"
         }
       ],
-      "name": "Đồ án chuyên ngành (mẫu)"
+      "name": "Đồ án chuyên ngành"
     }
   ],
   "meta": {
@@ -493,7 +493,7 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
       {
         "code": "NO_SEMESTER_DATA",
         "course_id": null,
-        "message": "Kỳ HK1 2025-2026 (mẫu) không có dữ liệu đăng ký.",
+        "message": "Kỳ HK1 2025-2026 không có dữ liệu đăng ký.",
         "semester_id": "S3"
       }
     ],
@@ -505,18 +505,18 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
       "code": "CNT201",
       "course_id": "CNT201",
       "credits": 3,
-      "name": "Cấu trúc dữ liệu (mẫu)"
+      "name": "Cấu trúc dữ liệu"
     },
     {
       "code": "CNT205",
       "course_id": "CNT205",
       "credits": 3,
-      "name": "Hệ điều hành (mẫu)"
+      "name": "Hệ điều hành"
     }
   ],
   "program": {
     "effective_cohort": "K66",
-    "name": "CTĐT CNTT K66 (mẫu)",
+    "name": "CTĐT CNTT K66",
     "program_version_id": "pv-cntt-k66"
   },
   "unmet_elective_groups": [
@@ -526,7 +526,7 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
       "label": null,
       "min_credits": 6,
       "missing_credits": 6,
-      "name": "Nhóm tự chọn CNTT (mẫu)",
+      "name": "Nhóm tự chọn CNTT",
       "passed_credits": 0
     },
     {
@@ -535,7 +535,7 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
       "label": null,
       "min_credits": 2,
       "missing_credits": 2,
-      "name": "Nhóm chuyên đề (mẫu)",
+      "name": "Nhóm chuyên đề",
       "passed_credits": 0
     }
   ]
@@ -556,13 +556,13 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
           "code": "CNT203",
           "course_id": "CNT203",
           "credits": 3,
-          "name": "Cơ sở dữ liệu (mẫu)"
+          "name": "Cơ sở dữ liệu"
         }
       ],
       "denominator": 3,
       "group_id": "group-data",
       "level": "insufficient_data",
-      "name": "Dữ liệu (mẫu)",
+      "name": "Dữ liệu",
       "numerator": "9.00",
       "slug": "data",
       "value": null
@@ -573,13 +573,13 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
           "code": "MAU104",
           "course_id": "MAU104",
           "credits": 3,
-          "name": "Kinh tế học đại cương (mẫu)"
+          "name": "Kinh tế học đại cương"
         }
       ],
       "denominator": 3,
       "group_id": "group-econ",
       "level": "insufficient_data",
-      "name": "Kinh tế (mẫu)",
+      "name": "Kinh tế",
       "numerator": "9.00",
       "slug": "econ",
       "value": null
@@ -591,7 +591,7 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
       {
         "code": "MISSING_CODE",
         "course_id": "course-cd-a",
-        "message": "Học phần Chưa có mã – Chuyên đề thực tế (mẫu) chưa có mã môn.",
+        "message": "Học phần Chưa có mã – Chuyên đề thực tế chưa có mã môn.",
         "semester_id": null
       }
     ],
@@ -615,7 +615,7 @@ Cảnh báo. `level` của từng quy tắc: `normal`, `watch`, `warning`, `insu
       {
         "code": "NO_SEMESTER_DATA",
         "course_id": null,
-        "message": "Kỳ HK1 2025-2026 (mẫu) không có dữ liệu đăng ký.",
+        "message": "Kỳ HK1 2025-2026 không có dữ liệu đăng ký.",
         "semester_id": "S3"
       }
     ],
@@ -679,7 +679,7 @@ So sánh hai kỳ. `a`, `b` bắt buộc. Chênh lệch lấy `b` trừ `a`. `gp
       {
         "code": "MISSING_CODE",
         "course_id": "course-cd-a",
-        "message": "Học phần Chưa có mã – Chuyên đề thực tế (mẫu) chưa có mã môn.",
+        "message": "Học phần Chưa có mã – Chuyên đề thực tế chưa có mã môn.",
         "semester_id": null
       }
     ],
@@ -691,7 +691,7 @@ So sánh hai kỳ. `a`, `b` bắt buộc. Chênh lệch lấy `b` trừ `a`. `gp
     "credits": 13,
     "failed_count": 0,
     "gpa": "3.25",
-    "name": "HK1 2024-2025 (mẫu)",
+    "name": "HK1 2024-2025",
     "passed_count": 5,
     "semester_id": "S1"
   },
@@ -699,7 +699,7 @@ So sánh hai kỳ. `a`, `b` bắt buộc. Chênh lệch lấy `b` trừ `a`. `gp
     "credits": 13,
     "failed_count": 0,
     "gpa": "3.00",
-    "name": "HK2 2024-2025 (mẫu)",
+    "name": "HK2 2024-2025",
     "passed_count": 5,
     "semester_id": "S2"
   }
@@ -746,7 +746,7 @@ Chỉ `admin`. Trả 201. Ghi `audit_logs`, tăng `data_version` trong cùng tra
     "course_id": "CNT101",
     "grade_4": "3.00",
     "letter": "B",
-    "name": "Nhập môn lập trình (mẫu)",
+    "name": "Nhập môn lập trình",
     "passed": true,
     "score_10": "7.0",
     "semester_id": "S3"
@@ -766,16 +766,16 @@ Chỉ `advisor`, chỉ sinh viên được phân công. Phân trang chuẩn, có
   "items": [
     {
       "cohort": "K66",
-      "full_name": "Sinh viên 01 (mẫu)",
+      "full_name": "Sinh viên 01",
       "id": "SV01",
-      "program_name": "CTĐT CNTT K66 (mẫu)",
+      "program_name": "CTĐT CNTT K66",
       "student_code": "SV01"
     },
     {
       "cohort": "K66",
-      "full_name": "Sinh viên 02 (mẫu)",
+      "full_name": "Sinh viên 02",
       "id": "SV02",
-      "program_name": "CTĐT CNTT K66 (mẫu)",
+      "program_name": "CTĐT CNTT K66",
       "student_code": "SV02"
     }
   ],
@@ -795,16 +795,16 @@ Chỉ `admin`, mọi sinh viên. Cấu trúc và tham số như trên.
   "items": [
     {
       "cohort": "K66",
-      "full_name": "Sinh viên 01 (mẫu)",
+      "full_name": "Sinh viên 01",
       "id": "SV01",
-      "program_name": "CTĐT CNTT K66 (mẫu)",
+      "program_name": "CTĐT CNTT K66",
       "student_code": "SV01"
     },
     {
       "cohort": "K66",
-      "full_name": "Sinh viên 02 (mẫu)",
+      "full_name": "Sinh viên 02",
       "id": "SV02",
-      "program_name": "CTĐT CNTT K66 (mẫu)",
+      "program_name": "CTĐT CNTT K66",
       "student_code": "SV02"
     }
   ],
@@ -827,25 +827,25 @@ Tham số `q` (khớp một phần tên, không phân biệt dấu và hoa thư�
 {
   "items": [
     {
-      "field": "Dữ liệu và AI (mẫu)",
+      "field": "Dữ liệu và AI",
       "id": "career-ai_engineer",
       "latest_version": {
         "id": "cv-ai_engineer-1",
         "published_at": "2026-08-20T09:00:00Z",
         "version": 1
       },
-      "name": "AI Engineer (mẫu)",
+      "name": "AI Engineer",
       "slug": "ai_engineer"
     },
     {
-      "field": "Phần mềm (mẫu)",
+      "field": "Phần mềm",
       "id": "career-backend",
       "latest_version": {
         "id": "cv-backend-1",
         "published_at": "2026-08-20T09:00:00Z",
         "version": 1
       },
-      "name": "Backend Developer (mẫu)",
+      "name": "Backend Developer",
       "slug": "backend"
     }
   ],
@@ -862,14 +862,14 @@ Nghề không tồn tại hoặc chưa có bản published trả 404.
 <!-- contract: sv01 GET /api/m12/careers/career-ai_engineer -->
 ```json
 {
-  "field": "Dữ liệu và AI (mẫu)",
+  "field": "Dữ liệu và AI",
   "id": "career-ai_engineer",
   "latest_version": {
     "id": "cv-ai_engineer-1",
     "published_at": "2026-08-20T09:00:00Z",
     "version": 1
   },
-  "name": "AI Engineer (mẫu)",
+  "name": "AI Engineer",
   "node_count": 4,
   "requirement_count": 13,
   "slug": "ai_engineer"
@@ -884,9 +884,9 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
 ```json
 {
   "career": {
-    "field": "Dữ liệu và AI (mẫu)",
+    "field": "Dữ liệu và AI",
     "id": "career-ai_engineer",
-    "name": "AI Engineer (mẫu)",
+    "name": "AI Engineer",
     "slug": "ai_engineer"
   },
   "nodes": [
@@ -905,7 +905,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Lập trình Python (mẫu)",
+          "title": "Lập trình Python",
           "weight": "1.00"
         },
         {
@@ -921,7 +921,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+          "title": "Cấu trúc dữ liệu và giải thuật",
           "weight": "1.00"
         },
         {
@@ -937,7 +937,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Quản lý phiên bản mã nguồn khi làm việc nhóm; chỉ tính đạt khi minh chứng được duyệt.",
           "skill_id": "sk-git",
           "subject_key": null,
-          "title": "Git (mẫu)",
+          "title": "Git",
           "weight": "1.00"
         }
       ],
@@ -946,7 +946,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
       "kind": "group",
       "order": 1,
       "short_desc": "Khả năng viết mã và quản lý mã nguồn, là phần chung cho mọi việc về sau của nghề.",
-      "title": "Nền tảng lập trình (mẫu)"
+      "title": "Nền tảng lập trình"
     },
     {
       "children": [
@@ -963,7 +963,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Cung cấp công cụ ma trận mà môn Học máy của CTĐT mẫu yêu cầu học trước.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Đại số tuyến tính (mẫu)",
+          "title": "Đại số tuyến tính",
           "weight": "1.00"
         },
         {
@@ -979,7 +979,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Nền suy luận từ dữ liệu, mở đường vào Nhập môn khoa học dữ liệu.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Xác suất thống kê (mẫu)",
+          "title": "Xác suất thống kê",
           "weight": "1.00"
         },
         {
@@ -995,7 +995,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Học phần chung giúp đọc tài liệu chuyên ngành bằng tiếng Anh.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Tiếng Anh cơ bản (mẫu)",
+          "title": "Tiếng Anh cơ bản",
           "weight": "1.00"
         }
       ],
@@ -1004,7 +1004,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
       "kind": "group",
       "order": 2,
       "short_desc": "Nền toán và tiếng Anh để đọc hiểu mô hình cùng tài liệu chuyên môn.",
-      "title": "Toán và dữ liệu (mẫu)"
+      "title": "Toán và dữ liệu"
     },
     {
       "children": [
@@ -1021,7 +1021,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Môn trung tâm của khối mô hình, là tiên quyết của học sâu và triển khai mô hình.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Học máy (mẫu)",
+          "title": "Học máy",
           "weight": "1.00"
         },
         {
@@ -1037,7 +1037,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Môn nâng cao tiếp nối Học máy, là điều kiện để học xử lý ngôn ngữ.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Học sâu (mẫu)",
+          "title": "Học sâu",
           "weight": "1.00"
         },
         {
@@ -1053,7 +1053,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Môn ứng dụng chuyên sâu của khối mô hình, học sau môn Học sâu.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Xử lý ngôn ngữ tự nhiên (mẫu)",
+          "title": "Xử lý ngôn ngữ tự nhiên",
           "weight": "1.00"
         },
         {
@@ -1069,7 +1069,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Chọn thước đo phù hợp và đọc đúng kết quả trước khi đưa mô hình vào dùng.",
           "skill_id": "sk-eval",
           "subject_key": null,
-          "title": "Đánh giá mô hình (mẫu)",
+          "title": "Đánh giá mô hình",
           "weight": "1.00"
         }
       ],
@@ -1078,7 +1078,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
       "kind": "group",
       "order": 3,
       "short_desc": "Phần lõi của nghề: xây dựng mô hình và biết đánh giá chúng.",
-      "title": "Mô hình AI (mẫu)"
+      "title": "Mô hình AI"
     },
     {
       "children": [
@@ -1095,7 +1095,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Lập trình Python (mẫu)",
+          "title": "Lập trình Python",
           "weight": "1.00"
         },
         {
@@ -1111,7 +1111,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Môn đưa mô hình vào sử dụng thực tế, học sau khi đã qua Học máy.",
           "skill_id": null,
           "subject_key": null,
-          "title": "Triển khai mô hình học máy (mẫu)",
+          "title": "Triển khai mô hình học máy",
           "weight": "1.00"
         },
         {
@@ -1127,7 +1127,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
           "short_desc": "Sản phẩm thực hành: đi từ dữ liệu thô đến kết luận có minh chứng.",
           "skill_id": "prj-data",
           "subject_key": null,
-          "title": "Dự án phân tích dữ liệu (mẫu)",
+          "title": "Dự án phân tích dữ liệu",
           "weight": "1.00"
         }
       ],
@@ -1136,7 +1136,7 @@ Cây nhóm năng lực → yêu cầu. Cùng học phần ở 2 nhóm thì hiệ
       "kind": "group",
       "order": 4,
       "short_desc": "Đưa mô hình vào sử dụng và chứng minh năng lực qua sản phẩm.",
-      "title": "Thực hành (mẫu)"
+      "title": "Thực hành"
     }
   ],
   "version": {
@@ -1165,27 +1165,27 @@ Chi tiết một yêu cầu đã duyệt của bản published mới nhất; tr�
   "other_careers": [
     {
       "id": "career-backend",
-      "name": "Backend Developer (mẫu)",
+      "name": "Backend Developer",
       "slug": "backend"
     },
     {
       "id": "career-marketing",
-      "name": "Chuyên viên marketing số (mẫu)",
+      "name": "Chuyên viên marketing số",
       "slug": "marketing"
     },
     {
       "id": "career-finance",
-      "name": "Chuyên viên phân tích tài chính (mẫu)",
+      "name": "Chuyên viên phân tích tài chính",
       "slug": "finance"
     },
     {
       "id": "career-data_analyst",
-      "name": "Data Analyst (mẫu)",
+      "name": "Data Analyst",
       "slug": "data_analyst"
     },
     {
       "id": "career-ml_engineer",
-      "name": "Machine Learning Engineer (mẫu)",
+      "name": "Machine Learning Engineer",
       "slug": "ml_engineer"
     }
   ],
@@ -1194,7 +1194,7 @@ Chi tiết một yêu cầu đã duyệt của bản published mới nhất; tr�
       "code": "CNT101",
       "course_id": "CNT101",
       "kind": "prerequisite",
-      "name": "Nhập môn lập trình (mẫu)",
+      "name": "Nhập môn lập trình",
       "source": null
     }
   ],
@@ -1205,7 +1205,7 @@ Chi tiết một yêu cầu đã duyệt của bản published mới nhất; tr�
   "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
   "skill_id": null,
   "subject_key": null,
-  "title": "Lập trình Python (mẫu)",
+  "title": "Lập trình Python",
   "weight": "1.00"
 }
 ```
@@ -1220,7 +1220,7 @@ Sinh viên đọc của mình. Cố vấn (đúng phân công), quản trị vi�
   "current": {
     "career": {
       "id": "career-ai_engineer",
-      "name": "AI Engineer (mẫu)"
+      "name": "AI Engineer"
     },
     "started_at": "2026-03-01T08:00:00Z"
   },
@@ -1238,7 +1238,7 @@ Chỉ sinh viên, cho chính mình; vai trò khác 403. Đổi nghề: đóng b�
   "current": {
     "career": {
       "id": "career-ai_engineer",
-      "name": "AI Engineer (mẫu)"
+      "name": "AI Engineer"
     },
     "started_at": "2026-11-06T17:22:04.873580Z"
   },
@@ -1257,7 +1257,7 @@ Cùng quyền với GET ở trên, có phân trang. Bản đang hiệu lực đ�
     {
       "career": {
         "id": "career-ai_engineer",
-        "name": "AI Engineer (mẫu)"
+        "name": "AI Engineer"
       },
       "ended_at": null,
       "id": "goal-SV07-ai_engineer",
@@ -1266,7 +1266,7 @@ Cùng quyền với GET ở trên, có phân trang. Bản đang hiệu lực đ�
     {
       "career": {
         "id": "career-data_analyst",
-        "name": "Data Analyst (mẫu)"
+        "name": "Data Analyst"
       },
       "ended_at": "2026-03-01T08:00:00Z",
       "id": "goal-SV07-data_analyst",
@@ -1289,9 +1289,9 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
 ```json
 {
   "career": {
-    "field": "Phần mềm (mẫu)",
+    "field": "Phần mềm",
     "id": "career-backend",
-    "name": "Backend Developer (mẫu)",
+    "name": "Backend Developer",
     "slug": "backend"
   },
   "computed_at": "2026-11-07T01:02:09.457309Z",
@@ -1333,7 +1333,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Nhập môn lập trình (mẫu)",
+          "title": "Nhập môn lập trình",
           "via_course": null,
           "weight": "1.00"
         },
@@ -1356,7 +1356,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Lập trình Python (mẫu)",
+          "title": "Lập trình Python",
           "via_course": null,
           "weight": "1.00"
         },
@@ -1379,7 +1379,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": "sk-git",
           "status": "not_started",
           "subject_key": null,
-          "title": "Git (mẫu)",
+          "title": "Git",
           "via_course": null,
           "weight": "1.00"
         }
@@ -1396,7 +1396,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
       "kind": "group",
       "order": 1,
       "short_desc": "Năng lực lập trình phía máy chủ, là điều kiện đầu tiên của nghề.",
-      "title": "Ngôn ngữ phía server (mẫu)"
+      "title": "Ngôn ngữ phía server"
     },
     {
       "children": [
@@ -1419,7 +1419,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": null,
           "status": "done_via_equivalency",
           "subject_key": null,
-          "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+          "title": "Cấu trúc dữ liệu và giải thuật",
           "via_course": {
             "code": "CNT201",
             "course_id": "CNT201"
@@ -1445,7 +1445,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Cơ sở dữ liệu (mẫu)",
+          "title": "Cơ sở dữ liệu",
           "via_course": null,
           "weight": "1.00"
         }
@@ -1462,7 +1462,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
       "kind": "group",
       "order": 2,
       "short_desc": "Cách tổ chức dữ liệu và xử lý hiệu quả bên trong dịch vụ.",
-      "title": "Dữ liệu và thuật toán (mẫu)"
+      "title": "Dữ liệu và thuật toán"
     },
     {
       "children": [
@@ -1485,7 +1485,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Mạng máy tính (mẫu)",
+          "title": "Mạng máy tính",
           "via_course": null,
           "weight": "1.00"
         },
@@ -1508,7 +1508,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Phát triển web backend (mẫu)",
+          "title": "Phát triển web backend",
           "via_course": null,
           "weight": "1.00"
         },
@@ -1531,7 +1531,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": "sk-api",
           "status": "not_started",
           "subject_key": null,
-          "title": "Thiết kế REST API (mẫu)",
+          "title": "Thiết kế REST API",
           "via_course": null,
           "weight": "1.00"
         }
@@ -1548,7 +1548,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
       "kind": "group",
       "order": 3,
       "short_desc": "Xây dựng dịch vụ để ứng dụng khác gọi được qua mạng.",
-      "title": "Dịch vụ (mẫu)"
+      "title": "Dịch vụ"
     },
     {
       "children": [
@@ -1571,7 +1571,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Công nghệ phần mềm (mẫu)",
+          "title": "Công nghệ phần mềm",
           "via_course": null,
           "weight": "1.00"
         },
@@ -1594,7 +1594,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": null,
           "status": "in_progress",
           "subject_key": null,
-          "title": "Hệ thống phân tán (mẫu)",
+          "title": "Hệ thống phân tán",
           "via_course": null,
           "weight": "1.00"
         },
@@ -1617,7 +1617,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
           "skill_id": "prj-web",
           "status": "not_started",
           "subject_key": null,
-          "title": "Dự án xây dựng dịch vụ web (mẫu)",
+          "title": "Dự án xây dựng dịch vụ web",
           "via_course": null,
           "weight": "1.00"
         }
@@ -1634,19 +1634,19 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
       "kind": "group",
       "order": 4,
       "short_desc": "Làm phần mềm theo nhóm và giữ hệ thống chạy tốt khi lớn dần.",
-      "title": "Hệ thống (mẫu)"
+      "title": "Hệ thống"
     }
   ],
   "outside_curriculum_count": 0,
   "profile": {
     "display_name": "Backend Developer",
-    "field": "Phần mềm (mẫu)",
-    "group": "Phần mềm (mẫu)",
+    "field": "Phần mềm",
+    "group": "Phần mềm",
     "id": "career-backend",
     "illustration_key": "backend",
     "is_mock": true,
     "major_fit": null,
-    "name": "Backend Developer (mẫu)",
+    "name": "Backend Developer",
     "name_en": null,
     "objective": null,
     "self_study": [],
@@ -1680,9 +1680,9 @@ Nghề chính và 3 nghề liên quan đầu theo `closeness`. Chưa có nghề 
   "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
   "primary": {
     "career": {
-      "field": "Dữ liệu và AI (mẫu)",
+      "field": "Dữ liệu và AI",
       "id": "career-ai_engineer",
-      "name": "AI Engineer (mẫu)",
+      "name": "AI Engineer",
       "slug": "ai_engineer"
     },
     "course_progress": {
@@ -1709,9 +1709,9 @@ Nghề chính và 3 nghề liên quan đầu theo `closeness`. Chưa có nghề 
   "related": [
     {
       "career": {
-        "field": "Dữ liệu và AI (mẫu)",
+        "field": "Dữ liệu và AI",
         "id": "career-ml_engineer",
-        "name": "Machine Learning Engineer (mẫu)",
+        "name": "Machine Learning Engineer",
         "slug": "ml_engineer"
       },
       "closeness": {
@@ -1741,9 +1741,9 @@ Nghề chính và 3 nghề liên quan đầu theo `closeness`. Chưa có nghề 
     },
     {
       "career": {
-        "field": "Dữ liệu và AI (mẫu)",
+        "field": "Dữ liệu và AI",
         "id": "career-data_analyst",
-        "name": "Data Analyst (mẫu)",
+        "name": "Data Analyst",
         "slug": "data_analyst"
       },
       "closeness": {
@@ -1773,9 +1773,9 @@ Nghề chính và 3 nghề liên quan đầu theo `closeness`. Chưa có nghề 
     },
     {
       "career": {
-        "field": "Phần mềm (mẫu)",
+        "field": "Phần mềm",
         "id": "career-backend",
-        "name": "Backend Developer (mẫu)",
+        "name": "Backend Developer",
         "slug": "backend"
       },
       "closeness": {
@@ -1818,17 +1818,17 @@ Tham số `student_id`, `sort` (`closeness` mặc định, hoặc `profile_fit`)
   "data_warnings": [],
   "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
   "fields": [
-    "Dữ liệu và AI (mẫu)",
-    "Marketing (mẫu)",
-    "Phần mềm (mẫu)",
-    "Tài chính (mẫu)"
+    "Dữ liệu và AI",
+    "Marketing",
+    "Phần mềm",
+    "Tài chính"
   ],
   "items": [
     {
       "career": {
-        "field": "Tài chính (mẫu)",
+        "field": "Tài chính",
         "id": "career-finance",
-        "name": "Chuyên viên phân tích tài chính (mẫu)",
+        "name": "Chuyên viên phân tích tài chính",
         "slug": "finance"
       },
       "closeness": {
@@ -1858,9 +1858,9 @@ Tham số `student_id`, `sort` (`closeness` mặc định, hoặc `profile_fit`)
     },
     {
       "career": {
-        "field": "Marketing (mẫu)",
+        "field": "Marketing",
         "id": "career-marketing",
-        "name": "Chuyên viên marketing số (mẫu)",
+        "name": "Chuyên viên marketing số",
         "slug": "marketing"
       },
       "closeness": {
@@ -1892,9 +1892,9 @@ Tham số `student_id`, `sort` (`closeness` mặc định, hoặc `profile_fit`)
   "page": 1,
   "page_size": 2,
   "primary_career": {
-    "field": "Dữ liệu và AI (mẫu)",
+    "field": "Dữ liệu và AI",
     "id": "career-ai_engineer",
-    "name": "AI Engineer (mẫu)",
+    "name": "AI Engineer",
     "slug": "ai_engineer"
   },
   "sort": "profile_fit",
@@ -1927,22 +1927,22 @@ Lưới thẻ nghề của trang Định hướng nghề (CR-03). Sinh viên ch�
 {
   "disclaimer": "Tỷ lệ này không phản ánh khả năng được tuyển dụng",
   "groups": [
-    "Dữ liệu và AI (mẫu)",
-    "Phần mềm (mẫu)",
-    "Marketing (mẫu)",
-    "Tài chính (mẫu)"
+    "Dữ liệu và AI",
+    "Phần mềm",
+    "Marketing",
+    "Tài chính"
   ],
   "has_primary": true,
   "items": [
     {
       "career": {
         "display_name": "AI Engineer",
-        "field": "Dữ liệu và AI (mẫu)",
-        "group": "Dữ liệu và AI (mẫu)",
+        "field": "Dữ liệu và AI",
+        "group": "Dữ liệu và AI",
         "id": "career-ai_engineer",
         "illustration_key": "ai",
         "is_mock": true,
-        "name": "AI Engineer (mẫu)",
+        "name": "AI Engineer",
         "name_en": null,
         "slug": "ai_engineer",
         "tagline": null
@@ -1974,12 +1974,12 @@ Lưới thẻ nghề của trang Định hướng nghề (CR-03). Sinh viên ch�
     {
       "career": {
         "display_name": "Chuyên viên phân tích tài chính",
-        "field": "Tài chính (mẫu)",
-        "group": "Tài chính (mẫu)",
+        "field": "Tài chính",
+        "group": "Tài chính",
         "id": "career-finance",
         "illustration_key": null,
         "is_mock": true,
-        "name": "Chuyên viên phân tích tài chính (mẫu)",
+        "name": "Chuyên viên phân tích tài chính",
         "name_en": null,
         "slug": "finance",
         "tagline": null
@@ -2026,8 +2026,8 @@ Nội dung giới thiệu nghề, không phụ thuộc sinh viên. 404 khi khôn
 ```json
 {
   "display_name": "AI Engineer",
-  "field": "Dữ liệu và AI (mẫu)",
-  "group": "Dữ liệu và AI (mẫu)",
+  "field": "Dữ liệu và AI",
+  "group": "Dữ liệu và AI",
   "id": "career-ai_engineer",
   "illustration_key": "ai",
   "is_mock": true,
@@ -2037,7 +2037,7 @@ Nội dung giới thiệu nghề, không phụ thuộc sinh viên. 404 khi khôn
     "version": 1
   },
   "major_fit": null,
-  "name": "AI Engineer (mẫu)",
+  "name": "AI Engineer",
   "name_en": null,
   "objective": null,
   "self_study": [],
@@ -2055,9 +2055,9 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
 ```json
 {
   "career": {
-    "field": "Phần mềm (mẫu)",
+    "field": "Phần mềm",
     "id": "career-backend",
-    "name": "Backend Developer (mẫu)",
+    "name": "Backend Developer",
     "slug": "backend"
   },
   "computed_at": "2026-11-07T01:02:09.839795Z",
@@ -2099,7 +2099,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Nhập môn lập trình (mẫu)",
+          "title": "Nhập môn lập trình",
           "via_course": null,
           "weight": "1.00"
         },
@@ -2122,7 +2122,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Lập trình Python (mẫu)",
+          "title": "Lập trình Python",
           "via_course": null,
           "weight": "1.00"
         },
@@ -2145,7 +2145,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": "sk-git",
           "status": "not_started",
           "subject_key": null,
-          "title": "Git (mẫu)",
+          "title": "Git",
           "via_course": null,
           "weight": "1.00"
         }
@@ -2162,7 +2162,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
       "kind": "group",
       "order": 1,
       "short_desc": "Năng lực lập trình phía máy chủ, là điều kiện đầu tiên của nghề.",
-      "title": "Ngôn ngữ phía server (mẫu)"
+      "title": "Ngôn ngữ phía server"
     },
     {
       "children": [
@@ -2185,7 +2185,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": null,
           "status": "done_via_equivalency",
           "subject_key": null,
-          "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+          "title": "Cấu trúc dữ liệu và giải thuật",
           "via_course": {
             "code": "CNT201",
             "course_id": "CNT201"
@@ -2211,7 +2211,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Cơ sở dữ liệu (mẫu)",
+          "title": "Cơ sở dữ liệu",
           "via_course": null,
           "weight": "1.00"
         }
@@ -2228,7 +2228,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
       "kind": "group",
       "order": 2,
       "short_desc": "Cách tổ chức dữ liệu và xử lý hiệu quả bên trong dịch vụ.",
-      "title": "Dữ liệu và thuật toán (mẫu)"
+      "title": "Dữ liệu và thuật toán"
     },
     {
       "children": [
@@ -2251,7 +2251,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Mạng máy tính (mẫu)",
+          "title": "Mạng máy tính",
           "via_course": null,
           "weight": "1.00"
         },
@@ -2274,7 +2274,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Phát triển web backend (mẫu)",
+          "title": "Phát triển web backend",
           "via_course": null,
           "weight": "1.00"
         },
@@ -2297,7 +2297,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": "sk-api",
           "status": "not_started",
           "subject_key": null,
-          "title": "Thiết kế REST API (mẫu)",
+          "title": "Thiết kế REST API",
           "via_course": null,
           "weight": "1.00"
         }
@@ -2314,7 +2314,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
       "kind": "group",
       "order": 3,
       "short_desc": "Xây dựng dịch vụ để ứng dụng khác gọi được qua mạng.",
-      "title": "Dịch vụ (mẫu)"
+      "title": "Dịch vụ"
     },
     {
       "children": [
@@ -2337,7 +2337,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": null,
           "status": "done",
           "subject_key": null,
-          "title": "Công nghệ phần mềm (mẫu)",
+          "title": "Công nghệ phần mềm",
           "via_course": null,
           "weight": "1.00"
         },
@@ -2360,7 +2360,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": null,
           "status": "in_progress",
           "subject_key": null,
-          "title": "Hệ thống phân tán (mẫu)",
+          "title": "Hệ thống phân tán",
           "via_course": null,
           "weight": "1.00"
         },
@@ -2383,7 +2383,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
           "skill_id": "prj-web",
           "status": "not_started",
           "subject_key": null,
-          "title": "Dự án xây dựng dịch vụ web (mẫu)",
+          "title": "Dự án xây dựng dịch vụ web",
           "via_course": null,
           "weight": "1.00"
         }
@@ -2400,19 +2400,19 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
       "kind": "group",
       "order": 4,
       "short_desc": "Làm phần mềm theo nhóm và giữ hệ thống chạy tốt khi lớn dần.",
-      "title": "Hệ thống (mẫu)"
+      "title": "Hệ thống"
     }
   ],
   "outside_curriculum_count": 0,
   "profile": {
     "display_name": "Backend Developer",
-    "field": "Phần mềm (mẫu)",
-    "group": "Phần mềm (mẫu)",
+    "field": "Phần mềm",
+    "group": "Phần mềm",
     "id": "career-backend",
     "illustration_key": "backend",
     "is_mock": true,
     "major_fit": null,
-    "name": "Backend Developer (mẫu)",
+    "name": "Backend Developer",
     "name_en": null,
     "objective": null,
     "self_study": [],
@@ -2459,7 +2459,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
       "display_name": "AI Engineer",
       "id": "career-ai_engineer",
       "illustration_key": "ai",
-      "name": "AI Engineer (mẫu)",
+      "name": "AI Engineer",
       "slug": "ai_engineer"
     },
     "has_proposal": false,
@@ -2474,7 +2474,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
           "code": "KDL301",
           "credits": 3,
           "id": "KDL301",
-          "name": "Học máy (mẫu)"
+          "name": "Học máy"
         },
         "depends_on_pending_result": false,
         "id": "26478da47679448591bfbbf4cca46ada",
@@ -2486,13 +2486,13 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
           {
             "code": "KDL201",
             "course_id": "KDL201",
-            "name": "Nhập môn khoa học dữ liệu (mẫu)",
+            "name": "Nhập môn khoa học dữ liệu",
             "status": "not_done"
           },
           {
             "code": "MAU102",
             "course_id": "MAU102",
-            "name": "Đại số tuyến tính (mẫu)",
+            "name": "Đại số tuyến tính",
             "status": "in_progress"
           }
         ],
@@ -2507,7 +2507,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
           "code": "KDL302",
           "credits": 3,
           "id": "KDL302",
-          "name": "Học sâu (mẫu)"
+          "name": "Học sâu"
         },
         "depends_on_pending_result": false,
         "id": "11c9465b76444145aba533c3c1712ca8",
@@ -2519,7 +2519,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
           {
             "code": "KDL301",
             "course_id": "KDL301",
-            "name": "Học máy (mẫu)",
+            "name": "Học máy",
             "status": "not_done"
           }
         ],
@@ -2540,7 +2540,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
               "code": "CNT202",
               "credits": 3,
               "id": "CNT202",
-              "name": "Cấu trúc dữ liệu và giải thuật (mẫu)"
+              "name": "Cấu trúc dữ liệu và giải thuật"
             },
             "depends_on_pending_result": false,
             "id": "6770f6bb6cbb4e4db7672efd8d35bdbf",
@@ -2552,7 +2552,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
               {
                 "code": "CNT102",
                 "course_id": "CNT102",
-                "name": "Lập trình Python (mẫu)",
+                "name": "Lập trình Python",
                 "status": "done"
               }
             ],
@@ -2567,7 +2567,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
               "code": "CNT204",
               "credits": 3,
               "id": "CNT204",
-              "name": "Mạng máy tính (mẫu)"
+              "name": "Mạng máy tính"
             },
             "depends_on_pending_result": false,
             "id": "35051dda288f41238561fd296ef29f5a",
@@ -2579,7 +2579,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
               {
                 "code": "CNT101",
                 "course_id": "CNT101",
-                "name": "Nhập môn lập trình (mẫu)",
+                "name": "Nhập môn lập trình",
                 "status": "done"
               }
             ],
@@ -2589,7 +2589,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
         ],
         "max_credits": 28,
         "min_credits": 8,
-        "name": "HK2 2026-2027 (mẫu)",
+        "name": "HK2 2026-2027",
         "order": 6,
         "skills": [
           {
@@ -2599,7 +2599,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
             "reason": "Gợi ý sớm vì chưa có môn liên quan trong lộ trình, không chiếm tín chỉ.",
             "skill": {
               "id": "prj-data",
-              "name": "Dự án phân tích dữ liệu (mẫu)"
+              "name": "Dự án phân tích dữ liệu"
             }
           },
           {
@@ -2609,7 +2609,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
             "reason": "Gợi ý sớm vì chưa có môn liên quan trong lộ trình, không chiếm tín chỉ.",
             "skill": {
               "id": "sk-eval",
-              "name": "Đánh giá mô hình (mẫu)"
+              "name": "Đánh giá mô hình"
             }
           }
         ]
@@ -2626,7 +2626,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
               "code": "CNT205",
               "credits": 3,
               "id": "CNT205",
-              "name": "Hệ điều hành (mẫu)"
+              "name": "Hệ điều hành"
             },
             "depends_on_pending_result": false,
             "id": "251f4bc4a5c9403da439d26e82e185df",
@@ -2638,7 +2638,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
               {
                 "code": "CNT101",
                 "course_id": "CNT101",
-                "name": "Nhập môn lập trình (mẫu)",
+                "name": "Nhập môn lập trình",
                 "status": "done"
               }
             ],
@@ -2653,7 +2653,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
               "code": "CNT302",
               "credits": 3,
               "id": "CNT302",
-              "name": "Công nghệ phần mềm (mẫu)"
+              "name": "Công nghệ phần mềm"
             },
             "depends_on_pending_result": true,
             "id": "503103ae0a904463b0e9a5f82702ea9e",
@@ -2665,7 +2665,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
               {
                 "code": "CNT203",
                 "course_id": "CNT203",
-                "name": "Cơ sở dữ liệu (mẫu)",
+                "name": "Cơ sở dữ liệu",
                 "status": "in_progress"
               }
             ],
@@ -2675,7 +2675,7 @@ Tạo lộ trình từ đầu, bỏ các môn đã chuyển tay. Chưa có ngh�
         ],
         "max_credits": 28,
         "min_credits": 8,
-        "name": "HK1 2027-2028 (mẫu)",
+        "name": "HK1 2027-2028",
         "order": 7,
         "skills": []
       }
@@ -2776,22 +2776,22 @@ Có thay đổi (ví dụ sinh viên vừa trượt một môn đang học). `st
       "credits": 3,
       "id": "CNT203",
       "kind": "course",
-      "name": "Cơ sở dữ liệu (mẫu)",
-      "semester": "HK2 2026-2027 (mẫu)"
+      "name": "Cơ sở dữ liệu",
+      "semester": "HK2 2026-2027"
     }
   ],
   "career_after": {
     "display_name": "AI Engineer",
     "id": "career-ai_engineer",
     "illustration_key": "ai",
-    "name": "AI Engineer (mẫu)",
+    "name": "AI Engineer",
     "slug": "ai_engineer"
   },
   "career_before": {
     "display_name": "AI Engineer",
     "id": "career-ai_engineer",
     "illustration_key": "ai",
-    "name": "AI Engineer (mẫu)",
+    "name": "AI Engineer",
     "slug": "ai_engineer"
   },
   "dismissed": false,
@@ -2801,20 +2801,20 @@ Có thay đổi (ví dụ sinh viên vừa trượt một môn đang học). `st
     {
       "code": "CNT205",
       "credits": 3,
-      "from_semester": "HK1 2027-2028 (mẫu)",
+      "from_semester": "HK1 2027-2028",
       "id": "CNT205",
       "kind": "course",
-      "name": "Hệ điều hành (mẫu)",
-      "to_semester": "HK2 2027-2028 (mẫu)"
+      "name": "Hệ điều hành",
+      "to_semester": "HK2 2027-2028"
     },
     {
       "code": "CNT301",
       "credits": 3,
-      "from_semester": "HK2 2026-2027 (mẫu)",
+      "from_semester": "HK2 2026-2027",
       "id": "CNT301",
       "kind": "course",
-      "name": "Phát triển web backend (mẫu)",
-      "to_semester": "HK1 2027-2028 (mẫu)"
+      "name": "Phát triển web backend",
+      "to_semester": "HK1 2027-2028"
     }
   ],
   "note": "Lịch dự kiến, không phải lịch mở lớp chính thức. Tín chỉ và tiên quyết của CTĐT K68 là giả định.",
@@ -2869,7 +2869,7 @@ Lịch sử minh chứng của sinh viên, qua `resolve_target_student`. Tham s�
   "items": [
     {
       "attachments": [],
-      "description": "Báo cáo phân tích (mẫu)",
+      "description": "Báo cáo phân tích",
       "id": "ev-sv07-data",
       "link": "https://example.test/mau/data",
       "review_note": null,
@@ -2877,7 +2877,7 @@ Lịch sử minh chứng của sinh viên, qua `resolve_target_student`. Tham s�
       "skill": {
         "id": "prj-data",
         "kind": "project",
-        "name": "Dự án phân tích dữ liệu (mẫu)"
+        "name": "Dự án phân tích dữ liệu"
       },
       "status": "pending",
       "student_id": "SV07",
@@ -2885,15 +2885,15 @@ Lịch sử minh chứng của sinh viên, qua `resolve_target_student`. Tham s�
     },
     {
       "attachments": [],
-      "description": "Kho mã bài tập nhóm (mẫu)",
+      "description": "Kho mã bài tập nhóm",
       "id": "ev-sv07-git",
       "link": "https://example.test/mau/git",
-      "review_note": "Đạt (mẫu)",
+      "review_note": "Đạt",
       "reviewed_at": "2026-05-10T10:00:00Z",
       "skill": {
         "id": "sk-git",
         "kind": "skill",
-        "name": "Git (mẫu)"
+        "name": "Git"
       },
       "status": "approved",
       "student_id": "SV07",
@@ -2928,7 +2928,7 @@ Chỉ sinh viên. Multipart: `skill_id`, `description` (bắt buộc, tối đa 
   "skill": {
     "id": "sk-git",
     "kind": "skill",
-    "name": "Git (mẫu)"
+    "name": "Git"
   },
   "status": "pending",
   "student_id": "SV04",
@@ -2952,17 +2952,17 @@ Cố vấn chỉ có sinh viên được phân công, quản trị viên có t�
       "attachments": [],
       "careers": [
         {
-          "group": "Thực hành (mẫu)",
+          "group": "Thực hành",
           "id": "career-ai_engineer",
-          "name": "AI Engineer (mẫu)"
+          "name": "AI Engineer"
         },
         {
-          "group": "Truyền đạt (mẫu)",
+          "group": "Truyền đạt",
           "id": "career-data_analyst",
-          "name": "Data Analyst (mẫu)"
+          "name": "Data Analyst"
         }
       ],
-      "description": "Báo cáo phân tích (mẫu)",
+      "description": "Báo cáo phân tích",
       "id": "ev-sv07-data",
       "link": "https://example.test/mau/data",
       "previous_submissions": 0,
@@ -2971,13 +2971,13 @@ Cố vấn chỉ có sinh viên được phân công, quản trị viên có t�
       "skill": {
         "id": "prj-data",
         "kind": "project",
-        "name": "Dự án phân tích dữ liệu (mẫu)"
+        "name": "Dự án phân tích dữ liệu"
       },
       "status": "pending",
       "student": {
         "code": "SV07",
         "id": "SV07",
-        "name": "Sinh viên 07 (mẫu)"
+        "name": "Sinh viên 07"
       },
       "student_id": "SV07",
       "submitted_at": null
@@ -3005,11 +3005,11 @@ Chỉ cố vấn được phân công; quản trị viên chỉ xem nên nhận 
   "items": [
     {
       "id": "cat-hocvu",
-      "name": "Học vụ (mẫu)"
+      "name": "Học vụ"
     },
     {
       "id": "cat-kythuat",
-      "name": "Kỹ thuật (mẫu)"
+      "name": "Kỹ thuật"
     }
   ]
 }
@@ -3026,7 +3026,7 @@ Sinh viên có ticket của mình; hỗ trợ viên theo nhóm được gán, ch
     {
       "category": {
         "id": "cat-hocvu",
-        "name": "Học vụ (mẫu)"
+        "name": "Học vụ"
       },
       "code": "HT-202609-0001",
       "created_at": "2026-09-10T09:00:00Z",
@@ -3035,9 +3035,9 @@ Sinh viên có ticket của mình; hỗ trợ viên theo nhóm được gán, ch
       "status_label": "Mới",
       "student": {
         "code": "SV01",
-        "name": "Sinh viên 01 (mẫu)"
+        "name": "Sinh viên 01"
       },
-      "title": "Hỏi về đăng ký học phần (mẫu)",
+      "title": "Hỏi về đăng ký học phần",
       "updated_at": "2026-09-10T09:00:00Z"
     }
   ],
@@ -3061,7 +3061,7 @@ Ngoài phạm vi: 404. `can_reply` và `next_statuses` cho biết người đang
   "can_reply": true,
   "category": {
     "id": "cat-hocvu",
-    "name": "Học vụ (mẫu)"
+    "name": "Học vụ"
   },
   "code": "HT-202611-0001",
   "created_at": "2026-11-07T07:15:50.110851Z",
@@ -3078,7 +3078,7 @@ Ngoài phạm vi: 404. `can_reply` và `next_statuses` cho biết người đang
           "url": "/api/m12/support-requests/43c6ec90ccae4812b4e99333841f78f7/attachments/4feb88214d314cd2ba87df86bdb6374b"
         }
       ],
-      "author": "Sinh viên 02 (mẫu)",
+      "author": "Sinh viên 02",
       "body": "Nội dung",
       "created_at": "2026-11-07T07:15:50.111747Z",
       "id": "0a8e7ae37ece4d6d8cbc5f70b8ca0cef",
@@ -3086,7 +3086,7 @@ Ngoài phạm vi: 404. `can_reply` và `next_statuses` cho biết người đang
     },
     {
       "attachments": [],
-      "author": "Nhân sự hỗ trợ 1 (mẫu)",
+      "author": "Nhân sự hỗ trợ 1",
       "body": "Đã nhận",
       "created_at": "2026-11-07T07:15:50.165582Z",
       "id": "e17134eb012a49e8a398146cd2a78694",
@@ -3101,11 +3101,11 @@ Ngoài phạm vi: 404. `can_reply` và `next_statuses` cho biết người đang
   "status_label": "Đang xử lý",
   "student": {
     "code": "SV02",
-    "name": "Sinh viên 02 (mẫu)"
+    "name": "Sinh viên 02"
   },
   "timeline": [
     {
-      "actor": "Nhân sự hỗ trợ 1 (mẫu)",
+      "actor": "Nhân sự hỗ trợ 1",
       "created_at": "2026-11-07T07:15:50.162084Z",
       "from_status": "new",
       "to_label": "Đang xử lý",
@@ -3184,14 +3184,14 @@ Chỉ sinh viên. Sinh checklist từ `risk_action_templates` theo mã quy tắc
         "due_date": null,
         "id": "80db968907e14e868c6d664050541b52",
         "order": 1,
-        "title": "Đặt lịch gặp cố vấn học tập (mẫu)"
+        "title": "Đặt lịch gặp cố vấn học tập"
       },
       {
         "done": false,
         "due_date": null,
         "id": "98bdf27e5dfc44ed8e55e936376491bf",
         "order": 2,
-        "title": "Chọn 2 môn cần ưu tiên cải thiện trong kỳ (mẫu)"
+        "title": "Chọn 2 môn cần ưu tiên cải thiện trong kỳ"
       }
     ],
     "source_rule_codes": [
@@ -3300,9 +3300,9 @@ Tham số `q`, `page`, `page_size`. Có cả nghề chưa có bản published.
   "items": [
     {
       "draft_version": null,
-      "field": "Dữ liệu và AI (mẫu)",
+      "field": "Dữ liệu và AI",
       "id": "career-ai_engineer",
-      "name": "AI Engineer (mẫu)",
+      "name": "AI Engineer",
       "published_version": {
         "id": "cv-ai_engineer-1",
         "published_at": "2026-08-20T09:00:00Z",
@@ -3321,13 +3321,13 @@ Tham số `q`, `page`, `page_size`. Có cả nghề chưa có bản published.
 
 `name`, `field` bắt buộc. `slug` tự sinh và không đổi về sau. Trùng tên sau khi chuẩn hóa: 409 `DUPLICATE_NAME`.
 
-<!-- contract: admin POST /api/admin/careers {"name": "Kỹ sư dữ liệu (mẫu)", "field": "Dữ liệu và AI (mẫu)"} -->
+<!-- contract: admin POST /api/admin/careers {"name": "Kỹ sư dữ liệu", "field": "Dữ liệu và AI"} -->
 ```json
 {
   "draft_version": null,
-  "field": "Dữ liệu và AI (mẫu)",
+  "field": "Dữ liệu và AI",
   "id": "a2dd33c82bdd4c5b859e82e880361a52",
-  "name": "Kỹ sư dữ liệu (mẫu)",
+  "name": "Kỹ sư dữ liệu",
   "published_version": null,
   "slug": "ky_su_du_lieu_mau"
 }
@@ -3339,9 +3339,9 @@ Tham số `q`, `page`, `page_size`. Có cả nghề chưa có bản published.
 ```json
 {
   "draft_version": null,
-  "field": "Phần mềm (mẫu)",
+  "field": "Phần mềm",
   "id": "career-backend",
-  "name": "Backend Developer (mẫu)",
+  "name": "Backend Developer",
   "published_version": {
     "id": "cv-backend-1",
     "published_at": "2026-08-20T09:00:00Z",
@@ -3355,13 +3355,13 @@ Tham số `q`, `page`, `page_size`. Có cả nghề chưa có bản published.
 
 Gửi `name` và/hoặc `field`.
 
-<!-- contract: admin PATCH /api/admin/careers/career-backend {"field": "Công nghệ (mẫu)"} -->
+<!-- contract: admin PATCH /api/admin/careers/career-backend {"field": "Công nghệ"} -->
 ```json
 {
   "draft_version": null,
-  "field": "Công nghệ (mẫu)",
+  "field": "Công nghệ",
   "id": "career-backend",
-  "name": "Backend Developer (mẫu)",
+  "name": "Backend Developer",
   "published_version": {
     "id": "cv-backend-1",
     "published_at": "2026-08-20T09:00:00Z",
@@ -3424,7 +3424,7 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
   "nodes": [
     {
       "id": "9ba78c33de4e48d2b4936531154773bf",
-      "name": "Ngôn ngữ phía server (mẫu)",
+      "name": "Ngôn ngữ phía server",
       "order": 1,
       "requirements": [
         {
@@ -3438,9 +3438,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Điểm khởi đầu của khối lập trình, là tiên quyết của nhiều môn hệ thống và dữ liệu.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Nhập môn lập trình (mẫu)",
+          "title": "Nhập môn lập trình",
           "weight": "1.00"
         },
         {
@@ -3454,9 +3454,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Lập trình Python (mẫu)",
+          "title": "Lập trình Python",
           "weight": "1.00"
         },
         {
@@ -3470,9 +3470,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Quản lý phiên bản mã nguồn khi làm việc nhóm; chỉ tính đạt khi minh chứng được duyệt.",
           "skill_id": "sk-git",
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Git (mẫu)",
+          "title": "Git",
           "weight": "1.00"
         }
       ],
@@ -3480,7 +3480,7 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
     },
     {
       "id": "e3c862abd9e04a9aba5b0f77b0f9f0e0",
-      "name": "Dữ liệu và thuật toán (mẫu)",
+      "name": "Dữ liệu và thuật toán",
       "order": 2,
       "requirements": [
         {
@@ -3494,9 +3494,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Môn thuật toán của CTĐT mới, thay thế CNT201 qua quan hệ tương đương đã duyệt.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+          "title": "Cấu trúc dữ liệu và giải thuật",
           "weight": "1.00"
         },
         {
@@ -3510,9 +3510,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Môn nền về lưu trữ, là tiên quyết của backend, công nghệ phần mềm và kho dữ liệu.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Cơ sở dữ liệu (mẫu)",
+          "title": "Cơ sở dữ liệu",
           "weight": "1.00"
         }
       ],
@@ -3520,7 +3520,7 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
     },
     {
       "id": "a991f25f49b0490c9a751609770cfe20",
-      "name": "Dịch vụ (mẫu)",
+      "name": "Dịch vụ",
       "order": 3,
       "requirements": [
         {
@@ -3534,9 +3534,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Môn ứng dụng khối phần mềm, kết hợp lập trình và lưu trữ để xây dựng dịch vụ.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Phát triển web backend (mẫu)",
+          "title": "Phát triển web backend",
           "weight": "1.00"
         },
         {
@@ -3550,9 +3550,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Thiết kế giao tiếp giữa các dịch vụ sao cho rõ ràng và dễ dùng lại.",
           "skill_id": "sk-api",
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Thiết kế REST API (mẫu)",
+          "title": "Thiết kế REST API",
           "weight": "1.00"
         },
         {
@@ -3566,9 +3566,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Môn nền về kết nối hệ thống, cần trước khi học hệ phân tán và an toàn thông tin.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Mạng máy tính (mẫu)",
+          "title": "Mạng máy tính",
           "weight": "1.00"
         }
       ],
@@ -3576,7 +3576,7 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
     },
     {
       "id": "2e76c9cd7cca438287df7ba0e348f66b",
-      "name": "Hệ thống (mẫu)",
+      "name": "Hệ thống",
       "order": 4,
       "requirements": [
         {
@@ -3590,9 +3590,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Môn nâng cao của khối hệ thống, học sau khi đã có nền dịch vụ web và mạng.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Hệ thống phân tán (mẫu)",
+          "title": "Hệ thống phân tán",
           "weight": "1.00"
         },
         {
@@ -3606,9 +3606,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Sản phẩm thực hành: một dịch vụ chạy được, có lưu trữ và giao tiếp qua API.",
           "skill_id": "prj-web",
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Dự án xây dựng dịch vụ web (mẫu)",
+          "title": "Dự án xây dựng dịch vụ web",
           "weight": "1.00"
         },
         {
@@ -3622,9 +3622,9 @@ Tạo draft, không có thân request. Sao chép bản published mới nhất, g
           "level": null,
           "short_desc": "Môn về quy trình làm phần mềm nhóm, là điều kiện để làm đồ án chuyên ngành.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "approved",
-          "title": "Công nghệ phần mềm (mẫu)",
+          "title": "Công nghệ phần mềm",
           "weight": "1.00"
         }
       ],
@@ -3649,7 +3649,7 @@ Xem được cả draft, có yêu cầu draft, nguồn, người duyệt.
   "nodes": [
     {
       "id": "node-cv-data_analyst-2-1",
-      "name": "Công cụ phân tích (bản nháp) (mẫu)",
+      "name": "Công cụ phân tích (bản nháp)",
       "order": 1,
       "requirements": [
         {
@@ -3663,9 +3663,9 @@ Xem được cả draft, có yêu cầu draft, nguồn, người duyệt.
           "level": null,
           "short_desc": "Môn lập trình chính, mở đường cho khối dữ liệu, giải thuật và phát triển web.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "draft",
-          "title": "Lập trình Python (mẫu)",
+          "title": "Lập trình Python",
           "weight": "1.00"
         },
         {
@@ -3679,9 +3679,9 @@ Xem được cả draft, có yêu cầu draft, nguồn, người duyệt.
           "level": null,
           "short_desc": "Môn mở rộng về xử lý quy mô lớn, học sau môn nhập môn dữ liệu.",
           "skill_id": null,
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "draft",
-          "title": "Phân tích dữ liệu lớn (mẫu)",
+          "title": "Phân tích dữ liệu lớn",
           "weight": "1.00"
         },
         {
@@ -3695,9 +3695,9 @@ Xem được cả draft, có yêu cầu draft, nguồn, người duyệt.
           "level": null,
           "short_desc": "Tự lấy và tổng hợp dữ liệu từ cơ sở dữ liệu để trả lời câu hỏi phân tích.",
           "skill_id": "sk-sql",
-          "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+          "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
           "status": "draft",
-          "title": "Viết truy vấn SQL (mẫu)",
+          "title": "Viết truy vấn SQL",
           "weight": "1.00"
         }
       ],
@@ -3705,7 +3705,7 @@ Xem được cả draft, có yêu cầu draft, nguồn, người duyệt.
     },
     {
       "id": "node-rong",
-      "name": "Nhóm rỗng (mẫu)",
+      "name": "Nhóm rỗng",
       "order": 2,
       "requirements": [],
       "short_desc": null
@@ -3741,7 +3741,7 @@ Chạy `validate_for_publish`. Đạt: draft thành published, 200.
   "nodes": [
     {
       "id": "node-nhap",
-      "name": "Nhóm nháp (mẫu)",
+      "name": "Nhóm nháp",
       "order": 1,
       "requirements": [
         {
@@ -3757,7 +3757,7 @@ Chạy `validate_for_publish`. Đạt: draft thành published, 200.
           "skill_id": null,
           "source": "Nguồn mẫu",
           "status": "approved",
-          "title": "Nhập môn lập trình (mẫu)",
+          "title": "Nhập môn lập trình",
           "weight": "1.00"
         }
       ],
@@ -3781,14 +3781,14 @@ Không đạt: 422, liệt kê đủ mọi lỗi trong `details.errors`, DB khô
       "errors": [
         {
           "code": "REQUIREMENT_NOT_APPROVED",
-          "message": "Yêu cầu \"Lập trình Python (mẫu)\" chưa được duyệt.",
+          "message": "Yêu cầu \"Lập trình Python\" chưa được duyệt.",
           "node_id": "node-cv-data_analyst-2-1",
           "path": null,
           "requirement_id": "req-node-cv-data_analyst-2-1-CNT102"
         },
         {
           "code": "REQUIREMENT_NOT_APPROVED",
-          "message": "Yêu cầu \"Phân tích dữ liệu lớn (mẫu)\" chưa được duyệt.",
+          "message": "Yêu cầu \"Phân tích dữ liệu lớn\" chưa được duyệt.",
           "node_id": "node-cv-data_analyst-2-1",
           "path": null,
           "requirement_id": "req-node-cv-data_analyst-2-1-KDL306"
@@ -3806,12 +3806,12 @@ Mã lỗi trong `details.errors`: `PREREQUISITE_CYCLE` (có `path`, gồm `cours
 
 `name` bắt buộc; `order`, `short_desc` tùy chọn. Không gửi `order` thì lấy số lớn nhất cộng 1. Áp dụng cho cả 3 endpoint sau: bản published trả 409 `PUBLISHED_IMMUTABLE`.
 
-<!-- contract: admin POST /api/admin/career-versions/cv-data_analyst-2/nodes {"name": "Nhóm mới (mẫu)", "short_desc": "Mô tả ngắn của nhóm."} -->
+<!-- contract: admin POST /api/admin/career-versions/cv-data_analyst-2/nodes {"name": "Nhóm mới", "short_desc": "Mô tả ngắn của nhóm."} -->
 ```json
 {
   "career_version_id": "cv-data_analyst-2",
   "id": "8425b978d01c4654a681afd903bd988f",
-  "name": "Nhóm mới (mẫu)",
+  "name": "Nhóm mới",
   "order": 3,
   "short_desc": "Mô tả ngắn của nhóm."
 }
@@ -3824,7 +3824,7 @@ Mã lỗi trong `details.errors`: `PREREQUISITE_CYCLE` (có `path`, gồm `cours
 {
   "career_version_id": "cv-data_analyst-2",
   "id": "node-cv-data_analyst-2-1",
-  "name": "Công cụ phân tích (bản nháp) (mẫu)",
+  "name": "Công cụ phân tích (bản nháp)",
   "order": 1,
   "short_desc": "Bản nháp nhóm công cụ phân tích, thêm phần xử lý dữ liệu lớn so với bản đã công bố."
 }
@@ -3837,7 +3837,7 @@ Mã lỗi trong `details.errors`: `PREREQUISITE_CYCLE` (có `path`, gồm `cours
 {
   "career_version_id": "cv-data_analyst-2",
   "id": "node-cv-data_analyst-2-1",
-  "name": "Công cụ phân tích (bản nháp) (mẫu)",
+  "name": "Công cụ phân tích (bản nháp)",
   "order": 3,
   "short_desc": "Bản nháp nhóm công cụ phân tích, thêm phần xử lý dữ liệu lớn so với bản đã công bố."
 }
@@ -3891,7 +3891,7 @@ Nhóm còn yêu cầu: 409 `IN_USE`, không xóa dây chuyền.
   "id": "req-node-cv-data_analyst-2-1-CNT102",
   "kind": "course",
   "skill_id": null,
-  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
   "status": "draft",
   "weight": "1.00"
 }
@@ -3926,7 +3926,7 @@ Trên bản draft:
   "id": "req-node-cv-data_analyst-2-1-CNT102",
   "kind": "course",
   "skill_id": null,
-  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
   "status": "draft",
   "weight": "2.00"
 }
@@ -3958,7 +3958,7 @@ Trên bản draft:
   "id": "req-node-cv-data_analyst-2-1-CNT102",
   "kind": "course",
   "skill_id": null,
-  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
   "status": "approved",
   "weight": "1.00"
 }
@@ -3975,7 +3975,7 @@ Tham số `q`, `page`, `page_size`.
     {
       "id": "sk-eval",
       "kind": "skill",
-      "name": "Đánh giá mô hình (mẫu)",
+      "name": "Đánh giá mô hình",
       "short_desc": "Chọn thước đo phù hợp và đọc đúng kết quả trước khi đưa mô hình vào dùng."
     }
   ],
@@ -3989,12 +3989,12 @@ Tham số `q`, `page`, `page_size`.
 
 `name`, `kind` (`skill`, `project`) bắt buộc; `short_desc` tùy chọn, tối đa 120 ký tự.
 
-<!-- contract: admin POST /api/admin/skills {"name": "Viết tài liệu (mẫu)", "kind": "skill", "short_desc": "Viết tài liệu kỹ thuật rõ ràng."} -->
+<!-- contract: admin POST /api/admin/skills {"name": "Viết tài liệu", "kind": "skill", "short_desc": "Viết tài liệu kỹ thuật rõ ràng."} -->
 ```json
 {
   "id": "b31dcf1aeca045caba227a3fd2b0625f",
   "kind": "skill",
-  "name": "Viết tài liệu (mẫu)",
+  "name": "Viết tài liệu",
   "short_desc": "Viết tài liệu kỹ thuật rõ ràng."
 }
 ```
@@ -4006,7 +4006,7 @@ Tham số `q`, `page`, `page_size`.
 {
   "id": "sk-git",
   "kind": "skill",
-  "name": "Git (mẫu)",
+  "name": "Git",
   "short_desc": "Quản lý phiên bản mã nguồn khi làm việc nhóm; chỉ tính đạt khi minh chứng được duyệt."
 }
 ```
@@ -4020,7 +4020,7 @@ Kỹ năng đang nằm trong bản published: 409 `SKILL_IN_PUBLISHED`, cả v�
 {
   "id": "sk-tam",
   "kind": "skill",
-  "name": "Kỹ năng tạm (mẫu)",
+  "name": "Kỹ năng tạm",
   "short_desc": "Mô tả mới."
 }
 ```
@@ -4053,7 +4053,7 @@ Tham số `course_id`, `skill_id`, `page`, `page_size`.
       "id": "map-CNT102-sk-git",
       "purpose": "display_only",
       "skill_id": "sk-git",
-      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
       "status": "approved"
     }
   ],
@@ -4094,7 +4094,7 @@ Mọi trường bắt buộc; `purpose` là `display_only` hoặc `suggestion`. 
   "id": "map-CNT102-sk-git",
   "purpose": "display_only",
   "skill_id": "sk-git",
-  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
   "status": "approved"
 }
 ```
@@ -4103,7 +4103,7 @@ Mọi trường bắt buộc; `purpose` là `display_only` hoặc `suggestion`. 
 
 Nội dung đổi thì ánh xạ về `draft`.
 
-<!-- contract: admin PATCH /api/admin/course-skill-mappings/map-CNT102-sk-git {"source": "Nguồn khác (mẫu)"} -->
+<!-- contract: admin PATCH /api/admin/course-skill-mappings/map-CNT102-sk-git {"source": "Nguồn khác"} -->
 ```json
 {
   "approved_at": null,
@@ -4113,7 +4113,7 @@ Nội dung đổi thì ánh xạ về `draft`.
   "id": "map-CNT102-sk-git",
   "purpose": "display_only",
   "skill_id": "sk-git",
-  "source": "Nguồn khác (mẫu)",
+  "source": "Nguồn khác",
   "status": "draft"
 }
 ```
@@ -4142,7 +4142,7 @@ Nội dung đổi thì ánh xạ về `draft`.
   "id": "map-CNT102-sk-git",
   "purpose": "display_only",
   "skill_id": "sk-git",
-  "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+  "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
   "status": "approved"
 }
 ```

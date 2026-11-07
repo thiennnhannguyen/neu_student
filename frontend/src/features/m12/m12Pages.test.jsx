@@ -78,9 +78,9 @@ describe('nhãn', () => {
     expect(typeLabel('elective')).toBe('TC');
     expect(typeLabel(null)).toBeNull();
     expect(groupLabel('Nhóm 2 – Trí tuệ nhân tạo và dữ liệu')).toBe('Trí tuệ nhân tạo và dữ liệu');
-    expect(groupLabel('Phần mềm (mẫu)')).toBe('Phần mềm');
+    expect(groupLabel('Phần mềm')).toBe('Phần mềm');
     expect(groupShortLabel('Nhóm 4 – Hạ tầng, Cloud và vận hành')).toBe('Hạ tầng & Cloud');
-    expect(groupShortLabel('Phần mềm (mẫu)')).toBe('Phần mềm');
+    expect(groupShortLabel('Phần mềm')).toBe('Phần mềm');
   });
 });
 
@@ -97,14 +97,14 @@ describe('lưới thẻ nghề', () => {
     expect(within(cardLink(BACKEND.display_name)).queryByText(/Hợp ngành/)).toBeNull();
   });
 
-  it('thẻ có tên Việt, tên Anh, "(mẫu)" ở nhãn nhỏ, không có ở tiêu đề', async () => {
+  it('thẻ có tên Việt, tên Anh, "" ở nhãn nhỏ, không có ở tiêu đề', async () => {
     m12Api();
     renderApp('/m12/dinh-huong');
 
     await screen.findAllByRole('link', { name: /Kỹ sư/ });
     const card = cardLink(AI.display_name);
     expect(card.querySelector('.career-card__name').textContent).toBe('Kỹ sư Trí tuệ nhân tạo');
-    expect(card.querySelector('.career-card__en').textContent).toBe('AI Engineer (mẫu)');
+    expect(card.querySelector('.career-card__en').textContent).toBe('AI Engineer');
     expect(card.querySelector('.career-illustration')).toHaveAttribute('aria-hidden', 'true');
   });
 
@@ -411,7 +411,7 @@ describe('trang chi tiết nghề: Hero', () => {
     expect(await screen.findByRole('heading', { level: 1, name: AI.display_name })).toBeVisible();
     const hero = screen.getByRole('region', { name: AI.display_name });
     expect(within(hero).getByText('Trí tuệ nhân tạo và dữ liệu')).toBeInTheDocument();
-    expect(hero).toHaveTextContent('AI Engineer (mẫu)');
+    expect(hero).toHaveTextContent('AI Engineer');
     expect(within(hero).getByText(AI.tagline)).toBeInTheDocument();
     expect(hero).toHaveTextContent('Mục tiêu đầu ra: Đóng gói mô hình AI');
     expect(within(hero).getByText('Phù hợp với ngành của bạn: KHMT')).toBeInTheDocument();

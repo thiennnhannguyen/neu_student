@@ -29,7 +29,7 @@ Terminal 2: `make seed`
 |------|-----------|----------|--------------------|
 | 1.1 | `sv04` | Đăng nhập, vào **Cảnh báo** | Mức chung **Cảnh báo**, kèm câu "Cảnh báo tham khảo, không phải quyết định học vụ chính thức" |
 | 1.2 | `sv04` | Đọc 2 quy tắc | "GPA tích lũy 1,81 dưới ngưỡng cảnh báo 2,00", giá trị thực tế `1,81 (43,50/24)`; "Đang nợ 6 tín chỉ, từ ngưỡng cảnh báo 6" |
-| 1.3 | `sv04` | Bấm **Tạo kế hoạch cải thiện** | Sang trang Kế hoạch cải thiện có đúng 5 mục theo mẫu của quy tắc: Đặt lịch gặp cố vấn học tập (mẫu); Chọn 2 môn cần ưu tiên cải thiện trong kỳ (mẫu); Lập lịch ôn tập theo tuần (mẫu); Liệt kê các môn còn nợ (mẫu); Kiểm tra lịch mở lớp của môn cần học lại (mẫu) |
+| 1.3 | `sv04` | Bấm **Tạo kế hoạch cải thiện** | Sang trang Kế hoạch cải thiện có đúng 5 mục theo mẫu của quy tắc: Đặt lịch gặp cố vấn học tập; Chọn 2 môn cần ưu tiên cải thiện trong kỳ; Lập lịch ôn tập theo tuần; Liệt kê các môn còn nợ; Kiểm tra lịch mở lớp của môn cần học lại |
 | 1.4 | `sv04` | Chỉ vào dòng cuối trang | "Khuyến nghị tham khảo, không thay thế quyết định của cố vấn và nhà trường." |
 
 ## Phần 2. Định hướng nghề và lộ trình (profile demo-k68)
@@ -41,14 +41,14 @@ Terminal 2: `make seed-demo`
 | 2.1 | `demo05` | Đăng nhập, vào **Định hướng nghề** | Lưới 10 nghề. Thẻ có nhãn "Mục tiêu của bạn": Kỹ sư Trí tuệ nhân tạo **42% học phần**, Kỹ năng & dự án **11%**. Cùng dữ liệu nhưng Lập trình viên Backend **64%**: mỗi nghề một tỷ lệ riêng |
 | 2.2 | `demo05` | Bấm thẻ Kỹ sư Trí tuệ nhân tạo | Hero có 42% và 11%, câu "Ngành của bạn có 12/14 môn của nghề" |
 | 2.3 | `demo05` | Tab **Lộ trình học**, bấm một môn | Bấm **Đại số tuyến tính**: panel bên phải có "Học để làm gì?", mã `TOCB1101`, Tiên quyết "Không có", "Các nghề khác dùng môn này: Chỉ có ở nghề này." Nhấn **Esc**: panel đóng, con trỏ về đúng môn vừa mở |
-| 2.4 | `demo05` | Bấm **Xem lộ trình theo học kỳ**, rồi **Tạo lộ trình** | Trang Kế hoạch học tập có **3 kỳ**, dòng "Còn lại 67 tín chỉ trong 3 kỳ", "Chưa có lịch mở lớp – mọi kỳ là dự kiến". Kỳ đầu `HK2 2026-2027 (mẫu)`, **21/25 tín chỉ**, mỗi môn có nhãn "Đúng HK CTĐT" hoặc "Lệch HK CTĐT (+1 kỳ)" |
+| 2.4 | `demo05` | Bấm **Xem lộ trình theo học kỳ**, rồi **Tạo lộ trình** | Trang Kế hoạch học tập có **3 kỳ**, dòng "Còn lại 67 tín chỉ trong 3 kỳ", "Chưa có lịch mở lớp – mọi kỳ là dự kiến". Kỳ đầu `HK2 2026-2027`, **21/25 tín chỉ**, mỗi môn có nhãn "Đúng HK CTĐT" hoặc "Lệch HK CTĐT (+1 kỳ)" |
 
 ## Phần 3. Nộp và duyệt minh chứng (tiếp tục profile demo-k68)
 
 | Bước | Tài khoản | Thao tác | Người xem cần thấy |
 |------|-----------|----------|--------------------|
 | 3.1 | `demo05` | Trang nghề AI, tab **Kỹ năng & dự án**, bấm **Nộp minh chứng** ở kỹ năng đầu (**Kiểm soát leakage**), nhập mô tả, nộp | Kỹ năng chuyển sang "Chờ duyệt", % chưa đổi |
-| 3.2 | `gv2` | Đăng xuất, đăng nhập `gv2`, vào **Duyệt minh chứng** | Dòng: `Sinh viên DEMO05 (mẫu) (DEMO05)`, `Kiểm soát leakage`, `Kỹ sư Trí tuệ nhân tạo: Portfolio`, ngày nộp, tệp, số lần nộp trước `0`, `Chờ duyệt` |
+| 3.2 | `gv2` | Đăng xuất, đăng nhập `gv2`, vào **Duyệt minh chứng** | Dòng: `Sinh viên DEMO05 (DEMO05)`, `Kiểm soát leakage`, `Kỹ sư Trí tuệ nhân tạo: Portfolio`, ngày nộp, tệp, số lần nộp trước `0`, `Chờ duyệt` |
 | 3.3 | `gv2` | Bấm **Xem**, thử **Từ chối** khi chưa nhập lý do | Báo lỗi ngay trong panel: "Trường này là bắt buộc.", minh chứng vẫn "Chờ duyệt" |
 | 3.4 | `gv2` | Bấm **Duyệt** | Panel đóng, dòng không còn trong danh sách chờ |
 | 3.5 | `demo05` | Đăng nhập lại, xem **Định hướng nghề** | Kỹ năng & dự án của nghề AI từ **11% thành 22%**. Chỉ nghề này đổi, vì cẩm nang không có kỹ năng dùng chung |
@@ -92,21 +92,21 @@ Người xem cần thấy mã **422** và đúng **3 yêu cầu** bị liệt k�
       "errors": [
         {
           "code": "REQUIREMENT_NOT_APPROVED",
-          "message": "Yêu cầu \"Lập trình Python (mẫu)\" chưa được duyệt.",
+          "message": "Yêu cầu \"Lập trình Python\" chưa được duyệt.",
           "node_id": "node-cv-data_analyst-2-1",
           "path": null,
           "requirement_id": "req-node-cv-data_analyst-2-1-CNT102"
         },
         {
           "code": "REQUIREMENT_NOT_APPROVED",
-          "message": "Yêu cầu \"Phân tích dữ liệu lớn (mẫu)\" chưa được duyệt.",
+          "message": "Yêu cầu \"Phân tích dữ liệu lớn\" chưa được duyệt.",
           "node_id": "node-cv-data_analyst-2-1",
           "path": null,
           "requirement_id": "req-node-cv-data_analyst-2-1-KDL306"
         },
         {
           "code": "REQUIREMENT_NOT_APPROVED",
-          "message": "Yêu cầu \"Viết truy vấn SQL (mẫu)\" chưa được duyệt.",
+          "message": "Yêu cầu \"Viết truy vấn SQL\" chưa được duyệt.",
           "node_id": "node-cv-data_analyst-2-1",
           "path": null,
           "requirement_id": "req-node-cv-data_analyst-2-1-sk-sql"

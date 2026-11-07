@@ -2,12 +2,12 @@
   "programs": [
     {
       "id": "prog-cntt",
-      "name": "Công nghệ thông tin (mẫu)",
+      "name": "Công nghệ thông tin",
       "is_mock": true
     },
     {
       "id": "prog-khdl",
-      "name": "Khoa học dữ liệu (mẫu)",
+      "name": "Khoa học dữ liệu",
       "is_mock": true
     }
   ],
@@ -17,7 +17,7 @@
       "program_id": "prog-cntt",
       "version": 1,
       "effective_cohort": "K66",
-      "name": "CTĐT CNTT K66 (mẫu)",
+      "name": "CTĐT CNTT K66",
       "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
       "is_mock": true
     },
@@ -26,7 +26,7 @@
       "program_id": "prog-cntt",
       "version": 1,
       "effective_cohort": "K67",
-      "name": "CTĐT CNTT K67 (mẫu)",
+      "name": "CTĐT CNTT K67",
       "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
       "is_mock": true
     },
@@ -35,7 +35,7 @@
       "program_id": "prog-khdl",
       "version": 1,
       "effective_cohort": "K66",
-      "name": "CTĐT KHDL K66 (mẫu)",
+      "name": "CTĐT KHDL K66",
       "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
       "is_mock": true
     },
@@ -44,7 +44,7 @@
       "program_id": "prog-khdl",
       "version": 1,
       "effective_cohort": "K67",
-      "name": "CTĐT KHDL K67 (mẫu)",
+      "name": "CTĐT KHDL K67",
       "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
       "is_mock": true
     }
@@ -53,56 +53,56 @@
     {
       "id": "eg-pv-cntt-k66-t2",
       "program_version_id": "pv-cntt-k66",
-      "name": "Nhóm chuyên đề (mẫu)",
+      "name": "Nhóm chuyên đề",
       "min_credits": 2,
       "is_mock": true
     },
     {
       "id": "eg-pv-cntt-k66-t1",
       "program_version_id": "pv-cntt-k66",
-      "name": "Nhóm tự chọn CNTT (mẫu)",
+      "name": "Nhóm tự chọn CNTT",
       "min_credits": 6,
       "is_mock": true
     },
     {
       "id": "eg-pv-cntt-k67-t2",
       "program_version_id": "pv-cntt-k67",
-      "name": "Nhóm chuyên đề (mẫu)",
+      "name": "Nhóm chuyên đề",
       "min_credits": 2,
       "is_mock": true
     },
     {
       "id": "eg-pv-cntt-k67-t1",
       "program_version_id": "pv-cntt-k67",
-      "name": "Nhóm tự chọn CNTT (mẫu)",
+      "name": "Nhóm tự chọn CNTT",
       "min_credits": 6,
       "is_mock": true
     },
     {
       "id": "eg-pv-khdl-k66-t2",
       "program_version_id": "pv-khdl-k66",
-      "name": "Nhóm chuyên đề (mẫu)",
+      "name": "Nhóm chuyên đề",
       "min_credits": 2,
       "is_mock": true
     },
     {
       "id": "eg-pv-khdl-k66-t3",
       "program_version_id": "pv-khdl-k66",
-      "name": "Nhóm tự chọn KHDL (mẫu)",
+      "name": "Nhóm tự chọn KHDL",
       "min_credits": 6,
       "is_mock": true
     },
     {
       "id": "eg-pv-khdl-k67-t2",
       "program_version_id": "pv-khdl-k67",
-      "name": "Nhóm chuyên đề (mẫu)",
+      "name": "Nhóm chuyên đề",
       "min_credits": 2,
       "is_mock": true
     },
     {
       "id": "eg-pv-khdl-k67-t3",
       "program_version_id": "pv-khdl-k67",
-      "name": "Nhóm tự chọn KHDL (mẫu)",
+      "name": "Nhóm tự chọn KHDL",
       "min_credits": 6,
       "is_mock": true
     }

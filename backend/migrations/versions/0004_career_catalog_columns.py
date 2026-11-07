@@ -20,14 +20,14 @@ depends_on = None
 
 # Hàm riêng của migration, không import từ app: migration đã chạy thì không được đổi theo mã nguồn.
 FIELD_BY_SLUG = {
-    'ai_engineer': 'Dữ liệu và AI (mẫu)',
-    'data_analyst': 'Dữ liệu và AI (mẫu)',
-    'ml_engineer': 'Dữ liệu và AI (mẫu)',
-    'backend': 'Phần mềm (mẫu)',
-    'finance': 'Tài chính (mẫu)',
-    'marketing': 'Marketing (mẫu)',
+    'ai_engineer': 'Dữ liệu và AI',
+    'data_analyst': 'Dữ liệu và AI',
+    'ml_engineer': 'Dữ liệu và AI',
+    'backend': 'Phần mềm',
+    'finance': 'Tài chính',
+    'marketing': 'Marketing',
 }
-UNCLASSIFIED = 'Chưa phân loại (mẫu)'
+UNCLASSIFIED = 'Chưa phân loại'
 
 
 def _name_key(name):

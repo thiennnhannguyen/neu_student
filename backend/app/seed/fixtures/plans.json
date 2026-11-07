@@ -3,49 +3,49 @@
     {
       "id": "rat-gpa_low-1",
       "rule_code": "gpa",
-      "title": "Đặt lịch gặp cố vấn học tập (mẫu)",
+      "title": "Đặt lịch gặp cố vấn học tập",
       "order": 1,
       "is_mock": true
     },
     {
       "id": "rat-gpa_low-2",
       "rule_code": "gpa",
-      "title": "Chọn 2 môn cần ưu tiên cải thiện trong kỳ (mẫu)",
+      "title": "Chọn 2 môn cần ưu tiên cải thiện trong kỳ",
       "order": 2,
       "is_mock": true
     },
     {
       "id": "rat-gpa_low-3",
       "rule_code": "gpa",
-      "title": "Lập lịch ôn tập theo tuần (mẫu)",
+      "title": "Lập lịch ôn tập theo tuần",
       "order": 3,
       "is_mock": true
     },
     {
       "id": "rat-debt_credits-1",
       "rule_code": "debt",
-      "title": "Liệt kê các môn còn nợ (mẫu)",
+      "title": "Liệt kê các môn còn nợ",
       "order": 1,
       "is_mock": true
     },
     {
       "id": "rat-debt_credits-2",
       "rule_code": "debt",
-      "title": "Kiểm tra lịch mở lớp của môn cần học lại (mẫu)",
+      "title": "Kiểm tra lịch mở lớp của môn cần học lại",
       "order": 2,
       "is_mock": true
     },
     {
       "id": "rat-registration-1",
       "rule_code": "registration",
-      "title": "Rà soát số tín chỉ đăng ký với cố vấn (mẫu)",
+      "title": "Rà soát số tín chỉ đăng ký với cố vấn",
       "order": 1,
       "is_mock": true
     },
     {
       "id": "rat-registration-2",
       "rule_code": "registration",
-      "title": "Điều chỉnh kế hoạch đăng ký kỳ tới (mẫu)",
+      "title": "Điều chỉnh kế hoạch đăng ký kỳ tới",
       "order": 2,
       "is_mock": true
     }

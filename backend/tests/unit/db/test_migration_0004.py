@@ -57,7 +57,7 @@ def test_upgrade_gives_unknown_career_a_label(seeded_app):
     db.session.rollback()
 
     assert run_sql("SELECT field, name_key FROM careers WHERE id = 'c-moi'").one() == (
-        "Chưa phân loại (mẫu)",
+        "Chưa phân loại",
         "moi",
     )
 

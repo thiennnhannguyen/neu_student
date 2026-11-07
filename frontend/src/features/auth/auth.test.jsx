@@ -214,10 +214,10 @@ describe('401 giữa phiên', () => {
           : jsonResponse(200, {
               id: 'SV01',
               student_code: 'SV01',
-              full_name: 'Sinh viên (mẫu)',
+              full_name: 'Sinh viên',
               cohort: 'K66',
-              program: { id: 'p', name: 'Ngành (mẫu)' },
-              program_version: { id: 'v', name: 'CTĐT (mẫu)', version: 1 },
+              program: { id: 'p', name: 'Ngành' },
+              program_version: { id: 'v', name: 'CTĐT', version: 1 },
               current_semester: null,
               advisors: [],
               contact_email: null,
@@ -342,7 +342,7 @@ describe('menu và khung theo vai trò', () => {
       renderApp('/');
 
       const banner = await screen.findByRole('banner');
-      expect(within(banner).getByText(`Người dùng ${role} (mẫu)`)).toBeInTheDocument();
+      expect(within(banner).getByText(`Người dùng ${role}`)).toBeInTheDocument();
       expect(banner).toHaveTextContent(ROLE_LABELS[role]);
       await userEvent.setup().click(within(banner).getByRole('button', { name: /Người dùng/ }));
       expect(within(banner).getByRole('menuitem', { name: 'Đăng xuất' })).toBeInTheDocument();

@@ -74,15 +74,15 @@ def add_contract_rows(app) -> None:
     """Dữ liệu cho ví dụ trong docs/API.md mà fixture không có: nghề, kỹ năng chưa dùng, bản nháp"""
     for sql in (
         "INSERT INTO careers (id, slug, name, field, name_key, is_mock) VALUES "
-        "('career-tam', 'tam', 'Nghề tạm (mẫu)', 'Phần mềm (mẫu)', 'nghe tam (mau)', 1), "
-        "('career-nhap', 'nhap', 'Nghề nháp (mẫu)', 'Phần mềm (mẫu)', 'nghe nhap (mau)', 1)",
+        "('career-tam', 'tam', 'Nghề tạm', 'Phần mềm', 'nghe tam (mau)', 1), "
+        "('career-nhap', 'nhap', 'Nghề nháp', 'Phần mềm', 'nghe nhap (mau)', 1)",
         "INSERT INTO skills (id, name, kind, name_key, is_mock) VALUES "
-        "('sk-tam', 'Kỹ năng tạm (mẫu)', 'skill', 'ky nang tam (mau)', 1)",
+        "('sk-tam', 'Kỹ năng tạm', 'skill', 'ky nang tam (mau)', 1)",
         "INSERT INTO career_versions (id, career_id, version, status, is_mock) VALUES "
         "('cv-nhap', 'career-nhap', 1, 'draft', 1)",
         'INSERT INTO career_nodes (id, career_version_id, name, "order", is_mock) VALUES '
-        "('node-nhap', 'cv-nhap', 'Nhóm nháp (mẫu)', 1, 1), "
-        "('node-rong', 'cv-data_analyst-2', 'Nhóm rỗng (mẫu)', 2, 1)",
+        "('node-nhap', 'cv-nhap', 'Nhóm nháp', 1, 1), "
+        "('node-rong', 'cv-data_analyst-2', 'Nhóm rỗng', 2, 1)",
         "INSERT INTO career_requirements (id, career_version_id, career_node_id, kind, course_id, "
         "weight, source, status, approved_by, approved_at, is_mock) VALUES ('req-nhap', 'cv-nhap', "
         "'node-nhap', 'course', 'CNT101', 1, 'Nguồn mẫu', 'approved', 'user-admin', "

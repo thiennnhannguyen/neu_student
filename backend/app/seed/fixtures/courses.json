@@ -3,37 +3,37 @@
     {
       "id": "group-math",
       "slug": "math",
-      "name": "Toán (mẫu)",
+      "name": "Toán",
       "is_mock": true
     },
     {
       "id": "group-prog",
       "slug": "prog",
-      "name": "Lập trình (mẫu)",
+      "name": "Lập trình",
       "is_mock": true
     },
     {
       "id": "group-system",
       "slug": "system",
-      "name": "Hệ thống (mẫu)",
+      "name": "Hệ thống",
       "is_mock": true
     },
     {
       "id": "group-data",
       "slug": "data",
-      "name": "Dữ liệu (mẫu)",
+      "name": "Dữ liệu",
       "is_mock": true
     },
     {
       "id": "group-econ",
       "slug": "econ",
-      "name": "Kinh tế (mẫu)",
+      "name": "Kinh tế",
       "is_mock": true
     },
     {
       "id": "group-general",
       "slug": "general",
-      "name": "Đại cương (mẫu)",
+      "name": "Đại cương",
       "is_mock": true
     }
   ],
@@ -41,7 +41,7 @@
     {
       "id": "MAU101",
       "code": "MAU101",
-      "name": "Giải tích (mẫu)",
+      "name": "Giải tích",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -51,7 +51,7 @@
     {
       "id": "MAU102",
       "code": "MAU102",
-      "name": "Đại số tuyến tính (mẫu)",
+      "name": "Đại số tuyến tính",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -61,7 +61,7 @@
     {
       "id": "MAU103",
       "code": "MAU103",
-      "name": "Xác suất thống kê (mẫu)",
+      "name": "Xác suất thống kê",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -71,7 +71,7 @@
     {
       "id": "MAU104",
       "code": "MAU104",
-      "name": "Kinh tế học đại cương (mẫu)",
+      "name": "Kinh tế học đại cương",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -81,7 +81,7 @@
     {
       "id": "MAU105",
       "code": "MAU105",
-      "name": "Tiếng Anh cơ bản (mẫu)",
+      "name": "Tiếng Anh cơ bản",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -91,7 +91,7 @@
     {
       "id": "MAU106",
       "code": "MAU106",
-      "name": "Giáo dục thể chất 1 (mẫu)",
+      "name": "Giáo dục thể chất 1",
       "credits": 1,
       "counts_gpa": false,
       "is_mock": true,
@@ -101,7 +101,7 @@
     {
       "id": "MAU107",
       "code": "MAU107",
-      "name": "Giáo dục thể chất 2 (mẫu)",
+      "name": "Giáo dục thể chất 2",
       "credits": 1,
       "counts_gpa": false,
       "is_mock": true,
@@ -111,7 +111,7 @@
     {
       "id": "MAU108",
       "code": "MAU108",
-      "name": "Giáo dục quốc phòng (mẫu)",
+      "name": "Giáo dục quốc phòng",
       "credits": 2,
       "counts_gpa": false,
       "is_mock": true,
@@ -121,7 +121,7 @@
     {
       "id": "CNT101",
       "code": "CNT101",
-      "name": "Nhập môn lập trình (mẫu)",
+      "name": "Nhập môn lập trình",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -131,7 +131,7 @@
     {
       "id": "CNT102",
       "code": "CNT102",
-      "name": "Lập trình Python (mẫu)",
+      "name": "Lập trình Python",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -141,7 +141,7 @@
     {
       "id": "CNT201",
       "code": "CNT201",
-      "name": "Cấu trúc dữ liệu (mẫu)",
+      "name": "Cấu trúc dữ liệu",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -151,7 +151,7 @@
     {
       "id": "CNT202",
       "code": "CNT202",
-      "name": "Cấu trúc dữ liệu và giải thuật (mẫu)",
+      "name": "Cấu trúc dữ liệu và giải thuật",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -161,7 +161,7 @@
     {
       "id": "CNT203",
       "code": "CNT203",
-      "name": "Cơ sở dữ liệu (mẫu)",
+      "name": "Cơ sở dữ liệu",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -171,7 +171,7 @@
     {
       "id": "CNT204",
       "code": "CNT204",
-      "name": "Mạng máy tính (mẫu)",
+      "name": "Mạng máy tính",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -181,7 +181,7 @@
     {
       "id": "CNT205",
       "code": "CNT205",
-      "name": "Hệ điều hành (mẫu)",
+      "name": "Hệ điều hành",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -191,7 +191,7 @@
     {
       "id": "CNT301",
       "code": "CNT301",
-      "name": "Phát triển web backend (mẫu)",
+      "name": "Phát triển web backend",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -201,7 +201,7 @@
     {
       "id": "CNT302",
       "code": "CNT302",
-      "name": "Công nghệ phần mềm (mẫu)",
+      "name": "Công nghệ phần mềm",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -211,7 +211,7 @@
     {
       "id": "CNT303",
       "code": "CNT303",
-      "name": "Hệ thống phân tán (mẫu)",
+      "name": "Hệ thống phân tán",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -221,7 +221,7 @@
     {
       "id": "CNT304",
       "code": "CNT304",
-      "name": "An toàn thông tin (mẫu)",
+      "name": "An toàn thông tin",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -231,7 +231,7 @@
     {
       "id": "CNT305",
       "code": "CNT305",
-      "name": "Điện toán đám mây (mẫu)",
+      "name": "Điện toán đám mây",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -241,7 +241,7 @@
     {
       "id": "CNT306",
       "code": "CNT306",
-      "name": "Lập trình Java (mẫu)",
+      "name": "Lập trình Java",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -251,7 +251,7 @@
     {
       "id": "CNT401",
       "code": "CNT401",
-      "name": "Đồ án chuyên ngành (mẫu)",
+      "name": "Đồ án chuyên ngành",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -261,7 +261,7 @@
     {
       "id": "KDL201",
       "code": "KDL201",
-      "name": "Nhập môn khoa học dữ liệu (mẫu)",
+      "name": "Nhập môn khoa học dữ liệu",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -271,7 +271,7 @@
     {
       "id": "KDL202",
       "code": "KDL202",
-      "name": "Trực quan hóa dữ liệu (mẫu)",
+      "name": "Trực quan hóa dữ liệu",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -281,7 +281,7 @@
     {
       "id": "KDL301",
       "code": "KDL301",
-      "name": "Học máy (mẫu)",
+      "name": "Học máy",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -291,7 +291,7 @@
     {
       "id": "KDL302",
       "code": "KDL302",
-      "name": "Học sâu (mẫu)",
+      "name": "Học sâu",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -301,7 +301,7 @@
     {
       "id": "KDL303",
       "code": "KDL303",
-      "name": "Xử lý ngôn ngữ tự nhiên (mẫu)",
+      "name": "Xử lý ngôn ngữ tự nhiên",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -311,7 +311,7 @@
     {
       "id": "KDL304",
       "code": "KDL304",
-      "name": "Triển khai mô hình học máy (mẫu)",
+      "name": "Triển khai mô hình học máy",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -321,7 +321,7 @@
     {
       "id": "KDL305",
       "code": "KDL305",
-      "name": "Kho dữ liệu (mẫu)",
+      "name": "Kho dữ liệu",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -331,7 +331,7 @@
     {
       "id": "KDL306",
       "code": "KDL306",
-      "name": "Phân tích dữ liệu lớn (mẫu)",
+      "name": "Phân tích dữ liệu lớn",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -341,7 +341,7 @@
     {
       "id": "KDL307",
       "code": "KDL307",
-      "name": "Phân tích kinh doanh (mẫu)",
+      "name": "Phân tích kinh doanh",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -351,7 +351,7 @@
     {
       "id": "KDL401",
       "code": "KDL401",
-      "name": "Đồ án khoa học dữ liệu (mẫu)",
+      "name": "Đồ án khoa học dữ liệu",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -361,7 +361,7 @@
     {
       "id": "KTE201",
       "code": "KTE201",
-      "name": "Nguyên lý kế toán (mẫu)",
+      "name": "Nguyên lý kế toán",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -371,7 +371,7 @@
     {
       "id": "KTE202",
       "code": "KTE202",
-      "name": "Tài chính doanh nghiệp (mẫu)",
+      "name": "Tài chính doanh nghiệp",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -381,7 +381,7 @@
     {
       "id": "KTE203",
       "code": "KTE203",
-      "name": "Marketing căn bản (mẫu)",
+      "name": "Marketing căn bản",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -391,7 +391,7 @@
     {
       "id": "KTE301",
       "code": "KTE301",
-      "name": "Phân tích báo cáo tài chính (mẫu)",
+      "name": "Phân tích báo cáo tài chính",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -401,7 +401,7 @@
     {
       "id": "KTE302",
       "code": "KTE302",
-      "name": "Marketing số (mẫu)",
+      "name": "Marketing số",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -411,7 +411,7 @@
     {
       "id": "KTE303",
       "code": "KTE303",
-      "name": "Phân tích hành vi khách hàng (mẫu)",
+      "name": "Phân tích hành vi khách hàng",
       "credits": 3,
       "counts_gpa": true,
       "is_mock": true,
@@ -421,7 +421,7 @@
     {
       "id": "course-cd-a",
       "code": null,
-      "name": "Chuyên đề thực tế (mẫu)",
+      "name": "Chuyên đề thực tế",
       "credits": 2,
       "counts_gpa": true,
       "is_mock": true,
@@ -431,7 +431,7 @@
     {
       "id": "course-cd-b",
       "code": null,
-      "name": "Chuyên đề thực tế (mẫu)",
+      "name": "Chuyên đề thực tế",
       "credits": 2,
       "counts_gpa": true,
       "is_mock": true,
@@ -685,7 +685,7 @@
       "course_a_id": "CNT201",
       "course_b_id": "CNT202",
       "status": "approved",
-      "source": "Nhóm dự án tự soạn cho demo (mẫu), không phải yêu cầu chính thức",
+      "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
       "approved_by": "user-admin",
       "approved_at": "2026-08-15T09:00:00",
       "is_mock": true

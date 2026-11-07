@@ -25,10 +25,7 @@ export default function CareerHero({ profile, progress, action, isPrimary, fit }
       <div className="career-hero__body">
         <p className="career-hero__group">{groupLabel(profile.group)}</p>
         <h1 id="career-hero-title">{profile.display_name}</h1>
-        <p className="career-hero__en">
-          {profile.name_en}
-          {profile.is_mock && <span className="career-card__mock"> (mẫu)</span>}
-        </p>
+        <p className="career-hero__en">{profile.name_en}</p>
         {profile.tagline && <p className="career-hero__tagline">{profile.tagline}</p>}
         {profile.objective && (
           <p className="career-hero__objective">

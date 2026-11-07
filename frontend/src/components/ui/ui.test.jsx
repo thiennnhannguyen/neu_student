@@ -105,10 +105,10 @@ describe('Card, PageHeader, Badge, Avatar, Skeleton', () => {
   });
 
   it.each([
-    ['Sinh viên 01 (mẫu)', 'SV'],
-    ['Quản trị viên (mẫu)', 'QV'],
+    ['Sinh viên 01', 'SV'],
+    ['Quản trị viên', 'QV'],
     ['admin', 'A'],
-    ['(mẫu)', '?'],
+    ['', '?'],
   ])('Avatar: %s -> %s', (name, expected) => {
     expect(initialsOf(name)).toBe(expected);
   });

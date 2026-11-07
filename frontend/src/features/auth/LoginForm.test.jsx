@@ -236,8 +236,8 @@ describe('bàn phím', () => {
 
 describe('hộp tài khoản demo (profile demo-k68)', () => {
   const ACCOUNTS = [
-    { username: 'demo05', full_name: 'Sinh viên DEMO05 (mẫu)', role: 'student' },
-    { username: 'gv2', full_name: 'Cố vấn 2 (mẫu)', role: 'advisor' },
+    { username: 'demo05', full_name: 'Sinh viên DEMO05', role: 'student' },
+    { username: 'gv2', full_name: 'Cố vấn 2', role: 'advisor' },
   ];
 
   function withAccounts(handler) {

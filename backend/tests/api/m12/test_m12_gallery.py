@@ -22,10 +22,10 @@ def test_gallery_on_test_profile_has_full_coverage_and_percent(http_app):
     assert ai["low_coverage"] is False
     assert ai["fits_major"] is None
     assert ai["career"]["display_name"] == "AI Engineer"
-    assert ai["career"]["name"] == "AI Engineer (mẫu)"
+    assert ai["career"]["name"] == "AI Engineer"
     assert ai["career"]["is_mock"] is True
     assert ai["career"]["illustration_key"] == "ai"
-    assert "Dữ liệu và AI (mẫu)" in body["groups"]
+    assert "Dữ liệu và AI" in body["groups"]
 
 
 def test_gallery_rejects_unknown_sort(http_app):

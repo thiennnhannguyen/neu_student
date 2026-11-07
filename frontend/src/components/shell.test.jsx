@@ -44,7 +44,7 @@ describe('sidebar', () => {
     expect(within(nav()).getByText('NEU Student')).toBeInTheDocument();
     expect(within(nav()).getByText('Learning Platform')).toBeInTheDocument();
     expect(nav().querySelector('.motif-mosaic')).toHaveAttribute('aria-hidden', 'true');
-    expect(within(nav()).getByText('Người dùng admin (mẫu)')).toBeInTheDocument();
+    expect(within(nav()).getByText('Người dùng admin')).toBeInTheDocument();
   });
 
   it('thu gọn: nhớ trong localStorage, tên mục vẫn đọc được, mở lại được', async () => {
@@ -202,11 +202,11 @@ describe('một tiêu đề cho mỗi màn hình', () => {
         jsonResponse(200, {
           id: 'SV01',
           student_code: 'SV01',
-          full_name: 'Sinh viên 01 (mẫu)',
+          full_name: 'Sinh viên 01',
           cohort: 'K66',
-          program: { id: 'prog', name: 'CNTT (mẫu)' },
-          program_version: { id: 'pv', name: 'CTĐT K66 (mẫu)', version: 1 },
-          current_semester: { id: 'S5', name: 'HK1 (mẫu)' },
+          program: { id: 'prog', name: 'CNTT' },
+          program_version: { id: 'pv', name: 'CTĐT K66', version: 1 },
+          current_semester: { id: 'S5', name: 'HK1' },
           advisors: [],
           contact_email: null,
           contact_phone: null,
@@ -270,7 +270,7 @@ describe('trang theo vai trò', () => {
     renderApp('/');
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Tổng quan' })).toBeInTheDocument();
-    expect(screen.getByText('Chào Người dùng support_staff (mẫu)')).toBeInTheDocument();
+    expect(screen.getByText('Chào Người dùng support_staff')).toBeInTheDocument();
     const shortcuts = screen.getByRole('region', { name: 'Lối tắt' });
     expect(
       within(shortcuts)
@@ -286,14 +286,14 @@ describe('trang theo vai trò', () => {
       'GET /api/students/me': () =>
         jsonResponse(200, {
           cohort: 'K66',
-          program: { name: 'CNTT (mẫu)' },
-          current_semester: { name: 'HK1 (mẫu)' },
+          program: { name: 'CNTT' },
+          current_semester: { name: 'HK1' },
         }),
     });
 
     renderApp('/');
 
-    expect(await screen.findByText('K66 · CNTT (mẫu) · HK1 (mẫu)')).toBeInTheDocument();
+    expect(await screen.findByText('K66 · CNTT · HK1')).toBeInTheDocument();
     const shortcuts = screen.getByRole('region', { name: 'Lối tắt' });
     expect(within(shortcuts).getAllByRole('link')).toHaveLength(4);
   });
@@ -305,7 +305,7 @@ describe('trang theo vai trò', () => {
 
       renderApp('/');
 
-      await screen.findByText(`Chào Người dùng ${role} (mẫu)`);
+      await screen.findByText(`Chào Người dùng ${role}`);
       expect(fetchMock.mock.calls.filter(([url]) => url === '/api/students/me')).toEqual([]);
     },
   );

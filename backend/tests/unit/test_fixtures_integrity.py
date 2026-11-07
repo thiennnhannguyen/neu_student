@@ -172,8 +172,9 @@ def test_every_record_is_mock(tables):
 
 
 @pytest.mark.parametrize("table", ["programs", "courses", "careers", "course_groups"])
-def test_names_have_mock_suffix(tables, table):
-    assert [r["name"] for r in tables[table] if not r["name"].endswith("(mẫu)")] == []
+def test_display_names_have_no_mock_suffix(tables, table):
+    """Nhận diện dữ liệu mẫu nằm ở is_mock và badge giao diện, không nằm ở tên."""
+    assert [r["name"] for r in tables[table] if "mẫu)" in r["name"]] == []
 
 
 # ---------- Chương trình, học kỳ, học phần
@@ -202,9 +203,9 @@ def test_ten_semesters_exactly_one_current(tables):
     semesters = sorted(tables["semesters"], key=lambda s: s["order"])
     assert len(semesters) == 10
     assert [s["id"] for s in semesters if s["is_current"]] == ["S5"]
-    assert semesters[0]["name"] == "HK1 2024-2025 (mẫu)"
-    assert semesters[4]["name"] == "HK1 2026-2027 (mẫu)"
-    assert semesters[7]["name"] == "HK2 2027-2028 (mẫu)"
+    assert semesters[0]["name"] == "HK1 2024-2025"
+    assert semesters[4]["name"] == "HK1 2026-2027"
+    assert semesters[7]["name"] == "HK2 2027-2028"
     assert not [s for s in semesters if "hè" in s["name"].lower()]
 
 
@@ -624,17 +625,16 @@ def test_application_code_does_not_use_reference_calculation():
 
 def test_career_fixtures_have_field_and_normalized_name_key(tables):
     for career in tables["careers"]:
-        assert career["field"].endswith("(mẫu)")
         assert career["name_key"] == normalize_name(career["name"])
     for skill in tables["skills"]:
         assert skill["name_key"] == normalize_name(skill["name"])
     assert {c["slug"]: c["field"] for c in tables["careers"]} == {
-        "ai_engineer": "Dữ liệu và AI (mẫu)",
-        "data_analyst": "Dữ liệu và AI (mẫu)",
-        "ml_engineer": "Dữ liệu và AI (mẫu)",
-        "backend": "Phần mềm (mẫu)",
-        "finance": "Tài chính (mẫu)",
-        "marketing": "Marketing (mẫu)",
+        "ai_engineer": "Dữ liệu và AI",
+        "data_analyst": "Dữ liệu và AI",
+        "ml_engineer": "Dữ liệu và AI",
+        "backend": "Phần mềm",
+        "finance": "Tài chính",
+        "marketing": "Marketing",
     }
 
 
@@ -649,5 +649,5 @@ def test_short_desc_is_handwritten_not_from_name(tables, table, count):
         text = row["short_desc"]
         assert 0 < len(text) <= 120, row["id"]
         assert not text.isascii(), row["id"]
-        assert normalize_name(row["name"].removesuffix(" (mẫu)")) != normalize_name(text), row["id"]
+        assert normalize_name(row["name"]) != normalize_name(text), row["id"]
     assert len({row["short_desc"] for row in rows}) == count

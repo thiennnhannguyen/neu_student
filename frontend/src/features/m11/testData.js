@@ -9,8 +9,8 @@ const META = {
 
 export const SEMESTERS = {
   items: [
-    { id: 'S4', name: 'HK2 2025-2026 (mẫu)', order: 4, is_current: false },
-    { id: 'S5', name: 'HK1 2026-2027 (mẫu)', order: 5, is_current: true },
+    { id: 'S4', name: 'HK2 2025-2026', order: 4, is_current: false },
+    { id: 'S5', name: 'HK1 2026-2027', order: 5, is_current: true },
   ],
   current_id: 'S5',
 };
@@ -59,10 +59,10 @@ export function gradeRow(overrides = {}) {
   return {
     course_id: 'CNT101',
     code: 'CNT101',
-    name: 'Nhập môn (mẫu)',
+    name: 'Nhập môn',
     credits: 3,
     counts_gpa: true,
-    semester: { id: 'S4', name: 'HK2 2025-2026 (mẫu)', order: 4 },
+    semester: { id: 'S4', name: 'HK2 2025-2026', order: 4 },
     score_10: '8.60',
     letter: 'A',
     grade_4: '4.00',
@@ -79,11 +79,11 @@ export function gradesBody(items, overrides = {}) {
 }
 
 export const ATTEMPTS = {
-  course: { course_id: 'MAU101', code: 'MAU101', name: 'Giải tích (mẫu)' },
+  course: { course_id: 'MAU101', code: 'MAU101', name: 'Giải tích' },
   items: [
     {
       ordinal: 1,
-      semester: { id: 'S1', name: 'HK1 2024-2025 (mẫu)', order: 1 },
+      semester: { id: 'S1', name: 'HK1 2024-2025', order: 1 },
       status: 'final',
       score_10: '3.00',
       letter: 'F',
@@ -93,7 +93,7 @@ export const ATTEMPTS = {
     },
     {
       ordinal: 2,
-      semester: { id: 'S3', name: 'HK1 2025-2026 (mẫu)', order: 3 },
+      semester: { id: 'S3', name: 'HK1 2025-2026', order: 3 },
       status: 'final',
       score_10: '8.60',
       letter: 'A',
@@ -103,7 +103,7 @@ export const ATTEMPTS = {
     },
     {
       ordinal: 3,
-      semester: { id: 'S5', name: 'HK1 2026-2027 (mẫu)', order: 5 },
+      semester: { id: 'S5', name: 'HK1 2026-2027', order: 5 },
       status: 'in_progress',
       score_10: null,
       letter: null,
@@ -117,8 +117,8 @@ export const ATTEMPTS = {
 
 export const TREND = {
   points: [
-    { semester_id: 'S4', order: 4, name: 'HK2 2025-2026 (mẫu)', value: '2.75' },
-    { semester_id: 'S5', order: 5, name: 'HK1 2026-2027 (mẫu)', value: null },
+    { semester_id: 'S4', order: 4, name: 'HK2 2025-2026', value: '2.75' },
+    { semester_id: 'S5', order: 5, name: 'HK1 2026-2027', value: null },
   ],
   direction: 'stable',
   summary: 'GPA kỳ S4 ổn định so với kỳ S3, chênh 0,05.',
@@ -149,7 +149,7 @@ export const CREDITS = {
 
 export const CURRICULUM = {
   program: { program_version_id: 'pv', name: 'CTĐT mẫu', effective_cohort: 'K66' },
-  missing_required: [{ course_id: 'c1', code: null, name: 'Môn thiếu mã (mẫu)', credits: 3 }],
+  missing_required: [{ course_id: 'c1', code: null, name: 'Môn thiếu mã', credits: 3 }],
   unmet_elective_groups: [
     {
       group_id: 'eg',
@@ -165,7 +165,7 @@ export const CURRICULUM = {
     {
       course_id: 'c2',
       code: 'CNT303',
-      name: 'Hệ thống (mẫu)',
+      name: 'Hệ thống',
       credits: 3,
       missing_prerequisites: [{ course_id: 'c3', code: 'CNT301', name: 'Web', credits: 3 }],
     },
@@ -202,7 +202,7 @@ export const STRENGTHS = {
 export const COMPARE = {
   semester_a: {
     semester_id: 'S4',
-    name: 'HK2 2025-2026 (mẫu)',
+    name: 'HK2 2025-2026',
     gpa: '2.75',
     credits: 12,
     passed_count: 3,
@@ -210,7 +210,7 @@ export const COMPARE = {
   },
   semester_b: {
     semester_id: 'S5',
-    name: 'HK1 2026-2027 (mẫu)',
+    name: 'HK1 2026-2027',
     gpa: '3.00',
     credits: 15,
     passed_count: 5,
@@ -278,8 +278,8 @@ export function m11Api(role = 'student', extra = {}) {
   return loggedInAs(role, {
     'GET /api/students/me': respond({
       cohort: 'K66',
-      program: { name: 'CNTT (mẫu)' },
-      current_semester: { name: 'HK1 (mẫu)' },
+      program: { name: 'CNTT' },
+      current_semester: { name: 'HK1' },
     }),
     'GET /api/m11/semesters': respond(SEMESTERS),
     'GET /api/m11/overview': respond(overviewBody()),

@@ -19,7 +19,7 @@ export function card(id, display_name, name_en, group, extra = {}) {
   return {
     id: `career-${id}`,
     slug: id,
-    name: `${display_name} (mẫu)`,
+    name: `${display_name}`,
     field: group,
     display_name,
     name_en,

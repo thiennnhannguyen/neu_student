@@ -556,7 +556,7 @@ class Builder:
                 users,
                 id=user_id,
                 username=student_id.lower(),
-                full_name=f"Sinh viên {student_id} (mẫu)",
+                full_name=f"Sinh viên {student_id}",
                 role_id="role-student",
                 demo_password="Demo@12345",
             )
@@ -631,7 +631,7 @@ class Builder:
                     id=f"ev-{student_id}-{number}",
                     student_id=student_id,
                     skill_id=skills[skill],
-                    description=f"Minh chứng cho: {skill} (mẫu)",
+                    description=f"Minh chứng cho: {skill}",
                     link="https://example.test/mau/minh-chung",
                     status=status,
                     reviewed_by=f"user-{person['advisor']}" if reviewed else None,

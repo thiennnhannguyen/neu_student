@@ -62,7 +62,7 @@ R11. Lộ trình không xếp môn trước tiên quyết; thiếu dữ liệu m
 R12. Cảnh báo học vụ và khuyến nghị chỉ mang tính tham khảo; UI phải ghi rõ điều này. Ánh xạ môn–nghề cần nguồn và người duyệt; không suy diễn từ tên môn.
 
 DỮ LIỆU VÀ THƯƠNG HIỆU
-- Không có kết nối dữ liệu NEU thật. Toàn bộ dữ liệu là mock, is_mock = true, UI hiện nhãn "Dữ liệu mẫu". Không ghi mã môn, ngưỡng hay CTĐT nào là "chính thức của NEU".
+- Không có kết nối dữ liệu NEU thật. Toàn bộ dữ liệu là mock, is_mock = true, UI hiện nhãn "Dữ liệu mẫu". Được dẫn nguồn văn bản do Trường công bố kèm URL (ví dụ "Theo CTĐT do Trường công bố (nguồn: courses.neu.edu.vn) – dữ liệu sinh viên là mẫu"). Vẫn cấm nói hệ thống, ngưỡng, quy chế là "chính thức của NEU". Tên hiển thị không có hậu tố "(mẫu)": nhận diện dữ liệu mẫu nằm ở is_mock, badge và dòng chân trang.
 - Bất kỳ trang nào có logo hoặc tên trường đều phải có badge "Dữ liệu mẫu" và dòng "Sản phẩm bài tập lớn – không phải hệ thống chính thức của Đại học Kinh tế Quốc dân." Không được gỡ 2 nội dung này.
 - Giao diện dựng bằng component trong frontend/src/components/ui/ và token trong tokens.css; màu mới phải có test tương phản. Họa tiết sau đăng nhập chỉ ở 4 vị trí: đáy sidebar, dải nhỏ bên phải PageHeader (khi PageHeader không có bộ lọc), thẻ chào mừng, minh họa của EmptyState/ErrorState/404; không nằm sau bảng số, biểu đồ, form.
 - Mỗi màn hình đúng một h1, nằm ở PageHeader; topbar chỉ có đường dẫn phân cấp. Riêng Tổng quan không có PageHeader, h1 chỉ cho trình đọc màn hình. Dưới 768px topbar một hàng; chọn sinh viên và kỳ nằm trong bottom sheet mở từ chip "Đang xem".

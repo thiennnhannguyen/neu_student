@@ -121,7 +121,7 @@ test('5. demo01 tạo ticket, ht1 chuyển cần bổ sung, demo01 trả lời',
   await page.goto('/m12/yeu-cau-ho-tro');
   await page.getByRole('button', { name: 'Tạo yêu cầu' }).click();
   await page.getByLabel('Tiêu đề').fill('Xin xác nhận đăng ký học phần');
-  await page.getByLabel('Nhóm vấn đề').selectOption({ label: 'Học vụ (mẫu)' });
+  await page.getByLabel('Nhóm vấn đề').selectOption({ label: 'Học vụ' });
   await page.getByLabel('Mô tả').fill('Em cần xác nhận trước hạn.');
   await page.getByRole('button', { name: 'Gửi yêu cầu' }).click();
   await expect(page).toHaveURL(/\/m12\/yeu-cau-ho-tro\/.+/);

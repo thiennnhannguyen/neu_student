@@ -249,7 +249,7 @@ def test_tc10_related_sorts_differently_and_filters_by_field(sv07):
     assert first != second
     assert set(first) == set(second) == CAREER_IDS - {AI}
     assert closeness["sort"] == "closeness" and fit["sort"] == "profile_fit"
-    filtered = sv07.get(RELATED, query_string={"field": "Dữ liệu và AI (mẫu)"}).get_json()
+    filtered = sv07.get(RELATED, query_string={"field": "Dữ liệu và AI"}).get_json()
     assert {item["career"]["id"] for item in filtered["items"]} == {ANALYST, "career-ml_engineer"}
 
 
@@ -362,7 +362,7 @@ def test_student_without_primary(http_app):
     assert related["total"] == 6
     assert all(item["closeness"] is None for item in related["items"])
     names = [item["career"]["name"] for item in related["items"]]
-    assert names[0] == "AI Engineer (mẫu)"
+    assert names[0] == "AI Engineer"
     assert fit["total"] == 6
 
 
@@ -375,10 +375,10 @@ def test_related_excludes_primary_and_has_fields(sv07):
     assert body["primary_career"]["id"] == AI
     assert body["total"] == 5
     assert body["fields"] == [
-        "Dữ liệu và AI (mẫu)",
-        "Marketing (mẫu)",
-        "Phần mềm (mẫu)",
-        "Tài chính (mẫu)",
+        "Dữ liệu và AI",
+        "Marketing",
+        "Phần mềm",
+        "Tài chính",
     ]
     assert body["data_warnings"] == []
 

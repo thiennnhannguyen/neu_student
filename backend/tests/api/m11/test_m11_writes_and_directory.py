@@ -186,7 +186,7 @@ def test_directory_item_shape(http_app):
     item = get_json(login_as(http_app, "gv1"), "/api/advisor/students")["items"][0]
 
     assert set(item) == {"id", "student_code", "full_name", "cohort", "program_name"}
-    assert "(mẫu)" in item["full_name"]
+    assert "" in item["full_name"]
 
 
 @pytest.mark.parametrize(

@@ -19,10 +19,7 @@ export default function CareerCard({ item, link }) {
         <strong className="career-card__name" title={career.display_name}>
           {career.display_name}
         </strong>
-        <span className="career-card__en">
-          {career.name_en ?? career.group}
-          {career.is_mock && <span className="career-card__mock"> (mẫu)</span>}
-        </span>
+        <span className="career-card__en">{career.name_en ?? career.group}</span>
         {item.fits_major && (
           <span className="career-card__fit">Hợp ngành {item.fits_major.code}</span>
         )}

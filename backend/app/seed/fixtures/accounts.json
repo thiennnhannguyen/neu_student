@@ -25,7 +25,7 @@
     {
       "id": "user-admin",
       "username": "admin",
-      "full_name": "Quản trị viên (mẫu)",
+      "full_name": "Quản trị viên",
       "role_id": "role-admin",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -33,7 +33,7 @@
     {
       "id": "user-gv1",
       "username": "gv1",
-      "full_name": "Cố vấn 1 (mẫu)",
+      "full_name": "Cố vấn 1",
       "role_id": "role-advisor",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -41,7 +41,7 @@
     {
       "id": "user-gv2",
       "username": "gv2",
-      "full_name": "Cố vấn 2 (mẫu)",
+      "full_name": "Cố vấn 2",
       "role_id": "role-advisor",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -49,7 +49,7 @@
     {
       "id": "user-ht1",
       "username": "ht1",
-      "full_name": "Nhân sự hỗ trợ 1 (mẫu)",
+      "full_name": "Nhân sự hỗ trợ 1",
       "role_id": "role-support_staff",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -57,7 +57,7 @@
     {
       "id": "user-ht2",
       "username": "ht2",
-      "full_name": "Nhân sự hỗ trợ 2 (mẫu)",
+      "full_name": "Nhân sự hỗ trợ 2",
       "role_id": "role-support_staff",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -65,7 +65,7 @@
     {
       "id": "user-sv01",
       "username": "sv01",
-      "full_name": "Sinh viên 01 (mẫu)",
+      "full_name": "Sinh viên 01",
       "role_id": "role-student",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -73,7 +73,7 @@
     {
       "id": "user-sv02",
       "username": "sv02",
-      "full_name": "Sinh viên 02 (mẫu)",
+      "full_name": "Sinh viên 02",
       "role_id": "role-student",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -81,7 +81,7 @@
     {
       "id": "user-sv03",
       "username": "sv03",
-      "full_name": "Sinh viên 03 (mẫu)",
+      "full_name": "Sinh viên 03",
       "role_id": "role-student",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -89,7 +89,7 @@
     {
       "id": "user-sv04",
       "username": "sv04",
-      "full_name": "Sinh viên 04 (mẫu)",
+      "full_name": "Sinh viên 04",
       "role_id": "role-student",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -97,7 +97,7 @@
     {
       "id": "user-sv05",
       "username": "sv05",
-      "full_name": "Sinh viên 05 (mẫu)",
+      "full_name": "Sinh viên 05",
       "role_id": "role-student",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -105,7 +105,7 @@
     {
       "id": "user-sv06",
       "username": "sv06",
-      "full_name": "Sinh viên 06 (mẫu)",
+      "full_name": "Sinh viên 06",
       "role_id": "role-student",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -113,7 +113,7 @@
     {
       "id": "user-sv07",
       "username": "sv07",
-      "full_name": "Sinh viên 07 (mẫu)",
+      "full_name": "Sinh viên 07",
       "role_id": "role-student",
       "demo_password": "Demo@12345",
       "is_mock": true
@@ -245,12 +245,12 @@
   "support_categories": [
     {
       "id": "cat-hocvu",
-      "name": "Học vụ (mẫu)",
+      "name": "Học vụ",
       "is_mock": true
     },
     {
       "id": "cat-kythuat",
-      "name": "Kỹ thuật (mẫu)",
+      "name": "Kỹ thuật",
       "is_mock": true
     }
   ],

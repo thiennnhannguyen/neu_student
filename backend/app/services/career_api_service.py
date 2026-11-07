@@ -15,7 +15,6 @@ from app.services.career_graph_service import build_tree
 from app.services.career_loader import load_career_version
 
 CACHE_KEY = "career_tree_cache"
-MOCK_SUFFIX = " (mẫu)"
 
 
 def tree_cache() -> ResultCache:
@@ -69,8 +68,7 @@ def career_summary(career: Career) -> dict:
 
 
 def display_name(career: Career) -> str:
-    """Tiêu đề thẻ không có hậu tố mẫu; nhãn "(mẫu)" nhỏ do giao diện hiện theo is_mock."""
-    return career.name.removesuffix(MOCK_SUFFIX)
+    return career.name
 
 
 def career_card(career: Career) -> dict:

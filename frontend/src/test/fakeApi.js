@@ -25,7 +25,7 @@ export function pendingResponse() {
 
 export function identityFor(role, username = role) {
   return {
-    user: { id: `user-${username}`, username, full_name: `Người dùng ${username} (mẫu)` },
+    user: { id: `user-${username}`, username, full_name: `Người dùng ${username}` },
     role,
     student_id: role === 'student' ? 'SV01' : null,
   };

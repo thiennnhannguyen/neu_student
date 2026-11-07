@@ -108,7 +108,7 @@ def test_student_role_without_profile_gets_404(seeded_app):
         id="user-chua-ho-so",
         username="chua-ho-so",
         password_hash="x",
-        full_name="Chưa có hồ sơ (mẫu)",
+        full_name="Chưa có hồ sơ",
         role_id="role-student",
         is_mock=True,
     )
