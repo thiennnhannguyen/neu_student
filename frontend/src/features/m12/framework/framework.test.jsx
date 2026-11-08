@@ -197,15 +197,13 @@ describe('tab Khung năng lực', () => {
     ).toBeInTheDocument();
   });
 
-  it('bộ tự chọn đề xuất có môn bị thay và chênh lệch phân bổ', async () => {
+  it('không còn hàng chú giải và khối "Bộ tự chọn đề xuất cho Backend" (D-305)', async () => {
     await openFramework(frameworkBody());
 
-    expect(screen.getByText(/CNTT1174 Đồ họa máy tính thay cho/)).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /bộ đề xuất HK4: 9, HK5: 9, HK6: 6, HK7: 6;\s+PDF ghi HK4: 6, HK5: 6, HK6: 9, HK7: 9/,
-      ),
-    ).toBeInTheDocument();
+    expect(screen.queryByRole('list', { name: 'Chú giải trạng thái' })).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'Bộ tự chọn đề xuất cho Backend' })).toBeNull();
+    expect(screen.queryByText(/CNTT1174 Đồ họa máy tính thay cho/)).toBeNull();
+    expect(screen.queryByText(/Tín chỉ tự chọn theo học kỳ/)).toBeNull();
   });
 
   it('bấm Làm bài kiểm tra: mở bài', async () => {
@@ -531,7 +529,7 @@ describe('xác thực công khai', () => {
     expect(await screen.findByText('Còn hiệu lực')).toBeInTheDocument();
     expect(screen.getByText('Nguyễn Thiện Nhân')).toBeInTheDocument();
     expect(screen.getByText(NOTICE)).toBeInTheDocument();
-    expect(screen.getByText('Dữ liệu mẫu')).toBeInTheDocument();
+    expect(screen.queryByText('Dữ liệu mẫu')).toBeNull();
     expect(screen.getByText(/không phải hệ thống chính thức/)).toBeInTheDocument();
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
     expect(screen.queryByRole('img')).toBeNull();

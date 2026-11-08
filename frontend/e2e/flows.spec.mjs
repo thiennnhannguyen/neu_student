@@ -77,7 +77,7 @@ test('3. nộp minh chứng, cố vấn duyệt, sinh viên thấy % đổi và 
   const skill = await form.getByRole('heading').first().textContent();
   await form.getByLabel('Mô tả').fill('Kho mã và báo cáo của nhóm');
   await form.getByRole('button', { name: 'Nộp minh chứng' }).click();
-  await expect(form.getByText('Chờ duyệt').first()).toBeVisible();
+  await expect(form.getByRole('img', { name: 'Chờ duyệt' }).first()).toBeVisible();
 
   await login(page, 'gv2');
   await page.goto('/m12/duyet-minh-chung');

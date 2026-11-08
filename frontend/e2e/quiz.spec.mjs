@@ -96,7 +96,8 @@ test('thiennhan đạt mô-đun 3, có chứng chỉ, xác thực được khi c
   await expect(open.getByRole('heading', { level: 1, name: 'Xác thực chứng chỉ' })).toBeVisible();
   await expect(open.getByText('Nguyễn Thiện Nhân')).toBeVisible();
   await expect(open.getByText('Còn hiệu lực')).toBeVisible();
-  await expect(open.getByText('Dữ liệu mẫu')).toBeVisible();
+  await expect(open.getByText('Dữ liệu mẫu')).toHaveCount(0);
+  await expect(open.getByText('không phải hệ thống chính thức').first()).toBeVisible();
   await open.goto(`${new URL(url).origin}/xac-thuc/ma-sai`);
   await expect(open.getByText('Không tìm thấy chứng chỉ với mã này')).toBeVisible();
   await stranger.close();

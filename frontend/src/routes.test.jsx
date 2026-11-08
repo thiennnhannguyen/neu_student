@@ -11,13 +11,13 @@ import {
 } from './test/fakeApi';
 
 describe('khung ứng dụng', () => {
-  it('luôn có nhãn "Dữ liệu mẫu" và chỗ logo', async () => {
+  it('không còn nhãn "Dữ liệu mẫu" (D-305); có chỗ logo và dòng chân trang', async () => {
     loggedInAs('support_staff');
 
     renderApp('/');
 
     const banner = await screen.findByRole('banner');
-    expect(within(banner).getByText('Dữ liệu mẫu')).toBeInTheDocument();
+    expect(within(banner).queryByText('Dữ liệu mẫu')).toBeNull();
     const nav = screen.getByRole('navigation', { name: 'Menu chính' });
     expect(within(nav).getByRole('img')).toHaveAttribute('src', '/images/brand/logo_neu.svg');
     expect(

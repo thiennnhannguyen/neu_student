@@ -252,7 +252,7 @@ describe('một tiêu đề cho mỗi màn hình', () => {
 
 describe('trang theo vai trò', () => {
   it.each(['student', 'advisor', 'support_staff', 'admin'])(
-    '%s: mọi trang có dòng chân trang và badge mẫu',
+    '%s: mọi trang có dòng chân trang, không còn badge mẫu (D-305)',
     async (role) => {
       loggedInAs(role);
 
@@ -260,7 +260,7 @@ describe('trang theo vai trò', () => {
 
       await screen.findByRole('heading', { name: 'Không tìm thấy trang' });
       expect(screen.getByText(MOCK_NOTICE)).toBeInTheDocument();
-      expect(screen.getByText('Dữ liệu mẫu')).toBeInTheDocument();
+      expect(screen.queryByText('Dữ liệu mẫu')).toBeNull();
     },
   );
 

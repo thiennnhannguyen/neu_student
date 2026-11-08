@@ -168,13 +168,13 @@ describe('đăng nhập', () => {
     expect(await screen.findByRole('heading', { name: 'Tổng quan' })).toBeInTheDocument();
   });
 
-  it('trang đăng nhập luôn có badge "Dữ liệu mẫu" và dòng không phải hệ thống chính thức', async () => {
+  it('trang đăng nhập không còn badge "Dữ liệu mẫu" (D-305), vẫn có dòng không phải hệ thống chính thức', async () => {
     anonymousApi();
 
     renderApp('/login');
 
     await screen.findByLabelText('Mật khẩu');
-    expect(screen.getByText('Dữ liệu mẫu')).toBeInTheDocument();
+    expect(screen.queryByText('Dữ liệu mẫu')).toBeNull();
     expect(
       screen.getByText(
         'Sản phẩm bài tập lớn – không phải hệ thống chính thức của Đại học Kinh tế Quốc dân.',
@@ -346,7 +346,7 @@ describe('menu và khung theo vai trò', () => {
       expect(banner).toHaveTextContent(ROLE_LABELS[role]);
       await userEvent.setup().click(within(banner).getByRole('button', { name: /Người dùng/ }));
       expect(within(banner).getByRole('menuitem', { name: 'Đăng xuất' })).toBeInTheDocument();
-      expect(within(banner).getByText('Dữ liệu mẫu')).toBeInTheDocument();
+      expect(within(banner).queryByText('Dữ liệu mẫu')).toBeNull();
     },
   );
 

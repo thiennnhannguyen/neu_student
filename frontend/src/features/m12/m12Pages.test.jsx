@@ -85,11 +85,11 @@ describe('nhãn', () => {
 });
 
 describe('lưới thẻ nghề', () => {
-  it('nghề chính đứng đầu với nhãn "Mục tiêu của bạn" và viền nhấn; hợp ngành có chip', async () => {
+  it('nghề chính đứng đầu với ngôi sao "Mục tiêu chính của bạn" (D-305) và viền nhấn; hợp ngành có chip', async () => {
     m12Api();
     renderApp('/m12/dinh-huong');
 
-    const first = (await screen.findAllByRole('link', { name: /Mục tiêu của bạn/ }))[0];
+    const first = (await screen.findAllByRole('link', { name: /Mục tiêu chính của bạn/ }))[0];
     expect(cardNames()[0]).toBe(AI.display_name);
     expect(first).toHaveClass('career-card--primary');
     expect(within(first).getByText('Hợp ngành KHMT')).toBeInTheDocument();
@@ -311,7 +311,7 @@ describe('lưới thẻ nghề', () => {
 
     expect(await screen.findByText(/Chọn một nghề làm mục tiêu/)).toBeInTheDocument();
     expect(cardLink(AI.display_name)).toBeInTheDocument();
-    expect(screen.queryByText('Mục tiêu của bạn')).toBeNull();
+    expect(screen.queryByRole('img', { name: 'Mục tiêu chính của bạn' })).toBeNull();
   });
 
   it('đang tải, rồi lỗi có nút thử lại', async () => {
@@ -899,12 +899,12 @@ describe('đặt làm mục tiêu chính (TC08)', () => {
   const NOT_PRIMARY = () =>
     jsonResponse(200, progressBody({ is_primary: false, fits_major: null }));
 
-  it('nghề chính có nhãn, không có nút', async () => {
+  it('nghề chính có ngôi sao (D-305), không có nút', async () => {
     m12Api();
     renderApp(DETAIL_PATH);
 
     const hero = await screen.findByRole('region', { name: AI.display_name });
-    expect(within(hero).getByText('Mục tiêu của bạn')).toBeInTheDocument();
+    expect(within(hero).getByRole('img', { name: 'Mục tiêu chính của bạn' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Đặt làm mục tiêu chính' })).toBeNull();
   });
 

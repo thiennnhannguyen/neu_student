@@ -67,7 +67,7 @@ for (const width of WIDTHS) {
         );
         expect(overflow).toBe(0);
         await expect(page.locator('h1')).toHaveCount(1);
-        await expect(page.getByText('Dữ liệu mẫu').first()).toBeVisible();
+        await expect(page.getByText('Dữ liệu mẫu')).toHaveCount(0);
         await expect(page.getByText('không phải hệ thống chính thức').first()).toBeVisible();
         await expect(page.locator('body')).not.toContainText('(mẫu)');
         const misplaced = await page.evaluate(

@@ -154,7 +154,8 @@ describe('nộp minh chứng', () => {
     const panel = await screen.findByRole('dialog');
 
     expect(await within(panel).findByText('Kho mã')).toBeInTheDocument();
-    expect(within(panel).getByText('Chờ duyệt')).toBeInTheDocument();
+    expect(within(panel).getByRole('img', { name: 'Chờ duyệt' })).toBeInTheDocument();
+    expect(within(panel).queryByRole('list', { name: 'Chú giải trạng thái' })).toBeNull();
     expect(within(panel).getByRole('link', { name: 'bai.pdf' })).toHaveAttribute(
       'href',
       '/api/m12/evidences/e1/attachments/a1',
