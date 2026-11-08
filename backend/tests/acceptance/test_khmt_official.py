@@ -159,7 +159,8 @@ def test_thiennhan_profile():
         "S3",
         "S4",
     }
-    assert 2 <= sum(row["status"] == "in_progress" for row in enrollments) <= 3
+    # D-307 (CR-09): HK1 2026-2027 thực tế có 5 môn đang học (trước là 2–3 môn).
+    assert sum(row["status"] == "in_progress" for row in enrollments) == 5
     attempts = [row for row in TABLES["grade_attempts"] if row["student_id"] == student["id"]]
     assert any(count == 2 for count in Counter(row["course_id"] for row in attempts).values())
     retaken = {

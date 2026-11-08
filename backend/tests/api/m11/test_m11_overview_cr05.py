@@ -131,13 +131,23 @@ def test_metrics_say_their_scope(thiennhan):
 
 
 def test_risk_reasons_of_thiennhan_at_current_semester(thiennhan):
+    """D-307 (CR-09): thiennhan đăng ký 15 tín chỉ ở HK1 2026-2027, nên không còn lý do đăng ký."""
     outcomes = get_json(thiennhan, "/api/m11/risks", semester_id="S5")["outcomes"]
     summary = {row["rule_code"]: row["summary"] for row in outcomes}
     assert summary == {
         "gpa": None,
         "debt": "Nợ 3 tín chỉ",
-        "registration": "Đăng ký 9 tín chỉ, dưới mức tối thiểu 10",
+        "registration": None,
     }
+
+
+def test_registration_below_minimum_reason_uses_demo01(demo_app):
+    """D-307: quy tắc "đăng ký dưới mức" vẫn có test API, chuyển sang DEMO01 (9 tín chỉ ở S5)."""
+    demo01 = login_as(demo_app, "demo01")
+    outcomes = get_json(demo01, "/api/m11/risks", semester_id="S5")["outcomes"]
+    registration = next(row for row in outcomes if row["rule_code"] == "registration")
+    assert registration["level"] == "watch"
+    assert registration["summary"] == "Đăng ký 9 tín chỉ, dưới mức tối thiểu 10"
 
 
 def test_grades_updated_at_from_semester_calendar(thiennhan):

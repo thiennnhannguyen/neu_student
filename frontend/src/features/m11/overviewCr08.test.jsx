@@ -13,12 +13,15 @@ import {
 } from './OverviewCharts';
 import { callsTo, CREDITS, m11Api, overviewBody, TREND } from './testData';
 
-/** Số thật của thiennhan (demo-k68) qua /api/m11/credits và /api/m11/gpa-trend, ngày 08/11/2026. */
+/**
+ * Số thật của thiennhan (demo-k68) qua /api/m11/credits và /api/m11/gpa-trend, ngày 08/11/2026.
+ * D-307 (CR-09): S5 đang học 15 tín chỉ (trước là 9); biểu đồ tròn không đổi vì "Chưa học" gồm đang học.
+ */
 const THIENNHAN_CREDITS = {
   S5: {
     passed: 77,
     debt: 3,
-    in_progress: 9,
+    in_progress: 15,
     required: { total_credits: 76, passed_credits: 44, missing_credits: 32 },
     elective_groups: [
       { min_credits: 12, passed_credits: 12, missing_credits: 0 },
@@ -51,7 +54,7 @@ const sumTenths = (data) => data.parts.reduce((sum, part) => sum + part.tenths, 
 const sumCredits = (data) => data.parts.reduce((sum, part) => sum + part.credits, 0);
 
 describe('dữ liệu biểu đồ tròn tín chỉ', () => {
-  it('thiennhan kỳ hiện tại: tổng 130 tín chỉ CTĐT, 77 đạt, 3 chưa đạt, 50 chưa học (gồm 9 đang học)', () => {
+  it('thiennhan kỳ hiện tại: tổng 130 tín chỉ CTĐT, 77 đạt, 3 chưa đạt, 50 chưa học (gồm 15 đang học)', () => {
     const data = creditPieData(THIENNHAN_CREDITS.S5);
 
     expect(data.total).toBe(130);
