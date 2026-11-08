@@ -43,6 +43,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | CR-09 | Dữ liệu demo-k68: HK1 2026-2027 của `thiennhan` có 5 môn đang học, 15 tín chỉ (thêm CNTT1140, CNTT1159) | Xong phần code, chờ quản lý dự án nghiệm thu (D-307). `v1.1` gắn sau CR-09. Kỳ trống trong Kế hoạch học tập để CR-10 (Q87) |
 | CR-11 | Nền dữ liệu cho Phân tích & Cảnh báo kỳ hiện tại: thang điểm bản 2 của demo-k68, lịch học, API nhận dữ liệu LMS, form LMS Demo, dữ liệu mô phỏng, trang gộp tối thiểu | Đạt, tag `cr-11` (D-308 đến D-311). Tiếp theo: CR-12 báo cáo tuần, CR-13 dự đoán và cảnh báo môn |
 | CR-12 | Báo cáo tuần của sinh viên: lịch mở theo tuần của môn, màn hình toàn trang chặn mềm, "Làm sau" một lần, cờ "không khớp" với LMS, cột "Báo cáo tuần" và xem lại chỉ đọc; kèm 4 sửa nhỏ sau nghiệm thu CR-11 (giờ thật, buổi hôm nay, ô chọn sinh viên, `make demo`) | Xong phần code, chờ quản lý dự án nghiệm thu (D-312, bổ sung D-309, Q89). Tiếp theo: CR-13 dự đoán và cảnh báo môn |
+| CR-12b | Sửa 2 lỗi tính điểm: điểm bài tập hiện tại tính bài quá hạn là 0, thêm điểm quá trình hiện tại, điểm trừ nộp muộn cấu hình được; điểm kiểm tra mẫu độc lập với điểm bài tập | Xong phần code, chờ quản lý dự án nghiệm thu (D-313) |
 
 ## Việc tồn đọng giao diện
 

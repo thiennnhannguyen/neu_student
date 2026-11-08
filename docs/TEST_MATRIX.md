@@ -460,3 +460,14 @@ Test cũ đổi theo D-309, D-310 (commit test riêng): migration 0002, 0012, 00
 
 Test cũ đổi (commit test riêng): theo bổ sung D-309, `test_course_calendar.py` (ngày học chưa tính là đã học), `test_lms_api.py` (tuần 9 gửi ngày 31/10; `calendar` 11/09 chỉ còn buổi 1), `test_tc01_auth.py` (`demo_today`). Theo D-312, migration 0002, 0012–0015 loại bảng mới của 0016; `test_schema.py` 59 → 60 bảng; `test_auth_guard.py` thêm 4 route; `test_source_rules.py` quét thêm `WeeklyReport`; `frontend/e2e/helpers.mjs` đăng nhập mặc định nộp sẵn báo cáo đang mở qua API (kịch bản báo cáo tuần truyền `keepWeeklyReports`).
 
+## CR-12b: Điểm bài tập hiện tại, điểm quá trình hiện tại (D-313)
+
+| Yêu cầu | Test |
+|---------|------|
+| Ví dụ của quản lý dự án: CNTT1188 = 4,43, điểm quá trình 4,81; không còn `assignment_average`; chưa tới hạn và chờ chấm không tính, chờ chấm vẫn đếm; quá hạn giữ trọng số; điểm trừ nộp muộn 0 / 1 / 1,5 chỉ cho bài nộp muộn, không âm; điểm quá trình theo trọng số từng mục, bỏ bài kiểm tra chưa có điểm; null khi không có mục nào | `backend/tests/acceptance/test_cr12b_scores.py` |
+| 5 môn ở ngày demo qua API: điểm bài tập, điểm quá trình, điểm kiểm tra; `LMS_LATE_PENALTY` lấy từ cấu hình | `test_cr12b_scores.py` |
+| Bộ sinh dữ liệu không lấy điểm kiểm tra từ `scores` (đọc mã nguồn) | `test_cr12b_scores.py` |
+| Trang Phân tích & Cảnh báo có đủ 3 cột đúng tên và đúng trường; ⓘ ghi cách tính; form LMS Demo hiện đủ 3 điểm và ⓘ | `frontend/src/features/m11/scoresCr12b.test.jsx` |
+
+Test cũ đổi theo D-313 (commit test riêng): `test_lms_summary.py` (6,00 thay 8,00 vì bài quá hạn tính 0; đổi tên trường), `test_lms_api.py` (4,25 thay 8,50; đổi tên trường), `analysisCr11.test.jsx` (4,43 thay 7,75), `lmsDemo.test.jsx` và `testData.js` (dữ liệu giả dùng `assignment_score`, `process_score`).
+

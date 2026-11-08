@@ -4375,12 +4375,18 @@ Body của `sync` và `preview` (client **không** gửi số tổng; trường 
     "sessions_held": 8, "present": 7, "absent": 1, "excused": 0,
     "assignments_total": 2, "submitted": 1, "graded": 1, "pending": 0, "late": 0, "overdue": 1, "not_due": 0,
     "completion": {"numerator": 1, "denominator": 2, "value": "0.5000", "percent": 50},
-    "assignment_average": "8.50", "assessment_average": "7.50"
+    "assignment_score": "4.25", "assessment_average": "7.50", "process_score": "5.33"
   }
 }
 ```
 
 `status` của bài: `graded` (đã chấm), `pending` (chờ chấm), `overdue` (chưa nộp, hạn trước `as_of`), `not_due`; `late` là cờ riêng (ngày nộp sau hạn).
+
+Điểm (D-313, thay `assignment_average` cũ):
+- `assignment_score` "Điểm bài tập hiện tại": trung bình có trọng số; bài quá hạn chưa nộp tính 0 điểm, vẫn có trọng số; bài chưa tới hạn và bài chờ chấm không tính; bài nộp muộn trừ `LMS_LATE_PENALTY` (cấu hình, mặc định `"0"`), không dưới 0.
+- `process_score` "Điểm quá trình hiện tại": gộp các bài tập trên với bài kiểm tra, giữa kỳ đã có điểm, theo trọng số của từng mục.
+- `assessment_average` "Điểm kiểm tra": trung bình có trọng số của bài kiểm tra, giữa kỳ đã có điểm.
+- Không có mục nào được tính thì null. Ví dụ trên: BT1 8,5 và BT2 chờ chấm, BT3 quá hạn → `assignment_score` (8,5 + 0) ÷ 2 = 4,25; `process_score` (8,5 + 0 + 7,5) ÷ 3 = 5,33.
 
 <!-- contract: sv01 GET /api/m11/current-courses -->
 ```json

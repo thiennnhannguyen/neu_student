@@ -428,13 +428,15 @@ Thời điểm nhập điểm (`grade_attempts.recorded_at`, CR-05): profile tes
 - Ngày demo cố định **26/10/2026** (`DEMO_TODAY=2026-10-26`): cả 5 môn của `thiennhan` đang ở tuần 8.
 - `thiennhan` có bản chụp tuần 1–8 cho 5 môn (40 bản chụp); sinh viên khác chưa có. Bài j có hạn nộp là ngày cuối tuần j của môn; bài nộp trước tuần hiện tại đã được chấm; kiểm tra 1 làm ở buổi 4.
 
-| Môn | Thứ học | Tuần 8 | Nguyên nhân chính | Tuần 8: vắng, bài, điểm TB bài tập, kiểm tra |
+| Môn | Thứ học | Tuần 8 | Nguyên nhân chính | Tuần 8: vắng; bài; điểm bài tập hiện tại; điểm kiểm tra; điểm quá trình hiện tại (D-313) |
 |-----|---------|--------|-------------------|-----------------------------------------------|
-| CNTT1180 Lập trình Python | Thứ 2 | 26/10–01/11/2026 | Đang tốt | 0/7 buổi (buổi 8 đúng ngày 26/10 chưa tính là đã học, bổ sung D-309); 7/7 đã nộp; 9,00; 9,00 |
-| CNTT1117 Phân tích và thiết kế hệ thống | Thứ 3 | 20/10–26/10/2026 | Trung bình | 0 buổi; 7/7; 6,50; 6,50 |
-| CNTT1188 Lập trình Web | Thứ 4 | 21/10–27/10/2026 | Thiếu nhiều bài tập (đi học đủ) | 0 buổi; 4/7, 3 quá hạn, 1 nộp muộn; 7,75; 7,50 |
-| CNTT1140 Trí tuệ nhân tạo | Thứ 5 | 22/10–28/10/2026 | Điểm giảm dần 8,5 → 4,5 (không vắng) | 0 buổi; 7/7; 6,43; 6,00 |
-| CNTT1159 Quản lý dự án CNTT | Thứ 6 | 23/10–29/10/2026 | Vắng 2 buổi (3 và 6), sát cấm thi; bài và điểm vẫn tốt | 2 buổi; 7/7; 8,21; 8,50 |
+| CNTT1180 Lập trình Python | Thứ 2 | 26/10–01/11/2026 | Đang tốt | 0/7 buổi (buổi 8 đúng ngày 26/10 chưa tính là đã học, bổ sung D-309); 7/7 đã nộp; 9,00; 8,00; 8,88 |
+| CNTT1117 Phân tích và thiết kế hệ thống | Thứ 3 | 20/10–26/10/2026 | Trung bình | 0 buổi; 7/7; 6,50; 7,00; 6,56 |
+| CNTT1188 Lập trình Web | Thứ 4 | 21/10–27/10/2026 | Thiếu nhiều bài tập (đi học đủ) | 0 buổi; 4/7, 3 quá hạn, 1 nộp muộn; 4,43; 7,50; 4,81 |
+| CNTT1140 Trí tuệ nhân tạo | Thứ 5 | 22/10–28/10/2026 | Điểm giảm dần 8,5 → 4,5 (không vắng) | 0 buổi; 7/7; 6,43; 6,00; 6,38 |
+| CNTT1159 Quản lý dự án CNTT | Thứ 6 | 23/10–29/10/2026 | Vắng 2 buổi (3 và 6), sát cấm thi; bài và điểm vẫn tốt | 2 buổi; 7/7; 8,21; 8,50; 8,25 |
+
+Điểm Kiểm tra 1 (buổi 4) đặt độc lập với điểm bài tập (D-313): CNTT1180 8,0; CNTT1117 7,0; CNTT1188 7,5; CNTT1140 6,0; CNTT1159 8,5.
 
 ## 12. Báo cáo tuần mẫu (profile demo-k68, CR-12, D-312)
 
