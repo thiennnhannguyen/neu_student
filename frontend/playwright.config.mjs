@@ -11,6 +11,7 @@ export default defineConfig({
   retries: 0,
   timeout: 60000,
   reporter: [['list']],
+  globalTeardown: './e2e/teardown.mjs',
   use: { baseURL, viewport: { width: 1440, height: 1000 }, trace: 'retain-on-failure' },
   webServer: {
     command: 'node e2e/server.mjs',
