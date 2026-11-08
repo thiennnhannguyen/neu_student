@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { apiRequest } from '../../../api/client';
 import { Button, Card, Disclosure, StatusChip } from '../../../components/ui';
-import { courseCode, formatDateTime } from '../../m11/format';
+import { courseCode } from '../../m11/format';
+import { SystemTime } from '../../m11/SystemTime';
 import InlineCode from './InlineCode';
 
 const QUIZ_TEXT = {
@@ -48,7 +49,12 @@ function ModuleCard({ module, student, onChanged }) {
       </p>
       <p className="module-card__quiz">
         {QUIZ_TEXT[quiz.state]}
-        {quiz.state === 'cooldown' && ` (từ ${formatDateTime(quiz.retry_at)})`}
+        {quiz.state === 'cooldown' && (
+          <>
+            {' (từ '}
+            <SystemTime iso={quiz.retry_at} />)
+          </>
+        )}
       </p>
       {error && (
         <p role="alert" className="module-card__error">

@@ -17,13 +17,12 @@ Bài tập lớn gồm hai module dùng chung một tài khoản và một dữ 
 
 ```bash
 make install       # dùng python3.12; bản khác: make install PYTHON=python3.13
-make seed-demo     # profile demo-k68: CTĐT K68, 10 nghề, 8 sinh viên demo
-make dev           # Flask cổng 5001, Vite cổng 5173
+make demo          # seed profile demo-k68 rồi chạy Flask 5001 + Vite 5173 ở ngày demo 26/10/2026
 ```
 
-Mở http://localhost:5173. Dùng `make seed` thay cho `make seed-demo` để có profile test.
+Mở http://localhost:5173. `make demo` = `make seed-demo` rồi `DEMO_TODAY=2026-10-26 make dev`. Chạy theo ngày thật: `make seed-demo && make dev`. Dùng `make seed` thay cho `make seed-demo` để có profile test.
 
-Dữ liệu LMS mẫu của `thiennhan` là "tuần này" ở ngày demo 26/10/2026. Để demo đúng tuần, chạy `DEMO_TODAY=2026-10-26 make dev` (hoặc ghi `DEMO_TODAY=2026-10-26` vào `backend/.env`). Không đặt thì hệ thống dùng ngày thật. Quản trị và cố vấn nhập thêm dữ liệu LMS ở **Quản trị → LMS Demo** (form giả lập, gửi đúng API mà LMS thật sẽ gọi).
+Dữ liệu LMS mẫu của `thiennhan` là "tuần này" ở ngày demo 26/10/2026, nên demo dùng `make demo` (hoặc ghi `DEMO_TODAY=2026-10-26` vào `backend/.env`). Không đặt thì hệ thống dùng ngày thật. Khi có ngày demo, giờ hệ thống (lúc tính số liệu, lúc nộp, thông báo) vẫn là giờ thật và được ghi "(giờ thật)". Quản trị và cố vấn nhập thêm dữ liệu LMS ở **Quản trị → LMS Demo** (form giả lập, gửi đúng API mà LMS thật sẽ gọi).
 
 | Profile | Lệnh | Nội dung | Dùng để |
 |---------|------|----------|---------|

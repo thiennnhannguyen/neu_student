@@ -17,9 +17,17 @@ def utcnow() -> datetime:
     return datetime.now(UTC).replace(tzinfo=None)
 
 
-def today() -> date:
-    """Ngày hiện tại: cấu hình DEMO_TODAY (YYYY-MM-DD) nếu có, không thì ngày thật ở Việt Nam."""
+def demo_today() -> date | None:
+    """Ngày demo cố định (cấu hình DEMO_TODAY) hoặc None khi chạy theo ngày thật."""
     configured = current_app.config.get("DEMO_TODAY") if has_app_context() else None
-    if configured:
-        return date.fromisoformat(configured)
-    return datetime.now(VIETNAM).date()
+    return date.fromisoformat(configured) if configured else None
+
+
+def today() -> date:
+    """Ngày hiện tại: cấu hình DEMO_TODAY (YYYY-MM-DD) nếu có, không thì ngày thật ở Việt Nam.
+
+    Bổ sung D-309 (phản hồi CR-11, mục B1): DEMO_TODAY chỉ dời NGÀY nghiệp vụ. Dấu thời gian hệ
+    thống (utcnow: lúc tính số liệu, lúc làm bài, nhật ký) vẫn là giờ thật; giao diện ghi rõ
+    "(giờ thật)" khi demo_today() khác None.
+    """
+    return demo_today() or datetime.now(VIETNAM).date()

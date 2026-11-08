@@ -6,6 +6,7 @@ import useApiResource from '../../m11/useApiResource';
 import { ResourceView } from '../../m11/ui';
 import AttachmentList, { ACCEPT_FILES } from '../AttachmentList';
 import TicketStatus, { statusLabel } from './TicketStatus';
+import { RealTimeNote } from '../../m11/SystemTime';
 
 const TIME_FORMAT = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
 const MAX_FILES = 3;
@@ -25,6 +26,7 @@ function Thread({ messages }) {
           <p className="ticket-message__head">
             <strong>{message.author}</strong>
             <time dateTime={message.created_at}>{timeText(message.created_at)}</time>
+            <RealTimeNote />
           </p>
           <p className="ticket-message__body">{message.body}</p>
           <AttachmentList items={message.attachments} />
@@ -40,12 +42,14 @@ function Timeline({ ticket }) {
       <li>
         <strong>Tạo yêu cầu</strong>
         <time dateTime={ticket.created_at}>{timeText(ticket.created_at)}</time>
+        <RealTimeNote />
       </li>
       {ticket.timeline.map((event) => (
         <li key={`${event.created_at}-${event.to_status}`}>
           <strong>{event.to_label}</strong>
           <span>{event.actor}</span>
           <time dateTime={event.created_at}>{timeText(event.created_at)}</time>
+          <RealTimeNote />
         </li>
       ))}
     </ol>

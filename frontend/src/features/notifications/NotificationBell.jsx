@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { apiRequest } from '../../api/client';
 import { Button } from '../../components/ui';
+import { RealTimeNote } from '../m11/SystemTime';
 
 const URL = '/api/notifications';
 const TIME_FORMAT = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
@@ -140,6 +141,7 @@ export default function NotificationBell() {
                     {item.body && <span>{item.body}</span>}
                     <time dateTime={item.created_at}>
                       {TIME_FORMAT.format(new Date(item.created_at))}
+                      <RealTimeNote />
                     </time>
                   </Link>
                   {!item.read && <span className="notification-item__tag">Chưa đọc</span>}

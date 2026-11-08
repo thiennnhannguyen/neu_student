@@ -985,14 +985,6 @@
       "is_mock": true
     },
     {
-      "id": "lms-NEU-KHMT-001-CNTT1180-w8-s8",
-      "snapshot_id": "lms-NEU-KHMT-001-CNTT1180-w8",
-      "session_no": 8,
-      "session_date": "2026-10-26",
-      "status": "present",
-      "is_mock": true
-    },
-    {
       "id": "lms-NEU-KHMT-001-CNTT1117-w1-s1",
       "snapshot_id": "lms-NEU-KHMT-001-CNTT1117-w1",
       "session_no": 1,

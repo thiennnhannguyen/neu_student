@@ -14,6 +14,7 @@ import {
 } from '../../components/ui';
 import { formatCount, formatDay, formatDecimal, weekdayName, withQuery } from '../m11/format';
 import useApiResource from '../m11/useApiResource';
+import { REAL_TIME_NOTE, useDemoToday } from '../m11/SystemTime';
 import { ResourceView } from '../m11/ui';
 import {
   ASSESSMENT_KINDS,
@@ -315,6 +316,8 @@ function LmsForm({ options }) {
   const [studentId, setStudentId] = useState('');
   const [courseId, setCourseId] = useState('');
   const [asOf, setAsOf] = useState(options.today);
+  // Bổ sung D-309 (B1): giờ lưu nháp là giờ thật của máy; ghi chú lưu kèm trong bản nháp.
+  const realTimeNote = useDemoToday() ? ` ${REAL_TIME_NOTE}` : '';
   const [form, setForm] = useState(EMPTY_FORM);
   const [origin, setOrigin] = useState('');
   const [sending, setSending] = useState(false);
@@ -393,7 +396,7 @@ function LmsForm({ options }) {
   }
 
   function saveDraft() {
-    const savedAt = new Date().toLocaleString('vi-VN');
+    const savedAt = `${new Date().toLocaleString('vi-VN')}${realTimeNote}`;
     if (writeDraft(storage(), key, current, savedAt)) {
       setOrigin(`Bản nháp lưu lúc ${savedAt}`);
       show('Đã lưu tạm trên trình duyệt này, chưa gửi đi.');
@@ -459,7 +462,13 @@ function LmsForm({ options }) {
           <FormField
             id="lms-as-of"
             label="Giả lập ngày hôm nay"
-            hint="Chỉ dùng cho lần gửi này, không đổi ngày của hệ thống."
+            hint={
+              <>
+                {/* Phản hồi CR-11 (B4): ô ngày của trình duyệt theo ngôn ngữ máy, nên ghi thêm dd/mm/yyyy. */}
+                <strong className="lms-as-of-text">Ngày đã chọn: {formatDay(asOf)}</strong>
+                {' · Chỉ dùng cho lần gửi này, không đổi ngày của hệ thống.'}
+              </>
+            }
           >
             <Input type="date" value={asOf} onChange={(e) => setAsOf(e.target.value)} />
           </FormField>

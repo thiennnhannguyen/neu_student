@@ -3,7 +3,8 @@ import { Award, Printer } from 'lucide-react';
 import { useMemo } from 'react';
 import { useParams } from 'react-router';
 import { Button, Card, EmptyState, PageHeader } from '../../../components/ui';
-import { formatDateTime, withQuery } from '../../m11/format';
+import { withQuery } from '../../m11/format';
+import { SystemTime } from '../../m11/SystemTime';
 import { ResourceView } from '../../m11/ui';
 import useApiResource from '../../m11/useApiResource';
 import useCareerStudent from '../useCareerStudent';
@@ -60,7 +61,9 @@ function Certificate({ data }) {
         </div>
         <div>
           <dt>Ngày cấp</dt>
-          <dd>{formatDateTime(data.issued_at)}</dd>
+          <dd>
+            <SystemTime iso={data.issued_at} />
+          </dd>
         </div>
         <div>
           <dt>Mã chứng chỉ</dt>
@@ -125,7 +128,7 @@ export function CertificatesPage() {
                     <h2 className="quiz-question__title">{item.module_title}</h2>
                     <p>
                       {item.correct_count}/{item.total} câu đúng · Cấp ngày{' '}
-                      {formatDateTime(item.issued_at)}
+                      <SystemTime iso={item.issued_at} />
                     </p>
                     <Button
                       variant="secondary"

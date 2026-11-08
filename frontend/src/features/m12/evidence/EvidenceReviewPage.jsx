@@ -13,7 +13,8 @@ import {
   useToast,
 } from '../../../components/ui';
 import { useAuth } from '../../auth/AuthContext';
-import { formatDateTime, withQuery } from '../../m11/format';
+import { withQuery } from '../../m11/format';
+import { SystemTime } from '../../m11/SystemTime';
 import useApiResource from '../../m11/useApiResource';
 import { ResourceView } from '../../m11/ui';
 import AttachmentList from '../AttachmentList';
@@ -30,8 +31,8 @@ function statusLabel(status) {
   return STATUSES.find((item) => item.value === status).label;
 }
 
-function submittedText(row) {
-  return row.submitted_at ? formatDateTime(row.submitted_at) : 'Chưa ghi nhận';
+function SubmittedAt({ row }) {
+  return row.submitted_at ? <SystemTime iso={row.submitted_at} /> : 'Chưa ghi nhận';
 }
 
 function CareerGroups({ careers }) {
@@ -124,7 +125,7 @@ function ReviewPanel({ row, canReview, onClose, onDone }) {
       </p>
       <p>
         <strong>Ngày nộp: </strong>
-        {submittedText(row)}
+        <SubmittedAt row={row} />
       </p>
       <p>
         <strong>Số lần nộp trước: </strong>
@@ -184,7 +185,7 @@ export default function EvidenceReviewPage() {
       header: 'Nghề, nhóm năng lực',
       render: (row) => <CareerGroups careers={row.careers} />,
     },
-    { key: 'submitted', header: 'Ngày nộp', render: submittedText },
+    { key: 'submitted', header: 'Ngày nộp', render: (row) => <SubmittedAt row={row} /> },
     {
       key: 'files',
       header: 'Tệp đính kèm',

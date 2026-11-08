@@ -8,10 +8,10 @@ Mật khẩu mọi tài khoản: `Demo@12345`. Đây là dữ liệu mẫu.
 
 ```bash
 make install       # chỉ lần đầu
-make dev           # terminal 1: Flask 5001, Vite 5173, mở http://localhost:5173
+make demo          # terminal 1: seed demo-k68, Flask 5001, Vite 5173 ở ngày demo 26/10/2026
 ```
 
-Mở terminal 2 để seed giữa các phần. Đổi profile không cần khởi động lại `make dev`. Có thể chạy bằng `make prod-local` (cổng 8000) thay cho `make dev`.
+Mở http://localhost:5173. Mở terminal 2 để seed giữa các phần. Đổi profile không cần khởi động lại `make demo`. Có thể chạy bằng `DEMO_TODAY=2026-10-26 make prod-local` (cổng 8000) thay cho `make demo`.
 
 | Phần | Thời lượng | Profile | Tài khoản |
 |------|-----------|---------|-----------|

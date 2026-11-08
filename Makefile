@@ -9,7 +9,7 @@ PROD_PORT := $(or $(PROD_PORT),8000)
 PROD_PYTHON := .venv/bin/python
 export
 
-.PHONY: check seed-check e2e prod-local prod-local-flask install dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend build check-bundle db-upgrade seed seed-demo clean-uploads
+.PHONY: check seed-check e2e prod-local prod-local-flask install dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend build check-bundle db-upgrade seed seed-demo demo clean-uploads
 
 install:
 	$(PYTHON) -m venv $(VENV)
@@ -55,6 +55,13 @@ seed: db-upgrade
 
 seed-demo: db-upgrade
 	cd backend && $(FLASK) seed --reset --profile demo-k68
+
+# Demo trọn vẹn: seed demo-k68 rồi chạy dev ở ngày demo cố định (D-309, phản hồi CR-11 mục B4).
+# Dữ liệu LMS và báo cáo tuần mẫu của thiennhan là "tuần này" ở ngày DEMO_DATE.
+DEMO_DATE ?= 2026-10-26
+
+demo: seed-demo
+	DEMO_TODAY=$(DEMO_DATE) $(MAKE) dev
 
 # Bản build và API ở cùng 1 cổng. SECRET_KEY có sẵn thì dùng, chưa có thì sinh mới mỗi lần chạy (D-278).
 prod-local: build db-upgrade

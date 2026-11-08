@@ -1,6 +1,6 @@
 import { Award, Check, X } from 'lucide-react';
 import { Button, Card, PageHeader } from '../../../components/ui';
-import { formatDateTime } from '../../m11/format';
+import { SystemTime } from '../../m11/SystemTime';
 import InlineCode from './InlineCode';
 
 export function CodeBlock({ code }) {
@@ -58,7 +58,11 @@ export function QuizResult({ result, backTo }) {
             : `Chưa đạt, cần từ ${result.pass_percent}%.`}
         </p>
         {result.auto_submitted && <p>Hết giờ: hệ thống tự nộp theo các đáp án đã lưu.</p>}
-        {result.retry_at && <p>Làm lại từ {formatDateTime(result.retry_at)}.</p>}
+        {result.retry_at && (
+          <p>
+            Làm lại từ <SystemTime iso={result.retry_at} />.
+          </p>
+        )}
         <div className="module-card__actions">
           {result.certificate && (
             <Button iconLeft={Award} to={`/m12/chung-chi/${result.certificate.code}`}>

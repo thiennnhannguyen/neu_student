@@ -9,12 +9,19 @@ import { Breadcrumb } from './ui/PageHeader';
 import NotificationBell from '../features/notifications/NotificationBell';
 import UserMenu from './UserMenu';
 
+/**
+ * Phản hồi CR-11 (B3, bổ sung D-309): trang LMS Demo có ô chọn sinh viên riêng (theo phạm vi gửi
+ * dữ liệu), nên ẩn ô chọn sinh viên của thanh trên cùng để không có hai ô cùng tên.
+ */
+const PAGES_WITHOUT_STUDENT_PICKER = ['/quan-tri/lms-demo'];
+
 /** Thanh trên cùng chỉ có đường dẫn phân cấp; tiêu đề trang là h1 duy nhất, nằm trong trang. */
 export default function Topbar({ menuOpen, onToggleMenu }) {
   const { pathname } = useLocation();
   const [logoutError, setLogoutError] = useState('');
   const students = useStudentOptions();
   const meta = pageMetaFor(pathname);
+  const ownPicker = PAGES_WITHOUT_STUDENT_PICKER.includes(pathname);
   const error = logoutError || (students.failed ? 'Không tải được danh sách sinh viên.' : '');
 
   return (
@@ -37,8 +44,8 @@ export default function Topbar({ menuOpen, onToggleMenu }) {
         )}
       </div>
       <div className="topbar__tools">
-        {students.enabled && <StudentPicker students={students} />}
-        <ScopeChip students={students} />
+        {students.enabled && !ownPicker && <StudentPicker students={students} />}
+        {!ownPicker && <ScopeChip students={students} />}
         <NotificationBell />
         <UserMenu onLogoutError={setLogoutError} />
       </div>

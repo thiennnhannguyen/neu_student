@@ -1,6 +1,7 @@
 import { Eye, FilterX, ListFilter } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { apiRequest } from '../../api/client';
+import { RealTimeNote } from '../m11/SystemTime';
 import useApiResource from '../m11/useApiResource';
 import {
   Button,
@@ -81,7 +82,10 @@ function AuditDetail({ item, onClose }) {
       <dl className="detail-list">
         <div>
           <dt>Thời gian</dt>
-          <dd>{new Date(item.created_at).toLocaleString('vi-VN')}</dd>
+          <dd>
+            {new Date(item.created_at).toLocaleString('vi-VN')}
+            <RealTimeNote />
+          </dd>
         </div>
         <div>
           <dt>Người thực hiện</dt>
@@ -265,7 +269,12 @@ function AuditLogResult({ state, onRetry, onPage }) {
       key: 'created_at',
       header: 'Thời gian',
       sortable: true,
-      render: (item) => new Date(item.created_at).toLocaleString('vi-VN'),
+      render: (item) => (
+        <>
+          {new Date(item.created_at).toLocaleString('vi-VN')}
+          <RealTimeNote />
+        </>
+      ),
     },
     {
       key: 'actor',

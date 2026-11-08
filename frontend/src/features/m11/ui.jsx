@@ -1,5 +1,6 @@
 import { Disclosure, EmptyState, ErrorState, Skeleton } from '../../components/ui';
-import { formatDateTime } from './format';
+import { formatDate, formatDateTime } from './format';
+import { REAL_TIME_NOTE, useDemoToday } from './SystemTime';
 
 /** compact: nằm trong Card hoặc panel. Bản đầy đủ dùng cho khoảng trống của cả trang. */
 export function ResourceView({
@@ -39,9 +40,13 @@ export function ResourceView({
 }
 
 export function ReferenceLine({ semesterName, computedAt, ruleVersion }) {
+  const demoToday = useDemoToday();
+  const computed = demoToday
+    ? `Tính lúc ${REAL_TIME_NOTE} ${formatDateTime(computedAt)} · Ngày hệ thống ${formatDate(demoToday)}`
+    : `Cập nhật ${formatDateTime(computedAt)}`;
   return (
     <p className="reference-line">
-      Kỳ tham chiếu {semesterName ?? '—'} · Cập nhật {formatDateTime(computedAt)}
+      Kỳ tham chiếu {semesterName ?? '—'} · {computed}
       {ruleVersion ? ` · Quy chế ${ruleVersion}` : ''}
     </p>
   );

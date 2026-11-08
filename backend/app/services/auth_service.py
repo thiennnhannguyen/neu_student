@@ -110,6 +110,8 @@ def describe_user(user: User) -> dict:
         "user": {"id": user.id, "username": user.username, "full_name": user.full_name},
         "role": user.role_name,
         "student_id": student_id,
+        # Bổ sung D-309 (B1): giao diện ghi "(giờ thật)" cạnh giờ hệ thống khi có ngày demo.
+        "demo_today": None if clock.demo_today() is None else clock.demo_today().isoformat(),
     }
 
 
