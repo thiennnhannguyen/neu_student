@@ -107,6 +107,7 @@ class CareerSource:
 class Report:
     placed: list[tuple[str, str, int, str]] = field(default_factory=list)
     merged: list[tuple[str, str, str, str]] = field(default_factory=list)
+    filled: list[tuple[str, str, str, str]] = field(default_factory=list)
 
 
 def _text(path: Path) -> str:
@@ -485,14 +486,31 @@ class Builder:
         self.tables["course_equivalencies"] = rows
         self.tables["course_equivalency_scopes"] = scopes
 
+    def _code_in_curriculum(self, program: str, row) -> str | None:
+        """Cẩm nang không ghi mã cho ngành này: lấy mã của cùng môn ở ngành khác nếu mã đó có
+        trong CTĐT của ngành (vd CNTT1178 của KHMT theo PDF). Không có thì môn thật sự vắng."""
+        members = {course_id for course_id, *_rest in self._entries(program)}
+        for other in content.PROGRAM_ORDER:
+            if other == program or other not in row.codes:
+                continue
+            plain = fixed_code(other, row.name, row.codes[other][0]).removeprefix("EP17.")
+            for code in (plain, f"EP17.{plain}"):
+                if code in members:
+                    return code
+        return None
+
     def _course_rows(self, career: CareerSource, key: str, version_id: str) -> list[dict]:
         rows: list[dict] = []
         for program in content.PROGRAM_ORDER:
             used: dict[str, dict] = {}
             for row in sorted(career.rows, key=lambda item: (item.stage, item.number)):
-                if program not in row.codes:
-                    continue
-                code = fixed_code(program, row.name, row.codes[program][0])
+                if program in row.codes:
+                    code = fixed_code(program, row.name, row.codes[program][0])
+                else:
+                    code = self._code_in_curriculum(program, row)
+                    if code is None:
+                        continue
+                    self.report.filled.append((career.number, program, code, row.name))
                 subject = f"{key}-{row.number:02d}"
                 if code in used:
                     used[code]["also_covers"].append(subject)
@@ -1107,6 +1125,19 @@ class Builder:
         for number, program, code, rows in self.report.merged:
             title = content.CAREERS[number]["name_en"]
             lines.append(f"| {title} | {program} | {code} | {rows} |")
+        lines += [
+            "",
+            "## Mã lấy từ CTĐT khi cẩm nang không ghi",
+            "",
+            "Cẩm nang K68 không ghi mã cho ngành này, nhưng mã của cùng môn ở ngành khác có trong "
+            'CTĐT của ngành, nên môn không bị coi là "Không có trong CTĐT ngành bạn".',
+            "",
+            "| Nghề | Ngành | Mã | Môn |",
+            "|------|-------|----|-----|",
+        ]
+        for number, program, code, name in self.report.filled:
+            title = content.CAREERS[number]["name_en"]
+            lines.append(f"| {title} | {program} | {code} | {name} |")
         lines += [
             "",
             "## Số môn tính tiến độ theo ngành",

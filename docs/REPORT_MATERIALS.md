@@ -163,7 +163,7 @@ Giới hạn đã biết (D-261): đối chứng vét cạn trên 3.000 bài to�
 | pytest | 2429 passed, 6050 dòng, coverage 100% |
 | Vitest | 20 file, 668 passed |
 | Playwright | 141 passed |
-| Seed | 546 bản ghi (test), 2337 bản ghi (demo-k68); 2 `seed --check` khớp fixture |
+| Seed | 546 bản ghi (test), 2338 bản ghi (demo-k68); 2 `seed --check` khớp fixture |
 
 ### 5.2. Theo giai đoạn
 

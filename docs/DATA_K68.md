@@ -74,6 +74,14 @@ Sinh bằng `backend/scripts/build_demo_k68.py` từ `docs/spec/ctdt-k68-2026.md
 | Full-stack Developer | KTPM | EP17.CNTT1164 | Thiết kế Web / thiết kế & lập trình Web + Lập trình Web (hoặc thiết kế & lập trình Web) |
 | Full-stack Developer | ATTT | CNTT1164 | Thiết kế Web / thiết kế & lập trình Web + Lập trình Web (hoặc thiết kế & lập trình Web) |
 
+## Mã lấy từ CTĐT khi cẩm nang không ghi
+
+Cẩm nang K68 không ghi mã cho ngành này, nhưng mã của cùng môn ở ngành khác có trong CTĐT của ngành, nên môn không bị coi là "Không có trong CTĐT ngành bạn".
+
+| Nghề | Ngành | Mã | Môn |
+|------|-------|----|-----|
+| QA/Test Engineer | KHMT | CNTT1178 | Kiểm thử và đảm bảo chất lượng phần mềm |
+
 ## Số môn tính tiến độ theo ngành
 
 Môn không có trong CTĐT ngành không vào mẫu số (Q92). Độ phủ = số môn có trong CTĐT ngành / tổng số môn riêng biệt của nghề theo góc nhìn ngành đó (dòng gộp tính 1 lần).

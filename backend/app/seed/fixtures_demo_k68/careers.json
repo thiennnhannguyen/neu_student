@@ -8644,6 +8644,26 @@
       "is_mock": true
     },
     {
+      "id": "req-k68-qa-06-KHMT",
+      "career_version_id": "cv-k68-qa-1",
+      "career_node_id": "node-k68-qa-3",
+      "kind": "course",
+      "course_id": "CNTT1178",
+      "skill_id": null,
+      "weight": 1,
+      "source": "Cẩm nang lộ trình 10 nghề K68 (nhóm biên soạn)",
+      "status": "approved",
+      "approved_by": "user-admin",
+      "approved_at": "2026-11-07T07:00:00",
+      "program_id": "prog-k68-khmt",
+      "subject_key": "qa-06",
+      "subject_name": "Kiểm thử và đảm bảo chất lượng phần mềm",
+      "also_covers": null,
+      "priority": "very_important",
+      "purpose": "Test level/type, test design, defect lifecycle.",
+      "is_mock": true
+    },
+    {
       "id": "req-k68-qa-09-KHMT",
       "career_version_id": "cv-k68-qa-1",
       "career_node_id": "node-k68-qa-4",
