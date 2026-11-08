@@ -12,7 +12,11 @@ test('1. đăng nhập rồi vào Tổng quan M11', async ({ page }) => {
 
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole('link', { name: 'GPA tích lũy' })).toBeVisible();
-  await expect(page.getByText('Mức cảnh báo chung')).toBeVisible();
+  // D-306 bỏ khối "Mức cảnh báo chung" khỏi Tổng quan; thay bằng 2 biểu đồ theo ảnh mẫu.
+  await expect(
+    page.getByRole('heading', { name: 'Tín chỉ theo chương trình đào tạo' }),
+  ).toBeAttached();
+  await expect(page.getByRole('heading', { name: 'Điểm trung bình theo kỳ' })).toBeAttached();
 });
 
 async function openCoursePanelByKeyboard(page) {

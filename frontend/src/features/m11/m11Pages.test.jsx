@@ -157,7 +157,8 @@ describe('bộ lọc kỳ', () => {
 
     await user.selectOptions(screen.getByLabelText('Học kỳ'), 'S4');
 
-    expect(await screen.findByText('2,75')).toBeInTheDocument();
+    // D-306: bảng số của biểu đồ cột cũng có "2,75", nên tìm trong thẻ GPA học kỳ.
+    expect(await within(card('GPA học kỳ')).findByText('2,75')).toBeInTheDocument();
     expect(screen.queryByText('3,11')).not.toBeInTheDocument();
     expect(search()).toContain('semester=S4');
     expect(callsTo(fetchMock, '/api/m11/overview').at(-1).get('semester_id')).toBe('S4');
@@ -253,7 +254,7 @@ describe('bộ lọc kỳ', () => {
 });
 
 describe('Tổng quan', () => {
-  it('đang tải rồi 4 thẻ số liệu và dải cảnh báo', async () => {
+  it('đang tải rồi 4 thẻ số liệu (D-306 bỏ dải cảnh báo và dòng phụ)', async () => {
     const overview = pendingResponse();
     m11Api('student', { 'GET /api/m11/overview': overview.handler });
 
@@ -265,50 +266,12 @@ describe('Tổng quan', () => {
     expect(screen.getAllByRole('article')).toHaveLength(4);
     expect(within(card('GPA tích lũy')).getByText('2,88')).toBeInTheDocument();
     expect(within(card('Tín chỉ đạt')).getByText('19')).toBeInTheDocument();
-    expect(within(card('Tín chỉ đạt')).getByText('Nợ 6 · Đang học 15')).toBeInTheDocument();
     expect(within(card('Số môn chưa đạt')).getByText('2')).toBeInTheDocument();
-    expect(
-      within(screen.getByRole('link', { name: /Mức cảnh báo chung/ })).getByText('Cảnh báo'),
-    ).toHaveClass('status-text');
-    expect(screen.getByRole('link', { name: /Mức cảnh báo chung/ })).toHaveTextContent('tham khảo');
   });
 
-  it('thời điểm tính và thời điểm nhập điểm chỉ có 1 dòng chung, không nằm trong thẻ', async () => {
-    m11Api('student');
-
-    renderApp('/');
-
-    await screen.findByText('3,11');
-    const lines = screen.getAllByText(
-      /Tính lúc \d\d\/11\/2026 .* · Điểm cập nhật lần cuối 19\/06\/2026/,
-    );
-    expect(lines).toHaveLength(1);
-    expect(lines[0].closest('article')).toBeNull();
-    expect(lines[0]).toHaveTextContent('Quy chế K66-mau-v1');
-    expect(screen.queryByText(/Kỳ tham chiếu/)).toBeNull();
-  });
-
-  it('chỉ thẻ GPA tích lũy có viền và nhãn mức; mức nợ nằm ở dòng lý do, không ở thẻ Tín chỉ đạt', async () => {
-    m11Api('student');
-
-    renderApp('/');
-
-    await screen.findByText('3,11');
-    const gpa = await waitFor(() => {
-      const found = card('GPA tích lũy');
-      expect(found).toHaveClass('metric-card--warning');
-      return found;
-    });
-    expect(within(gpa).getByText('Cảnh báo')).toHaveClass('status-text');
-    const debt = within(screen.getByRole('link', { name: /Mức cảnh báo chung/ }))
-      .getByText('Nợ 3 tín chỉ')
-      .closest('li');
-    expect(within(debt).getByRole('img', { name: 'Chú ý' })).toBeInTheDocument();
-    for (const title of ['GPA học kỳ', 'Tín chỉ đạt', 'Số môn chưa đạt']) {
-      expect(card(title).className).toBe('metric-card');
-      expect(card(title).querySelector('.status-chip')).toBeNull();
-    }
-  });
+  // D-306 bỏ khỏi Tổng quan: dòng "Tính lúc … · Điểm cập nhật lần cuối …" (D-293), viền và nhãn mức
+  // trên thẻ GPA tích lũy, dòng lý do của khối "Mức cảnh báo chung" (D-187, D-294). Tổng quan không
+  // gọi /api/m11/risks nữa. Test thay thế: overviewCr08.test.jsx "4 thẻ chỉ có nhãn…".
 
   it.each(['normal', 'insufficient_data', 'not_applicable'])(
     'quy tắc ở mức %s: thẻ không có viền và nhãn',
@@ -329,19 +292,6 @@ describe('Tổng quan', () => {
       expect(card('Tín chỉ đạt').className).toBe('metric-card');
     },
   );
-
-  it('không đọc được cảnh báo: số liệu vẫn hiện, không có nhãn', async () => {
-    const fetchMock = m11Api('student', {
-      'GET /api/m11/risks': () => apiError(500, 'INTERNAL_ERROR', 'Lỗi'),
-    });
-
-    renderApp('/?semester=S4');
-
-    expect(await screen.findByText('3,11')).toBeInTheDocument();
-    await settled();
-    expect(card('GPA tích lũy').className).toBe('metric-card');
-    expect(callsTo(fetchMock, '/api/m11/risks')[0].get('semester_id')).toBe('S4');
-  });
 
   it('bộ lọc kỳ nằm trong thẻ chào mừng', async () => {
     m11Api('student');
@@ -368,13 +318,17 @@ describe('Tổng quan', () => {
     expect(search()).toBe(query);
   });
 
-  it('không lặp biểu đồ của trang Phân tích', async () => {
+  it('không lặp các khối của trang Phân tích (D-306: biểu đồ cột dùng /gpa-trend theo ảnh mẫu)', async () => {
     const fetchMock = m11Api('student');
 
     renderApp('/');
 
     await screen.findByText('3,11');
-    expect(callsTo(fetchMock, '/api/m11/gpa-trend')).toEqual([]);
+    await screen.findByRole('table', { name: 'Điểm trung bình theo kỳ' });
+    for (const path of ['/api/m11/curriculum-check', '/api/m11/strengths', '/api/m11/compare']) {
+      expect(callsTo(fetchMock, path)).toEqual([]);
+    }
+    expect(document.querySelector('.trend-chart')).toBeNull();
   });
 
   it('SV05 chưa có dữ liệu: hiện gạch và giải thích, không hiện 0 cho GPA', async () => {
@@ -465,84 +419,8 @@ describe('Tổng quan', () => {
   });
 });
 
-describe('Tổng quan: GPA học kỳ trống (Q80)', () => {
-  const noSemesterResult = () => {
-    const body = overviewBody({ gpa: null });
-    body.metrics.semester_gpa.denominator = 0;
-    return jsonResponse(200, body);
-  };
-
-  it('mẫu số bằng 0: ghi chưa có kết quả và kỳ gần nhất có điểm, các thẻ khác giữ kỳ', async () => {
-    const fetchMock = m11Api('student', {
-      'GET /api/m11/overview': noSemesterResult,
-      'GET /api/m11/gpa-trend': () =>
-        jsonResponse(200, {
-          ...TREND,
-          points: [
-            { semester_id: 'S3', order: 3, name: 'Kỳ 3', value: '2.50' },
-            { semester_id: 'S4', order: 4, name: 'Kỳ 4', value: '3.11' },
-            { semester_id: 'S5', order: 5, name: 'Kỳ 5', value: null },
-          ],
-        }),
-    });
-
-    renderApp('/?semester=S5');
-
-    await screen.findByRole('link', { name: 'GPA học kỳ' });
-    const gpaCard = card('GPA học kỳ');
-    expect(await within(gpaCard).findByText('Kỳ này chưa có kết quả')).toBeInTheDocument();
-    expect(
-      await within(gpaCard).findByText('Kỳ gần nhất có điểm (Kỳ 4): 3,11'),
-    ).toBeInTheDocument();
-    expect(within(gpaCard).getByText('Chưa có kết quả · Gần nhất Kỳ 4: 3,11')).toBeInTheDocument();
-    expect(within(gpaCard).getByText('—')).toBeInTheDocument();
-    expect(within(card('GPA tích lũy')).getByText('Tính đến Kỳ S5')).toBeInTheDocument();
-    expect(callsTo(fetchMock, '/api/m11/gpa-trend')[0].get('semester_id')).toBe('S5');
-    expect(screen.getByLabelText('Học kỳ')).toHaveValue('S5');
-  });
-
-  it('không có kỳ nào có điểm: chỉ ghi dòng đầu', async () => {
-    m11Api('student', {
-      'GET /api/m11/overview': noSemesterResult,
-      'GET /api/m11/gpa-trend': () =>
-        jsonResponse(200, {
-          ...TREND,
-          points: [{ semester_id: 'S5', order: 5, name: 'Kỳ 5', value: null }],
-        }),
-    });
-
-    renderApp('/');
-
-    expect(await screen.findByText('Kỳ này chưa có kết quả')).toBeInTheDocument();
-    await settled();
-    expect(screen.queryByText(/Kỳ gần nhất có điểm/)).not.toBeInTheDocument();
-    expect(screen.getByText('Chưa có kết quả')).toBeInTheDocument();
-  });
-
-  it('lỗi khi đọc kỳ gần nhất: vẫn có dòng đầu, không làm hỏng trang', async () => {
-    m11Api('student', {
-      'GET /api/m11/overview': noSemesterResult,
-      'GET /api/m11/gpa-trend': () => apiError(500, 'INTERNAL_ERROR', 'Lỗi'),
-    });
-
-    renderApp('/');
-
-    expect(await screen.findByText('Kỳ này chưa có kết quả')).toBeInTheDocument();
-    await settled();
-    expect(screen.queryByText(/Kỳ gần nhất có điểm/)).not.toBeInTheDocument();
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-  });
-
-  it('có mẫu số: không có dòng này, không gọi thêm API', async () => {
-    const fetchMock = m11Api('student');
-
-    renderApp('/');
-
-    await screen.findByText('3,11');
-    expect(screen.queryByText('Kỳ này chưa có kết quả')).not.toBeInTheDocument();
-    expect(callsTo(fetchMock, '/api/m11/gpa-trend')).toEqual([]);
-  });
-});
+// D-306 thay D-292 ở Tổng quan: GPA học kỳ trống chỉ còn gạch, không có dòng "Kỳ này chưa có kết quả ·
+// Kỳ gần nhất có điểm …". Test thay thế: overviewCr08.test.jsx "GPA học kỳ trống: chỉ có gạch…".
 
 describe('Kết quả', () => {
   const STATUS_ROWS = [

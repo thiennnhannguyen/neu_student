@@ -281,10 +281,12 @@ describe('trang theo vai trò', () => {
     expect(fetchMock.mock.calls.filter(([url]) => String(url).startsWith('/api/m11'))).toEqual([]);
   });
 
-  it('sinh viên thấy chào mừng với khóa, ngành, kỳ hiện tại và 4 lối tắt', async () => {
+  it('sinh viên thấy dải hồ sơ "Mã SV - Họ tên", khóa, ngành và 4 lối tắt (D-306)', async () => {
     loggedInAs('student', {
       'GET /api/students/me': () =>
         jsonResponse(200, {
+          student_code: 'SV01',
+          full_name: 'Sinh viên 01',
           cohort: 'K66',
           program: { name: 'CNTT' },
           current_semester: { name: 'HK1' },
@@ -293,7 +295,9 @@ describe('trang theo vai trò', () => {
 
     renderApp('/');
 
-    expect(await screen.findByText('K66 · CNTT · Kỳ hiện tại: HK1')).toBeInTheDocument();
+    expect(await screen.findByText('SV01 - Sinh viên 01')).toBeInTheDocument();
+    expect(screen.getByText('K66 · CNTT')).toBeInTheDocument();
+    expect(screen.queryByText(/Kỳ hiện tại:/)).toBeNull();
     const shortcuts = screen.getByRole('region', { name: 'Lối tắt' });
     expect(within(shortcuts).getAllByRole('link')).toHaveLength(4);
   });

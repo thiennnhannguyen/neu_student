@@ -76,7 +76,8 @@ test('đổi kỳ nhanh liên tiếp: cuối cùng hiện đúng số của kỳ
   await select.selectOption('S1');
   await select.selectOption('S3');
   await expect(failedCard(page).locator('.metric-card__value')).toHaveText('2');
-  await expect(page.getByText('Tính đến HK1 2025-2026').first()).toBeVisible();
+  // D-306 bỏ dòng phạm vi "Tính đến …"; kỳ đang xem đọc ở bộ chọn kỳ trong dải hồ sơ.
+  await expect(select).toHaveValue('S3');
 });
 
 test('375px: mở tấm chọn kỳ bằng bàn phím, Esc đóng và trả focus về chip', async ({ page }) => {
