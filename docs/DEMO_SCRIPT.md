@@ -23,7 +23,7 @@ Mở http://localhost:5173. Mở terminal 2 để seed giữa các phần. Đổ
 | 6. Bài kiểm tra và chứng chỉ (phần thêm của CR-04, nếu còn giờ) | 2 phút | demo-k68 | `thiennhan` |
 | 7. Báo cáo tuần (CR-12) | 2 phút | demo-k68 | `thiennhan`, `gv2` |
 
-Chạy bằng `make demo` (ngày demo 26/10/2026): sinh viên có báo cáo tuần đang mở sẽ thấy màn hình báo cáo toàn trang ngay khi đăng nhập, gồm `thiennhan`, `demo05` và các tài khoản `demo` khác trừ `demo06`. Ở phần 2–4 và 6, bấm **Làm sau** cho từng môn để tiếp tục. Mỗi báo cáo chỉ được "Làm sau" một lần; tải lại trang thì phải nộp, hoặc seed lại.
+Chạy bằng `make demo` (ngày demo 26/10/2026). **Sau mỗi lần pull phải chạy lại `make demo`** (seed lại): CSDL của `make dev` không tự cập nhật theo dữ liệu mẫu mới. Chỉ `thiennhan` còn báo cáo tuần đang mở, nên chỉ tài khoản này thấy màn hình báo cáo toàn trang khi đăng nhập; `demo01`–`demo08` đã có báo cáo mẫu nộp đủ (bổ sung D-312), phần 2–4 không cần bấm gì thêm. Ở phần 6, bấm **Làm sau** cho từng môn của `thiennhan` để tiếp tục; mỗi báo cáo chỉ được "Làm sau" một lần, tải lại trang thì phải nộp, hoặc seed lại.
 
 ## Phần 1. Cảnh báo và kế hoạch cải thiện (profile test)
 

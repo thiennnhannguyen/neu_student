@@ -5,7 +5,7 @@
 
 export const ATTENDANCE_OPTIONS = [
   { value: 'present', label: 'Có mặt' },
-  { value: 'absent', label: 'Vắng' },
+  { value: 'absent', label: 'Vắng không phép' },
   { value: 'excused', label: 'Vắng có phép' },
 ];
 

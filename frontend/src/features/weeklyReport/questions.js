@@ -17,7 +17,7 @@ export const QUESTIONS = [
     options: [
       { value: 'present', label: 'Có mặt' },
       { value: 'excused', label: 'Vắng có phép' },
-      { value: 'absent', label: 'Vắng' },
+      { value: 'absent', label: 'Vắng không phép' },
     ],
   },
   {

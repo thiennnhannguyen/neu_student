@@ -91,7 +91,7 @@ function Totals({ preview }) {
   const rows = [
     ['Tuần của môn', `Tuần ${week.week_no} (${formatDay(week.start)}–${formatDay(week.end)})`],
     ['Buổi đã học', formatCount(summary.sessions_held)],
-    ['Vắng', formatCount(summary.absent)],
+    ['Vắng không phép', formatCount(summary.absent)],
     ['Vắng có phép', formatCount(summary.excused)],
     ['Bài đã nộp', `${formatCount(summary.submitted)}/${formatCount(summary.assignments_total)}`],
     ['Đã chấm', formatCount(summary.graded)],

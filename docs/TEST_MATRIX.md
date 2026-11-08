@@ -471,3 +471,13 @@ Test cũ đổi (commit test riêng): theo bổ sung D-309, `test_course_calenda
 
 Test cũ đổi theo D-313 (commit test riêng): `test_lms_summary.py` (6,00 thay 8,00 vì bài quá hạn tính 0; đổi tên trường), `test_lms_api.py` (4,25 thay 8,50; đổi tên trường), `analysisCr11.test.jsx` (4,43 thay 7,75), `lmsDemo.test.jsx` và `testData.js` (dữ liệu giả dùng `assignment_score`, `process_score`).
 
+
+## Bổ sung D-312 (commit đầu CR-13): "Vắng không phép", báo cáo mẫu trung tính demo01–demo08
+
+| Yêu cầu | Test |
+|---|---|
+| Cờ "không khớp" so đúng loại vắng (có phép ≠ không phép, cả hai chiều); giá trị câu 1 trùng trạng thái LMS | `backend/tests/acceptance/test_cr13_pre_reports.py` |
+| demo01–demo08 ở ngày demo: không báo cáo đang mở, không "Không nộp", đã nộp = phải nộp > 0; câu trả lời trung tính; chỉ `thiennhan` còn CNTT1180 tuần 7, CNTT1117 tuần 8 | `test_cr13_pre_reports.py` |
+| Câu 1 có Có mặt, Vắng có phép, Vắng không phép, không còn "Vắng" trơn; nhãn trùng form LMS Demo | `frontend/src/features/weeklyReport/absenceLabel.test.jsx` |
+
+Test cũ đổi theo bổ sung D-312 (commit test riêng): `test_migration_0016.py` (206 thay 32 báo cáo), `lmsDemo.test.jsx` và e2e `lmsCr11.spec.mjs` (nhãn "Vắng không phép").

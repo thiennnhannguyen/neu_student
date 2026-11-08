@@ -712,6 +712,20 @@ LMS_ASSIGNMENT_NAMES = {
 # - CNTT1140: hiểu bài và tự tin giảm dần; KHÔNG NỘP tuần 5 và 7.
 # - CNTT1159: khai "Vắng" đúng tuần 3 và 6 (khớp LMS).
 # Ngày demo 26/10/2026 còn mở: CNTT1180 tuần 7 (hạn 26/10) và CNTT1117 tuần 8 (mở 26/10).
+# Báo cáo mẫu "trung tính" của demo01–demo08 (bổ sung D-312, commit đầu CR-13): đã nộp mọi tuần
+# hết hạn và mọi báo cáo đang mở tại ngày demo, nên đăng nhập không bật màn hình báo cáo và không có
+# "Không nộp" giả. Các bạn này chưa có LMS nên câu 1 khớp lịch ("Có mặt"), cờ để NULL (chưa đối
+# chiếu). Mức hiểu bài xen kẽ 3 và 4, tự học 1–2 giờ, tự tin 3 không đổi: không kích hoạt điều
+# chỉnh nào của điểm cuối kỳ dự kiến (CR-13). Chỉ thiennhan giữ báo cáo đang mở ("Môn 1/2").
+NEUTRAL_REPORT = {
+    "attendance": "present",
+    "self_study": "1_2h",
+    "understanding": (3, 4),
+    "assignment": "done",
+    "confidence": 3,
+    "obstacle": "none",
+    "next_plan": "keep_going",
+}
 WEEKLY_REPORT_PATTERNS = {
     "CNTT1180": {
         "weeks": 6,

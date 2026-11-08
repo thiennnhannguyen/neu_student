@@ -440,7 +440,7 @@ Thời điểm nhập điểm (`grade_attempts.recorded_at`, CR-05): profile tes
 
 ## 12. Báo cáo tuần mẫu (profile demo-k68, CR-12, D-312)
 
-**Dữ liệu mô phỏng**, sinh bởi `scripts/build_demo_k68.py` từ `WEEKLY_REPORT_PATTERNS` trong `scripts/demo_k68_content.py`. Chỉ `thiennhan` có báo cáo mẫu (32 báo cáo). Báo cáo tuần k nộp vào ngày mở (ngày trước buổi k+1), 20:00 giờ Việt Nam. Câu 1 (đi học) và câu 5 (bài tập) suy từ dữ liệu LMS mẫu ở mục 11 nên khớp LMS, không có cờ lệch.
+**Dữ liệu mô phỏng**, sinh bởi `scripts/build_demo_k68.py` từ `WEEKLY_REPORT_PATTERNS` trong `scripts/demo_k68_content.py`. `thiennhan` có 32 báo cáo mẫu theo nguyên nhân chính của từng môn; demo01–demo08 có báo cáo trung tính (cuối mục). Báo cáo tuần k nộp vào ngày mở (ngày trước buổi k+1), 20:00 giờ Việt Nam. Câu 1 (đi học) và câu 5 (bài tập) suy từ dữ liệu LMS mẫu ở mục 11 nên khớp LMS, không có cờ lệch.
 
 | Môn | Báo cáo mẫu | Nguyên nhân chính | Cột "Báo cáo tuần" ngày 26/10/2026 |
 |-----|-------------|-------------------|-------------------------------------|
@@ -448,7 +448,7 @@ Thời điểm nhập điểm (`grade_attempts.recorded_at`, CR-05): profile tes
 | CNTT1117 | Tuần 1–7; tuần 8 **mở hôm nay** (hạn 27/10) | Trung bình: hiểu bài, tự tin mức 3 | Đã nộp 7/7 · gần nhất tuần 7 (19/10/2026) · 1 đang mở |
 | CNTT1188 | Tuần 1–7 | Khai "Chưa làm" tuần 2, 4, 6 (3 bài quá hạn), "Đang làm" tuần 3 (bài nộp muộn) | Đã nộp 7/7 · gần nhất tuần 7 (20/10/2026) |
 | CNTT1140 | Tuần 1–4, 6; **không nộp tuần 5, 7** | Hiểu bài 5 → 4 → 4 → 3 → 2, tự tin 5 → 4 → 3 → 3 → 2; ghi chú tuần 4, 6 | Đã nộp 5/7 · gần nhất tuần 6 (14/10/2026) |
-| CNTT1159 | Tuần 1–7 | Khai "Vắng" đúng tuần 3 và 6 | Đã nộp 7/7 · gần nhất tuần 7 (22/10/2026) |
+| CNTT1159 | Tuần 1–7 | Khai "Vắng không phép" đúng tuần 3 và 6 | Đã nộp 7/7 · gần nhất tuần 7 (22/10/2026) |
 
-Sinh viên demo khác (`demo01`–`demo08`) có lịch học nhưng chưa có báo cáo mẫu: ở ngày demo, báo cáo các tuần trước là "Không nộp" và có 0–3 báo cáo đang mở (`demo06` không có).
+Sinh viên demo khác (`demo01`–`demo08`, bổ sung D-312 ở commit đầu CR-13) có **174 báo cáo trung tính** từ `NEUTRAL_REPORT`: đã nộp mọi báo cáo đã mở tới ngày demo 26/10/2026 (các tuần đã hết hạn và các báo cáo đang mở hôm đó), nộp ngày mở, 20:00 giờ Việt Nam. Câu 1 "Có mặt" (chưa có LMS nên khớp lịch, cờ để trống là chưa đối chiếu), tự học 1–2 giờ, mức hiểu bài xen kẽ 3 (tuần lẻ) và 4 (tuần chẵn), bài tập "Xong", tự tin 3, cản trở "Không có", tuần tới "Giữ như hiện tại". Ở ngày demo không ai trong số này có báo cáo đang mở hay "Không nộp"; chạy theo ngày thật (sau 26/10/2026) thì các tuần sau vẫn hiện "Không nộp", đúng thiết kế. Tổng `weekly_reports`: 206.
 

@@ -1137,7 +1137,48 @@ class Builder:
                         answer, [not missing and not late]
                     ),
                 )
+        self._neutral_weekly_reports(reports, schedules)
         self.tables["weekly_reports"] = reports
+
+    def _neutral_weekly_reports(self, reports: list[dict], schedules: dict) -> None:
+        """Sinh viên demo khác thiennhan: đã nộp mọi báo cáo đã mở tới ngày demo (bổ sung D-312)."""
+        today = date.fromisoformat(content.LMS_DEMO_TODAY)
+        neutral = content.NEUTRAL_REPORT
+        enrolled = sorted(
+            (row["student_id"], row["course_id"])
+            for row in self.tables["enrollments"]
+            if row["status"] == "in_progress"
+            and row["semester_id"] == content.LMS_SEMESTER
+            and row["student_id"] != content.LMS_STUDENT
+        )
+        for student_id, course_id in enrolled:
+            schedule = schedules[course_id]
+            for week_no in report_rules.report_weeks(schedule):
+                window = report_rules.report_window(schedule, week_no)
+                if window.opens_on > today:
+                    break
+                _row(
+                    reports,
+                    id=f"wr-{student_id}-{course_id}-w{week_no}",
+                    student_id=student_id,
+                    course_id=course_id,
+                    semester_id=content.LMS_SEMESTER,
+                    week_no=week_no,
+                    postpone_count=0,
+                    postponed_at=None,
+                    submitted_at=f"{window.opens_on.isoformat()}T13:00:00",
+                    submitted_on=window.opens_on.isoformat(),
+                    attendance=neutral["attendance"],
+                    self_study=neutral["self_study"],
+                    understanding=neutral["understanding"][week_no % 2],
+                    unclear_note=None,
+                    assignment=neutral["assignment"],
+                    confidence=neutral["confidence"],
+                    obstacle=neutral["obstacle"],
+                    next_plan=neutral["next_plan"],
+                    attendance_mismatch=None,
+                    assignment_mismatch=None,
+                )
 
     def _date_attempts(self, semesters: list[dict]) -> None:
         """Ngày mẫu suy từ lịch kỳ: điểm coi như nhập vào ngày kết thúc kỳ của lần học (CR-05)."""
