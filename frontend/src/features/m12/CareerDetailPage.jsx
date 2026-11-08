@@ -1,7 +1,7 @@
 import { CalendarRange } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { Navigate, useParams, useSearchParams } from 'react-router';
-import { Button, EmptyState, PageHeader, StatusLegend, Tabs } from '../../components/ui';
+import { Button, EmptyState, PageHeader, Tabs } from '../../components/ui';
 import { withQuery } from '../m11/format';
 import useApiResource from '../m11/useApiResource';
 import { DataWarnings, ResourceView } from '../m11/ui';
@@ -17,16 +17,6 @@ import SetGoalButton from './SetGoalButton';
 import useCareerStudent from './useCareerStudent';
 import useMediaQuery from './useMediaQuery';
 
-const COURSE_STATUSES = [
-  'done',
-  'done_via_equivalency',
-  'exempt',
-  'in_progress',
-  'failed',
-  'not_started',
-  'pending',
-  'no_evidence',
-];
 const OLD_ID_PREFIX = 'career-';
 const PUSH_PANEL_QUERY = '(min-width: 1280px)';
 
@@ -58,7 +48,6 @@ function Detail({ student, data, reload, slug }) {
               <strong>Học kỳ chính thức theo CTĐT:</strong> nhãn HK ở từng môn.
             </span>
           </p>
-          <StatusLegend statuses={COURSE_STATUSES} />
           <CareerRoadmap
             label={`Lộ trình ${profile.display_name}`}
             nodes={nodes}

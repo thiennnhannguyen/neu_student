@@ -2,7 +2,7 @@ import { Award, BookOpenCheck, ClipboardCheck } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { apiRequest } from '../../../api/client';
-import { Button, Card, Disclosure, StatusChip, StatusLegend } from '../../../components/ui';
+import { Button, Card, Disclosure, StatusChip } from '../../../components/ui';
 import { courseCode, formatDateTime } from '../../m11/format';
 import InlineCode from './InlineCode';
 
@@ -163,46 +163,6 @@ function Milestones({ rows }) {
   );
 }
 
-function allocationText(allocation) {
-  return Object.entries(allocation)
-    .map(([semester, credits]) => `HK${semester}: ${credits}`)
-    .join(', ');
-}
-
-function Electives({ electives }) {
-  return (
-    <section aria-labelledby="framework-electives">
-      <h2 id="framework-electives">Bộ tự chọn đề xuất cho Backend</h2>
-      <p>Đề xuất của nhóm biên soạn, trong 15 môn tự chọn của CTĐT. Không bắt buộc.</p>
-      <ul className="framework-electives">
-        {electives.suggested.map((course) => (
-          <li key={course.course_id}>
-            <StatusChip status={course.status} /> {courseCode(course.code)} {course.name} (HK{' '}
-            {course.planned_semester})
-          </li>
-        ))}
-      </ul>
-      <p className="table-note">
-        Tín chỉ tự chọn theo học kỳ: bộ đề xuất {allocationText(electives.allocation.suggested)};
-        PDF ghi {allocationText(electives.allocation.curriculum)}. Tổng vẫn 30 tín chỉ.
-      </p>
-      {electives.replaced.length > 0 && (
-        <>
-          <h3>Môn bạn chọn khác bộ đề xuất</h3>
-          <ul>
-            {electives.replaced.map((row) => (
-              <li key={row.chosen.course_id}>
-                {courseCode(row.chosen.code)} {row.chosen.name} thay cho{' '}
-                {courseCode(row.instead_of.code)} {row.instead_of.name}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-    </section>
-  );
-}
-
 /** Tab Khung năng lực. Nội dung môn là phần cần nắm do nhóm biên soạn, không phải đề cương. */
 export default function CompetencyFramework({ data, student, onChanged }) {
   return (
@@ -213,23 +173,12 @@ export default function CompetencyFramework({ data, student, onChanged }) {
       <Milestones rows={data.milestones} />
       <section aria-labelledby="framework-modules">
         <h2 id="framework-modules">10 mô-đun năng lực</h2>
-        <StatusLegend
-          statuses={[
-            'done',
-            'done_via_equivalency',
-            'exempt',
-            'in_progress',
-            'failed',
-            'not_started',
-          ]}
-        />
         <div className="framework-modules">
           {data.modules.map((module) => (
             <ModuleCard key={module.id} module={module} student={student} onChanged={onChanged} />
           ))}
         </div>
       </section>
-      <Electives electives={data.electives} />
     </div>
   );
 }

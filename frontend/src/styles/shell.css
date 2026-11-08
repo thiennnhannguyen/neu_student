@@ -511,11 +511,6 @@
     gap: var(--space-1);
   }
 
-  .topbar .mock-badge {
-    padding: 2px var(--space-1);
-    font-size: var(--font-12);
-  }
-
   .topbar .dropdown__trigger {
     padding: 0;
   }

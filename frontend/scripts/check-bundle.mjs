@@ -13,7 +13,8 @@ const FORBIDDEN = [
   'IllustrationsSheet',
   'Demo@12345',
 ];
-const REQUIRED = 'Dữ liệu mẫu';
+// Dòng bắt buộc ở mọi trang có logo (AGENTS.md); D-305 đã bỏ badge "Dữ liệu mẫu".
+const REQUIRED = 'không phải hệ thống chính thức';
 
 if (!existsSync(ASSETS)) {
   console.error('Chưa có dist/assets. Chạy npm run build trước.');

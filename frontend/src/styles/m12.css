@@ -127,13 +127,17 @@
   position: absolute;
   top: var(--space-2);
   left: var(--space-2);
-  padding: var(--space-1) var(--space-12);
-  font-size: var(--font-12);
-  font-weight: 700;
-  color: var(--neu-primary);
+  padding: 6px;
   background: var(--neu-white);
   border-radius: 999px;
   box-shadow: var(--shadow-sm);
+}
+
+/* Ngôi sao mục tiêu chính (CR-07): màu chính trên nền trắng hoặc nền thẻ. */
+.goal-star {
+  display: inline-flex;
+  align-items: center;
+  color: var(--neu-primary);
 }
 
 .career-card__body {

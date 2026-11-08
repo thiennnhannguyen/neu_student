@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import CareerIllustration from './illustrations/CareerIllustration';
 import CareerMeter from './CareerMeter';
+import GoalStar from './GoalStar';
 import { lowCoverageText, percentText } from './labels';
 
 /** Cả thẻ là một liên kết. Hai tỷ lệ tách riêng, không gộp (R8). */
@@ -13,7 +14,7 @@ export default function CareerCard({ item, link }) {
     >
       <span className="career-card__media">
         <CareerIllustration illustrationKey={career.illustration_key} />
-        {item.is_primary && <span className="career-card__goal">Mục tiêu của bạn</span>}
+        {item.is_primary && <GoalStar className="career-card__goal" size={20} />}
       </span>
       <span className="career-card__body">
         <strong className="career-card__name" title={career.display_name}>

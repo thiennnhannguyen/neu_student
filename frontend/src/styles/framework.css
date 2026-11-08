@@ -19,13 +19,6 @@
   align-items: start;
 }
 
-.framework-electives {
-  display: grid;
-  gap: var(--space-1);
-  padding: 0;
-  list-style: none;
-}
-
 .module-card h3 {
   margin: 0;
 }
@@ -241,11 +234,6 @@
 .verify-page h1 {
   margin: 0;
   color: var(--neu-primary);
-}
-
-.verify-page__top {
-  display: flex;
-  justify-content: flex-end;
 }
 
 .verify-page__facts {

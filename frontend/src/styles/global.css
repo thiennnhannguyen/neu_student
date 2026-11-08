@@ -36,17 +36,6 @@ body {
   top: var(--space-2);
 }
 
-/* Nhãn "Dữ liệu mẫu" ở trang đăng nhập và thanh trên cùng. */
-.mock-badge {
-  padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--neu-primary-dark);
-  border-radius: var(--radius);
-  color: var(--neu-primary-dark);
-  font-size: 0.875rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
 /* Mosaic họa tiết. Chỉ để trang trí: không nhận thao tác, không đè lên chữ. */
 .motif-mosaic {
   display: grid;
@@ -163,12 +152,6 @@ body {
   inset: 0 0 auto;
   height: 6px;
   background: linear-gradient(to right, var(--neu-primary), var(--neu-accent));
-}
-
-.login-card__badge {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: var(--space-2);
 }
 
 .login-card h1 {

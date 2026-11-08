@@ -1,6 +1,7 @@
 import { Badge, InfoPopover } from '../../components/ui';
 import CareerIllustration from './illustrations/CareerIllustration';
 import CareerMeter, { MeterLegend } from './CareerMeter';
+import GoalStar from './GoalStar';
 import { groupLabel, METER_NOTE, NOT_RECRUITMENT, RATE_NOTE } from './labels';
 import ProgressRing from './ProgressRing';
 
@@ -34,7 +35,7 @@ export default function CareerHero({ profile, progress, action, isPrimary, fit }
           </p>
         )}
         <p className="career-hero__chips">
-          {isPrimary && <Badge tone="info">Mục tiêu của bạn</Badge>}
+          {isPrimary && <GoalStar className="career-hero__goal" />}
           {fit && <Badge tone="outline">Phù hợp với ngành của bạn: {fit.code}</Badge>}
         </p>
         {profile.major_fit?.note && <p className="career-hero__note">{profile.major_fit.note}</p>}

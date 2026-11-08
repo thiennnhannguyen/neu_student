@@ -10,9 +10,6 @@ export default function VerifyCertificatePage() {
   const resource = useApiResource(`/api/public/certificates/${code}`);
   return (
     <main id="main" className="verify-page">
-      <div className="verify-page__top">
-        <span className="mock-badge">Dữ liệu mẫu</span>
-      </div>
       <h1>Xác thực chứng chỉ</h1>
       <ResourceView
         resource={resource}

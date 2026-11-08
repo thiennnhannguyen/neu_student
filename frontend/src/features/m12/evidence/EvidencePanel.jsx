@@ -1,14 +1,6 @@
 import { useState } from 'react';
 import { apiRequest } from '../../../api/client';
-import {
-  Button,
-  FormField,
-  Input,
-  SidePanel,
-  StatusChip,
-  StatusLegend,
-  useToast,
-} from '../../../components/ui';
+import { Button, FormField, Input, SidePanel, StatusChip, useToast } from '../../../components/ui';
 import { withQuery } from '../../m11/format';
 import useApiResource from '../../m11/useApiResource';
 import { ResourceView } from '../../m11/ui';
@@ -110,7 +102,6 @@ function History({ rows }) {
   }
   return (
     <>
-      <StatusLegend statuses={['done', 'pending', 'failed']} />
       <ul className="evidence-history">
         {rows.map((row) => (
           <li key={row.id}>

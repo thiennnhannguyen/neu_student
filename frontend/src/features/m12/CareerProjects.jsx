@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, StatusChip, StatusLegend } from '../../components/ui';
+import { Button, Card, StatusChip } from '../../components/ui';
 import EvidencePanel from './evidence/EvidencePanel';
 import { chipStatus } from './labels';
 
@@ -56,7 +56,6 @@ export default function CareerProjects({
       {skills.length > 0 && (
         <section aria-labelledby="career-checklist">
           <h2 id="career-checklist">Checklist sẵn sàng thực tập</h2>
-          <StatusLegend statuses={['done', 'pending', 'no_evidence']} />
           <ul className="career-checklist">
             {skills.map((skill) => (
               <li key={skill.id}>

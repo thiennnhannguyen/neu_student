@@ -5,7 +5,6 @@ import ScopeChip from '../features/m11/ScopeChip';
 import StudentPicker from '../features/m11/StudentPicker';
 import useStudentOptions from '../features/m11/useStudentOptions';
 import { pageMetaFor } from './menu';
-import Badge from './ui/Badge';
 import { Breadcrumb } from './ui/PageHeader';
 import NotificationBell from '../features/notifications/NotificationBell';
 import UserMenu from './UserMenu';
@@ -40,9 +39,6 @@ export default function Topbar({ menuOpen, onToggleMenu }) {
       <div className="topbar__tools">
         {students.enabled && <StudentPicker students={students} />}
         <ScopeChip students={students} />
-        <Badge tone="outline" className="mock-badge">
-          Dữ liệu mẫu
-        </Badge>
         <NotificationBell />
         <UserMenu onLogoutError={setLogoutError} />
       </div>
