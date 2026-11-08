@@ -201,6 +201,27 @@ class CourseOffering(MockMixin, db.Model):
     )
 
 
+class CourseSchedule(MockMixin, db.Model):
+    """Lịch học của môn trong kỳ (D-309): 1 buổi/tuần vào cùng một thứ, bắt đầu từ buổi đầu tiên.
+
+    Tuần k của môn là từ ngày buổi k tới ngày trước buổi k+1, tính ở course_calendar.
+    """
+
+    __tablename__ = "course_schedules"
+    id = pk()
+    course_id = fk("courses.id")
+    semester_id = fk("semesters.id")
+    # 1 = Thứ 2 … 7 = Chủ nhật (isoweekday).
+    weekday = db.Column(db.Integer, nullable=False)
+    first_session_date = db.Column(db.Date, nullable=False)
+    total_sessions = db.Column(db.Integer, nullable=False)
+    __table_args__ = (
+        db.UniqueConstraint("course_id", "semester_id"),
+        db.CheckConstraint("weekday BETWEEN 1 AND 7", name="weekday_valid"),
+        db.CheckConstraint("total_sessions BETWEEN 1 AND 30", name="total_sessions_valid"),
+    )
+
+
 class Enrollment(MockMixin, db.Model):
     __tablename__ = "enrollments"
     id = pk()

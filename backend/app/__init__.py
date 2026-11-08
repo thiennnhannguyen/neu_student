@@ -12,6 +12,7 @@ from app.blueprints.admin import admin_bp
 from app.blueprints.advisor import advisor_bp
 from app.blueprints.auth import auth_bp
 from app.blueprints.health import health_bp
+from app.blueprints.lms import lms_bp
 from app.blueprints.m11 import m11_bp
 from app.blueprints.m12 import m12_bp
 from app.blueprints.m12_quiz import m12_quiz_bp, public_certificates_bp
@@ -83,6 +84,7 @@ def create_app(config_name: str | None = None, overrides: dict | None = None) ->
         admin_bp,
         advisor_bp,
         m11_bp,
+        lms_bp,
         m12_bp,
         m12_work_bp,
         m12_quiz_bp,

@@ -17,7 +17,7 @@ from app.schemas.m11 import (
     SemesterQuerySchema,
     TargetQuerySchema,
 )
-from app.services import m11_api_service
+from app.services import lms_service, m11_api_service
 
 m11_bp = Blueprint("m11", __name__, url_prefix="/api/m11")
 READER_ROLES = (ROLE_STUDENT, ROLE_ADVISOR, ROLE_ADMIN)
@@ -102,3 +102,11 @@ def compare():
 def metrics_glossary():
     student, _args = _target(TargetQuerySchema())
     return jsonify(m11_api_service.glossary(student))
+
+
+@m11_bp.get("/current-courses")
+@require_roles(*READER_ROLES)
+def current_courses():
+    """Các môn đang học kỳ hiện tại kèm bản LMS mới nhất (CR-11; dự đoán ở CR-13)."""
+    student, _args = _target(TargetQuerySchema())
+    return jsonify(lms_service.current_courses(student))

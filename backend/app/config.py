@@ -19,6 +19,8 @@ class BaseConfig:
     QUIZ_DURATION_MINUTES = int(os.environ.get("QUIZ_DURATION_MINUTES", "15"))
     QUIZ_PASS_PERCENT = int(os.environ.get("QUIZ_PASS_PERCENT", "80"))
     QUIZ_RETRY_COOLDOWN_MINUTES = int(os.environ.get("QUIZ_RETRY_COOLDOWN_MINUTES", "10"))
+    # D-309: ngày "hôm nay" của hệ thống cho demo (YYYY-MM-DD). Không đặt thì dùng ngày thật.
+    DEMO_TODAY = os.environ.get("DEMO_TODAY") or None
     # Hết hạn sau 2 giờ không hoạt động: cookie được ký lại ở mỗi request.
     PERMANENT_SESSION_LIFETIME = timedelta(hours=2)
     SESSION_REFRESH_EACH_REQUEST = True

@@ -635,3 +635,65 @@ HAND_CALC = [
         "coverage": (11, 12, 92),
     },
 ]
+
+# D-309 (CR-11): lịch học và dữ liệu LMS mô phỏng của kỳ hiện tại (S5). Không có tên giảng viên.
+# Ngày demo cố định: mọi môn của thiennhan đang ở tuần 8. Chạy demo với DEMO_TODAY=LMS_DEMO_TODAY.
+LMS_DEMO_TODAY = "2026-10-26"
+LMS_SEMESTER = "S5"
+LMS_TOTAL_SESSIONS = 15
+LMS_WEEKS = 8
+# Thứ học (1 = Thứ 2) của 5 môn thiennhan; môn đang học khác của demo-k68 xếp lần lượt Thứ 2 → Thứ 6.
+LMS_WEEKDAYS = {"CNTT1180": 1, "CNTT1117": 2, "CNTT1188": 3, "CNTT1140": 4, "CNTT1159": 5}
+LMS_STUDENT = "NEU-KHMT-001"
+LMS_SENDER = "user-admin"
+# Mỗi môn đúng MỘT nguyên nhân chính (quản lý dự án, phản hồi CR-11):
+# - "good": đi học đủ, bài tập 8,5–9,5, nộp đúng hạn.
+# - "average": đi học đủ, bài tập 6,0–7,0, nộp đúng hạn.
+# - "missing": đi học đủ, điểm bài đã nộp vẫn khá, nhưng 3 bài quá hạn chưa nộp và 1 bài nộp muộn.
+# - "declining": đi học đủ, nộp đúng hạn, điểm giảm dần 8,5 → 4,5.
+# - "absent": vắng 2 buổi (buổi 3 và 6, không phép, sát cấm thi), bài tập và điểm vẫn tốt.
+# Bài j (1–7) có hạn nộp là ngày cuối tuần j của môn; điểm là None nghĩa là không nộp.
+LMS_PATTERNS = {
+    "CNTT1180": {
+        "kind": "good",
+        "scores": ["9.0", "8.5", "9.5", "9.0", "8.5", "9.0", "9.5"],
+        "late": [],
+        "absent": [],
+        "quiz": "9.0",
+    },
+    "CNTT1117": {
+        "kind": "average",
+        "scores": ["6.5", "7.0", "6.0", "6.5", "7.0", "6.5", "6.0"],
+        "late": [],
+        "absent": [],
+        "quiz": "6.5",
+    },
+    "CNTT1188": {
+        "kind": "missing",
+        "scores": ["8.0", None, "7.5", None, "8.0", None, "7.5"],
+        "late": [3],
+        "absent": [],
+        "quiz": "7.5",
+    },
+    "CNTT1140": {
+        "kind": "declining",
+        "scores": ["8.5", "8.0", "7.0", "6.5", "5.5", "5.0", "4.5"],
+        "late": [],
+        "absent": [],
+        "quiz": "6.0",
+    },
+    "CNTT1159": {
+        "kind": "absent",
+        "scores": ["8.0", "8.5", "8.0", "8.5", "8.0", "8.5", "8.0"],
+        "late": [],
+        "absent": [3, 6],
+        "quiz": "8.5",
+    },
+}
+LMS_ASSIGNMENT_NAMES = {
+    "CNTT1180": "Bài tập Python",
+    "CNTT1117": "Bài tập phân tích hệ thống",
+    "CNTT1188": "Bài tập lập trình Web",
+    "CNTT1140": "Bài tập trí tuệ nhân tạo",
+    "CNTT1159": "Bài tập quản lý dự án",
+}

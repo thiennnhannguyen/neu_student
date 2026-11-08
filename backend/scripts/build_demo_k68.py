@@ -10,10 +10,12 @@ import html
 import json
 import re
 from dataclasses import dataclass, field
+from datetime import date, timedelta
 from decimal import Decimal
 from pathlib import Path
 
 from app.common.text import normalize_name
+from app.services import course_calendar as calendar
 from app.services.grade_components import COMPONENT_KEYS, score_from_components
 from scripts import backend_modules as modules
 from scripts import demo_k68_content as content
@@ -979,6 +981,106 @@ class Builder:
             k68[code] = (name, 10 if group == "thesis" else 3, group)
         return official.document(k68, {code: self._k68_planned.get(code) for code in k68})
 
+    def build_lms(self, semesters: list[dict]) -> None:
+        """D-309: lịch học 1 buổi/tuần cho mọi môn đang học ở S5, bản chụp LMS tuần 1–8 của thiennhan."""
+        semester = next(row for row in semesters if row["id"] == content.LMS_SEMESTER)
+        start = date.fromisoformat(semester["start_date"])
+        in_progress = sorted(
+            {
+                row["course_id"]
+                for row in self.tables["enrollments"]
+                if row["status"] == "in_progress" and row["semester_id"] == content.LMS_SEMESTER
+            }
+        )
+        others = [course for course in in_progress if course not in content.LMS_WEEKDAYS]
+        weekdays = content.LMS_WEEKDAYS | {
+            course: index % 5 + 1 for index, course in enumerate(others)
+        }
+        schedules, schedule_of = [], {}
+        for course_id in in_progress:
+            weekday = weekdays[course_id]
+            first = start + timedelta(days=(weekday - start.isoweekday()) % 7)
+            schedule = calendar.Schedule(weekday, first, content.LMS_TOTAL_SESSIONS)
+            schedule_of[course_id] = schedule
+            _row(
+                schedules,
+                id=f"sch-{course_id}-{content.LMS_SEMESTER}",
+                course_id=course_id,
+                semester_id=content.LMS_SEMESTER,
+                weekday=weekday,
+                first_session_date=first.isoformat(),
+                total_sessions=content.LMS_TOTAL_SESSIONS,
+            )
+        snapshots, attendance, assignments, assessments = [], [], [], []
+        today = date.fromisoformat(content.LMS_DEMO_TODAY)
+        for course_id, pattern in content.LMS_PATTERNS.items():
+            schedule = schedule_of[course_id]
+            for week_no in range(1, content.LMS_WEEKS + 1):
+                as_of = min(calendar.week_range(schedule, week_no).end, today)
+                snapshot_id = f"lms-{content.LMS_STUDENT}-{course_id}-w{week_no}"
+                _row(
+                    snapshots,
+                    id=snapshot_id,
+                    student_id=content.LMS_STUDENT,
+                    course_id=course_id,
+                    semester_id=content.LMS_SEMESTER,
+                    week_no=week_no,
+                    as_of=as_of.isoformat(),
+                    source="demo_form",
+                    # 17:00 giờ Việt Nam là 10:00 UTC.
+                    sent_at=f"{as_of.isoformat()}T10:00:00",
+                    received_at=f"{as_of.isoformat()}T10:00:05",
+                    sent_by=content.LMS_SENDER,
+                )
+                for number in range(1, calendar.sessions_held(schedule, as_of) + 1):
+                    _row(
+                        attendance,
+                        id=f"{snapshot_id}-s{number}",
+                        snapshot_id=snapshot_id,
+                        session_no=number,
+                        session_date=calendar.session_date(schedule, number).isoformat(),
+                        status="absent" if number in pattern["absent"] else "present",
+                    )
+                for number, score in enumerate(pattern["scores"], start=1):
+                    if number > week_no:
+                        break
+                    due = calendar.week_range(schedule, number).end
+                    late = number in pattern["late"]
+                    submitted = None
+                    if score is not None or late:
+                        submitted = due + timedelta(days=2) if late else due - timedelta(days=1)
+                    if submitted is not None and submitted > as_of:
+                        submitted = None
+                    graded = submitted is not None and number < week_no
+                    _row(
+                        assignments,
+                        id=f"{snapshot_id}-a{number}",
+                        snapshot_id=snapshot_id,
+                        code=f"BT{number}",
+                        name=f"{content.LMS_ASSIGNMENT_NAMES[course_id]} {number}",
+                        due_date=due.isoformat(),
+                        submitted_on=None if submitted is None else submitted.isoformat(),
+                        score_10=float(score) if graded and score is not None else None,
+                        weight=1.0,
+                    )
+                if week_no >= 4:
+                    _row(
+                        assessments,
+                        id=f"{snapshot_id}-q1",
+                        snapshot_id=snapshot_id,
+                        kind="quiz",
+                        code="KT1",
+                        name="Kiểm tra 1",
+                        taken_on=calendar.session_date(schedule, 4).isoformat(),
+                        score_10=float(pattern["quiz"]),
+                        weight=1.0,
+                    )
+        self.tables["course_schedules"] = schedules
+        self.tables["lms_snapshots"] = snapshots
+        self.tables["lms_attendance"] = attendance
+        self.tables["lms_assignments"] = assignments
+        self.tables["lms_assessments"] = assessments
+
     def _date_attempts(self, semesters: list[dict]) -> None:
         """Ngày mẫu suy từ lịch kỳ: điểm coi như nhập vào ngày kết thúc kỳ của lần học (CR-05)."""
         ends = {row["id"]: row.get("end_date") for row in semesters}
@@ -1043,9 +1145,20 @@ class Builder:
         self.build_framework()
         self._date_attempts(semesters["semesters"])
         self._add_components()
+        self.build_lms(semesters["semesters"])
         self.tables["roles"] = accounts["roles"]
         return {
             "academic.json": academic,
+            "lms.json": {
+                key: self.tables[key]
+                for key in (
+                    "course_schedules",
+                    "lms_snapshots",
+                    "lms_attendance",
+                    "lms_assignments",
+                    "lms_assessments",
+                )
+            },
             "semesters.json": semesters,
             "plans.json": plans,
             "accounts.json": {
