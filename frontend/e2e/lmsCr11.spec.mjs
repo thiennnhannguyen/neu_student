@@ -64,9 +64,10 @@ test('admin gửi dữ liệu LMS Demo: số tổng do backend tính, sinh viên
   await page.locator('#lms-course').selectOption('CNTT1159');
   await expect(page.getByText('Dữ liệu đã gửi của tuần 8')).toBeVisible();
   const session5 = page.getByRole('group', { name: 'Buổi 5 · 02/10/2026' });
-  await session5.getByRole('radio', { name: 'Vắng', exact: true }).check();
+  // Bổ sung D-312 (commit đầu CR-13): nhãn "Vắng" thành "Vắng không phép".
+  await session5.getByRole('radio', { name: 'Vắng không phép', exact: true }).check();
   const totals = page.locator('.lms-totals');
-  await expect(totals).toContainText('Vắng3');
+  await expect(totals).toContainText('Vắng không phép3');
   await page.getByRole('button', { name: 'Gửi sang hệ thống cảnh báo' }).click();
   await expect(page.getByText(/Đã gửi tuần 8 của CNTT1159/)).toBeVisible();
 

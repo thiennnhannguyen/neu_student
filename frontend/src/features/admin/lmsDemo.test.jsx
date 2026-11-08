@@ -152,7 +152,8 @@ describe('LMS Demo', () => {
 
     const session3 = await screen.findByRole('group', { name: 'Buổi 3 · 18/09/2026' });
     expect(within(session3).getAllByRole('radio')).toHaveLength(3);
-    expect(within(session3).getByRole('radio', { name: 'Vắng' })).toBeChecked();
+    // Bổ sung D-312 (commit đầu CR-13): nhãn "Vắng" thành "Vắng không phép".
+    expect(within(session3).getByRole('radio', { name: 'Vắng không phép' })).toBeChecked();
     expect(screen.getByText('Dữ liệu đã gửi của tuần 8')).toBeInTheDocument();
     expect(screen.queryByText(/Điểm cộng tiến độ/)).toBeNull();
   });
