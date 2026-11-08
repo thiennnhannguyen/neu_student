@@ -422,7 +422,7 @@ describe('Tổng quan', () => {
     expect(
       await within(dialog).findByText('Số nhóm môn có lần hiệu lực trượt.'),
     ).toBeInTheDocument();
-    expect(within(dialog).getByText('grade_attempts')).toBeInTheDocument();
+    expect(within(dialog).getByText('Kết quả các lần học')).toBeInTheDocument();
     expect(within(dialog).getByText('K66-mau-v1')).toBeInTheDocument();
     expect(within(dialog).getByText(/lớn hơn số dòng "Chưa đạt"/)).toBeInTheDocument();
     expect(within(dialog).getByRole('button', { name: 'Đóng' })).toHaveFocus();

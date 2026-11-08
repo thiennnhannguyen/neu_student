@@ -272,7 +272,7 @@ export const GLOSSARY = {
       key: 'failed_course_count',
       name: 'Số môn chưa đạt',
       formula: 'Số nhóm môn có lần hiệu lực trượt.',
-      source: 'grade_attempts',
+      source: 'Kết quả các lần học',
       rule_version: 'K66-mau-v1',
       note: 'Có thể lớn hơn số dòng "Chưa đạt".',
     },
