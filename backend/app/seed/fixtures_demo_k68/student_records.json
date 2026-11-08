@@ -257,6 +257,22 @@
       "is_mock": true
     },
     {
+      "id": "enr-NEU-KHMT-001-CNTT1140-S5",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1140",
+      "semester_id": "S5",
+      "status": "in_progress",
+      "is_mock": true
+    },
+    {
+      "id": "enr-NEU-KHMT-001-CNTT1159-S5",
+      "student_id": "NEU-KHMT-001",
+      "course_id": "CNTT1159",
+      "semester_id": "S5",
+      "status": "in_progress",
+      "is_mock": true
+    },
+    {
       "id": "enr-DEMO01-LLNL1105-S1",
       "student_id": "DEMO01",
       "course_id": "LLNL1105",

@@ -324,7 +324,8 @@ STUDENTS = [
                 "TIHT1101": "8.0",
             },
         },
-        "in_progress": ["CNTT1180", "CNTT1117", "CNTT1188"],
+        # CR-09 (D-307): HK1 2026-2027 thực tế 5 môn, 15 tín chỉ. CNTT1159 thuộc kỳ 6 của CTĐT, học sớm.
+        "in_progress": ["CNTT1180", "CNTT1117", "CNTT1188", "CNTT1140", "CNTT1159"],
         "evidences": [("API quản lý sinh viên", "pending")],
     },
     {

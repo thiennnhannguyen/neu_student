@@ -31,6 +31,36 @@ test('S1–S5: dòng tổng kết khớp API, kỳ chưa có điểm vẫn có d
   }
 });
 
+test('CR-09 (D-307): HK1 2026-2027 có đúng 5 môn đang học, 3 tín chỉ, không điểm, không tick đạt', async ({
+  page,
+}) => {
+  await login(page, 'thiennhan');
+  await page.goto('/m11/ket-qua?semester=S5');
+  const rows = page.locator('.ui-table tbody tr');
+  await expect(rows).toHaveCount(5);
+  const codes = await rows.locator('td[data-label="Mã môn"]').allInnerTexts();
+  expect(codes.map((code) => code.trim()).sort()).toEqual([
+    'CNTT1117',
+    'CNTT1140',
+    'CNTT1159',
+    'CNTT1180',
+    'CNTT1188',
+  ]);
+  expect(await rows.locator('td[data-label="Tín chỉ"]').allInnerTexts()).toEqual(
+    Array(5).fill('3'),
+  );
+  // Trạng thái chỉ bằng icon có tên đọc được (CR-04); không môn nào có icon "Đạt" (R6).
+  await expect(rows.getByRole('img', { name: 'Đang học', exact: true })).toHaveCount(5);
+  await expect(rows.getByRole('img', { name: 'Đạt', exact: true })).toHaveCount(0);
+  for (const label of ['Điểm hệ 10', 'Điểm chữ', 'Hệ 4']) {
+    const cells = await rows.locator(`td[data-label="${label}"]`).allInnerTexts();
+    expect(
+      cells.every((text) => ['', '—'].includes(text.trim())),
+      label,
+    ).toBe(true);
+  }
+});
+
 test('môn học lại trông như dòng thường; Chi tiết mở bảng điểm thành phần của 2 lần học, khớp API', async ({
   page,
 }) => {
