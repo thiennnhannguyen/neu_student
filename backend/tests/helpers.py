@@ -39,6 +39,8 @@ def run_sql(sql: str, **params):
 TABLES_FROM_0015 = frozenset(
     {"course_schedules", "lms_snapshots", "lms_attendance", "lms_assignments", "lms_assessments"}
 )
+# D-312: báo cáo tuần (CR-12).
+TABLES_FROM_0016 = frozenset({"weekly_reports"})
 
 
 def count_all_tables(exclude: frozenset[str] = frozenset()) -> dict[str, int]:

@@ -20,6 +20,7 @@ from app.blueprints.m12_work import m12_work_bp
 from app.blueprints.notifications import notifications_bp
 from app.blueprints.spa import SpaPathConverter, spa_bp
 from app.blueprints.students import students_bp
+from app.blueprints.weekly_reports import weekly_reports_bp
 from app.cli import register_clean_uploads_command, register_grades_command
 from app.common.auth_guard import register_csrf_check
 from app.common.errors import register_error_handlers
@@ -85,6 +86,7 @@ def create_app(config_name: str | None = None, overrides: dict | None = None) ->
         advisor_bp,
         m11_bp,
         lms_bp,
+        weekly_reports_bp,
         m12_bp,
         m12_work_bp,
         m12_quiz_bp,

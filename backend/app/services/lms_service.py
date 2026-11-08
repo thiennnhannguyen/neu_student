@@ -147,7 +147,7 @@ def schedule_of(course_id: str, semester_id: str) -> Schedule | None:
     return Schedule(row.weekday, row.first_session_date, row.total_sessions)
 
 
-def _in_progress_course_ids(student_id: str, semester_id: str) -> list[str]:
+def in_progress_course_ids(student_id: str, semester_id: str) -> list[str]:
     return list(
         db.session.scalars(
             select(Enrollment.course_id)
@@ -178,7 +178,7 @@ def _require_target(actor: User, student_id: str, course_id: str) -> tuple:
     semester = current_semester()
     if semester is None:
         raise ApiError(422, "Chưa có kỳ hiện tại.", code="NO_CURRENT_SEMESTER")
-    if course_id not in _in_progress_course_ids(student_id, semester.id):
+    if course_id not in in_progress_course_ids(student_id, semester.id):
         raise ApiError(
             422,
             "Môn này không phải môn sinh viên đang học ở kỳ hiện tại.",
@@ -417,6 +417,11 @@ def sync(actor: User, payload: dict) -> tuple[dict, bool]:
         before,
         _audit_view(body),
     )
+    # D-312: cờ "không khớp" của báo cáo tuần đã nộp tính lại theo dữ liệu LMS mới nhất.
+    # Nhập trong hàm vì weekly_report_service dùng lại các hàm của module này.
+    from app.services import weekly_report_service
+
+    weekly_report_service.refresh_mismatch(student.id, course.id, semester.id)
     # Dữ liệu LMS đổi kết quả phân tích kỳ hiện tại (CR-13): làm mới cache của sinh viên này.
     bump_data_version(student)
     return body, created
@@ -524,7 +529,7 @@ def form_options(actor: User) -> dict:
     if semester is not None:
         for student in _students_for(actor):
             courses = []
-            for course_id in _in_progress_course_ids(student.id, semester.id):
+            for course_id in in_progress_course_ids(student.id, semester.id):
                 course = db.session.get(Course, course_id)
                 schedule = schedule_of(course_id, semester.id)
                 courses.append(
@@ -559,12 +564,15 @@ def form_options(actor: User) -> dict:
 
 
 def current_courses(student: Student) -> dict:
-    """Các môn đang học kỳ hiện tại của sinh viên, kèm bản LMS mới nhất (chưa dự đoán, CR-13)."""
+    """Các môn đang học kỳ hiện tại của sinh viên, kèm bản LMS mới nhất và tổng hợp báo cáo tuần
+    (D-312). Chưa dự đoán (CR-13)."""
+    from app.services import weekly_report_service
+
     semester = current_semester()
     today = clock.today()
     items = []
     if semester is not None:
-        for course_id in _in_progress_course_ids(student.id, semester.id):
+        for course_id in in_progress_course_ids(student.id, semester.id):
             course = db.session.get(Course, course_id)
             schedule = schedule_of(course_id, semester.id)
             snapshot = latest_snapshot(student.id, course_id, semester.id)
@@ -587,6 +595,11 @@ def current_courses(student: Student) -> dict:
                     },
                     "schedule": None if schedule is None else _course_calendar(schedule, today),
                     "latest": latest,
+                    "weekly_reports": None
+                    if schedule is None
+                    else weekly_report_service.summary(
+                        student.id, course_id, semester.id, schedule
+                    ),
                 }
             )
     return {

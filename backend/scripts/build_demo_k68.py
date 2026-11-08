@@ -16,6 +16,7 @@ from pathlib import Path
 
 from app.common.text import normalize_name
 from app.services import course_calendar as calendar
+from app.services import weekly_report_rules as report_rules
 from app.services.grade_components import COMPONENT_KEYS, score_from_components
 from scripts import backend_modules as modules
 from scripts import demo_k68_content as content
@@ -1081,6 +1082,63 @@ class Builder:
         self.tables["lms_assignments"] = assignments
         self.tables["lms_assessments"] = assessments
 
+    def build_weekly_reports(self) -> None:
+        """D-312: báo cáo tuần 1–7 của thiennhan, câu 1 và câu 5 suy từ dữ liệu LMS mẫu.
+
+        Cờ "không khớp" tính bằng đúng hàm thuần của service với dữ liệu LMS mẫu, nên luôn khớp
+        với lúc service tính lại (refresh_mismatch).
+        """
+        schedules = {
+            row["course_id"]: calendar.Schedule(
+                row["weekday"], date.fromisoformat(row["first_session_date"]), row["total_sessions"]
+            )
+            for row in self.tables["course_schedules"]
+        }
+        reports = []
+        for course_id, pattern in content.WEEKLY_REPORT_PATTERNS.items():
+            lms = content.LMS_PATTERNS[course_id]
+            schedule = schedules[course_id]
+            for week_no in range(1, pattern["weeks"] + 1):
+                if week_no in pattern["missed"]:
+                    continue
+                window = report_rules.report_window(schedule, week_no)
+                lms_attendance = "absent" if week_no in lms["absent"] else "present"
+                # Bài k hạn cuối tuần k (D-309); nộp muộn 2 ngày thì sau hạn báo cáo (buổi k+1).
+                missing = lms["scores"][week_no - 1] is None
+                late = week_no in lms["late"]
+                answer = (
+                    "not_started" if missing and not late else "in_progress" if late else "done"
+                )
+                index = week_no - 1
+                _row(
+                    reports,
+                    id=f"wr-{content.LMS_STUDENT}-{course_id}-w{week_no}",
+                    student_id=content.LMS_STUDENT,
+                    course_id=course_id,
+                    semester_id=content.LMS_SEMESTER,
+                    week_no=week_no,
+                    postpone_count=0,
+                    postponed_at=None,
+                    # Nộp ngày mở báo cáo, 20:00 giờ Việt Nam (13:00 UTC).
+                    submitted_at=f"{window.opens_on.isoformat()}T13:00:00",
+                    submitted_on=window.opens_on.isoformat(),
+                    attendance=lms_attendance,
+                    self_study=pattern["self_study"],
+                    understanding=pattern["understanding"][index],
+                    unclear_note=pattern["notes"].get(week_no),
+                    assignment=answer,
+                    confidence=pattern["confidence"][index],
+                    obstacle=pattern["obstacle"],
+                    next_plan=pattern["next_plan"],
+                    attendance_mismatch=report_rules.attendance_mismatch(
+                        lms_attendance, lms_attendance
+                    ),
+                    assignment_mismatch=report_rules.assignment_mismatch(
+                        answer, [not missing and not late]
+                    ),
+                )
+        self.tables["weekly_reports"] = reports
+
     def _date_attempts(self, semesters: list[dict]) -> None:
         """Ngày mẫu suy từ lịch kỳ: điểm coi như nhập vào ngày kết thúc kỳ của lần học (CR-05)."""
         ends = {row["id"]: row.get("end_date") for row in semesters}
@@ -1146,6 +1204,7 @@ class Builder:
         self._date_attempts(semesters["semesters"])
         self._add_components()
         self.build_lms(semesters["semesters"])
+        self.build_weekly_reports()
         self.tables["roles"] = accounts["roles"]
         return {
             "academic.json": academic,
@@ -1157,6 +1216,7 @@ class Builder:
                     "lms_attendance",
                     "lms_assignments",
                     "lms_assessments",
+                    "weekly_reports",
                 )
             },
             "semesters.json": semesters,

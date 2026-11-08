@@ -697,3 +697,67 @@ LMS_ASSIGNMENT_NAMES = {
     "CNTT1140": "Bài tập trí tuệ nhân tạo",
     "CNTT1159": "Bài tập quản lý dự án",
 }
+
+
+# --- Báo cáo tuần mẫu của thiennhan (CR-12, D-312) ---
+# Tuần 1–7, đúng MỘT nguyên nhân chính của mỗi môn ở CR-11 (quản lý dự án, phản hồi kế hoạch CR-12).
+# Câu 1 (đi học) và câu 5 (bài tập) suy từ dữ liệu LMS mẫu ở trên nên khớp LMS (không có cờ lệch):
+# vắng ở tuần có buổi vắng; bài có điểm None là "Chưa làm", bài nộp muộn là "Đang làm".
+# - CNTT1180: tốt; chỉ tuần 1–6 – tuần 7 để ĐANG MỞ (hạn 26/10) cho màn hình "Môn 1/2".
+# - CNTT1117: trung bình (hiểu bài, tự tin mức 3).
+# - CNTT1188: khai "Chưa làm" tuần 2, 4, 6 (khớp 3 bài quá hạn).
+# - CNTT1140: hiểu bài và tự tin giảm dần; KHÔNG NỘP tuần 5 và 7.
+# - CNTT1159: khai "Vắng" đúng tuần 3 và 6 (khớp LMS).
+# Ngày demo 26/10/2026 còn mở: CNTT1180 tuần 7 (hạn 26/10) và CNTT1117 tuần 8 (mở 26/10).
+WEEKLY_REPORT_PATTERNS = {
+    "CNTT1180": {
+        "weeks": 6,
+        "missed": [],
+        "understanding": [5, 5, 4, 5, 5, 4],
+        "confidence": [5, 4, 4, 5, 5, 4],
+        "self_study": "2_4h",
+        "obstacle": "none",
+        "next_plan": "keep_going",
+        "notes": {},
+    },
+    "CNTT1117": {
+        "weeks": 7,
+        "missed": [],
+        "understanding": [3, 3, 3, 3, 3, 3, 3],
+        "confidence": [3, 3, 3, 3, 3, 3, 3],
+        "self_study": "1_2h",
+        "obstacle": "busy_schedule",
+        "next_plan": "review",
+        "notes": {5: "Chưa rõ cách vẽ biểu đồ ca sử dụng."},
+    },
+    "CNTT1188": {
+        "weeks": 7,
+        "missed": [],
+        "understanding": [4, 4, 4, 4, 4, 4, 4],
+        "confidence": [4, 3, 4, 3, 4, 3, 3],
+        "self_study": "under_1h",
+        "obstacle": "outside_work",
+        "next_plan": "finish_assignments",
+        "notes": {},
+    },
+    "CNTT1140": {
+        "weeks": 7,
+        "missed": [5, 7],
+        "understanding": [5, 4, 4, 3, None, 2, None],
+        "confidence": [5, 4, 3, 3, None, 2, None],
+        "self_study": "1_2h",
+        "obstacle": "hard_content",
+        "next_plan": "ask_for_help",
+        "notes": {4: "Chưa hiểu tìm kiếm heuristic A*.", 6: "Chưa hiểu mạng nơ-ron nhiều lớp."},
+    },
+    "CNTT1159": {
+        "weeks": 7,
+        "missed": [],
+        "understanding": [4, 4, 4, 4, 4, 4, 4],
+        "confidence": [4, 4, 4, 4, 4, 4, 4],
+        "self_study": "2_4h",
+        "obstacle": "busy_schedule",
+        "next_plan": "keep_going",
+        "notes": {},
+    },
+}
