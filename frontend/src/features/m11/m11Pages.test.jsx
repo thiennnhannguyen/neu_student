@@ -288,7 +288,7 @@ describe('Tổng quan', () => {
     expect(screen.queryByText(/Kỳ tham chiếu/)).toBeNull();
   });
 
-  it('thẻ theo mức của đúng quy tắc: có viền và nhãn; thẻ khác không có', async () => {
+  it('chỉ thẻ GPA tích lũy có viền và nhãn mức; mức nợ nằm ở dòng lý do, không ở thẻ Tín chỉ đạt', async () => {
     m11Api('student');
 
     renderApp('/');
@@ -300,10 +300,11 @@ describe('Tổng quan', () => {
       return found;
     });
     expect(within(gpa).getByText('Cảnh báo')).toHaveClass('status-text');
-    const credits = card('Tín chỉ đạt');
-    expect(credits).toHaveClass('metric-card--watch');
-    expect(within(credits).getByText('Chú ý')).toBeInTheDocument();
-    for (const title of ['GPA học kỳ', 'Số môn chưa đạt']) {
+    const debt = within(screen.getByRole('link', { name: /Mức cảnh báo chung/ }))
+      .getByText('Nợ 3 tín chỉ')
+      .closest('li');
+    expect(within(debt).getByRole('img', { name: 'Chú ý' })).toBeInTheDocument();
+    for (const title of ['GPA học kỳ', 'Tín chỉ đạt', 'Số môn chưa đạt']) {
       expect(card(title).className).toBe('metric-card');
       expect(card(title).querySelector('.status-chip')).toBeNull();
     }
