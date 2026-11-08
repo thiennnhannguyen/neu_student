@@ -684,10 +684,18 @@ class Builder:
     def build_people(self, shared: dict) -> None:
         users = [dict(row) for row in shared["users"]]
         students, assignments, enrollments, attempts, goals, evidences = [], [], [], [], [], []
-        levels = sorted(
-            (row for row in shared["grade_scale_levels"] if row["grade_scale_id"] == "gs-k66"),
-            key=lambda row: row["min_score"],
-        )
+        # D-308: điểm chữ, hệ 4, đạt tính theo thang bản 2 của đúng khóa sinh viên.
+        levels_of = {
+            cohort: sorted(
+                (
+                    row
+                    for row in shared["grade_scale_levels"]
+                    if row["grade_scale_id"] == demo_scale_id(cohort)
+                ),
+                key=lambda row: row["min_score"],
+            )
+            for cohort in content.DEMO_RULE_NAMES
+        }
         credits = {row["id"]: row["credits"] for row in self.tables["courses"]}
         skills = {row["name"]: row["id"] for row in self.tables["skills"]}
         for index, person in enumerate(content.STUDENTS, start=1):
@@ -725,6 +733,7 @@ class Builder:
                     course_id = self._student_course(person, raw_id)
                     tries[course_id] = tries.get(course_id, 0) + 1
                     value = Decimal(score)
+                    levels = levels_of[person["cohort"]]
                     level = [row for row in levels if Decimal(str(row["min_score"])) <= value][-1]
                     enrollment_id = f"enr-{student_id}-{course_id}-{semester}"
                     _row(
@@ -1029,6 +1038,7 @@ class Builder:
         self.build_prerequisites()
         self.build_equivalencies()
         self.build_careers()
+        academic = demo_academic(academic)
         self.build_people({"users": staff, "grade_scale_levels": academic["grade_scale_levels"]})
         self.build_framework()
         self._date_attempts(semesters["semesters"])
@@ -1229,6 +1239,57 @@ class Builder:
                 "",
             ]
         return "\n".join(lines)
+
+
+def demo_scale_id(cohort: str) -> str:
+    return f"gs-{cohort.lower()}-v2"
+
+
+def demo_academic(academic: dict) -> dict:
+    """D-308: thêm thang điểm và quy chế bản 2 cho từng khóa; bản 1 giữ nguyên, không sửa tại chỗ."""
+    scales = list(academic["grade_scales"])
+    levels = list(academic["grade_scale_levels"])
+    rules = list(academic["academic_rules"])
+    for cohort, name in content.DEMO_RULE_NAMES.items():
+        scale_id = demo_scale_id(cohort)
+        scales.append(
+            {
+                "id": scale_id,
+                "version": 2,
+                "effective_cohort": cohort,
+                "note": content.DEMO_SCALE_NOTE,
+                "is_mock": True,
+            }
+        )
+        for letter, min_score, grade_4, passed in content.DEMO_SCALE_LEVELS:
+            slug = letter.replace("+", "p")
+            levels.append(
+                {
+                    "id": f"{scale_id}-{slug}",
+                    "grade_scale_id": scale_id,
+                    "letter": letter,
+                    "min_score": float(min_score),
+                    "grade_4": float(grade_4),
+                    "passed": passed,
+                    "is_mock": True,
+                }
+            )
+        first = next(row for row in rules if row["effective_cohort"] == cohort)
+        rules.append(
+            first
+            | {
+                "id": f"rule-{cohort.lower()}-v2",
+                "version": 2,
+                "rule_version": name,
+                "grade_scale_id": scale_id,
+                "notes": [*first["notes"], content.DEMO_SCALE_NOTE],
+            }
+        )
+    return academic | {
+        "grade_scales": scales,
+        "grade_scale_levels": levels,
+        "academic_rules": rules,
+    }
 
 
 def build() -> tuple[dict[str, dict[str, list[dict]]], str, str]:

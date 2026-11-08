@@ -274,6 +274,25 @@ WARN_DUP = (
 WARN_NO_CODE = "Nguồn ghi EP17.CNTT1107, trùng với Hệ điều hành."
 WARN_CODE = "Tài liệu CTĐT ghi {old}; dùng mã {new} theo cẩm nang."
 
+# D-308 (CR-11): thang điểm do quản lý dự án cung cấp, chỉ cho demo-k68. Là phiên bản quy chế 2,
+# không sửa bản 1 đã phát hành; profile test giữ thang riêng. (chữ, từ điểm hệ 10, hệ 4, đạt)
+DEMO_SCALE_LEVELS = [
+    ("A+", "9.0", "4.0", True),
+    ("A", "8.5", "4.0", True),
+    ("B+", "8.0", "3.5", True),
+    ("B", "7.0", "3.0", True),
+    ("C+", "6.5", "2.5", True),
+    ("C", "5.5", "2.0", True),
+    ("D+", "5.0", "1.5", True),
+    ("D", "4.5", "1.0", True),
+    ("F", "0.0", "0.0", False),
+]
+DEMO_SCALE_NOTE = (
+    "Thang điểm do quản lý dự án cung cấp (CR-11) – giá trị mẫu, cần đối chiếu quy chế NEU"
+)
+# Tên quy chế hiển thị cho người dùng; id nội bộ là rule-k66-v2, rule-k67-v2.
+DEMO_RULE_NAMES = {"K66": "K66 (bản 2)", "K67": "K67 (bản 2)"}
+
 # Hồ sơ sinh viên: (mã, ngành, khóa, kỳ vào, nghề chính, kết quả theo kỳ, đang học ở S5).
 STUDENTS = [
     {

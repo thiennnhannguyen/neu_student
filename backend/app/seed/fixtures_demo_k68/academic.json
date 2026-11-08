@@ -13,6 +13,20 @@
       "effective_cohort": "K67",
       "note": "Giá trị mẫu – cần đối chiếu quy chế NEU",
       "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2",
+      "version": 2,
+      "effective_cohort": "K66",
+      "note": "Thang điểm do quản lý dự án cung cấp (CR-11) – giá trị mẫu, cần đối chiếu quy chế NEU",
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2",
+      "version": 2,
+      "effective_cohort": "K67",
+      "note": "Thang điểm do quản lý dự án cung cấp (CR-11) – giá trị mẫu, cần đối chiếu quy chế NEU",
+      "is_mock": true
     }
   ],
   "grade_scale_levels": [
@@ -159,6 +173,168 @@
       "grade_4": 0.0,
       "passed": false,
       "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2-Ap",
+      "grade_scale_id": "gs-k66-v2",
+      "letter": "A+",
+      "min_score": 9.0,
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2-A",
+      "grade_scale_id": "gs-k66-v2",
+      "letter": "A",
+      "min_score": 8.5,
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2-Bp",
+      "grade_scale_id": "gs-k66-v2",
+      "letter": "B+",
+      "min_score": 8.0,
+      "grade_4": 3.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2-B",
+      "grade_scale_id": "gs-k66-v2",
+      "letter": "B",
+      "min_score": 7.0,
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2-Cp",
+      "grade_scale_id": "gs-k66-v2",
+      "letter": "C+",
+      "min_score": 6.5,
+      "grade_4": 2.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2-C",
+      "grade_scale_id": "gs-k66-v2",
+      "letter": "C",
+      "min_score": 5.5,
+      "grade_4": 2.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2-Dp",
+      "grade_scale_id": "gs-k66-v2",
+      "letter": "D+",
+      "min_score": 5.0,
+      "grade_4": 1.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2-D",
+      "grade_scale_id": "gs-k66-v2",
+      "letter": "D",
+      "min_score": 4.5,
+      "grade_4": 1.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k66-v2-F",
+      "grade_scale_id": "gs-k66-v2",
+      "letter": "F",
+      "min_score": 0.0,
+      "grade_4": 0.0,
+      "passed": false,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2-Ap",
+      "grade_scale_id": "gs-k67-v2",
+      "letter": "A+",
+      "min_score": 9.0,
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2-A",
+      "grade_scale_id": "gs-k67-v2",
+      "letter": "A",
+      "min_score": 8.5,
+      "grade_4": 4.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2-Bp",
+      "grade_scale_id": "gs-k67-v2",
+      "letter": "B+",
+      "min_score": 8.0,
+      "grade_4": 3.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2-B",
+      "grade_scale_id": "gs-k67-v2",
+      "letter": "B",
+      "min_score": 7.0,
+      "grade_4": 3.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2-Cp",
+      "grade_scale_id": "gs-k67-v2",
+      "letter": "C+",
+      "min_score": 6.5,
+      "grade_4": 2.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2-C",
+      "grade_scale_id": "gs-k67-v2",
+      "letter": "C",
+      "min_score": 5.5,
+      "grade_4": 2.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2-Dp",
+      "grade_scale_id": "gs-k67-v2",
+      "letter": "D+",
+      "min_score": 5.0,
+      "grade_4": 1.5,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2-D",
+      "grade_scale_id": "gs-k67-v2",
+      "letter": "D",
+      "min_score": 4.5,
+      "grade_4": 1.0,
+      "passed": true,
+      "is_mock": true
+    },
+    {
+      "id": "gs-k67-v2-F",
+      "grade_scale_id": "gs-k67-v2",
+      "letter": "F",
+      "min_score": 0.0,
+      "grade_4": 0.0,
+      "passed": false,
+      "is_mock": true
     }
   ],
   "academic_rules": [
@@ -202,6 +378,51 @@
       "notes": [
         "Giá trị mẫu – cần đối chiếu quy chế NEU",
         "Ngưỡng cố ý lỏng để phục vụ kiểm thử TC05"
+      ],
+      "is_mock": true
+    },
+    {
+      "id": "rule-k66-v2",
+      "version": 2,
+      "effective_cohort": "K66",
+      "rule_version": "K66 (bản 2)",
+      "retake_policy": "best",
+      "grade_scale_id": "gs-k66-v2",
+      "gpa_watch_below": 2.5,
+      "gpa_warning_below": 2.0,
+      "debt_watch_from": 3,
+      "debt_warning_from": 6,
+      "registration_min_credits": 10,
+      "registration_max_credits": 25,
+      "group_strong_from": 3.2,
+      "group_weak_below": 2.0,
+      "group_min_courses": 2,
+      "notes": [
+        "Giá trị mẫu – cần đối chiếu quy chế NEU",
+        "Thang điểm do quản lý dự án cung cấp (CR-11) – giá trị mẫu, cần đối chiếu quy chế NEU"
+      ],
+      "is_mock": true
+    },
+    {
+      "id": "rule-k67-v2",
+      "version": 2,
+      "effective_cohort": "K67",
+      "rule_version": "K67 (bản 2)",
+      "retake_policy": "latest",
+      "grade_scale_id": "gs-k67-v2",
+      "gpa_watch_below": 1.5,
+      "gpa_warning_below": 1.2,
+      "debt_watch_from": 9,
+      "debt_warning_from": 12,
+      "registration_min_credits": 8,
+      "registration_max_credits": 28,
+      "group_strong_from": 3.2,
+      "group_weak_below": 2.0,
+      "group_min_courses": 2,
+      "notes": [
+        "Giá trị mẫu – cần đối chiếu quy chế NEU",
+        "Ngưỡng cố ý lỏng để phục vụ kiểm thử TC05",
+        "Thang điểm do quản lý dự án cung cấp (CR-11) – giá trị mẫu, cần đối chiếu quy chế NEU"
       ],
       "is_mock": true
     }
