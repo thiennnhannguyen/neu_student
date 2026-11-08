@@ -4,7 +4,16 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
-Không có.
+### Q87. Sàn tín chỉ mỗi kỳ của thuật toán lộ trình (dự kiến CR-10, chưa làm)
+
+Nguồn: quản lý dự án, phản hồi kế hoạch CR-09 (D-307).
+
+- Thuật toán áp sàn 10 tín chỉ cho mọi kỳ giữa, nhưng theo quản lý dự án, CTĐT KHMT chính thức có kỳ 7 = 9 tín chỉ. Sàn hiện tại mâu thuẫn với CTĐT của trường.
+- Kết quả với `thiennhan` sau CR-09: HK1 2027-2028 trống giữa chừng, CNTT1190 bị gắn "Lệch HK CTĐT (+1 kỳ)" dù sinh viên không chậm (ảnh `docs/screenshots/cr-09/sau-ke-hoach-ky-trong-1440.png`).
+- Khi làm CR-10, đề xuất các phương án, mỗi phương án nêu ảnh hưởng tới đối chứng vét cạn (9/1.104 ca báo không khả thi sai, D-261). Ví dụ:
+  1. Kỳ còn môn thì cho phép dưới sàn kèm ghi chú, không để trống.
+  2. Không gắn "muộn" khi môn bị dời do ràng buộc tín chỉ của chính thuật toán.
+  3. Sàn theo kỳ của CTĐT thay cho một sàn chung.
 
 ## Đã đóng
 

@@ -401,3 +401,18 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | Dải hồ sơ đúng mã SV mẫu; thẻ "Số môn chưa đạt" vẫn mở `/m11/ket-qua?semester=S3&view=failed` | `overviewCr08.spec.mjs`, `frontend/e2e/overview.spec.mjs` |
 
 Test cũ đổi theo D-306 (commit test riêng): `overviewCr05.test.jsx` bỏ 9 test của nhãn "Đang xem", dòng phạm vi, Q80, khối cảnh báo, dòng thời gian, đổi điều kiện chờ của test "không còn mã S1–S5"; `m11Pages.test.jsx` bỏ 2 test dòng thời gian và nhãn mức, 1 test cảnh báo lỗi, 4 test Q80, sửa TC04 (tìm "2,75" trong thẻ vì bảng biểu đồ cột cũng có số này), "đang tải", "không lặp khối của trang Phân tích"; `shell.test.jsx` lời chào; e2e `overview.spec.mjs` (dòng "Tính đến"), `flows.spec.mjs` (khối cảnh báo), `sweep.spec.mjs` (2 test Q80).
+
+## CR-09: Kỳ hiện tại của thiennhan theo thực tế (D-307)
+
+| Yêu cầu | Test |
+|---------|------|
+| Fixture S5 của `thiennhan`: đúng 5 mã, đều `in_progress`, tổng 15 tín chỉ; không có lần học, điểm thành phần | `backend/tests/acceptance/test_cr09_thiennhan_s5.py` |
+| Tên, tín chỉ của 5 môn khớp CTĐT KHMT; CNTT1159 kỳ 6 theo CTĐT, 4 môn còn lại kỳ 5 | `test_cr09_thiennhan_s5.py` |
+| API Kết quả S5: 5 dòng đang học, không điểm hệ 10, điểm chữ, hệ 4; dòng tổng kết trống; lịch sử từng môn không có lần học có điểm, không lần nào đạt (R6) | `test_cr09_thiennhan_s5.py` |
+| Tín chỉ đang học 15; quy tắc đăng ký ở mức Ổn, không có lý do | `test_cr09_thiennhan_s5.py`, `backend/tests/api/m11/test_m11_overview_cr05.py` |
+| Lộ trình học: CNTT1140 (AI, Data Analyst) HK 5, CNTT1159 (Fullstack, BA) HK 6 theo CTĐT, đều Đang học | `test_cr09_thiennhan_s5.py` |
+| Quy tắc "đăng ký dưới mức" vẫn có test API: DEMO01 S5 "Đăng ký 9 tín chỉ, dưới mức tối thiểu 10", mức Chú ý | `test_m11_overview_cr05.py::test_registration_below_minimum_reason_uses_demo01` |
+| Trên bản build: Kết quả S5 đúng 5 dòng, mỗi dòng 3 tín chỉ, icon "Đang học", không icon "Đạt", ô điểm trống | `frontend/e2e/results.spec.mjs` "CR-09 (D-307)…" |
+
+Test cũ đổi theo D-307 (commit test riêng): `test_khmt_official.py::test_thiennhan_profile` (2–3 → 5 môn đang học), `test_m11_overview_cr05.py::test_risk_reasons_of_thiennhan_at_current_semester` (lý do đăng ký → None), `overviewCr08.test.jsx` (số thật S5 `in_progress` 9 → 15).
+
