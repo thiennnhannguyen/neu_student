@@ -21,6 +21,9 @@ Mở http://localhost:5173. Mở terminal 2 để seed giữa các phần. Đổ
 | 4. Đổi nghề và khác biệt lộ trình | 1,5 phút | demo-k68 | `demo05` |
 | 5. Công bố bản nghề lỗi bị chặn | 2 phút | test | `admin` |
 | 6. Bài kiểm tra và chứng chỉ (phần thêm của CR-04, nếu còn giờ) | 2 phút | demo-k68 | `thiennhan` |
+| 7. Báo cáo tuần (CR-12) | 2 phút | demo-k68 | `thiennhan`, `gv2` |
+
+Chạy bằng `make demo` (ngày demo 26/10/2026): sinh viên có báo cáo tuần đang mở sẽ thấy màn hình báo cáo toàn trang ngay khi đăng nhập, gồm `thiennhan`, `demo05` và các tài khoản `demo` khác trừ `demo06`. Ở phần 2–4 và 6, bấm **Làm sau** cho từng môn để tiếp tục. Mỗi báo cáo chỉ được "Làm sau" một lần; tải lại trang thì phải nộp, hoặc seed lại.
 
 ## Phần 1. Cảnh báo và kế hoạch cải thiện (profile test)
 
@@ -175,6 +178,21 @@ Terminal 2: `make seed-demo`
 | 6.5 | Chưa đăng nhập | Mở đường dẫn dưới QR trong cửa sổ ẩn danh | Trang Xác thực chứng chỉ chỉ có họ tên, mô-đun, ngày cấp, hiệu lực |
 
 Phần này không có trong lần chạy tay từng bước của script demo: luồng 6.1–6.5 do e2e `frontend/e2e/quiz.spec.mjs` chạy thật trên bản build.
+
+## Phần 7. Báo cáo tuần (profile demo-k68, CR-12)
+
+Terminal 2: `make seed-demo`. Ngày demo 26/10/2026 (`make demo`).
+
+| Bước | Tài khoản | Thao tác | Người xem cần thấy |
+|------|-----------|----------|--------------------|
+| 7.1 | `thiennhan` | Đăng nhập | Màn hình báo cáo toàn trang "Báo cáo tuần · Môn 1/2", CNTT1180 tuần 7 (19/10–25/10/2026), hạn nộp hết ngày 26/10/2026; dòng "Câu trả lời dùng để phân tích tình hình học tập của bạn; cố vấn học tập được phân công có thể xem." |
+| 7.2 | `thiennhan` | Bấm **Làm sau** | Sang "Môn 2/2": CNTT1117 tuần 8, hạn 27/10/2026 |
+| 7.3 | `thiennhan` | Trả lời 7 câu bắt buộc, **Nộp báo cáo** | Màn hình đóng, thông báo "Đã nộp báo cáo tuần 8 môn CNTT1117." |
+| 7.4 | `thiennhan` | Mở **Phân tích & Cảnh báo** | Không hiện lại màn hình báo cáo. Cột "Báo cáo tuần": CNTT1117 "Đã nộp 8/8 · gần nhất tuần 8 (26/10/2026)", CNTT1140 "Đã nộp 5/7 · gần nhất tuần 6 (14/10/2026)" |
+| 7.5 | `thiennhan` | Tải lại trang (F5) | Màn hình báo cáo CNTT1180 hiện lại, "Môn 1/1", không còn nút **Làm sau**, phím Esc không đóng |
+| 7.6 | `gv2` | Mở **Phân tích & Cảnh báo**, chọn sinh viên `NEU-KHMT-001`, bấm **Xem** ở dòng CNTT1140 | Bản chỉ đọc: tuần 7 và tuần 5 "Không nộp", tuần 6 ghi chú "Chưa hiểu mạng nơ-ron nhiều lớp." |
+
+Luồng 7.1–7.6 chạy trên bản build bằng e2e `frontend/e2e/weeklyReportCr12.spec.mjs`, không chạy tay từng bước.
 
 ## Nếu có sự cố khi demo
 

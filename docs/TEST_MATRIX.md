@@ -437,3 +437,26 @@ Test cũ đổi theo D-307 (commit test riêng): `test_khmt_official.py::test_th
 
 Test cũ đổi theo D-309, D-310 (commit test riêng): migration 0002, 0012, 0013, 0014 và số bảng (`test_schema.py`, 54 → 59) loại 5 bảng mới của 0015 như các migration trước; danh sách route và quyền (`test_auth_guard.py`) thêm 6 route; `m11Pages.test.jsx` xóa 25 test giao diện của các khối bị bỏ (describe "Phân tích", "so sánh hai kỳ"), sidebar dùng mục "Phân tích & Cảnh báo"; `auth.test.jsx` menu theo vai trò (thêm LMS Demo), `shell.test.jsx` h1, `work.test.jsx` (2 test chuông thông báo mở `/m11/phan-tich`), `overviewCr08.test.jsx` nhãn lối tắt.
 
+## CR-12: Báo cáo tuần của sinh viên (D-312) và sửa nhỏ sau nghiệm thu CR-11 (bổ sung D-309)
+
+| Yêu cầu | Test |
+|---------|------|
+| B1: `DEMO_TODAY` chỉ dời ngày nghiệp vụ; `/api/auth/me` có `demo_today`; `computed_at` vẫn giờ thật | `backend/tests/acceptance/test_cr12_demo_flag.py` |
+| B1: dòng tham chiếu "Tính lúc (giờ thật) … · Ngày hệ thống 26/10/2026" khi có ngày demo, "Cập nhật" khi không; chữ giờ hệ thống dùng chung thêm "(giờ thật)" | `frontend/src/features/admin/cr12Fixes.test.jsx` |
+| B2: buổi đúng ngày hôm nay chưa tính là đã học; CNTT1180 ở ngày demo tuần 8, 7 buổi; 4 môn khác 8 buổi; `calendar` và `preview` theo đúng số buổi | `backend/tests/acceptance/test_cr12_session_today.py` |
+| B3: trang LMS Demo không có ô chọn sinh viên của thanh trên cùng; trang khác vẫn có | `cr12Fixes.test.jsx` |
+| B4: `make demo` = `seed-demo` rồi `DEMO_TODAY=<ngày demo của dữ liệu mẫu> make dev`; ô ngày có chữ dd/mm/yyyy, đổi theo ô | `backend/tests/unit/test_make_demo.py`, `cr12Fixes.test.jsx` |
+| Lịch mở: báo cáo tuần k mở ngày trước buổi k+1, hạn hết ngày buổi k+1; tuần cuối không có; trạng thái theo ngày; cờ "không khớp" câu 1, câu 5 ở mọi trường hợp; thứ tự hạn gần nhất trước, cùng hạn theo mã môn | `backend/tests/unit/test_weekly_report_rules.py` |
+| Đang mở ở ngày demo (CNTT1180 tuần 7 trước CNTT1117 tuần 8) và ở 25/10, 27/10, 29/10; trạng thái "không nộp" của CNTT1140 tuần 5, 7 | `backend/tests/api/weekly_reports/test_weekly_reports_api.py` |
+| Nộp: lưu câu trả lời, ngày nộp = ngày hệ thống, audit, `data_version`; nộp lại, quá hạn, chưa mở: 409 có mã; tuần 15, tuần 0, môn không đang học, môn của sinh viên khác: 404; câu sai, thiếu, chuỗi thay số, ghi chú dài, trường lạ: 422 theo trường | `test_weekly_reports_api.py` |
+| "Làm sau" một lần (CSDL); đăng nhập lại vẫn mở, `can_postpone` false; lần hai 409; vẫn nộp được; báo cáo đã đóng hoặc đã nộp 409 | `test_weekly_reports_api.py` |
+| Cờ "không khớp" lưu khi nộp, không trả cho sinh viên, cố vấn thấy; tính lại khi LMS gửi dữ liệu mới; NULL khi LMS chưa phủ tuần | `test_weekly_reports_api.py` |
+| Quyền 4 vai trò: sinh viên xem của mình (không có cờ), sinh viên khác 404, cố vấn được phân công và quản trị xem (có cờ), cố vấn khác 404, nhân sự hỗ trợ 403; đang mở, nộp, làm sau chỉ sinh viên; khai báo quyền ở route | `test_weekly_reports_api.py` |
+| Tổng hợp `current-courses.weekly_reports` của 5 môn ở ngày demo; môn chưa có lịch là null | `test_weekly_reports_api.py` |
+| Migration 0016 xuống rồi lên: chỉ bảng `weekly_reports` mất và tạo lại; CHECK chặn dòng không nhất quán | `backend/tests/unit/db/test_migration_0016.py` |
+| Màn hình toàn trang: "Môn 1/2" theo thứ tự API, dòng quyền riêng tư, 8 câu; trang bị khóa, focus ở tiêu đề; thiếu câu thì báo và focus câu đầu; nộp đúng dữ liệu (ghi chú trống là null), sang môn sau với form trống, xong thì đóng; "Làm sau" sang môn sau và không hiện lại khi chuyển trang trong lần dùng này; tải lại trang: không còn "Làm sau", Esc không đóng; Esc khi còn được làm sau; Tab không ra ngoài; không chặn Yêu cầu hỗ trợ, Đăng xuất; lỗi 500 giữ câu trả lời, 409 sang môn sau; lỗi tải không chặn; cố vấn, quản trị, nhân sự hỗ trợ không có | `frontend/src/features/weeklyReport/weeklyReport.test.jsx` |
+| Cột "Báo cáo tuần": "Đã nộp x/y · gần nhất … · n đang mở"; "Xem" gọi đúng sinh viên và môn, bản chỉ đọc có "Không nộp", nhãn câu trả lời, cờ lệch cho cố vấn, không có ô nhập | `weeklyReport.test.jsx` |
+| Trên bản build ở ngày demo: "Môn 1/2" 1440 và 375, axe không lỗi, không cuộn ngang; "Làm sau" rồi nộp môn 2/2; cột mới "Đã nộp 8/8"; tải lại không còn "Làm sau", Esc không đóng; không chặn Yêu cầu hỗ trợ; cố vấn xem lại chỉ đọc | `frontend/e2e/weeklyReportCr12.spec.mjs` |
+
+Test cũ đổi (commit test riêng): theo bổ sung D-309, `test_course_calendar.py` (ngày học chưa tính là đã học), `test_lms_api.py` (tuần 9 gửi ngày 31/10; `calendar` 11/09 chỉ còn buổi 1), `test_tc01_auth.py` (`demo_today`). Theo D-312, migration 0002, 0012–0015 loại bảng mới của 0016; `test_schema.py` 59 → 60 bảng; `test_auth_guard.py` thêm 4 route; `test_source_rules.py` quét thêm `WeeklyReport`; `frontend/e2e/helpers.mjs` đăng nhập mặc định nộp sẵn báo cáo đang mở qua API (kịch bản báo cáo tuần truyền `keepWeeklyReports`).
+

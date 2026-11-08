@@ -47,7 +47,7 @@ Công khai. Thân: `{"username", "password"}`, cả hai bắt buộc.
 
 | Kết quả | Nội dung |
 |---------|----------|
-| 200 | `{"user": {"id", "username", "full_name"}, "role", "student_id"}`; `student_id` là null nếu không phải sinh viên |
+| 200 | `{"user": {"id", "username", "full_name"}, "role", "student_id", "demo_today"}`; `student_id` là null nếu không phải sinh viên; `demo_today` là ngày demo (`DEMO_TODAY`, `YYYY-MM-DD`) hoặc null khi chạy theo ngày thật (bổ sung D-309: giao diện ghi "(giờ thật)" cạnh giờ hệ thống) |
 | 401 | `INVALID_CREDENTIALS`. Cùng một thông báo khi sai mật khẩu, không có tài khoản, đang khóa, `is_active = false` |
 | 422 | Thiếu trường, sai kiểu, chuỗi rỗng, trường lạ, thân không phải JSON |
 
@@ -4343,7 +4343,7 @@ Tuần là tuần **của môn** (từ ngày buổi k tới ngày trước buổ
 | `GET /api/lms/calendar?student_id&course_id&as_of` | admin, advisor | Tuần của môn và các buổi đã diễn ra tới `as_of` |
 | `GET /api/lms/form-options` | admin, advisor | Sinh viên trong phạm vi, các môn đang học kỳ hiện tại, lịch học, tuần hiện tại |
 | `GET /api/lms/snapshots/latest?student_id&course_id` | admin, advisor | Bản chụp tuần mới nhất; chưa có: `{"snapshot": null}` |
-| `GET /api/m11/current-courses?student_id` | student, advisor, admin | Các môn đang học kỳ hiện tại kèm số tổng của bản LMS mới nhất (`latest` null khi chưa có). Chưa có dự đoán (CR-13) |
+| `GET /api/m11/current-courses?student_id` | student, advisor, admin | Các môn đang học kỳ hiện tại kèm số tổng của bản LMS mới nhất (`latest` null khi chưa có) và tổng hợp báo cáo tuần `weekly_reports` (D-312; null khi môn chưa có lịch). Chưa có dự đoán (CR-13) |
 
 Body của `sync` và `preview` (client **không** gửi số tổng; trường lạ bị 422):
 
@@ -4389,7 +4389,8 @@ Body của `sync` và `preview` (client **không** gửi số tổng; trường 
     {
       "course": {"code": "CNT303", "credits": 3, "id": "CNT303", "name": "Hệ thống phân tán"},
       "latest": null,
-      "schedule": null
+      "schedule": null,
+      "weekly_reports": null
     }
   ],
   "semester": {"id": "S5", "name": "HK1 2026-2027"},
@@ -4409,6 +4410,60 @@ Body của `sync` và `preview` (client **không** gửi số tổng; trường 
       "student_code": "SV01"
     }
   ],
+  "today": "2026-10-26"
+}
+```
+
+`weekly_reports` của một môn có lịch (profile demo-k68, `thiennhan`, ngày 26/10/2026): `{"submitted": 5, "expected": 7, "missed": 2, "open": 0, "latest": {"week_no": 6, "submitted_on": "2026-10-14"}}`. `expected` = số báo cáo đã hết hạn + số đã nộp; báo cáo đang mở chưa nộp không tính là thiếu.
+
+## Báo cáo tuần (CR-12, D-312)
+
+Báo cáo tuần k của môn mở ngày trước buổi k+1, hạn hết ngày học buổi k+1; tuần cuối của môn không có báo cáo. `status`: `not_open`, `open`, `submitted`, `missed` (không lưu, tính từ "hôm nay" của `DEMO_TODAY`).
+
+| Method, đường dẫn | Vai trò | Mô tả, lỗi |
+|-------------------|---------|------------|
+| `GET /api/weekly-reports/open` | student | Báo cáo đang mở của chính mình, hạn gần nhất trước, cùng hạn theo mã môn |
+| `POST /api/weekly-reports/{course_id}/{week_no}/submit` | student | Nộp 8 câu. Ghi audit, tăng `data_version`. 404 môn không đang học của mình hoặc tuần không có báo cáo; 409 `ALREADY_SUBMITTED`, `REPORT_CLOSED` (quá hạn), `REPORT_NOT_OPEN`; 422 theo trường |
+| `POST /api/weekly-reports/{course_id}/{week_no}/postpone` | student | "Làm sau", một lần mỗi báo cáo (lưu CSDL). 409 `POSTPONE_USED` và như `submit` |
+| `GET /api/weekly-reports?student_id&course_id` | student, advisor, admin | Các báo cáo đã mở của một môn kỳ hiện tại, kèm câu trả lời của báo cáo đã nộp (chỉ đọc). Cố vấn, quản trị nhận thêm `mismatch` (cờ "không khớp" với LMS; null là chưa đối chiếu). Sinh viên khác hoặc ngoài phạm vi cố vấn: 404; support_staff 403 |
+
+Body của `submit` (trường lạ bị 422; `unclear_note` tùy chọn, tối đa 300 ký tự, chỉ khoảng trắng coi như null):
+
+```json
+{
+  "attendance": "present",
+  "self_study": "1_2h",
+  "understanding": 3,
+  "unclear_note": null,
+  "assignment": "done",
+  "confidence": 3,
+  "obstacle": "none",
+  "next_plan": "review"
+}
+```
+
+Giá trị: `attendance` `present`, `excused`, `absent`; `self_study` `none`, `under_1h`, `1_2h`, `2_4h`, `over_4h`; `understanding`, `confidence` số nguyên 1–5; `assignment` `done`, `in_progress`, `not_started`, `no_assignment`; `obstacle` `busy_schedule`, `hard_content`, `lack_materials`, `outside_work`, `none`; `next_plan` `review`, `finish_assignments`, `ask_for_help`, `keep_going`.
+
+Một báo cáo trong `open`, `submit`, `postpone` và `GET /api/weekly-reports` (ví dụ của `thiennhan` ở ngày demo):
+
+```json
+{
+  "course": {"id": "CNTT1180", "code": "CNTT1180", "name": "Lập trình Python"},
+  "week": {"week_no": 7, "start": "2026-10-19", "end": "2026-10-25"},
+  "opens_on": "2026-10-25",
+  "due_on": "2026-10-26",
+  "status": "open",
+  "postponed": false,
+  "can_postpone": true,
+  "submitted_on": null,
+  "answers": null
+}
+```
+
+<!-- contract: sv01 GET /api/weekly-reports/open -->
+```json
+{
+  "items": [],
   "today": "2026-10-26"
 }
 ```

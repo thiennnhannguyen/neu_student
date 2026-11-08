@@ -138,7 +138,15 @@ erDiagram
 | `lms_assignments` | `snapshot_id`, `code`, `name`, `due_date`, `submitted_on`, `score_10`, `weight` | Điểm 0–10 hoặc null; có điểm thì phải có ngày nộp (CHECK) |
 | `lms_assessments` | `snapshot_id`, `kind` (`quiz`, `midterm`), `code`, `name`, `taken_on`, `score_10`, `weight` | |
 
-Không lưu số tổng (vắng, đã nộp, điểm trung bình): `lms_service.summarize()` tính lại mỗi lần đọc. Dự kiến cho CR-12, CR-13 (chưa tạo): trọng số điểm theo môn (0,1 / 0,4 / 0,5), cấu hình cảnh báo vắng (Q88), báo cáo tuần đã xem.
+Không lưu số tổng (vắng, đã nộp, điểm trung bình): `lms_service.summarize()` tính lại mỗi lần đọc. Dự kiến cho CR-13 (chưa tạo): trọng số điểm theo môn (0,1 / 0,4 / 0,5), cấu hình cảnh báo vắng (Q88).
+
+### Báo cáo tuần (CR-12, D-312, migration 0016)
+
+| Bảng | Cột chính | Ghi chú |
+|------|-----------|---------|
+| `weekly_reports` | `student_id`, `course_id`, `semester_id`, `week_no`, `postpone_count` (0, 1), `postponed_at`, `submitted_at` (giờ thật), `submitted_on` (ngày nghiệp vụ), `attendance`, `self_study`, `understanding` (1–5), `unclear_note` (≤ 300), `assignment`, `confidence` (1–5), `obstacle`, `next_plan`, `attendance_mismatch`, `assignment_mismatch` | Unique (sinh viên, môn, kỳ, tuần của môn). Dòng tạo khi "Làm sau" hoặc nộp. CHECK: chưa nộp thì chưa có câu trả lời; đã nộp thì đủ 7 câu bắt buộc. Cờ lệch NULL = chưa đối chiếu |
+
+Trạng thái (chưa mở, đang mở, đã nộp, không nộp) **không lưu**: `weekly_report_rules.report_status()` tính từ `clock.today()`, lịch học và `submitted_at`.
 
 ### Khung năng lực, bài kiểm tra, chứng chỉ (CR-04)
 

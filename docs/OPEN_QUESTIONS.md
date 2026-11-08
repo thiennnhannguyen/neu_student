@@ -4,6 +4,10 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
+### Q89. Danh sách chủ đề "Nội dung chưa hiểu" theo tuần (CR-12)
+
+Nguồn: quản lý dự án, CR-12 (D-312). Chưa có đề cương theo tuần của từng môn nên câu 4 của báo cáo tuần hiện là ô ghi chú ngắn, tùy chọn (tối đa 300 ký tự). Khi có đề cương theo tuần, có thể đổi thành danh sách chủ đề để chọn. Cần quản lý dự án cho biết nguồn đề cương.
+
 ### Q88. Vắng có phép có tính vào số buổi vắng để cấm thi không (CR-13)
 
 Nguồn: quản lý dự án, CR-11 (D-311). Mặc định **có tính**, để trong cấu hình để đổi không cần sửa mã. Cần quản lý dự án xác nhận trước khi làm CR-13.

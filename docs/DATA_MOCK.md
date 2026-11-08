@@ -430,9 +430,23 @@ Thời điểm nhập điểm (`grade_attempts.recorded_at`, CR-05): profile tes
 
 | Môn | Thứ học | Tuần 8 | Nguyên nhân chính | Tuần 8: vắng, bài, điểm TB bài tập, kiểm tra |
 |-----|---------|--------|-------------------|-----------------------------------------------|
-| CNTT1180 Lập trình Python | Thứ 2 | 26/10–01/11/2026 | Đang tốt | 0 buổi; 7/7 đã nộp; 9,00; 9,00 |
+| CNTT1180 Lập trình Python | Thứ 2 | 26/10–01/11/2026 | Đang tốt | 0/7 buổi (buổi 8 đúng ngày 26/10 chưa tính là đã học, bổ sung D-309); 7/7 đã nộp; 9,00; 9,00 |
 | CNTT1117 Phân tích và thiết kế hệ thống | Thứ 3 | 20/10–26/10/2026 | Trung bình | 0 buổi; 7/7; 6,50; 6,50 |
 | CNTT1188 Lập trình Web | Thứ 4 | 21/10–27/10/2026 | Thiếu nhiều bài tập (đi học đủ) | 0 buổi; 4/7, 3 quá hạn, 1 nộp muộn; 7,75; 7,50 |
 | CNTT1140 Trí tuệ nhân tạo | Thứ 5 | 22/10–28/10/2026 | Điểm giảm dần 8,5 → 4,5 (không vắng) | 0 buổi; 7/7; 6,43; 6,00 |
 | CNTT1159 Quản lý dự án CNTT | Thứ 6 | 23/10–29/10/2026 | Vắng 2 buổi (3 và 6), sát cấm thi; bài và điểm vẫn tốt | 2 buổi; 7/7; 8,21; 8,50 |
+
+## 12. Báo cáo tuần mẫu (profile demo-k68, CR-12, D-312)
+
+**Dữ liệu mô phỏng**, sinh bởi `scripts/build_demo_k68.py` từ `WEEKLY_REPORT_PATTERNS` trong `scripts/demo_k68_content.py`. Chỉ `thiennhan` có báo cáo mẫu (32 báo cáo). Báo cáo tuần k nộp vào ngày mở (ngày trước buổi k+1), 20:00 giờ Việt Nam. Câu 1 (đi học) và câu 5 (bài tập) suy từ dữ liệu LMS mẫu ở mục 11 nên khớp LMS, không có cờ lệch.
+
+| Môn | Báo cáo mẫu | Nguyên nhân chính | Cột "Báo cáo tuần" ngày 26/10/2026 |
+|-----|-------------|-------------------|-------------------------------------|
+| CNTT1180 | Tuần 1–6; tuần 7 **đang mở** (hạn 26/10) | Tốt: hiểu bài 4–5, tự tin 4–5 | Đã nộp 6/6 · gần nhất tuần 6 (18/10/2026) · 1 đang mở |
+| CNTT1117 | Tuần 1–7; tuần 8 **mở hôm nay** (hạn 27/10) | Trung bình: hiểu bài, tự tin mức 3 | Đã nộp 7/7 · gần nhất tuần 7 (19/10/2026) · 1 đang mở |
+| CNTT1188 | Tuần 1–7 | Khai "Chưa làm" tuần 2, 4, 6 (3 bài quá hạn), "Đang làm" tuần 3 (bài nộp muộn) | Đã nộp 7/7 · gần nhất tuần 7 (20/10/2026) |
+| CNTT1140 | Tuần 1–4, 6; **không nộp tuần 5, 7** | Hiểu bài 5 → 4 → 4 → 3 → 2, tự tin 5 → 4 → 3 → 3 → 2; ghi chú tuần 4, 6 | Đã nộp 5/7 · gần nhất tuần 6 (14/10/2026) |
+| CNTT1159 | Tuần 1–7 | Khai "Vắng" đúng tuần 3 và 6 | Đã nộp 7/7 · gần nhất tuần 7 (22/10/2026) |
+
+Sinh viên demo khác (`demo01`–`demo08`) có lịch học nhưng chưa có báo cáo mẫu: ở ngày demo, báo cáo các tuần trước là "Không nộp" và có 0–3 báo cáo đang mở (`demo06` không có).
 
