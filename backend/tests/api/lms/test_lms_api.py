@@ -113,9 +113,10 @@ def test_admin_sync_creates_week_8_with_totals_computed_by_backend(app):
 
 def test_new_week_creates_201_and_resend_overwrites_with_audit_and_data_version(app):
     admin = login_as(app, "admin")
-    # Tuần 9 của CNTT1159 (30/10–05/11) chưa có trong dữ liệu mẫu.
+    # Tuần 9 của CNTT1159 (30/10–05/11) chưa có trong dữ liệu mẫu. Bổ sung D-309: ngày 31/10
+    # buổi 9 (30/10) mới tính là đã học, nên gửi ngày 31/10 với 9 buổi.
     week9 = payload(
-        as_of="2026-10-30",
+        as_of="2026-10-31",
         attendance=[{"session_no": n, "status": "present"} for n in range(1, 10)],
     )
     snapshots, version = count(app, LmsSnapshot), data_version(app)
@@ -292,13 +293,11 @@ def test_calendar_lists_sessions_held_until_as_of(app):
         "/api/lms/calendar",
         query_string={"student_id": THIENNHAN, "course_id": FRIDAY_COURSE, "as_of": "2026-09-11"},
     )
+    # Bổ sung D-309: ngày 11/09 đã là tuần 2 nhưng buổi 2 (11/09) chưa tính là đã học.
     assert response.get_json() == {
         "as_of": "2026-09-11",
         "week": {"week_no": 2, "start": "2026-09-11", "end": "2026-09-17"},
-        "sessions": [
-            {"session_no": 1, "session_date": "2026-09-04"},
-            {"session_no": 2, "session_date": "2026-09-11"},
-        ],
+        "sessions": [{"session_no": 1, "session_date": "2026-09-04"}],
     }
 
 

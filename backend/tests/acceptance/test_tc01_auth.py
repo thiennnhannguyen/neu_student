@@ -51,6 +51,8 @@ def test_login_success_returns_user_role_and_student_id(http_app):
         "user": {"id": "user-sv01", "username": "sv01", "full_name": get_user(http_app).full_name},
         "role": "student",
         "student_id": "SV01",
+        # Bổ sung D-309 (B1): không đặt DEMO_TODAY thì null.
+        "demo_today": None,
     }
 
 

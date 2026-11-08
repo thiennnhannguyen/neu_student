@@ -50,7 +50,14 @@ def test_before_first_session_and_after_last_week_have_no_week():
 
 @pytest.mark.parametrize(
     ("as_of", "held"),
-    [(date(2026, 9, 3), 0), (date(2026, 9, 4), 1), (date(2026, 9, 10), 1), (date(2027, 3, 1), 15)],
+    # Bổ sung D-309: buổi đúng ngày as_of chưa tính là đã học (ngày 04/09 → 0, ngày 05/09 → 1).
+    [
+        (date(2026, 9, 3), 0),
+        (date(2026, 9, 4), 0),
+        (date(2026, 9, 5), 1),
+        (date(2026, 9, 10), 1),
+        (date(2027, 3, 1), 15),
+    ],
 )
-def test_sessions_held_counts_the_session_of_the_day(as_of, held):
+def test_sessions_held_excludes_the_session_of_the_day(as_of, held):
     assert cal.sessions_held(FRIDAY, as_of) == held
