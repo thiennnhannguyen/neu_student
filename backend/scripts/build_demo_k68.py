@@ -969,6 +969,13 @@ class Builder:
             k68[code] = (name, 10 if group == "thesis" else 3, group)
         return official.document(k68, {code: self._k68_planned.get(code) for code in k68})
 
+    def _date_attempts(self, semesters: list[dict]) -> None:
+        """Ngày mẫu suy từ lịch kỳ: điểm coi như nhập vào ngày kết thúc kỳ của lần học (CR-05)."""
+        ends = {row["id"]: row.get("end_date") for row in semesters}
+        for row in self.tables["grade_attempts"]:
+            end = ends.get(row["semester_id"])
+            row["recorded_at"] = f"{end}T00:00:00" if end else None
+
     def build(self) -> dict[str, dict[str, list[dict]]]:
         accounts = json.loads(_text(TEST_FIXTURES / "accounts.json"))
         academic = json.loads(_text(TEST_FIXTURES / "academic.json"))
@@ -986,6 +993,7 @@ class Builder:
         self.build_careers()
         self.build_people({"users": staff, "grade_scale_levels": academic["grade_scale_levels"]})
         self.build_framework()
+        self._date_attempts(semesters["semesters"])
         self.tables["roles"] = accounts["roles"]
         return {
             "academic.json": academic,

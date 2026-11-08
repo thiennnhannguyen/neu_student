@@ -6,7 +6,7 @@ from decimal import Decimal
 
 from sqlalchemy import func, select
 
-from app.common import audit
+from app.common import audit, clock
 from app.common.course_display import course_display_code
 from app.common.data_version import bump_data_version
 from app.common.errors import ApiError
@@ -197,6 +197,7 @@ def add_grade_result(
         letter=level.letter,
         grade_4=level.grade_4,
         passed=level.passed,
+        recorded_at=clock.utcnow(),
     )
     db.session.add(attempt)
     db.session.flush()

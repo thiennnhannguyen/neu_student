@@ -246,12 +246,19 @@
   margin: 0;
 }
 
+/* Màn hẹp: ẩn khỏi mắt nhưng vẫn là tên của nút cho trình đọc màn hình (axe button-name). */
 .user-menu__text {
-  display: none;
+  position: absolute;
+  display: flex;
   flex-direction: column;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
   max-width: 180px;
   font-size: var(--font-14);
   line-height: var(--line-tight);
+  white-space: nowrap;
 }
 
 .user-menu__text span {
@@ -283,15 +290,15 @@
 }
 
 /* Thẻ chào mừng */
+/* CR-05: thu gọn còn 1 dải mỏng, không bóng đổ; kỳ đang xem và bộ chọn kỳ nằm ngay dưới. */
 .welcome-card {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  margin-bottom: var(--space-20);
+  margin-bottom: var(--space-3);
   overflow: hidden;
   background: var(--neu-primary);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-lg);
   color: var(--text-on-primary);
 }
 
@@ -299,12 +306,12 @@
   flex: 1;
   align-self: center;
   min-width: 0;
-  padding: var(--space-20);
+  padding: var(--space-12) var(--space-3);
 }
 
 .welcome-card__greeting {
   margin: 0;
-  font-size: var(--font-24);
+  font-size: var(--font-18);
   font-weight: 700;
   line-height: var(--line-tight);
 }
@@ -325,7 +332,7 @@
 }
 
 .welcome-card__mosaic {
-  --motif-cell: 48px;
+  --motif-cell: 24px;
   display: none;
 }
 
@@ -339,37 +346,36 @@
   font-size: var(--font-18);
 }
 
+/* CR-05: danh sách liên kết gọn, không ô nền icon, không bóng đổ. */
+.shortcut-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .shortcut {
   display: flex;
   align-items: center;
   gap: var(--space-12);
-  padding: var(--space-3);
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  min-height: var(--touch-target);
+  padding: var(--space-12) 0;
+  border-bottom: 1px solid var(--border-subtle);
   color: var(--text-primary);
   text-decoration: none;
-  transition:
-    border-color var(--duration-fast),
-    box-shadow var(--duration-fast);
+  transition: color var(--duration-fast);
 }
 
-.shortcut:hover {
-  border-color: var(--neu-primary);
-  box-shadow: var(--shadow-md);
+.shortcut:hover strong {
+  color: var(--text-link);
+  text-decoration: underline;
 }
 
 .shortcut__icon {
-  display: inline-flex;
   flex: none;
-  align-items: center;
-  justify-content: center;
-  width: var(--touch-target);
-  height: var(--touch-target);
-  background: var(--info-bg);
-  border-radius: var(--radius-md);
-  color: var(--info-text);
+  color: var(--text-secondary);
 }
 
 .shortcut__text {
@@ -530,7 +536,12 @@
   }
 
   .user-menu__text {
-    display: flex;
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
   }
 
   .app-main {
@@ -654,6 +665,12 @@
   .sidebar a,
   .shortcut {
     transition: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .shortcut-list {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

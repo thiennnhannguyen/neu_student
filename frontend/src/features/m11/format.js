@@ -31,6 +31,15 @@ export function formatSignedCount(value) {
   return value > 0 ? `+${value}` : String(value);
 }
 
+export function formatDate(iso) {
+  if (!iso) {
+    return NO_VALUE;
+  }
+  const date = new Date(iso);
+  const pad = (number) => String(number).padStart(2, '0');
+  return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`;
+}
+
 export function formatDateTime(iso) {
   if (!iso) {
     return NO_VALUE;

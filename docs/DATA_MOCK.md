@@ -411,6 +411,9 @@ SV05 ban đầu không có dữ liệu. Kịch bản này **không nằm trong f
 
 ## 10. Giả định mẫu
 
+Thời điểm nhập điểm (`grade_attempts.recorded_at`, CR-05): profile test để trống, Tổng quan ghi "Chưa ghi nhận thời điểm nhập điểm". Profile demo-k68 dùng ngày mẫu suy từ lịch kỳ: mỗi lần học lấy ngày kết thúc kỳ của lần học đó (`semesters.end_date`). Đây không phải ngày nhập điểm thật. Điểm nhập qua ứng dụng ghi giờ thật lúc nhập.
+
+
 - Môn trượt thuộc nhóm tự chọn vẫn tính nợ cho tới khi có attempt hiệu lực đạt, kể cả khi sinh viên đã chọn môn tự chọn khác để đủ tín chỉ nhóm.
 - Ca "đã đạt rồi rớt thì mất tick xanh" với `latest` không gắn cho sinh viên nào, được kiểm bằng unit test ở giai đoạn 05.
 - SV05 thuộc K67 nhưng chưa có dữ liệu từ S3, chỉ là cách mô phỏng "mới nhập học" vì không có khóa K68.

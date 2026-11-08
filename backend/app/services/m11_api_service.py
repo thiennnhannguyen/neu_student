@@ -16,7 +16,7 @@ from app.extensions import db
 from app.models.shared import Course, Semester, Student
 from app.services import grades_service
 from app.services.analysis_service import compare_semesters, gpa_trend, strengths_weaknesses
-from app.services.credit_service import credit_summary
+from app.services.credit_service import credit_summary, failed_effective
 from app.services.curriculum_service import curriculum_status
 from app.services.data_quality_service import build_meta
 from app.services.effective_attempt_service import (
@@ -28,11 +28,13 @@ from app.services.gpa_service import cumulative_gpa, semester_gpa
 from app.services.m11_cache import get_cache
 from app.services.m11_loader import load_rule_version, load_student_data
 from app.services.m11_types import AttemptRow, CourseItem, GpaResult, StudentData
-from app.services.metrics_glossary import build_glossary
+from app.services.metrics_glossary import SCOPE_LABELS, SCOPES, build_glossary
 from app.services.risk_service import assess_risk
 
 WITHDRAWN = "withdrawn"
 IN_PROGRESS = "in_progress"
+FAILED = "failed"
+VIEW_FAILED_AS_OF = "failed_as_of"
 
 
 def to_json(value):
@@ -151,19 +153,33 @@ def _build_overview(data: StudentData) -> dict:
     def metric(value) -> dict:
         return {"value": value, **_meta_fields(credits_result.meta)}
 
+    metrics = {
+        "semester_gpa": _gpa_metric(semester_gpa(data)),
+        "cumulative_gpa": _gpa_metric(cumulative_gpa(data)),
+        "credits_passed": metric(credits_result.passed),
+        "credits_debt": metric(credits_result.debt),
+        "credits_in_progress": metric(credits_result.in_progress),
+        "failed_course_count": metric(credits_result.failed_courses),
+        "risk_level": {"value": risk.overall, **_meta_fields(risk.meta)},
+    }
+    for key, body in metrics.items():
+        body["scope"] = SCOPES[key]
+        body["scope_label"] = SCOPE_LABELS[SCOPES[key]]
     return {
         "semester": {"id": semester.id, "name": semester.name} if semester else None,
-        "metrics": {
-            "semester_gpa": _gpa_metric(semester_gpa(data)),
-            "cumulative_gpa": _gpa_metric(cumulative_gpa(data)),
-            "credits_passed": metric(credits_result.passed),
-            "credits_debt": metric(credits_result.debt),
-            "credits_in_progress": metric(credits_result.in_progress),
-            "failed_course_count": metric(credits_result.failed_courses),
-            "risk_level": {"value": risk.overall, **_meta_fields(risk.meta)},
-        },
+        "metrics": metrics,
+        "grades_updated_at": to_json(_grades_updated_at(data)),
         "meta": _meta_fields(build_meta(data)),
     }
+
+
+def _grades_updated_at(data: StudentData) -> datetime | None:
+    """Lần nhập điểm muộn nhất của các lần học đến hết kỳ đang xem. Không ghi nhận thì None."""
+    if data.reference_semester is None:
+        return None
+    last = data.reference_semester.order
+    times = [a.recorded_at for a in data.attempts if a.semester_order <= last and a.recorded_at]
+    return max(times, default=None)
 
 
 def overview(student: Student, semester_id: str | None) -> dict:
@@ -276,10 +292,41 @@ def _row_sort_key(row: dict) -> tuple:
     )
 
 
-def _build_grade_rows(data: StudentData, all_semesters: bool) -> dict:
+def _retaking_semester(data: StudentData, course_ids: tuple[str, ...]) -> dict | None:
+    """Kỳ đang học lại môn trượt, chỉ xét tới hết kỳ đang xem."""
+    last = data.reference_semester.order
+    rows = [
+        e
+        for e in data.enrollments
+        if e.course_id in course_ids and e.status == IN_PROGRESS and e.semester_order <= last
+    ]
+    if not rows:
+        return None
+    return _semester_ref(data, max(rows, key=lambda row: row.semester_order).semester_id)
+
+
+def _failed_rows(data: StudentData, meta, counts) -> list[dict]:
+    """Đúng tập failed_effective() mà thẻ "Số môn chưa đạt" đếm: mỗi nhóm môn một dòng (CR-05)."""
+    rows = []
+    for effective in failed_effective(data):
+        attempt = effective.attempt
+        row = _grade_row(
+            data, meta, counts, attempt.course_id, attempt, attempt.semester_id, FAILED
+        )
+        row["retaking_semester"] = _retaking_semester(data, effective.course_ids)
+        rows.append(row)
+    return rows
+
+
+def _build_grade_rows(data: StudentData, all_semesters: bool, view: str | None = None) -> dict:
     meta = build_meta(data)
     counts = _active_enrollment_counts(data)
-    builder = _all_rows if all_semesters or data.reference_semester is None else _semester_rows
+    if view == VIEW_FAILED_AS_OF:
+        builder = _failed_rows
+    elif all_semesters or data.reference_semester is None:
+        builder = _all_rows
+    else:
+        builder = _semester_rows
     return {
         "rows": sorted(builder(data, meta, counts), key=_row_sort_key),
         "meta": _meta_fields(meta),
@@ -292,15 +339,25 @@ def _matches_keyword(row: dict, keyword: str) -> bool:
 
 
 def grades(student: Student, args: dict) -> dict:
-    """Không có semester_id là xem tất cả các kỳ, khác với các API còn lại (Q74)."""
+    """Không có semester_id là xem tất cả các kỳ, khác với các API còn lại (Q74).
+
+    view=failed_as_of: môn chưa đạt tính đến hết kỳ semester_id; bắt buộc có kỳ (CR-05).
+    """
     semester_id = args.get("semester_id")
+    view = args.get("view")
     all_semesters = semester_id is None
+    if view == VIEW_FAILED_AS_OF and all_semesters:
+        raise ApiError(
+            400,
+            message="Danh sách môn chưa đạt cần một học kỳ cụ thể.",
+            details={"fields": {"semester_id": ["Chọn một học kỳ, không chọn tất cả các kỳ."]}},
+        )
     scope = _scope(student, semester_id)
     built = _cached(
         scope,
         "grades",
-        lambda data: _build_grade_rows(data, all_semesters),
-        "all" if all_semesters else "one",
+        lambda data: _build_grade_rows(data, all_semesters, view),
+        view or ("all" if all_semesters else "one"),
     )
     rows = built["rows"]
     if status := args.get("status"):

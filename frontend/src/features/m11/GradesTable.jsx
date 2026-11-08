@@ -1,4 +1,4 @@
-import { AlertTriangle, RotateCcw } from 'lucide-react';
+import { AlertTriangle, Clock, RotateCcw } from 'lucide-react';
 import { Button, DataTable, StatusChip, Tooltip } from '../../components/ui';
 import { courseCode, formatCount, formatDecimal } from './format';
 
@@ -18,6 +18,12 @@ function CourseNameCell({ row, onOpenHistory }) {
         >
           Học lại
         </Button>
+      )}
+      {row.retaking_semester && (
+        <span className="table-note table-note--icon">
+          <Clock size={14} aria-hidden="true" />
+          Đang học lại {row.retaking_semester.name}
+        </span>
       )}
       {!row.counts_gpa && <span className="table-note">Không tính GPA</span>}
       {row.via_course && (

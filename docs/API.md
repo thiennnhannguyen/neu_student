@@ -150,11 +150,12 @@ Danh sách kỳ. `student`, `advisor`, `admin`. Các kỳ từ kỳ nhập học
 
 ### `GET /api/m11/overview`
 
-Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_version`, `data_warnings`. Ví dụ dưới đây bỏ bớt `data_warnings` của từng chỉ số; bản thật có đầy đủ. `failed_course_count` là số nhóm môn có lần hiệu lực trượt, kể cả môn đang học lại (Q75).
+Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_version`, `data_warnings`. Ví dụ dưới đây bỏ bớt `data_warnings` của từng chỉ số; bản thật có đầy đủ. `failed_course_count` là số nhóm môn có lần hiệu lực trượt, kể cả môn đang học lại (Q75). Mỗi chỉ số có `scope` (`semester`: riêng kỳ đang xem; `as_of`: tính đến hết kỳ đó) và `scope_label` ("Riêng", "Tính đến") để ghi dưới số. `grades_updated_at`: thời điểm nhập điểm muộn nhất của các lần học đến hết kỳ đang xem; null khi không ghi nhận (CR-05).
 
 <!-- contract: sv04 GET /api/m11/overview?semester_id=S5 -->
 ```json
 {
+  "grades_updated_at": null,
   "meta": {
     "computed_at": "2026-11-05T19:05:35.828299Z",
     "data_warnings": [
@@ -174,6 +175,8 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
       "data_warnings": [],
       "reference_semester": "S5",
       "rule_version": "K66-mau-v1",
+      "scope": "as_of",
+      "scope_label": "Tính đến",
       "value": 6
     },
     "credits_in_progress": {
@@ -181,6 +184,8 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
       "data_warnings": [],
       "reference_semester": "S5",
       "rule_version": "K66-mau-v1",
+      "scope": "semester",
+      "scope_label": "Riêng",
       "value": 15
     },
     "credits_passed": {
@@ -188,6 +193,8 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
       "data_warnings": [],
       "reference_semester": "S5",
       "rule_version": "K66-mau-v1",
+      "scope": "as_of",
+      "scope_label": "Tính đến",
       "value": 19
     },
     "cumulative_gpa": {
@@ -197,6 +204,8 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
       "numerator": "43.50",
       "reference_semester": "S5",
       "rule_version": "K66-mau-v1",
+      "scope": "as_of",
+      "scope_label": "Tính đến",
       "value": "1.81"
     },
     "failed_course_count": {
@@ -204,6 +213,8 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
       "data_warnings": [],
       "reference_semester": "S5",
       "rule_version": "K66-mau-v1",
+      "scope": "as_of",
+      "scope_label": "Tính đến",
       "value": 2
     },
     "risk_level": {
@@ -211,6 +222,8 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
       "data_warnings": [],
       "reference_semester": "S5",
       "rule_version": "K66-mau-v1",
+      "scope": "as_of",
+      "scope_label": "Tính đến",
       "value": "warning"
     },
     "semester_gpa": {
@@ -220,6 +233,8 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
       "numerator": "0",
       "reference_semester": "S5",
       "rule_version": "K66-mau-v1",
+      "scope": "semester",
+      "scope_label": "Riêng",
       "value": null
     }
   },
@@ -232,7 +247,7 @@ Tổng quan. Mỗi chỉ số có `reference_semester`, `computed_at`, `rule_ver
 
 ### `GET /api/m11/grades`
 
-Bảng điểm. Tham số: `semester_id`, `q` (tên hoặc mã môn, không phân biệt hoa thường; "chưa có mã" tìm được môn thiếu mã), `status` (`done`, `done_via_equivalency`, `exempt`, `in_progress`, `failed`, `not_started`), `page`, `page_size`. **Không có `semester_id` là xem tất cả các kỳ**, khác với các API còn lại (Q74): gồm toàn bộ CTĐT và môn ngoài CTĐT đã đăng ký, trạng thái tính đến kỳ hiện tại, điểm của lần hiệu lực. Có `semester_id`: các môn có đăng ký trong kỳ đó, trạng thái tính đến hết kỳ đó, điểm của kỳ đó. Không có dòng cho đăng ký `withdrawn`. `code` null nghĩa là chưa có mã; giao diện hiện "Chưa có mã". `via_course` chỉ có khi trạng thái là `done_via_equivalency`.
+Bảng điểm. Tham số: `semester_id`, `q` (tên hoặc mã môn, không phân biệt hoa thường; "chưa có mã" tìm được môn thiếu mã), `status` (`done`, `done_via_equivalency`, `exempt`, `in_progress`, `failed`, `not_started`), `page`, `page_size`, `view` (chỉ nhận `failed_as_of`). **Không có `semester_id` là xem tất cả các kỳ**, khác với các API còn lại (Q74): gồm toàn bộ CTĐT và môn ngoài CTĐT đã đăng ký, trạng thái tính đến kỳ hiện tại, điểm của lần hiệu lực. Có `semester_id`: các môn có đăng ký trong kỳ đó, trạng thái tính đến hết kỳ đó, điểm của kỳ đó. Không có dòng cho đăng ký `withdrawn`. `code` null nghĩa là chưa có mã; giao diện hiện "Chưa có mã". `via_course` chỉ có khi trạng thái là `done_via_equivalency`.
 
 <!-- contract: sv03 GET /api/m11/grades?page_size=2&q=chuy%C3%AAn -->
 ```json
@@ -299,6 +314,78 @@ Bảng điểm. Tham số: `semester_id`, `q` (tên hoặc mã môn, không phâ
     ],
     "reference_semester": "S5",
     "rule_version": "K67-mau-v1"
+  },
+  "page": 1,
+  "page_size": 2,
+  "total": 2
+}
+```
+
+`view=failed_as_of` (CR-05): danh sách môn chưa đạt tính đến hết kỳ `semester_id`, đúng tập mà `failed_course_count` của `/overview` đếm (cùng hàm `failed_effective()`), mỗi nhóm môn một dòng, trạng thái `failed`. Môn trượt đang học lại vẫn có dòng, kèm `retaking_semester` (kỳ đang học lại, chỉ xét tới hết kỳ đang xem; không có thì null). Thiếu `semester_id` thì 400, vì "tất cả các kỳ" không có mốc "tính đến".
+
+<!-- contract: sv04 GET /api/m11/grades?semester_id=S5&view=failed_as_of&page_size=2 -->
+```json
+{
+  "items": [
+    {
+      "code": "MAU101",
+      "counts_gpa": true,
+      "course_id": "MAU101",
+      "credits": 3,
+      "data_warnings": [],
+      "grade_4": "0.00",
+      "has_retake": false,
+      "letter": "F",
+      "name": "Giải tích",
+      "retaking_semester": null,
+      "score_10": "3.50",
+      "semester": {
+        "id": "S1",
+        "name": "HK1 2024-2025",
+        "order": 1
+      },
+      "status": "failed",
+      "via_course": null
+    },
+    {
+      "code": "MAU102",
+      "counts_gpa": true,
+      "course_id": "MAU102",
+      "credits": 3,
+      "data_warnings": [],
+      "grade_4": "0.00",
+      "has_retake": false,
+      "letter": "F",
+      "name": "Đại số tuyến tính",
+      "retaking_semester": null,
+      "score_10": "2.00",
+      "semester": {
+        "id": "S2",
+        "name": "HK2 2024-2025",
+        "order": 2
+      },
+      "status": "failed",
+      "via_course": null
+    }
+  ],
+  "meta": {
+    "computed_at": "2026-11-08T03:23:51.379332Z",
+    "data_warnings": [
+      {
+        "code": "NO_SEMESTER_DATA",
+        "course_id": null,
+        "message": "Kỳ HK1 2025-2026 không có dữ liệu đăng ký.",
+        "semester_id": "S3"
+      },
+      {
+        "code": "NO_SEMESTER_DATA",
+        "course_id": null,
+        "message": "Kỳ HK2 2025-2026 không có dữ liệu đăng ký.",
+        "semester_id": "S4"
+      }
+    ],
+    "reference_semester": "S5",
+    "rule_version": "K66-mau-v1"
   },
   "page": 1,
   "page_size": 2,
@@ -603,6 +690,8 @@ Tín chỉ. `passed`, `debt`, `failed_courses` là null khi khóa không có quy
 
 ### `GET /api/m11/risks`
 
+Mỗi quy tắc có thêm `summary` (CR-05): câu ngắn cho Tổng quan, chỉ có ở mức `watch`, `warning`, ngưỡng lấy từ quy chế của khóa, số kiểu Việt; mức khác là null.
+
 Cảnh báo. `level` của từng quy tắc: `normal`, `watch`, `warning`, `insufficient_data`, `not_applicable`. Quy tắc `registration` là `not_applicable` khi kỳ đang chọn không phải kỳ hiện tại. `overall` bỏ qua `insufficient_data` và `not_applicable`.
 
 <!-- contract: sv04 GET /api/m11/risks -->
@@ -634,7 +723,8 @@ Cảnh báo. `level` của từng quy tắc: `normal`, `watch`, `warning`, `insu
       "level": "warning",
       "reason": "GPA tích lũy 1,81 dưới ngưỡng cảnh báo 2,00.",
       "rule_code": "gpa",
-      "rule_version": "K66-mau-v1"
+      "rule_version": "K66-mau-v1",
+      "summary": "GPA tích lũy 1,81, dưới ngưỡng 2,00"
     },
     {
       "evidence": {
@@ -645,7 +735,8 @@ Cảnh báo. `level` của từng quy tắc: `normal`, `watch`, `warning`, `insu
       "level": "warning",
       "reason": "Đang nợ 6 tín chỉ, từ ngưỡng cảnh báo 6.",
       "rule_code": "debt",
-      "rule_version": "K66-mau-v1"
+      "rule_version": "K66-mau-v1",
+      "summary": "Nợ 6 tín chỉ"
     },
     {
       "evidence": {
@@ -656,7 +747,8 @@ Cảnh báo. `level` của từng quy tắc: `normal`, `watch`, `warning`, `insu
       "level": "normal",
       "reason": "Đăng ký 15 tín chỉ, trong khoảng 10–25.",
       "rule_code": "registration",
-      "rule_version": "K66-mau-v1"
+      "rule_version": "K66-mau-v1",
+      "summary": null
     }
   ],
   "overall": "warning"
@@ -720,6 +812,8 @@ Giải thích chỉ số. `rule_version` theo khóa của sinh viên.
       "name": "GPA học kỳ",
       "note": "Loại môn miễn và môn không tính GPA. Mẫu số bằng 0 thì không có giá trị.",
       "rule_version": "K66-mau-v1",
+      "scope": "semester",
+      "scope_label": "Riêng",
       "source": "grade_attempts, courses"
     },
     {
@@ -728,6 +822,8 @@ Giải thích chỉ số. `rule_version` theo khóa của sinh viên.
       "name": "GPA tích lũy",
       "note": "Lần hiệu lực do quy chế của khóa quyết định: điểm cao nhất hoặc lần gần nhất.",
       "rule_version": "K66-mau-v1",
+      "scope": "as_of",
+      "scope_label": "Tính đến",
       "source": "grade_attempts, courses, academic_rules.retake_policy"
     }
   ]

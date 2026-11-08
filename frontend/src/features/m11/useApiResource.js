@@ -11,10 +11,15 @@ export default function useApiResource(path) {
       return undefined;
     }
     const controller = new AbortController();
+    // Lời gọi đã bị hủy (đổi kỳ nhanh) mà vẫn trả về thì bỏ qua, không ghi đè kết quả mới hơn.
     apiRequest(path, { signal: controller.signal })
-      .then((data) => setResult({ path, attempt, status: 'ok', data }))
+      .then((data) => {
+        if (!controller.signal.aborted) {
+          setResult({ path, attempt, status: 'ok', data });
+        }
+      })
       .catch((error) => {
-        if (error.name !== 'AbortError') {
+        if (error.name !== 'AbortError' && !controller.signal.aborted) {
           setResult({ path, attempt, status: 'error', error });
         }
       });

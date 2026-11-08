@@ -220,3 +220,54 @@ def test_past_semester_uses_values_at_that_time():
 
     assert levels(data)["debt"] == "warning"
     assert levels(data)["gpa"] == "warning"
+
+
+# --- Câu ngắn cho Tổng quan (CR-05): ngưỡng lấy từ quy chế, số định dạng Việt ---
+
+
+def summaries(data):
+    return {o.rule_code: o.summary for o in assess_risk(data).outcomes}
+
+
+@pytest.mark.parametrize(
+    ("grade", "expected"),
+    [
+        ("1.90", "GPA tích lũy 1,90, dưới ngưỡng 2,00"),
+        ("2.40", "GPA tích lũy 2,40, dưới ngưỡng 2,50"),
+        ("3.00", None),
+    ],
+)
+def test_gpa_summary_uses_the_threshold_of_the_level(grade, expected):
+    assert summaries(gpa_data(grade))["gpa"] == expected
+
+
+def test_gpa_summary_follows_the_rule_of_the_cohort():
+    data = make_data([attempt("A", 1, "2.80")], rule=make_rule(gpa_watch_below=Decimal("3.10")))
+    assert summaries(data)["gpa"] == "GPA tích lũy 2,80, dưới ngưỡng 3,10"
+
+
+@pytest.mark.parametrize(
+    ("debt_courses", "expected"), [(0, None), (1, "Nợ 3 tín chỉ"), (2, "Nợ 6 tín chỉ")]
+)
+def test_debt_summary(debt_courses, expected):
+    courses = "ABC"[:debt_courses]
+    data = make_data([attempt("D", 1, 4)] + [attempt(c, 1, 0, False) for c in courses])
+    assert summaries(data)["debt"] == expected
+
+
+@pytest.mark.parametrize(
+    ("credits", "expected"),
+    [
+        (9, "Đăng ký 9 tín chỉ, dưới mức tối thiểu 10"),
+        (10, None),
+        (26, "Đăng ký 26 tín chỉ, trên mức tối đa 25"),
+    ],
+)
+def test_registration_summary_says_below_or_above(credits, expected):
+    data = make_data(courses=[course("A", credits=credits)], in_progress_rows=[in_progress("A")])
+    assert summaries(data)["registration"] == expected
+
+
+def test_no_summary_without_rule_or_data():
+    assert set(summaries(make_data([], rule=None)).values()) == {None}
+    assert summaries(make_data([]))["gpa"] is None

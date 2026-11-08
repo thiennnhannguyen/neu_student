@@ -9,6 +9,7 @@ from app.services.effective_attempt_service import (
 )
 from app.services.m11_types import (
     CreditSummary,
+    EffectiveAttempt,
     ElectiveProgress,
     RequiredProgress,
     RequirementRef,
@@ -75,16 +76,25 @@ def _progress(data: StudentData) -> tuple[RequiredProgress, tuple[ElectiveProgre
     return required_progress, tuple(electives)
 
 
+def failed_effective(data: StudentData) -> tuple[EffectiveAttempt, ...]:
+    """Nhóm môn có lần hiệu lực trượt, tính đến hết kỳ đang chọn, kể cả môn đang học lại (Q75).
+
+    Nguồn duy nhất cho thẻ "Số môn chưa đạt", tín chỉ nợ và danh sách môn chưa đạt (CR-05).
+    """
+    return tuple(e for e in effective_attempts(data) if not e.attempt.passed)
+
+
 def credit_summary(data: StudentData) -> CreditSummary:
     """Mỗi nhóm môn tính một lần. Môn trượt đang học lại vừa tính nợ, vừa tính đang học."""
     effective = effective_attempts(data)
+    failed = failed_effective(data)
     known = data.rule is not None
     in_progress = _in_progress_credits(data)
     required, electives = _progress(data)
     return CreditSummary(
         passed=sum(e.attempt.credits for e in effective if e.attempt.passed) if known else None,
-        debt=sum(e.attempt.credits for e in effective if not e.attempt.passed) if known else None,
-        failed_courses=sum(1 for e in effective if not e.attempt.passed) if known else None,
+        debt=sum(e.attempt.credits for e in failed) if known else None,
+        failed_courses=len(failed) if known else None,
         in_progress=in_progress,
         registered=in_progress,
         required=required,

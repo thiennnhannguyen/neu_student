@@ -19,24 +19,24 @@ export default function ShortcutGrid({ paths }) {
       <h2 id="shortcut-title" className="section-heading">
         Lối tắt
       </h2>
-      <div className="grid-12">
+      <ul className="shortcut-list">
         {paths.map((path) => {
           const item = items.find((entry) => entry.path === path);
           const Icon = item.icon;
           return (
-            <Link key={path} to={`${path}${carrySearch(search)}`} className="shortcut span-3">
-              <span className="shortcut__icon">
-                <Icon size={20} aria-hidden="true" />
-              </span>
-              <span className="shortcut__text">
-                <strong>{item.label}</strong>
-                <span>{NOTES[path]}</span>
-              </span>
-              <ArrowRight size={16} aria-hidden="true" className="shortcut__arrow" />
-            </Link>
+            <li key={path}>
+              <Link to={`${path}${carrySearch(search)}`} className="shortcut">
+                <Icon size={18} aria-hidden="true" className="shortcut__icon" />
+                <span className="shortcut__text">
+                  <strong>{item.label}</strong>
+                  <span>{NOTES[path]}</span>
+                </span>
+                <ArrowRight size={16} aria-hidden="true" className="shortcut__arrow" />
+              </Link>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </section>
   );
 }

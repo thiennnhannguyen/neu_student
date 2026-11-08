@@ -89,6 +89,8 @@ class AttemptRow:
     letter: str | None
     grade_4: Decimal | None
     passed: bool
+    # Thời điểm nhập điểm; dữ liệu cũ không có thì None (CR-05).
+    recorded_at: datetime | None = None
 
 
 @dataclass(frozen=True)
@@ -271,6 +273,8 @@ class RuleOutcome:
     reason: str
     evidence: dict
     rule_version: str | None
+    # Câu ngắn cho Tổng quan, chỉ có ở mức watch, warning (CR-05).
+    summary: str | None = None
 
 
 @dataclass(frozen=True)

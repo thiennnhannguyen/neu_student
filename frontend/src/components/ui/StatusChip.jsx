@@ -65,9 +65,10 @@ function StatusIcon({ chip }) {
   );
 }
 
-export default function StatusChip({ status }) {
+/** `iconOnly` ép kiểu chỉ icon (có aria-label, tooltip) khi chữ đã đứng ngay cạnh, vd lý do cảnh báo. */
+export default function StatusChip({ status, iconOnly = false }) {
   const chip = STATUS_CHIPS[status] ?? { label: status, icon: CircleHelp, tone: 'neutral' };
-  if (ICON_ONLY.has(status)) {
+  if (iconOnly || ICON_ONLY.has(status)) {
     return (
       <span
         role="img"

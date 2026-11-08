@@ -1366,7 +1366,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-LLNL1106-S1",
@@ -1380,7 +1381,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-TOCB1101-S1",
@@ -1394,7 +1396,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-KHMT.NN1-S1",
@@ -1408,7 +1411,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1116-S1",
@@ -1422,7 +1426,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1191-S1",
@@ -1436,7 +1441,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-TOCB1107-S1",
@@ -1450,7 +1456,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-LUCS1129-S2",
@@ -1464,7 +1471,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-LLNL1107-S2",
@@ -1478,7 +1486,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-KHMI1101-S2",
@@ -1492,7 +1501,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-TOKT1145-S2",
@@ -1506,7 +1516,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-KHMT.NN2-S2",
@@ -1520,7 +1531,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-TIKT1130-S2",
@@ -1534,7 +1546,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1128-S2",
@@ -1548,7 +1561,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-LLLSD1102-S3",
@@ -1562,7 +1576,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-LLDL1101-S3",
@@ -1576,7 +1591,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-KHMA1101-S3",
@@ -1590,7 +1606,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-KHMT.NN3-S3",
@@ -1604,7 +1621,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-TIHT1101-S3",
@@ -1618,7 +1636,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1182-S3",
@@ -1632,7 +1651,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1107-S3",
@@ -1646,7 +1666,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1131-S3",
@@ -1660,7 +1681,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1112-S4",
@@ -1674,7 +1696,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1152-S4",
@@ -1688,7 +1711,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1192-S4",
@@ -1702,7 +1726,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1114-S4",
@@ -1716,7 +1741,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1165-S4",
@@ -1730,7 +1756,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-CNTT1153-S4",
@@ -1744,7 +1771,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-NEU-KHMT-001-TIHT1101-S4",
@@ -1758,7 +1786,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO01-LLNL1105-S1",
@@ -1772,7 +1801,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1116-S1",
@@ -1786,7 +1816,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-TOCB1101-S1",
@@ -1800,7 +1831,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-KHMA1101-S1",
@@ -1814,7 +1846,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-NNKC1131-S1",
@@ -1828,7 +1861,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1128-S2",
@@ -1842,7 +1876,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO01-TIKT1130-S2",
@@ -1856,7 +1891,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO01-TOKT1145-S2",
@@ -1870,7 +1906,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO01-KHMI1101-S2",
@@ -1884,7 +1921,8 @@
       "letter": "C",
       "grade_4": 2.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO01-NNKC1132-S2",
@@ -1898,7 +1936,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO01-TIHT1101-S3",
@@ -1912,7 +1951,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1131-S3",
@@ -1926,7 +1966,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1192-S3",
@@ -1940,7 +1981,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1182-S3",
@@ -1954,7 +1996,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1107-S3",
@@ -1968,7 +2011,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1152-S4",
@@ -1982,7 +2026,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1114-S4",
@@ -1996,7 +2041,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1153-S4",
@@ -2010,7 +2056,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO01-TOKT1145-S4",
@@ -2024,7 +2071,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO01-CNTT1165-S4",
@@ -2038,7 +2086,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO02-LLNL1105-S3",
@@ -2052,7 +2101,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO02-CNTT1116-S3",
@@ -2066,7 +2116,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO02-TOCB1101-S3",
@@ -2080,7 +2131,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO02-KHMA1101-S3",
@@ -2094,7 +2146,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO02-CNTT1128-S4",
@@ -2108,7 +2161,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO02-TIKT1130-S4",
@@ -2122,7 +2176,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO02-TOKT1145-S4",
@@ -2136,7 +2191,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO02-KHMI1101-S4",
@@ -2150,7 +2206,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO02-TOCB1101-S4",
@@ -2164,7 +2221,8 @@
       "letter": "C",
       "grade_4": 2.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO03-LLNL1105-S1",
@@ -2178,7 +2236,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.CNTT1116-S1",
@@ -2192,7 +2251,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.TOCB1101-S1",
@@ -2206,7 +2266,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.CNTT1182-S1",
@@ -2220,7 +2281,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.NNKC1168-S1",
@@ -2234,7 +2296,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.TIKT1130-S2",
@@ -2248,7 +2311,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.TOKT1145-S2",
@@ -2262,7 +2326,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.KHMA1101-S2",
@@ -2276,7 +2341,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.NNKC1169-S2",
@@ -2290,7 +2356,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.LUCS1129-S2",
@@ -2304,7 +2371,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.CNTT1128-S3",
@@ -2318,7 +2386,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.TIHT1101-S3",
@@ -2332,7 +2401,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.CNTT1131-S3",
@@ -2346,7 +2416,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.CNTT1192-S3",
@@ -2360,7 +2431,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.KHMI1101-S3",
@@ -2374,7 +2446,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.CNTT1152-S4",
@@ -2388,7 +2461,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.CNTT1159-S4",
@@ -2402,7 +2476,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.CNTT1137-S4",
@@ -2416,7 +2491,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.TIHT1101-S4",
@@ -2430,7 +2506,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO03-EP17.CNTT1164-S4",
@@ -2444,7 +2521,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO04-LLNL1105-S3",
@@ -2458,7 +2536,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO04-EP17.CNTT1116-S3",
@@ -2472,7 +2551,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO04-EP17.TOCB1101-S3",
@@ -2486,7 +2566,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO04-EP17.NNKC1168-S3",
@@ -2500,7 +2581,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO04-EP17.TIKT1130-S4",
@@ -2514,7 +2596,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO04-EP17.TOKT1145-S4",
@@ -2528,7 +2611,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO04-EP17.CNTT1182-S4",
@@ -2542,7 +2626,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO04-EP17.NNKC1169-S4",
@@ -2556,7 +2641,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO05-LLNL1105-S1",
@@ -2570,7 +2656,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-CNTT1116-S1",
@@ -2584,7 +2671,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-TOCB1101-S1",
@@ -2598,7 +2686,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-KHMA1101-S1",
@@ -2612,7 +2701,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-KHMT.NN1-S1",
@@ -2626,7 +2716,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-CNTT1128-S2",
@@ -2640,7 +2731,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO05-TIKT1130-S2",
@@ -2654,7 +2746,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO05-TOKT1145-S2",
@@ -2668,7 +2761,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO05-KHMI1101-S2",
@@ -2682,7 +2776,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO05-KHMT.NN2-S2",
@@ -2696,7 +2791,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO05-TIHT1101-S3",
@@ -2710,7 +2806,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-CNTT1131-S3",
@@ -2724,7 +2821,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-CNTT1182-S3",
@@ -2738,7 +2836,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-CNTT1107-S3",
@@ -2752,7 +2851,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-TOCB1107-S3",
@@ -2766,7 +2866,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO05-CNTT1152-S4",
@@ -2780,7 +2881,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO05-CNTT1192-S4",
@@ -2794,7 +2896,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO05-CNTT1153-S4",
@@ -2808,7 +2911,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO05-CNTT1114-S4",
@@ -2822,7 +2926,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO05-TIHT1101-S4",
@@ -2836,7 +2941,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO06-LLNL1105-S3",
@@ -2850,7 +2956,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO06-CNTT1116-S3",
@@ -2864,7 +2971,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO06-TOCB1101-S3",
@@ -2878,7 +2986,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO06-KHMA1101-S3",
@@ -2892,7 +3001,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO06-CNTT1128-S4",
@@ -2906,7 +3016,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO06-TIKT1130-S4",
@@ -2920,7 +3031,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO06-TOKT1145-S4",
@@ -2934,7 +3046,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO06-KHMI1101-S4",
@@ -2948,7 +3061,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO07-LLNL1105-S1",
@@ -2962,7 +3076,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1116-S1",
@@ -2976,7 +3091,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-TOCB1101-S1",
@@ -2990,7 +3106,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-KHMA1101-S1",
@@ -3004,7 +3121,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-NNKC1131-S1",
@@ -3018,7 +3136,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1128-S2",
@@ -3032,7 +3151,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO07-TIKT1130-S2",
@@ -3046,7 +3166,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO07-TOKT1145-S2",
@@ -3060,7 +3181,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO07-KHMI1101-S2",
@@ -3074,7 +3196,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO07-NNKC1132-S2",
@@ -3088,7 +3211,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2025-06-20T00:00:00"
     },
     {
       "id": "att-DEMO07-TIHT1101-S3",
@@ -3102,7 +3226,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1182-S3",
@@ -3116,7 +3241,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1107-S3",
@@ -3130,7 +3256,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1105-S3",
@@ -3144,7 +3271,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-TOCB1107-S3",
@@ -3158,7 +3286,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1152-S4",
@@ -3172,7 +3301,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1114-S4",
@@ -3186,7 +3316,8 @@
       "letter": "B+",
       "grade_4": 3.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1103-S4",
@@ -3200,7 +3331,8 @@
       "letter": "A",
       "grade_4": 4.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1180-S4",
@@ -3214,7 +3346,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO07-CNTT1105-S4",
@@ -3228,7 +3361,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO08-LLNL1105-S3",
@@ -3242,7 +3376,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO08-CNTT1116-S3",
@@ -3256,7 +3391,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO08-TOCB1101-S3",
@@ -3270,7 +3406,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO08-NNKC1131-S3",
@@ -3284,7 +3421,8 @@
       "letter": "C+",
       "grade_4": 2.5,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-01-15T00:00:00"
     },
     {
       "id": "att-DEMO08-CNTT1128-S4",
@@ -3298,7 +3436,8 @@
       "letter": "F",
       "grade_4": 0.0,
       "passed": false,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO08-TIKT1130-S4",
@@ -3312,7 +3451,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO08-TOKT1145-S4",
@@ -3326,7 +3466,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     },
     {
       "id": "att-DEMO08-NNKC1132-S4",
@@ -3340,7 +3481,8 @@
       "letter": "B",
       "grade_4": 3.0,
       "passed": true,
-      "is_mock": true
+      "is_mock": true,
+      "recorded_at": "2026-06-19T00:00:00"
     }
   ],
   "student_career_goals": [

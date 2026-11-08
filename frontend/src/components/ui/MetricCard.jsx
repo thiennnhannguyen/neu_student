@@ -4,6 +4,7 @@ import StatusChip from './StatusChip';
 /**
  * Có `to` thì cả thẻ bấm được; nút "i" truyền qua `info` nằm trên lớp liên kết.
  * `status` là watch hoặc warning: viền trái và nhãn cạnh giá trị, nên màu không là tín hiệu duy nhất.
+ * `hint` là một dòng hoặc mảng tối đa 2 dòng phụ; dòng rỗng bị bỏ qua.
  */
 export default function MetricCard({
   label,
@@ -38,7 +39,11 @@ export default function MetricCard({
         <p className="metric-card__value">{value}</p>
         {status && <StatusChip status={status} />}
       </div>
-      {hint && <p className="metric-card__detail">{hint}</p>}
+      {(Array.isArray(hint) ? hint : [hint]).filter(Boolean).map((line, index) => (
+        <p key={index} className="metric-card__detail">
+          {line}
+        </p>
+      ))}
       {footer}
     </article>
   );

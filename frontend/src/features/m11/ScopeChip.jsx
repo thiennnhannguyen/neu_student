@@ -11,7 +11,11 @@ export function scopeChipText(students, scope) {
     parts.push(students.selected ? students.selectedCode : 'Chưa chọn');
   }
   if (scope?.semesterId) {
-    parts.push(scope.semesterId === ALL_SEMESTERS ? 'Tất cả' : scope.semesterId);
+    const name =
+      scope.semesters?.status === 'ok'
+        ? scope.semesters.data.items.find((item) => item.id === scope.semesterId)?.name
+        : null;
+    parts.push(scope.semesterId === ALL_SEMESTERS ? 'Tất cả' : (name ?? scope.semesterId));
   }
   return parts.join(' · ');
 }

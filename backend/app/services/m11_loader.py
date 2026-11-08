@@ -152,6 +152,7 @@ def _load_attempts(student_id: str) -> tuple[AttemptRow, ...]:
             letter=attempt.letter,
             grade_4=attempt.grade_4,
             passed=attempt.passed,
+            recorded_at=attempt.recorded_at,
         )
         for attempt, status, order in rows
     )

@@ -281,8 +281,8 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | C03 | Hồ sơ sinh viên và chương trình | `GET /api/students/me`, `GET /api/students/{id}`, `PATCH /api/students/me/contact` | `/ho-so` | `api/test_students_api.py`, `features/profile/ProfilePage.test.jsx` | Đã làm |
 | C04 | Thông báo trong hệ thống | `GET /api/notifications`, `POST /api/notifications/{id}/read`, `POST /api/notifications/read-all` | Chuông trên thanh đầu trang | `api/test_notifications.py`, `features/m12/work.test.jsx`, `e2e/flows.spec.mjs` | Đã làm |
 | C05 | Quản trị và nhật ký thay đổi | `GET /api/admin/audit-logs`, `GET /api/admin/audit-logs/entities`, `GET /api/admin/students`, `POST /api/admin/grade-attempts` | `/quan-tri/nhat-ky` | `api/test_audit_logs_api.py`, `api/m12/test_admin_careers.py`, `unit/test_audit.py`, `api/m11/test_m11_writes_and_directory.py`, `features/admin/AuditLogPage.test.jsx` | Đã làm |
-| M11-01 | Dashboard học tập | `GET /api/m11/overview` | `/` (Tổng quan) | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
-| M11-02 | Bảng điểm và lịch sử học phần | `GET /api/m11/grades`, `GET /api/m11/grades/{course_id}/attempts` | `/m11/ket-qua` | `api/m11/test_m11_grades.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-01 | Dashboard học tập | `GET /api/m11/overview` | `/` (Tổng quan) | `api/m11/test_m11_analysis.py`, `api/m11/test_m11_overview_cr05.py`, `features/m11/m11Pages.test.jsx`, `features/m11/overviewCr05.test.jsx`, `e2e/overview.spec.mjs` | Đã làm |
+| M11-02 | Bảng điểm và lịch sử học phần | `GET /api/m11/grades` (cả `view=failed_as_of`), `GET /api/m11/grades/{course_id}/attempts` | `/m11/ket-qua` | `api/m11/test_m11_grades.py`, `api/m11/test_m11_overview_cr05.py`, `features/m11/m11Pages.test.jsx`, `features/m11/overviewCr05.test.jsx` | Đã làm |
 | M11-03 | Tính GPA học kỳ và tích lũy | `GET /api/m11/overview`, `GET /api/m11/gpa-trend` | `/`, `/m11/ket-qua` | `acceptance/test_m11_expected.py`, `acceptance/test_m11_api_expected.py`, `acceptance/test_m11_differential.py` | Đã làm |
 | M11-04 | Xu hướng GPA | `GET /api/m11/gpa-trend` | `/`, `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
 | M11-05 | Tiến độ tín chỉ | `GET /api/m11/credits` | `/`, `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
@@ -341,3 +341,18 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | Trạng thái chỉ còn icon, có aria-label, tooltip, chú giải | `frontend/src/components/ui/ui.test.jsx` |
 | Giao diện khung năng lực, làm bài, ôn tập, chứng chỉ, xác thực | `frontend/src/features/m12/framework/framework.test.jsx` |
 | E2E thiennhan làm mô-đun 3, đạt, chứng chỉ, xác thực khi chưa đăng nhập; axe các trang mới | `frontend/e2e/quiz.spec.mjs` |
+
+## CR-05: Trang Tổng quan
+
+| Yêu cầu | Test |
+|---------|------|
+| Số trên thẻ "Số môn chưa đạt" = số dòng trang đích, và các dòng đúng bằng `failed_effective()`: `thiennhan` S1–S5, SV01–SV04 ở S3–S5 | `backend/tests/api/m11/test_m11_overview_cr05.py`, `frontend/e2e/overview.spec.mjs` |
+| `view=failed_as_of` thiếu kỳ trả 400, giá trị lạ 422; môn đang học lại vẫn đếm, có `retaking_semester` | `test_m11_overview_cr05.py` |
+| Link của thẻ, tiêu đề phạm vi, thiếu `semester` dùng kỳ hiện tại, `semester=all` bỏ `view`, đổi kỳ giữ `view`, nút về bảng điểm kỳ | `frontend/src/features/m11/overviewCr05.test.jsx` |
+| "Kỳ hiện tại", "Đang xem", "Kỳ đã qua", "(kỳ hiện tại)"; dòng phạm vi là dòng cuối, tối đa 2 dòng phụ | `overviewCr05.test.jsx` |
+| Lý do cảnh báo từ API, tối đa 2, mức Ổn không có lý do; `summary` dùng ngưỡng của quy chế, số kiểu Việt | `overviewCr05.test.jsx`, `backend/tests/unit/m11/test_risk.py` |
+| "Tính lúc" và "Điểm cập nhật lần cuối"; null thì "Chưa ghi nhận…"; nhập điểm ghi giờ | `overviewCr05.test.jsx`, `test_m11_overview_cr05.py` |
+| Không còn mã S1–S5; không còn tên bảng tiếng Anh trong panel giải thích | `overviewCr05.test.jsx`, `test_m11_overview_cr05.py` |
+| Đổi kỳ nhanh không hiện số cũ; API lỗi 500 | `overviewCr05.test.jsx` |
+| Migration 0013 trên CSDL đã có dữ liệu, xuống rồi lên | `backend/tests/unit/db/test_migration_0013.py` |
+

@@ -40,6 +40,7 @@ class RuleCheck:
     level: str
     reason: str
     evidence: dict
+    summary: str | None = None
 
 
 RULE_REGISTRY: dict[str, Callable[[RiskFacts], RuleCheck]] = {}
@@ -80,12 +81,14 @@ def _gpa_rule(facts: RiskFacts) -> RuleCheck:
             LEVEL_WARNING,
             f"GPA tích lũy {_vn(gpa.value)} dưới ngưỡng cảnh báo {_vn(rule.gpa_warning_below)}.",
             evidence,
+            f"GPA tích lũy {_vn(gpa.value)}, dưới ngưỡng {_vn(rule.gpa_warning_below)}",
         )
     if _is_below(gpa.numerator, gpa.denominator, rule.gpa_watch_below):
         return RuleCheck(
             LEVEL_WATCH,
             f"GPA tích lũy {_vn(gpa.value)} dưới ngưỡng chú ý {_vn(rule.gpa_watch_below)}.",
             evidence,
+            f"GPA tích lũy {_vn(gpa.value)}, dưới ngưỡng {_vn(rule.gpa_watch_below)}",
         )
     return RuleCheck(
         LEVEL_NORMAL,
@@ -109,12 +112,14 @@ def _debt_rule(facts: RiskFacts) -> RuleCheck:
             LEVEL_WARNING,
             f"Đang nợ {debt} tín chỉ, từ ngưỡng cảnh báo {rule.debt_warning_from}.",
             evidence,
+            f"Nợ {debt} tín chỉ",
         )
     if debt >= rule.debt_watch_from:
         return RuleCheck(
             LEVEL_WATCH,
             f"Đang nợ {debt} tín chỉ, từ ngưỡng chú ý {rule.debt_watch_from}.",
             evidence,
+            f"Nợ {debt} tín chỉ",
         )
     return RuleCheck(
         LEVEL_NORMAL, f"Đang nợ {debt} tín chỉ, dưới ngưỡng chú ý {rule.debt_watch_from}.", evidence
@@ -138,8 +143,14 @@ def _registration_rule(facts: RiskFacts) -> RuleCheck:
         return RuleCheck(
             LEVEL_NORMAL, f"Đăng ký {registered} tín chỉ, trong khoảng {allowed}.", evidence
         )
+    if registered < rule.registration_min_credits:
+        summary = (
+            f"Đăng ký {registered} tín chỉ, dưới mức tối thiểu {rule.registration_min_credits}"
+        )
+    else:
+        summary = f"Đăng ký {registered} tín chỉ, trên mức tối đa {rule.registration_max_credits}"
     return RuleCheck(
-        LEVEL_WATCH, f"Đăng ký {registered} tín chỉ, ngoài khoảng {allowed}.", evidence
+        LEVEL_WATCH, f"Đăng ký {registered} tín chỉ, ngoài khoảng {allowed}.", evidence, summary
     )
 
 
@@ -169,7 +180,14 @@ def assess_risk(data: StudentData) -> RiskAssessment:
         )
         checks = {code: check(facts) for code, check in RULE_REGISTRY.items()}
         outcomes = tuple(
-            RuleOutcome(code, result.level, result.reason, result.evidence, data.rule.rule_version)
+            RuleOutcome(
+                code,
+                result.level,
+                result.reason,
+                result.evidence,
+                data.rule.rule_version,
+                result.summary,
+            )
             for code, result in checks.items()
         )
     return RiskAssessment(

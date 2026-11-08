@@ -19,18 +19,22 @@ function metric(value, extra = {}) {
   return { value, ...META, ...extra };
 }
 
+const SEMESTER_SCOPE = { scope: 'semester', scope_label: 'Riêng' };
+const AS_OF_SCOPE = { scope: 'as_of', scope_label: 'Tính đến' };
+
 export function overviewBody({ gpa = '3.11', cumulative = '2.88', semester = 'S5', ...rest } = {}) {
   return {
     semester: { id: semester, name: `Kỳ ${semester}` },
     metrics: {
-      semester_gpa: metric(gpa, { numerator: '10.00', denominator: 3 }),
-      cumulative_gpa: metric(cumulative, { numerator: '20.00', denominator: 7 }),
-      credits_passed: metric(19),
-      credits_debt: metric(6),
-      credits_in_progress: metric(15),
-      failed_course_count: metric(2),
-      risk_level: metric('warning'),
+      semester_gpa: metric(gpa, { numerator: '10.00', denominator: 3, ...SEMESTER_SCOPE }),
+      cumulative_gpa: metric(cumulative, { numerator: '20.00', denominator: 7, ...AS_OF_SCOPE }),
+      credits_passed: metric(19, AS_OF_SCOPE),
+      credits_debt: metric(6, AS_OF_SCOPE),
+      credits_in_progress: metric(15, SEMESTER_SCOPE),
+      failed_course_count: metric(2, AS_OF_SCOPE),
+      risk_level: metric('warning', AS_OF_SCOPE),
     },
+    grades_updated_at: '2026-06-19T00:00:00Z',
     meta: META,
     ...rest,
   };
@@ -39,14 +43,15 @@ export function overviewBody({ gpa = '3.11', cumulative = '2.88', semester = 'S5
 export const EMPTY_OVERVIEW = {
   semester: { id: 'S5', name: 'Kỳ S5' },
   metrics: {
-    semester_gpa: metric(null, { numerator: '0', denominator: 0 }),
-    cumulative_gpa: metric(null, { numerator: '0', denominator: 0 }),
-    credits_passed: metric(0),
-    credits_debt: metric(0),
-    credits_in_progress: metric(0),
-    failed_course_count: metric(0),
-    risk_level: metric('normal'),
+    semester_gpa: metric(null, { numerator: '0', denominator: 0, ...SEMESTER_SCOPE }),
+    cumulative_gpa: metric(null, { numerator: '0', denominator: 0, ...AS_OF_SCOPE }),
+    credits_passed: metric(0, AS_OF_SCOPE),
+    credits_debt: metric(0, AS_OF_SCOPE),
+    credits_in_progress: metric(0, SEMESTER_SCOPE),
+    failed_course_count: metric(0, AS_OF_SCOPE),
+    risk_level: metric('normal', AS_OF_SCOPE),
   },
+  grades_updated_at: null,
   meta: {
     ...META,
     data_warnings: [
@@ -230,6 +235,7 @@ export const RISKS = {
       rule_code: 'gpa',
       level: 'warning',
       reason: 'GPA tích lũy 1,81 dưới ngưỡng cảnh báo 2,00.',
+      summary: 'GPA tích lũy 1,81, dưới ngưỡng 2,00',
       evidence: {
         numerator: '43.50',
         denominator: 24,
@@ -243,6 +249,7 @@ export const RISKS = {
       rule_code: 'debt',
       level: 'watch',
       reason: 'Đang nợ 3 tín chỉ.',
+      summary: 'Nợ 3 tín chỉ',
       evidence: { debt_credits: 3, watch_from: 3, warning_from: 6 },
       rule_version: 'K66-mau-v1',
     },
@@ -250,6 +257,7 @@ export const RISKS = {
       rule_code: 'registration',
       level: 'not_applicable',
       reason: 'Chỉ xét đăng ký ở kỳ hiện tại.',
+      summary: null,
       evidence: { registered_credits: 0, min_credits: 10, max_credits: 25 },
       rule_version: 'K66-mau-v1',
     },

@@ -115,21 +115,50 @@
   accent-color: var(--neu-primary);
 }
 
-/* Tổng quan */
+/* Tổng quan (CR-05): kỳ đang xem trên cùng; khối cảnh báo không lồng thẻ, không bóng đổ. */
+.overview-viewing {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-2) var(--space-3);
+}
+
+.overview-viewing__label {
+  margin: 0 0 var(--space-12);
+  color: var(--text-on-primary);
+}
+
+.overview-viewing__current {
+  color: var(--text-on-primary-muted);
+  font-size: var(--font-14);
+}
+
+.overview-viewing__past {
+  margin-left: var(--space-1);
+  padding: 0 var(--space-2);
+  border: 1px solid var(--text-on-primary);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-14);
+}
+
 .risk-summary {
-  display: block;
-  margin-bottom: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+  padding: var(--space-12) var(--space-3);
   border-left: 4px solid var(--neu-primary);
+  background: var(--surface-card);
   color: var(--text-primary);
   text-decoration: none;
-  transition: box-shadow var(--duration-fast);
 }
 
-.risk-summary:hover {
-  box-shadow: var(--shadow-md);
+.risk-summary:hover .risk-summary__label {
+  color: var(--text-link);
+  text-decoration: underline;
 }
 
-.risk-summary .ui-card__body {
+.risk-summary__head {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -140,10 +169,45 @@
   font-weight: 600;
 }
 
+.risk-summary__reasons {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.risk-summary__reasons li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.risk-summary__reasons .status-icon {
+  margin-top: 2px;
+}
+
 .risk-summary__note {
-  flex-basis: 100%;
   color: var(--text-secondary);
   font-size: var(--font-14);
+}
+
+.failed-view {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.failed-view__title {
+  margin: 0;
+  font-size: var(--font-18);
+}
+
+.table-note--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
 }
 
 .q80-short {

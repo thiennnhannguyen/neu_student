@@ -35,6 +35,7 @@ class GradesQuerySchema(SemesterQuerySchema):
     )
     page = _text()
     page_size = _text()
+    view = _text(validate=validate.OneOf(("failed_as_of",), error="Kiểu xem không hợp lệ."))
 
 
 class StudentListQuerySchema(ApiSchema):

@@ -58,7 +58,9 @@ def table_and_index_definitions():
         "'ix_skill_evidence_attachments_evidence_id', 'ix_support_status_events_request_id', "
         "'ix_notifications_user_read', 'sqlite_autoindex_skill_evidence_attachments_1', "
         "'sqlite_autoindex_skill_evidence_attachments_2', "
-        "'sqlite_autoindex_support_status_events_1', 'sqlite_autoindex_notifications_1') "
+        "'sqlite_autoindex_support_status_events_1', 'sqlite_autoindex_notifications_1', "
+        # Migration 0013 thêm cột recorded_at vào bảng này.
+        "'grade_attempts') "
         "ORDER BY name"
     )
     return [tuple(row) for row in rows]
