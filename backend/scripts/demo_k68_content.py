@@ -653,20 +653,23 @@ LMS_SENDER = "user-admin"
 # - "declining": đi học đủ, nộp đúng hạn, điểm giảm dần 8,5 → 4,5.
 # - "absent": vắng 2 buổi (buổi 3 và 6, không phép, sát cấm thi), bài tập và điểm vẫn tốt.
 # Bài j (1–7) có hạn nộp là ngày cuối tuần j của môn; điểm là None nghĩa là không nộp.
+# "quiz" là điểm bài Kiểm tra 1 (buổi 4), đặt ĐỘC LẬP với điểm bài tập (D-313): trước CR-12b,
+# CNTT1180 "9.0" và CNTT1117 "6.5" bị chép trùng trung bình 7 bài nên "Điểm kiểm tra" trùng
+# "Điểm TB bài tập". Có test đọc mã nguồn chặn lấy điểm kiểm tra từ "scores".
 LMS_PATTERNS = {
     "CNTT1180": {
         "kind": "good",
         "scores": ["9.0", "8.5", "9.5", "9.0", "8.5", "9.0", "9.5"],
         "late": [],
         "absent": [],
-        "quiz": "9.0",
+        "quiz": "8.0",
     },
     "CNTT1117": {
         "kind": "average",
         "scores": ["6.5", "7.0", "6.0", "6.5", "7.0", "6.5", "6.0"],
         "late": [],
         "absent": [],
-        "quiz": "6.5",
+        "quiz": "7.0",
     },
     "CNTT1188": {
         "kind": "missing",

@@ -1,13 +1,15 @@
 """Nhận và đọc dữ liệu LMS (CR-11, D-309). Service không commit; ranh giới commit ở blueprint.
 
-Số tổng (buổi vắng, bài đã nộp, đã chấm, điểm trung bình, % hoàn thành) chỉ tính ở summarize() từ dữ
-liệu gốc, không nhận từ client. Form LMS Demo hiển thị đúng số này qua /api/lms/preview.
+Số tổng (buổi vắng, bài đã nộp, đã chấm, điểm bài tập, điểm quá trình, % hoàn thành) chỉ tính ở
+summarize() từ dữ liệu gốc, không nhận từ client. Form LMS Demo hiển thị đúng số này qua
+/api/lms/preview.
 """
 
 from dataclasses import asdict, dataclass
 from datetime import UTC, date, datetime
 from decimal import ROUND_HALF_UP, Decimal
 
+from flask import current_app
 from sqlalchemy import delete, select
 
 from app.common import audit, clock
@@ -75,12 +77,37 @@ def assignment_status(row: Assignment, as_of: date) -> dict:
     return {"status": status, "late": row.submitted_on > row.due_date}
 
 
-def _weighted_average(rows) -> Decimal | None:
-    graded = [row for row in rows if row.score_10 is not None]
-    total_weight = sum((row.weight for row in graded), Decimal(0))
+def _weighted_average(items: list[tuple[Decimal, Decimal]]) -> Decimal | None:
+    """Trung bình có trọng số của các cặp (điểm, trọng số); rỗng thì None."""
+    total_weight = sum((weight for _score, weight in items), Decimal(0))
     if total_weight == 0:
         return None
-    return sum((row.score_10 * row.weight for row in graded), Decimal(0)) / total_weight
+    return sum((score * weight for score, weight in items), Decimal(0)) / total_weight
+
+
+def assignment_items(
+    assignments: list[Assignment], as_of: date, late_penalty: Decimal
+) -> list[tuple[Decimal, Decimal]]:
+    """D-313: các bài tập được tính điểm, mỗi bài một cặp (điểm, trọng số).
+
+    - Quá hạn chưa nộp: 0 điểm, vẫn có trọng số.
+    - Chưa tới hạn (chưa nộp): không tính.
+    - Đã nộp chưa chấm: không tính (đếm riêng ở "chờ chấm").
+    - Nộp muộn: điểm trừ late_penalty, không dưới 0.
+    """
+    items = []
+    for row in assignments:
+        status = assignment_status(row, as_of)
+        if status["status"] == OVERDUE:
+            items.append((Decimal(0), row.weight))
+        elif status["status"] == GRADED:
+            score = row.score_10 - late_penalty if status["late"] else row.score_10
+            items.append((max(score, Decimal(0)), row.weight))
+    return items
+
+
+def _assessment_items(assessments: list[Assessment]) -> list[tuple[Decimal, Decimal]]:
+    return [(row.score_10, row.weight) for row in assessments if row.score_10 is not None]
 
 
 def _ratio(numerator: int, denominator: int) -> dict:
@@ -101,13 +128,21 @@ def summarize(
     assignments: list[Assignment],
     assessments: list[Assessment],
     as_of: date,
+    late_penalty: Decimal = Decimal(0),
 ) -> dict:
     """Số tổng của một bản chụp.
 
     - % hoàn thành = bài đã nộp / bài đã đến hạn hoặc đã nộp (bài chưa đến hạn chưa tính).
-    - Điểm trung bình có trọng số, chỉ tính bài đã chấm; chưa bài nào được chấm thì null.
     - Quá hạn: chưa nộp và hạn nộp trước ngày as_of (đúng ngày hạn vẫn còn nộp được).
+    - D-313 (thay định nghĩa "điểm trung bình" của D-309):
+      assignment_score "Điểm bài tập hiện tại" = trung bình có trọng số của assignment_items();
+      process_score "Điểm quá trình hiện tại" = gộp các bài đó với bài kiểm tra, giữa kỳ đã có
+      điểm, theo trọng số của từng mục (phần Quá trình 40% của CR-13);
+      assessment_average "Điểm kiểm tra" = trung bình có trọng số bài kiểm tra đã có điểm.
+      Không có mục nào được tính thì null.
     """
+    scored_assignments = assignment_items(assignments, as_of, late_penalty)
+    scored_assessments = _assessment_items(assessments)
     statuses = [assignment_status(row, as_of) for row in assignments]
     submitted = sum(row.submitted_on is not None for row in assignments)
     due = sum(row.due_date < as_of or row.submitted_on is not None for row in assignments)
@@ -124,9 +159,15 @@ def summarize(
         "overdue": sum(item["status"] == OVERDUE for item in statuses),
         "not_due": sum(item["status"] == NOT_DUE for item in statuses),
         "completion": _ratio(submitted, due),
-        "assignment_average": _dec(_weighted_average(assignments)),
-        "assessment_average": _dec(_weighted_average(assessments)),
+        "assignment_score": _dec(_weighted_average(scored_assignments)),
+        "process_score": _dec(_weighted_average(scored_assignments + scored_assessments)),
+        "assessment_average": _dec(_weighted_average(scored_assessments)),
     }
+
+
+def late_penalty() -> Decimal:
+    """Điểm trừ mỗi bài nộp muộn (cấu hình LMS_LATE_PENALTY, mặc định 0; D-313)."""
+    return Decimal(current_app.config["LMS_LATE_PENALTY"])
 
 
 # --- Truy cập dữ liệu ---
@@ -312,7 +353,7 @@ def _snapshot_body(
             }
             for row in assessments
         ],
-        "summary": summarize(statuses, assignments, assessments, as_of),
+        "summary": summarize(statuses, assignments, assessments, as_of, late_penalty()),
         **(extra or {}),
     }
 

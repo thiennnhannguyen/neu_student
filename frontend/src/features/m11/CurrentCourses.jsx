@@ -9,6 +9,7 @@ import {
   weekdayName,
   withQuery,
 } from './format';
+import { ASSIGNMENT_SCORE, PROCESS_SCORE, ScoreHelp, TEST_SCORE } from './scoreHelp';
 import useApiResource from './useApiResource';
 import { ResourceView } from './ui';
 
@@ -62,14 +63,19 @@ const LMS_COLUMNS = [
     render: (row) => (row.latest ? assignmentText(row.latest.summary) : '—'),
   },
   {
-    key: 'average',
-    header: 'Điểm TB bài tập',
-    render: (row) => formatDecimal(row.latest?.summary.assignment_average),
+    key: 'assignment_score',
+    header: ASSIGNMENT_SCORE,
+    render: (row) => formatDecimal(row.latest?.summary.assignment_score),
   },
   {
     key: 'tests',
-    header: 'Điểm kiểm tra',
+    header: TEST_SCORE,
     render: (row) => formatDecimal(row.latest?.summary.assessment_average),
+  },
+  {
+    key: 'process_score',
+    header: PROCESS_SCORE,
+    render: (row) => formatDecimal(row.latest?.summary.process_score),
   },
 ];
 
@@ -140,6 +146,10 @@ export default function CurrentCourses({ scope }) {
                   Số liệu lấy từ LMS, tính tới ngày cập nhật của từng môn; tuần tính theo lịch học
                   của môn. Báo cáo tuần: số đã nộp trên số báo cáo đã hết hạn hoặc đã nộp. Ngày hệ
                   thống: {formatDay(data.today)}.
+                </p>
+                <p className="reference-line score-help-line">
+                  Cách tính {ASSIGNMENT_SCORE.toLowerCase()} và {PROCESS_SCORE.toLowerCase()}
+                  <ScoreHelp />
                 </p>
                 {opened && (
                   <WeeklyReportHistory

@@ -936,3 +936,9 @@
   color: var(--warning-text);
   font-size: 0.8125rem;
 }
+
+.score-help-line {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}

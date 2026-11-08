@@ -21,6 +21,8 @@ class BaseConfig:
     QUIZ_RETRY_COOLDOWN_MINUTES = int(os.environ.get("QUIZ_RETRY_COOLDOWN_MINUTES", "10"))
     # D-309: ngày "hôm nay" của hệ thống cho demo (YYYY-MM-DD). Không đặt thì dùng ngày thật.
     DEMO_TODAY = os.environ.get("DEMO_TODAY") or None
+    # D-313: điểm trừ mỗi bài tập nộp muộn (chuỗi thập phân, hệ 10); mặc định không trừ.
+    LMS_LATE_PENALTY = os.environ.get("LMS_LATE_PENALTY") or "0"
     # Hết hạn sau 2 giờ không hoạt động: cookie được ký lại ở mỗi request.
     PERMANENT_SESSION_LIFETIME = timedelta(hours=2)
     SESSION_REFRESH_EACH_REQUEST = True

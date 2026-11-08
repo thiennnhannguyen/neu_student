@@ -15,6 +15,7 @@ import {
 import { formatCount, formatDay, formatDecimal, weekdayName, withQuery } from '../m11/format';
 import useApiResource from '../m11/useApiResource';
 import { REAL_TIME_NOTE, useDemoToday } from '../m11/SystemTime';
+import { ASSIGNMENT_SCORE, PROCESS_SCORE, ScoreHelp, TEST_SCORE } from '../m11/scoreHelp';
 import { ResourceView } from '../m11/ui';
 import {
   ASSESSMENT_KINDS,
@@ -103,18 +104,25 @@ function Totals({ preview }) {
         ? '—'
         : `${completion.percent}% (${completion.numerator}/${completion.denominator} bài đến hạn)`,
     ],
-    ['Điểm TB bài tập', formatDecimal(summary.assignment_average)],
-    ['Điểm TB kiểm tra', formatDecimal(summary.assessment_average)],
+    [ASSIGNMENT_SCORE, formatDecimal(summary.assignment_score)],
+    [TEST_SCORE, formatDecimal(summary.assessment_average)],
+    [PROCESS_SCORE, formatDecimal(summary.process_score)],
   ];
   return (
-    <dl className="detail-list lms-totals" aria-live="polite">
-      {rows.map(([name, value]) => (
-        <div key={name}>
-          <dt>{name}</dt>
-          <dd>{value}</dd>
-        </div>
-      ))}
-    </dl>
+    <>
+      <dl className="detail-list lms-totals" aria-live="polite">
+        {rows.map(([name, value]) => (
+          <div key={name}>
+            <dt>{name}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="reference-line score-help-line">
+        Cách tính {ASSIGNMENT_SCORE.toLowerCase()} và {PROCESS_SCORE.toLowerCase()}
+        <ScoreHelp />
+      </p>
+    </>
   );
 }
 
