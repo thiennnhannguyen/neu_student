@@ -4,7 +4,7 @@ import flask_migrate
 import pytest
 
 from app.extensions import db
-from tests.helpers import TABLES_FROM_0015, count_all_tables
+from tests.helpers import TABLES_FROM_0015, TABLES_FROM_0016, count_all_tables
 
 COLUMNS = ("attendance_score", "midterm_score", "final_score")
 
@@ -26,7 +26,7 @@ def _with_components():
 
 
 def test_down_and_up_keep_rows_and_foreign_keys(demo_seeded):
-    before = count_all_tables(TABLES_FROM_0015)
+    before = count_all_tables(TABLES_FROM_0015 | TABLES_FROM_0016)
     assert _with_components() > 0
     db.session.commit()
     flask_migrate.downgrade(revision="0013")
@@ -34,7 +34,7 @@ def test_down_and_up_keep_rows_and_foreign_keys(demo_seeded):
     db.session.commit()
     flask_migrate.upgrade(revision="0014")
     assert set(COLUMNS) <= set(_columns())
-    assert count_all_tables(TABLES_FROM_0015) == before
+    assert count_all_tables(TABLES_FROM_0015 | TABLES_FROM_0016) == before
     assert _with_components() == 0
     assert db.session.execute(db.text("PRAGMA foreign_key_check")).all() == []
     assert db.session.execute(db.text("PRAGMA foreign_keys")).scalar_one() == 1

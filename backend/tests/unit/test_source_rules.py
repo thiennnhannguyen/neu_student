@@ -386,6 +386,8 @@ STUDENT_RESULT_MODELS = {
     "LmsAttendance",
     "LmsAssignment",
     "LmsAssessment",
+    # D-312: báo cáo tuần là đầu vào phân tích kỳ hiện tại (CR-13).
+    "WeeklyReport",
 }
 # Seed đặt data_version riêng cho toàn bộ sinh viên trong reset_database.
 DATA_VERSION_EXEMPT = {"seed/seed.py"}

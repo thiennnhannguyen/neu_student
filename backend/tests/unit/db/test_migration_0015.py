@@ -5,7 +5,10 @@ import pytest
 from sqlalchemy import inspect
 
 from app.extensions import db
-from tests.helpers import TABLES_FROM_0015, count_all_tables
+from tests.helpers import TABLES_FROM_0015, TABLES_FROM_0016, count_all_tables
+
+# D-312: hạ xuống 0014 cũng bỏ bảng báo cáo tuần của 0016, nên loại khỏi phép so.
+NEWER = TABLES_FROM_0015 | TABLES_FROM_0016
 
 
 @pytest.fixture
@@ -22,16 +25,16 @@ def _tables():
 
 
 def test_down_removes_only_new_tables_and_up_recreates_them(demo_seeded):
-    before = count_all_tables(TABLES_FROM_0015)
+    before = count_all_tables(NEWER)
     assert count_all_tables()["lms_snapshots"] == 40
     db.session.commit()
     flask_migrate.downgrade(revision="0014")
     assert not TABLES_FROM_0015 & _tables()
-    assert count_all_tables(TABLES_FROM_0015) == before
+    assert count_all_tables(NEWER) == before
     db.session.commit()
     flask_migrate.upgrade(revision="0015")
     assert TABLES_FROM_0015 <= _tables()
-    assert count_all_tables(TABLES_FROM_0015) == before
+    assert count_all_tables(NEWER) == before
     assert {name: count_all_tables()[name] for name in TABLES_FROM_0015} == dict.fromkeys(
         TABLES_FROM_0015, 0
     )

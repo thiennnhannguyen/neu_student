@@ -271,6 +271,15 @@ LMS_ROUTES = {
 }
 
 
+# D-312: báo cáo tuần. Đang mở, nộp, làm sau: chỉ sinh viên; xem lại: sinh viên, cố vấn, quản trị.
+WEEKLY_REPORT_STUDENT_ROUTES = {
+    ("GET", "/api/weekly-reports/open"),
+    ("POST", "/api/weekly-reports/<course_id>/<int:week_no>/submit"),
+    ("POST", "/api/weekly-reports/<course_id>/<int:week_no>/postpone"),
+}
+WEEKLY_REPORT_READ_ROUTE = ("GET", "/api/weekly-reports")
+
+
 def test_route_registry_covers_all_expected_api_routes():
     app = create_app("testing")
     rules = {
@@ -307,6 +316,8 @@ def test_route_registry_covers_all_expected_api_routes():
         ("GET", "/api/m11/metrics-glossary"),
         ("GET", "/api/m11/current-courses"),
         *LMS_ROUTES,
+        *WEEKLY_REPORT_STUDENT_ROUTES,
+        WEEKLY_REPORT_READ_ROUTE,
         *M12_USER_ROUTES,
         *M12_STUDENT_WRITE_ROUTES,
         *M12_WORK_ROUTES,

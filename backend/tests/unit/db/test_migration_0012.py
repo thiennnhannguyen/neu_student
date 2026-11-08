@@ -5,7 +5,7 @@ import pytest
 from sqlalchemy.exc import IntegrityError
 
 from app.extensions import db
-from tests.helpers import TABLES_FROM_0015, count_all_tables, run_sql
+from tests.helpers import TABLES_FROM_0015, TABLES_FROM_0016, count_all_tables, run_sql
 
 QUESTION = "SELECT id FROM quiz_questions WHERE verification = '{}' LIMIT 1"
 
@@ -59,13 +59,13 @@ def test_db_accepts_theory_without_reviewer(demo_seeded):
 
 def test_down_and_up_on_a_database_with_attempts_keep_every_row(demo_seeded):
     """quiz_questions có bảng con đã có dữ liệu: tạo lại bảng không được làm hỏng khóa ngoại."""
-    before = count_all_tables(TABLES_FROM_0015)
+    before = count_all_tables(TABLES_FROM_0015 | TABLES_FROM_0016)
     assert before["quiz_attempt_questions"] > 0
     db.session.commit()
     flask_migrate.downgrade(revision="0011")
     assert _first("theory")
     db.session.commit()
     flask_migrate.upgrade(revision="0012")
-    assert count_all_tables(TABLES_FROM_0015) == before
+    assert count_all_tables(TABLES_FROM_0015 | TABLES_FROM_0016) == before
     assert db.session.execute(db.text("PRAGMA foreign_key_check")).all() == []
     assert db.session.execute(db.text("PRAGMA foreign_keys")).scalar_one() == 1
