@@ -1,22 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import {
-  Button,
-  FormField,
-  Pagination,
-  SearchBox,
-  Select,
-  StatusLegend,
-} from '../../components/ui';
+import { Button, FormField, Pagination, SearchBox, Select } from '../../components/ui';
 import { STATUS_CHIPS } from '../../components/ui/StatusChip';
-import AttemptHistoryPanel from './AttemptHistoryPanel';
 import { withQuery } from './format';
 import GradesTable from './GradesTable';
 import { GRADE_STATUS_CODES } from './labels';
 import M11Page from './M11Page';
 import useApiResource from './useApiResource';
 import { ALL_SEMESTERS } from './useM11Scope';
-import { DataWarnings, ReferenceLine, ResourceView } from './ui';
+import { ResourceView } from './ui';
 
 const PAGE_SIZE = 20;
 /** ?view=failed: môn chưa đạt tính đến kỳ đang xem, đúng tập mà thẻ ở Tổng quan đếm (CR-05). */
@@ -29,7 +21,6 @@ function pageFrom(params) {
 
 function ResultsContent({ scope }) {
   const [params, setParams] = useSearchParams();
-  const [history, setHistory] = useState(null);
   const urlKeyword = params.get('q') ?? '';
   const [keyword, setKeyword] = useState(urlKeyword);
   const failedView = params.get('view') === FAILED_VIEW;
@@ -139,13 +130,17 @@ function ResultsContent({ scope }) {
                   </Button>
                 </div>
               )}
-              {failedView && data.total === 0 ? (
+              {failedView && data.total === 0 && (
                 <p className="table-count">Không có môn chưa đạt tính đến kỳ này.</p>
-              ) : (
-                <StatusLegend statuses={GRADE_STATUS_CODES} />
               )}
-              {data.total > 0 && <GradesTable rows={data.items} onOpenHistory={setHistory} />}
-              {lastPage > 1 ? (
+              {data.total > 0 && (
+                <GradesTable
+                  rows={data.items}
+                  studentId={scope.studentId}
+                  summary={data.semester_summary}
+                />
+              )}
+              {lastPage > 1 && (
                 <Pagination
                   label="Phân trang bảng điểm"
                   page={data.page}
@@ -153,37 +148,15 @@ function ResultsContent({ scope }) {
                   summary={`Trang ${data.page}/${lastPage} · ${data.total} môn`}
                   onPage={(next) => update({ page: String(next) })}
                 />
-              ) : (
-                <p className="table-count">{data.total} môn</p>
               )}
-              <ReferenceLine
-                semesterName={referenceName}
-                computedAt={data.meta.computed_at}
-                ruleVersion={data.meta.rule_version}
-              />
-              <DataWarnings warnings={data.meta.data_warnings} />
             </>
           );
         }}
       </ResourceView>
-      {history && (
-        <AttemptHistoryPanel
-          row={history}
-          studentId={scope.studentId}
-          onClose={() => setHistory(null)}
-        />
-      )}
     </>
   );
 }
 
 export default function ResultsPage() {
-  return (
-    <M11Page
-      title="Kết quả"
-      description="Bảng điểm theo học kỳ, gồm cả môn chưa học khi xem tất cả các kỳ."
-    >
-      {(scope) => <ResultsContent scope={scope} />}
-    </M11Page>
-  );
+  return <M11Page title="Kết quả">{(scope) => <ResultsContent scope={scope} />}</M11Page>;
 }

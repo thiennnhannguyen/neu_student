@@ -14,7 +14,7 @@ from app.common.errors import ApiError
 from app.common.pagination import paginate_list
 from app.extensions import db
 from app.models.shared import Course, Semester, Student
-from app.services import grades_service
+from app.services import grade_components, grades_service
 from app.services.analysis_service import compare_semesters, gpa_trend, strengths_weaknesses
 from app.services.credit_service import credit_summary, failed_effective
 from app.services.curriculum_service import curriculum_status
@@ -24,7 +24,7 @@ from app.services.effective_attempt_service import (
     course_status,
     effective_attempts,
 )
-from app.services.gpa_service import cumulative_gpa, semester_gpa
+from app.services.gpa_service import cumulative_gpa, round_ratio, semester_gpa
 from app.services.m11_cache import get_cache
 from app.services.m11_loader import load_rule_version, load_student_data
 from app.services.m11_types import AttemptRow, CourseItem, GpaResult, StudentData
@@ -318,17 +318,39 @@ def _failed_rows(data: StudentData, meta, counts) -> list[dict]:
     return rows
 
 
+def _semester_summary(data: StudentData) -> dict:
+    """Dòng "Tổng kết học kì" (CR-06), không phụ thuộc bộ lọc trạng thái hay từ khóa.
+
+    Tín chỉ: tổng tín chỉ các môn có điểm hệ 10 trong kỳ, kể cả môn không tính GPA.
+    Hệ 10: tổng (điểm hệ 10 x tín chỉ) / tổng tín chỉ, chỉ các môn tính GPA (D-303).
+    Hệ 4: GPA học kỳ theo quy chế (R4), đúng số của thẻ "GPA học kỳ".
+    """
+    semester_id = data.reference_semester.id
+    scored = [a for a in data.attempts if a.semester_id == semester_id and a.score_10 is not None]
+    counted = [a for a in scored if data.course_by_id[a.course_id].counts_gpa]
+    counted_credits = sum(attempt.credits for attempt in counted)
+    total = sum((attempt.score_10 * attempt.credits for attempt in counted), Decimal(0))
+    return {
+        "credits": sum(attempt.credits for attempt in scored),
+        "score_10": to_json(round_ratio(total, counted_credits)),
+        "grade_4": to_json(semester_gpa(data).value),
+    }
+
+
 def _build_grade_rows(data: StudentData, all_semesters: bool, view: str | None = None) -> dict:
     meta = build_meta(data)
     counts = _active_enrollment_counts(data)
+    summary = None
     if view == VIEW_FAILED_AS_OF:
         builder = _failed_rows
     elif all_semesters or data.reference_semester is None:
         builder = _all_rows
     else:
         builder = _semester_rows
+        summary = _semester_summary(data)
     return {
         "rows": sorted(builder(data, meta, counts), key=_row_sort_key),
+        "summary": summary,
         "meta": _meta_fields(meta),
     }
 
@@ -364,7 +386,18 @@ def grades(student: Student, args: dict) -> dict:
         rows = [row for row in rows if row["status"] == status]
     if keyword := (args.get("q") or "").strip().casefold():
         rows = [row for row in rows if _matches_keyword(row, keyword)]
-    return {**paginate_list(rows, args.get("page"), args.get("page_size")), "meta": built["meta"]}
+    return {
+        **paginate_list(rows, args.get("page"), args.get("page_size")),
+        "semester_summary": built["summary"],
+        "meta": built["meta"],
+    }
+
+
+def _component_json(attempt: AttemptRow | None) -> dict | None:
+    if attempt is None or attempt.component_scores is None:
+        return None
+    keys = grade_components.COMPONENT_KEYS
+    return {key: to_json(value) for key, value in zip(keys, attempt.component_scores, strict=True)}
 
 
 def _build_attempts(data: StudentData, course_id: str) -> dict:
@@ -387,10 +420,12 @@ def _build_attempts(data: StudentData, course_id: str) -> dict:
                 **_grade_values(attempt),
                 "passed": attempt.passed if attempt else None,
                 "is_effective": attempt is not None and attempt.id in effective_ids,
+                "component_scores": _component_json(attempt),
             }
         )
     return {
         "course": {"course_id": course.id, "code": course.code, "name": course.name},
+        "components": grade_components.describe(),
         "items": items,
         "meta": _meta_fields(build_meta(data)),
     }

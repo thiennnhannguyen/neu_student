@@ -92,7 +92,7 @@ erDiagram
 | `grade_scales` | Thang điểm theo khóa (`version`, `effective_cohort`). |
 | `grade_scale_levels` | Các mức của thang: chữ, điểm tối thiểu, hệ 4, đạt. |
 | `academic_rules` | Quy chế theo khóa: `retake_policy`, ngưỡng cảnh báo, ngưỡng nhóm môn. |
-| `grade_attempts` | Kết quả một lần học. Là nguồn sự thật của trạng thái đạt. Chỉ đăng ký `final`, `exempt` mới có attempt. `recorded_at` (cho phép null, migration 0013): thời điểm nhập điểm. |
+| `grade_attempts` | Kết quả một lần học. Là nguồn sự thật của trạng thái đạt. Chỉ đăng ký `final`, `exempt` mới có attempt. `recorded_at` (cho phép null, migration 0013): thời điểm nhập điểm. `attendance_score`, `midterm_score`, `final_score` (cho phép null, migration 0014): điểm thành phần 10/40/50; có thì `score_10` = tổng có trọng số làm tròn 1 chữ số. |
 
 ### M12 (22)
 

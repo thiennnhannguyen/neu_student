@@ -495,6 +495,62 @@
   cursor: pointer;
 }
 
+/* DataTable: cột mở chi tiết và hàng tổng */
+.ui-table__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  margin: calc(var(--space-2) * -1) 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.ui-table__toggle:hover {
+  background: var(--surface-sunken);
+  color: var(--text-primary);
+}
+
+.ui-table__toggle svg {
+  transition: transform 150ms ease;
+}
+
+.ui-table__toggle[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+
+.ui-table__row--open td,
+.ui-table__row--open th {
+  border-bottom: 0;
+}
+
+.ui-table__detail > td {
+  background: var(--surface-canvas);
+}
+
+.ui-table > tfoot > tr > th,
+.ui-table > tfoot > tr > td {
+  border-bottom: 0;
+  background: var(--neu-primary);
+  color: var(--text-on-primary);
+  font-weight: 700;
+}
+
+.ui-table > tfoot > tr > th {
+  font-size: var(--font-16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-table__toggle svg {
+    transition: none;
+  }
+}
+
 /* Tabs */
 .tabs__list {
   display: flex;

@@ -413,6 +413,8 @@ SV05 ban đầu không có dữ liệu. Kịch bản này **không nằm trong f
 
 Thời điểm nhập điểm (`grade_attempts.recorded_at`, CR-05): profile test để trống, Tổng quan ghi "Chưa ghi nhận thời điểm nhập điểm". Profile demo-k68 dùng ngày mẫu suy từ lịch kỳ: mỗi lần học lấy ngày kết thúc kỳ của lần học đó (`semesters.end_date`). Đây không phải ngày nhập điểm thật. Điểm nhập qua ứng dụng ghi giờ thật lúc nhập.
 
+Điểm thành phần (`grade_attempts.attendance_score`, `midterm_score`, `final_score`, CR-06): mọi môn cùng cơ cấu 10% "Điểm Chuyên cần", 40% "Điểm Kiểm tra thường xuyên 1", 50% "Điểm thi kết thúc học phần". Profile demo-k68 có điểm thành phần **mẫu do script sinh ra** (`scripts/build_demo_k68.py`, bước 0,25, chọn theo băm của mã lần học): tổng có trọng số, làm tròn 1 chữ số thập phân nửa lên, ra đúng điểm hệ 10 đã có, nên điểm chữ, hệ 4, GPA không đổi. Đây không phải điểm thành phần thật. Profile test, lần học đang học, miễn và điểm nhập qua ứng dụng để trống.
+
 
 - Môn trượt thuộc nhóm tự chọn vẫn tính nợ cho tới khi có attempt hiệu lực đạt, kể cả khi sinh viên đã chọn môn tự chọn khác để đủ tín chỉ nhóm.
 - Ca "đã đạt rồi rớt thì mất tick xanh" với `latest` không gắn cho sinh viên nào, được kiểm bằng unit test ở giai đoạn 05.

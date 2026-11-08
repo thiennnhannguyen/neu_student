@@ -91,6 +91,8 @@ class AttemptRow:
     passed: bool
     # Thời điểm nhập điểm; dữ liệu cũ không có thì None (CR-05).
     recorded_at: datetime | None = None
+    # Điểm thành phần theo thứ tự grade_components.COMPONENTS; không có thì None (CR-06).
+    component_scores: tuple[Decimal, ...] | None = None
 
 
 @dataclass(frozen=True)

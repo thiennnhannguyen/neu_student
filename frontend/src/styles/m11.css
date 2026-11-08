@@ -250,31 +250,79 @@
   font-size: var(--font-12);
 }
 
-.attempt-list,
 .strength-list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.attempt-list li,
 .strength-list li {
   padding: var(--space-12) 0;
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.attempt-list li:last-child,
 .strength-list li:last-child {
   border-bottom: 0;
 }
 
-.attempt-list p,
 .strength-list p {
   margin: 0 0 var(--space-1);
 }
 
-.attempt-list__title {
+/* "Chi tiết học phần" (CR-06): bảng điểm thành phần theo từng lần học, mở ngay dưới dòng. */
+.attempt-history {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+}
+
+.attempt-history__title {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--font-16);
+  font-weight: 700;
+}
+
+.component-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.component-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-14);
+  font-variant-numeric: tabular-nums;
+}
+
+.component-table th,
+.component-table td {
+  padding: var(--space-2) var(--space-12);
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.component-table thead th {
+  background: var(--neu-primary);
+  color: var(--text-on-primary);
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.component-table__semester {
+  display: block;
+  color: var(--text-on-primary-muted);
+  font-size: var(--font-12);
+  font-weight: 400;
+}
+
+.component-table tbody td:nth-child(2) {
+  text-align: left;
 }
 
 .chip-row {
@@ -441,11 +489,11 @@
     content: '\00a0 tín chỉ';
   }
 
-  .grades-table td[data-label='Điểm']::before {
+  .grades-table td[data-label='Điểm hệ 10']::before {
     content: '\00a0 ·\00a0 Điểm\00a0 ';
   }
 
-  .grades-table td[data-label='Chữ']::before {
+  .grades-table td[data-label='Điểm chữ']::before {
     content: '\00a0 ·\00a0 Chữ\00a0 ';
   }
 
@@ -461,11 +509,107 @@
     font-weight: 400;
   }
 
-  /* Nút Học lại phủ cả thẻ: bấm thẻ mở lịch sử như bản lớn, bàn phím vẫn dùng đúng nút này. */
-  .grades-table .cell-stack .btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
+  /* Nút Chi tiết ở góc phải dòng 2 của thẻ. */
+  .grades-table td[data-label='Chi tiết'] {
+    order: 5;
+    margin-left: auto;
+  }
+
+  /* Bảng điểm thành phần lồng trong thẻ: giữ dạng bảng, cuộn ngang nếu hẹp. */
+  .grades-table .component-table {
+    display: table;
+    min-width: 560px;
+  }
+
+  .grades-table .component-table-wrap {
+    display: block;
+  }
+
+  .grades-table .component-table thead {
+    position: static;
+    display: table-header-group;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  .grades-table .component-table tbody {
+    display: table-row-group;
+  }
+
+  .grades-table .component-table tr {
+    display: table-row;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .grades-table .component-table tr::before,
+  .grades-table .component-table td::before,
+  .grades-table .component-table td::after {
+    content: none;
+  }
+
+  .grades-table .component-table th,
+  .grades-table .component-table td {
+    display: table-cell;
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-size: var(--font-14);
+    text-align: center;
+  }
+
+  .grades-table .component-table thead th {
+    color: var(--text-on-primary);
+  }
+
+  .grades-table .component-table tbody td:nth-child(2) {
+    text-align: left;
+  }
+
+  /* Hàng chi tiết và hàng tổng: khối riêng, không theo bố cục 2 dòng của thẻ môn. */
+  .grades-table > tfoot,
+  .grades-table tr.ui-table__detail,
+  .grades-table > tfoot > tr {
+    display: block;
+  }
+
+  .grades-table tr.ui-table__detail > td {
+    padding: 0;
+    background: transparent;
+    color: var(--text-primary);
+  }
+
+  .grades-table > tfoot > tr {
+    background: var(--neu-primary);
+    border: 0;
+  }
+
+  .grades-table > tfoot > tr > th,
+  .grades-table > tfoot > tr > td {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-1) 0;
+    color: var(--text-on-primary);
+    font-size: var(--font-14);
+  }
+
+  .grades-table > tfoot > tr > th {
+    font-size: var(--font-16);
+  }
+
+  .grades-table > tfoot > tr > td[data-label]::before {
+    content: attr(data-label);
+    color: var(--text-on-primary-muted);
+    font-weight: 400;
+  }
+
+  .grades-table > tfoot > tr > td[data-label='Tín chỉ']::after {
+    content: none;
   }
 
   .grades-table .ui-tooltip {

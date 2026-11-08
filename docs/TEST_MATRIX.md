@@ -356,3 +356,15 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | Đổi kỳ nhanh không hiện số cũ; API lỗi 500 | `overviewCr05.test.jsx` |
 | Migration 0013 trên CSDL đã có dữ liệu, xuống rồi lên | `backend/tests/unit/db/test_migration_0013.py` |
 
+## CR-06: Trang Kết quả theo ảnh mẫu
+
+| Yêu cầu | Test |
+|---------|------|
+| `semester_summary` của `thiennhan` S1–S5 và SV01 S1–S3 (có môn không tính GPA): tín chỉ gồm mọi môn có điểm, hệ 10 chỉ môn tính GPA, tính lại từ `grade_attempts`; hệ 4 bằng `semester_gpa` của `/overview`; không theo `q`, `status`; null ở tất cả các kỳ và `view=failed_as_of`; S5 chưa có điểm | `backend/tests/api/m11/test_m11_results_summary.py` |
+| Đủ 9 cột như ảnh mẫu; không còn nút "Học lại", không còn biểu tượng cảnh báo dữ liệu trong ô tên môn; nút Chi tiết ở mọi dòng mở/đóng lịch sử ngay dưới dòng, chỉ tải khi mở | `frontend/src/features/m11/resultsCr06.test.jsx` |
+| Dòng "Tổng kết học kì" đúng dưới cột; kỳ chưa có điểm vẫn có dòng, ô để trống; không có khi tất cả các kỳ; hệ 4 null thì "—" | `resultsCr06.test.jsx` |
+| Không còn câu mô tả, chú thích trạng thái, mục Cảnh báo dữ liệu, dòng "N môn", dòng kỳ tham chiếu ở mọi kỳ; dòng "không phải hệ thống chính thức" vẫn còn | `resultsCr06.test.jsx` |
+| Điểm thành phần 10/40/50: mọi lần học có điểm của demo-k68 có 3 thành phần bước 0,25 cho đúng điểm hệ 10 (làm tròn 1 chữ số); profile test để trống; API trả `components`, `component_scores` | `backend/tests/acceptance/test_grade_components.py`, `backend/tests/unit/m11/test_grade_components.py`, `backend/tests/api/m11/test_m11_attempt_components.py` |
+| Migration 0014 trên CSDL đã có dữ liệu, xuống rồi lên | `backend/tests/unit/db/test_migration_0014.py` |
+| Bảng "Chi tiết học phần": STT, tên, trọng số, Điểm lần 1–3, không có dòng tổng | `resultsCr06.test.jsx`, `frontend/e2e/results.spec.mjs` |
+| Trên bản build: dòng tổng kết khớp API ở S1–S5; môn học lại TIHT1101 có 2 lần học; axe 1440 và 375 với hàng chi tiết đang mở | `frontend/e2e/results.spec.mjs` |

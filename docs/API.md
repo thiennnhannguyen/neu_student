@@ -317,7 +317,58 @@ Bảng điểm. Tham số: `semester_id`, `q` (tên hoặc mã môn, không phâ
   },
   "page": 1,
   "page_size": 2,
+  "semester_summary": null,
   "total": 2
+}
+```
+
+`semester_summary` (CR-06): dòng "Tổng kết học kì", chỉ có khi xem một kỳ và không có `view`; xem tất cả các kỳ hoặc `view=failed_as_of` thì null. Không phụ thuộc `q`, `status`, `page`. `credits` là tổng tín chỉ của các môn có điểm hệ 10 trong kỳ, kể cả môn không tính GPA. `score_10` = tổng (điểm hệ 10 × tín chỉ) / tổng tín chỉ, chỉ tính các môn tính GPA (gồm cả môn điểm F); không có môn nào thì null. `grade_4` là GPA học kỳ theo quy chế (R4), đúng số `semester_gpa` của `/overview`.
+
+<!-- contract: sv03 GET /api/m11/grades?semester_id=S3&page_size=1 -->
+```json
+{
+  "items": [
+    {
+      "code": "CNT101",
+      "counts_gpa": true,
+      "course_id": "CNT101",
+      "credits": 3,
+      "data_warnings": [],
+      "grade_4": "3.00",
+      "has_retake": false,
+      "letter": "B",
+      "name": "Nhập môn lập trình",
+      "score_10": "7.00",
+      "semester": {
+        "id": "S3",
+        "name": "HK1 2025-2026",
+        "order": 3
+      },
+      "status": "done",
+      "via_course": null
+    }
+  ],
+  "meta": {
+    "computed_at": "2026-11-08T04:26:15.848016Z",
+    "data_warnings": [
+      {
+        "code": "MISSING_CODE",
+        "course_id": "course-cd-a",
+        "message": "Học phần Chưa có mã – Chuyên đề thực tế chưa có mã môn.",
+        "semester_id": null
+      }
+    ],
+    "reference_semester": "S3",
+    "rule_version": "K67-mau-v1"
+  },
+  "page": 1,
+  "page_size": 1,
+  "semester_summary": {
+    "credits": 8,
+    "grade_4": "2.88",
+    "score_10": "7.13"
+  },
+  "total": 3
 }
 ```
 
@@ -389,6 +440,7 @@ Bảng điểm. Tham số: `semester_id`, `q` (tên hoặc mã môn, không phâ
   },
   "page": 1,
   "page_size": 2,
+  "semester_summary": null,
   "total": 2
 }
 ```
@@ -397,9 +449,28 @@ Bảng điểm. Tham số: `semester_id`, `q` (tên hoặc mã môn, không phâ
 
 Lịch sử các lần học. Xếp theo `semesters.order`; `ordinal` ("lần thứ N") tính theo thứ tự đó, không theo `attempt_no`. Chỉ các lần của đúng môn đó. Chưa học thì `items` rỗng. Môn không tồn tại trả 404.
 
+`components` (CR-06): 3 thành phần theo thứ tự hiển thị, mọi môn cùng trọng số 10/40/50. `component_scores` của mỗi lần học: điểm từng thành phần theo `key`, hoặc null nếu lần học chưa có điểm thành phần (đang học, miễn, dữ liệu profile test, điểm nhập qua ứng dụng). Có điểm thành phần thì `score_10` = tổng có trọng số, làm tròn 1 chữ số thập phân, nửa lên.
+
 <!-- contract: sv02 GET /api/m11/grades/MAU101/attempts -->
 ```json
 {
+  "components": [
+    {
+      "key": "attendance_score",
+      "name": "Điểm Chuyên cần",
+      "weight": 10
+    },
+    {
+      "key": "midterm_score",
+      "name": "Điểm Kiểm tra thường xuyên 1",
+      "weight": 40
+    },
+    {
+      "key": "final_score",
+      "name": "Điểm thi kết thúc học phần",
+      "weight": 50
+    }
+  ],
   "course": {
     "code": "MAU101",
     "course_id": "MAU101",
@@ -407,6 +478,7 @@ Lịch sử các lần học. Xếp theo `semesters.order`; `ordinal` ("lần th
   },
   "items": [
     {
+      "component_scores": null,
       "grade_4": "0.00",
       "is_effective": false,
       "letter": "F",
@@ -421,6 +493,7 @@ Lịch sử các lần học. Xếp theo `semesters.order`; `ordinal` ("lần th
       "status": "final"
     },
     {
+      "component_scores": null,
       "grade_4": "1.00",
       "is_effective": false,
       "letter": "D",

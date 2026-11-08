@@ -80,11 +80,26 @@ export function gradeRow(overrides = {}) {
 }
 
 export function gradesBody(items, overrides = {}) {
-  return { items, page: 1, page_size: 20, total: items.length, meta: META, ...overrides };
+  return {
+    items,
+    page: 1,
+    page_size: 20,
+    total: items.length,
+    semester_summary: null,
+    meta: META,
+    ...overrides,
+  };
 }
+
+export const COMPONENTS = [
+  { key: 'attendance_score', name: 'Điểm Chuyên cần', weight: 10 },
+  { key: 'midterm_score', name: 'Điểm Kiểm tra thường xuyên 1', weight: 40 },
+  { key: 'final_score', name: 'Điểm thi kết thúc học phần', weight: 50 },
+];
 
 export const ATTEMPTS = {
   course: { course_id: 'MAU101', code: 'MAU101', name: 'Giải tích' },
+  components: COMPONENTS,
   items: [
     {
       ordinal: 1,
@@ -95,6 +110,7 @@ export const ATTEMPTS = {
       grade_4: '0.00',
       passed: false,
       is_effective: false,
+      component_scores: null,
     },
     {
       ordinal: 2,
@@ -105,6 +121,7 @@ export const ATTEMPTS = {
       grade_4: '4.00',
       passed: true,
       is_effective: true,
+      component_scores: { attendance_score: '10.00', midterm_score: '8.00', final_score: '8.75' },
     },
     {
       ordinal: 3,
@@ -115,6 +132,7 @@ export const ATTEMPTS = {
       grade_4: null,
       passed: null,
       is_effective: false,
+      component_scores: null,
     },
   ],
   meta: META,

@@ -18,6 +18,7 @@ from app.models.shared import (
     Semester,
     Student,
 )
+from app.services.grade_components import COMPONENT_KEYS
 from app.services.m11_types import (
     AttemptRow,
     CourseRef,
@@ -131,6 +132,11 @@ def _load_enrollments(student_id: str) -> tuple[EnrollmentRow, ...]:
     )
 
 
+def _component_scores(attempt: GradeAttempt) -> tuple | None:
+    scores = tuple(getattr(attempt, key) for key in COMPONENT_KEYS)
+    return None if any(value is None for value in scores) else scores
+
+
 def _load_attempts(student_id: str) -> tuple[AttemptRow, ...]:
     rows = db.session.execute(
         select(GradeAttempt, Enrollment.status, Semester.order)
@@ -153,6 +159,7 @@ def _load_attempts(student_id: str) -> tuple[AttemptRow, ...]:
             grade_4=attempt.grade_4,
             passed=attempt.passed,
             recorded_at=attempt.recorded_at,
+            component_scores=_component_scores(attempt),
         )
         for attempt, status, order in rows
     )

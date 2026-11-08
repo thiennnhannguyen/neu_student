@@ -14,6 +14,7 @@ from decimal import Decimal
 from pathlib import Path
 
 from app.common.text import normalize_name
+from app.services.grade_components import COMPONENT_KEYS, score_from_components
 from scripts import backend_modules as modules
 from scripts import demo_k68_content as content
 from scripts import khmt_official as official
@@ -976,6 +977,43 @@ class Builder:
             end = ends.get(row["semester_id"])
             row["recorded_at"] = f"{end}T00:00:00" if end else None
 
+    @staticmethod
+    def _components_for(attempt_id: str, score: Decimal) -> tuple[Decimal, Decimal, Decimal]:
+        """Điểm thành phần mẫu (bước 0,25) cho đúng điểm hệ 10 đã có (CR-06, D-301).
+
+        Chuyên cần thử 10, 9, 8, ...; kiểm tra thường xuyên thử gần điểm tổng, lệch lên hoặc
+        xuống theo băm của mã lần học; thi kết thúc học phần suy ra từ hai điểm kia.
+        """
+        quarter = Decimal("0.25")
+        digest = hashlib.sha256(attempt_id.encode("utf8")).digest()
+        sign = 1 if digest[0] % 2 else -1
+        base = (score * 2).to_integral_value() / 2
+        for attendance in (Decimal(n) for n in (10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)):
+            for step in range(0, 41):
+                offset = Decimal(step // 2 + step % 2) / 2 * (sign if step % 2 else -sign)
+                midterm = base + offset
+                if not Decimal(0) <= midterm <= Decimal(10):
+                    continue
+                exact = (score * 10 - attendance - midterm * 4) / 5
+                final = (exact / quarter).to_integral_value() * quarter
+                if not Decimal(0) <= final <= Decimal(10):
+                    continue
+                values = (attendance, midterm, final)
+                if score_from_components(dict(zip(COMPONENT_KEYS, values, strict=True))) == score:
+                    return values
+        raise ValueError(f"Không tìm được điểm thành phần cho {attempt_id}")
+
+    def _add_components(self) -> None:
+        for row in self.tables["grade_attempts"]:
+            score = row["score_10"]
+            values = (
+                self._components_for(row["id"], Decimal(str(score)))
+                if score is not None
+                else (None, None, None)
+            )
+            for key, value in zip(COMPONENT_KEYS, values, strict=True):
+                row[key] = None if value is None else float(value)
+
     def build(self) -> dict[str, dict[str, list[dict]]]:
         accounts = json.loads(_text(TEST_FIXTURES / "accounts.json"))
         academic = json.loads(_text(TEST_FIXTURES / "academic.json"))
@@ -994,6 +1032,7 @@ class Builder:
         self.build_people({"users": staff, "grade_scale_levels": academic["grade_scale_levels"]})
         self.build_framework()
         self._date_attempts(semesters["semesters"])
+        self._add_components()
         self.tables["roles"] = accounts["roles"]
         return {
             "academic.json": academic,

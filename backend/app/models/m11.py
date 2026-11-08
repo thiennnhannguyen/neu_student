@@ -72,6 +72,10 @@ class GradeAttempt(MockMixin, db.Model):
     passed = db.Column(db.Boolean, nullable=False)
     # Thời điểm nhập điểm. Dữ liệu không ghi nhận thì để trống, không suy đoán (CR-05).
     recorded_at = db.Column(db.DateTime)
+    # Điểm thành phần 10/40/50 (CR-06). Không có thì để trống; có thì điểm hệ 10 tính từ đây.
+    attendance_score = score_column(nullable=True)
+    midterm_score = score_column(nullable=True)
+    final_score = score_column(nullable=True)
     __table_args__ = (
         db.ForeignKeyConstraint(
             ["enrollment_id", "student_id", "course_id", "semester_id"],
