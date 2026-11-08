@@ -1,6 +1,6 @@
 # Tiến độ dự án
 
-Cập nhật lần cuối: 2026-11-07
+Cập nhật lần cuối: 2026-11-08
 
 Trạng thái dùng: Chưa bắt đầu · Chờ duyệt kế hoạch · Đang làm · Hoàn thành (đã chạy lint, test, build)
 
@@ -36,8 +36,10 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Hoàn thành, tag `cr-02` (gồm lượt chỉnh CR-02b, D-187, D-188) |
 | CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề, kèm CR-03b | Đạt, tag `cr-03` |
 | CR-04 | CTĐT KHMT theo PDF, Backend chuyên sâu 10 mô-đun, bài kiểm tra, chứng chỉ số, trạng thái bằng icon | Đạt có điều kiện, đang làm 4 điều kiện trước `v1.1`. CNTT, ATTT theo PDF để `v1.2` (quản lý dự án quyết định) |
+| CR-05 | Trang Tổng quan: thẻ "Số môn chưa đạt" mở danh sách môn chưa đạt tính đến kỳ đang xem, tên kỳ thay mã S1–S5, lý do cảnh báo từ API, thời điểm nhập điểm (migration 0013) | Xong phần code, chờ quản lý dự án nghiệm thu (D-292 đến D-297). Phần Tổng quan đã được D-306 thay |
 | CR-06 | Trang Kết quả theo ảnh mẫu: dòng Tổng kết học kì, bỏ nút Học lại, bảng Chi tiết học phần (điểm thành phần 10/40/50, migration 0014) | Xong phần code, chờ quản lý dự án nghiệm thu (D-298 đến D-303) |
 | CR-07 | Hướng nghiệp: ngôi sao thay nhãn "Mục tiêu của bạn", bỏ chú giải trạng thái và khối Bộ tự chọn đề xuất; bỏ badge "Dữ liệu mẫu" ở mọi trang | Xong phần code, chờ quản lý dự án nghiệm thu (D-305) |
+| CR-08 | Tổng quan theo ảnh mẫu (quản lý dự án gọi là CR-07): dải hồ sơ "Mã SV - Họ tên", thẻ 2×2, biểu đồ tròn tín chỉ, biểu đồ cột Điểm trung bình; bỏ "Đang xem", dòng phạm vi, Q80, khối cảnh báo, dòng thời gian, cảnh báo dữ liệu | Xong phần code, chờ quản lý dự án nghiệm thu (D-306). Ảnh ở `docs/screenshots/cr-08/` |
 
 ## Việc tồn đọng giao diện
 
@@ -66,4 +68,4 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Việc tiếp theo
 
-Dự án hoàn thành ở `v1.0`, xem `docs/RELEASE_NOTES.md`. Các việc còn lại nằm ở mục Việc tương lai. Remote: https://github.com/thiennnhannguyen/neu_student.
+Dự án hoàn thành ở `v1.0`, xem `docs/RELEASE_NOTES.md`. Sau đó: CR-05 đến CR-08 xong phần code, chờ quản lý dự án nghiệm thu trước khi gắn tag. Các việc còn lại nằm ở mục Việc tương lai. Remote: https://github.com/thiennnhannguyen/neu_student.

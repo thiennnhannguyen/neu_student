@@ -383,3 +383,21 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | Không còn hàng chú giải trạng thái ở Lộ trình học, Môn học NEU, Kỹ năng & dự án, Minh chứng, Khung năng lực | `cr07.test.jsx`, `work.test.jsx` "đang chờ duyệt…", `framework.test.jsx` "không còn hàng chú giải…" |
 | Không còn khối "Bộ tự chọn đề xuất cho Backend" | `framework.test.jsx` "không còn hàng chú giải và khối…" |
 | Không còn badge "Dữ liệu mẫu" ở đăng nhập, thanh trên cùng (4 vai trò), xác thực chứng chỉ; dòng "không phải hệ thống chính thức" vẫn có | `cr07.test.jsx`, `auth.test.jsx`, `shell.test.jsx`, `routes.test.jsx`, `framework.test.jsx`, `frontend/e2e/quiz.spec.mjs`, `frontend/e2e/sweep.spec.mjs` |
+
+## CR-08: Tổng quan theo ảnh mẫu (D-306)
+
+| Yêu cầu | Test |
+|---------|------|
+| Biểu đồ tròn của `thiennhan` (số thật): HK1 2026-2027 là 130 tín chỉ CTĐT, 77 đạt (59,2%), 3 chưa đạt (2,3%), 50 chưa học (38,5%); HK1 2025-2026 là 56/6/68; tổng tín chỉ bằng tổng CTĐT, phần trăm cộng đúng 100,0% | `frontend/src/features/m11/overviewCr08.test.jsx` "dữ liệu biểu đồ tròn tín chỉ" |
+| Phần vượt nhóm tự chọn không làm tổng vượt 100%; tín chỉ nợ lớn hơn phần còn thiếu thì phần chưa đạt bị chặn; không có quy chế hoặc CTĐT 0 tín chỉ thì không vẽ | `overviewCr08.test.jsx` |
+| Làm tròn theo phần dư lớn nhất: mọi cách chia tổng 1–200 thành 3 phần cộng đúng 1000 (đơn vị 0,1%), mỗi phần lệch dưới 0,1% | `overviewCr08.test.jsx` "làm tròn phần trăm" |
+| Biểu đồ cột: `thiennhan` không có cột HK1 2026-2027; kỳ đã qua chỉ đến kỳ đang chọn; kỳ GPA trống không có cột; tên kỳ đầy đủ | `overviewCr08.test.jsx` "dữ liệu biểu đồ cột Điểm trung bình" |
+| Dải hồ sơ "Mã SV - Họ tên", "Khóa · Ngành", bộ chọn kỳ; cố vấn xem sinh viên đã chọn; chưa chọn thì không gọi API hồ sơ | `overviewCr08.test.jsx`, `frontend/src/components/shell.test.jsx` |
+| 4 thẻ không có dòng phụ, viền, nhãn mức; không còn "Mức cảnh báo chung", "Tính lúc", "Riêng", "Tính đến", cảnh báo dữ liệu; không gọi `/api/m11/risks`; GPA học kỳ trống chỉ có "—" | `overviewCr08.test.jsx` |
+| Biểu đồ rỗng, lỗi có Thử lại, thẻ vẫn hiện; bảng số và câu tóm tắt cho trình đọc màn hình | `overviewCr08.test.jsx` |
+| Màu ba phần biểu đồ tròn đạt từ 3:1 trên thẻ | `frontend/src/styles/tokens.test.js` |
+| Trên bản build, `thiennhan` HK1 2026-2027 và HK1 2025-2026: số cột = số kỳ có GPA của API; bảng biểu đồ tròn cộng đủ tín chỉ CTĐT và 100,0% | `frontend/e2e/overviewCr08.spec.mjs` |
+| 1440px và 375px: nhãn biểu đồ từ 12px, nhãn biểu đồ tròn không bị cắt, không cuộn ngang; 1440 ba cột cùng hàng, 375 xếp dọc; axe 0 lỗi serious/critical | `overviewCr08.spec.mjs` |
+| Dải hồ sơ đúng mã SV mẫu; thẻ "Số môn chưa đạt" vẫn mở `/m11/ket-qua?semester=S3&view=failed` | `overviewCr08.spec.mjs`, `frontend/e2e/overview.spec.mjs` |
+
+Test cũ đổi theo D-306 (commit test riêng): `overviewCr05.test.jsx` bỏ 9 test của nhãn "Đang xem", dòng phạm vi, Q80, khối cảnh báo, dòng thời gian, đổi điều kiện chờ của test "không còn mã S1–S5"; `m11Pages.test.jsx` bỏ 2 test dòng thời gian và nhãn mức, 1 test cảnh báo lỗi, 4 test Q80, sửa TC04 (tìm "2,75" trong thẻ vì bảng biểu đồ cột cũng có số này), "đang tải", "không lặp khối của trang Phân tích"; `shell.test.jsx` lời chào; e2e `overview.spec.mjs` (dòng "Tính đến"), `flows.spec.mjs` (khối cảnh báo), `sweep.spec.mjs` (2 test Q80).
