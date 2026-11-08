@@ -9,7 +9,7 @@ PROD_PORT := $(or $(PROD_PORT),8000)
 PROD_PYTHON := .venv/bin/python
 export
 
-.PHONY: e2e prod-local prod-local-flask install dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend build check-bundle db-upgrade seed seed-demo clean-uploads
+.PHONY: check seed-check e2e prod-local prod-local-flask install dev dev-backend dev-frontend test test-backend test-frontend lint lint-backend lint-frontend build check-bundle db-upgrade seed seed-demo clean-uploads
 
 install:
 	$(PYTHON) -m venv $(VENV)
@@ -70,6 +70,17 @@ prod-local-flask: build db-upgrade
 
 e2e: build
 	cd frontend && npm run e2e
+
+# Seed demo-k68 vào CSDL tạm rồi kiểm tra, giống bước của CI; không đụng CSDL dev.
+seed-check:
+	cd backend && tmp=$$(mktemp -d) && export DATABASE_URL=sqlite:///$$tmp/demo-k68.db \
+		&& $(FLASK) db upgrade && $(FLASK) seed --reset --profile demo-k68 \
+		&& $(FLASK) seed --check --profile demo-k68 && rm -rf $$tmp
+
+# Toàn bộ kiểm tra như CI: dừng ngay ở bước đỏ đầu tiên (make dừng khi một lệnh trả mã khác 0).
+# Phải xanh trước mọi commit và push; báo cáo dán output của lệnh này (AGENTS.md).
+check: lint test-backend seed-check test-frontend check-bundle e2e
+	@echo "== make check: TẤT CẢ XANH"
 
 clean-uploads:
 	cd backend && $(FLASK) clean-uploads

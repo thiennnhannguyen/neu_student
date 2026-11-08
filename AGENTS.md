@@ -79,7 +79,8 @@ QUY TRÌNH MỖI GIAI ĐOẠN
 1. Đọc AGENTS.md, PROGRESS.md, DECISIONS.md.
 2. Gửi KẾ HOẠCH (file sẽ tạo/sửa, quyết định mới, rủi ro) và DỪNG LẠI chờ tôi duyệt.
 3. Làm theo lát mỏng: model -> service -> test -> API -> UI. Test viết cùng lúc với code, không để cuối.
-4. Chạy: ruff check, pytest, npm run lint, npm test, npm run build. Dán output thật (rút gọn) vào báo cáo.
+4. Chạy `make check` (ruff, pytest, seed demo-k68, eslint, prettier, vitest toàn bộ, build, check:bundle, e2e; dừng ở bước đỏ đầu tiên, in "make check: TẤT CẢ XANH" khi xanh hết). Báo cáo dán output thật của đúng lệnh này (đuôi từng bước và dòng cuối), kèm link CI của commit đã push. Không dùng script tự viết để thay `make check` khi báo cáo.
+   Không commit khi lượt `make check` gần nhất trên đúng cây sẽ commit chưa in "TẤT CẢ XANH". Test cũ mâu thuẫn yêu cầu mới mà chưa được duyệt sửa thì chưa commit phần mã làm nó đỏ; báo quản lý dự án và chờ.
 5. Cập nhật PROGRESS.md, DECISIONS.md, TEST_MATRIX.md; commit theo Conventional Commits.
    Được push main bất cứ lúc nào để có CI; tag chỉ gắn sau khi quản lý dự án nghiệm thu.
    Mọi chuỗi lệnh kiểm tra trước commit/push phải dừng ngay khi có lệnh lỗi (dùng && hoặc set -e). Không push khi chưa thấy toàn bộ test xanh trong cùng lần chạy.
