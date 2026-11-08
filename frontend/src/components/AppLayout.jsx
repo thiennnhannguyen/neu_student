@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router';
 import { M11ScopeProvider } from '../features/m11/M11ScopeContext';
+import WeeklyReportGate, { INERT_ATTRIBUTE } from '../features/weeklyReport/WeeklyReportGate';
 import MockNotice from './MockNotice';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
@@ -11,10 +12,13 @@ export default function AppLayout() {
 
   return (
     <ToastProvider>
-      <a className="skip-link" href="#main">
+      <a className="skip-link" href="#main" {...{ [INERT_ATTRIBUTE]: '' }}>
         Bỏ qua, tới nội dung chính
       </a>
-      <div className={`app-frame${collapsed ? ' app-frame--rail' : ''}`}>
+      <div
+        className={`app-frame${collapsed ? ' app-frame--rail' : ''}`}
+        {...{ [INERT_ATTRIBUTE]: '' }}
+      >
         <Sidebar
           open={open}
           onClose={() => setOpen(false)}
@@ -38,6 +42,8 @@ export default function AppLayout() {
           </M11ScopeProvider>
         </div>
       </div>
+      {/* D-312: báo cáo tuần của sinh viên, nằm ngoài khung trang để khung bị khóa khi hiện. */}
+      <WeeklyReportGate />
     </ToastProvider>
   );
 }

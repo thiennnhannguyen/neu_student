@@ -1,4 +1,6 @@
-import { DataTable, EmptyState } from '../../components/ui';
+import { useState } from 'react';
+import { Button, DataTable, EmptyState } from '../../components/ui';
+import WeeklyReportHistory, { weeklySummaryText } from '../weeklyReport/WeeklyReportHistory';
 import {
   courseCode,
   formatCount,
@@ -36,7 +38,7 @@ function assignmentText(summary) {
 
 const NO_DATA = 'Chưa có dữ liệu LMS';
 
-const COLUMNS = [
+const LMS_COLUMNS = [
   { key: 'code', header: 'Mã môn', render: (row) => courseCode(row.course.code) },
   { key: 'name', header: 'Tên môn', rowHeader: true, render: (row) => row.course.name },
   {
@@ -71,11 +73,36 @@ const COLUMNS = [
   },
 ];
 
+/** D-312: cột "Báo cáo tuần" – đã nộp x/y, lần gần nhất; "Xem" mở bản chỉ đọc. */
+function weeklyColumn(onOpen) {
+  return {
+    key: 'weekly',
+    header: 'Báo cáo tuần',
+    render: (row) => (
+      <span className="weekly-cell">
+        <span>{weeklySummaryText(row.weekly_reports)}</span>
+        {row.weekly_reports && row.weekly_reports.submitted + row.weekly_reports.missed > 0 && (
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label={`Xem báo cáo tuần môn ${courseCode(row.course.code)}`}
+            onClick={() => onOpen(row.course)}
+          >
+            Xem
+          </Button>
+        )}
+      </span>
+    ),
+  };
+}
+
 /** Các môn đang học kỳ hiện tại kèm bản LMS mới nhất. Chưa có dự đoán điểm (CR-13). */
 export default function CurrentCourses({ scope }) {
   const resource = useApiResource(
     withQuery('/api/m11/current-courses', { student_id: scope.studentId }),
   );
+  const [opened, setOpened] = useState(null);
+  const columns = [...LMS_COLUMNS, weeklyColumn(setOpened)];
   const currentId = scope.semesters.data.current_id;
   return (
     <section className="current-courses" aria-labelledby="current-courses-title">
@@ -105,14 +132,22 @@ export default function CurrentCourses({ scope }) {
               <>
                 <DataTable
                   caption="Môn đang học và dữ liệu LMS mới nhất"
-                  columns={COLUMNS}
+                  columns={columns}
                   rows={data.items}
                   rowKey={(row) => row.course.id}
                 />
                 <p className="reference-line">
                   Số liệu lấy từ LMS, tính tới ngày cập nhật của từng môn; tuần tính theo lịch học
-                  của môn. Ngày hệ thống: {formatDay(data.today)}.
+                  của môn. Báo cáo tuần: số đã nộp trên số báo cáo đã hết hạn hoặc đã nộp. Ngày hệ
+                  thống: {formatDay(data.today)}.
                 </p>
+                {opened && (
+                  <WeeklyReportHistory
+                    studentId={scope.studentId}
+                    course={opened}
+                    onClose={() => setOpened(null)}
+                  />
+                )}
               </>
             )
           }
