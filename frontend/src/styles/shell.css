@@ -331,6 +331,18 @@
   color: var(--text-on-primary);
 }
 
+/* Ảnh mẫu Tổng quan (D-306): ô chọn kỳ không có chữ "Học kỳ" ở trên; nhãn vẫn còn cho trình đọc màn hình. */
+.welcome-card__action .semester-filter > label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .welcome-card__mosaic {
   --motif-cell: 24px;
   display: none;

@@ -303,6 +303,9 @@ const respond = (body) => () => jsonResponse(200, body);
 export function m11Api(role = 'student', extra = {}) {
   return loggedInAs(role, {
     'GET /api/students/me': respond({
+      id: 'SV01',
+      student_code: 'SV01',
+      full_name: 'Sinh viên 01',
       cohort: 'K66',
       program: { name: 'CNTT' },
       current_semester: { name: 'HK1' },

@@ -115,79 +115,65 @@
   accent-color: var(--neu-primary);
 }
 
-/* Tổng quan (CR-05): kỳ đang xem trên cùng; khối cảnh báo không lồng thẻ, không bóng đổ. */
-.overview-viewing {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: var(--space-2) var(--space-3);
+/* Tổng quan theo ảnh mẫu (D-306): thẻ 2×2, biểu đồ tròn tín chỉ, biểu đồ cột điểm trung bình. */
+.overview-stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: stretch;
 }
 
-.overview-viewing__label {
-  margin: 0 0 var(--space-12);
-  color: var(--text-on-primary);
+.overview-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
 }
 
-.overview-viewing__current {
-  color: var(--text-on-primary-muted);
-  font-size: var(--font-14);
-}
-
-.overview-viewing__past {
-  margin-left: var(--space-1);
-  padding: 0 var(--space-2);
-  border: 1px solid var(--text-on-primary);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-14);
-}
-
-.risk-summary {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  margin-top: var(--space-3);
-  padding: var(--space-12) var(--space-3);
-  border-left: 4px solid var(--neu-primary);
+.overview-chart {
+  min-width: 0;
+  padding: var(--space-3);
   background: var(--surface-card);
-  color: var(--text-primary);
-  text-decoration: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
 }
 
-.risk-summary:hover .risk-summary__label {
-  color: var(--text-link);
-  text-decoration: underline;
-}
-
-.risk-summary__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-1) var(--space-3);
-}
-
-.risk-summary__label {
-  font-weight: 600;
-}
-
-.risk-summary__reasons {
+.overview-chart figure {
   margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
-.risk-summary__reasons li {
+.credit-pie__plot {
+  min-height: 280px;
+}
+
+/* Thẻ hẹp ở lưới 2×2: vùng bấm của nút "i" giữ 44px, phần trong suốt lấn vào khoảng đệm như ở 375px. */
+.overview-cards .metric-card {
+  padding: var(--space-3);
+}
+
+.overview-cards .metric-card__head {
+  gap: 0;
+}
+
+.overview-cards .metric-card__head .icon-button {
+  flex: none;
+  margin: 0 -12px 0 -14px;
+}
+
+.chart-legend {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  color: var(--text-primary);
+  font-size: var(--font-12);
 }
 
-.risk-summary__reasons .status-icon {
-  margin-top: 2px;
-}
-
-.risk-summary__note {
-  color: var(--text-secondary);
-  font-size: var(--font-14);
+.chart-legend__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--neu-primary);
 }
 
 .failed-view {
@@ -208,14 +194,6 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-}
-
-.q80-short {
-  display: none;
-}
-
-.metric-grid + .reference-line {
-  margin-top: var(--space-12);
 }
 
 .grid-12 + .reference-line {
@@ -396,9 +374,9 @@
     min-width: 0;
   }
 
-  /* Tổng quan: 4 thẻ xếp 2×2, giá trị nhỏ hơn bản lớn một bậc. */
-  .grid-12.metric-grid > .span-3 {
-    grid-column: span 6;
+  /* Tổng quan: thẻ 2×2, giá trị nhỏ hơn bản lớn một bậc. */
+  .overview-cards {
+    gap: var(--space-12);
   }
 
   .metric-grid .metric-card {
@@ -424,14 +402,6 @@
   .metric-grid .metric-card__head .icon-button {
     flex: none;
     margin: 0 -12px 0 -14px;
-  }
-
-  .q80-long {
-    display: none;
-  }
-
-  .q80-short {
-    display: inline;
   }
 
   /*
@@ -621,5 +591,26 @@
   .grades-table .ui-tooltip {
     position: relative;
     z-index: 1;
+  }
+}
+
+/* Tổng quan: từ 768px hai biểu đồ cạnh nhau dưới hàng thẻ; từ 1280px đủ 3 cột như ảnh mẫu. */
+@media (min-width: 768px) {
+  .overview-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .overview-cards {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1280px) {
+  .overview-stats {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.2fr);
+  }
+
+  .overview-cards {
+    grid-column: auto;
   }
 }

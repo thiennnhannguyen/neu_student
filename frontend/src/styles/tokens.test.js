@@ -175,6 +175,13 @@ describe('tỷ lệ tương phản', () => {
     expect(contrast(token('border-strong'), token('surface-sunken'))).toBeGreaterThanOrEqual(3);
   });
 
+  it.each(['chart-passed', 'chart-failed', 'chart-remaining'])(
+    'phần %s của biểu đồ tròn đạt từ 3:1 trên thẻ (D-306)',
+    (name) => {
+      expect(contrast(token(name), token('surface-card'))).toBeGreaterThanOrEqual(3);
+    },
+  );
+
   it('công thức đúng: trắng trên đen là 21:1', () => {
     expect(contrast('#ffffff', '#000000')).toBeCloseTo(21, 5);
   });

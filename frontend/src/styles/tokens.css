@@ -47,6 +47,11 @@
   --info-bg: #daecf9;
   --info-text: #00528c;
 
+  /* Biểu đồ tròn tín chỉ ở Tổng quan (D-306). Mỗi phần đạt từ 3:1 trên thẻ trắng (đồ họa, WCAG 1.4.11). */
+  --chart-passed: #43a047;
+  --chart-failed: var(--neu-red);
+  --chart-remaining: var(--neu-primary);
+
   /* Tên cũ, trỏ về token mới. */
   --color-text: var(--text-primary);
   --color-text-muted: var(--text-secondary);
