@@ -273,16 +273,19 @@ describe('Tổng quan', () => {
     expect(screen.getByRole('link', { name: /Mức cảnh báo chung/ })).toHaveTextContent('tham khảo');
   });
 
-  it('kỳ tham chiếu và thời điểm cập nhật chỉ có 1 dòng chung, không nằm trong thẻ', async () => {
+  it('thời điểm tính và thời điểm nhập điểm chỉ có 1 dòng chung, không nằm trong thẻ', async () => {
     m11Api('student');
 
     renderApp('/');
 
     await screen.findByText('3,11');
-    const lines = screen.getAllByText(/Kỳ tham chiếu Kỳ S5 · Cập nhật \d\d\/11\/2026/);
+    const lines = screen.getAllByText(
+      /Tính lúc \d\d\/11\/2026 .* · Điểm cập nhật lần cuối 19\/06\/2026/,
+    );
     expect(lines).toHaveLength(1);
     expect(lines[0].closest('article')).toBeNull();
     expect(lines[0]).toHaveTextContent('Quy chế K66-mau-v1');
+    expect(screen.queryByText(/Kỳ tham chiếu/)).toBeNull();
   });
 
   it('thẻ theo mức của đúng quy tắc: có viền và nhãn; thẻ khác không có', async () => {
@@ -492,7 +495,7 @@ describe('Tổng quan: GPA học kỳ trống (Q80)', () => {
     ).toBeInTheDocument();
     expect(within(gpaCard).getByText('Chưa có kết quả · Gần nhất Kỳ 4: 3,11')).toBeInTheDocument();
     expect(within(gpaCard).getByText('—')).toBeInTheDocument();
-    expect(screen.getByText(/Kỳ tham chiếu Kỳ S5/)).toBeInTheDocument();
+    expect(within(card('GPA tích lũy')).getByText('Tính đến Kỳ S5')).toBeInTheDocument();
     expect(callsTo(fetchMock, '/api/m11/gpa-trend')[0].get('semester_id')).toBe('S5');
     expect(screen.getByLabelText('Học kỳ')).toHaveValue('S5');
   });
