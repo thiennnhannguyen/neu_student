@@ -353,10 +353,10 @@ describe('Tổng quan', () => {
   });
 
   it.each([
-    ['GPA học kỳ', '/m11/phan-tich'],
-    ['Tín chỉ đạt', '/m11/phan-tich'],
-    ['Số môn chưa đạt', '/m11/ket-qua'],
-  ])('bấm thẻ %s sang trang chi tiết, giữ tham số', async (title, target) => {
+    ['GPA học kỳ', '/m11/phan-tich', '?semester=S4'],
+    ['Tín chỉ đạt', '/m11/phan-tich', '?semester=S4'],
+    ['Số môn chưa đạt', '/m11/ket-qua', '?semester=S4&view=failed'],
+  ])('bấm thẻ %s sang trang chi tiết, giữ tham số', async (title, target, query) => {
     m11Api('student');
     const user = userEvent.setup();
 
@@ -365,7 +365,7 @@ describe('Tổng quan', () => {
     await user.click(screen.getByRole('link', { name: title }));
 
     expect(path()).toBe(target);
-    expect(search()).toBe('?semester=S4');
+    expect(search()).toBe(query);
   });
 
   it('không lặp biểu đồ của trang Phân tích', async () => {
@@ -1485,9 +1485,9 @@ describe('phạm vi xem trên điện thoại', () => {
     const user = userEvent.setup();
 
     renderApp('/?student=SV04');
-    const opener = await chip('Đang xem: SV04 · S5');
+    const opener = await chip('Đang xem: SV04 · HK1 2026-2027');
     expect(opener).toHaveAttribute('aria-haspopup', 'dialog');
-    expect(opener).toHaveAttribute('title', 'Đang xem: SV04 · S5');
+    expect(opener).toHaveAttribute('title', 'Đang xem: SV04 · HK1 2026-2027');
     await user.click(opener);
 
     const sheet = screen.getByRole('dialog', { name: 'Chọn phạm vi xem' });
@@ -1498,7 +1498,7 @@ describe('phạm vi xem trên điện thoại', () => {
     expect(search()).toContain('student=SV07');
     await user.selectOptions(within(sheet).getByLabelText('Học kỳ'), 'S4');
     expect(search()).toContain('semester=S4');
-    expect(await chip('Đang xem: SV07 · S4')).toBeInTheDocument();
+    expect(await chip('Đang xem: SV07 · HK2 2025-2026')).toBeInTheDocument();
   });
 
   it('Esc đóng tấm chọn và trả focus về chip; Tab không ra ngoài', async () => {
@@ -1506,7 +1506,7 @@ describe('phạm vi xem trên điện thoại', () => {
     const user = userEvent.setup();
 
     renderApp('/?student=SV04');
-    const opener = await chip('Đang xem: SV04 · S5');
+    const opener = await chip('Đang xem: SV04 · HK1 2026-2027');
     opener.focus();
     await user.keyboard('{Enter}');
     const sheet = screen.getByRole('dialog');
@@ -1563,7 +1563,7 @@ describe('phạm vi xem trên điện thoại', () => {
     const user = userEvent.setup();
 
     renderApp('/?student=SV09');
-    await user.click(await chip('Đang xem: SV09 · S5'));
+    await user.click(await chip('Đang xem: SV09 · HK1 2026-2027'));
 
     expect(screen.getByRole('radio', { name: 'SV09' })).toBeChecked();
   });
@@ -1573,7 +1573,7 @@ describe('phạm vi xem trên điện thoại', () => {
     const user = userEvent.setup();
 
     renderApp('/m11/ket-qua');
-    await user.click(await chip('Đang xem: S5'));
+    await user.click(await chip('Đang xem: HK1 2026-2027'));
     const sheet = screen.getByRole('dialog');
 
     expect(within(sheet).queryByRole('radiogroup')).not.toBeInTheDocument();
@@ -1616,7 +1616,7 @@ describe('phạm vi xem trên điện thoại', () => {
     const user = userEvent.setup();
 
     renderApp('/m11/ket-qua?student=SV04&page=3');
-    await user.click(await chip('Đang xem: SV04 · S5'));
+    await user.click(await chip('Đang xem: SV04 · HK1 2026-2027'));
     await user.click(screen.getByRole('radio', { name: /SV07/ }));
 
     expect(search()).toBe('?student=SV07');

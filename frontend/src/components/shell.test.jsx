@@ -293,7 +293,7 @@ describe('trang theo vai trò', () => {
 
     renderApp('/');
 
-    expect(await screen.findByText('K66 · CNTT · HK1')).toBeInTheDocument();
+    expect(await screen.findByText('K66 · CNTT · Kỳ hiện tại: HK1')).toBeInTheDocument();
     const shortcuts = screen.getByRole('region', { name: 'Lối tắt' });
     expect(within(shortcuts).getAllByRole('link')).toHaveLength(4);
   });
