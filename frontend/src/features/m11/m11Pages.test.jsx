@@ -487,8 +487,10 @@ describe('Tổng quan: GPA học kỳ trống (Q80)', () => {
     await screen.findByRole('link', { name: 'GPA học kỳ' });
     const gpaCard = card('GPA học kỳ');
     expect(await within(gpaCard).findByText('Kỳ này chưa có kết quả')).toBeInTheDocument();
-    expect(await within(gpaCard).findByText('Kỳ gần nhất có điểm (S4): 3,11')).toBeInTheDocument();
-    expect(within(gpaCard).getByText('Chưa có kết quả · Gần nhất S4: 3,11')).toBeInTheDocument();
+    expect(
+      await within(gpaCard).findByText('Kỳ gần nhất có điểm (Kỳ 4): 3,11'),
+    ).toBeInTheDocument();
+    expect(within(gpaCard).getByText('Chưa có kết quả · Gần nhất Kỳ 4: 3,11')).toBeInTheDocument();
     expect(within(gpaCard).getByText('—')).toBeInTheDocument();
     expect(screen.getByText(/Kỳ tham chiếu Kỳ S5/)).toBeInTheDocument();
     expect(callsTo(fetchMock, '/api/m11/gpa-trend')[0].get('semester_id')).toBe('S5');
