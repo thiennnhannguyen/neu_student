@@ -28,8 +28,10 @@ describe('Phân tích & Cảnh báo', () => {
     expect(rows[0]).toHaveTextContent('Tuần 8 (21/10/2026–27/10/2026)');
     expect(rows[0]).toHaveTextContent('1/8 buổi, 1 có phép');
     expect(rows[0]).toHaveTextContent('4/7 đã nộp · 3 quá hạn · 1 nộp muộn');
-    expect(rows[0]).toHaveTextContent('7,75');
+    // D-313: điểm bài tập hiện tại tính bài quá hạn là 0 (không còn 7,75).
+    expect(rows[0]).toHaveTextContent('4,43');
     expect(rows[0]).toHaveTextContent('7,50');
+    expect(rows[0]).toHaveTextContent('4,81');
     expect(rows[1]).toHaveTextContent('Chưa có mã');
     expect(rows[1]).toHaveTextContent('Chưa có dữ liệu LMS');
     expect(rows[1]).toHaveTextContent('Chưa có lịch');

@@ -89,7 +89,9 @@ function snapshotBody(overrides = {}) {
       overdue: 1,
       not_due: 0,
       completion: { numerator: 1, denominator: 2, value: '0.5000', percent: 50 },
-      assignment_average: '7.80',
+      // D-313: BT1 7,8 (nộp muộn, không trừ) và BT2 quá hạn tính 0 → 3,90.
+      assignment_score: '3.90',
+      process_score: '3.90',
       assessment_average: null,
     },
     ...overrides,
@@ -160,9 +162,9 @@ describe('LMS Demo', () => {
     const fetchMock = lmsApi();
     await choose(user);
 
-    const totals = await screen.findByText('Điểm TB bài tập');
+    const totals = await screen.findByText('Điểm bài tập hiện tại');
     const list = totals.closest('dl');
-    await waitFor(() => expect(list).toHaveTextContent('7,8'));
+    await waitFor(() => expect(list).toHaveTextContent('3,9'));
     expect(list).toHaveTextContent('50% (1/2 bài đến hạn)');
     expect(within(list).queryAllByRole('textbox')).toEqual([]);
     expect(screen.getByLabelText('Điểm hệ 10', { selector: '#assignment-0-score' })).toHaveValue(

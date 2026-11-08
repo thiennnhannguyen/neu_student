@@ -328,7 +328,9 @@ export const CURRENT_COURSES = {
           overdue: 3,
           not_due: 0,
           completion: { numerator: 4, denominator: 7, value: '0.5714', percent: 57 },
-          assignment_average: '7.75',
+          // D-313: 3 bài quá hạn tính 0 điểm; điểm quá trình gộp bài kiểm tra 7,50.
+          assignment_score: '4.43',
+          process_score: '4.81',
           assessment_average: '7.50',
         },
       },

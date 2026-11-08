@@ -101,7 +101,8 @@ def test_admin_sync_creates_week_8_with_totals_computed_by_backend(app):
     assert body["summary"]["submitted"] == 2
     assert body["summary"]["late"] == 1
     assert body["summary"]["overdue"] == 1
-    assert body["summary"]["assignment_average"] == "8.50"
+    # D-313: BT1 8,5; BT2 chờ chấm không tính; BT3 quá hạn tính 0 → (8,5 + 0) ÷ 2.
+    assert body["summary"]["assignment_score"] == "4.25"
     assert body["assignments"][1]["status"] == "pending"
     assert body["attendance"][2] == {
         "session_no": 3,
@@ -438,13 +439,13 @@ def test_mock_courses_each_have_one_main_cause(app):
     # Môn vắng 2 buổi: bài tập và điểm vẫn tốt.
     assert absent["absent"] == 2
     assert (absent["overdue"], absent["late"]) == (0, 0)
-    assert absent["assignment_average"] >= "8.00"
+    assert absent["assignment_score"] >= "8.00"  # D-313: đổi tên trường
     # Môn thiếu bài: đi học đủ.
     assert (missing["absent"], missing["overdue"], missing["late"]) == (0, 3, 1)
     # Môn điểm giảm: không vắng, nộp đủ đúng hạn.
     assert (declining["absent"], declining["overdue"], declining["late"]) == (0, 0, 0)
     assert (good["absent"], good["overdue"]) == (0, 0)
-    assert good["assignment_average"] > average["assignment_average"]
+    assert good["assignment_score"] > average["assignment_score"]  # D-313: đổi tên trường
     for summary in (good, average, missing, declining, absent):
         assert summary["excused"] == 0
 

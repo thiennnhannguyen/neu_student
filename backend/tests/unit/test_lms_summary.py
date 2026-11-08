@@ -61,8 +61,9 @@ def test_summary_counts_and_weighted_average():
     assert summary["assignments_total"] == 5
     assert (summary["submitted"], summary["graded"], summary["pending"]) == (3, 2, 1)
     assert (summary["late"], summary["overdue"], summary["not_due"]) == (1, 1, 1)
-    # (9,0×2 + 6,0×1) / 3 = 8,00; bài chưa chấm không tính.
-    assert summary["assignment_average"] == "8.00"
+    # D-313 (thay "chỉ bài đã chấm" của D-309): bài c quá hạn tính 0 điểm, vẫn có trọng số;
+    # bài d chờ chấm và bài e chưa tới hạn không tính → (9,0×2 + 6,0×1 + 0×1) / 4 = 6,00.
+    assert summary["assignment_score"] == "6.00"
     # Bài chưa đến hạn không vào mẫu số: 3 đã nộp / 4 đã đến hạn hoặc đã nộp.
     assert summary["completion"] == {
         "numerator": 3,
@@ -75,7 +76,7 @@ def test_summary_counts_and_weighted_average():
 
 def test_no_graded_work_gives_null_not_zero():
     summary = summarize([], [row("a", date(2026, 11, 1))], [], AS_OF)
-    assert summary["assignment_average"] is None
+    assert summary["assignment_score"] is None  # D-313: đổi tên trường
     assert summary["completion"] == {
         "numerator": 0,
         "denominator": 0,
