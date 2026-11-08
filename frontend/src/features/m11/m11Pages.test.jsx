@@ -717,14 +717,17 @@ describe('Kết quả', () => {
     await waitFor(() => expect(search()).toBe('?page=1'));
   });
 
-  it('chỉ có 1 trang: ẩn phân trang, vẫn ghi số môn', async () => {
-    m11Api('student', {
-      'GET /api/m11/grades': () => jsonResponse(200, gradesBody([gradeRow()], { total: 16 })),
-    });
+  it('chỉ có 1 trang: ẩn phân trang, số dòng bằng số môn API trả', async () => {
+    const items = ['A', 'B', 'C'].map((id) =>
+      gradeRow({ course_id: id, code: id, name: `Môn ${id}` }),
+    );
+    const body = gradesBody(items, { total: items.length });
+    m11Api('student', { 'GET /api/m11/grades': () => jsonResponse(200, body) });
 
     renderApp('/m11/ket-qua');
 
-    expect(await screen.findByText('16 môn')).toBeInTheDocument();
+    const table = await screen.findByRole('table');
+    expect(table.querySelectorAll('tbody > tr')).toHaveLength(body.items.length);
     expect(screen.queryByRole('navigation', { name: 'Phân trang bảng điểm' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Trang sau' })).toBeNull();
   });
@@ -757,7 +760,7 @@ describe('Kết quả', () => {
     expect(callsTo(fetchMock, '/api/m11/grades')[0].get('page')).toBe('1');
   });
 
-  it('dòng học lại có nút, bấm mở panel lịch sử theo thứ tự kỳ', async () => {
+  it('Chi tiết của môn học lại: các lần học theo thứ tự kỳ, chỉ lần 1 Chưa đạt, chỉ lần 2 được tính', async () => {
     const fetchMock = m11Api('admin', {
       ...oneRow(
         gradeRow({
@@ -772,36 +775,101 @@ describe('Kết quả', () => {
     const user = userEvent.setup();
 
     renderApp('/m11/ket-qua?student=SV02');
-    await user.click(await screen.findByRole('button', { name: /Xem lịch sử học lại Giải tích/ }));
+    await user.click(await screen.findByRole('button', { name: 'Chi tiết Giải tích (MAU101)' }));
 
-    const dialog = await screen.findByRole('dialog');
-    const items = await within(dialog).findAllByRole('listitem');
-    expect(items.map((item) => item.querySelector('p').textContent)).toEqual([
-      'Lần thứ 1 · HK1 2024-2025',
-      'Lần thứ 2 · HK1 2025-2026',
-      'Lần thứ 3 · HK1 2026-2027',
+    const region = await screen.findByRole('region', {
+      name: 'Chi tiết học phần: MAU101 - Giải tích',
+    });
+    const headers = within(await within(region).findByRole('table'))
+      .getAllByRole('columnheader')
+      .slice(3);
+    expect(headers.map((header) => header.textContent)).toEqual([
+      'Điểm lần 1HK1 2024-2025 · Chưa đạt',
+      'Điểm lần 2HK1 2025-2026 · Lần được tính',
+      'Điểm lần 3HK1 2026-2027 · đang học',
     ]);
-    expect(within(items[0]).getByRole('img', { name: 'Chưa đạt' })).toBeInTheDocument();
-    expect(within(items[0]).queryByText('Lần được tính')).not.toBeInTheDocument();
-    expect(within(items[1]).getByText('Lần được tính')).toBeInTheDocument();
-    expect(within(items[2]).getByRole('img', { name: 'Đang học' })).toBeInTheDocument();
+    expect(
+      headers.map((header) => header.querySelector('.component-table__failed svg') !== null),
+    ).toEqual([true, false, false]);
     expect(callsTo(fetchMock, '/api/m11/grades/MAU101/attempts')[0].get('student_id')).toBe('SV02');
-
-    await user.keyboard('{Escape}');
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('panel lịch sử rỗng', async () => {
+  it('nút Chi tiết dùng được bằng bàn phím: Enter và Space mở/đóng, focus ở lại nút', async () => {
     m11Api('student', {
-      ...oneRow(gradeRow({ has_retake: true })),
+      ...oneRow(gradeRow({ course_id: 'MAU101', code: 'MAU101', name: 'Giải tích' })),
+      'GET /api/m11/grades/MAU101/attempts': () => jsonResponse(200, ATTEMPTS),
+    });
+    const user = userEvent.setup();
+    const regionName = 'Chi tiết học phần: MAU101 - Giải tích';
+
+    renderApp('/m11/ket-qua');
+    const toggle = await screen.findByRole('button', { name: 'Chi tiết Giải tích (MAU101)' });
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    toggle.focus();
+
+    await user.keyboard('{Enter}');
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    const region = await screen.findByRole('region', { name: regionName });
+    expect(document.getElementById(toggle.getAttribute('aria-controls'))).toContainElement(region);
+    expect(toggle).toHaveFocus();
+
+    await user.keyboard(' ');
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('region', { name: regionName })).toBeNull();
+    expect(toggle).toHaveFocus();
+
+    await user.keyboard(' ');
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    expect(await screen.findByRole('region', { name: regionName })).toBeInTheDocument();
+
+    await user.keyboard('{Enter}');
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(toggle).toHaveFocus();
+  });
+
+  it('môn có 4 lần học: bảng Chi tiết thêm cột Điểm lần 4, cuộn ngang được', async () => {
+    const [first, effective, inProgress] = ATTEMPTS.items;
+    const items = [
+      first,
+      { ...first, ordinal: 2, semester: { id: 'S2', name: 'HK2 2024-2025', order: 2 } },
+      { ...effective, ordinal: 3 },
+      { ...inProgress, ordinal: 4 },
+    ];
+    m11Api('student', {
+      ...oneRow(gradeRow({ course_id: 'MAU101', code: 'MAU101', name: 'Giải tích' })),
+      'GET /api/m11/grades/MAU101/attempts': () => jsonResponse(200, { ...ATTEMPTS, items }),
+    });
+    const user = userEvent.setup();
+
+    renderApp('/m11/ket-qua');
+    await user.click(await screen.findByRole('button', { name: 'Chi tiết Giải tích (MAU101)' }));
+
+    const scroller = await screen.findByRole('region', { name: 'Bảng điểm thành phần' });
+    expect(scroller).toHaveAttribute('tabindex', '0');
+    const headers = within(within(scroller).getByRole('table'))
+      .getAllByRole('columnheader')
+      .slice(3)
+      .map((header) => header.textContent);
+    expect(headers).toEqual([
+      'Điểm lần 1HK1 2024-2025 · Chưa đạt',
+      'Điểm lần 2HK2 2024-2025 · Chưa đạt',
+      'Điểm lần 3HK1 2025-2026 · Lần được tính',
+      'Điểm lần 4HK1 2026-2027 · đang học',
+    ]);
+  });
+
+  it('Chi tiết của môn chưa có lần học nào', async () => {
+    m11Api('student', {
+      ...oneRow(gradeRow()),
       'GET /api/m11/grades/CNT101/attempts': () => jsonResponse(200, { ...ATTEMPTS, items: [] }),
     });
     const user = userEvent.setup();
 
     renderApp('/m11/ket-qua');
-    await user.click(await screen.findByRole('button', { name: /Xem lịch sử/ }));
+    await user.click(await screen.findByRole('button', { name: /^Chi tiết / }));
 
-    expect(await screen.findByText('Chưa có lần học nào.')).toBeInTheDocument();
+    const region = await screen.findByRole('region', { name: /^Chi tiết học phần: / });
+    expect(await within(region).findByText('Chưa có lần học nào.')).toBeInTheDocument();
   });
 
   it('dòng không học lại thì không có nút lịch sử', async () => {
@@ -829,7 +897,7 @@ describe('Kết quả', () => {
 
     renderApp('/m11/ket-qua');
     const table = await screen.findByRole('table');
-    await user.click(within(table).getByRole('button', { name: 'Điểm' }));
+    await user.click(within(table).getByRole('button', { name: 'Điểm hệ 10' }));
 
     const scores = within(table)
       .getAllByRole('row')
@@ -872,21 +940,19 @@ describe('Kết quả', () => {
     await waitFor(() => expect(search()).toBe('?q=to%C3%A1n'));
   });
 
-  it('cảnh báo dữ liệu của cả bảng: có thì hiện, không có thì không có khối này', async () => {
+  it('cảnh báo dữ liệu chung hiện ở trang Cảnh báo (D-300 bỏ khỏi trang Kết quả)', async () => {
     m11Api('student', {
-      'GET /api/m11/grades': () =>
-        jsonResponse(
-          200,
-          gradesBody([gradeRow()], {
-            meta: {
-              ...gradesBody([]).meta,
-              data_warnings: [{ code: 'X', course_id: null, semester_id: null, message: 'Thiếu.' }],
-            },
-          }),
-        ),
+      'GET /api/m11/risks': () =>
+        jsonResponse(200, {
+          ...RISKS,
+          meta: {
+            ...RISKS.meta,
+            data_warnings: [{ code: 'X', course_id: null, semester_id: null, message: 'Thiếu.' }],
+          },
+        }),
     });
 
-    renderApp('/m11/ket-qua');
+    renderApp('/m11/canh-bao');
 
     expect(await screen.findByText('Cảnh báo dữ liệu (1)')).toBeInTheDocument();
     expect(screen.getByText('Thiếu.')).toBeInTheDocument();
@@ -911,16 +977,29 @@ describe('Kết quả', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Hệ thống gặp lỗi.');
   });
 
-  it('dòng có cảnh báo dữ liệu hiện nhãn và tooltip gắn với nhãn', async () => {
-    m11Api(
-      'student',
-      oneRow(gradeRow({ data_warnings: [{ code: 'MISSING_CODE', message: 'Môn chưa có mã.' }] })),
-    );
+  it('cảnh báo dữ liệu của từng môn hiện ở trang Cảnh báo (D-300 bỏ khỏi ô tên môn)', async () => {
+    m11Api('student', {
+      'GET /api/m11/risks': () =>
+        jsonResponse(200, {
+          ...RISKS,
+          meta: {
+            ...RISKS.meta,
+            data_warnings: [
+              {
+                code: 'MISSING_CODE',
+                course_id: 'NN3',
+                semester_id: null,
+                message: 'Môn chưa có mã.',
+              },
+            ],
+          },
+        }),
+    });
 
-    renderApp('/m11/ket-qua');
+    renderApp('/m11/canh-bao');
 
-    const label = await screen.findByRole('button', { name: 'Cảnh báo dữ liệu' });
-    expect(label).toHaveAccessibleDescription('Môn chưa có mã.');
+    expect(await screen.findByText('Cảnh báo dữ liệu (1)')).toBeInTheDocument();
+    expect(screen.getByText('Môn chưa có mã.')).toBeInTheDocument();
   });
 
   it('môn tương đương ghi rõ nguồn; môn không tính GPA có ghi chú', async () => {

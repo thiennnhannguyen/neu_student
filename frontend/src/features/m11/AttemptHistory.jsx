@@ -1,8 +1,10 @@
+import { STATUS_CHIPS } from '../../components/ui/StatusChip';
 import { courseCode, withQuery } from './format';
 import useApiResource from './useApiResource';
 import { ResourceView } from './ui';
 
 const MIN_ATTEMPT_COLUMNS = 3;
+const FailedIcon = STATUS_CHIPS.failed.icon;
 
 /** "10.00" → "10", "8.50" → "8,5", "7.25" → "7,25". Không có thì để trống như bảng điểm của trường. */
 export function formatScore(value) {
@@ -22,6 +24,16 @@ function AttemptHeader({ index, attempt }) {
         <span className="component-table__semester">
           {attempt.semester.name}
           {attempt.status === 'in_progress' && ' · đang học'}
+          {attempt.passed === false && (
+            <>
+              {' · '}
+              {/* D-304: icon ✗ của trạng thái "Chưa đạt" (CR-04) kèm chữ, lấy màu chữ của đầu cột. */}
+              <span className="component-table__failed">
+                <FailedIcon size={12} aria-hidden="true" />
+                Chưa đạt
+              </span>
+            </>
+          )}
           {attempt.is_effective && ' · Lần được tính'}
         </span>
       )}
