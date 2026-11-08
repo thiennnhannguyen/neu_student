@@ -419,3 +419,20 @@ Thời điểm nhập điểm (`grade_attempts.recorded_at`, CR-05): profile tes
 - Môn trượt thuộc nhóm tự chọn vẫn tính nợ cho tới khi có attempt hiệu lực đạt, kể cả khi sinh viên đã chọn môn tự chọn khác để đủ tín chỉ nhóm.
 - Ca "đã đạt rồi rớt thì mất tick xanh" với `latest` không gắn cho sinh viên nào, được kiểm bằng unit test ở giai đoạn 05.
 - SV05 thuộc K67 nhưng chưa có dữ liệu từ S3, chỉ là cách mô phỏng "mới nhập học" vì không có khóa K68.
+
+## 11. Dữ liệu LMS mô phỏng (profile demo-k68, CR-11, D-309)
+
+**Đây là dữ liệu mô phỏng**, không lấy từ LMS thật, không có tên giảng viên. Sinh bởi `scripts/build_demo_k68.py` từ `scripts/demo_k68_content.py`.
+
+- Lịch học: mọi môn đang học ở HK1 2026-2027 (20 môn) học 1 buổi/tuần, 15 buổi, buổi đầu là ngày đầu tiên đúng thứ học tính từ 01/09/2026. Profile test không có lịch học nên không nhận dữ liệu LMS (`NO_SCHEDULE`).
+- Ngày demo cố định **26/10/2026** (`DEMO_TODAY=2026-10-26`): cả 5 môn của `thiennhan` đang ở tuần 8.
+- `thiennhan` có bản chụp tuần 1–8 cho 5 môn (40 bản chụp); sinh viên khác chưa có. Bài j có hạn nộp là ngày cuối tuần j của môn; bài nộp trước tuần hiện tại đã được chấm; kiểm tra 1 làm ở buổi 4.
+
+| Môn | Thứ học | Tuần 8 | Nguyên nhân chính | Tuần 8: vắng, bài, điểm TB bài tập, kiểm tra |
+|-----|---------|--------|-------------------|-----------------------------------------------|
+| CNTT1180 Lập trình Python | Thứ 2 | 26/10–01/11/2026 | Đang tốt | 0 buổi; 7/7 đã nộp; 9,00; 9,00 |
+| CNTT1117 Phân tích và thiết kế hệ thống | Thứ 3 | 20/10–26/10/2026 | Trung bình | 0 buổi; 7/7; 6,50; 6,50 |
+| CNTT1188 Lập trình Web | Thứ 4 | 21/10–27/10/2026 | Thiếu nhiều bài tập (đi học đủ) | 0 buổi; 4/7, 3 quá hạn, 1 nộp muộn; 7,75; 7,50 |
+| CNTT1140 Trí tuệ nhân tạo | Thứ 5 | 22/10–28/10/2026 | Điểm giảm dần 8,5 → 4,5 (không vắng) | 0 buổi; 7/7; 6,43; 6,00 |
+| CNTT1159 Quản lý dự án CNTT | Thứ 6 | 23/10–29/10/2026 | Vắng 2 buổi (3 và 6), sát cấm thi; bài và điểm vẫn tốt | 2 buổi; 7/7; 8,21; 8,50 |
+

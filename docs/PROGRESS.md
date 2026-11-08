@@ -41,6 +41,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | CR-07 | Hướng nghiệp: ngôi sao thay nhãn "Mục tiêu của bạn", bỏ chú giải trạng thái và khối Bộ tự chọn đề xuất; bỏ badge "Dữ liệu mẫu" ở mọi trang | Xong phần code, chờ quản lý dự án nghiệm thu (D-305) |
 | CR-08 | Tổng quan theo ảnh mẫu (quản lý dự án gọi là CR-07): dải hồ sơ "Mã SV - Họ tên", thẻ 2×2, biểu đồ tròn tín chỉ, biểu đồ cột Điểm trung bình; bỏ "Đang xem", dòng phạm vi, Q80, khối cảnh báo, dòng thời gian, cảnh báo dữ liệu | Đạt, tag `cr-08` trên `7a76eba` (CI xanh run 42502137049). Ảnh ở `docs/screenshots/cr-08/` |
 | CR-09 | Dữ liệu demo-k68: HK1 2026-2027 của `thiennhan` có 5 môn đang học, 15 tín chỉ (thêm CNTT1140, CNTT1159) | Xong phần code, chờ quản lý dự án nghiệm thu (D-307). `v1.1` gắn sau CR-09. Kỳ trống trong Kế hoạch học tập để CR-10 (Q87) |
+| CR-11 | Nền dữ liệu cho Phân tích & Cảnh báo kỳ hiện tại: thang điểm bản 2 của demo-k68, lịch học, API nhận dữ liệu LMS, form LMS Demo, dữ liệu mô phỏng, trang gộp tối thiểu | Xong phần code, chờ quản lý dự án nghiệm thu (D-308 đến D-311). Tiếp theo: CR-12 báo cáo tuần, CR-13 dự đoán và cảnh báo môn |
 
 ## Việc tồn đọng giao diện
 

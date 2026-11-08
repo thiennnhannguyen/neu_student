@@ -4,6 +4,10 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
+### Q88. Vắng có phép có tính vào số buổi vắng để cấm thi không (CR-13)
+
+Nguồn: quản lý dự án, CR-11 (D-311). Mặc định **có tính**, để trong cấu hình để đổi không cần sửa mã. Cần quản lý dự án xác nhận trước khi làm CR-13.
+
 ### Q87. Sàn tín chỉ mỗi kỳ của thuật toán lộ trình (dự kiến CR-10, chưa làm)
 
 Nguồn: quản lý dự án, phản hồi kế hoạch CR-09 (D-307).

@@ -28,7 +28,7 @@ Terminal 2: `make seed`
 
 | Bước | Tài khoản | Thao tác | Người xem cần thấy |
 |------|-----------|----------|--------------------|
-| 1.1 | `sv04` | Đăng nhập, vào **Cảnh báo** | Mức chung **Cảnh báo**, kèm câu "Cảnh báo tham khảo, không phải quyết định học vụ chính thức" |
+| 1.1 | `sv04` | Đăng nhập, vào **Phân tích & Cảnh báo** | Mức chung **Cảnh báo**, kèm câu "Cảnh báo tham khảo, không phải quyết định học vụ chính thức" |
 | 1.2 | `sv04` | Đọc 2 quy tắc | "GPA tích lũy 1,81 dưới ngưỡng cảnh báo 2,00", giá trị thực tế `1,81 (43,50/24)`; "Đang nợ 6 tín chỉ, từ ngưỡng cảnh báo 6" |
 | 1.3 | `sv04` | Bấm **Tạo kế hoạch cải thiện** | Sang trang Kế hoạch cải thiện có đúng 5 mục theo mẫu của quy tắc: Đặt lịch gặp cố vấn học tập; Chọn 2 môn cần ưu tiên cải thiện trong kỳ; Lập lịch ôn tập theo tuần; Liệt kê các môn còn nợ; Kiểm tra lịch mở lớp của môn cần học lại |
 | 1.4 | `sv04` | Chỉ vào dòng cuối trang | "Khuyến nghị tham khảo, không thay thế quyết định của cố vấn và nhà trường." |

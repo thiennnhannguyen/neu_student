@@ -2,7 +2,7 @@
 
 Bài tập lớn gồm hai module dùng chung một tài khoản và một dữ liệu học tập:
 
-- **M11 Phân tích học tập:** GPA học kỳ và tích lũy, tiến độ tín chỉ, đối chiếu chương trình, điểm mạnh và yếu, so sánh học kỳ, cảnh báo học vụ.
+- **M11 Phân tích học tập:** GPA học kỳ và tích lũy, tiến độ tín chỉ, bảng điểm, trang Phân tích & Cảnh báo của kỳ hiện tại (cảnh báo học vụ, các môn đang học kèm dữ liệu LMS mô phỏng).
 - **M12 Hỗ trợ người học:** định hướng nghề, cây mục tiêu, tỷ lệ hoàn thành theo từng nghề, lộ trình theo học kỳ, minh chứng kỹ năng, kế hoạch cải thiện, yêu cầu hỗ trợ.
 
 **Toàn bộ dữ liệu là dữ liệu mẫu.** Hệ thống không kết nối dữ liệu thật của Đại học Kinh tế Quốc dân. Đây là sản phẩm bài tập lớn, không phải hệ thống chính thức của trường. Phần trăm hoàn thành chỉ đo mức đáp ứng yêu cầu đã khai báo, không phải xác suất được tuyển dụng.
@@ -22,6 +22,8 @@ make dev           # Flask cổng 5001, Vite cổng 5173
 ```
 
 Mở http://localhost:5173. Dùng `make seed` thay cho `make seed-demo` để có profile test.
+
+Dữ liệu LMS mẫu của `thiennhan` là "tuần này" ở ngày demo 26/10/2026. Để demo đúng tuần, chạy `DEMO_TODAY=2026-10-26 make dev` (hoặc ghi `DEMO_TODAY=2026-10-26` vào `backend/.env`). Không đặt thì hệ thống dùng ngày thật. Quản trị và cố vấn nhập thêm dữ liệu LMS ở **Quản trị → LMS Demo** (form giả lập, gửi đúng API mà LMS thật sẽ gọi).
 
 | Profile | Lệnh | Nội dung | Dùng để |
 |---------|------|----------|---------|

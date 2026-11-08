@@ -284,12 +284,12 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | M11-01 | Dashboard học tập | `GET /api/m11/overview` | `/` (Tổng quan) | `api/m11/test_m11_analysis.py`, `api/m11/test_m11_overview_cr05.py`, `features/m11/m11Pages.test.jsx`, `features/m11/overviewCr05.test.jsx`, `e2e/overview.spec.mjs` | Đã làm |
 | M11-02 | Bảng điểm và lịch sử học phần | `GET /api/m11/grades` (cả `view=failed_as_of`), `GET /api/m11/grades/{course_id}/attempts` | `/m11/ket-qua` | `api/m11/test_m11_grades.py`, `api/m11/test_m11_overview_cr05.py`, `features/m11/m11Pages.test.jsx`, `features/m11/overviewCr05.test.jsx` | Đã làm |
 | M11-03 | Tính GPA học kỳ và tích lũy | `GET /api/m11/overview`, `GET /api/m11/gpa-trend` | `/`, `/m11/ket-qua` | `acceptance/test_m11_expected.py`, `acceptance/test_m11_api_expected.py`, `acceptance/test_m11_differential.py` | Đã làm |
-| M11-04 | Xu hướng GPA | `GET /api/m11/gpa-trend` | `/`, `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
-| M11-05 | Tiến độ tín chỉ | `GET /api/m11/credits` | `/`, `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
-| M11-06 | Đối chiếu chương trình đào tạo | `GET /api/m11/curriculum-check` | `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
-| M11-07 | Phân tích điểm mạnh/yếu | `GET /api/m11/strengths` | `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
-| M11-08 | So sánh học kỳ | `GET /api/m11/compare` | `/m11/phan-tich` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
-| M11-09 | Cảnh báo nguy cơ học vụ | `GET /api/m11/risks` | `/m11/canh-bao` | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
+| M11-04 | Xu hướng GPA | `GET /api/m11/gpa-trend` | Ngoài phạm vi hiện tại – còn API (D-310). API dùng ở biểu đồ cột Tổng quan | `api/m11/test_m11_analysis.py`, `features/m11/overviewCr08.test.jsx` | Ngoài phạm vi hiện tại – còn API |
+| M11-05 | Tiến độ tín chỉ | `GET /api/m11/credits` | `/` (thẻ Tín chỉ đạt, biểu đồ tròn) | `api/m11/test_m11_analysis.py`, `features/m11/overviewCr08.test.jsx` | Giao diện ở Tổng quan – còn API (D-310) |
+| M11-06 | Đối chiếu chương trình đào tạo | `GET /api/m11/curriculum-check` | Ngoài phạm vi hiện tại – còn API (D-310) | `api/m11/test_m11_analysis.py` | Ngoài phạm vi hiện tại – còn API |
+| M11-07 | Phân tích điểm mạnh/yếu | `GET /api/m11/strengths` | Ngoài phạm vi hiện tại – còn API (D-310) | `api/m11/test_m11_analysis.py` | Ngoài phạm vi hiện tại – còn API |
+| M11-08 | So sánh học kỳ | `GET /api/m11/compare` | Ngoài phạm vi hiện tại – còn API (D-310) | `api/m11/test_m11_analysis.py` | Ngoài phạm vi hiện tại – còn API |
+| M11-09 | Cảnh báo nguy cơ học vụ | `GET /api/m11/risks` | `/m11/phan-tich` (khối Cảnh báo học vụ; `/m11/canh-bao` chuyển hướng, D-310) | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
 | M11-10 | Giải thích chỉ số và bộ lọc | `GET /api/m11/metrics-glossary`, `GET /api/m11/semesters` | Mọi trang M11 (giải thích chỉ số, bộ lọc kỳ) | `api/m11/test_m11_analysis.py`, `features/m11/m11Pages.test.jsx` | Đã làm |
 | M11-11 | Dữ liệu thiếu, học lại và tương đương | `GET /api/m11/grades`, `GET /api/m11/overview` | `/m11/ket-qua` | `acceptance/test_tc02.py`, `acceptance/test_tc03.py`, `acceptance/test_m11_edge_cases.py` | Đã làm |
 | M12-01 | Chọn nghề nghiệp mục tiêu chính | `GET /api/m12/career-goal`, `PUT /api/m12/career-goal`, `GET /api/m12/career-goal/history` | `/m12/dinh-huong/nghe/:slug` | `api/m12/test_m12_goal.py`, `acceptance/test_tc08_career_change.py`, `features/m12/m12Pages.test.jsx` | Đã làm |
@@ -415,4 +415,25 @@ Test cũ đổi theo D-306 (commit test riêng): `overviewCr05.test.jsx` bỏ 9 
 | Trên bản build: Kết quả S5 đúng 5 dòng, mỗi dòng 3 tín chỉ, icon "Đang học", không icon "Đạt", ô điểm trống | `frontend/e2e/results.spec.mjs` "CR-09 (D-307)…" |
 
 Test cũ đổi theo D-307 (commit test riêng): `test_khmt_official.py::test_thiennhan_profile` (2–3 → 5 môn đang học), `test_m11_overview_cr05.py::test_risk_reasons_of_thiennhan_at_current_semester` (lý do đăng ký → None), `overviewCr08.test.jsx` (số thật S5 `in_progress` 9 → 15).
+
+## CR-11: Nền dữ liệu cho Phân tích & Cảnh báo kỳ hiện tại (D-308 đến D-311)
+
+| Yêu cầu | Test |
+|---------|------|
+| Thang bản 2 của demo-k68 đúng bảng ở mọi biên (K66, K67); 4,49 là F; bản 2 là mới nhất, chỉ đổi thang; bản 1 và profile test giữ nguyên; mọi lần học demo chấm theo thang bản 2 của khóa; chỉ 3 lần học của `thiennhan` thành A+, 0 lần thành F; số của `thiennhan` không đổi, tên quy chế "K66 (bản 2)" | `backend/tests/acceptance/test_cr11_grade_scale.py` |
+| Tuần theo từng môn: môn Thứ 6, đúng ngày học là tuần mới, ngày trước ngày học là tuần trước; ví dụ 08/11–14/11 của quản lý dự án; trước buổi đầu và sau tuần cuối không có tuần; số buổi đã diễn ra | `backend/tests/unit/test_course_calendar.py` |
+| `DEMO_TODAY` ghi đè ngày; không đặt thì ngày ở Việt Nam; chỉ `clock.py` đọc giờ hệ thống (quét mã nguồn) | `backend/tests/unit/test_clock_today.py` |
+| Số tổng: trạng thái bài (đã chấm, chờ chấm, quá hạn, chưa đến hạn, nộp muộn) ở các biên ngày; điểm TB có trọng số chỉ bài đã chấm; % hoàn thành không tính bài chưa đến hạn; chưa có bài chấm thì null; làm tròn nửa lên | `backend/tests/unit/test_lms_summary.py` |
+| `POST /api/lms/sync`: tuần do backend tính; tạo 201, gửi lại cùng tuần ghi đè 200, audit create/overwrite có before/after, `data_version` tăng; cố vấn được phân công gửi được; sinh viên, nhân sự hỗ trợ 403; cố vấn khác 404; chưa đăng nhập 401; input sai 422 theo trường (gồm gửi số tổng, điểm dạng số, 3 chữ số thập phân); môn không đang học, ngoài kỳ, trước buổi đầu, chưa có lịch, chưa có kỳ hiện tại 422 có mã | `backend/tests/api/lms/test_lms_api.py` |
+| `preview` không ghi; `calendar`, `form-options` (quản trị thấy cả 9, cố vấn chỉ sinh viên được phân công), `latest` (null khi chưa có), `current-courses` (sinh viên 5 môn tuần 8; chưa có LMS là null; quyền) | `test_lms_api.py` |
+| Dữ liệu mẫu: 40 bản chụp đi qua đúng kiểm tra của API và cho cùng số tổng; mỗi môn đúng một nguyên nhân chính; môn điểm giảm giảm dần | `test_lms_api.py` |
+| Migration 0015 xuống rồi lên trên CSDL demo: chỉ 5 bảng mới mất và tạo lại, bảng khác giữ nguyên dòng | `backend/tests/unit/db/test_migration_0015.py` |
+| Ghi dữ liệu LMS phải tăng `data_version` (quét mã nguồn, thêm 4 model LMS) | `backend/tests/unit/test_source_rules.py` |
+| Trang gộp: một h1, khối Cảnh báo học vụ, danh sách môn đang học (tuần, vắng, bài tập, điểm TB kiểu Việt, "Chưa có mã", "Chưa có dữ liệu LMS"); không còn khối M11-04 đến M11-08, không gọi API của chúng; kỳ đã qua chỉ có ghi chú; rỗng, lỗi | `frontend/src/features/m11/analysisCr11.test.jsx` |
+| `/m11/canh-bao` chuyển hướng giữ `?student=`, `?semester=`; menu một mục | `analysisCr11.test.jsx`, `frontend/e2e/lmsCr11.spec.mjs` |
+| Form LMS Demo: tên "giả lập", tự điền mã, tên, lịch; điểm danh 3 trạng thái mỗi buổi; số tổng chỉ đọc từ backend, icon kèm chữ, số kiểu Việt; điểm sai báo ở ô, không gửi được; Lưu tạm không gửi; Gửi xóa nháp, payload không có số tổng; lỗi 422 theo trường; ngày ngoài lịch; rỗng; sinh viên không có quyền | `frontend/src/features/admin/lmsDemo.test.jsx`, `lmsForm.test.js` |
+| Màu, nhãn biểu tượng trạng thái bài tập | `frontend/src/components/ui/StatusChip.jsx` qua `lmsDemo.test.jsx` |
+| Trên bản build (ngày demo 26/10/2026): `thiennhan` 5 môn tuần 8 đúng khoảng ngày; chuyển hướng; quản trị gửi qua form, API và trang sinh viên thấy ngay; sinh viên 403; axe 1440 và 375 cho form và trang gộp, không cuộn ngang | `frontend/e2e/lmsCr11.spec.mjs` |
+
+Test cũ đổi theo D-309, D-310 (commit test riêng): migration 0002, 0012, 0013, 0014 và số bảng (`test_schema.py`, 54 → 59) loại 5 bảng mới của 0015 như các migration trước; danh sách route và quyền (`test_auth_guard.py`) thêm 6 route; `m11Pages.test.jsx` xóa 25 test giao diện của các khối bị bỏ (describe "Phân tích", "so sánh hai kỳ"), sidebar dùng mục "Phân tích & Cảnh báo"; `auth.test.jsx` menu theo vai trò (thêm LMS Demo), `shell.test.jsx` h1, `work.test.jsx` (2 test chuông thông báo mở `/m11/phan-tich`), `overviewCr08.test.jsx` nhãn lối tắt.
 

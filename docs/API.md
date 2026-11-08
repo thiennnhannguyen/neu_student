@@ -4331,3 +4331,85 @@ Nội dung đổi thì ánh xạ về `draft`.
 | `GET /api/public/certificates/{code}` | công khai | Chỉ `student_name`, `module_title`, `issued_at`, `valid`, `notice`. Mã sai: 404 |
 
 Cấu hình: `QUIZ_QUESTION_COUNT` (10), `QUIZ_DURATION_MINUTES` (15), `QUIZ_PASS_PERCENT` (80), `QUIZ_RETRY_COOLDOWN_MINUTES` (10). `POST /api/m12/evidences` với kỹ năng của mô-đun: 422 `SKILL_NEEDS_QUIZ`.
+
+## LMS và kỳ hiện tại (CR-11, D-309)
+
+Tuần là tuần **của môn** (từ ngày buổi k tới ngày trước buổi k+1). "Hôm nay" theo cấu hình `DEMO_TODAY`, không đặt thì ngày thật ở Việt Nam. Ngày dạng `YYYY-MM-DD`; điểm, trọng số, điểm trung bình là chuỗi thập phân.
+
+| Method, đường dẫn | Vai trò | Mô tả, lỗi |
+|-------------------|---------|------------|
+| `POST /api/lms/sync` | admin, advisor | Nhận một bản chụp theo (sinh viên, môn). Tạo: 201; cùng tuần của môn đã có: ghi đè, 200. Ghi audit, tăng `data_version`. 404 sinh viên ngoài phạm vi; 422 theo trường, `COURSE_NOT_IN_PROGRESS`, `NO_SCHEDULE`, `DATE_OUTSIDE_SEMESTER`, `COURSE_NOT_IN_SESSION`, `NO_CURRENT_SEMESTER` |
+| `POST /api/lms/preview` | admin, advisor | Body như `sync`; trả cùng kết quả, không ghi. Form dùng để hiện số tổng chỉ đọc |
+| `GET /api/lms/calendar?student_id&course_id&as_of` | admin, advisor | Tuần của môn và các buổi đã diễn ra tới `as_of` |
+| `GET /api/lms/form-options` | admin, advisor | Sinh viên trong phạm vi, các môn đang học kỳ hiện tại, lịch học, tuần hiện tại |
+| `GET /api/lms/snapshots/latest?student_id&course_id` | admin, advisor | Bản chụp tuần mới nhất; chưa có: `{"snapshot": null}` |
+| `GET /api/m11/current-courses?student_id` | student, advisor, admin | Các môn đang học kỳ hiện tại kèm số tổng của bản LMS mới nhất (`latest` null khi chưa có). Chưa có dự đoán (CR-13) |
+
+Body của `sync` và `preview` (client **không** gửi số tổng; trường lạ bị 422):
+
+```json
+{
+  "student_id": "NEU-KHMT-001",
+  "course_id": "CNTT1159",
+  "as_of": "2026-10-24",
+  "source": "demo_form",
+  "sent_at": "2026-10-24T10:00:00Z",
+  "attendance": [{"session_no": 1, "status": "present"}, {"session_no": 3, "status": "absent"}],
+  "assignments": [
+    {"code": "BT1", "name": "Bài 1", "due_date": "2026-09-10", "submitted_on": "2026-09-09", "score_10": "8.5", "weight": "1"},
+    {"code": "BT2", "name": "Bài 2", "due_date": "2026-09-17", "submitted_on": null, "score_10": null}
+  ],
+  "assessments": [{"kind": "quiz", "code": "KT1", "name": "Kiểm tra 1", "taken_on": "2026-09-25", "score_10": "7.5"}]
+}
+```
+
+`attendance` phải có đúng các buổi đã diễn ra tới `as_of` (buổi 1 … n), mỗi buổi một lần; `status` thuộc `present`, `absent`, `excused`. Response (rút gọn):
+
+```json
+{
+  "id": "…",
+  "week": {"week_no": 8, "start": "2026-10-23", "end": "2026-10-29"},
+  "attendance": [{"session_no": 3, "session_date": "2026-09-18", "status": "absent"}],
+  "assignments": [{"code": "BT2", "status": "overdue", "late": false, "score_10": null}],
+  "summary": {
+    "sessions_held": 8, "present": 7, "absent": 1, "excused": 0,
+    "assignments_total": 2, "submitted": 1, "graded": 1, "pending": 0, "late": 0, "overdue": 1, "not_due": 0,
+    "completion": {"numerator": 1, "denominator": 2, "value": "0.5000", "percent": 50},
+    "assignment_average": "8.50", "assessment_average": "7.50"
+  }
+}
+```
+
+`status` của bài: `graded` (đã chấm), `pending` (chờ chấm), `overdue` (chưa nộp, hạn trước `as_of`), `not_due`; `late` là cờ riêng (ngày nộp sau hạn).
+
+<!-- contract: sv01 GET /api/m11/current-courses -->
+```json
+{
+  "items": [
+    {
+      "course": {"code": "CNT303", "credits": 3, "id": "CNT303", "name": "Hệ thống phân tán"},
+      "latest": null,
+      "schedule": null
+    }
+  ],
+  "semester": {"id": "S5", "name": "HK1 2026-2027"},
+  "today": "2026-10-26"
+}
+```
+
+<!-- contract: admin GET /api/lms/form-options -->
+```json
+{
+  "semester": {"end_date": "2027-01-15", "id": "S5", "name": "HK1 2026-2027", "start_date": "2026-09-01"},
+  "students": [
+    {
+      "courses": [{"code": "CNT303", "id": "CNT303", "name": "Hệ thống phân tán", "schedule": null}],
+      "full_name": "Sinh viên 01",
+      "id": "SV01",
+      "student_code": "SV01"
+    }
+  ],
+  "today": "2026-10-26"
+}
+```
+

@@ -89,7 +89,7 @@ erDiagram
 
 | Bảng | Mô tả |
 |------|-------|
-| `grade_scales` | Thang điểm theo khóa (`version`, `effective_cohort`). |
+| `grade_scales` | Thang điểm theo khóa (`version`, `effective_cohort`). demo-k68 có thêm bản 2 theo bảng của quản lý dự án (D-308). |
 | `grade_scale_levels` | Các mức của thang: chữ, điểm tối thiểu, hệ 4, đạt. |
 | `academic_rules` | Quy chế theo khóa: `retake_policy`, ngưỡng cảnh báo, ngưỡng nhóm môn. |
 | `grade_attempts` | Kết quả một lần học. Là nguồn sự thật của trạng thái đạt. Chỉ đăng ký `final`, `exempt` mới có attempt. `recorded_at` (cho phép null, migration 0013): thời điểm nhập điểm. `attendance_score`, `midterm_score`, `final_score` (cho phép null, migration 0014): điểm thành phần 10/40/50; có thì `score_10` = tổng có trọng số làm tròn 1 chữ số. |
@@ -127,6 +127,18 @@ erDiagram
 |------|-------|
 | `notifications` | Thông báo trong hệ thống. |
 | `audit_logs` | Nhật ký thay đổi, chỉ thêm, không sửa. Đã dùng cho `flask grades add`. |
+
+### Lịch học và LMS (CR-11, D-309, migration 0015)
+
+| Bảng | Cột chính | Ghi chú |
+|------|-----------|---------|
+| `course_schedules` | `course_id`, `semester_id`, `weekday` (1 = Thứ 2 … 7), `first_session_date`, `total_sessions` | Unique (môn, kỳ). 1 buổi/tuần; tuần k của môn = ngày buổi k tới ngày trước buổi k+1 |
+| `lms_snapshots` | `student_id`, `course_id`, `semester_id`, `week_no`, `as_of`, `source` (`demo_form`, `lms`), `sent_at`, `received_at`, `sent_by` | Unique (sinh viên, môn, kỳ, tuần của môn); gửi lại thì ghi đè. Bản chụp tích lũy tới `as_of` |
+| `lms_attendance` | `snapshot_id`, `session_no`, `session_date`, `status` (`present`, `absent`, `excused`) | Unique (bản chụp, buổi) |
+| `lms_assignments` | `snapshot_id`, `code`, `name`, `due_date`, `submitted_on`, `score_10`, `weight` | Điểm 0–10 hoặc null; có điểm thì phải có ngày nộp (CHECK) |
+| `lms_assessments` | `snapshot_id`, `kind` (`quiz`, `midterm`), `code`, `name`, `taken_on`, `score_10`, `weight` | |
+
+Không lưu số tổng (vắng, đã nộp, điểm trung bình): `lms_service.summarize()` tính lại mỗi lần đọc. Dự kiến cho CR-12, CR-13 (chưa tạo): trọng số điểm theo môn (0,1 / 0,4 / 0,5), cấu hình cảnh báo vắng (Q88), báo cáo tuần đã xem.
 
 ### Khung năng lực, bài kiểm tra, chứng chỉ (CR-04)
 
