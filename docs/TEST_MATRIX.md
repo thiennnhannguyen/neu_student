@@ -367,4 +367,10 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | Điểm thành phần 10/40/50: mọi lần học có điểm của demo-k68 có 3 thành phần bước 0,25 cho đúng điểm hệ 10 (làm tròn 1 chữ số); profile test để trống; API trả `components`, `component_scores` | `backend/tests/acceptance/test_grade_components.py`, `backend/tests/unit/m11/test_grade_components.py`, `backend/tests/api/m11/test_m11_attempt_components.py` |
 | Migration 0014 trên CSDL đã có dữ liệu, xuống rồi lên | `backend/tests/unit/db/test_migration_0014.py` |
 | Bảng "Chi tiết học phần": STT, tên, trọng số, Điểm lần 1–3, không có dòng tổng | `resultsCr06.test.jsx`, `frontend/e2e/results.spec.mjs` |
+| Chi tiết của môn học lại: kỳ từng lần theo thứ tự, chỉ lần trượt có "· Chưa đạt" kèm icon ✗, chỉ lần được tính có "Lần được tính", lần đang học có "đang học" (D-304) | `m11Pages.test.jsx` "Chi tiết của môn học lại…" |
+| Nút Chi tiết bằng bàn phím: Enter và Space mở/đóng, `aria-expanded` đúng, `aria-controls` trỏ đúng vùng mở, focus ở lại nút | `m11Pages.test.jsx` "nút Chi tiết dùng được bằng bàn phím…" |
+| Môn có 4 lần học: có cột "Điểm lần 4", vùng bảng cuộn ngang nhận focus | `m11Pages.test.jsx` "môn có 4 lần học…" |
+| Chi tiết của môn chưa có lần học: "Chưa có lần học nào." | `m11Pages.test.jsx` "Chi tiết của môn chưa có lần học nào" |
+| 1 trang: số dòng bảng bằng số môn API trả, không có phân trang (D-300 bỏ dòng "N môn") | `m11Pages.test.jsx` "chỉ có 1 trang…" |
+| Cảnh báo dữ liệu chung và của từng môn hiện ở trang Cảnh báo (D-300 bỏ khỏi trang Kết quả) | `m11Pages.test.jsx` "cảnh báo dữ liệu chung…", "cảnh báo dữ liệu của từng môn…" |
 | Trên bản build: dòng tổng kết khớp API ở S1–S5; môn học lại TIHT1101 có 2 lần học; axe 1440 và 375 với hàng chi tiết đang mở | `frontend/e2e/results.spec.mjs` |
