@@ -37,6 +37,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề, kèm CR-03b | Đạt, tag `cr-03` |
 | CR-04 | CTĐT KHMT theo PDF, Backend chuyên sâu 10 mô-đun, bài kiểm tra, chứng chỉ số, trạng thái bằng icon | Đạt có điều kiện, đang làm 4 điều kiện trước `v1.1`. CNTT, ATTT theo PDF để `v1.2` (quản lý dự án quyết định) |
 | CR-06 | Trang Kết quả theo ảnh mẫu: dòng Tổng kết học kì, bỏ nút Học lại, bảng Chi tiết học phần (điểm thành phần 10/40/50, migration 0014) | Xong phần code, chờ quản lý dự án nghiệm thu (D-298 đến D-303) |
+| CR-07 | Hướng nghiệp: ngôi sao thay nhãn "Mục tiêu của bạn", bỏ chú giải trạng thái và khối Bộ tự chọn đề xuất; bỏ badge "Dữ liệu mẫu" ở mọi trang | Xong phần code, chờ quản lý dự án nghiệm thu (D-305) |
 
 ## Việc tồn đọng giao diện
 

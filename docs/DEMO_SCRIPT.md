@@ -39,7 +39,7 @@ Terminal 2: `make seed-demo`
 
 | Bước | Tài khoản | Thao tác | Người xem cần thấy |
 |------|-----------|----------|--------------------|
-| 2.1 | `demo05` | Đăng nhập, vào **Định hướng nghề** | Lưới 10 nghề. Thẻ có nhãn "Mục tiêu của bạn": Kỹ sư Trí tuệ nhân tạo **42% học phần**, Kỹ năng & dự án **11%**. Cùng dữ liệu nhưng Lập trình viên Backend **64%**: mỗi nghề một tỷ lệ riêng |
+| 2.1 | `demo05` | Đăng nhập, vào **Định hướng nghề** | Lưới 10 nghề. Thẻ có ngôi sao "Mục tiêu chính của bạn": Kỹ sư Trí tuệ nhân tạo **42% học phần**, Kỹ năng & dự án **11%**. Cùng dữ liệu nhưng Lập trình viên Backend **64%**: mỗi nghề một tỷ lệ riêng |
 | 2.2 | `demo05` | Bấm thẻ Kỹ sư Trí tuệ nhân tạo | Hero có 42% và 11%, câu "Ngành của bạn có 12/14 môn của nghề" |
 | 2.3 | `demo05` | Tab **Lộ trình học**, bấm một môn | Bấm **Đại số**: panel bên phải có "Học để làm gì?", mã `TOCB1101`, Tiên quyết "Không có", "Các nghề khác dùng môn này: Chỉ có ở nghề này." Nhấn **Esc**: panel đóng, con trỏ về đúng môn vừa mở |
 | 2.4 | `demo05` | Bấm **Xem lộ trình theo học kỳ**, rồi **Tạo lộ trình** | Trang Kế hoạch học tập có **3 kỳ**, dòng "Còn lại 64 tín chỉ trong 3 kỳ", "Chưa có lịch mở lớp – mọi kỳ là dự kiến". Kỳ đầu `HK2 2026-2027`, **24/25 tín chỉ**, mỗi môn có nhãn "Đúng HK CTĐT" hoặc "Lệch HK CTĐT (+1 kỳ)" hoặc "(+2 kỳ)" |
@@ -59,7 +59,7 @@ Terminal 2: `make seed-demo`
 
 | Bước | Tài khoản | Thao tác | Người xem cần thấy |
 |------|-----------|----------|--------------------|
-| 4.1 | `demo05` | Mở nghề Chuyên viên Phân tích dữ liệu, bấm **Đặt làm mục tiêu chính**, **Xác nhận** | Hero của nghề này có nhãn "Mục tiêu của bạn" |
+| 4.1 | `demo05` | Mở nghề Chuyên viên Phân tích dữ liệu, bấm **Đặt làm mục tiêu chính**, **Xác nhận** | Hero của nghề này có ngôi sao "Mục tiêu chính của bạn" |
 | 4.2 | `demo05` | Vào **Kế hoạch học tập** | Lộ trình cũ còn nguyên, vẫn ghi Nghề chính "Kỹ sư Trí tuệ nhân tạo". Có dòng "Lộ trình có thay đổi" và liên kết **Xem khác biệt**: hệ thống không tự ghi đè |
 | 4.3 | `demo05` | Bấm **Xem khác biệt** | "Nghề chính đổi từ Kỹ sư Trí tuệ nhân tạo sang Chuyên viên Phân tích dữ liệu. Học phần: thêm 1 · bớt 2 · chuyển kỳ 0". Hai cột Bản hiện tại và Bản đề xuất: bớt Xử lý ảnh (CNTT1166), Học máy (CNTT1177), thêm Phát triển ứng dụng di động (CNTT1157) |
 | 4.4 | `demo05` | Bấm **Áp dụng** | Thông báo "Đã áp dụng lộ trình mới." |

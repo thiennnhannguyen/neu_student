@@ -119,7 +119,7 @@ File `backend/tests/unit/test_fixtures_integrity.py`. Bản tính lại tham chi
 | Mosaic: `aria-hidden`, không nhận focus, tổng thời gian ≤ 600ms | `aria-hidden, không có phần tử nhận focus`, `tổng thời gian hiện dần không quá 600ms` | `frontend/src/components/brand/brand.test.jsx` |
 | Không mã màu rời, tương phản ≥ 4,5:1, tắt hiệu ứng khi `prefers-reduced-motion` | Các test trong file | `frontend/src/styles/tokens.test.js` |
 | Hiện và ẩn mật khẩu, Caps Lock, bàn phím, ảnh tòa nhà, không còn hộp demo | Các test trong file | `frontend/src/features/auth/LoginForm.test.jsx` |
-| Trang đăng nhập và khung ứng dụng luôn có badge "Dữ liệu mẫu" và dòng không phải hệ thống chính thức | `trang đăng nhập luôn có badge "Dữ liệu mẫu" và dòng không phải hệ thống chính thức`, `luôn có nhãn "Dữ liệu mẫu" và chỗ logo` | `frontend/src/features/auth/auth.test.jsx`, `frontend/src/routes.test.jsx` |
+| Trang đăng nhập và khung ứng dụng có dòng không phải hệ thống chính thức; không còn badge "Dữ liệu mẫu" (D-305) | `trang đăng nhập không còn badge "Dữ liệu mẫu" (D-305)…`, `không còn nhãn "Dữ liệu mẫu" (D-305)…` | `frontend/src/features/auth/auth.test.jsx`, `frontend/src/routes.test.jsx` |
 | Đúng màu trên trang màu chính thức; `--neu-gray` không dùng cho chữ | `dùng đúng màu trên trang màu chính thức`, `--neu-gray không được dùng cho chữ` | `frontend/src/styles/tokens.test.js` |
 
 ## M11: lõi tính toán (giai đoạn 05)
@@ -374,3 +374,12 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | 1 trang: số dòng bảng bằng số môn API trả, không có phân trang (D-300 bỏ dòng "N môn") | `m11Pages.test.jsx` "chỉ có 1 trang…" |
 | Cảnh báo dữ liệu chung và của từng môn hiện ở trang Cảnh báo (D-300 bỏ khỏi trang Kết quả) | `m11Pages.test.jsx` "cảnh báo dữ liệu chung…", "cảnh báo dữ liệu của từng môn…" |
 | Trên bản build: dòng tổng kết khớp API ở S1–S5; môn học lại TIHT1101 có 2 lần học; axe 1440 và 375 với hàng chi tiết đang mở | `frontend/e2e/results.spec.mjs` |
+
+## CR-07: Hướng nghiệp và nhãn "Dữ liệu mẫu"
+
+| Yêu cầu | Test |
+|---------|------|
+| Ngôi sao "Mục tiêu chính của bạn" chỉ ở thẻ nghề chính và đầu trang nghề chính (`role="img"`, tooltip); không còn chữ "Mục tiêu của bạn"; nghề khác vẫn có nút "Đặt làm mục tiêu chính" | `frontend/src/features/m12/cr07.test.jsx`, `m12Pages.test.jsx` (TC08) |
+| Không còn hàng chú giải trạng thái ở Lộ trình học, Môn học NEU, Kỹ năng & dự án, Minh chứng, Khung năng lực | `cr07.test.jsx`, `work.test.jsx` "đang chờ duyệt…", `framework.test.jsx` "không còn hàng chú giải…" |
+| Không còn khối "Bộ tự chọn đề xuất cho Backend" | `framework.test.jsx` "không còn hàng chú giải và khối…" |
+| Không còn badge "Dữ liệu mẫu" ở đăng nhập, thanh trên cùng (4 vai trò), xác thực chứng chỉ; dòng "không phải hệ thống chính thức" vẫn có | `cr07.test.jsx`, `auth.test.jsx`, `shell.test.jsx`, `routes.test.jsx`, `framework.test.jsx`, `frontend/e2e/quiz.spec.mjs`, `frontend/e2e/sweep.spec.mjs` |
