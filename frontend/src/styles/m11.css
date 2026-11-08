@@ -614,3 +614,130 @@
     grid-column: auto;
   }
 }
+
+/* Phân tích & Cảnh báo (D-310): danh sách môn đang học kỳ này. */
+.current-courses .ui-table td {
+  vertical-align: top;
+}
+
+/* LMS Demo (D-309): form giả lập dữ liệu LMS. Trạng thái bài tập bằng icon kèm chữ, không khối màu. */
+.lms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.lms-identity {
+  margin-top: var(--space-3);
+}
+
+.lms-attendance {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-12);
+}
+
+.lms-attendance__session,
+.lms-row {
+  margin: 0;
+  padding: var(--space-12);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.lms-attendance__session legend,
+.lms-row legend {
+  padding: 0 var(--space-1);
+  font-weight: 600;
+}
+
+.lms-radio {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+}
+
+.lms-radio input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--neu-primary);
+}
+
+.lms-row {
+  display: grid;
+  grid-template-columns: 0.6fr 1.3fr 1.25fr 1.25fr 0.8fr 0.6fr 1.3fr auto;
+  align-items: end;
+  gap: var(--space-2) var(--space-12);
+}
+
+.lms-row--assessment {
+  grid-template-columns: 1fr 0.6fr 1.4fr 1.25fr 0.8fr 0.6fr auto;
+}
+
+.lms-row + .lms-row {
+  margin-top: var(--space-12);
+}
+
+.lms-cell {
+  min-width: 0;
+}
+
+.lms-cell__label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--font-14);
+  font-weight: 600;
+}
+
+.lms-status {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  min-height: var(--touch-target);
+  align-items: center;
+}
+
+.lms-totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-2) var(--space-3);
+}
+
+.lms-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-12);
+}
+
+@media (max-width: 1023.98px) {
+  .lms-row,
+  .lms-row--assessment {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .lms-grid,
+  .lms-row,
+  .lms-row--assessment {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lms-actions {
+    justify-content: stretch;
+  }
+
+  .lms-actions .btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* Điểm danh: 3 lựa chọn nằm ngang khi đủ chỗ để danh sách buổi không quá dài trên điện thoại. */
+.lms-attendance__session {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-3);
+}

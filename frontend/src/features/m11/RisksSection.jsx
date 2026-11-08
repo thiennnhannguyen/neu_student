@@ -5,7 +5,6 @@ import { useAuth } from '../auth/AuthContext';
 import { Button, Card, StatusChip } from '../../components/ui';
 import { formatCount, formatDecimal, withQuery } from './format';
 import { DISCLAIMER, RULE_NAMES } from './labels';
-import M11Page from './M11Page';
 import MetricInfo from './MetricInfo';
 import useApiResource from './useApiResource';
 import { DataWarnings, ReferenceLine, ResourceView } from './ui';
@@ -113,7 +112,8 @@ function ImprovementAction({ scope }) {
   );
 }
 
-function RisksContent({ scope }) {
+/** Khối "Cảnh báo học vụ" (GPA, nợ, khối lượng đăng ký) của trang Phân tích & Cảnh báo (D-310). */
+export function RisksContent({ scope }) {
   const resource = useApiResource(withQuery('/api/m11/risks', scope.query));
   const semesterName = scope.semesters.data.items.find((i) => i.id === scope.semesterId)?.name;
   return (
@@ -150,13 +150,5 @@ function RisksContent({ scope }) {
         </div>
       )}
     </ResourceView>
-  );
-}
-
-export default function RisksPage() {
-  return (
-    <M11Page title="Cảnh báo" description="Mức cảnh báo và căn cứ của từng quy tắc.">
-      {(scope) => <RisksContent scope={scope} />}
-    </M11Page>
   );
 }

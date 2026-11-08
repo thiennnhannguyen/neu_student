@@ -9,7 +9,7 @@ import {
   History,
   LayoutDashboard,
   LifeBuoy,
-  ShieldAlert,
+  Upload,
   UserRound,
 } from 'lucide-react';
 
@@ -68,16 +68,10 @@ export const MENU_GROUPS = [
         implemented: true,
       },
       {
-        label: 'Phân tích',
+        // D-310: gộp Phân tích và Cảnh báo; /m11/canh-bao chuyển hướng về đây.
+        label: 'Phân tích & Cảnh báo',
         path: '/m11/phan-tich',
         icon: ChartLine,
-        roles: M11_READERS,
-        implemented: true,
-      },
-      {
-        label: 'Cảnh báo',
-        path: '/m11/canh-bao',
-        icon: ShieldAlert,
         roles: M11_READERS,
         implemented: true,
       },
@@ -141,6 +135,14 @@ export const MENU_GROUPS = [
         roles: [ADMIN],
         implemented: true,
       },
+      {
+        // D-309: giả lập dữ liệu LMS, gửi đúng API mà LMS thật sẽ gọi.
+        label: 'LMS Demo',
+        path: '/quan-tri/lms-demo',
+        icon: Upload,
+        roles: [ADVISOR, ADMIN],
+        implemented: true,
+      },
     ],
   },
 ];
@@ -164,8 +166,8 @@ const CAREER_SUBPAGES = [
 
 export const CERTIFICATES_PATH = '/m12/chung-chi';
 const SUPPORT_ROOT = '/m12/yeu-cau-ho-tro';
-const RISK_ROOT = '/m11/canh-bao';
-const RISK_PLAN = `${RISK_ROOT}/ke-hoach`;
+const ANALYSIS_ROOT = '/m11/phan-tich';
+const RISK_PLAN = '/m11/canh-bao/ke-hoach';
 const PLAN_ROOT = '/m12/ke-hoach';
 const PLAN_DIFF = `${PLAN_ROOT}/khac-biet`;
 
@@ -218,7 +220,7 @@ function careerSubpageMeta(pathname) {
       trail: [
         { label: 'Tổng quan', to: '/' },
         { label: 'Học tập' },
-        { label: 'Cảnh báo', to: RISK_ROOT },
+        { label: 'Phân tích & Cảnh báo', to: ANALYSIS_ROOT },
         { label },
       ],
     };

@@ -23,6 +23,8 @@ export const SERVER_ENV = {
   SECRET_KEY: 'e2e-only',
   DATABASE_URL: `sqlite:///${join(RUN_DIR, 'e2e.db')}`,
   UPLOAD_DIR: join(RUN_DIR, 'uploads'),
+  // D-309: ngày demo cố định, mọi môn của thiennhan đang ở tuần 8 (dữ liệu LMS mẫu là "tuần này").
+  DEMO_TODAY: '2026-10-26',
 };
 
 function flask(...args) {

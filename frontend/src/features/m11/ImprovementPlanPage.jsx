@@ -179,8 +179,8 @@ export default function ImprovementPlanPage() {
     <section className="m12-page">
       <PageHeader title="Kế hoạch cải thiện" />
       <p>
-        <Button variant="ghost" size="sm" to={student.link('/m11/canh-bao')}>
-          Về Cảnh báo
+        <Button variant="ghost" size="sm" to={student.link('/m11/phan-tich')}>
+          Về Phân tích & Cảnh báo
         </Button>
       </p>
       {student.needsStudent ? (

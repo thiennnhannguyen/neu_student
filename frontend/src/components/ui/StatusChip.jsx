@@ -5,6 +5,7 @@ import {
   Circle,
   CircleHelp,
   Clock,
+  ClockAlert,
   Eye,
   FileQuestionMark,
   Hourglass,
@@ -42,6 +43,12 @@ export const STATUS_CHIPS = {
   not_applicable: { label: 'Không áp dụng', icon: Ban, tone: 'neutral' },
   strong: { label: 'Điểm mạnh', icon: TrendingUp, tone: 'success' },
   weak: { label: 'Điểm yếu', icon: TrendingDown, tone: 'warning' },
+  // Bài tập LMS (D-309): biểu tượng kèm chữ, không khối màu.
+  lms_graded: { label: 'Đã chấm', icon: Check, tone: 'success' },
+  lms_pending: { label: 'Chờ chấm', icon: Hourglass, tone: 'info' },
+  lms_overdue: { label: 'Quá hạn chưa nộp', icon: X, tone: 'danger' },
+  lms_not_due: { label: 'Chưa đến hạn', icon: Circle, tone: 'neutral' },
+  lms_late: { label: 'Nộp muộn', icon: ClockAlert, tone: 'warning' },
 };
 
 const ICON_ONLY = new Set([

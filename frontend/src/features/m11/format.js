@@ -71,3 +71,19 @@ export function withQuery(path, params) {
 export function gradedPoints(points) {
   return points.filter((point) => point.value !== null);
 }
+
+/** Ngày "YYYY-MM-DD" thành "dd/mm/yyyy"; tách chuỗi, không qua Date để không lệch múi giờ. */
+export function formatDay(isoDay) {
+  if (!isoDay) {
+    return NO_VALUE;
+  }
+  const [year, month, day] = isoDay.split('-');
+  return `${day}/${month}/${year}`;
+}
+
+const WEEKDAYS = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];
+
+/** 1 = Thứ 2 … 7 = Chủ nhật (isoweekday, như API). */
+export function weekdayName(weekday) {
+  return WEEKDAYS[weekday - 1] ?? NO_VALUE;
+}

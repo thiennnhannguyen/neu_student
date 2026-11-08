@@ -297,6 +297,50 @@ export const GLOSSARY = {
   ],
 };
 
+/** D-309: các môn đang học kỳ hiện tại kèm bản LMS mới nhất; 1 môn chưa có dữ liệu LMS. */
+export const CURRENT_COURSES = {
+  today: '2026-10-26',
+  semester: { id: 'S5', name: 'HK1 2026-2027' },
+  items: [
+    {
+      course: { id: 'CNTT1188', code: 'CNTT1188', name: 'Lập trình Web', credits: 3 },
+      schedule: {
+        weekday: 3,
+        first_session_date: '2026-09-02',
+        total_sessions: 15,
+        current_week: { week_no: 8, start: '2026-10-21', end: '2026-10-27' },
+        sessions_held: 8,
+      },
+      latest: {
+        week: { week_no: 8, start: '2026-10-21', end: '2026-10-27' },
+        as_of: '2026-10-26',
+        received_at: '2026-10-26T10:00:05Z',
+        summary: {
+          sessions_held: 8,
+          present: 7,
+          absent: 0,
+          excused: 1,
+          assignments_total: 7,
+          submitted: 4,
+          graded: 4,
+          pending: 0,
+          late: 1,
+          overdue: 3,
+          not_due: 0,
+          completion: { numerator: 4, denominator: 7, value: '0.5714', percent: 57 },
+          assignment_average: '7.75',
+          assessment_average: '7.50',
+        },
+      },
+    },
+    {
+      course: { id: 'CNTT1159', code: null, name: 'Quản lý dự án', credits: 3 },
+      schedule: null,
+      latest: null,
+    },
+  ],
+};
+
 const respond = (body) => () => jsonResponse(200, body);
 
 /** Đủ API đọc của M11; extra ghi đè từng đường dẫn. */
@@ -320,6 +364,7 @@ export function m11Api(role = 'student', extra = {}) {
     'GET /api/m11/risks': respond(RISKS),
     'GET /api/m11/compare': respond(COMPARE),
     'GET /api/m11/metrics-glossary': respond(GLOSSARY),
+    'GET /api/m11/current-courses': respond(CURRENT_COURSES),
     ...extra,
   });
 }

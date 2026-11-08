@@ -9,7 +9,6 @@ const M11_PAGES = {
   '/': false,
   '/m11/ket-qua': true,
   '/m11/phan-tich': false,
-  '/m11/canh-bao': false,
 };
 
 export function isM11Page(pathname) {

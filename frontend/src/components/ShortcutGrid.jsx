@@ -5,7 +5,7 @@ import { MENU_GROUPS } from './menu';
 
 const NOTES = {
   '/m11/ket-qua': 'Xem bảng điểm và lịch sử học lại',
-  '/m11/phan-tich': 'Xu hướng GPA, tín chỉ, đối chiếu chương trình',
+  '/m11/phan-tich': 'Cảnh báo học vụ và các môn đang học kỳ này',
   '/m12/dinh-huong': 'Tìm hiểu nghề và kỹ năng cần có',
   '/m12/yeu-cau-ho-tro': 'Gửi và theo dõi yêu cầu hỗ trợ',
   '/m12/hoc-lieu': 'Tài liệu học tập theo học phần',

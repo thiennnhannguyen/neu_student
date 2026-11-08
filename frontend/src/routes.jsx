@@ -5,13 +5,13 @@ import ComingSoonPage from './components/ComingSoonPage';
 import NotFoundPage from './components/NotFoundPage';
 import { M11_READERS, MENU_GROUPS, PENDING_ITEMS } from './components/menu';
 import AuditLogPage from './features/admin/AuditLogPage';
+import LmsDemoPage from './features/admin/LmsDemoPage';
 import { AuthProvider } from './features/auth/AuthContext';
 import LoginPage from './features/auth/LoginPage';
 import ProtectedRoute from './features/auth/ProtectedRoute';
 import RoleRoute from './features/auth/RoleRoute';
 import HomeRoute from './features/m11/HomeRoute';
 import ResultsPage from './features/m11/ResultsPage';
-import RisksPage from './features/m11/RisksPage';
 import CareerDetailPage from './features/m12/CareerDetailPage';
 import CareersPage from './features/m12/CareersPage';
 import { CertificatePage, CertificatesPage } from './features/m12/framework/Certificates';
@@ -26,7 +26,7 @@ import SupportListPage from './features/m12/support/SupportListPage';
 import ImprovementPlanPage from './features/m11/ImprovementPlanPage';
 import ProfilePage from './features/profile/ProfilePage';
 
-// Recharts khá nặng nên chỉ tải khi mở trang Phân tích.
+// Tải riêng khi mở trang Phân tích & Cảnh báo (D-310).
 const AnalysisPage = lazy(() => import('./features/m11/AnalysisPage'));
 
 // Chỉ có khi chạy dev; bản production loại hẳn, npm run check:bundle kiểm tra.
@@ -45,17 +45,23 @@ const IMPLEMENTED_PAGES = {
       <AnalysisPage />
     </Suspense>
   ),
-  '/m11/canh-bao': <RisksPage />,
   '/m12/dinh-huong': <CareersPage />,
   '/m12/ke-hoach': <PlanPage />,
   '/m12/duyet-minh-chung': <EvidenceReviewPage />,
   '/m12/yeu-cau-ho-tro': <SupportListPage />,
   '/quan-tri/nhat-ky': <AuditLogPage />,
+  '/quan-tri/lms-demo': <LmsDemoPage />,
 };
 
 const RESTRICTED_ITEMS = MENU_GROUPS.flatMap((group) => group.items).filter(
   (item) => item.path in IMPLEMENTED_PAGES,
 );
+
+/** D-310: trang Cảnh báo gộp vào Phân tích & Cảnh báo; giữ ?student=, ?semester= của link cũ. */
+function OldRisksRedirect() {
+  const { search } = useLocation();
+  return <Navigate replace to={`/m11/phan-tich${search}`} />;
+}
 
 /** Trang Xem tất cả cũ nay là lưới thẻ; giữ các tham số của đường dẫn cũ, như sinh viên đang chọn. */
 function OldAllCareersRedirect() {
@@ -101,6 +107,7 @@ export default function AppRoutes() {
               <Route path="/m12/dinh-huong/tat-ca" element={<OldAllCareersRedirect />} />
               <Route path="/m12/dinh-huong/nghe/:slug" element={<CareerDetailPage />} />
               <Route path="/m12/ke-hoach/khac-biet" element={<PlanDiffPage />} />
+              <Route path="/m11/canh-bao" element={<OldRisksRedirect />} />
               <Route path="/m11/canh-bao/ke-hoach" element={<ImprovementPlanPage />} />
               <Route path="/m12/chung-chi" element={<CertificatesPage />} />
               <Route path="/m12/chung-chi/:code" element={<CertificatePage />} />
