@@ -35,7 +35,13 @@ def run_sql(sql: str, **params):
     return db.session.execute(text(sql), params)
 
 
-def count_all_tables() -> dict[str, int]:
+# Bảng thêm ở migration 0015 (D-309): hạ xuống revision cũ hơn thì các bảng này bị xóa cùng dữ liệu.
+TABLES_FROM_0015 = frozenset(
+    {"course_schedules", "lms_snapshots", "lms_attendance", "lms_assignments", "lms_assessments"}
+)
+
+
+def count_all_tables(exclude: frozenset[str] = frozenset()) -> dict[str, int]:
     """Bảng chưa có (test migration đếm cả ở revision cũ) tính là 0 dòng."""
     db.session.rollback()
     existing = set(inspect(db.engine).get_table_names())
@@ -46,6 +52,7 @@ def count_all_tables() -> dict[str, int]:
             else 0
         )
         for table in db.metadata.sorted_tables
+        if table.name not in exclude
     }
 
 

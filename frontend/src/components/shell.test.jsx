@@ -188,8 +188,9 @@ describe('một tiêu đề cho mỗi màn hình', () => {
     ['student', '/', 'Tổng quan'],
     ['support_staff', '/', 'Tổng quan'],
     ['student', '/m11/ket-qua', 'Kết quả'],
-    ['student', '/m11/phan-tich', 'Phân tích'],
-    ['student', '/m11/canh-bao', 'Cảnh báo'],
+    // D-310: /m11/canh-bao chuyển hướng về trang gộp.
+    ['student', '/m11/phan-tich', 'Phân tích & Cảnh báo'],
+    ['student', '/m11/canh-bao', 'Phân tích & Cảnh báo'],
     ['student', '/ho-so', 'Hồ sơ'],
     ['student', '/m12/dinh-huong', 'Định hướng nghề'],
     ['student', '/khong-co', 'Không tìm thấy trang'],

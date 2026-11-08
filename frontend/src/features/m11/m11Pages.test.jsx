@@ -2,47 +2,22 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { apiError, jsonResponse, pendingResponse, renderApp } from '../../test/fakeApi';
-import { gpaThresholds, shortSemesterName, toChartData } from './GpaTrendChart';
 import {
   ATTEMPTS,
   callsTo,
-  COMPARE,
-  CURRICULUM,
   EMPTY_OVERVIEW,
   gradeRow,
   gradesBody,
   m11Api,
   overviewBody,
   RISKS,
-  SEMESTERS,
-  STRENGTHS,
-  TREND,
 } from './testData';
-
-/** Hai kỳ đều có điểm, để bảng so sánh có dữ liệu. */
-const TWO_GRADED = {
-  'GET /api/m11/gpa-trend': () =>
-    jsonResponse(200, {
-      ...TREND,
-      points: [
-        { semester_id: 'S4', order: 4, name: 'Kỳ 4', value: '2.75' },
-        { semester_id: 'S5', order: 5, name: 'Kỳ 5', value: '3.00' },
-      ],
-    }),
-};
 
 const search = () => screen.getByTestId('search').textContent;
 const path = () => screen.getByTestId('path').textContent;
 
 /** Chờ các lời gọi đang chạy trả về, để kiểm "không xuất hiện" không qua sớm. */
 const settled = () => new Promise((resolve) => window.setTimeout(resolve, 20));
-
-function cellsOf(region, name) {
-  const row = within(region).getByRole('rowheader', { name }).closest('tr');
-  return within(row)
-    .getAllByRole('cell')
-    .map((cell) => cell.textContent);
-}
 
 function card(title) {
   return screen.getByRole('link', { name: title }).closest('article');
@@ -227,11 +202,12 @@ describe('bộ lọc kỳ', () => {
 
     await user.click(
       within(screen.getByRole('navigation', { name: 'Menu chính' })).getByRole('link', {
-        name: 'Cảnh báo',
+        name: 'Phân tích & Cảnh báo',
       }),
     );
 
-    expect(path()).toBe('/m11/canh-bao');
+    // D-310: Cảnh báo gộp vào Phân tích & Cảnh báo.
+    expect(path()).toBe('/m11/phan-tich');
     expect(search()).toBe('?student=SV04&semester=S4');
   });
 
@@ -244,7 +220,7 @@ describe('bộ lọc kỳ', () => {
 
     await user.click(
       within(screen.getByRole('navigation', { name: 'Menu chính' })).getByRole('link', {
-        name: 'Phân tích',
+        name: 'Phân tích & Cảnh báo',
       }),
     );
 
@@ -899,380 +875,9 @@ describe('Kết quả', () => {
   });
 });
 
-describe('Phân tích', () => {
-  it('cả trang chỉ có 1 dòng kỳ tham chiếu chung, không nằm trong thẻ', async () => {
-    m11Api('student');
-    renderApp('/m11/phan-tich');
-
-    await screen.findByText('Xu hướng GPA');
-    const lines = await screen.findAllByText(/Kỳ tham chiếu/);
-    await settled();
-    expect(screen.getAllByText(/Kỳ tham chiếu/)).toHaveLength(1);
-    expect(lines[0].closest('.ui-card, .card')).toBeNull();
-  });
-
-  it('mọi phần đều lỗi: không có dòng kỳ tham chiếu', async () => {
-    const failed = () => apiError(500, 'INTERNAL_ERROR', 'Lỗi');
-    m11Api('student', {
-      'GET /api/m11/gpa-trend': failed,
-      'GET /api/m11/credits': failed,
-      'GET /api/m11/curriculum-check': failed,
-      'GET /api/m11/strengths': failed,
-    });
-    renderApp('/m11/phan-tich');
-
-    await screen.findAllByRole('alert');
-    await settled();
-    expect(screen.queryByText(/Kỳ tham chiếu/)).toBeNull();
-  });
-
-  it('biểu đồ có câu tóm tắt và bảng cho trình đọc màn hình, dùng chuỗi gốc', async () => {
-    m11Api('student');
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByText(TREND.summary)).toBeInTheDocument();
-    const table = screen.getByRole('table', { name: 'GPA từng học kỳ' });
-    expect(within(table).getByText('2,75')).toBeInTheDocument();
-    expect(within(table).getByText('—')).toBeInTheDocument();
-  });
-
-  it('chỉ giá trị vẽ là số; kỳ không có GPA để trống, không thành 0', () => {
-    const [first, second] = toChartData(TREND.points);
-
-    expect(first).toMatchObject({ raw: '2.75', plotted: 2.75, label: 'HK2 25-26' });
-    expect(second).toMatchObject({ raw: null, plotted: null });
-    expect(shortSemesterName('Kỳ lạ')).toBe('Kỳ lạ');
-  });
-
-  it('tiến độ tín chỉ theo nhóm có số và thanh tiến độ', async () => {
-    m11Api('student');
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByText('15/60 tín chỉ')).toBeInTheDocument();
-    expect(screen.getByRole('progressbar', { name: 'Bắt buộc' })).toHaveAttribute(
-      'aria-valuenow',
-      '25',
-    );
-    expect(screen.getByRole('progressbar', { name: 'Tự chọn A' })).toHaveAttribute(
-      'aria-valuenow',
-      '100',
-    );
-    expect(screen.getByText('vượt yêu cầu nhóm')).toBeInTheDocument();
-  });
-
-  it('khóa không có quy chế: tiến độ hiện gạch', async () => {
-    m11Api('student', {
-      'GET /api/m11/credits': () =>
-        jsonResponse(200, {
-          passed: null,
-          debt: null,
-          failed_courses: null,
-          in_progress: 0,
-          registered: 0,
-          required: { total_credits: 60, passed_credits: null, missing_credits: null },
-          elective_groups: [],
-          meta: TREND.meta,
-        }),
-    });
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByText('—/60 tín chỉ')).toBeInTheDocument();
-    expect(screen.getByText(/Đạt — · Nợ —/)).toBeInTheDocument();
-  });
-
-  it('đối chiếu CTĐT: dùng mã môn, null hiện "Chưa có mã"', async () => {
-    m11Api('student');
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByText(/Chương trình: CTĐT mẫu/)).toBeInTheDocument();
-    expect(screen.getByText(/Chưa có mã – Môn thiếu mã/)).toBeInTheDocument();
-    expect(screen.getByText(/Tự chọn B: thiếu 6 tín chỉ/)).toBeInTheDocument();
-    expect(screen.getByText(/Cần đạt trước: CNT301/)).toBeInTheDocument();
-    expect(CURRICULUM.blocked_courses).toHaveLength(1);
-  });
-
-  it('điểm mạnh yếu: có nhãn chữ, "Chưa đủ dữ liệu", môn làm bằng chứng', async () => {
-    m11Api('student');
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByText('GPA nhóm 3,60')).toBeInTheDocument();
-    expect(screen.getByText('Điểm mạnh')).toBeInTheDocument();
-    expect(screen.getByText('Chưa đủ dữ liệu')).toBeInTheDocument();
-    expect(screen.getByText('Môn làm bằng chứng: CNT101')).toBeInTheDocument();
-    expect(screen.queryByText('GPA nhóm —')).not.toBeInTheDocument();
-  });
-
-  it('so sánh 2 kỳ: mặc định 2 kỳ có điểm, đổi kỳ thì gọi lại', async () => {
-    const fetchMock = m11Api('student', TWO_GRADED);
-    const user = userEvent.setup();
-
-    renderApp('/m11/phan-tich');
-
-    const region = await screen.findByRole('region', { name: 'So sánh hai kỳ' });
-    expect(within(region).getByText('+0,25')).toBeInTheDocument();
-    expect(within(region).getByText('+3')).toBeInTheDocument();
-    expect(within(region).getByText('-1')).toBeInTheDocument();
-    const first = callsTo(fetchMock, '/api/m11/compare')[0];
-    expect([first.get('a'), first.get('b')]).toEqual(['S4', 'S5']);
-
-    await user.selectOptions(screen.getByLabelText('Kỳ thứ hai'), 'S4');
-
-    await waitFor(() => expect(callsTo(fetchMock, '/api/m11/compare').at(-1).get('b')).toBe('S4'));
-  });
-
-  it('so sánh mặc định lấy 2 kỳ gần nhất CÓ ĐIỂM, bỏ qua kỳ trống (SV04: S1 và S2)', async () => {
-    const fetchMock = m11Api('student', {
-      'GET /api/m11/semesters': () =>
-        jsonResponse(200, {
-          items: [
-            { id: 'S0', name: 'Kỳ 0', order: 0, is_current: false },
-            { id: 'S1', name: 'Kỳ 1', order: 1, is_current: false },
-            { id: 'S2', name: 'Kỳ 2', order: 2, is_current: false },
-            ...SEMESTERS.items,
-          ],
-          current_id: 'S5',
-        }),
-      'GET /api/m11/gpa-trend': () =>
-        jsonResponse(200, {
-          ...TREND,
-          points: [
-            { semester_id: 'S0', order: 0, name: 'Kỳ 0', value: '1.00' },
-            { semester_id: 'S1', order: 1, name: 'Kỳ 1', value: '1.75' },
-            { semester_id: 'S2', order: 2, name: 'Kỳ 2', value: '1.88' },
-            { semester_id: 'S4', order: 4, name: 'Kỳ 4', value: null },
-            { semester_id: 'S5', order: 5, name: 'Kỳ 5', value: null },
-          ],
-        }),
-    });
-
-    renderApp('/m11/phan-tich');
-
-    await screen.findByRole('region', { name: 'So sánh hai kỳ' });
-    const first = callsTo(fetchMock, '/api/m11/compare')[0];
-    expect([first.get('a'), first.get('b')]).toEqual(['S1', 'S2']);
-    expect(screen.getByLabelText('Kỳ thứ nhất')).toHaveValue('S1');
-    expect(screen.getByLabelText('Kỳ thứ hai')).toHaveValue('S2');
-  });
-
-  it('so sánh: đổi kỳ thứ nhất thì gọi lại; đổi học kỳ của trang thì về mặc định', async () => {
-    const fetchMock = m11Api('student', TWO_GRADED);
-    const user = userEvent.setup();
-
-    renderApp('/m11/phan-tich');
-    await screen.findByRole('region', { name: 'So sánh hai kỳ' });
-
-    await user.selectOptions(screen.getByLabelText('Kỳ thứ nhất'), 'S5');
-    await waitFor(() => expect(callsTo(fetchMock, '/api/m11/compare').at(-1).get('a')).toBe('S5'));
-
-    await user.selectOptions(screen.getByLabelText('Học kỳ'), 'S4');
-    await waitFor(() => expect(screen.getByLabelText('Kỳ thứ nhất')).toHaveValue('S4'));
-    expect(screen.getByLabelText('Kỳ thứ hai')).toHaveValue('S5');
-  });
-
-  it('so sánh: mỗi cột lấy đúng kỳ, chênh lệch có dấu', async () => {
-    m11Api('student', {
-      ...TWO_GRADED,
-      'GET /api/m11/compare': () =>
-        jsonResponse(200, {
-          ...COMPARE,
-          semester_a: { ...COMPARE.semester_a, credits: 11, passed_count: 21, failed_count: 31 },
-          semester_b: { ...COMPARE.semester_b, credits: 12, passed_count: 22, failed_count: 32 },
-          failed_delta: 1,
-        }),
-    });
-
-    renderApp('/m11/phan-tich');
-
-    const region = await screen.findByRole('region', { name: 'So sánh hai kỳ' });
-    expect(cellsOf(region, 'Tín chỉ').slice(0, 2)).toEqual(['11', '12']);
-    expect(cellsOf(region, 'Số môn đạt').slice(0, 2)).toEqual(['21', '22']);
-    expect(cellsOf(region, 'Số môn chưa đạt')).toEqual(['31', '32', '+1']);
-  });
-
-  it('kỳ không có kết quả: ô hiện gạch, không hiện 0, chênh lệch cũng là gạch', async () => {
-    const empty = { gpa: null, credits: 0, passed_count: 0, failed_count: 0 };
-    m11Api('student', {
-      ...TWO_GRADED,
-      'GET /api/m11/compare': () =>
-        jsonResponse(200, {
-          ...COMPARE,
-          semester_a: { ...COMPARE.semester_a, credits: 12, passed_count: 3, failed_count: 1 },
-          semester_b: { ...COMPARE.semester_b, ...empty },
-          gpa_delta: null,
-          credit_delta: -12,
-          passed_delta: -3,
-          failed_delta: -1,
-        }),
-    });
-
-    renderApp('/m11/phan-tich');
-
-    const region = await screen.findByRole('region', { name: 'So sánh hai kỳ' });
-    expect(cellsOf(region, 'GPA')).toEqual(['2,75', '—', '—']);
-    expect(cellsOf(region, 'Tín chỉ')).toEqual(['12', '—', '—']);
-    expect(cellsOf(region, 'Số môn đạt')).toEqual(['3', '—', '—']);
-    expect(cellsOf(region, 'Số môn chưa đạt')).toEqual(['1', '—', '—']);
-    expect(screen.queryByText('Cả hai kỳ này đều chưa có kết quả.')).toBeNull();
-  });
-
-  it('kỳ có tín chỉ nhưng không có GPA vẫn hiện số', async () => {
-    m11Api('student', {
-      ...TWO_GRADED,
-      'GET /api/m11/compare': () =>
-        jsonResponse(200, {
-          ...COMPARE,
-          semester_a: { ...COMPARE.semester_a, gpa: null, credits: 2 },
-          gpa_delta: null,
-        }),
-    });
-
-    renderApp('/m11/phan-tich');
-
-    const region = await screen.findByRole('region', { name: 'So sánh hai kỳ' });
-    expect(cellsOf(region, 'Tín chỉ')[0]).toBe('2');
-  });
-
-  it('người dùng chọn 2 kỳ đều chưa có kết quả thì nói rõ', async () => {
-    const side = { gpa: null, credits: 0, passed_count: 0, failed_count: 0 };
-    m11Api('student', {
-      ...TWO_GRADED,
-      'GET /api/m11/compare': () =>
-        jsonResponse(200, {
-          ...COMPARE,
-          semester_a: { ...COMPARE.semester_a, ...side },
-          semester_b: { ...COMPARE.semester_b, ...side },
-          gpa_delta: null,
-        }),
-    });
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByText('Cả hai kỳ này đều chưa có kết quả.')).toBeInTheDocument();
-  });
-
-  it.each([
-    ['1 kỳ có điểm', [{ semester_id: 'S4', order: 4, name: 'Kỳ 4', value: '2.75' }]],
-    ['0 kỳ có điểm', [{ semester_id: 'S4', order: 4, name: 'Kỳ 4', value: null }]],
-  ])('%s: hiện EmptyState, không có bảng, không gọi API', async (_name, points) => {
-    const fetchMock = m11Api('student', {
-      'GET /api/m11/gpa-trend': () => jsonResponse(200, { ...TREND, points }),
-    });
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByText('Cần ít nhất 2 kỳ có kết quả để so sánh')).toBeInTheDocument();
-    expect(screen.queryByRole('region', { name: 'So sánh hai kỳ' })).toBeNull();
-    expect(screen.queryByLabelText('Kỳ thứ nhất')).toBeNull();
-    expect(callsTo(fetchMock, '/api/m11/compare')).toEqual([]);
-  });
-
-  it('điểm mạnh yếu xếp: yếu, mạnh, bình thường; chưa đủ dữ liệu gộp cuối, thu gọn', async () => {
-    const group = (id, level, value) => ({
-      group_id: id,
-      slug: id,
-      name: `Nhóm ${id}`,
-      level,
-      value,
-      numerator: '0',
-      denominator: value ? 3 : 0,
-      courses: [],
-    });
-    m11Api('student', {
-      'GET /api/m11/strengths': () =>
-        jsonResponse(200, {
-          groups: [
-            group('u1', 'insufficient_data', null),
-            group('n', 'normal', '2.50'),
-            group('s', 'strong', '3.60'),
-            group('u2', 'insufficient_data', null),
-            group('w1', 'weak', '1.00'),
-            group('w2', 'weak', '1.20'),
-          ],
-          meta: TREND.meta,
-        }),
-    });
-
-    renderApp('/m11/phan-tich');
-
-    const summary = await screen.findByText('Chưa đủ dữ liệu (2)');
-    const details = summary.closest('details');
-    expect(details).not.toHaveAttribute('open');
-    expect(within(details).getByText('Nhóm u1')).toBeInTheDocument();
-    expect(within(details).getByText('Nhóm u2')).toBeInTheDocument();
-    const list = document.querySelector('.strength-list');
-    expect([...list.querySelectorAll('strong')].map((node) => node.textContent)).toEqual([
-      'Nhóm w1',
-      'Nhóm w2',
-      'Nhóm s',
-      'Nhóm n',
-    ]);
-  });
-
-  it('điểm mạnh yếu: không có nhóm chưa đủ dữ liệu thì không có khối thu gọn', async () => {
-    m11Api('student', {
-      'GET /api/m11/strengths': () =>
-        jsonResponse(200, { groups: [STRENGTHS.groups[0]], meta: TREND.meta }),
-    });
-
-    renderApp('/m11/phan-tich');
-
-    await screen.findByText('GPA nhóm 3,60');
-    expect(screen.queryByText(/Chưa đủ dữ liệu \(/)).toBeNull();
-  });
-
-  it('biểu đồ: ngưỡng lấy từ API cảnh báo, ghi rõ cho trình đọc màn hình', async () => {
-    m11Api('student');
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByText('Ngưỡng cảnh báo 2,00; ngưỡng chú ý 2,50.')).toBeInTheDocument();
-  });
-
-  it('không đọc được ngưỡng: biểu đồ vẫn hiện, không có câu ngưỡng', async () => {
-    m11Api('student', { 'GET /api/m11/risks': () => apiError(500, 'INTERNAL_ERROR', 'Lỗi') });
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByText(TREND.summary)).toBeInTheDocument();
-    await settled();
-    expect(screen.queryByText(/Ngưỡng cảnh báo/)).toBeNull();
-  });
-
-  it('gpaThresholds: khóa không có quy chế thì không có ngưỡng', () => {
-    expect(gpaThresholds(RISKS.outcomes)).toEqual({ warning: '2.00', watch: '2.50' });
-    expect(gpaThresholds([{ rule_code: 'gpa', evidence: {} }])).toBeNull();
-    expect(gpaThresholds([{ rule_code: 'debt', evidence: { warning_below: '9' } }])).toBeNull();
-  });
-
-  it('một phần lỗi không làm hỏng phần còn lại', async () => {
-    m11Api('student', { 'GET /api/m11/credits': () => apiError(500, 'INTERNAL_ERROR', 'Lỗi') });
-
-    renderApp('/m11/phan-tich');
-
-    expect(await screen.findByRole('alert')).toHaveTextContent('Không tải được tiến độ tín chỉ');
-    expect(await screen.findByText(TREND.summary)).toBeInTheDocument();
-  });
-
-  it('đổi kỳ thì mọi phần gọi lại API', async () => {
-    const fetchMock = m11Api('student');
-    const user = userEvent.setup();
-
-    renderApp('/m11/phan-tich');
-    await screen.findByText(TREND.summary);
-    await user.selectOptions(screen.getByLabelText('Học kỳ'), 'S4');
-
-    await waitFor(() => {
-      for (const name of ['gpa-trend', 'credits', 'curriculum-check', 'strengths']) {
-        expect(callsTo(fetchMock, `/api/m11/${name}`).at(-1).get('semester_id')).toBe('S4');
-      }
-    });
-  });
-});
+// D-310: bỏ khỏi giao diện Xu hướng GPA, Tiến độ tín chỉ, Đối chiếu CTĐT, Điểm mạnh/yếu, So sánh
+// hai kỳ (M11-04 đến M11-08); test API của các khối này vẫn giữ ở backend/tests/api/m11.
+// Trang gộp Phân tích & Cảnh báo có test ở features/m11/analysisCr11.test.jsx.
 
 describe('Cảnh báo', () => {
   it('mỗi quy tắc có mức, lý do, bằng chứng, phiên bản; có câu tham khảo', async () => {
@@ -1596,17 +1201,5 @@ describe('phạm vi xem trên điện thoại', () => {
     await screen.findByRole('heading', { name: 'Học liệu' });
     expect(screen.queryByRole('button', { name: /Đang xem/ })).not.toBeInTheDocument();
     expect(callsTo(fetchMock, '/api/m11/semesters')).toEqual([]);
-  });
-});
-
-describe('so sánh hai kỳ', () => {
-  it('tên chỉ số là tiêu đề hàng', async () => {
-    m11Api('student', TWO_GRADED);
-
-    renderApp('/m11/phan-tich');
-
-    const region = await screen.findByRole('region', { name: 'So sánh hai kỳ' });
-    expect(within(region).getByRole('rowheader', { name: 'GPA' })).toBeInTheDocument();
-    expect(within(region).getByRole('rowheader', { name: 'Số môn chưa đạt' })).toBeInTheDocument();
   });
 });

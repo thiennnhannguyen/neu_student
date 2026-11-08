@@ -4,7 +4,7 @@ import flask_migrate
 import pytest
 
 from app.extensions import db
-from tests.helpers import count_all_tables
+from tests.helpers import TABLES_FROM_0015, count_all_tables
 
 
 @pytest.fixture
@@ -20,7 +20,7 @@ def _recorded():
 
 
 def test_down_and_up_keep_rows_and_foreign_keys(demo_seeded):
-    before = count_all_tables()
+    before = count_all_tables(TABLES_FROM_0015)
     assert _recorded() == before["grade_attempts"]
     db.session.commit()
     flask_migrate.downgrade(revision="0012")
@@ -28,7 +28,7 @@ def test_down_and_up_keep_rows_and_foreign_keys(demo_seeded):
     assert "recorded_at" not in columns
     db.session.commit()
     flask_migrate.upgrade(revision="0013")
-    assert count_all_tables() == before
+    assert count_all_tables(TABLES_FROM_0015) == before
     assert _recorded() == 0
     assert db.session.execute(db.text("PRAGMA foreign_key_check")).all() == []
     assert db.session.execute(db.text("PRAGMA foreign_keys")).scalar_one() == 1

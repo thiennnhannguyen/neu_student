@@ -261,6 +261,16 @@ def test_every_route_declares_a_policy_and_public_list_is_exact():
     assert public == PUBLIC_ENDPOINTS
 
 
+# D-309 (CR-11): API nhận dữ liệu LMS, chỉ quản trị và cố vấn (form LMS Demo).
+LMS_ROUTES = {
+    ("POST", "/api/lms/sync"),
+    ("POST", "/api/lms/preview"),
+    ("GET", "/api/lms/form-options"),
+    ("GET", "/api/lms/calendar"),
+    ("GET", "/api/lms/snapshots/latest"),
+}
+
+
 def test_route_registry_covers_all_expected_api_routes():
     app = create_app("testing")
     rules = {
@@ -295,6 +305,8 @@ def test_route_registry_covers_all_expected_api_routes():
         ("GET", "/api/m11/risks"),
         ("GET", "/api/m11/compare"),
         ("GET", "/api/m11/metrics-glossary"),
+        ("GET", "/api/m11/current-courses"),
+        *LMS_ROUTES,
         *M12_USER_ROUTES,
         *M12_STUDENT_WRITE_ROUTES,
         *M12_WORK_ROUTES,
@@ -314,20 +326,26 @@ def test_m11_and_grade_entry_routes_declare_exact_roles():
             app.view_functions[rule.endpoint].auth_policy
         )
         for rule in app.url_map.iter_rules()
-        if rule.rule.startswith(("/api/m11/", "/api/m12/", "/api/admin/", "/api/advisor/"))
+        if rule.rule.startswith(
+            ("/api/m11/", "/api/m12/", "/api/admin/", "/api/advisor/", "/api/lms/")
+        )
     }
 
     new_writes = M12_STUDENT_WRITE_ROUTES - M12_USER_ROUTES
     assert len(policies) == (
         14
         + 1
+        + 1  # GET /api/m11/current-courses (D-309)
+        + len(LMS_ROUTES)
         + len(M12_USER_ROUTES)
         + len(new_writes)
         + len(M12_WORK_ROUTES)
         + len(M12_ADMIN_ROUTES)
     )
     for (method, path), roles in policies.items():
-        if (method, path) in M12_WORK_ROUTES:
+        if (method, path) in LMS_ROUTES:
+            assert roles == {"admin", "advisor"}, path
+        elif (method, path) in M12_WORK_ROUTES:
             assert roles == M12_WORK_ROUTES[(method, path)], path
         elif (method, path) in M12_STUDENT_WRITE_ROUTES:
             assert roles == {"student"}

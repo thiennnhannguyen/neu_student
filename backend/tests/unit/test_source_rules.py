@@ -376,7 +376,17 @@ def test_m12_scanner_allows_public_gate(tmp_path):
 
 # --- data_version: mọi thao tác ghi làm đổi kết quả M11 hoặc M12 phải tăng phiên bản ---
 
-STUDENT_RESULT_MODELS = {"GradeAttempt", "Enrollment", "StudentCareerGoal", "SkillEvidence"}
+STUDENT_RESULT_MODELS = {
+    "GradeAttempt",
+    "Enrollment",
+    "StudentCareerGoal",
+    "SkillEvidence",
+    # D-309: dữ liệu LMS đổi kết quả phân tích kỳ hiện tại (CR-13).
+    "LmsSnapshot",
+    "LmsAttendance",
+    "LmsAssignment",
+    "LmsAssessment",
+}
 # Seed đặt data_version riêng cho toàn bộ sinh viên trong reset_database.
 DATA_VERSION_EXEMPT = {"seed/seed.py"}
 

@@ -917,7 +917,7 @@ describe('chuông thông báo', () => {
   it('đang tải không ghi là chưa có thông báo', async () => {
     const user = userEvent.setup();
     m11Api('student', { [NOTICES]: pendingResponse().handler });
-    renderApp('/m11/canh-bao');
+    renderApp('/m11/phan-tich'); // D-310
 
     await user.click(await screen.findByRole('button', { name: 'Thông báo' }));
 
@@ -943,7 +943,7 @@ describe('chuông thông báo', () => {
             });
       },
     });
-    renderApp('/m11/canh-bao');
+    renderApp('/m11/phan-tich'); // D-310
 
     await user.click(await screen.findByRole('button', { name: 'Thông báo' }));
 
@@ -1053,7 +1053,7 @@ describe('chuông thông báo', () => {
 
     expect(await screen.findByRole('button', { name: 'Thông báo' })).toBeInTheDocument();
     const before = callsTo(fetchMock, '/api/notifications').length;
-    await user.click(screen.getByRole('link', { name: 'Cảnh báo' }));
+    await user.click(screen.getByRole('link', { name: 'Phân tích & Cảnh báo' }));
     await waitFor(() =>
       expect(callsTo(fetchMock, '/api/notifications').length).toBeGreaterThan(before),
     );

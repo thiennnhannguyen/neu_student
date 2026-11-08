@@ -48,7 +48,8 @@ def test_all_tables_exist(app):
         )
     )
     assert tables - {"alembic_version"} == set(db.metadata.tables)
-    assert len(db.metadata.tables) == 54
+    # D-309: migration 0015 thêm course_schedules và 4 bảng LMS.
+    assert len(db.metadata.tables) == 59
 
 
 def test_expected_triggers_exist(app):

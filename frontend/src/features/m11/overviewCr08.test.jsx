@@ -340,7 +340,7 @@ describe('trang Tổng quan CR-08', () => {
     );
   });
 
-  it('lối tắt: 4 liên kết Kết quả, Phân tích, Định hướng nghề, Yêu cầu hỗ trợ, có mô tả', async () => {
+  it('lối tắt: 4 liên kết Kết quả, Phân tích & Cảnh báo, Định hướng nghề, Yêu cầu hỗ trợ', async () => {
     m11Api('student');
 
     renderApp('/');
@@ -349,7 +349,7 @@ describe('trang Tổng quan CR-08', () => {
     const links = within(shortcuts).getAllByRole('link');
     expect(links.map((link) => link.querySelector('strong').textContent)).toEqual([
       'Kết quả',
-      'Phân tích',
+      'Phân tích & Cảnh báo', // D-310
       'Định hướng nghề',
       'Yêu cầu hỗ trợ',
     ]);

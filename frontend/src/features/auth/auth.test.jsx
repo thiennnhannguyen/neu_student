@@ -75,7 +75,9 @@ describe('đăng nhập', () => {
     renderApp('/m11/phan-tich');
     await fillAndSubmit(user);
 
-    expect(await screen.findByRole('heading', { name: 'Phân tích' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: 'Phân tích & Cảnh báo' }),
+    ).toBeInTheDocument();
     expect(currentPath()).toBe('/m11/phan-tich');
   });
 
@@ -281,7 +283,8 @@ describe('đăng xuất', () => {
   });
 });
 
-const STUDY = ['Kết quả', 'Phân tích', 'Cảnh báo'];
+// D-310: Phân tích và Cảnh báo gộp một mục; D-309: LMS Demo cho cố vấn và quản trị.
+const STUDY = ['Kết quả', 'Phân tích & Cảnh báo'];
 const EXPECTED_MENU = {
   student: {
     '': ['Tổng quan'],
@@ -304,6 +307,7 @@ const EXPECTED_MENU = {
       'Duyệt minh chứng',
       'Yêu cầu hỗ trợ',
     ],
+    'QUẢN TRỊ': ['LMS Demo'],
   },
   support_staff: {
     '': ['Tổng quan'],
@@ -313,7 +317,7 @@ const EXPECTED_MENU = {
     '': ['Tổng quan'],
     'HỌC TẬP': STUDY,
     'ĐỊNH HƯỚNG & HỖ TRỢ': ['Định hướng nghề', 'Học liệu', 'Duyệt minh chứng', 'Yêu cầu hỗ trợ'],
-    'QUẢN TRỊ': ['Nhật ký'],
+    'QUẢN TRỊ': ['Nhật ký', 'LMS Demo'],
   },
 };
 
