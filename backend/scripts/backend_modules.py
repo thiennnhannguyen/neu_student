@@ -2,7 +2,8 @@
 """Khung năng lực Backend cho sinh viên KHMT, mô-đun 1–5. Nhóm biên soạn.
 
 Mỗi câu hỏi ghi `check`: "run" là đã có test chạy thật trong tests/content/test_quiz_checks.py,
-"theory" là chỉ dựa trên lý thuyết hoặc quy ước, quản lý dự án rà tay.
+"theory" là chỉ dựa trên lý thuyết hoặc quy ước. Câu "theory" đã được quản lý dự án rà tay
+(REVIEWED_BY, REVIEWED_ON) nên khi nạp vào CSDL có verification = "review".
 """
 
 
@@ -1342,9 +1343,9 @@ MODULE_7 = {
         q(
             "single",
             "Phần nào của use case tương ứng với mã lỗi của API?",
-            ["Tên use case", "Tác nhân", "**Luồng ngoại lệ**", "Hậu điều kiện"],
+            ["Tên use case", "Tác nhân", "**Luồng ngoại lệ (luồng thay thế)**", "Hậu điều kiện"],
             [2],
-            "Mỗi luồng ngoại lệ là một tình huống sai, ví dụ hết chỗ trả 409, thiếu môn tiên quyết trả 422.",
+            "Mỗi luồng ngoại lệ là một tình huống sai, ví dụ hết chỗ trả 409, thiếu môn tiên quyết trả 422. Mỗi luồng ngoại lệ thường ứng với một mã lỗi của API.",
         ),
         q(
             "single",
@@ -1429,7 +1430,7 @@ MODULE_7 = {
             'Ai là tác nhân trong use case "Hệ thống gửi email nhắc hạn mỗi tối"?',
             ["Không có tác nhân", "**Bộ định thời (lịch chạy)**", "Bảng email", "Lập trình viên"],
             [1],
-            "Tác nhân không nhất thiết là người. Đó là bên ngoài kích hoạt use case.",
+            "Tác nhân không nhất thiết là người. Đó là bên ngoài kích hoạt use case. Trong UML, sự kiện theo thời gian được mô hình hóa bằng tác nhân Thời gian/Bộ định thời vì nó khởi phát use case từ bên ngoài hệ thống.",
         ),
         q(
             "single",
@@ -2163,6 +2164,18 @@ MODULES = [
     MODULE_10,
 ]
 QUIZ_QUESTION_COUNT = 10
+# Quản lý dự án đã rà cả 73 câu "theory", đáp án đều đúng (phản hồi báo cáo CR-04).
+REVIEWED_BY = "quản lý dự án"
+REVIEWED_ON = "2026-11-08"
+
+
+def verification(question) -> dict:
+    """Cột kiểm chứng khi nạp vào CSDL: câu đã chạy giữ "run", câu lý thuyết thành "review"."""
+    if question["check"] == "run":
+        return {"verification": "run", "reviewed_by": None, "reviewed_on": None}
+    return {"verification": "review", "reviewed_by": REVIEWED_BY, "reviewed_on": REVIEWED_ON}
+
+
 SUGGESTED_ELECTIVES = [
     "CNTT1114",
     "CNTT1165",

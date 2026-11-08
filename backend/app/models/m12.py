@@ -446,12 +446,20 @@ class QuizQuestion(MockMixin, db.Model):
     explanation = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(16), nullable=False, default="draft")
     verification = db.Column(db.String(16), nullable=False, default="theory")
+    reviewed_by = db.Column(db.String(64))
+    reviewed_on = db.Column(db.Date)
     approved_by = fk("users.id", nullable=True)
     approved_at = db.Column(db.DateTime)
     __table_args__ = (
         db.CheckConstraint("kind IN ('single', 'multi', 'code', 'http')", name="kind_valid"),
         db.CheckConstraint("status IN ('draft', 'approved')", name="status_valid"),
-        db.CheckConstraint("verification IN ('run', 'theory')", name="verification_valid"),
+        db.CheckConstraint(
+            "verification IN ('run', 'theory', 'review')", name="verification_valid"
+        ),
+        db.CheckConstraint(
+            "(verification = 'review') = (reviewed_by IS NOT NULL AND reviewed_on IS NOT NULL)",
+            name="review_has_reviewer",
+        ),
     )
 
 

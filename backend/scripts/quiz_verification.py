@@ -1,10 +1,12 @@
-"""Sinh docs/QUIZ_VERIFICATION.md: câu nào đã chạy thật, câu nào chỉ dựa trên lý thuyết."""
+"""Sinh docs/QUIZ_VERIFICATION.md: câu nào đã chạy thật, câu nào đã được quản lý dự án rà."""
 
+from datetime import date
 from pathlib import Path
 
-from scripts.backend_modules import MODULES
+from scripts.backend_modules import MODULES, REVIEWED_BY, REVIEWED_ON
 
 OUTPUT = Path(__file__).resolve().parents[2] / "docs" / "QUIZ_VERIFICATION.md"
+REVIEWED_DAY = date.fromisoformat(REVIEWED_ON).strftime("%d/%m/%Y")
 
 
 def render() -> str:
@@ -12,11 +14,12 @@ def render() -> str:
         "# Kiểm chứng ngân hàng câu hỏi",
         "",
         "Sinh bằng `python -m scripts.quiz_verification`. Câu **đã chạy** có test thật cùng khóa ở "
-        "`backend/tests/content/test_quiz_checks.py`. Câu **lý thuyết** không chạy được hoặc chỉ "
-        "theo quy ước, quản lý dự án rà tay. Câu hỏi do nhóm biên soạn.",
+        "`backend/tests/content/test_quiz_checks.py`. Câu **đã rà** không chạy được hoặc chỉ "
+        f"theo quy ước; {REVIEWED_BY} đã rà tay ngày {REVIEWED_DAY}, đáp án đều đúng "
+        "(`verification` = `review`). Câu hỏi do nhóm biên soạn.",
         "",
-        "| Mô-đun | Tổng | Đã chạy | Lý thuyết |",
-        "|--------|------|---------|-----------|",
+        "| Mô-đun | Tổng | Đã chạy | Đã rà |",
+        "|--------|------|---------|-------|",
     ]
     for module in MODULES:
         run = sum(q["check"] == "run" for q in module["questions"])
@@ -32,7 +35,7 @@ def render() -> str:
             "|------|------|------------|---------|",
         ]
         for number, question in enumerate(module["questions"], start=1):
-            state = "đã chạy" if question["check"] == "run" else "lý thuyết"
+            state = "đã chạy" if question["check"] == "run" else "đã rà"
             prompt = question["prompt"].replace("|", "\\|")
             key = f"m{module['order']}q{number:02d}"
             lines.append(f"| {key} | {question['kind']} | {state} | {prompt} |")

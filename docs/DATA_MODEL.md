@@ -136,7 +136,7 @@ erDiagram
 | `career_module_courses` | `module_id`, `course_id`, `order`, `takeaways` | BB/TC, học kỳ lấy từ `curriculum_requirements` |
 | `career_milestones`, `career_milestone_modules` | `name`, `projects`; `milestone_id`, `module_id` | Thực tập sinh, Fresher, Junior |
 | `career_suggested_electives` | `career_version_id`, `program_id`, `course_id`, `order` | Bộ tự chọn đề xuất |
-| `quiz_questions` | `module_id`, `kind`, `prompt`, `code_snippet`, `explanation`, `status`, `verification`, `approved_by`, `approved_at` | Chỉ câu `approved` được dùng |
+| `quiz_questions` | `module_id`, `kind`, `prompt`, `code_snippet`, `explanation`, `status`, `verification` (`run`, `theory`, `review`), `reviewed_by`, `reviewed_on`, `approved_by`, `approved_at` | Chỉ câu `approved` được dùng. Câu `review` phải có người rà và ngày, câu khác để trống (CHECK, migration 0012) |
 | `quiz_options` | `question_id`, `order`, `text`, `is_correct` | |
 | `quiz_attempts` | `student_id`, `module_id`, `attempt_no`, `status`, `started_at`, `deadline_at`, `submitted_at`, `correct_count`, `total`, `met_threshold` | Index unique một phần: tối đa 1 lượt `in_progress` mỗi sinh viên, mỗi mô-đun |
 | `quiz_attempt_questions` | `attempt_id`, `question_id`, `order`, `option_order`, `selected_option_ids`, `is_correct` | |

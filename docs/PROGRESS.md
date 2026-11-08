@@ -35,7 +35,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành, tag `cr-01`. Sau đó đổi màu, font và đưa lại nhãn mẫu theo D-152, D-156 |
 | CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Hoàn thành, tag `cr-02` (gồm lượt chỉnh CR-02b, D-187, D-188) |
 | CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề, kèm CR-03b | Đạt, tag `cr-03` |
-| CR-04 | CTĐT KHMT theo PDF, Backend chuyên sâu 10 mô-đun, bài kiểm tra, chứng chỉ số, trạng thái bằng icon | Xong trên `main`, chờ nghiệm thu, chưa gắn `v1.1`. Chưa nạp CNTT, ATTT |
+| CR-04 | CTĐT KHMT theo PDF, Backend chuyên sâu 10 mô-đun, bài kiểm tra, chứng chỉ số, trạng thái bằng icon | Đạt có điều kiện, đang làm 4 điều kiện trước `v1.1`. CNTT, ATTT theo PDF để `v1.2` (quản lý dự án quyết định) |
 
 ## Việc tồn đọng giao diện
 

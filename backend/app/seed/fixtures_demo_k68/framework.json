@@ -760,6 +760,8 @@
       "explanation": "Hai vòng lặp lồng nhau, mỗi vòng chạy n lần, tổng n × n. Độ phức tạp O(n²).",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -774,6 +776,8 @@
       "explanation": "`x in list` duyệt từng phần tử, O(n). `x in set` dùng băm, trung bình O(1).",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -788,6 +792,8 @@
       "explanation": "Mỗi bước so với phần tử giữa rồi bỏ một nửa. Dữ liệu chưa sắp xếp thì phần bị bỏ có thể chứa giá trị cần tìm.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -802,6 +808,8 @@
       "explanation": "Stack vào sau ra trước. `pop()` lấy phần tử thêm cuối cùng.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -816,6 +824,8 @@
       "explanation": "BFS duyệt theo từng lớp khoảng cách, lần đầu gặp đỉnh là đường ít cạnh nhất.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -830,6 +840,8 @@
       "explanation": "`get(x, 0)` trả 0 khi chưa có khóa, nên dict đếm được số lần xuất hiện.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -844,6 +856,8 @@
       "explanation": "Hàm không có điều kiện dừng nên đệ quy tới khi vượt giới hạn của Python.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -858,6 +872,8 @@
       "explanation": "Timsort là thuật toán ổn định. `sorted` trả về danh sách mới, `list.sort` mới đổi tại chỗ.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -871,7 +887,9 @@
       "code_snippet": null,
       "explanation": "Sắp xếp trộn luôn chia đôi. Sắp xếp nhanh có thể chia lệch hoàn toàn nếu chọn chốt xấu.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -886,6 +904,8 @@
       "explanation": "Mỗi cặp đỉnh có 1 cạnh: n(n − 1)/2 = 5 × 4 / 2 = 10.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -900,6 +920,8 @@
       "explanation": "Luật De Morgan: phủ định của `và` là `hoặc` của các phủ định.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -914,6 +936,8 @@
       "explanation": "C(5, 2) = 10. Thứ tự không quan trọng nên dùng tổ hợp.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -927,7 +951,9 @@
       "code_snippet": null,
       "explanation": "Heap giữ tối đa 10 phần tử, mỗi phần tử duyệt qua tốn O(log 10). Không cần sắp xếp cả n.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -942,6 +968,8 @@
       "explanation": "Không có tập `visited` thì DFS đi vòng mãi. Thêm `visited` để mỗi đỉnh chỉ thăm một lần.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -956,6 +984,8 @@
       "explanation": "Một vòng lặp n bước, mỗi bước tra set O(1). Bản 2 vòng lặp là O(n²).",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -970,6 +1000,8 @@
       "explanation": "Giá trị mặc định chỉ tạo một lần lúc định nghĩa hàm. Mọi lần gọi dùng chung một list. Dùng `None` rồi tạo list trong thân hàm.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -984,6 +1016,8 @@
       "explanation": "Đa hình: phương thức được chọn theo kiểu thật của đối tượng, không theo tên biến.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -997,7 +1031,9 @@
       "code_snippet": null,
       "explanation": "Composition cho phép truyền đối tượng giả khi test. Report không phải là một SmtpClient nên kế thừa sai quan hệ.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1012,6 +1048,8 @@
       "explanation": "`except KeyError` chỉ bắt KeyError và lớp con. ValueError đi tiếp lên trên.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1026,6 +1064,8 @@
       "explanation": "`except:` bắt mọi BaseException. Hãy bắt đúng loại, phần còn lại để middleware ghi log và trả 500.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1040,6 +1080,8 @@
       "explanation": "`with` gọi `__exit__` khi ra khỏi khối, kể cả khi có lỗi.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1054,6 +1096,8 @@
       "explanation": "Generator sinh từng giá trị. List comprehension giữ cả 10 triệu phần tử cùng lúc.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1068,6 +1112,8 @@
       "explanation": "`@dataclass` tự sinh `__eq__` so theo từng trường.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1081,7 +1127,9 @@
       "code_snippet": null,
       "explanation": "`==` so địa chỉ đối tượng. `equals` của String so nội dung.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1095,7 +1143,9 @@
       "code_snippet": null,
       "explanation": "Generic của Java chỉ nhận kiểu tham chiếu. Giá trị int được tự đóng hộp thành Integer.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1109,7 +1159,9 @@
       "code_snippet": null,
       "explanation": "Service phụ thuộc vào interface, không phụ thuộc vào lớp cài đặt cụ thể.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1124,6 +1176,8 @@
       "explanation": "Phụ thuộc được truyền từ ngoài vào, nên test thay bằng Mock và kiểm được lời gọi.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1138,6 +1192,8 @@
       "explanation": "Gán không sao chép. Cần bản sao thì dùng `a.copy()` hoặc `list(a)`.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1151,7 +1207,9 @@
       "code_snippet": null,
       "explanation": "Mỗi venv có thư mục gói riêng. requirements.txt ghi phiên bản để cài lại y hệt.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1166,6 +1224,8 @@
       "explanation": "Ngoại lệ riêng cho tầng route bắt đúng loại và đổi thành mã HTTP. Số âm dễ bị quên kiểm tra.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1180,6 +1240,8 @@
       "explanation": "LEFT JOIN giữ mọi dòng của bảng trái. Không khớp thì cột bảng phải là NULL.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1194,6 +1256,8 @@
       "explanation": "`COUNT(*)` đếm mọi dòng. `COUNT(cot)` bỏ qua NULL.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1208,6 +1272,8 @@
       "explanation": "NULL là giá trị chưa biết. Phép `=` với NULL không cho TRUE nên dòng bị loại.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1222,6 +1288,8 @@
       "explanation": "WHERE lọc dòng trước khi gom nhóm nên không dùng được hàm gộp. HAVING lọc sau khi gom nhóm.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1235,7 +1303,9 @@
       "code_snippet": null,
       "explanation": "Tên sinh viên chỉ phụ thuộc `student_id`, tên môn chỉ phụ thuộc `course_id`, tức là phụ thuộc một phần khóa. `score` phụ thuộc cả khóa.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1250,6 +1320,8 @@
       "explanation": "Dòng cũ chưa có giá trị nên ràng buộc NOT NULL sẽ lỗi ngay. Phải điền dữ liệu trước khi đặt ràng buộc.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1264,6 +1336,8 @@
       "explanation": "Index B-tree sắp theo `student_id` trước. Chỉ lọc `semester_id` thì không có tiền tố trái để tìm nhanh. Skip scan cho phép một số hệ quản trị dùng index khi thiếu cột đầu, nhưng thường chậm hơn index có cột đầu đúng thứ tự.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1278,6 +1352,8 @@
       "explanation": "Index lưu giá trị của `email`, không lưu giá trị của `lower(email)`. Hàm bọc cột làm index thường không dùng được.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1291,7 +1367,9 @@
       "code_snippet": null,
       "explanation": "Cùng một dòng, đọc 2 lần ra 2 giá trị, và dữ liệu T1 đọc đã được commit nên không phải dirty read.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1306,6 +1384,8 @@
       "explanation": "Tính nguyên tử (Atomicity): hoặc mọi câu lệnh có hiệu lực, hoặc không câu nào.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1320,6 +1400,8 @@
       "explanation": "Lỗi này là lost update. Câu UPDATE có điều kiện gộp kiểm tra và ghi vào một thao tác. Ảnh hưởng 0 dòng nghĩa là hết chỗ.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1334,6 +1416,8 @@
       "explanation": "1 câu lấy sinh viên, thêm 50 câu mỗi sinh viên một câu. `selectinload` gom thành 1 câu `IN` cho enrollments.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1347,7 +1431,9 @@
       "code_snippet": null,
       "explanation": "Dữ liệu gửi lên đúng, nhưng xung đột với trạng thái hiện có. Để lộ thành 500 là lỗi của API.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1361,7 +1447,9 @@
       "code_snippet": null,
       "explanation": "JSON đúng cú pháp, nhưng giá trị sai quy tắc.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1376,6 +1464,8 @@
       "explanation": "Tham số gửi riêng khỏi câu lệnh nên không được hiểu là SQL. sqlite3 dùng `?` thay cho `%s`. Xóa ký tự bằng tay dễ sót, còn ẩn lỗi không chặn được tấn công.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1390,6 +1480,8 @@
       "explanation": "Tiến trình có không gian bộ nhớ riêng. Muốn chia sẻ thì dùng CSDL, Redis hoặc shared memory. Vì thế cache trong RAM không dùng chung giữa các worker.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1403,7 +1495,9 @@
       "code_snippet": "import threading\ncount = 0\ndef work():\n    global count\n    for _ in range(100000):\n        count += 1",
       "explanation": "`count += 1` gồm đọc, cộng, ghi. Hai luồng xen vào nhau làm mất lần tăng. Dùng `threading.Lock` để sửa.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1418,6 +1512,8 @@
       "explanation": "Deadlock cần chờ vòng tròn. Lấy khóa theo cùng thứ tự thì không có vòng.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1432,6 +1528,8 @@
       "explanation": "Tác vụ IO chủ yếu là chờ. GIL được nhả khi chờ nên nhiều luồng vẫn nhanh hơn. Tác vụ tính toán nặng thì dùng nhiều tiến trình.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1446,6 +1544,8 @@
       "explanation": "Khi triển khai, gửi SIGTERM trước để server xử lý xong request đang chạy, hết thời gian mới gửi SIGKILL.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1460,6 +1560,8 @@
       "explanation": "6 = đọc + ghi, 4 = đọc, 0 = không có quyền.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1473,7 +1575,9 @@
       "code_snippet": null,
       "explanation": "Chênh nhau nhiều bậc. Vì vậy cache trong RAM giảm rõ thời gian so với gọi CSDL qua mạng.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1487,7 +1591,9 @@
       "code_snippet": null,
       "explanation": "Tác vụ CPU bị giới hạn bởi số lõi. Tác vụ chờ IO thì nhiều worker hơn số lõi vẫn có ích.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1501,7 +1607,9 @@
       "code_snippet": null,
       "explanation": "UDP không đảm bảo thứ tự và không gửi lại. HTTP/1.1 chạy trên TCP.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1516,6 +1624,8 @@
       "explanation": "Không ai nghe cổng thì hệ điều hành trả về từ chối ngay. Tường lửa chặn thường gây hết thời gian chờ.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1529,7 +1639,9 @@
       "code_snippet": null,
       "explanation": "Cần IP trước để mở kết nối. TLS bắt tay trên TCP, rồi mới gửi request HTTP đã mã hóa.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1543,7 +1655,9 @@
       "code_snippet": null,
       "explanation": "TLS mã hóa toàn bộ thông điệp HTTP. IP đích vẫn lộ, và tên miền thường lộ qua SNI.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1557,7 +1671,9 @@
       "code_snippet": null,
       "explanation": "Luôn đặt timeout. Thử lại thì dùng backoff, và chỉ thử lại thao tác lặp được an toàn.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1572,6 +1688,8 @@
       "explanation": "Cần cache dùng chung như Redis, hoặc khóa cache có thêm số phiên bản đọc từ CSDL.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1586,6 +1704,8 @@
       "explanation": "`lsof -i` liệt kê tiến trình đang mở kết nối mạng.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1600,6 +1720,8 @@
       "explanation": "201 Created. Nên kèm header Location hoặc trả bản ghi mới.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1614,6 +1736,8 @@
       "explanation": "204 No Content. Không có thân phản hồi.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1628,6 +1752,8 @@
       "explanation": "401 là chưa xác thực. 403 là đã biết là ai nhưng không có quyền.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1642,6 +1768,8 @@
       "explanation": "Đã xác thực nhưng không đủ quyền.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1656,6 +1784,8 @@
       "explanation": "Server không đọc được request. Flask `get_json()` mặc định cũng trả 400 trong trường hợp này.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1669,7 +1799,9 @@
       "code_snippet": null,
       "explanation": "Lũy đẳng: gọi nhiều lần cho cùng trạng thái server như gọi một lần. POST thường tạo bản ghi mới mỗi lần.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1683,7 +1815,9 @@
       "code_snippet": null,
       "explanation": "Đường dẫn nêu tài nguyên, method nêu hành động.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1697,7 +1831,9 @@
       "code_snippet": "GET /api/books?page=1&page_size=50",
       "explanation": "Luôn đặt `page_size` tối đa ở server. Client có thể gửi giá trị bất kỳ.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1711,7 +1847,9 @@
       "code_snippet": null,
       "explanation": "Kiểm tra ở giao diện chỉ phục vụ trải nghiệm. Server mới là nơi chặn thật.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1726,6 +1864,8 @@
       "explanation": "HttpOnly giảm hậu quả của XSS. Secure chặn gửi qua HTTP. SameSite giảm CSRF. `Domain=*` không phải giá trị hợp lệ.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1739,7 +1879,9 @@
       "code_snippet": null,
       "explanation": "Cookie tự đi kèm request. Chống bằng SameSite, token CSRF, hoặc header riêng mà form của trang khác không gửi được.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1753,7 +1895,9 @@
       "code_snippet": null,
       "explanation": "CORS do trình duyệt áp dụng. curl không bị CORS, nên CORS không thay được xác thực.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1768,6 +1912,8 @@
       "explanation": "`abort(404)` trả Not Found. Không trả 200 với thân rỗng, client sẽ tưởng thành công.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1782,6 +1928,8 @@
       "explanation": "Flask có `MAX_CONTENT_LENGTH`, vượt thì trả 413.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1795,7 +1943,9 @@
       "code_snippet": null,
       "explanation": "Ẩn nút vẫn không chặn được thử lại ở tầng mạng. Ràng buộc UNIQUE giúp server xử lý đúng cả khi 2 request đến cùng lúc.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1809,7 +1959,9 @@
       "code_snippet": null,
       "explanation": "Service test được không cần HTTP. Đổi CSDL chỉ sửa repository.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1823,7 +1975,9 @@
       "code_snippet": null,
       "explanation": "Microservice thêm chi phí mạng, triển khai, giao dịch phân tán. Tách sau khi ranh giới đã rõ.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1837,7 +1991,9 @@
       "code_snippet": null,
       "explanation": "Mỗi dịch vụ nên sở hữu dữ liệu của mình, và trao đổi qua API hoặc sự kiện.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1851,7 +2007,9 @@
       "code_snippet": null,
       "explanation": "202 Accepted: đã nhận, chưa xong. Trả mã tác vụ để client hỏi trạng thái.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1866,6 +2024,8 @@
       "explanation": "Backoff tăng gấp đôi để dịch vụ đang quá tải có thời gian hồi phục.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1879,7 +2039,9 @@
       "code_snippet": null,
       "explanation": "Hết thời gian chờ không cho biết server đã xử lý hay chưa.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1894,6 +2056,8 @@
       "explanation": "Đưa số phiên bản vào khóa thì không phải xóa cache thủ công. Khóa cũ tự hết hạn.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1907,7 +2071,9 @@
       "code_snippet": null,
       "explanation": "Chống bằng khóa để một request tính, các request khác chờ, hoặc làm mới trước khi hết hạn.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1921,7 +2087,9 @@
       "code_snippet": null,
       "explanation": "Đơn và sự kiện commit cùng lúc. Worker có thể gửi trùng nên bên nhận phải xử lý được trùng.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1935,7 +2103,9 @@
       "code_snippet": null,
       "explanation": "Worker chết trước khi xác nhận thì tin được giao lại, kể cả khi chỉ có 1 worker.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1949,7 +2119,9 @@
       "code_snippet": null,
       "explanation": "Đọc bí mật từ biến môi trường hoặc kho bí mật. Log có mã request để truy vết một lần gọi.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1964,6 +2136,8 @@
       "explanation": "`==` dừng ở ký tự sai đầu tiên, về lý thuyết đo được. Chữ ký HMAC chứng minh tin đến từ bên có khóa bí mật.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1977,7 +2151,9 @@
       "code_snippet": null,
       "explanation": "Sau một khoảng thời gian, nó cho vài request thử để xem dịch vụ đã hồi phục chưa.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -1991,7 +2167,9 @@
       "code_snippet": null,
       "explanation": "Thêm trường là tương thích ngược, bỏ trường thì không.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2006,6 +2184,8 @@
       "explanation": "Ứng dụng nên dừng ngay khi thiếu bí mật, không chạy tiếp với giá trị mặc định.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2017,9 +2197,11 @@
       "kind": "single",
       "prompt": "Phần nào của use case tương ứng với mã lỗi của API?",
       "code_snippet": null,
-      "explanation": "Mỗi luồng ngoại lệ là một tình huống sai, ví dụ hết chỗ trả 409, thiếu môn tiên quyết trả 422.",
+      "explanation": "Mỗi luồng ngoại lệ là một tình huống sai, ví dụ hết chỗ trả 409, thiếu môn tiên quyết trả 422. Mỗi luồng ngoại lệ thường ứng với một mã lỗi của API.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2033,7 +2215,9 @@
       "code_snippet": null,
       "explanation": "Yêu cầu phi chức năng phải có con số và điều kiện đo.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2047,7 +2231,9 @@
       "code_snippet": null,
       "explanation": "Sơ đồ tuần tự có trục thời gian và thông điệp giữa các thành phần.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2061,7 +2247,9 @@
       "code_snippet": null,
       "explanation": "Sơ đồ trạng thái cho thấy chuyển trạng thái nào hợp lệ. Mỗi chuyển sai có thể trả 409.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2076,6 +2264,8 @@
       "explanation": "Quan hệ N-N tách thành 2 quan hệ 1-N qua bảng nối. Bảng nối giữ cả điểm và ngày đăng ký.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2090,6 +2280,8 @@
       "explanation": "Khóa ngoại một mình cho phép nhiều thẻ của cùng một sinh viên. UNIQUE mới bảo đảm quan hệ 1-1.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2103,7 +2295,9 @@
       "code_snippet": null,
       "explanation": "Đặc tả là hợp đồng với client. Chi tiết cài đặt không thuộc về hợp đồng.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2117,7 +2311,9 @@
       "code_snippet": null,
       "explanation": "Tiền điều kiện là điều phải đúng trước khi use case bắt đầu.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2129,9 +2325,11 @@
       "kind": "single",
       "prompt": "Ai là tác nhân trong use case \"Hệ thống gửi email nhắc hạn mỗi tối\"?",
       "code_snippet": null,
-      "explanation": "Tác nhân không nhất thiết là người. Đó là bên ngoài kích hoạt use case.",
+      "explanation": "Tác nhân không nhất thiết là người. Đó là bên ngoài kích hoạt use case. Trong UML, sự kiện theo thời gian được mô hình hóa bằng tác nhân Thời gian/Bộ định thời vì nó khởi phát use case từ bên ngoài hệ thống.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2145,7 +2343,9 @@
       "code_snippet": null,
       "explanation": "`<<extend>>` mới là phần mở rộng chạy tùy điều kiện.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2160,6 +2360,8 @@
       "explanation": "Định luật Little: số việc đồng thời = 200 × 0,1 = 20. Thực tế cộng thêm phần dự phòng.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2173,7 +2375,9 @@
       "code_snippet": null,
       "explanation": "Dữ liệu suy ra được chỉ nên lưu khi có lý do đo được về hiệu năng, và phải có cách giữ đồng bộ.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2187,7 +2391,9 @@
       "code_snippet": null,
       "explanation": "ADR lưu cùng code, nên đổi quyết định sau này có lý do để đối chiếu.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2201,7 +2407,9 @@
       "code_snippet": null,
       "explanation": "Đổi một yêu cầu thì biết ngay phần nào bị ảnh hưởng.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2215,7 +2423,9 @@
       "code_snippet": null,
       "explanation": "`alt` là nhánh, `loop` là lặp, `par` là song song.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2230,6 +2440,8 @@
       "explanation": "Lỗi hay nằm ở biên, ví dụ viết `>` thay cho `>=`. Một giá trị giữa khoảng không bắt được lỗi đó.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2244,6 +2456,8 @@
       "explanation": "Test phải khẳng định kết quả. Dòng được chạy qua không có nghĩa là kết quả đúng.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2258,6 +2472,8 @@
       "explanation": "Độ phủ câu lệnh không phân biệt được. Bật độ phủ nhánh mới thấy nhánh còn thiếu.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2271,7 +2487,9 @@
       "code_snippet": null,
       "explanation": "Hàm thuần test nhanh và không cần mock. Mock công thức thì test không kiểm được gì.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2286,6 +2504,8 @@
       "explanation": "Mỗi test nên tự tạo dữ liệu và dọn sau khi xong, ví dụ rollback transaction.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2300,6 +2520,8 @@
       "explanation": "Số thực nhị phân có sai số. Với điểm và tiền, dùng `Decimal` hoặc `pytest.approx` tùy mục đích.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2314,6 +2536,8 @@
       "explanation": "Mỗi bộ giá trị là một test riêng, báo lỗi riêng.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2327,7 +2551,9 @@
       "code_snippet": null,
       "explanation": "Mock phần không kiểm soát được. CSDL của dự án nên test thật ít nhất ở tầng tích hợp.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2341,7 +2567,9 @@
       "code_snippet": null,
       "explanation": "Test đỏ chứng minh đã tái hiện đúng lỗi. Test đó giữ lại để lỗi không quay lại.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2355,7 +2583,9 @@
       "code_snippet": null,
       "explanation": "Nó đo khả năng bắt lỗi của test, điều mà coverage không đo được.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2369,7 +2599,9 @@
       "code_snippet": null,
       "explanation": "Người sửa cần tái hiện được. Tìm người để trách không giúp sửa lỗi.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2383,7 +2615,9 @@
       "code_snippet": null,
       "explanation": "Test đơn vị chạy nhanh và ít chập chờn. Test đầu–cuối ít hơn và chỉ cho luồng chính.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2397,7 +2631,9 @@
       "code_snippet": "def test_delete_user(admin_client):\n    assert admin_client.delete('/api/users/1').status_code == 204",
       "explanation": "Phần lớn lỗi phân quyền nằm ở nhánh từ chối, không nằm ở nhánh thành công.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2412,6 +2648,8 @@
       "explanation": "Test phụ thuộc đồng hồ thật thì không lặp lại được.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2425,7 +2663,9 @@
       "code_snippet": null,
       "explanation": "Trung bình che mất các request chậm. Dữ liệu nhỏ che mất truy vấn thiếu index.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2440,6 +2680,8 @@
       "explanation": "Hàm băm mật khẩu cố ý chậm và có muối, chống tấn công dò hàng loạt. SHA-256 quá nhanh. Base64 chỉ là mã hóa ký tự.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2454,6 +2696,8 @@
       "explanation": "Muối riêng làm bảng băm tính sẵn không dùng được và không lộ người trùng mật khẩu.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2467,7 +2711,9 @@
       "code_snippet": "@app.get('/api/grades/<int:id>')\n@login_required\ndef grade(id):\n    return Grade.query.get_or_404(id).to_dict()",
       "explanation": "Có đăng nhập chưa đủ, phải kiểm tra bản ghi thuộc về người gọi.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2482,6 +2728,8 @@
       "explanation": "Trình duyệt chạy script của kẻ tấn công. Template Jinja và React escape mặc định, chỉ lỗi khi dùng `|safe` hoặc `dangerouslySetInnerHTML`.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2496,6 +2744,8 @@
       "explanation": "Escape đổi ký tự đặc biệt thành thực thể HTML nên trình duyệt hiện ra chữ, không chạy thành thẻ.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2510,6 +2760,8 @@
       "explanation": "Tên tệp do client gửi có thể chứa `..` để đi ra ngoài thư mục được phép.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2523,7 +2775,9 @@
       "code_snippet": null,
       "explanation": "Báo khác nhau giúp kẻ tấn công dò ra tài khoản có thật.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2537,7 +2791,9 @@
       "code_snippet": null,
       "explanation": "Giới hạn ở server. Kết hợp với hash chậm để giảm tốc độ dò.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2552,6 +2808,8 @@
       "explanation": "Chữ ký chống sửa, không chống đọc. Muốn thu hồi sớm thì cần danh sách đen hoặc token ngắn hạn.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2565,7 +2823,9 @@
       "code_snippet": null,
       "explanation": "Thiếu xác thực trả 401. Đã xác thực nhưng không có quyền trả 403.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2579,7 +2839,9 @@
       "code_snippet": null,
       "explanation": "Khóa có thể đã bị sao chép. Xóa lịch sử không làm khóa mất hiệu lực.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2593,7 +2855,9 @@
       "code_snippet": null,
       "explanation": "Secure buộc trình duyệt chỉ gửi cookie qua HTTPS.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2608,6 +2872,8 @@
       "explanation": "Ghi chi tiết vào log kèm mã request, chỉ trả thông báo chung.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2622,6 +2888,8 @@
       "explanation": "`random` là bộ sinh giả ngẫu nhiên có thể khôi phục trạng thái. `secrets` dành cho mục đích bảo mật.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2635,7 +2903,9 @@
       "code_snippet": null,
       "explanation": "Không nâng được ngay thì ghi lại lý do và cách giảm rủi ro.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2649,7 +2919,9 @@
       "code_snippet": "COPY requirements.txt .\nRUN pip install -r requirements.txt\nCOPY . .",
       "explanation": "Docker dùng lại lớp nếu đầu vào không đổi. Mã nguồn đổi thường xuyên nên đặt sau.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2663,7 +2935,9 @@
       "code_snippet": null,
       "explanation": "CSDL và tệp tải lên phải nằm ở volume hoặc dịch vụ lưu trữ ngoài.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2677,7 +2951,9 @@
       "code_snippet": null,
       "explanation": "Bí mật truyền qua biến môi trường lúc chạy hoặc kho bí mật.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2691,7 +2967,9 @@
       "code_snippet": null,
       "explanation": "Nếu CI đỏ mà vẫn gộp được thì CI mất tác dụng.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2706,6 +2984,8 @@
       "explanation": "`revert` tạo commit mới đảo thay đổi nên không ghi đè lịch sử của người khác.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2720,6 +3000,8 @@
       "explanation": "Lịch sử cũ giữ nguyên, phù hợp cho nhánh đã chia sẻ.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2733,7 +3015,9 @@
       "code_snippet": null,
       "explanation": "PR nhỏ giúp bắt lỗi tốt hơn và rollback dễ hơn.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2747,7 +3031,9 @@
       "code_snippet": null,
       "explanation": "Có mức độ, mã request, đường dẫn, nguyên nhân. Không ghi mật khẩu, token.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2762,6 +3048,8 @@
       "explanation": "Mức WARNING bỏ qua mức thấp hơn: DEBUG, INFO.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2775,7 +3063,9 @@
       "code_snippet": null,
       "explanation": "Trong lúc triển khai, code cũ và mới chạy cùng nhau. Lược đồ phải hợp với cả 2.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2789,7 +3079,9 @@
       "code_snippet": null,
       "explanation": "Khôi phục dịch vụ trước. Điều tra sau khi hệ thống đã ổn.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2804,6 +3096,8 @@
       "explanation": "Trả nhanh và không lộ thông tin. Tiến trình không khỏe thì bị rút khỏi vòng phục vụ.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2818,6 +3112,8 @@
       "explanation": "Theo dõi phân vị p95, p99 để thấy trải nghiệm xấu nhất.",
       "status": "approved",
       "verification": "run",
+      "reviewed_by": null,
+      "reviewed_on": null,
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2831,7 +3127,9 @@
       "code_snippet": null,
       "explanation": "Nói rõ thay đổi gì. Khi xem lại lịch sử không cần mở diff.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -2845,7 +3143,9 @@
       "code_snippet": null,
       "explanation": "Báo sớm thì nhóm còn lựa chọn. Bỏ test chỉ dời lỗi sang sau.",
       "status": "approved",
-      "verification": "theory",
+      "verification": "review",
+      "reviewed_by": "quản lý dự án",
+      "reviewed_on": "2026-11-08",
       "approved_by": "user-admin",
       "approved_at": "2026-11-07T07:00:00",
       "is_mock": true
@@ -5752,7 +6052,7 @@
       "id": "q-m7-01-c",
       "question_id": "q-m7-01",
       "order": 2,
-      "text": "Luồng ngoại lệ",
+      "text": "Luồng ngoại lệ (luồng thay thế)",
       "is_correct": true,
       "is_mock": true
     },

@@ -21,6 +21,7 @@ import time
 import tracemalloc
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
+from pathlib import Path
 from unittest.mock import Mock
 
 import coverage
@@ -35,6 +36,8 @@ from werkzeug.utils import secure_filename
 from scripts.backend_modules import MODULES
 from scripts.quiz_verification import OUTPUT, render
 from tests.helpers import login_as
+
+FRAMEWORK = Path(__file__).resolve().parents[2] / "app/seed/fixtures_demo_k68/framework.json"
 
 CHECKS = {}
 
@@ -1024,3 +1027,31 @@ def test_question(key, request):
 
 def test_verification_document_is_up_to_date():
     assert OUTPUT.read_text(encoding="utf8") == render()
+
+
+def test_theory_questions_are_marked_reviewed_by_the_project_manager():
+    framework = json.loads(FRAMEWORK.read_text(encoding="utf8"))
+    rows = framework["quiz_questions"]
+    reviewed = [row for row in rows if row["verification"] == "review"]
+    assert len(reviewed) == 73
+    assert len([row for row in rows if row["verification"] == "run"]) == 77
+    assert {(row["reviewed_by"], row["reviewed_on"]) for row in reviewed} == {
+        ("quản lý dự án", "2026-11-08")
+    }
+    assert all(row["reviewed_by"] is None for row in rows if row["verification"] == "run")
+
+
+def test_reviewed_wording_of_module_7():
+    framework = json.loads(FRAMEWORK.read_text(encoding="utf8"))
+    questions = {row["id"]: row for row in framework["quiz_questions"]}
+    options = {row["id"]: row for row in framework["quiz_options"]}
+    assert options["q-m7-01-c"]["text"] == "Luồng ngoại lệ (luồng thay thế)"
+    assert options["q-m7-01-c"]["is_correct"]
+    assert questions["q-m7-01"]["explanation"].endswith(
+        "Mỗi luồng ngoại lệ thường ứng với một mã lỗi của API."
+    )
+    assert options["q-m7-09-b"]["is_correct"]
+    assert questions["q-m7-09"]["explanation"].endswith(
+        "Trong UML, sự kiện theo thời gian được mô hình hóa bằng tác nhân Thời gian/Bộ định thời "
+        "vì nó khởi phát use case từ bên ngoài hệ thống."
+    )

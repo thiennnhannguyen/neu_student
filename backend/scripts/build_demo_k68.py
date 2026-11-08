@@ -826,7 +826,7 @@ class Builder:
                     code_snippet=question["code"],
                     explanation=question["explanation"],
                     status="approved",
-                    verification=question["check"],
+                    **modules.verification(question),
                     approved_by="user-admin",
                     approved_at=APPROVED_AT,
                 )

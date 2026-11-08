@@ -98,8 +98,34 @@ def run_migrations_online():
             **conf_args
         )
 
-        with context.begin_transaction():
-            context.run_migrations()
+        # Batch alter của SQLite tạo lại bảng. Bảng đang có bảng con trỏ tới (vd quiz_questions)
+        # thì DROP TABLE vi phạm khóa ngoại dù bảng mới mang lại đúng tên ngay sau đó. PRAGMA
+        # foreign_keys chỉ đổi được ngoài transaction, nên gọi thẳng trên kết nối DBAPI trước
+        # BEGIN; kiểm foreign_key_check trước khi commit và luôn bật lại khóa ngoại.
+        raw = connection.connection.driver_connection
+        sqlite = connection.dialect.name == 'sqlite'
+        if sqlite:
+            raw.execute('PRAGMA foreign_keys=OFF')
+        finished = False
+        try:
+            with context.begin_transaction():
+                context.run_migrations()
+                if sqlite:
+                    broken = connection.exec_driver_sql('PRAGMA foreign_key_check').all()
+                    if broken:
+                        raise RuntimeError(f'Migration làm hỏng khóa ngoại: {broken[:5]}')
+            finished = True
+        finally:
+            if sqlite:
+                # PRAGMA trong transaction đang mở không có tác dụng: đóng transaction trước.
+                if connection.in_transaction():
+                    if finished:
+                        connection.commit()
+                    else:
+                        connection.rollback()
+                raw.execute('PRAGMA foreign_keys=ON')
+                if raw.execute('PRAGMA foreign_keys').fetchone()[0] != 1:
+                    raise RuntimeError('Không bật lại được khóa ngoại sau migration')
 
 
 if context.is_offline_mode():

@@ -331,6 +331,7 @@ Theo bảng chức năng trong `docs/spec/spec.md`. `M12-10` là Kế hoạch c�
 | Hồ sơ `thiennhan`, đứng đầu Tài khoản demo | `test_khmt_official.py`, `test_demo_k68.py` |
 | Ngân hàng câu hỏi: từ 15 câu, có giải thích, đủ 4 loại, không có từ cấm | `backend/tests/api/m12/test_quiz.py` |
 | Câu hỏi có thể chạy thật | `backend/tests/content/test_quiz_checks.py`, tổng hợp ở `docs/QUIZ_VERIFICATION.md` |
+| 73 câu đã rà có `review`, người rà, ngày; câu chữ mới của `q-m7-01`, `q-m7-09`; CHECK của migration 0012 | `test_theory_questions_are_marked_reviewed_by_the_project_manager`, `test_reviewed_wording_of_module_7`, `backend/tests/unit/db/test_migration_0012.py` |
 | Chấm đúng, biên 80%, câu nhiều đáp án, chỉ câu approved | `test_quiz.py` |
 | Không lộ đáp án trước khi nộp | `test_start_gives_ten_questions_in_time_without_answers`, `test_reading_open_attempt_does_not_leak_answers` |
 | Hết giờ tự nộp, nộp lại 409, thời gian chờ, mở trùng | `test_late_read_auto_submits_saved_answers`, `test_submit_twice_is_409_and_grades_once`, `test_cooldown_*`, `test_two_requests_opening_at_once_lose_with_409` |
