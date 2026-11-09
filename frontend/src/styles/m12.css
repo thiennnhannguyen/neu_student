@@ -1590,3 +1590,23 @@
     right: 16px;
   }
 }
+
+/* D-318: dấu của kỹ năng có bài kiểm tra mô-đun (chỉ hiển thị, không bấm được). */
+.quiz-mark {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-card);
+}
+
+.quiz-mark--done {
+  border: 0;
+  border-radius: 50%;
+  background: var(--success-text);
+  color: var(--neu-white);
+}

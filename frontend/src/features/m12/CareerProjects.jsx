@@ -1,3 +1,4 @@
+import { Check } from 'lucide-react';
 import { useState } from 'react';
 import { Button, Card, StatusChip } from '../../components/ui';
 import EvidencePanel from './evidence/EvidencePanel';
@@ -23,6 +24,23 @@ function SelfStudy({ items, note }) {
   );
 }
 
+/**
+ * D-318: kỹ năng có bài kiểm tra mô-đun chỉ hiện dấu: đạt thì tick tròn, chưa đạt thì ô vuông trống.
+ * Ô vuông chỉ để xem, không phải ô đánh dấu: kỹ năng tự thành "đạt" khi qua bài kiểm tra (quiz
+ * ghi minh chứng đã duyệt).
+ */
+export function QuizMark({ done }) {
+  if (done) {
+    return (
+      <span role="img" aria-label="Đã đạt" title="Đã đạt" className="quiz-mark quiz-mark--done">
+        <Check size={16} strokeWidth={3} aria-hidden="true" />
+      </span>
+    );
+  }
+  const label = 'Chưa đạt – làm bài kiểm tra ở tab Khung năng lực';
+  return <span role="img" aria-label={label} title={label} className="quiz-mark" />;
+}
+
 /** Tab Kỹ năng & dự án. Hoàn thành chỉ qua minh chứng được duyệt (R7). */
 export default function CareerProjects({
   nodes,
@@ -35,16 +53,12 @@ export default function CareerProjects({
   const [opened, setOpened] = useState(null);
   const canAct = Boolean(student);
   const evidenceButton = (child) =>
-    moduleSkillIds.has(child.skill_id) ? (
-      <span className="career-checklist__note">Đạt qua bài kiểm tra, xem tab Khung năng lực</span>
-    ) : (
-      canAct && (
-        <Button variant="ghost" size="sm" onClick={() => setOpened(child)}>
-          {student.isStudent && ['not_started', 'rejected'].includes(child.status)
-            ? 'Nộp minh chứng'
-            : 'Xem minh chứng'}
-        </Button>
-      )
+    canAct && (
+      <Button variant="ghost" size="sm" onClick={() => setOpened(child)}>
+        {student.isStudent && ['not_started', 'rejected'].includes(child.status)
+          ? 'Nộp minh chứng'
+          : 'Xem minh chứng'}
+      </Button>
     );
   const children = nodes.flatMap((node) => node.children);
   const skills = children.filter((child) => child.kind === 'skill');
@@ -60,10 +74,14 @@ export default function CareerProjects({
             {skills.map((skill) => (
               <li key={skill.id}>
                 <span>{skill.title}</span>
-                <span className="career-checklist__actions">
-                  <StatusChip status={chipStatus(skill.kind, skill.status)} />
-                  {evidenceButton(skill)}
-                </span>
+                {moduleSkillIds.has(skill.skill_id) ? (
+                  <QuizMark done={skill.status === 'done'} />
+                ) : (
+                  <span className="career-checklist__actions">
+                    <StatusChip status={chipStatus(skill.kind, skill.status)} />
+                    {evidenceButton(skill)}
+                  </span>
+                )}
               </li>
             ))}
           </ul>
