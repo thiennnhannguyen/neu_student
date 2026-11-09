@@ -864,7 +864,8 @@ describe('tab Kỹ năng & dự án', () => {
       within(block)
         .getAllByRole('listitem')
         .map((item) => item.textContent),
-    ).toEqual(['PyTorch', 'FastAPI']);
+      // D-331: PyTorch, FastAPI nay là liên kết tài liệu chính thức, chữ đọc màn hình ghi nguồn.
+    ).toEqual(['PyTorch (PyTorch Tutorials, mở tab mới)', 'FastAPI (FastAPI Docs, mở tab mới)']);
   });
 
   it('khối Tự học có ghi chú không phải học phần chính thức', async () => {
