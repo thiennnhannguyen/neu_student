@@ -4,6 +4,10 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
+### Q90. Vắng có phép có trừ điểm chuyên cần không (CR-13b)
+
+Nguồn: quản lý dự án, CR-13b (D-316). Tạm thời **không trừ**; ngưỡng cấm thi của vắng có phép giữ (từ 4 buổi). Đổi bằng cấu hình `excused_deducts` (bật thì vắng có phép cộng vào số buổi tính trừ theo cùng bảng). Cần quản lý dự án xác nhận.
+
 ### Q89. Danh sách chủ đề "Nội dung chưa hiểu" theo tuần (CR-12)
 
 Nguồn: quản lý dự án, CR-12 (D-312). Chưa có đề cương theo tuần của từng môn nên câu 4 của báo cáo tuần hiện là ô ghi chú ngắn, tùy chọn (tối đa 300 ký tự). Khi có đề cương theo tuần, có thể đổi thành danh sách chủ đề để chọn. Cần quản lý dự án cho biết nguồn đề cương.

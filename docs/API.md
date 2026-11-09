@@ -4444,7 +4444,7 @@ Không dùng AI; mọi ngưỡng, hệ số là giá trị mẫu (`app/services/
 
 Bản đầy đủ ở trang chi tiết thêm:
 
-- `components`: Chuyên cần (`kind: "assumed"`, giả định giữ tỷ lệ có mặt tới cuối kỳ), Quá trình (`kind: "partial"`, `current` là điểm quá trình hiện tại D-313, `items` = n, `value` đã kéo về mức nền), Cuối kỳ (`kind: "estimate"`), mỗi phần có `weight`.
+- `components`: Chuyên cần (`kind: "actual"`, D-316: 10 − `deduction` theo `deducted_absences` buổi vắng tính trừ, không ngoại suy; `excused_deducts` cho biết vắng có phép có bị trừ không), Quá trình (`kind: "partial"`, `current` là điểm quá trình hiện tại D-313, `items` = n, `value` đã kéo về mức nền), Cuối kỳ (`kind: "estimate"`), mỗi phần có `weight`.
 - `baseline` {`value`, `source`: `group` | `all` | `default`, `courses`, `group_name`}; `adjustments` (điều chỉnh Cuối kỳ, `value` có dấu) và `adjust_total` (đã giới hạn ±1,5).
 - `targets`: điểm Cuối kỳ cần để đạt C 5,5 / B 7,0 / A 8,5; `status` `needed` (kèm `needed`), `unreachable` (> 10), `secured` (≤ 0).
 - `known_share`, `half_width`; `attendance` {`held`, `present`, `absent`, `excused`, `total_sessions`}; `weekly`: điểm dự kiến tính lại trên từng bản chụp LMS (`week_no`, `as_of`, `score`, `level`; `plot` là số nguyên = điểm × 100, chỉ để vẽ biểu đồ nhỏ, Q78), bản cuối dùng báo cáo tuần tới hôm nay.
@@ -4472,7 +4472,7 @@ Ví dụ dưới là CNTT1188 của `thiennhan` (demo-k68, 26/10/2026), cắt b�
     "attendance": {"absent": 0, "excused": 0, "held": 8, "present": 8, "total_sessions": 15},
     "baseline": {"courses": 28, "group_name": null, "source": "all", "value": "7.58"},
     "components": [
-      {"key": "attendance", "kind": "assumed", "value": "10.00", "weight": "0.10"},
+      {"deducted_absences": 0, "deduction": "0.00", "excused_deducts": false, "key": "attendance", "kind": "actual", "value": "10.00", "weight": "0.10"},
       {"current": "4.81", "items": 8, "key": "process", "kind": "partial", "value": "5.37", "weight": "0.40"},
       {"key": "final", "kind": "estimate", "value": "7.28", "weight": "0.50"}
     ],

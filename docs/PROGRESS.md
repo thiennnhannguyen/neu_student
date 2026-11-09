@@ -44,7 +44,8 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | CR-11 | Nền dữ liệu cho Phân tích & Cảnh báo kỳ hiện tại: thang điểm bản 2 của demo-k68, lịch học, API nhận dữ liệu LMS, form LMS Demo, dữ liệu mô phỏng, trang gộp tối thiểu | Đạt, tag `cr-11` (D-308 đến D-311). Tiếp theo: CR-12 báo cáo tuần, CR-13 dự đoán và cảnh báo môn |
 | CR-12 | Báo cáo tuần của sinh viên: lịch mở theo tuần của môn, màn hình toàn trang chặn mềm, "Làm sau" một lần, cờ "không khớp" với LMS, cột "Báo cáo tuần" và xem lại chỉ đọc; kèm 4 sửa nhỏ sau nghiệm thu CR-11 (giờ thật, buổi hôm nay, ô chọn sinh viên, `make demo`) | Đạt, tag `cr-12` (D-312, bổ sung D-309, Q89). Bổ sung sau nghiệm thu ở commit đầu CR-13: "Vắng không phép", báo cáo mẫu trung tính demo01–demo08 |
 | CR-12b | Sửa 2 lỗi tính điểm: điểm bài tập hiện tại tính bài quá hạn là 0, thêm điểm quá trình hiện tại, điểm trừ nộp muộn cấu hình được; điểm kiểm tra mẫu độc lập với điểm bài tập | Đạt, tag `cr-12b` (D-313) |
-| CR-13 | Điểm dự kiến, cảnh báo từng môn, trang chi tiết môn: hàm thuần không dùng AI, ngưỡng là giá trị mẫu trong cấu hình; bảng 2 cột Môn học · Điểm dự kiến; trang `/m11/phan-tich/mon/:courseId` | Xong phần code, chờ quản lý dự án nghiệm thu (D-314, Q88 đóng) |
+| CR-13 | Điểm dự kiến, cảnh báo từng môn, trang chi tiết môn: hàm thuần không dùng AI, ngưỡng là giá trị mẫu trong cấu hình; bảng 2 cột Môn học · Điểm dự kiến; trang `/m11/phan-tich/mon/:courseId` | Đạt, tag `cr-13` (D-314, Q88 đóng) |
+| CR-13b | Một bộ từ chỉ mức Ổn / Cần chú ý / Nguy cơ cao, câu ⓘ về mức cảnh báo, đường dẫn phân cấp và biểu đồ trục 0–10 ở trang chi tiết môn; chuyên cần trừ điểm theo số buổi vắng không phép; xóa dòng chú thích lộ trình nghề | Xong phần code, chờ quản lý dự án nghiệm thu (D-315, D-316, D-317, Q90) |
 
 ## Việc tồn đọng giao diện
 

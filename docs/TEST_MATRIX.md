@@ -504,3 +504,22 @@ Test cũ đổi theo bổ sung D-312 (commit test riêng): `test_migration_0016.
 | 1440 và 375: bảng 2 cột trên cùng một dòng, đúng thứ tự và điểm 5 môn, bấm ô điểm mở chi tiết, axe không lỗi nghiêm trọng, không cuộn ngang | e2e `predictionCr13.spec.mjs` |
 
 Test cũ đổi theo D-314 (commit test riêng): `test_auth_guard.py` (thêm route chi tiết môn), `analysisCr11.test.jsx` và `m11Pages.test.jsx` (bảng 2 cột; tìm "Chưa đủ dữ liệu" trong khối cảnh báo), `scoresCr12b.test.jsx` và `weeklyReport.test.jsx` (3 điểm và báo cáo tuần chuyển sang trang chi tiết), `testData.js` (thêm `prediction`, dữ liệu trang chi tiết), e2e `lmsCr11.spec.mjs` và `weeklyReportCr12.spec.mjs` (tuần, vắng, báo cáo tuần xem ở trang chi tiết; vắng 3 buổi thành Không đủ điều kiện dự thi).
+
+## D-317: Xóa dòng chú thích phía trên lộ trình nghề
+
+Test cũ đổi theo D-317 (commit test riêng): `frontend/src/features/m12/m12Pages.test.jsx`, tab Lộ trình học: không còn "Thứ tự học khuyến nghị:" và "Học kỳ chính thức theo CTĐT:".
+
+## CR-13b: bộ từ chỉ mức, ⓘ, đường dẫn phân cấp, biểu đồ (D-315); trừ điểm chuyên cần (D-316)
+
+| Yêu cầu | Test |
+|---|---|
+| Cảnh báo học vụ dùng Ổn / Cần chú ý / Nguy cơ cao và icon trùng mức môn học; tên ngưỡng mới, không còn chữ cũ | `frontend/src/features/m11/levelsCr13b.test.jsx` |
+| Câu lý do backend: không còn "ngưỡng chú ý/cảnh báo", có "ngưỡng Cần chú ý", "ngưỡng Nguy cơ cao"; giá trị mức vẫn normal/watch/warning | `backend/tests/api/m11/test_risk_wording_cr13b.py` |
+| ⓘ ở bảng và trang chi tiết có câu về mức cảnh báo; glossary có câu đó ở 2 mục | `levelsCr13b.test.jsx`; `backend/tests/unit/test_cr13b_attendance.py` |
+| Đường dẫn phân cấp có tên môn, liên kết giữ ?student=, rời trang thì hết tên môn; dữ liệu biểu đồ T1…T8, plot ÷ 100 | `frontend/src/features/m11/detailCr13b.test.jsx` |
+| Biểu đồ thật: trục 0–10, "Ngưỡng đạt 4,5", "Mức C 5,5", 8 điểm, rộng hết khối; liên kết quay lại chỉ dưới 768px | e2e `predictionCr13.spec.mjs` |
+| CC = 10 − điểm trừ: 0/1/2 buổi không phép → 10/9/7, không ngoại suy, 3 buổi không đủ điều kiện; vắng có phép không trừ, ngưỡng cấm thi ≥ 4 giữ; có phép + không phép cùng lúc; bật `excused_deducts`; bảng trừ từ cấu hình, vượt bảng lấy mức lớn nhất; CNTT1159 tính tay 8,23; glossary công thức mới | `backend/tests/unit/test_cr13b_attendance.py` |
+| Tính chất vắng thêm không làm điểm dự kiến tăng vẫn đúng | `test_prediction_rules.py` (giữ nguyên) |
+| Dòng Chuyên cần "Số thật: 10 − 3 (vắng 2 buổi không phép) = 7"; vắng có phép ghi không trừ | `frontend/src/features/m11/attendanceCr13b.test.jsx`; e2e `predictionCr13.spec.mjs` |
+
+Test cũ đổi theo D-315 (commit test riêng): `ui.test.jsx`, `m11Pages.test.jsx` ("Cần chú ý" thay "Chú ý"), `testData.js` (câu lý do mới), `courseDetailCr13.test.jsx` (biểu đồ Recharts không đếm điểm trong jsdom), e2e `predictionCr13.spec.mjs` và `weeklyReportCr12.spec.mjs` (quay lại bằng đường dẫn phân cấp). Theo D-316: `test_prediction_rules.py` (vắng có phép không trừ, 10 thay 8,57), `test_cr13_predictions.py` (CNTT1159 8,23), `courseDetailCr13.test.jsx` (dòng Chuyên cần), `testData.js` (thành phần Chuyên cần mới), e2e `predictionCr13.spec.mjs` (8,23).

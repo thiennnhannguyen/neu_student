@@ -201,9 +201,9 @@ Terminal 2: `make seed-demo`. Ngày demo 26/10/2026 (`make demo`). Khi đăng nh
 
 | Bước | Tài khoản | Thao tác | Người xem cần thấy |
 |------|-----------|----------|--------------------|
-| 8.1 | `thiennhan` | Mở **Phân tích & Cảnh báo** | Khối "Cảnh báo học vụ" như cũ. Bảng "Môn đang học kỳ này" 2 cột, theo thứ tự: CNTT1188 "6,78 C+ ✗ Nguy cơ cao", CNTT1159 "8,28 B+ ✗ Nguy cơ cao", CNTT1140 "7,68 B ⚠ Cần chú ý", CNTT1117 "7,89 B", CNTT1180 "8,98 A". Dòng "Dự kiến chỉ mang tính tham khảo, dựa trên dữ liệu mô phỏng." |
-| 8.2 | `thiennhan` | Bấm dòng CNTT1188 | Trang chi tiết: 6,78 C+, khoảng 5,32–8,25, độ tin cậy Trung bình, Nguy cơ cao, "Thiếu 3/7 bài đã quá hạn". Bảng thành phần Chuyên cần 10% 10,00 (ước lượng từ số thật), Quá trình 40% 5,37 (4,81 hiện tại, kéo về mức nền 7,58), Cuối kỳ 50% 7,28 (ước lượng). Cuối kỳ cần 4,71 để đạt C, 7,71 để đạt B, A "Không đạt được". Biểu đồ 8 tuần, bài tập, bài kiểm tra, báo cáo tuần, lịch, "Lộ trình cải thiện – sắp có" |
-| 8.3 | `thiennhan` | Quay lại, bấm dòng CNTT1159 | Nguy cơ cao vì "Vắng 2 buổi không phép – vắng thêm 1 buổi sẽ không được dự thi"; điểm vẫn 8,28 |
+| 8.1 | `thiennhan` | Mở **Phân tích & Cảnh báo** | Khối "Cảnh báo học vụ" như cũ. Bảng "Môn đang học kỳ này" 2 cột, theo thứ tự: CNTT1188 "6,78 C+ ✗ Nguy cơ cao", CNTT1159 "8,23 B+ ✗ Nguy cơ cao", CNTT1140 "7,68 B ⚠ Cần chú ý", CNTT1117 "7,89 B", CNTT1180 "8,98 A". Dòng "Dự kiến chỉ mang tính tham khảo, dựa trên dữ liệu mô phỏng." |
+| 8.2 | `thiennhan` | Bấm dòng CNTT1188 | Trang chi tiết: 6,78 C+, khoảng 5,32–8,25, độ tin cậy Trung bình, Nguy cơ cao, "Thiếu 3/7 bài đã quá hạn". Bảng thành phần Chuyên cần 10% 10,00 (số thật: 10 − 0), Quá trình 40% 5,37 (4,81 hiện tại, kéo về mức nền 7,58), Cuối kỳ 50% 7,28 (ước lượng). Cuối kỳ cần 4,71 để đạt C, 7,71 để đạt B, A "Không đạt được". Đường dẫn phân cấp "Tổng quan / Học tập / Phân tích & Cảnh báo / Lập trình Web". Biểu đồ 8 tuần trục 0–10, đường "Ngưỡng đạt 4,5" và "Mức C 5,5", bài tập, bài kiểm tra, báo cáo tuần, lịch, "Lộ trình cải thiện – sắp có" |
+| 8.3 | `thiennhan` | Quay lại, bấm dòng CNTT1159 | Nguy cơ cao vì "Vắng 2 buổi không phép – vắng thêm 1 buổi sẽ không được dự thi"; điểm 8,23; bảng thành phần ghi "Số thật: 10 − 3 (vắng 2 buổi không phép) = 7" (D-316) |
 | 8.4 | `thiennhan` | Thu nhỏ cửa sổ còn 375px | Bảng vẫn 2 cột, không cuộn ngang |
 | 8.5 | `gv2` | Chọn sinh viên `NEU-KHMT-001`, mở **Phân tích & Cảnh báo**, bấm dòng CNTT1140 | Cần chú ý: "Không nộp 2 báo cáo tuần", "Điểm dự kiến giảm 0,35 qua 2 tuần (8,03 → 7,93 → 7,68)"; đường dẫn giữ `?student=` |
 
