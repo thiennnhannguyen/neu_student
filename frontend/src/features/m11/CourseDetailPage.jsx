@@ -124,16 +124,36 @@ function Summary({ prediction, studentId }) {
   );
 }
 
+/** "7,00" → "7", "7,50" → "7,5": bỏ số 0 thừa sau dấu phẩy, chỉ thao tác chuỗi (Q78). */
+export function shortDecimal(value) {
+  return formatDecimal(value)
+    .replace(/(,\d*?)0+$/, '$1')
+    .replace(/,$/, '');
+}
+
+/** D-316: "10 − 3 (vắng 2 buổi không phép) = 7". Vắng có phép không trừ thì ghi rõ. */
+export function attendanceBasis(component, attendance) {
+  const counted = component.deducted_absences;
+  const what =
+    counted === 0
+      ? 'chưa vắng buổi không phép nào'
+      : `vắng ${formatCount(counted)} buổi ${component.excused_deducts ? '' : 'không phép'}`.trim();
+  const excused =
+    attendance.excused > 0 && !component.excused_deducts
+      ? ` Vắng có phép (${formatCount(attendance.excused)} buổi) tạm thời không trừ điểm.`
+      : '';
+  return `Số thật: 10 − ${shortDecimal(component.deduction)} (${what}) = ${shortDecimal(component.value)}; không ngoại suy tới cuối kỳ.${excused}`;
+}
+
 function componentRows(prediction) {
   const [attendance, process, final] = prediction.components;
-  const { held, present } = prediction.attendance;
   return [
     {
       key: 'attendance',
       name: 'Chuyên cần',
       weight: attendance.weight,
       value: attendance.value,
-      basis: `Ước lượng từ số thật: có mặt ${formatCount(present)}/${formatCount(held)} buổi đã học, giả định giữ tỷ lệ tới cuối kỳ (vắng có phép tính như vắng).`,
+      basis: attendanceBasis(attendance, prediction.attendance),
     },
     {
       key: 'process',
@@ -553,6 +573,12 @@ function WeeklyReports({ data, studentId }) {
   );
 }
 
+/** Báo tên môn lên đường dẫn phân cấp ở thanh trên cùng (CR-13b). */
+function CourseLabel({ name }) {
+  usePageLabel(name);
+  return null;
+}
+
 function CourseDetail({ scope, courseId }) {
   const { search } = useLocation();
   const resource = useApiResource(
@@ -573,15 +599,10 @@ function CourseDetail({ scope, courseId }) {
         resource={resource}
         loadingText="Đang tải môn học..."
         errorText="Không tải được môn học"
-/** Báo tên môn lên đường dẫn phân cấp ở thanh trên cùng (CR-13b). */
-function CourseLabel({ name }) {
-  usePageLabel(name);
-  return null;
-}
-
       >
         {(data) => (
           <div className="stack">
+            <CourseLabel name={data.course.name} />
             <PageHeader
               title={data.course.name}
               description={`${courseCode(data.course.code)} · ${formatCount(data.course.credits)} tín chỉ · ${data.semester.name}`}
@@ -602,7 +623,6 @@ function CourseLabel({ name }) {
               <h2 className="section-heading">Lộ trình cải thiện – sắp có</h2>
               <p>Gợi ý việc cần làm cho từng môn sẽ có ở bản sau.</p>
             </Card>
-            <CourseLabel name={data.course.name} />
             <p className="reference-line">
               {DISCLAIMER} Ngày hệ thống: {formatDay(data.today)}.
             </p>

@@ -83,8 +83,10 @@ GLOSSARY = (
         "name": "Điểm dự kiến của môn đang học",
         "formula": (
             "0,1 × Chuyên cần + 0,4 × Quá trình + 0,5 × Cuối kỳ (trọng số theo môn). "
-            "Chuyên cần = 10 × buổi có mặt ÷ buổi đã học, giả định giữ tỷ lệ tới cuối kỳ; "
-            "vắng có phép tính như vắng. Quá trình = (n × điểm quá trình hiện tại + 2 × mức nền) "
+            "Chuyên cần = 10 − điểm trừ theo số buổi vắng không phép đã xảy ra (0 buổi: 10; "
+            "1 buổi: 9; 2 buổi: 7; từ 3 buổi: không đủ điều kiện dự thi), không ngoại suy tới "
+            "cuối kỳ; vắng có phép tạm thời không trừ. "
+            "Quá trình = (n × điểm quá trình hiện tại + 2 × mức nền) "
             "÷ (n + 2), n = số bài tập, bài kiểm tra đã vào điểm quá trình (bài quá hạn chưa nộp "
             "tính 0). Cuối kỳ = mức nền + điều chỉnh, tổng điều chỉnh trong ±1,5: mức hiểu bài TB "
             "4 báo cáo gần nhất ≥ 4 thì +0,5, ≤ 2 thì −0,5; tỷ lệ nộp bài ≥ 90% thì +0,3, "
@@ -93,9 +95,9 @@ GLOSSARY = (
         ),
         "source": "LMS (điểm danh, bài tập, bài kiểm tra), báo cáo tuần, kết quả các lần học",
         "note": (
+            f"{WARNING_NOTE} "
             "Mức nền = điểm trung bình hệ 10 (trọng số tín chỉ) các lần học hiệu lực; nhóm môn có "
             "từ 3 môn thì dùng nhóm đó; chưa có môn nào thì 6,0 (mức nền mặc định). Điểm chữ theo "
-            f"{WARNING_NOTE} "
             "thang của khóa. Mọi hệ số, ngưỡng là giá trị mẫu. Dự kiến chỉ mang tính tham khảo, "
             "dựa trên dữ liệu mô phỏng."
         ),
@@ -124,9 +126,9 @@ GLOSSARY = (
         ),
         "source": "Dữ liệu LMS, báo cáo tuần, điểm dự kiến theo từng bản chụp LMS",
         "note": (
+            f"{WARNING_NOTE} "
             "Hai loại vắng tính riêng (D-311). Không đủ điều kiện dự thi thì không hiện điểm. "
             "Các ngưỡng là giá trị mẫu. Cảnh báo chỉ để tham khảo."
-            f"{WARNING_NOTE} "
         ),
     },
 )

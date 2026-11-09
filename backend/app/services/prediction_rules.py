@@ -5,7 +5,8 @@ prediction_config.DEFAULTS). Tính bằng Decimal với đủ chữ số; chỉ 
 so ngưỡng và khi trả kết quả, nên test biên (4,49/4,50) đúng như số người dùng thấy.
 
 - Điểm dự kiến = wCC·CC + wQT·QT + wCK·CK.
-- CC = 10 × buổi có mặt ÷ buổi đã học (vắng có phép tính như vắng).
+- CC = 10 − điểm trừ theo số buổi vắng không phép đã xảy ra (D-316, thay "10 × tỷ lệ có mặt" của
+  D-314); vắng có phép trừ hay không theo cấu hình (mặc định không, Q90).
 - QT = (n × QT hiện tại + k × mức nền) ÷ (n + k); n = số mục đã vào điểm quá trình hiện tại,
   gồm cả bài quá hạn tính 0 (H1), nên thiếu thêm bài không bao giờ làm điểm tăng.
 - CK = mức nền + tổng điều chỉnh (giới hạn ±1,5).
@@ -118,6 +119,8 @@ class Prediction:
     known: Decimal | None
     confidence: str | None
     attendance_score: Decimal | None
+    attendance_deduction: Decimal | None
+    deducted_absences: int
     process_now: Decimal | None
     process_items: int
     process_score: Decimal | None
@@ -192,6 +195,15 @@ def attendance_level(settings: dict, absent: int, excused: int) -> tuple[str, li
                 )
             )
     return _highest(reasons), reasons
+
+
+def attendance_deduction(settings: dict, absences: int) -> Decimal:
+    """D-316: điểm trừ chuyên cần theo số buổi vắng tính trừ; vượt bảng thì lấy mức lớn nhất."""
+    table = {
+        int(count): Decimal(str(value))
+        for count, value in settings["attendance_deductions"].items()
+    }
+    return table[min(absences, max(table))]
 
 
 def _highest(reasons: list[Reason]) -> str:
@@ -420,6 +432,8 @@ def _without_score(
         known=None,
         confidence=None,
         attendance_score=None,
+        attendance_deduction=None,
+        deducted_absences=0,
         process_now=None,
         process_items=0,
         process_score=None,
@@ -448,7 +462,9 @@ def predict(settings: dict, inputs: CourseInputs, history: tuple[Decimal, ...] =
         return _without_score(BARRED, attendance_reasons, absent, excused, present, held)
     weights = inputs.weights
     baseline = inputs.baseline.value
-    cc = TEN * Decimal(present) / Decimal(held)
+    counted = absent + (excused if settings["excused_deducts"] else 0)
+    deduction = attendance_deduction(settings, counted)
+    cc = max(ZERO, TEN - deduction)
     n = len(inputs.process_items)
     now = weighted_average(inputs.process_items)
     k = dec(settings, "prior_strength")
@@ -476,6 +492,8 @@ def predict(settings: dict, inputs: CourseInputs, history: tuple[Decimal, ...] =
         known=known,
         confidence=confidence_of(settings, known),
         attendance_score=cc,
+        attendance_deduction=deduction,
+        deducted_absences=counted,
         process_now=now,
         process_items=n,
         process_score=qt,

@@ -9,6 +9,12 @@ DEFAULTS: dict = {
     # Điểm môn = 0,1 Chuyên cần + 0,4 Quá trình + 0,5 Cuối kỳ (D-311), cấu hình theo môn.
     "weights": {"attendance": "0.1", "process": "0.4", "final": "0.5"},
     "course_weights": {},
+    # D-316: CC = 10 − điểm trừ theo số buổi vắng không phép đã xảy ra (không ngoại suy tới cuối
+    # kỳ). Khóa là số buổi vắng; số buổi vượt bảng (chưa tới ngưỡng cấm thi) dùng mức trừ lớn nhất.
+    # Từ "absent_barred_from" buổi là Không đủ điều kiện dự thi, không tính điểm.
+    "attendance_deductions": {"0": "0", "1": "1", "2": "3"},
+    # Vắng có phép tạm thời không trừ điểm chuyên cần (chờ quản lý dự án xác nhận, Q90).
+    "excused_deducts": False,
     # QT = (n × QT hiện tại + k × mức nền) ÷ (n + k), n = số mục đã vào điểm quá trình (H1).
     "prior_strength": "2",
     # Mức nền: TB hệ 10 có trọng số tín chỉ các lần học hiệu lực; nhóm môn đủ số môn thì dùng nhóm.
