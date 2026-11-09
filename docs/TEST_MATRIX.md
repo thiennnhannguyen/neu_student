@@ -539,7 +539,8 @@ Test cũ đổi theo D-315 (commit test riêng): `ui.test.jsx`, `m11Pages.test.j
 | Từ khóa cấm (lương, triệu, VNĐ, USD, chính thức) ngoài khối thu nhập, cả trong response API; khối thu nhập có URL, năm, "tham khảo", đúng câu lưu ý và chú thích; số lưu chuỗi; "Free2Do" không còn | `backend/tests/content/test_career_landing_content.py` |
 | Mỗi ý ở b, c, f, h có nguồn và nguồn có trong danh sách; câu đầu phần b đúng nguyên văn; số ý b 4–6, f 3–4, h 4–6; không câu sáo, không emoji | `test_career_landing_content.py` |
 | Migration 0017 down/up, ràng buộc trạng thái, trùng phiên bản, khóa ngoại | `backend/tests/unit/db/test_migration_0017.py` |
-| Trang: thứ tự phần, mục lục, phần g chỉ sinh viên (cố vấn không gọi API tiến độ), 3 nút cuối, nhân viên hỗ trợ, Đang cập nhật, 404, tải/lỗi/Thử lại, khối thu nhập (thứ tự câu, rel), nguồn từng ý, liên kết mô-đun, bảng cuộn bằng bàn phím, nút quay lại | `frontend/src/features/m12/landing/landing.test.jsx` |
+| Trang: thứ tự phần, mục lục, phần g chỉ sinh viên (cố vấn không gọi API tiến độ), 3 nút cuối, nhân viên hỗ trợ, Đang cập nhật, 404, tải/lỗi/Thử lại, khối thu nhập (thứ tự câu, rel), không hiện mã nguồn và mục Nguồn (chỉ còn nguồn ITviec), liên kết mô-đun, bảng cuộn bằng bàn phím, nút quay lại | `frontend/src/features/m12/landing/landing.test.jsx` |
+| Ảnh đầu bài và sơ đồ có alt, chú thích, có trong mục lục; chưa có ảnh thì dùng hình minh họa nghề | `landing.test.jsx` |
 | Nút "Giới thiệu nghề" chỉ khi có nội dung; liên kết nhỏ chỉ ở thẻ có nội dung, nằm ngoài liên kết thẻ | `landing.test.jsx` |
 | Lưới nghề → Backend → Giới thiệu nghề → quay lại; axe 1440 và 375; 375 không cuộn ngang, mục lục ẩn; nút mô-đun tiếp theo đặt tiêu điểm đúng mô-đun; nhân viên hỗ trợ; nghề chưa có nội dung | e2e `landingCr14.spec.mjs` |
 
