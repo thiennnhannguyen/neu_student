@@ -544,3 +544,9 @@ Test cũ đổi theo D-315 (commit test riêng): `ui.test.jsx`, `m11Pages.test.j
 | Lưới nghề → Backend → Giới thiệu nghề → quay lại; axe 1440 và 375; 375 không cuộn ngang, mục lục ẩn; nút mô-đun tiếp theo đặt tiêu điểm đúng mô-đun; nhân viên hỗ trợ; nghề chưa có nội dung | e2e `landingCr14.spec.mjs` |
 
 Test cũ đổi theo D-320 (commit test riêng): `tests/helpers.py` (thêm `TABLES_FROM_0017`), `test_migration_0002.py`, `test_migration_0012.py` – `test_migration_0016.py` (loại bảng mới khỏi phép so), `test_schema.py` (60 → 61 bảng), `test_auth_guard.py` (+1 route, 4 vai trò), `test_demo_k68.py` (lưới nghề 28/8 → 29/9 truy vấn), `test_m12_progress.py` (tiến độ nghề 34/8 → 35/9 truy vấn).
+
+## D-324: Link học W3Schools cho ô "Tự học ngoài chương trình"
+
+| Yêu cầu | Test |
+|---|---|
+| Nghề Backend: 5 ô có bài W3Schools là liên kết đúng địa chỉ, mở tab mới (`noopener noreferrer`); 6 ô không có bài để chữ thường; mọi link trỏ W3Schools; mỗi nghề trong cẩm nang có ít nhất một ô gắn link | `frontend/src/features/m12/studyLinks.test.jsx` |

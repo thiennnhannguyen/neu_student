@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button, Card, StatusChip } from '../../components/ui';
 import EvidencePanel from './evidence/EvidencePanel';
 import { chipStatus } from './labels';
+import { studyLink } from './studyLinks';
 
 const LEVELS = ['Starter', 'Intermediate', 'Job-ready'];
 
@@ -15,9 +16,21 @@ function SelfStudy({ items, note }) {
       <h2 id="career-self-study">Tự học ngoài chương trình</h2>
       <p>Không phải học phần chính thức của NEU, không tính vào tiến độ.</p>
       <ul>
-        {items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
+        {items.map((item) => {
+          const href = studyLink(item);
+          return (
+            <li key={item} className={href ? 'career-self-study__linked' : undefined}>
+              {href ? (
+                <a href={href} target="_blank" rel="noopener noreferrer">
+                  {item}
+                  <span className="visually-hidden"> (W3Schools, mở tab mới)</span>
+                </a>
+              ) : (
+                item
+              )}
+            </li>
+          );
+        })}
       </ul>
       {note && <p className="career-self-study__note">Lưu ý: {note}</p>}
     </section>

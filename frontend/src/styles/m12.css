@@ -656,6 +656,20 @@
   border-radius: 999px;
 }
 
+/* D-324: ô có link học W3Schools: cả ô bấm được, chữ màu liên kết. */
+.career-self-study li.career-self-study__linked {
+  padding: 0;
+}
+
+.career-self-study__linked a {
+  display: block;
+  padding: var(--space-1) var(--space-12);
+  color: var(--text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: 999px;
+}
+
 .career-self-study .career-self-study__note {
   margin: var(--space-12) 0 0;
 }
