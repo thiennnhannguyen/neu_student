@@ -529,3 +529,18 @@ Test cũ đổi theo D-315 (commit test riêng): `ui.test.jsx`, `m11Pages.test.j
 | Yêu cầu | Test |
 |---|---|
 | Không còn dòng "Đạt qua bài kiểm tra…"; đạt: tick tròn; chưa đạt hoặc đang chờ: ô vuông trống; không có ô đánh dấu hay nút ở dòng mô-đun; kỹ năng không có bài kiểm tra vẫn nộp minh chứng | `frontend/src/features/m12/checklistQuiz.test.jsx` |
+## CR-14: Trang giới thiệu nghề Backend (D-319 – D-323)
+
+| Yêu cầu | Test |
+|---------|------|
+| API theo slug: có nội dung, chưa có nội dung (`landing: null`), slug sai 404, chưa đăng nhập 401; cả 4 vai trò đọc được; bản draft không bao giờ trả, bản published mới nhất thắng | `backend/tests/api/m12/test_career_landing.py` |
+| `has_landing` ở chi tiết nghề, tiến độ nghề, lưới nghề (chỉ Backend) | `test_career_landing.py` |
+| Phần d lấy từ khung năng lực; phần e là môn KHMT có BB/TC, HK; mọi mã môn ở phần e có trong `docs/spec/official/CTDT_KHMT.md`; dự án dẫn đúng tên mô-đun | `test_career_landing.py` |
+| Từ khóa cấm (lương, triệu, VNĐ, USD, chính thức) ngoài khối thu nhập, cả trong response API; khối thu nhập có URL, năm, "tham khảo", đúng câu lưu ý và chú thích; số lưu chuỗi; "Free2Do" không còn | `backend/tests/content/test_career_landing_content.py` |
+| Mỗi ý ở b, c, f, h có nguồn và nguồn có trong danh sách; câu đầu phần b đúng nguyên văn; số ý b 4–6, f 3–4, h 4–6; không câu sáo, không emoji | `test_career_landing_content.py` |
+| Migration 0017 down/up, ràng buộc trạng thái, trùng phiên bản, khóa ngoại | `backend/tests/unit/db/test_migration_0017.py` |
+| Trang: thứ tự phần, mục lục, phần g chỉ sinh viên (cố vấn không gọi API tiến độ), 3 nút cuối, nhân viên hỗ trợ, Đang cập nhật, 404, tải/lỗi/Thử lại, khối thu nhập (thứ tự câu, rel), nguồn từng ý, liên kết mô-đun, bảng cuộn bằng bàn phím, nút quay lại | `frontend/src/features/m12/landing/landing.test.jsx` |
+| Nút "Giới thiệu nghề" chỉ khi có nội dung; liên kết nhỏ chỉ ở thẻ có nội dung, nằm ngoài liên kết thẻ | `landing.test.jsx` |
+| Lưới nghề → Backend → Giới thiệu nghề → quay lại; axe 1440 và 375; 375 không cuộn ngang, mục lục ẩn; nút mô-đun tiếp theo đặt tiêu điểm đúng mô-đun; nhân viên hỗ trợ; nghề chưa có nội dung | e2e `landingCr14.spec.mjs` |
+
+Test cũ đổi theo D-320 (commit test riêng): `tests/helpers.py` (thêm `TABLES_FROM_0017`), `test_migration_0002.py`, `test_migration_0012.py` – `test_migration_0016.py` (loại bảng mới khỏi phép so), `test_schema.py` (60 → 61 bảng), `test_auth_guard.py` (+1 route, 4 vai trò), `test_demo_k68.py` (lưới nghề 28/8 → 29/9 truy vấn), `test_m12_progress.py` (tiến độ nghề 34/8 → 35/9 truy vấn).

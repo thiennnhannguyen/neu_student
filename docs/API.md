@@ -1811,6 +1811,7 @@ Cây kèm trạng thái từng nút và 2 tỷ lệ của sinh viên, qua `resol
     "display_name": "Backend Developer",
     "field": "Phần mềm",
     "group": "Phần mềm",
+    "has_landing": false,
     "id": "career-backend",
     "illustration_key": "backend",
     "is_mock": true,
@@ -2108,6 +2109,7 @@ Lưới thẻ nghề của trang Định hướng nghề (CR-03). Sinh viên ch�
         "display_name": "AI Engineer",
         "field": "Dữ liệu và AI",
         "group": "Dữ liệu và AI",
+        "has_landing": false,
         "id": "career-ai_engineer",
         "illustration_key": "ai",
         "is_mock": true,
@@ -2145,6 +2147,7 @@ Lưới thẻ nghề của trang Định hướng nghề (CR-03). Sinh viên ch�
         "display_name": "Chuyên viên phân tích tài chính",
         "field": "Tài chính",
         "group": "Tài chính",
+        "has_landing": false,
         "id": "career-finance",
         "illustration_key": null,
         "is_mock": true,
@@ -2197,6 +2200,7 @@ Nội dung giới thiệu nghề, không phụ thuộc sinh viên. 404 khi khôn
   "display_name": "AI Engineer",
   "field": "Dữ liệu và AI",
   "group": "Dữ liệu và AI",
+  "has_landing": false,
   "id": "career-ai_engineer",
   "illustration_key": "ai",
   "is_mock": true,
@@ -2577,6 +2581,7 @@ Giống `GET /api/m12/progress/careers/{id}`, tra theo slug. Mỗi `nodes[]` có
     "display_name": "Backend Developer",
     "field": "Phần mềm",
     "group": "Phần mềm",
+    "has_landing": false,
     "id": "career-backend",
     "illustration_key": "backend",
     "is_mock": true,
@@ -4313,6 +4318,43 @@ Nội dung đổi thì ánh xạ về `draft`.
   "skill_id": "sk-git",
   "source": "Nhóm dự án tự soạn cho demo, không phải yêu cầu chính thức",
   "status": "approved"
+}
+```
+
+### Trang giới thiệu nghề (CR-14, D-320 – D-323)
+
+| Method, đường dẫn | Vai trò | Mô tả, lỗi |
+|-------------------|---------|------------|
+| `GET /api/m12/careers/slug/{slug}/landing` | student, advisor, support_staff, admin | `career` (hồ sơ nghề, có `has_landing`) và `landing`. Slug sai hoặc nghề chưa công bố: 404. Nghề chưa có bản published: `landing: null` |
+
+`landing` gồm `version`, `updated_at`, `is_mock`, `program` (`id`, `code`, `name`), `content` (các phần viết sẵn: `intro`, `workday`, `comparison` – `careers` là tên lấy từ bảng nghề –, `modules`, `courses`, `projects` – mỗi dự án có `modules` [{order, title}] lấy từ khung năng lực –, `income`, `faq`, `progress`, `actions`), `modules` (10 mô-đun của ngành: `order`, `title`, `summary` = mục tiêu đầu tiên), `stages` (giai đoạn của cây nghề; mỗi môn có `code`, `name`, `credits`, `requirement_type`, `type_label` BB/TC, `planned_semester`) và `sources` (`id`, `title`, `section`, `document`). Mỗi ý ở `workday`, `comparison.rows`, `projects.items`, `faq.items` có `sources` là danh sách mã nguồn. `income.rows[].amount` là chuỗi. Không phụ thuộc sinh viên, không nhận `student_id`. Profile test chưa có nội dung:
+
+<!-- contract: sv07 GET /api/m12/careers/slug/backend/landing -->
+```json
+{
+  "career": {
+    "display_name": "Backend Developer",
+    "field": "Phần mềm",
+    "group": "Phần mềm",
+    "has_landing": false,
+    "id": "career-backend",
+    "illustration_key": "backend",
+    "is_mock": true,
+    "latest_version": {
+      "id": "cv-backend-1",
+      "published_at": "2026-08-20T09:00:00Z",
+      "version": 1
+    },
+    "major_fit": null,
+    "name": "Backend Developer",
+    "name_en": null,
+    "objective": null,
+    "self_study": [],
+    "self_study_note": null,
+    "slug": "backend",
+    "tagline": null
+  },
+  "landing": null
 }
 ```
 

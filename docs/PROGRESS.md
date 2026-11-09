@@ -46,6 +46,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | CR-12b | Sửa 2 lỗi tính điểm: điểm bài tập hiện tại tính bài quá hạn là 0, thêm điểm quá trình hiện tại, điểm trừ nộp muộn cấu hình được; điểm kiểm tra mẫu độc lập với điểm bài tập | Đạt, tag `cr-12b` (D-313) |
 | CR-13 | Điểm dự kiến, cảnh báo từng môn, trang chi tiết môn: hàm thuần không dùng AI, ngưỡng là giá trị mẫu trong cấu hình; bảng 2 cột Môn học · Điểm dự kiến; trang `/m11/phan-tich/mon/:courseId` | Đạt, tag `cr-13` (D-314, Q88 đóng) |
 | CR-13b | Một bộ từ chỉ mức Ổn / Cần chú ý / Nguy cơ cao, câu ⓘ về mức cảnh báo, đường dẫn phân cấp và biểu đồ trục 0–10 ở trang chi tiết môn; chuyên cần trừ điểm theo số buổi vắng không phép; xóa dòng chú thích lộ trình nghề | Xong phần code, chờ quản lý dự án nghiệm thu (D-315, D-316, D-317, Q90) |
+| CR-14 | Trang giới thiệu nghề Backend `/m12/dinh-huong/nghe/:slug/gioi-thieu`: nội dung ở bảng `career_landings` (migration 0017), API theo slug cho 4 vai trò, phần môn học và mô-đun lấy từ dữ liệu sẵn có, khối Thu nhập tham khảo có nguồn, phần cá nhân hóa chỉ sinh viên | Xong phần code, chờ quản lý dự án nghiệm thu (D-319 đến D-323); chưa gắn tag `cr-14` |
 
 ## Việc tồn đọng giao diện
 
