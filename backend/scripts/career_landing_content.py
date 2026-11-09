@@ -54,6 +54,27 @@ CONTENT = {
             "và triển khai dịch vụ đó."
         ),
         "sources": ["CN-02"],
+        "image": {
+            "src": "/images/landing_page/may_chu_backend.jpg",
+            "alt": "Minh họa máy chủ xếp chồng cạnh một cửa sổ mã nguồn và biểu tượng bánh răng.",
+        },
+    },
+    "overview": {
+        "title": "Backend nằm ở đâu trong một ứng dụng",
+        "text": (
+            "Giao diện web hoặc ứng dụng gửi yêu cầu qua API. Backend kiểm tra quyền, xử lý nghiệp "
+            "vụ, đọc ghi cơ sở dữ liệu rồi trả kết quả về. Ngoài việc chạy đúng, phần này còn phải "
+            "an toàn, đủ nhanh và theo dõi được khi có lỗi."
+        ),
+        "image": {
+            "src": "/images/landing_page/kien_truc_backend.jpg",
+            "alt": (
+                "Sơ đồ: giao diện gửi yêu cầu qua API tới backend, backend đọc ghi cơ sở dữ liệu "
+                "và trả kết quả; phía trên là ba yêu cầu bảo mật, hiệu suất, giám sát."
+            ),
+        },
+        "caption": "Luồng một yêu cầu đi qua backend và ba yêu cầu đi kèm.",
+        "sources": ["CN-02", "KNL-m3", "KNL-m9", "KNL-m10"],
     },
     "workday": {
         "title": "Một ngày làm việc",

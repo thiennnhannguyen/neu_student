@@ -186,13 +186,13 @@ describe('CR-14: trang giới thiệu nghề', () => {
       await screen.findByRole('heading', { level: 1, name: BACKEND.display_name }),
     ).toBeInTheDocument();
     const headings = screen.getAllByRole('heading', { level: 2 }).map((node) => node.textContent);
-    expect(headings).toEqual([...HEADINGS, 'Bạn đang ở đâu', 'Bước tiếp theo', 'Nguồn']);
+    expect(headings).toEqual([...HEADINGS, 'Bạn đang ở đâu', 'Bước tiếp theo']);
     const toc = screen.getByRole('navigation', { name: 'Mục lục trang' });
     expect(within(toc).getByRole('link', { name: 'Bạn đang ở đâu' })).toHaveAttribute(
       'href',
       '#ban-o-dau',
     );
-    expect(within(toc).getAllByRole('link')).toHaveLength(11);
+    expect(within(toc).getAllByRole('link')).toHaveLength(10);
   });
 
   it('phần Bạn đang ở đâu dùng số của API, mô-đun tiếp theo là mô-đun đầu tiên chưa đạt', async () => {
@@ -340,22 +340,19 @@ describe('CR-14: trang giới thiệu nghề', () => {
     expect(within(section).getByRole('heading', { name: 'Lộ trình cấp bậc' })).toBeVisible();
   });
 
-  it('mỗi ý của phần Một ngày làm việc có nguồn, bấm tới dòng nguồn cuối trang', async () => {
+  it('không hiện mã nguồn của từng ý và không có mục Nguồn; chỉ còn nguồn ITviec ở khối thu nhập', async () => {
     studentApi();
     renderApp(PAGE);
 
     const section = await screen.findByRole('region', { name: 'Một ngày làm việc' });
     expect(within(section).getByText(WORKDAY_NOTE)).toBeVisible();
-    const items = within(section).getAllByRole('listitem');
-    expect(items).toHaveLength(2);
-    for (const item of items) {
-      expect(within(item).getByText(/Nguồn:/)).toBeInTheDocument();
-    }
-    expect(within(items[0]).getByRole('link', { name: 'KNL-m3' })).toHaveAttribute(
-      'href',
-      '#nguon-KNL-m3',
-    );
-    expect(document.getElementById('nguon-KNL-m3')).not.toBeNull();
+    expect(within(section).getAllByRole('listitem')).toHaveLength(2);
+    expect(screen.queryByRole('link', { name: 'KNL-m3' })).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'Nguồn' })).toBeNull();
+    expect(screen.getAllByText(/^Nguồn:/)).toHaveLength(1);
+    expect(
+      within(screen.getByRole('region', { name: 'Thu nhập tham khảo' })).getByText(/^Nguồn:/),
+    ).toBeInTheDocument();
   });
 
   it('môn học có mã, BB/TC, HK; giai đoạn không có môn thì ghi rõ; có ghi chú ngành khác', async () => {
@@ -404,6 +401,54 @@ describe('CR-14: trang giới thiệu nghề', () => {
     await waitFor(() =>
       expect(screen.getByTestId('path')).toHaveTextContent('/m12/dinh-huong/nghe/backend'),
     );
+  });
+});
+
+describe('CR-14: ảnh và phần Backend nằm ở đâu', () => {
+  const IMAGE = { src: '/images/landing_page/may_chu_backend.jpg', alt: 'Minh họa máy chủ' };
+  const OVERVIEW = {
+    title: 'Backend nằm ở đâu trong một ứng dụng',
+    text: 'Giao diện gửi yêu cầu qua API.',
+    image: { src: '/images/landing_page/kien_truc_backend.jpg', alt: 'Sơ đồ luồng yêu cầu' },
+    caption: 'Luồng một yêu cầu đi qua backend.',
+    sources: ['CN-02'],
+  };
+
+  function withImages() {
+    const body = landingBody();
+    body.landing.content = {
+      ...body.landing.content,
+      intro: { ...body.landing.content.intro, image: IMAGE },
+      overview: OVERVIEW,
+    };
+    return body;
+  }
+
+  it('ảnh đầu bài và sơ đồ có alt, chú thích; phần mới có trong mục lục', async () => {
+    studentApi({ [LANDING_API]: () => jsonResponse(200, withImages()) });
+    renderApp(PAGE);
+
+    expect(await screen.findByRole('img', { name: 'Minh họa máy chủ' })).toHaveAttribute(
+      'src',
+      IMAGE.src,
+    );
+    const section = screen.getByRole('region', { name: OVERVIEW.title });
+    expect(within(section).getByRole('img', { name: 'Sơ đồ luồng yêu cầu' })).toBeVisible();
+    expect(within(section).getByText(OVERVIEW.caption).tagName).toBe('FIGCAPTION');
+    const toc = screen.getByRole('navigation', { name: 'Mục lục trang' });
+    expect(within(toc).getByRole('link', { name: 'Backend nằm ở đâu' })).toHaveAttribute(
+      'href',
+      '#tong-quan',
+    );
+  });
+
+  it('chưa có ảnh thì dùng hình minh họa nghề, không có phần sơ đồ', async () => {
+    studentApi();
+    renderApp(PAGE);
+
+    await screen.findByRole('heading', { level: 1, name: BACKEND.display_name });
+    expect(document.querySelector('.landing-figure--hero .career-illustration')).not.toBeNull();
+    expect(screen.queryByRole('link', { name: 'Backend nằm ở đâu' })).toBeNull();
   });
 });
 

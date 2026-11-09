@@ -112,6 +112,7 @@ def test_section_sizes():
 def _sourced_items():
     content = landing.CONTENT
     yield "intro", content["intro"]
+    yield "overview", content["overview"]
     yield "courses", content["courses"]
     for name in ("workday", "projects", "faq"):
         for item in content[name]["items"]:

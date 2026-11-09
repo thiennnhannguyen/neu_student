@@ -2,7 +2,7 @@ import { ArrowLeft, ClipboardCheck, ExternalLink, Route as RouteIcon } from 'luc
 import { Link, useParams } from 'react-router';
 import { Button, EmptyState, ErrorState, PageHeader } from '../../../components/ui';
 import { useAuth } from '../../auth/AuthContext';
-import { courseCode, withQuery } from '../../m11/format';
+import { courseCode, formatDate, withQuery } from '../../m11/format';
 import useApiResource from '../../m11/useApiResource';
 import { ResourceView } from '../../m11/ui';
 import CareerIllustration from '../illustrations/CareerIllustration';
@@ -17,6 +17,7 @@ export const UPDATING_TITLE = 'Đang cập nhật';
 /** Mục lục và id của từng phần; phần "Bạn đang ở đâu" chỉ có với sinh viên. */
 const SECTIONS = [
   { id: 'gioi-thieu', label: 'Giới thiệu' },
+  { id: 'tong-quan', label: 'Backend nằm ở đâu', optional: 'overview' },
   { id: 'mot-ngay', label: 'Một ngày làm việc' },
   { id: 'so-sanh', label: 'So sánh nghề' },
   { id: 'ky-nang', label: 'Kỹ năng cần có' },
@@ -26,29 +27,10 @@ const SECTIONS = [
   { id: 'hoi-dap', label: 'Câu hỏi thường gặp' },
   { id: 'ban-o-dau', label: 'Bạn đang ở đâu', studentOnly: true },
   { id: 'buoc-tiep-theo', label: 'Bước tiếp theo' },
-  { id: 'nguon', label: 'Nguồn' },
 ];
 
 function detailPath(slug) {
   return `/m12/dinh-huong/nghe/${slug}`;
-}
-
-/** Mã nguồn của từng ý, bấm vào thì tới dòng nguồn ở cuối trang. */
-function Sources({ ids }) {
-  if (!ids?.length) {
-    return null;
-  }
-  return (
-    <span className="landing-source">
-      Nguồn:{' '}
-      {ids.map((id, index) => (
-        <span key={id}>
-          {index > 0 && ', '}
-          <a href={`#nguon-${id}`}>{id}</a>
-        </span>
-      ))}
-    </span>
-  );
 }
 
 function Section({ id, title, children }) {
@@ -60,20 +42,46 @@ function Section({ id, title, children }) {
   );
 }
 
-function Intro({ career, content }) {
+/** Ảnh nội dung lấy từ dữ liệu (CR-14); chưa có ảnh thì dùng hình minh họa nghề sẵn có. */
+function Figure({ image, caption, fallbackKey, className = '' }) {
   return (
-    <section id="gioi-thieu" className="landing-intro" aria-labelledby="landing-title">
-      <div className="landing-intro__media">
-        <CareerIllustration illustrationKey={career.illustration_key} />
-      </div>
-      <div className="landing-intro__body">
-        <p className="landing-intro__group">{groupLabel(career.group)}</p>
-        <h1 id="landing-title">{career.display_name}</h1>
-        <p className="landing-intro__en">{career.name_en}</p>
-        <p className="landing-intro__summary">{content.intro.summary}</p>
-        <Sources ids={content.intro.sources} />
-      </div>
+    <figure className={`landing-figure ${className}`.trim()}>
+      {image ? (
+        <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+      ) : (
+        <CareerIllustration illustrationKey={fallbackKey} />
+      )}
+      {caption && <figcaption>{caption}</figcaption>}
+    </figure>
+  );
+}
+
+function Intro({ career, content, updatedAt }) {
+  return (
+    <section id="gioi-thieu" className="landing-hero" aria-labelledby="landing-title">
+      <p className="landing-hero__eyebrow">Hướng nghiệp · {groupLabel(career.group)}</p>
+      <h1 id="landing-title">{career.display_name}</h1>
+      <p className="landing-hero__en">{career.name_en}</p>
+      <p className="landing-hero__lead">{content.intro.summary}</p>
+      <p className="landing-hero__meta">Nhóm biên soạn · Cập nhật {formatDate(updatedAt)}</p>
+      <Figure
+        image={content.intro.image}
+        fallbackKey={career.illustration_key}
+        className="landing-figure--hero"
+      />
     </section>
+  );
+}
+
+function Overview({ block }) {
+  if (!block) {
+    return null;
+  }
+  return (
+    <Section id="tong-quan" title={block.title}>
+      <p>{block.text}</p>
+      <Figure image={block.image} caption={block.caption} />
+    </Section>
   );
 }
 
@@ -85,7 +93,6 @@ function Workday({ block }) {
         {block.items.map((item) => (
           <li key={item.text}>
             <p>{item.text}</p>
-            <Sources ids={item.sources} />
           </li>
         ))}
       </ol>
@@ -118,10 +125,7 @@ function Comparison({ block }) {
           <tbody>
             {block.rows.map((row) => (
               <tr key={row.label}>
-                <th scope="row">
-                  {row.label}
-                  <Sources ids={row.sources} />
-                </th>
+                <th scope="row">{row.label}</th>
                 {row.cells.map((cell, index) => (
                   <td key={block.careers[index].slug}>{cell}</td>
                 ))}
@@ -201,7 +205,6 @@ function Courses({ block, stages, program }) {
       </ol>
       <p className="landing-note">{block.semester_note}</p>
       <p className="landing-note">{block.other_programs_note}</p>
-      <Sources ids={block.sources} />
     </Section>
   );
 }
@@ -229,7 +232,6 @@ function Projects({ block, moduleLink }) {
                 </li>
               ))}
             </ul>
-            <Sources ids={item.sources} />
           </li>
         ))}
       </ul>
@@ -293,7 +295,6 @@ function Faq({ block }) {
           <div key={item.question} className="landing-faq__item">
             <h3>{item.question}</h3>
             <p>{item.answer}</p>
-            <Sources ids={item.sources} />
           </div>
         ))}
       </div>
@@ -399,30 +400,14 @@ function Actions({ title, career, isStudent, progressResource, frameworkResource
   );
 }
 
-function SourceList({ sources, income }) {
-  return (
-    <Section id="nguon" title="Nguồn">
-      <ul className="landing-sources">
-        {sources.map((source) => (
-          <li key={source.id} id={`nguon-${source.id}`}>
-            <strong>{source.id}</strong> {source.title}. {source.section}.
-          </li>
-        ))}
-        <li>
-          <strong>Thu nhập tham khảo</strong> {income.source.publisher}, “{income.source.title}”,{' '}
-          {income.source.author}, {income.source.published}.
-        </li>
-      </ul>
-    </Section>
-  );
-}
-
-function Toc({ isStudent }) {
+function Toc({ isStudent, content }) {
   return (
     <nav className="landing-toc" aria-label="Mục lục trang">
-      <p className="landing-toc__title">Trên trang này</p>
+      <p className="landing-toc__title">Mục lục</p>
       <ol>
-        {SECTIONS.filter((item) => isStudent || !item.studentOnly).map((item) => (
+        {SECTIONS.filter(
+          (item) => (isStudent || !item.studentOnly) && (!item.optional || content[item.optional]),
+        ).map((item) => (
           <li key={item.id}>
             <a href={`#${item.id}`}>{item.label}</a>
           </li>
@@ -451,9 +436,10 @@ function Landing({ slug, data, student, canOpenDetail }) {
     : null;
   return (
     <div className="landing-layout">
-      <Toc isStudent={student.isStudent} />
-      <div className="landing-main">
-        <Intro career={career} content={content} />
+      <Toc isStudent={student.isStudent} content={content} />
+      <article className="landing-main">
+        <Intro career={career} content={content} updatedAt={landing.updated_at} />
+        <Overview block={content.overview} />
         <Workday block={content.workday} />
         <Comparison block={content.comparison} />
         <Modules block={content.modules} modules={landing.modules} moduleLink={links?.module} />
@@ -477,8 +463,7 @@ function Landing({ slug, data, student, canOpenDetail }) {
           frameworkResource={framework}
           links={links}
         />
-        <SourceList sources={landing.sources} income={content.income} />
-      </div>
+      </article>
     </div>
   );
 }

@@ -1625,110 +1625,149 @@
   color: var(--neu-white);
 }
 
-/* Trang giới thiệu nghề (CR-14). Mục lục neo chỉ hiện từ 1200px; bảng rộng cuộn ngang được. */
+/* Trang giới thiệu nghề (CR-14): bố cục bài viết, cột đọc ở giữa, mục lục dính bên phải từ 1200px. */
 .landing-back {
   margin-bottom: var(--space-3);
 }
 
 .landing-layout {
   display: grid;
+  grid-template-areas: 'main';
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-32);
+  justify-content: center;
 }
 
 .landing-toc {
   display: none;
+  grid-area: toc;
 }
 
 .landing-main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-20);
+  grid-area: main;
   min-width: 0;
-}
-
-.landing-intro {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-4);
-  padding: var(--space-20);
-  overflow: hidden;
+  padding: var(--space-20) var(--space-4);
+  font-size: var(--font-16);
+  line-height: 1.75;
   background: var(--surface-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
 
-.landing-intro__media {
-  max-width: 360px;
-  overflow: hidden;
+/* Đầu bài */
+.landing-hero {
+  padding-bottom: var(--space-20);
+}
+
+.landing-hero__eyebrow {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-14);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.landing-hero h1 {
+  margin: 0;
+  font-size: var(--font-30);
+  line-height: var(--line-tight);
+  color: var(--neu-primary);
+}
+
+.landing-hero__en {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-18);
+  font-weight: 600;
+  color: var(--neu-primary-dark);
+}
+
+.landing-hero__lead {
+  margin: var(--space-3) 0 var(--space-2);
+  font-size: var(--font-18);
+  line-height: 1.7;
+}
+
+.landing-hero__meta {
+  margin: 0 0 var(--space-20);
+  padding-bottom: var(--space-3);
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Ảnh có khung nền nhạt và chú thích */
+.landing-figure {
+  margin: var(--space-20) 0;
+  padding: var(--space-3);
+  text-align: center;
+  background: var(--neu-tint);
   border-radius: var(--radius-lg);
 }
 
-.landing-intro__body {
-  position: relative;
+.landing-figure img,
+.landing-figure .career-illustration {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: var(--radius-md);
 }
 
-.landing-intro__group,
-.landing-intro__en {
-  margin: 0;
+.landing-figure--hero {
+  margin-bottom: 0;
+}
+
+.landing-figure--hero img {
+  max-width: 420px;
+}
+
+.landing-figure figcaption {
+  margin-top: var(--space-2);
   font-size: var(--font-14);
+  font-style: italic;
   color: var(--text-secondary);
 }
 
-.landing-intro h1 {
-  margin: var(--space-1) 0;
-  font-size: var(--font-30);
-  line-height: var(--line-tight);
-}
-
-.landing-intro__summary {
-  max-width: 60ch;
-  margin: var(--space-12) 0 var(--space-2);
-  font-size: var(--font-18);
-}
-
+/* Các phần của bài */
 .landing-section {
-  padding: var(--space-20);
+  padding-top: var(--space-32);
   scroll-margin-top: var(--space-20);
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
 }
 
 .landing-section h2 {
-  margin: 0 0 var(--space-12);
+  position: relative;
+  margin: 0 0 var(--space-3);
+  padding-left: var(--space-3);
   font-size: var(--font-24);
   line-height: var(--line-tight);
+  color: var(--neu-primary);
+  border-left: 4px solid var(--neu-primary);
 }
 
 .landing-section h3 {
   margin: 0 0 var(--space-2);
   font-size: var(--font-18);
+  line-height: var(--line-tight);
+  color: var(--neu-primary-dark);
 }
 
 .landing-section p {
-  margin: 0 0 var(--space-2);
+  margin: 0 0 var(--space-12);
 }
 
 .landing-note {
   font-size: var(--font-14);
+  line-height: 1.6;
   color: var(--text-secondary);
 }
 
-.landing-source {
-  display: block;
-  font-size: var(--font-12);
-  color: var(--text-secondary);
-}
-
-.landing-list,
 .landing-modules,
 .landing-stages,
 .landing-courses,
-.landing-projects,
-.landing-sources {
+.landing-projects {
   display: flex;
   flex-direction: column;
   gap: var(--space-12);
@@ -1737,17 +1776,49 @@
   list-style: none;
 }
 
+/* Một ngày làm việc: danh sách có số tròn */
 .landing-list {
-  padding-left: var(--space-20);
-  list-style: decimal;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0;
+  margin: 0 0 var(--space-12);
+  list-style: none;
+  counter-reset: landing-step;
+}
+
+.landing-list li {
+  position: relative;
+  padding-left: 44px;
+  counter-increment: landing-step;
+}
+
+.landing-list li::before {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: var(--font-14);
+  font-weight: 700;
+  color: var(--neu-white);
+  content: counter(landing-step);
+  background: var(--neu-primary);
+  border-radius: 50%;
 }
 
 .landing-list p {
   margin: 0;
 }
 
+/* Bảng */
 .landing-table-wrap {
   overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
 }
 
 .landing-table-wrap:focus-visible {
@@ -1757,8 +1828,9 @@
 
 .landing-table {
   width: 100%;
-  border-collapse: collapse;
   font-size: var(--font-14);
+  line-height: 1.55;
+  border-collapse: collapse;
 }
 
 .landing-table th,
@@ -1770,8 +1842,18 @@
 }
 
 .landing-table thead th {
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--neu-white);
+  background: var(--neu-primary);
+}
+
+.landing-table tbody tr:nth-child(even) {
   background: var(--surface-sunken);
+}
+
+.landing-table tbody th {
+  font-weight: 600;
+  color: var(--neu-primary-dark);
 }
 
 .landing-table--compare {
@@ -1782,42 +1864,45 @@
   width: 160px;
 }
 
-.landing-table__number {
+.landing-table .landing-table__number {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-.landing-table .landing-table__number {
-  text-align: right;
+/* Kỹ năng */
+.landing-modules {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-12);
 }
 
 .landing-modules li {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
   gap: 2px;
-  padding-bottom: var(--space-12);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.landing-modules li:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
+  padding: var(--space-12) var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--neu-primary);
+  border-radius: var(--radius-md);
 }
 
 .landing-modules__order {
   font-size: var(--font-12);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-secondary);
+  text-transform: uppercase;
 }
 
 .landing-modules__title {
-  font-weight: 600;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .landing-modules__summary {
   font-size: var(--font-14);
+  line-height: 1.55;
 }
 
+/* Học ở NEU */
 .landing-stage {
   padding: var(--space-3);
   border: 1px solid var(--border-subtle);
@@ -1838,11 +1923,14 @@
   flex-wrap: wrap;
   gap: 2px var(--space-12);
   justify-content: space-between;
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--border-subtle);
 }
 
 .landing-courses__code {
+  font-weight: 700;
+  color: var(--neu-primary);
   font-variant-numeric: tabular-nums;
-  font-weight: 600;
 }
 
 .landing-courses__meta {
@@ -1854,6 +1942,7 @@
   text-decoration: none;
 }
 
+/* Sản phẩm */
 .landing-projects {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -1863,13 +1952,16 @@
 .landing-project {
   padding: var(--space-3);
   border: 1px solid var(--border-subtle);
+  border-top: 4px solid var(--neu-primary);
   border-radius: var(--radius-md);
 }
 
 .landing-project__level {
+  margin-bottom: var(--space-1);
   font-size: var(--font-12);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--neu-primary);
+  text-transform: uppercase;
 }
 
 .landing-project__skills-title {
@@ -1883,8 +1975,13 @@
   font-size: var(--font-14);
 }
 
+/* Thu nhập tham khảo: hộp lưu ý */
 .landing-income__caveat {
+  padding: var(--space-12) var(--space-3);
   font-weight: 600;
+  background: var(--neu-tint);
+  border-left: 4px solid var(--neu-primary);
+  border-radius: var(--radius-sm);
 }
 
 .landing-income {
@@ -1895,12 +1992,33 @@
 }
 
 .landing-income__levels ol {
-  padding-left: var(--space-20);
+  padding: 0;
   margin: 0;
+  list-style: none;
+  counter-reset: landing-level;
 }
 
-.landing-income__levels li + li {
-  margin-top: var(--space-1);
+.landing-income__levels li {
+  position: relative;
+  padding: var(--space-1) 0 var(--space-1) 36px;
+  counter-increment: landing-level;
+}
+
+.landing-income__levels li::before {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: var(--font-12);
+  font-weight: 700;
+  color: var(--neu-primary);
+  content: counter(landing-level);
+  border: 2px solid var(--neu-primary);
+  border-radius: 50%;
 }
 
 .landing-external {
@@ -1908,17 +2026,24 @@
   vertical-align: -2px;
 }
 
+/* Hỏi đáp */
 .landing-faq {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
 
-.landing-faq__item + .landing-faq__item {
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--border-subtle);
+.landing-faq__item {
+  padding: var(--space-3);
+  background: var(--surface-sunken);
+  border-radius: var(--radius-md);
 }
 
+.landing-faq__item p:last-of-type {
+  margin-bottom: var(--space-1);
+}
+
+/* Bạn đang ở đâu, bước tiếp theo, nguồn */
 .landing-progress__rings {
   display: flex;
   flex-wrap: wrap;
@@ -1937,18 +2062,35 @@
   gap: var(--space-12);
 }
 
-.landing-sources {
-  gap: var(--space-2);
-  font-size: var(--font-14);
+/* Mục lục */
+.landing-toc__title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-16);
+  font-weight: 700;
+  color: var(--neu-primary);
 }
 
-.landing-sources li {
-  scroll-margin-top: var(--space-20);
+.landing-toc ol {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
-.landing-sources li:target {
-  outline: 2px solid var(--neu-accent);
-  outline-offset: 2px;
+.landing-toc a {
+  display: block;
+  padding: var(--space-1) var(--space-2);
+  color: var(--text-primary);
+  text-decoration: none;
+  border-left: 2px solid var(--border-subtle);
+}
+
+.landing-toc a:hover,
+.landing-toc a:focus-visible {
+  color: var(--neu-primary);
+  border-left-color: var(--neu-primary);
 }
 
 /* Liên kết nhỏ dưới thẻ nghề, tách khỏi vùng bấm của thẻ. */
@@ -1974,11 +2116,16 @@
 }
 
 @media (min-width: 768px) {
-  .landing-intro {
-    grid-template-columns: 280px minmax(0, 1fr);
-    align-items: center;
+  .landing-main {
+    padding: var(--space-40) var(--space-48);
+    font-size: var(--font-18);
   }
 
+  .landing-hero h1 {
+    font-size: var(--font-36);
+  }
+
+  .landing-modules,
   .landing-projects {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1995,7 +2142,8 @@
 
 @media (min-width: 1200px) {
   .landing-layout {
-    grid-template-columns: 200px minmax(0, 1fr);
+    grid-template-areas: 'main toc';
+    grid-template-columns: minmax(0, 860px) 240px;
   }
 
   .landing-toc {
@@ -2003,21 +2151,10 @@
     top: var(--space-20);
     display: block;
     align-self: start;
+    padding: var(--space-3);
     font-size: var(--font-14);
-  }
-
-  .landing-toc__title {
-    margin: 0 0 var(--space-2);
-    font-weight: 600;
-    color: var(--text-secondary);
-  }
-
-  .landing-toc ol {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-    padding: 0;
-    margin: 0;
-    list-style: none;
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
   }
 }

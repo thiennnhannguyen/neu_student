@@ -8,6 +8,7 @@ import { login } from './helpers.mjs';
 const DETAIL = '/m12/dinh-huong/nghe/backend-developer';
 const PAGE = `${DETAIL}/gioi-thieu`;
 const SECTIONS = [
+  'Backend nằm ở đâu trong một ứng dụng',
   'Một ngày làm việc',
   'Backend khác Frontend, Full-stack, DevOps ở đâu',
   'Kỹ năng cần có',
@@ -17,7 +18,6 @@ const SECTIONS = [
   'Câu hỏi thường gặp',
   'Bạn đang ở đâu',
   'Bước tiếp theo',
-  'Nguồn',
 ];
 
 test.beforeEach(() => seed());
