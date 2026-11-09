@@ -39,21 +39,11 @@ function Detail({ student, data, reload, slug }) {
       id: 'roadmap',
       label: 'Lộ trình học',
       content: (
-        <>
-          <p className="career-legend">
-            <span>
-              <strong>Thứ tự học khuyến nghị:</strong> thứ tự các giai đoạn dưới đây.
-            </span>
-            <span>
-              <strong>Học kỳ chính thức theo CTĐT:</strong> nhãn HK ở từng môn.
-            </span>
-          </p>
-          <CareerRoadmap
-            label={`Lộ trình ${profile.display_name}`}
-            nodes={nodes}
-            onSelect={setSelected}
-          />
-        </>
+        <CareerRoadmap
+          label={`Lộ trình ${profile.display_name}`}
+          nodes={nodes}
+          onSelect={setSelected}
+        />
       ),
     },
     {
