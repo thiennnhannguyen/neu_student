@@ -583,3 +583,9 @@ Test cũ đổi theo D-320 (commit test riêng): `tests/helpers.py` (thêm `TABL
 |---|---|
 | Dữ liệu demo: `student_code` 11243794, `id` giữ NEU-KHMT-001 | `backend/tests/acceptance/test_khmt_official.py` |
 | Đường dẫn `?student=NEU-KHMT-001` và chọn sinh viên theo id vẫn chạy | e2e có sẵn: `predictionCr13.spec.mjs`, `lmsCr11.spec.mjs`, `weeklyReportCr12.spec.mjs` |
+
+## D-331: Tài liệu chính thức cho ô tự học W3Schools không có bài
+
+| Yêu cầu | Test |
+|---|---|
+| Backend: 11/11 ô có link mở tab mới, đúng địa chỉ và nguồn; W3Schools ưu tiên; mỗi nghề có link; mục chung chung để chữ thường | `frontend/src/features/m12/studyLinks.test.jsx` |

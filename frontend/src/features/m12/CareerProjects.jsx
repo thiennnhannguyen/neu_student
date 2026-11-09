@@ -16,13 +16,13 @@ function SelfStudy({ items, note }) {
       <p>Không phải học phần chính thức của NEU, không tính vào tiến độ.</p>
       <ul>
         {items.map((item) => {
-          const href = studyLink(item);
+          const link = studyLink(item);
           return (
-            <li key={item} className={href ? 'career-self-study__linked' : undefined}>
-              {href ? (
-                <a href={href} target="_blank" rel="noopener noreferrer">
+            <li key={item} className={link ? 'career-self-study__linked' : undefined}>
+              {link ? (
+                <a href={link.href} target="_blank" rel="noopener noreferrer">
                   {item}
-                  <span className="visually-hidden"> (W3Schools, mở tab mới)</span>
+                  <span className="visually-hidden"> ({link.source}, mở tab mới)</span>
                 </a>
               ) : (
                 item
