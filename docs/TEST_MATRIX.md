@@ -523,3 +523,9 @@ Test cũ đổi theo D-317 (commit test riêng): `frontend/src/features/m12/m12P
 | Dòng Chuyên cần "Số thật: 10 − 3 (vắng 2 buổi không phép) = 7"; vắng có phép ghi không trừ | `frontend/src/features/m11/attendanceCr13b.test.jsx`; e2e `predictionCr13.spec.mjs` |
 
 Test cũ đổi theo D-315 (commit test riêng): `ui.test.jsx`, `m11Pages.test.jsx` ("Cần chú ý" thay "Chú ý"), `testData.js` (câu lý do mới), `courseDetailCr13.test.jsx` (biểu đồ Recharts không đếm điểm trong jsdom), e2e `predictionCr13.spec.mjs` và `weeklyReportCr12.spec.mjs` (quay lại bằng đường dẫn phân cấp). Theo D-316: `test_prediction_rules.py` (vắng có phép không trừ, 10 thay 8,57), `test_cr13_predictions.py` (CNTT1159 8,23), `courseDetailCr13.test.jsx` (dòng Chuyên cần), `testData.js` (thành phần Chuyên cần mới), e2e `predictionCr13.spec.mjs` (8,23).
+
+## D-318: Checklist – dấu tick hoặc ô vuông cho kỹ năng có bài kiểm tra
+
+| Yêu cầu | Test |
+|---|---|
+| Không còn dòng "Đạt qua bài kiểm tra…"; đạt: tick tròn; chưa đạt hoặc đang chờ: ô vuông trống; không có ô đánh dấu hay nút ở dòng mô-đun; kỹ năng không có bài kiểm tra vẫn nộp minh chứng | `frontend/src/features/m12/checklistQuiz.test.jsx` |
