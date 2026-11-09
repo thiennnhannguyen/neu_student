@@ -1,7 +1,6 @@
 import {
   AlertTriangle,
   Ban,
-  Check,
   Circle,
   CircleHelp,
   Clock,
@@ -16,16 +15,17 @@ import {
   X,
   XCircle,
 } from 'lucide-react';
+import CheckBadge from './CheckBadge';
 
 /**
  * Trạng thái môn và kỹ năng chỉ có biểu tượng (kèm aria-label, tooltip, chú giải ở đầu danh sách).
  * Mức cảnh báo và nhóm môn có biểu tượng và chữ thường. Không có khối nền màu.
  */
 export const STATUS_CHIPS = {
-  done: { label: 'Đạt', icon: Check, tone: 'success' },
+  done: { label: 'Đạt', icon: CheckBadge, tone: 'success' },
   done_via_equivalency: {
     label: 'Đạt qua tương đương',
-    icon: Check,
+    icon: CheckBadge,
     tone: 'success',
     linked: true,
   },
@@ -45,7 +45,7 @@ export const STATUS_CHIPS = {
   strong: { label: 'Điểm mạnh', icon: TrendingUp, tone: 'success' },
   weak: { label: 'Điểm yếu', icon: TrendingDown, tone: 'warning' },
   // Bài tập LMS (D-309): biểu tượng kèm chữ, không khối màu.
-  lms_graded: { label: 'Đã chấm', icon: Check, tone: 'success' },
+  lms_graded: { label: 'Đã chấm', icon: CheckBadge, tone: 'success' },
   lms_pending: { label: 'Chờ chấm', icon: Hourglass, tone: 'info' },
   lms_overdue: { label: 'Quá hạn chưa nộp', icon: X, tone: 'danger' },
   lms_not_due: { label: 'Chưa đến hạn', icon: Circle, tone: 'neutral' },

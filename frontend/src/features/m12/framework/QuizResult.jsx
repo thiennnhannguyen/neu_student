@@ -1,4 +1,5 @@
-import { Award, Check, X } from 'lucide-react';
+import { Award, X } from 'lucide-react';
+import CheckBadge from '../../../components/ui/CheckBadge';
 import { Button, Card, PageHeader } from '../../../components/ui';
 import { SystemTime } from '../../m11/SystemTime';
 import InlineCode from './InlineCode';
@@ -25,7 +26,7 @@ export function ReviewedQuestions({ questions }) {
           return (
             <li key={option.id} className={option.is_correct ? 'quiz-review__right' : ''}>
               {option.is_correct ? (
-                <Check size={16} role="img" aria-label="Đáp án đúng" />
+                <CheckBadge size={16} role="img" aria-label="Đáp án đúng" />
               ) : (
                 <X size={16} role="img" aria-label="Đáp án sai" />
               )}

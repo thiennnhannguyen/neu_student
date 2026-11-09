@@ -1,6 +1,5 @@
-import { Check } from 'lucide-react';
 import { useState } from 'react';
-import { Button, Card, StatusChip } from '../../components/ui';
+import { Button, Card, CheckBadge, StatusChip } from '../../components/ui';
 import EvidencePanel from './evidence/EvidencePanel';
 import { chipStatus } from './labels';
 import { studyLink } from './studyLinks';
@@ -46,7 +45,7 @@ export function QuizMark({ done }) {
   if (done) {
     return (
       <span role="img" aria-label="Đã đạt" title="Đã đạt" className="quiz-mark quiz-mark--done">
-        <Check size={16} strokeWidth={3} aria-hidden="true" />
+        <CheckBadge size={24} aria-hidden="true" />
       </span>
     );
   }

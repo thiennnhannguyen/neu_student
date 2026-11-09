@@ -3,6 +3,7 @@ export { default as Badge } from './Badge';
 export { default as BottomSheet } from './BottomSheet';
 export { default as Button } from './Button';
 export { default as Card } from './Card';
+export { default as CheckBadge } from './CheckBadge';
 export { default as ConfirmDialog } from './ConfirmDialog';
 export { default as DataTable } from './DataTable';
 export { default as Disclosure } from './Disclosure';

@@ -557,3 +557,9 @@ Test cũ đổi theo D-320 (commit test riêng): `tests/helpers.py` (thêm `TABL
 | Yêu cầu | Test |
 |---|---|
 | Không còn "Tỷ lệ không phản ánh khả năng được tuyển dụng." và dòng nguồn CTĐT (K68 hoặc "Theo CTĐT do Trường công bố…") ở cuối trang chi tiết nghề | `frontend/src/features/m12/m12Pages.test.jsx`, `frontend/src/features/m12/framework/framework.test.jsx` |
+
+## D-326: Icon tick tròn xanh dùng chung
+
+| Yêu cầu | Test |
+|---|---|
+| Icon tròn đặc màu token, tick trắng; Đạt, Đạt qua tương đương, Đã chấm, chú giải, Checklist Đã đạt, Đáp án đúng, yêu cầu Hoàn thành, toast thành công dùng icon mới; Chưa đạt, toast lỗi giữ icon cũ | `frontend/src/components/ui/checkBadge.test.jsx` |

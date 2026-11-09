@@ -40,6 +40,8 @@
   /* Trạng thái: mỗi cặp nền nhạt và chữ đạt từ 4,5:1. Không phải màu của bộ nhận diện, trừ đỏ. */
   --success-bg: #e6f4ea;
   --success-text: #1b6e3c;
+  /* D-326: nền dấu tick tròn đặc; tương phản 3,49:1 với nền trắng và với dấu tick trắng. */
+  --check-badge-bg: #2a9d4a;
   --warning-bg: #fff3d6;
   --warning-text: #7a4f00;
   --danger-bg: #fdecea;

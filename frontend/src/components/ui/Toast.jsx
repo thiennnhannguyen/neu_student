@@ -1,4 +1,5 @@
-import { CheckCircle2, X, XCircle } from 'lucide-react';
+import { X, XCircle } from 'lucide-react';
+import CheckBadge from './CheckBadge';
 import {
   createContext,
   useCallback,
@@ -47,7 +48,7 @@ export function ToastProvider({ children }) {
       {children}
       <div className="toast-region">
         {toasts.map((toast) => {
-          const Icon = toast.kind === 'error' ? XCircle : CheckCircle2;
+          const Icon = toast.kind === 'error' ? XCircle : CheckBadge;
           return (
             <div key={toast.id} className={`toast toast--${toast.kind}`}>
               <Icon size={18} aria-hidden="true" />

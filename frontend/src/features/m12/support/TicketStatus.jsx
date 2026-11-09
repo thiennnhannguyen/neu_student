@@ -1,11 +1,11 @@
-import { Badge } from '../../../components/ui';
-import { CheckCircle2, CircleDot, Clock, MessageCircleQuestion } from 'lucide-react';
+import { Badge, CheckBadge } from '../../../components/ui';
+import { CircleDot, Clock, MessageCircleQuestion } from 'lucide-react';
 
 export const TICKET_STATUSES = [
   { value: 'new', label: 'Mới', tone: 'info', icon: CircleDot },
   { value: 'in_progress', label: 'Đang xử lý', tone: 'neutral', icon: Clock },
   { value: 'need_info', label: 'Cần bổ sung', tone: 'warning', icon: MessageCircleQuestion },
-  { value: 'done', label: 'Hoàn thành', tone: 'success', icon: CheckCircle2 },
+  { value: 'done', label: 'Hoàn thành', tone: 'success', icon: CheckBadge },
 ];
 
 export function statusLabel(status) {

@@ -1621,8 +1621,6 @@
 .quiz-mark--done {
   border: 0;
   border-radius: 50%;
-  background: var(--success-text);
-  color: var(--neu-white);
 }
 
 /* Trang giới thiệu nghề (CR-14): bố cục bài viết, cột đọc ở giữa, mục lục dính bên phải từ 1200px. */
