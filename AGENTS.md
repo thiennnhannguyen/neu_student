@@ -130,3 +130,20 @@ CHẾ ĐỘ TIẾT KIỆM (áp dụng từ giai đoạn 07 đến hết dự án
 - Ảnh chụp: chỉ trang có thay đổi trong giai đoạn đó.
 - Báo cáo: bỏ bảng "Đã làm" nếu mọi mục đều Đủ, chỉ ghi "Đủ toàn bộ". Giữ nguyên: phần khác yêu cầu, quyết định mới (nguyên văn), output thật, test nghiệm thu, link CI.
 - Khi chạy lại test trong lúc làm, chạy file liên quan; chỉ chạy toàn bộ trước khi commit.
+
+LÀM VIỆC SONG SONG (hai máy, quản lý dự án chốt 09/11/2026)
+Máy 1 là máy gửi báo cáo ngày 09/11 (số quyết định D-330 → D-399). Máy 2 là máy còn lại (D-400 → D-469). Hết khoảng thì báo quản lý dự án cấp thêm.
+1. Nhánh và PR
+- Không push thẳng vào main. Mỗi CR làm trên nhánh riêng `cr-xx-ten-ngan`, tạo từ main mới nhất (`git pull --rebase origin main` trước khi tạo nhánh).
+- Push nhánh, mở PR vào main bằng `gh pr create`. Chỉ gộp khi CI của PR xanh cả 3 job (backend, frontend, e2e). Gộp kiểu squash hoặc rebase, không merge commit.
+- Trước khi gộp: `git pull --rebase origin main` trên nhánh, chạy lại `make check`.
+- Không sửa lịch sử đã có trên main (không force push main). Hai commit lỗi cú pháp cũ b9d1946, 30a9098: để nguyên.
+2. Số quyết định và phân việc
+- Mỗi máy chỉ dùng số D trong khoảng của mình.
+- docs/PROGRESS.md có cột "Máy" cho từng CR. Không nhận một CR mà máy kia đang làm.
+- Câu hỏi mở dùng chung chuỗi Q; trước khi thêm Q mới phải pull main và lấy số lớn nhất đang dùng trong cả repo cộng 1.
+3. CI
+- Khi e2e đỏ, CI tải lên artifact `playwright-report` (báo cáo HTML và test-results, giữ 7 ngày). Tải bằng `gh run download <run-id> -n playwright-report`, chỉ ra test nào hỏng.
+- Ghi kết quả các lần chạy CI trên main vào docs/PROGRESS.md (mục Theo dõi CI). Đỏ thì gửi tên test hỏng và trích log.
+4. Dữ liệu demo
+- Sau mỗi lần pull có migration hoặc dữ liệu mới: chạy `make demo` (xóa dữ liệu đã nộp trên máy đó). Hỏi người dùng trước khi tự chạy trên máy đang dùng.
