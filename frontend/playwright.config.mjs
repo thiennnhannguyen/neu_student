@@ -10,7 +10,8 @@ export default defineConfig({
   workers: 1,
   retries: 0,
   timeout: 60000,
-  reporter: [['list']],
+  // Trên CI thêm báo cáo HTML để tải về khi đỏ (artifact playwright-report).
+  reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : [['list']],
   globalTeardown: './e2e/teardown.mjs',
   use: { baseURL, viewport: { width: 1440, height: 1000 }, trace: 'retain-on-failure' },
   webServer: {
