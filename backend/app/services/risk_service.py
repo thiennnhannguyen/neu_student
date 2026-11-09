@@ -79,20 +79,20 @@ def _gpa_rule(facts: RiskFacts) -> RuleCheck:
     if _is_below(gpa.numerator, gpa.denominator, rule.gpa_warning_below):
         return RuleCheck(
             LEVEL_WARNING,
-            f"GPA tích lũy {_vn(gpa.value)} dưới ngưỡng cảnh báo {_vn(rule.gpa_warning_below)}.",
+            f"GPA tích lũy {_vn(gpa.value)} dưới ngưỡng Nguy cơ cao {_vn(rule.gpa_warning_below)}.",
             evidence,
             f"GPA tích lũy {_vn(gpa.value)}, dưới ngưỡng {_vn(rule.gpa_warning_below)}",
         )
     if _is_below(gpa.numerator, gpa.denominator, rule.gpa_watch_below):
         return RuleCheck(
             LEVEL_WATCH,
-            f"GPA tích lũy {_vn(gpa.value)} dưới ngưỡng chú ý {_vn(rule.gpa_watch_below)}.",
+            f"GPA tích lũy {_vn(gpa.value)} dưới ngưỡng Cần chú ý {_vn(rule.gpa_watch_below)}.",
             evidence,
             f"GPA tích lũy {_vn(gpa.value)}, dưới ngưỡng {_vn(rule.gpa_watch_below)}",
         )
     return RuleCheck(
         LEVEL_NORMAL,
-        f"GPA tích lũy {_vn(gpa.value)} không dưới ngưỡng chú ý {_vn(rule.gpa_watch_below)}.",
+        f"GPA tích lũy {_vn(gpa.value)} không dưới ngưỡng Cần chú ý {_vn(rule.gpa_watch_below)}.",
         evidence,
     )
 
@@ -110,19 +110,21 @@ def _debt_rule(facts: RiskFacts) -> RuleCheck:
     if debt >= rule.debt_warning_from:
         return RuleCheck(
             LEVEL_WARNING,
-            f"Đang nợ {debt} tín chỉ, từ ngưỡng cảnh báo {rule.debt_warning_from}.",
+            f"Đang nợ {debt} tín chỉ, từ ngưỡng Nguy cơ cao {rule.debt_warning_from}.",
             evidence,
             f"Nợ {debt} tín chỉ",
         )
     if debt >= rule.debt_watch_from:
         return RuleCheck(
             LEVEL_WATCH,
-            f"Đang nợ {debt} tín chỉ, từ ngưỡng chú ý {rule.debt_watch_from}.",
+            f"Đang nợ {debt} tín chỉ, từ ngưỡng Cần chú ý {rule.debt_watch_from}.",
             evidence,
             f"Nợ {debt} tín chỉ",
         )
     return RuleCheck(
-        LEVEL_NORMAL, f"Đang nợ {debt} tín chỉ, dưới ngưỡng chú ý {rule.debt_watch_from}.", evidence
+        LEVEL_NORMAL,
+        f"Đang nợ {debt} tín chỉ, dưới ngưỡng Cần chú ý {rule.debt_watch_from}.",
+        evidence,
     )
 
 

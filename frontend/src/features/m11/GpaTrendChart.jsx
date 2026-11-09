@@ -97,7 +97,7 @@ export default function GpaTrendChart({ trend, thresholds = null }) {
                 stroke="var(--warning-text)"
                 strokeDasharray="4 4"
                 strokeOpacity={0.6}
-                label={thresholdLabel('Ngưỡng chú ý', thresholds.watch, 'var(--warning-text)')}
+                label={thresholdLabel('Ngưỡng Cần chú ý', thresholds.watch, 'var(--warning-text)')}
               />
             )}
             {thresholds && (
@@ -105,7 +105,11 @@ export default function GpaTrendChart({ trend, thresholds = null }) {
                 y={thresholds.warning}
                 stroke="var(--danger-text)"
                 strokeDasharray="6 4"
-                label={thresholdLabel('Ngưỡng cảnh báo', thresholds.warning, 'var(--danger-text)')}
+                label={thresholdLabel(
+                  'Ngưỡng Nguy cơ cao',
+                  thresholds.warning,
+                  'var(--danger-text)',
+                )}
               />
             )}
             <Area
@@ -149,8 +153,8 @@ export default function GpaTrendChart({ trend, thresholds = null }) {
       </div>
       {thresholds && (
         <p className="visually-hidden">
-          Ngưỡng cảnh báo {formatDecimal(thresholds.warning)}
-          {thresholds.watch ? `; ngưỡng chú ý ${formatDecimal(thresholds.watch)}` : ''}.
+          Ngưỡng Nguy cơ cao {formatDecimal(thresholds.warning)}
+          {thresholds.watch ? `; ngưỡng Cần chú ý ${formatDecimal(thresholds.watch)}` : ''}.
         </p>
       )}
       <table className="visually-hidden">

@@ -167,6 +167,7 @@ const CAREER_SUBPAGES = [
 export const CERTIFICATES_PATH = '/m12/chung-chi';
 const SUPPORT_ROOT = '/m12/yeu-cau-ho-tro';
 const ANALYSIS_ROOT = '/m11/phan-tich';
+const COURSE_DETAIL_PREFIX = `${ANALYSIS_ROOT}/mon/`;
 const RISK_PLAN = '/m11/canh-bao/ke-hoach';
 const PLAN_ROOT = '/m12/ke-hoach';
 const PLAN_DIFF = `${PLAN_ROOT}/khac-biet`;
@@ -210,6 +211,19 @@ function careerSubpageMeta(pathname) {
         { label: 'Định hướng & hỗ trợ' },
         { label: 'Yêu cầu hỗ trợ', to: SUPPORT_ROOT },
         { label },
+      ],
+    };
+  }
+  if (pathname.startsWith(COURSE_DETAIL_PREFIX)) {
+    // CR-13b: tên môn do trang báo lên sau khi tải (PageLabelContext); lúc đang tải là nhãn chung.
+    const label = 'Chi tiết môn';
+    return {
+      title: label,
+      trail: [
+        { label: 'Tổng quan', to: '/' },
+        { label: 'Học tập' },
+        { label: 'Phân tích & Cảnh báo', to: ANALYSIS_ROOT, keepScope: true },
+        { label, current: true },
       ],
     };
   }

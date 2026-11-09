@@ -6,6 +6,17 @@
 import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { usePageLabel } from '../../components/PageLabelContext';
 import { Button, Card, DataTable, PageHeader, StatusChip } from '../../components/ui';
 import WeeklyReportHistory, { weeklySummaryText } from '../weeklyReport/WeeklyReportHistory';
 import {
@@ -211,47 +222,113 @@ function Targets({ targets }) {
   );
 }
 
-/** Biểu đồ nhỏ: điểm dự kiến tính lại trên từng bản chụp LMS. Có bảng ẩn cho trình đọc màn hình. */
-export function WeeklyChart({ weekly }) {
-  const points = weekly.filter((point) => point.plot !== null);
-  if (points.length < 2) {
+const SCORE_TICKS = [0, 2, 4, 6, 8, 10];
+// Ngưỡng vẽ trên biểu đồ: điểm đạt 4,5 và mức C 5,5 (giá trị mẫu của D-314).
+const CHART_LINES = [
+  { y: 4.5, text: 'Ngưỡng đạt 4,5', color: 'var(--danger-text)' },
+  { y: 5.5, text: 'Mức C 5,5', color: 'var(--warning-text)' },
+];
+
+function WeeklyTooltip({ active, payload }) {
+  if (!active || !payload?.length) {
     return null;
   }
-  const width = 320;
-  const height = 80;
-  const plots = points.map((point) => point.plot);
-  const low = Math.min(...plots) - 50;
-  const high = Math.max(...plots) + 50;
-  const coordinates = points.map((point, index) => {
-    const x = Math.round((index * width) / (points.length - 1));
-    const y = Math.round(height - ((point.plot - low) * height) / (high - low));
-    return { x, y, point };
-  });
-  const text = points.map((point) => `tuần ${point.week_no}: ${formatDecimal(point.score)}`);
+  const point = payload[0].payload;
+  return (
+    <div className="chart-tooltip">
+      <p>
+        <strong>
+          {point.name}: {formatDecimal(point.raw)}
+        </strong>
+      </p>
+    </div>
+  );
+}
+
+/** `plot` là số nguyên do backend tính (điểm × 100), chỉ để vẽ; nhãn và bảng dùng chuỗi (Q78). */
+export function toWeeklyData(weekly) {
+  return weekly
+    .filter((point) => point.plot !== null)
+    .map((point) => ({
+      label: `T${point.week_no}`,
+      name: `Tuần ${point.week_no}`,
+      raw: point.score,
+      plotted: point.plot / 100,
+    }));
+}
+
+/**
+ * Điểm dự kiến tính lại trên từng bản chụp LMS (CR-13b): rộng hết khối, trục 0–10, ngưỡng 4,5 và
+ * 5,5, nhãn từng tuần. Có bảng ẩn cho trình đọc màn hình.
+ */
+export function WeeklyChart({ weekly }) {
+  const data = toWeeklyData(weekly);
+  if (data.length < 2) {
+    return null;
+  }
+  const text = data.map((point) => `${point.name.toLowerCase()}: ${formatDecimal(point.raw)}`);
   return (
     <figure className="weekly-chart">
       <figcaption className="section-heading">Điểm dự kiến theo tuần</figcaption>
-      <svg
-        viewBox={`-6 -6 ${width + 12} ${height + 12}`}
+      <div
+        className="weekly-chart__plot"
         role="img"
         aria-label={`Điểm dự kiến theo tuần: ${text.join('; ')}`}
       >
-        <polyline
-          className="weekly-chart__line"
-          points={coordinates.map(({ x, y }) => `${x},${y}`).join(' ')}
-        />
-        {coordinates.map(({ x, y, point }) => (
-          <circle key={point.week_no} className="weekly-chart__dot" cx={x} cy={y} r={3} />
-        ))}
-      </svg>
-      <p className="weekly-chart__ends" aria-hidden="true">
-        <span>
-          Tuần {points[0].week_no}: {formatDecimal(points[0].score)}
-        </span>
-        <span>
-          Tuần {points.at(-1).week_no}: {formatDecimal(points.at(-1).score)}
-        </span>
-      </p>
+        <ResponsiveContainer width="100%" height={260}>
+          <LineChart
+            accessibilityLayer={false}
+            data={data}
+            margin={{ top: 16, right: 16, bottom: 0, left: -20 }}
+          >
+            <CartesianGrid vertical={false} stroke="var(--border-subtle)" />
+            <XAxis
+              dataKey="label"
+              interval={0}
+              tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+              tickLine={false}
+              axisLine={{ stroke: 'var(--border-subtle)' }}
+              padding={{ left: 16, right: 16 }}
+            />
+            <YAxis
+              domain={[0, 10]}
+              ticks={SCORE_TICKS}
+              tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+              tickLine={false}
+              axisLine={false}
+            />
+            <Tooltip content={<WeeklyTooltip />} cursor={{ stroke: 'var(--neu-mid)' }} />
+            {CHART_LINES.map((line) => (
+              <ReferenceLine
+                key={line.text}
+                y={line.y}
+                stroke={line.color}
+                strokeDasharray="6 4"
+                label={{
+                  value: line.text,
+                  position: 'insideBottomRight',
+                  fill: line.color,
+                  fontSize: 12,
+                }}
+              />
+            ))}
+            <Line
+              type="linear"
+              dataKey="plotted"
+              stroke="var(--neu-primary)"
+              strokeWidth={2}
+              dot={{
+                r: 4,
+                fill: 'var(--neu-primary)',
+                stroke: 'var(--surface-card)',
+                strokeWidth: 2,
+              }}
+              activeDot={{ r: 6 }}
+              isAnimationActive={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
       <table className="visually-hidden">
         <caption>Điểm dự kiến theo tuần</caption>
         <thead>
@@ -261,10 +338,10 @@ export function WeeklyChart({ weekly }) {
           </tr>
         </thead>
         <tbody>
-          {points.map((point) => (
-            <tr key={point.week_no}>
-              <th scope="row">Tuần {point.week_no}</th>
-              <td>{formatDecimal(point.score)}</td>
+          {data.map((point) => (
+            <tr key={point.label}>
+              <th scope="row">{point.name}</th>
+              <td>{formatDecimal(point.raw)}</td>
             </tr>
           ))}
         </tbody>
@@ -484,7 +561,7 @@ function CourseDetail({ scope, courseId }) {
     }),
   );
   const back = (
-    <Link className="back-link" to={`/m11/phan-tich${carrySearch(search)}`}>
+    <Link className="back-link back-link--mobile" to={`/m11/phan-tich${carrySearch(search)}`}>
       <ArrowLeft size={16} aria-hidden="true" />
       Phân tích &amp; Cảnh báo
     </Link>
@@ -496,6 +573,12 @@ function CourseDetail({ scope, courseId }) {
         resource={resource}
         loadingText="Đang tải môn học..."
         errorText="Không tải được môn học"
+/** Báo tên môn lên đường dẫn phân cấp ở thanh trên cùng (CR-13b). */
+function CourseLabel({ name }) {
+  usePageLabel(name);
+  return null;
+}
+
       >
         {(data) => (
           <div className="stack">
@@ -519,6 +602,7 @@ function CourseDetail({ scope, courseId }) {
               <h2 className="section-heading">Lộ trình cải thiện – sắp có</h2>
               <p>Gợi ý việc cần làm cho từng môn sẽ có ở bản sau.</p>
             </Card>
+            <CourseLabel name={data.course.name} />
             <p className="reference-line">
               {DISCLAIMER} Ngày hệ thống: {formatDay(data.today)}.
             </p>

@@ -1,5 +1,11 @@
 """Giải thích từng chỉ số M11 (M11-10). Mọi ngưỡng là giá trị mẫu, không phải quy chế NEU."""
 
+# CR-13b (quản lý dự án giao): câu ở ⓘ cạnh "Điểm dự kiến", cả bảng và trang chi tiết môn.
+WARNING_NOTE = (
+    "Mức cảnh báo tính từ chuyên cần, bài tập và báo cáo tuần, nên một môn có thể có điểm dự kiến "
+    "khá nhưng vẫn bị cảnh báo."
+)
+
 GLOSSARY = (
     {
         "key": "semester_gpa",
@@ -89,6 +95,7 @@ GLOSSARY = (
         "note": (
             "Mức nền = điểm trung bình hệ 10 (trọng số tín chỉ) các lần học hiệu lực; nhóm môn có "
             "từ 3 môn thì dùng nhóm đó; chưa có môn nào thì 6,0 (mức nền mặc định). Điểm chữ theo "
+            f"{WARNING_NOTE} "
             "thang của khóa. Mọi hệ số, ngưỡng là giá trị mẫu. Dự kiến chỉ mang tính tham khảo, "
             "dựa trên dữ liệu mô phỏng."
         ),
@@ -119,6 +126,7 @@ GLOSSARY = (
         "note": (
             "Hai loại vắng tính riêng (D-311). Không đủ điều kiện dự thi thì không hiện điểm. "
             "Các ngưỡng là giá trị mẫu. Cảnh báo chỉ để tham khảo."
+            f"{WARNING_NOTE} "
         ),
     },
 )

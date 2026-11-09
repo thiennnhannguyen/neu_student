@@ -17,15 +17,15 @@ function evidenceRows(outcome) {
         'Giá trị thực tế',
         `${formatDecimal(e.value)} (${formatDecimal(e.numerator)}/${e.denominator})`,
       ],
-      ['Ngưỡng chú ý', `dưới ${formatDecimal(e.watch_below)}`],
-      ['Ngưỡng cảnh báo', `dưới ${formatDecimal(e.warning_below)}`],
+      ['Ngưỡng Cần chú ý', `dưới ${formatDecimal(e.watch_below)}`],
+      ['Ngưỡng Nguy cơ cao', `dưới ${formatDecimal(e.warning_below)}`],
     ];
   }
   if (outcome.rule_code === 'debt') {
     return [
       ['Giá trị thực tế', `${formatCount(e.debt_credits)} tín chỉ nợ`],
-      ['Ngưỡng chú ý', `từ ${formatCount(e.watch_from)} tín chỉ`],
-      ['Ngưỡng cảnh báo', `từ ${formatCount(e.warning_from)} tín chỉ`],
+      ['Ngưỡng Cần chú ý', `từ ${formatCount(e.watch_from)} tín chỉ`],
+      ['Ngưỡng Nguy cơ cao', `từ ${formatCount(e.warning_from)} tín chỉ`],
     ];
   }
   return [

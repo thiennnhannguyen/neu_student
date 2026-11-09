@@ -1121,33 +1121,20 @@
 
 .weekly-chart {
   margin: 0;
-  max-width: 480px;
-}
-
-.weekly-chart svg {
   width: 100%;
-  height: auto;
-  display: block;
 }
 
-.weekly-chart__line {
-  fill: none;
-  stroke: var(--neu-primary);
-  stroke-width: 2;
-}
-
-.weekly-chart__dot {
-  fill: var(--neu-primary);
-}
-
-.weekly-chart__ends {
-  display: flex;
-  justify-content: space-between;
-  margin: var(--space-1) 0 0;
-  font-size: var(--font-12);
-  color: var(--text-secondary);
+.weekly-chart__plot {
+  width: 100%;
 }
 
 .coming-soon-card {
   border-style: dashed;
+}
+
+/* CR-13b: từ 768px đã có đường dẫn phân cấp ở thanh trên cùng, liên kết quay lại chỉ cho điện thoại. */
+@media (min-width: 768px) {
+  .back-link--mobile {
+    display: none;
+  }
 }

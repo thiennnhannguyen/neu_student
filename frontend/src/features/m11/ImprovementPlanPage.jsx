@@ -141,7 +141,7 @@ function NoPlan({ data, canEdit, reload }) {
   const { show } = useToast();
   const { error, run } = useAction(reload);
   if (data.active_rules.length === 0) {
-    return <EmptyState title="Không có quy tắc nào ở mức chú ý hoặc cảnh báo" />;
+    return <EmptyState title="Không có quy tắc nào ở mức Cần chú ý hoặc Nguy cơ cao" />;
   }
   if (!canEdit) {
     return <EmptyState title="Sinh viên chưa tạo kế hoạch cải thiện" />;

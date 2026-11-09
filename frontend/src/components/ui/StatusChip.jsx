@@ -6,7 +6,6 @@ import {
   CircleHelp,
   Clock,
   ClockAlert,
-  Eye,
   FileQuestionMark,
   Hourglass,
   Medal,
@@ -15,6 +14,7 @@ import {
   TrendingUp,
   Link2,
   X,
+  XCircle,
 } from 'lucide-react';
 
 /**
@@ -36,9 +36,10 @@ export const STATUS_CHIPS = {
   pending: { label: 'Chờ duyệt', icon: Hourglass, tone: 'warning' },
   no_evidence: { label: 'Chưa có minh chứng', icon: FileQuestionMark, tone: 'neutral' },
   not_in_program: { label: 'Không có trong CTĐT ngành bạn', icon: Ban, tone: 'neutral' },
-  normal: { label: 'Bình thường', icon: ShieldCheck, tone: 'success' },
-  watch: { label: 'Chú ý', icon: Eye, tone: 'warning' },
-  warning: { label: 'Cảnh báo', icon: AlertTriangle, tone: 'danger' },
+  // D-315: một bộ từ chỉ mức cho Cảnh báo học vụ và môn học; icon trùng bảng môn (⚠ nhẹ, ✗ nặng).
+  normal: { label: 'Ổn', icon: ShieldCheck, tone: 'success' },
+  watch: { label: 'Cần chú ý', icon: AlertTriangle, tone: 'warning' },
+  warning: { label: 'Nguy cơ cao', icon: XCircle, tone: 'danger' },
   insufficient_data: { label: 'Chưa đủ dữ liệu', icon: CircleHelp, tone: 'neutral' },
   not_applicable: { label: 'Không áp dụng', icon: Ban, tone: 'neutral' },
   strong: { label: 'Điểm mạnh', icon: TrendingUp, tone: 'success' },
