@@ -145,7 +145,8 @@ describe('Trang chi tiết môn (D-314)', () => {
     expect(rows.map((row) => row.textContent)).toEqual([
       // D-316: CC là số thật 10 − điểm trừ, không còn "ước lượng từ tỷ lệ có mặt".
       expect.stringMatching(
-        /^Chuyên cần10%10,00Số thật: 10 − 0 \(chưa vắng buổi không phép nào\) = 10/,
+        // D-330: chưa vắng loại nào thì ghi "chưa vắng buổi nào" (trước: "buổi không phép nào").
+        /^Chuyên cần10%10,00Số thật: 10 − 0 \(chưa vắng buổi nào\) = 10/,
       ),
       expect.stringMatching(
         /^Quá trình40%5,37Số thật và ước lượng: điểm quá trình hiện tại 4,81 trên 8 bài tập, bài kiểm tra; kéo về mức nền 7,58/,

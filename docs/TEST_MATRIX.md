@@ -584,6 +584,15 @@ Test cũ đổi theo D-320 (commit test riêng): `tests/helpers.py` (thêm `TABL
 | Dữ liệu demo: `student_code` 11243794, `id` giữ NEU-KHMT-001 | `backend/tests/acceptance/test_khmt_official.py` |
 | Đường dẫn `?student=NEU-KHMT-001` và chọn sinh viên theo id vẫn chạy | e2e có sẵn: `predictionCr13.spec.mjs`, `lmsCr11.spec.mjs`, `weeklyReportCr12.spec.mjs` |
 
+## D-330: Vắng có phép bị trừ điểm chuyên cần (đóng Q90)
+
+| Yêu cầu | Test |
+|---|---|
+| Bảng trừ 0–4 buổi có phép; 5 buổi cấm thi, không hiện điểm; biên 4 buổi Nguy cơ cao "vắng có phép thêm 1 buổi"; mức 1/2/3 buổi | `backend/tests/unit/test_d330_excused.py` |
+| Trộn hai loại; vắng không phép giữ nguyên; hai loại cấm thi riêng; CC không âm, không giới hạn tổng; bảng trong cấu hình | `backend/tests/unit/test_d330_excused.py` |
+| Tính chất: vắng thêm 1 buổi (loại nào cũng vậy) không làm điểm dự kiến tăng | `backend/tests/unit/test_d330_excused.py`, `backend/tests/unit/test_prediction_rules.py` |
+| Dòng Chuyên cần ghi đủ phép tính | `frontend/src/features/m11/attendanceCr13b.test.jsx` |
+| 5 môn thiennhan không đổi số | `backend/tests/acceptance/test_cr13_predictions.py`, e2e `predictionCr13.spec.mjs` |
 ## D-331: Tài liệu chính thức cho ô tự học W3Schools không có bài
 
 | Yêu cầu | Test |

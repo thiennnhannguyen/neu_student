@@ -131,18 +131,22 @@ export function shortDecimal(value) {
     .replace(/,$/, '');
 }
 
-/** D-316: "10 − 3 (vắng 2 buổi không phép) = 7". Vắng có phép không trừ thì ghi rõ. */
-export function attendanceBasis(component, attendance) {
-  const counted = component.deducted_absences;
-  const what =
-    counted === 0
-      ? 'chưa vắng buổi không phép nào'
-      : `vắng ${formatCount(counted)} buổi ${component.excused_deducts ? '' : 'không phép'}`.trim();
-  const excused =
-    attendance.excused > 0 && !component.excused_deducts
-      ? ` Vắng có phép (${formatCount(attendance.excused)} buổi) tạm thời không trừ điểm.`
-      : '';
-  return `Số thật: 10 − ${shortDecimal(component.deduction)} (${what}) = ${shortDecimal(component.value)}; không ngoại suy tới cuối kỳ.${excused}`;
+/**
+ * D-316, D-330: đủ phép tính, vd. "10 − 1 (vắng 1 buổi không phép) − 1 (vắng 2 buổi có phép) = 8".
+ * Loại vắng nào chưa có buổi thì không ghi; chưa vắng buổi nào thì "10 − 0 (chưa vắng buổi nào)".
+ */
+export function attendanceBasis(component) {
+  const parts = [
+    [component.absent, component.absent_deduction, 'không phép'],
+    [component.excused, component.excused_deduction, 'có phép'],
+  ]
+    .filter(([count]) => count > 0)
+    .map(
+      ([count, deduction, kind]) =>
+        ` − ${shortDecimal(deduction)} (vắng ${formatCount(count)} buổi ${kind})`,
+    );
+  const steps = parts.length > 0 ? parts.join('') : ' − 0 (chưa vắng buổi nào)';
+  return `Số thật: 10${steps} = ${shortDecimal(component.value)}; không ngoại suy tới cuối kỳ.`;
 }
 
 function componentRows(prediction) {
@@ -153,7 +157,7 @@ function componentRows(prediction) {
       name: 'Chuyên cần',
       weight: attendance.weight,
       value: attendance.value,
-      basis: attendanceBasis(attendance, prediction.attendance),
+      basis: attendanceBasis(attendance),
     },
     {
       key: 'process',

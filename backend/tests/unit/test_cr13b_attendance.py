@@ -1,7 +1,7 @@
 """CR-13b (D-316): CC = 10 − điểm trừ theo số buổi vắng không phép đã xảy ra, không ngoại suy.
 
 0 buổi → 10; 1 → 9; 2 → 7; từ 3 → Không đủ điều kiện dự thi (D-311). Vắng có phép tạm thời không
-trừ (Q90); ngưỡng cấm thi của vắng có phép giữ (≥ 4). Bảng trừ và lựa chọn trong cấu hình.
+trừ (Q90) – D-330 thay phần vắng có phép: xem test_d330_excused.py. Bảng trừ trong cấu hình.
 """
 
 from decimal import Decimal
@@ -26,7 +26,7 @@ def test_deduction_by_unexcused_absences(absent, cc, deduction):
     result = predict(make(weights=ONLY_CC, attendance=attendance(absent)))
     assert result.attendance_score == D(cc)
     assert result.attendance_deduction == D(deduction)
-    assert result.deducted_absences == absent
+    assert result.absent_deduction == D(deduction)
 
 
 def test_no_extrapolation_to_end_of_term():
@@ -41,36 +41,16 @@ def test_three_unexcused_is_barred_without_score():
     assert result.attendance_score is None
 
 
-@pytest.mark.parametrize("excused", [1, 2, 3])
-def test_excused_is_not_deducted(excused):
-    result = predict(make(weights=ONLY_CC, attendance=attendance(excused=excused)))
-    assert result.attendance_score == D(10)
-    assert result.deducted_absences == 0
-
-
-def test_excused_bar_threshold_unchanged():
-    assert predict(make(attendance=attendance(excused=4))).level == rules.BARRED
-    assert predict(make(baseline="9", attendance=attendance(excused=3))).level == rules.HIGH
-
-
-def test_excused_and_unexcused_together_only_unexcused_deducted():
+def test_excused_and_unexcused_together_both_deducted():
+    # D-330 thay D-316 ("chỉ trừ không phép", CC = 9): 10 − 1 − 1 = 8.
     result = predict(make(weights=ONLY_CC, attendance=attendance(absent=1, excused=2)))
-    assert result.attendance_score == D(9)
+    assert result.attendance_score == D(8)
     # Mức vẫn tính riêng từng loại: 1 không phép (Cần chú ý), 2 có phép (Cần chú ý).
     assert result.level == rules.WATCH
     assert [reason.code for reason in result.reasons][:2] == [
         "attendance_absent",
         "attendance_excused",
     ]
-
-
-def test_excused_deducts_option_from_config():
-    result = predict(
-        make(weights=ONLY_CC, attendance=attendance(absent=1, excused=1)), excused_deducts=True
-    )
-    # 1 + 1 = 2 buổi tính trừ → 10 − 3.
-    assert result.attendance_score == D(7)
-    assert result.deducted_absences == 2
 
 
 def test_deduction_table_from_config_and_beyond_table_uses_largest():
@@ -110,8 +90,9 @@ def test_glossary_explains_new_attendance_rule_and_warning_note():
 
     by_key = {item["key"]: item for item in GLOSSARY}
     formula = by_key["course_prediction"]["formula"]
-    assert "10 − điểm trừ theo số buổi vắng không phép" in formula
-    assert "1 buổi: 9; 2 buổi: 7" in formula
+    # D-330: công thức ghi cả hai bảng trừ.
+    assert "10 − trừ vắng không phép − trừ vắng có phép" in formula
+    assert "1 buổi trừ 1; 2 buổi trừ 3" in formula
     assert "tính như vắng" not in formula
     for key in ("course_prediction", "course_warning"):
         assert WARNING_NOTE in by_key[key]["note"]
