@@ -184,6 +184,8 @@ READER_NAMES = {"student", "advisor", "admin"}
 EVERYONE_NAMES = READER_NAMES | {"support_staff"}
 M12_WORK_ROUTES = {
     ("GET", "/api/m12/careers/slug/<slug>/framework"): READER_NAMES,
+    # D-322: trang giới thiệu nghề cho mọi vai trò đã đăng nhập.
+    ("GET", "/api/m12/careers/slug/<slug>/landing"): EVERYONE_NAMES,
     ("POST", "/api/m12/modules/<module_id>/attempts"): {"student"},
     ("GET", "/api/m12/modules/<module_id>/review"): {"student"},
     ("GET", "/api/m12/attempts/<attempt_id>"): {"student"},

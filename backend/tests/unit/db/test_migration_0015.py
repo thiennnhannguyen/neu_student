@@ -5,10 +5,11 @@ import pytest
 from sqlalchemy import inspect
 
 from app.extensions import db
-from tests.helpers import TABLES_FROM_0015, TABLES_FROM_0016, count_all_tables
+from tests.helpers import TABLES_FROM_0015, TABLES_FROM_0016, TABLES_FROM_0017, count_all_tables
 
 # D-312: hạ xuống 0014 cũng bỏ bảng báo cáo tuần của 0016, nên loại khỏi phép so.
-NEWER = TABLES_FROM_0015 | TABLES_FROM_0016
+# D-320: bảng trang giới thiệu nghề của 0017 cũng vậy.
+NEWER = TABLES_FROM_0015 | TABLES_FROM_0016 | TABLES_FROM_0017
 
 
 @pytest.fixture

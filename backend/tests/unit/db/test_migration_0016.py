@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 
 from app.extensions import db
 from app.models.weekly_report import WeeklyReport
-from tests.helpers import TABLES_FROM_0016, count_all_tables
+from tests.helpers import TABLES_FROM_0016, TABLES_FROM_0017, count_all_tables
 
 
 @pytest.fixture
@@ -26,17 +26,17 @@ def _tables():
 
 
 def test_down_removes_only_weekly_reports_and_up_recreates_it(demo_seeded):
-    before = count_all_tables(TABLES_FROM_0016)
+    before = count_all_tables(TABLES_FROM_0016 | TABLES_FROM_0017)
     # Bổ sung D-312 (commit đầu CR-13): 32 của thiennhan + 174 báo cáo trung tính của demo01–08.
     assert count_all_tables()["weekly_reports"] == 206
     db.session.commit()
     flask_migrate.downgrade(revision="0015")
     assert not TABLES_FROM_0016 & _tables()
-    assert count_all_tables(TABLES_FROM_0016) == before
+    assert count_all_tables(TABLES_FROM_0016 | TABLES_FROM_0017) == before
     db.session.commit()
     flask_migrate.upgrade(revision="0016")
     assert TABLES_FROM_0016 <= _tables()
-    assert count_all_tables(TABLES_FROM_0016) == before
+    assert count_all_tables(TABLES_FROM_0016 | TABLES_FROM_0017) == before
     assert count_all_tables()["weekly_reports"] == 0
     assert db.session.execute(db.text("PRAGMA foreign_key_check")).all() == []
 

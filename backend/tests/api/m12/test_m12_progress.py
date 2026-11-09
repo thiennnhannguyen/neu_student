@@ -493,7 +493,8 @@ def test_related_bad_input_is_422(sv07, query):
 @pytest.mark.parametrize(
     ("path", "fresh", "cached"),
     [
-        (f"{PROGRESS}/{AI}", 34, 8),
+        # D-320: +1 truy vấn cố định cho has_landing của hồ sơ nghề.
+        (f"{PROGRESS}/{AI}", 35, 9),
         (MY, 28, 8),
         (RELATED, 28, 8),
     ],

@@ -32,8 +32,9 @@ from tests.helpers import login_as
 TABLES = load_profile_tables(PROFILE_DEMO_K68)
 OFFICIAL_IDS = {row[0] for row in official.ROWS}
 PROGRAM_IDS = {code: value[0] for code, value in content.PROGRAMS.items()}
-GALLERY_FRESH = 28
-GALLERY_CACHED = 8
+# D-320: +1 truy vấn cố định (danh sách nghề có trang giới thiệu), không theo số nghề.
+GALLERY_FRESH = 29
+GALLERY_CACHED = 9
 VERSION_IDS = {code: version_id_of(code) for code in content.PROGRAM_ORDER}
 
 

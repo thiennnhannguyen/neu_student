@@ -44,6 +44,8 @@ def table_and_index_definitions():
         "AND name NOT LIKE '%course_schedules%' AND name NOT LIKE '%lms_%' "
         # Migration 0016 thêm bảng báo cáo tuần (D-312).
         "AND name NOT LIKE '%weekly_reports%' "
+        # Migration 0017 thêm bảng trang giới thiệu nghề (D-320).
+        "AND name NOT LIKE '%career_landings%' "
         "AND name NOT LIKE 'ix_career_suggested_%' AND name != 'uq_quiz_attempt_one_open' "
         "AND name NOT IN ('users', 'students', "
         # Migration 0004 đổi các bảng này, nên chúng khác nhau giữa bản 0002 và bản mới nhất.

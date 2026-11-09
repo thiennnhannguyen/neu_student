@@ -41,6 +41,8 @@ TABLES_FROM_0015 = frozenset(
 )
 # D-312: báo cáo tuần (CR-12).
 TABLES_FROM_0016 = frozenset({"weekly_reports"})
+# D-320: nội dung trang giới thiệu nghề (CR-14).
+TABLES_FROM_0017 = frozenset({"career_landings"})
 
 
 def count_all_tables(exclude: frozenset[str] = frozenset()) -> dict[str, int]:
