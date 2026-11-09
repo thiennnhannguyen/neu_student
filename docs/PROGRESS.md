@@ -30,23 +30,39 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 
 ## Yêu cầu thay đổi
 
-| Mã | Nội dung | Trạng thái |
-|----|----------|------------|
-| CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành, tag `cr-01`. Sau đó đổi màu, font và đưa lại nhãn mẫu theo D-152, D-156 |
-| CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Hoàn thành, tag `cr-02` (gồm lượt chỉnh CR-02b, D-187, D-188) |
-| CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề, kèm CR-03b | Đạt, tag `cr-03` |
-| CR-04 | CTĐT KHMT theo PDF, Backend chuyên sâu 10 mô-đun, bài kiểm tra, chứng chỉ số, trạng thái bằng icon | Đạt có điều kiện, đang làm 4 điều kiện trước `v1.1`. CNTT, ATTT theo PDF để `v1.2` (quản lý dự án quyết định) |
-| CR-05 | Trang Tổng quan: thẻ "Số môn chưa đạt" mở danh sách môn chưa đạt tính đến kỳ đang xem, tên kỳ thay mã S1–S5, lý do cảnh báo từ API, thời điểm nhập điểm (migration 0013) | Xong phần code, chờ quản lý dự án nghiệm thu (D-292 đến D-297). Phần Tổng quan đã được D-306 thay |
-| CR-06 | Trang Kết quả theo ảnh mẫu: dòng Tổng kết học kì, bỏ nút Học lại, bảng Chi tiết học phần (điểm thành phần 10/40/50, migration 0014) | Xong phần code, chờ quản lý dự án nghiệm thu (D-298 đến D-303) |
-| CR-07 | Hướng nghiệp: ngôi sao thay nhãn "Mục tiêu của bạn", bỏ chú giải trạng thái và khối Bộ tự chọn đề xuất; bỏ badge "Dữ liệu mẫu" ở mọi trang | Xong phần code, chờ quản lý dự án nghiệm thu (D-305) |
-| CR-08 | Tổng quan theo ảnh mẫu (quản lý dự án gọi là CR-07): dải hồ sơ "Mã SV - Họ tên", thẻ 2×2, biểu đồ tròn tín chỉ, biểu đồ cột Điểm trung bình; bỏ "Đang xem", dòng phạm vi, Q80, khối cảnh báo, dòng thời gian, cảnh báo dữ liệu | Đạt, tag `cr-08` trên `7a76eba` (CI xanh run 42502137049). Ảnh ở `docs/screenshots/cr-08/` |
-| CR-09 | Dữ liệu demo-k68: HK1 2026-2027 của `thiennhan` có 5 môn đang học, 15 tín chỉ (thêm CNTT1140, CNTT1159) | Xong phần code, chờ quản lý dự án nghiệm thu (D-307). `v1.1` gắn sau CR-09. Kỳ trống trong Kế hoạch học tập để CR-10 (Q87) |
-| CR-11 | Nền dữ liệu cho Phân tích & Cảnh báo kỳ hiện tại: thang điểm bản 2 của demo-k68, lịch học, API nhận dữ liệu LMS, form LMS Demo, dữ liệu mô phỏng, trang gộp tối thiểu | Đạt, tag `cr-11` (D-308 đến D-311). Tiếp theo: CR-12 báo cáo tuần, CR-13 dự đoán và cảnh báo môn |
-| CR-12 | Báo cáo tuần của sinh viên: lịch mở theo tuần của môn, màn hình toàn trang chặn mềm, "Làm sau" một lần, cờ "không khớp" với LMS, cột "Báo cáo tuần" và xem lại chỉ đọc; kèm 4 sửa nhỏ sau nghiệm thu CR-11 (giờ thật, buổi hôm nay, ô chọn sinh viên, `make demo`) | Đạt, tag `cr-12` (D-312, bổ sung D-309, Q89). Bổ sung sau nghiệm thu ở commit đầu CR-13: "Vắng không phép", báo cáo mẫu trung tính demo01–demo08 |
-| CR-12b | Sửa 2 lỗi tính điểm: điểm bài tập hiện tại tính bài quá hạn là 0, thêm điểm quá trình hiện tại, điểm trừ nộp muộn cấu hình được; điểm kiểm tra mẫu độc lập với điểm bài tập | Đạt, tag `cr-12b` (D-313) |
-| CR-13 | Điểm dự kiến, cảnh báo từng môn, trang chi tiết môn: hàm thuần không dùng AI, ngưỡng là giá trị mẫu trong cấu hình; bảng 2 cột Môn học · Điểm dự kiến; trang `/m11/phan-tich/mon/:courseId` | Đạt, tag `cr-13` (D-314, Q88 đóng) |
-| CR-13b | Một bộ từ chỉ mức Ổn / Cần chú ý / Nguy cơ cao, câu ⓘ về mức cảnh báo, đường dẫn phân cấp và biểu đồ trục 0–10 ở trang chi tiết môn; chuyên cần trừ điểm theo số buổi vắng không phép; xóa dòng chú thích lộ trình nghề | Xong phần code, chờ quản lý dự án nghiệm thu (D-315, D-316, D-317, Q90) |
-| CR-14 | Trang giới thiệu nghề Backend `/m12/dinh-huong/nghe/:slug/gioi-thieu`: nội dung ở bảng `career_landings` (migration 0017), API theo slug cho 4 vai trò, phần môn học và mô-đun lấy từ dữ liệu sẵn có, khối Thu nhập tham khảo có nguồn, phần cá nhân hóa chỉ sinh viên | Xong phần code, chờ quản lý dự án nghiệm thu (D-319 đến D-323); chưa gắn tag `cr-14` |
+| Mã | Nội dung | Trạng thái | Máy |
+|----|----------|------------|-----|
+| CR-01 | Thiết kế lại trang đăng nhập theo bộ nhận diện NEU 2026 | Hoàn thành, tag `cr-01`. Sau đó đổi màu, font và đưa lại nhãn mẫu theo D-152, D-156 | — |
+| CR-02 | Hệ thống thiết kế NEU 2026 và làm lại giao diện đã có | Hoàn thành, tag `cr-02` (gồm lượt chỉnh CR-02b, D-187, D-188) | — |
+| CR-03 | Định hướng nghề theo CTĐT K68 và cẩm nang 10 nghề, kèm CR-03b | Đạt, tag `cr-03` | — |
+| CR-04 | CTĐT KHMT theo PDF, Backend chuyên sâu 10 mô-đun, bài kiểm tra, chứng chỉ số, trạng thái bằng icon | Đạt có điều kiện, đang làm 4 điều kiện trước `v1.1`. CNTT, ATTT theo PDF để `v1.2` (quản lý dự án quyết định) | — |
+| CR-05 | Trang Tổng quan: thẻ "Số môn chưa đạt" mở danh sách môn chưa đạt tính đến kỳ đang xem, tên kỳ thay mã S1–S5, lý do cảnh báo từ API, thời điểm nhập điểm (migration 0013) | Xong phần code, chờ quản lý dự án nghiệm thu (D-292 đến D-297). Phần Tổng quan đã được D-306 thay | — |
+| CR-06 | Trang Kết quả theo ảnh mẫu: dòng Tổng kết học kì, bỏ nút Học lại, bảng Chi tiết học phần (điểm thành phần 10/40/50, migration 0014) | Xong phần code, chờ quản lý dự án nghiệm thu (D-298 đến D-303) | — |
+| CR-07 | Hướng nghiệp: ngôi sao thay nhãn "Mục tiêu của bạn", bỏ chú giải trạng thái và khối Bộ tự chọn đề xuất; bỏ badge "Dữ liệu mẫu" ở mọi trang | Xong phần code, chờ quản lý dự án nghiệm thu (D-305) | — |
+| CR-08 | Tổng quan theo ảnh mẫu (quản lý dự án gọi là CR-07): dải hồ sơ "Mã SV - Họ tên", thẻ 2×2, biểu đồ tròn tín chỉ, biểu đồ cột Điểm trung bình; bỏ "Đang xem", dòng phạm vi, Q80, khối cảnh báo, dòng thời gian, cảnh báo dữ liệu | Đạt, tag `cr-08` trên `7a76eba` (CI xanh run 42502137049). Ảnh ở `docs/screenshots/cr-08/` | — |
+| CR-09 | Dữ liệu demo-k68: HK1 2026-2027 của `thiennhan` có 5 môn đang học, 15 tín chỉ (thêm CNTT1140, CNTT1159) | Xong phần code, chờ quản lý dự án nghiệm thu (D-307). `v1.1` gắn sau CR-09. Kỳ trống trong Kế hoạch học tập để CR-10 (Q87) | — |
+| CR-11 | Nền dữ liệu cho Phân tích & Cảnh báo kỳ hiện tại: thang điểm bản 2 của demo-k68, lịch học, API nhận dữ liệu LMS, form LMS Demo, dữ liệu mô phỏng, trang gộp tối thiểu | Đạt, tag `cr-11` (D-308 đến D-311). Tiếp theo: CR-12 báo cáo tuần, CR-13 dự đoán và cảnh báo môn | — |
+| CR-12 | Báo cáo tuần của sinh viên: lịch mở theo tuần của môn, màn hình toàn trang chặn mềm, "Làm sau" một lần, cờ "không khớp" với LMS, cột "Báo cáo tuần" và xem lại chỉ đọc; kèm 4 sửa nhỏ sau nghiệm thu CR-11 (giờ thật, buổi hôm nay, ô chọn sinh viên, `make demo`) | Đạt, tag `cr-12` (D-312, bổ sung D-309, Q89). Bổ sung sau nghiệm thu ở commit đầu CR-13: "Vắng không phép", báo cáo mẫu trung tính demo01–demo08 | — |
+| CR-12b | Sửa 2 lỗi tính điểm: điểm bài tập hiện tại tính bài quá hạn là 0, thêm điểm quá trình hiện tại, điểm trừ nộp muộn cấu hình được; điểm kiểm tra mẫu độc lập với điểm bài tập | Đạt, tag `cr-12b` (D-313) | — |
+| CR-13 | Điểm dự kiến, cảnh báo từng môn, trang chi tiết môn: hàm thuần không dùng AI, ngưỡng là giá trị mẫu trong cấu hình; bảng 2 cột Môn học · Điểm dự kiến; trang `/m11/phan-tich/mon/:courseId` | Đạt, tag `cr-13` (D-314, Q88 đóng) | — |
+| CR-13b | Một bộ từ chỉ mức Ổn / Cần chú ý / Nguy cơ cao, câu ⓘ về mức cảnh báo, đường dẫn phân cấp và biểu đồ trục 0–10 ở trang chi tiết môn; chuyên cần trừ điểm theo số buổi vắng không phép; xóa dòng chú thích lộ trình nghề | Xong phần code, chờ quản lý dự án nghiệm thu (D-315, D-316, D-317, Q90) | Máy 1 |
+| CR-14 | Trang giới thiệu nghề Backend `/m12/dinh-huong/nghe/:slug/gioi-thieu`: nội dung ở bảng `career_landings` (migration 0017), API theo slug cho 4 vai trò, phần môn học và mô-đun lấy từ dữ liệu sẵn có, khối Thu nhập tham khảo có nguồn, phần cá nhân hóa chỉ sinh viên | Xong phần code, chờ quản lý dự án nghiệm thu (D-319 đến D-323); chưa gắn tag `cr-14` | Máy 2 |
+| Sửa nhỏ 09/11 | D-324 → D-329: link học W3Schools, bỏ 2 dòng chú thích trang nghề, icon tick tròn xanh, bỏ hộp tài khoản demo, sửa trang trắng khi hủy request, mã hiển thị 11243794 | Đã gộp vào main, chờ nghiệm thu | Máy 1 |
+| Q90 | Vắng có phép trừ điểm chuyên cần (D-330), nhánh `cr-q90-vang-co-phep` | Đang làm | Máy 1 |
+| CI | Artifact báo cáo Playwright khi e2e đỏ, action Node 24, `ubuntu-24.04`; nhánh `ci-node24-playwright-artifact` | Đang làm | Máy 1 |
+| Quy tắc hai máy | Mục "Làm việc song song" trong AGENTS.md, cột Máy, theo dõi CI; nhánh `docs-quy-tac-hai-may` | Đang làm | Máy 1 |
+
+## Theo dõi CI trên main (5 lần chạy sau khi gộp PR CI)
+
+Máy 1 = máy gửi báo cáo 09/11, Máy 2 = máy còn lại (AGENTS.md, mục Làm việc song song).
+
+| Lần | Commit | Run | Kết quả | Test hỏng (nếu đỏ) |
+|-----|--------|-----|---------|--------------------|
+| 1 | | | | |
+| 2 | | | | |
+| 3 | | | | |
+| 4 | | | | |
+| 5 | | | | |
 
 ## Việc tồn đọng giao diện
 
