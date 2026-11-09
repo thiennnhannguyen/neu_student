@@ -15,7 +15,7 @@ from app.models.shared import Role, Student, User
 DEMO_SUPPORT_USERNAME = "ht1"
 DEMO_STAFF_ORDER = {"advisor": 0, "admin": 1, "support_staff": 2}
 DEMO_CODE_PREFIX = "DEMO"
-FEATURED_STUDENT_CODE = "NEU-KHMT-001"
+FEATURED_STUDENT_CODE = "11243794"  # D-329: mã hiển thị của thiennhan
 MAX_FAILED_ATTEMPTS = 5
 FAILED_WINDOW = timedelta(minutes=15)
 LOCK_DURATION = timedelta(minutes=15)

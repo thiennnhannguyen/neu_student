@@ -142,7 +142,9 @@ def test_ktpm_keeps_its_k68_codes():
 
 
 def test_thiennhan_profile():
-    student = next(row for row in TABLES["students"] if row["student_code"] == "NEU-KHMT-001")
+    # D-329: mã hiển thị là 11243794 (mã giả); id nội bộ giữ NEU-KHMT-001.
+    student = next(row for row in TABLES["students"] if row["student_code"] == "11243794")
+    assert student["id"] == "NEU-KHMT-001"
     user = next(row for row in TABLES["users"] if row["id"] == student["user_id"])
     assert user["username"] == "thiennhan"
     assert user["full_name"] == "Nguyễn Thiện Nhân"

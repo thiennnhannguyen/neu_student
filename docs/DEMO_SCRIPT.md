@@ -191,7 +191,7 @@ Terminal 2: `make seed-demo`. Ngày demo 26/10/2026 (`make demo`).
 | 7.3 | `thiennhan` | Trả lời 7 câu bắt buộc, **Nộp báo cáo** | Màn hình đóng, thông báo "Đã nộp báo cáo tuần 8 môn CNTT1117." |
 | 7.4 | `thiennhan` | Mở **Phân tích & Cảnh báo**, bấm dòng CNTT1117 | Không hiện lại màn hình báo cáo. Trang chi tiết môn, mục "Báo cáo tuần": "Đã nộp 8/8 · gần nhất tuần 8 (26/10/2026)" (từ CR-13 báo cáo tuần xem ở trang chi tiết môn, D-314) |
 | 7.5 | `thiennhan` | Tải lại trang (F5) | Màn hình báo cáo CNTT1180 hiện lại, "Môn 1/1", không còn nút **Làm sau**, phím Esc không đóng |
-| 7.6 | `gv2` | Mở **Phân tích & Cảnh báo**, chọn sinh viên `NEU-KHMT-001`, bấm dòng CNTT1140, ở mục "Báo cáo tuần" bấm **Xem** | Bản chỉ đọc: tuần 7 và tuần 5 "Không nộp", tuần 6 ghi chú "Chưa hiểu mạng nơ-ron nhiều lớp." |
+| 7.6 | `gv2` | Mở **Phân tích & Cảnh báo**, chọn sinh viên `11243794` (Nguyễn Thiện Nhân), bấm dòng CNTT1140, ở mục "Báo cáo tuần" bấm **Xem** | Bản chỉ đọc: tuần 7 và tuần 5 "Không nộp", tuần 6 ghi chú "Chưa hiểu mạng nơ-ron nhiều lớp." |
 
 Luồng 7.1–7.6 chạy trên bản build bằng e2e `frontend/e2e/weeklyReportCr12.spec.mjs`, không chạy tay từng bước.
 
@@ -205,7 +205,7 @@ Terminal 2: `make seed-demo`. Ngày demo 26/10/2026 (`make demo`). Khi đăng nh
 | 8.2 | `thiennhan` | Bấm dòng CNTT1188 | Trang chi tiết: 6,78 C+, khoảng 5,32–8,25, độ tin cậy Trung bình, Nguy cơ cao, "Thiếu 3/7 bài đã quá hạn". Bảng thành phần Chuyên cần 10% 10,00 (số thật: 10 − 0), Quá trình 40% 5,37 (4,81 hiện tại, kéo về mức nền 7,58), Cuối kỳ 50% 7,28 (ước lượng). Cuối kỳ cần 4,71 để đạt C, 7,71 để đạt B, A "Không đạt được". Đường dẫn phân cấp "Tổng quan / Học tập / Phân tích & Cảnh báo / Lập trình Web". Biểu đồ 8 tuần trục 0–10, đường "Ngưỡng đạt 4,5" và "Mức C 5,5", bài tập, bài kiểm tra, báo cáo tuần, lịch, "Lộ trình cải thiện – sắp có" |
 | 8.3 | `thiennhan` | Quay lại, bấm dòng CNTT1159 | Nguy cơ cao vì "Vắng 2 buổi không phép – vắng thêm 1 buổi sẽ không được dự thi"; điểm 8,23; bảng thành phần ghi "Số thật: 10 − 3 (vắng 2 buổi không phép) = 7" (D-316) |
 | 8.4 | `thiennhan` | Thu nhỏ cửa sổ còn 375px | Bảng vẫn 2 cột, không cuộn ngang |
-| 8.5 | `gv2` | Chọn sinh viên `NEU-KHMT-001`, mở **Phân tích & Cảnh báo**, bấm dòng CNTT1140 | Cần chú ý: "Không nộp 2 báo cáo tuần", "Điểm dự kiến giảm 0,35 qua 2 tuần (8,03 → 7,93 → 7,68)"; đường dẫn giữ `?student=` |
+| 8.5 | `gv2` | Chọn sinh viên `11243794` (Nguyễn Thiện Nhân), mở **Phân tích & Cảnh báo**, bấm dòng CNTT1140 | Cần chú ý: "Không nộp 2 báo cáo tuần", "Điểm dự kiến giảm 0,35 qua 2 tuần (8,03 → 7,93 → 7,68)"; đường dẫn giữ `?student=` |
 
 Luồng 8.1–8.5 chạy trên bản build bằng e2e `frontend/e2e/predictionCr13.spec.mjs`.
 

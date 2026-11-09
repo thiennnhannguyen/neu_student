@@ -297,6 +297,8 @@ DEMO_RULE_NAMES = {"K66": "K66 (bản 2)", "K67": "K67 (bản 2)"}
 STUDENTS = [
     {
         "id": "NEU-KHMT-001",
+        # D-329: mã sinh viên hiển thị (mã giả, quản lý dự án chọn); "id" nội bộ giữ nguyên.
+        "student_code": "11243794",
         "username": "thiennhan",
         "full_name": "Nguyễn Thiện Nhân",
         "program": "KHMT",

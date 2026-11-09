@@ -576,3 +576,10 @@ Test cũ đổi theo D-320 (commit test riêng): `tests/helpers.py` (thêm `TABL
 |---|---|
 | Hủy lúc đọc thân phản hồi vẫn là AbortError, không trả null; thân không phải JSON vẫn trả null | `frontend/src/api/client.test.js` |
 | Đường dẫn cũ `/m11/canh-bao` chuyển hướng không trắng trang ở 375/768/1280px | `frontend/e2e/sweep.spec.mjs` (có sẵn) |
+
+## D-329: Mã hiển thị của thiennhan là 11243794
+
+| Yêu cầu | Test |
+|---|---|
+| Dữ liệu demo: `student_code` 11243794, `id` giữ NEU-KHMT-001 | `backend/tests/acceptance/test_khmt_official.py` |
+| Đường dẫn `?student=NEU-KHMT-001` và chọn sinh viên theo id vẫn chạy | e2e có sẵn: `predictionCr13.spec.mjs`, `lmsCr11.spec.mjs`, `weeklyReportCr12.spec.mjs` |

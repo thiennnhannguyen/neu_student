@@ -718,7 +718,7 @@ class Builder:
                 students,
                 id=student_id,
                 user_id=user_id,
-                student_code=student_id,
+                student_code=person.get("student_code", student_id),
                 cohort=person["cohort"],
                 program_version_id=version_id_of(person["program"]),
                 entry_semester_id=person["entry"],
