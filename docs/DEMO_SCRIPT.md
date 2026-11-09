@@ -172,7 +172,7 @@ Terminal 2: `make seed-demo`
 
 | Bước | Tài khoản | Thao tác | Người xem cần thấy |
 |------|-----------|----------|--------------------|
-| 6.1 | `thiennhan` | Đăng nhập, mở Định hướng nghề, nghề Lập trình viên Backend, tab **Khung năng lực** | 3 mốc nghề, 10 mô-đun. Mô-đun 1, 2 "Đã đạt", có **Xem chứng chỉ** và **Ôn tập**. Cuối trang có bộ tự chọn đề xuất và dòng "Theo CTĐT do Trường công bố (nguồn: courses.neu.edu.vn) – dữ liệu sinh viên là mẫu" |
+| 6.1 | `thiennhan` | Đăng nhập, mở Định hướng nghề, nghề Lập trình viên Backend, tab **Khung năng lực** | 3 mốc nghề, 10 mô-đun. Mô-đun 1, 2 "Đã đạt", có **Xem chứng chỉ** và **Ôn tập**. Cuối trang không còn dòng chú thích "Tỷ lệ không phản ánh…" và "Theo CTĐT do Trường công bố…" (D-325) |
 | 6.2 | `thiennhan` | Mô-đun 3, bấm **Làm bài kiểm tra** | 10 câu, đồng hồ đếm ngược 15 phút, nhãn "Câu hỏi do nhóm biên soạn" |
 | 6.3 | `thiennhan` | Trả lời, **Nộp bài** | Điểm, giải thích từng câu. Từ 8/10 trở lên có **Xem chứng chỉ** |
 | 6.4 | `thiennhan` | Mở chứng chỉ | Tên, mô-đun, điểm, ngày cấp, mã, QR, câu "không phải chứng chỉ của Trường Đại học Kinh tế Quốc dân" |

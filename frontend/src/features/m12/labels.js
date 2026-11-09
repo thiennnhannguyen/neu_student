@@ -3,8 +3,6 @@ export const NOT_IN_PROGRAM = 'Không có trong CTĐT ngành bạn';
 export const METER_NOTE =
   'Cả thanh là toàn bộ môn của nghề: đoạn đậm là môn đã đạt, đoạn nhạt là môn còn lại trong CTĐT ngành bạn, đoạn sọc chéo là môn ngoài CTĐT ngành bạn. Số % lớn chỉ tính trên môn có trong CTĐT ngành bạn, nên có thể cao hơn phần đậm của thanh.';
 export const NOT_RECRUITMENT = 'Tỷ lệ không phản ánh khả năng được tuyển dụng';
-export const K68_NOTE =
-  'Danh mục theo CTĐT K68 – 2026 do nhóm tổng hợp; tín chỉ, tiên quyết là giả định.';
 export const RATE_NOTE =
   'Tử số là số học phần đã đạt, gồm cả đạt qua tương đương và miễn; môn đang học không được tính. Kỹ năng và dự án chỉ tính khi minh chứng đã được duyệt. Hai tỷ lệ luôn tách riêng. Môn không có trong CTĐT ngành bạn không vào mẫu số.';
 

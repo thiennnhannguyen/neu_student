@@ -551,3 +551,9 @@ Test cũ đổi theo D-320 (commit test riêng): `tests/helpers.py` (thêm `TABL
 | Yêu cầu | Test |
 |---|---|
 | Nghề Backend: 5 ô có bài W3Schools là liên kết đúng địa chỉ, mở tab mới (`noopener noreferrer`); 6 ô không có bài để chữ thường; mọi link trỏ W3Schools; mỗi nghề trong cẩm nang có ít nhất một ô gắn link | `frontend/src/features/m12/studyLinks.test.jsx` |
+
+## D-325: Bỏ 2 dòng chú thích cuối trang chi tiết nghề
+
+| Yêu cầu | Test |
+|---|---|
+| Không còn "Tỷ lệ không phản ánh khả năng được tuyển dụng." và dòng nguồn CTĐT (K68 hoặc "Theo CTĐT do Trường công bố…") ở cuối trang chi tiết nghề | `frontend/src/features/m12/m12Pages.test.jsx`, `frontend/src/features/m12/framework/framework.test.jsx` |

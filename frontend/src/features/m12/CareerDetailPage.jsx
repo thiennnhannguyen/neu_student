@@ -11,7 +11,6 @@ import CareerProjects from './CareerProjects';
 import CareerRoadmap from './CareerRoadmap';
 import { PICK_STUDENT_HINT } from './CareersPage';
 import CompetencyFramework from './framework/CompetencyFramework';
-import { K68_NOTE, NOT_RECRUITMENT } from './labels';
 import RequirementPanel from './RequirementPanel';
 import SetGoalButton from './SetGoalButton';
 import useCareerStudent from './useCareerStudent';
@@ -144,10 +143,6 @@ function Detail({ student, data, reload, slug }) {
           />
         )}
       </div>
-      <p className="career-disclaimer">{NOT_RECRUITMENT}.</p>
-      {profile.major_fit && (
-        <p className="career-disclaimer">{shownFramework.current?.program_note ?? K68_NOTE}</p>
-      )}
     </>
   );
 }

@@ -190,11 +190,8 @@ describe('tab Khung năng lực', () => {
     expect(
       screen.getByText(/3 TC · Học phần của lĩnh vực \(chọn 4\/6\) · HK 2/),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Theo CTĐT do Trường công bố (nguồn: courses.neu.edu.vn) – dữ liệu sinh viên là mẫu',
-      ),
-    ).toBeInTheDocument();
+    // D-325: bỏ câu nguồn CTĐT ở cuối trang chi tiết nghề.
+    expect(screen.queryByText(/Theo CTĐT do Trường công bố/)).toBeNull();
   });
 
   it('không còn hàng chú giải và khối "Bộ tự chọn đề xuất cho Backend" (D-305)', async () => {

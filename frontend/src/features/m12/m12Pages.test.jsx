@@ -438,21 +438,17 @@ describe('trang chi tiết nghề: Hero', () => {
     expect(popover).toHaveTextContent(DISCLAIMER);
   });
 
-  it('luôn có câu về tuyển dụng và câu về danh mục K68', async () => {
+  it('D-325: cuối trang không còn câu về tuyển dụng và câu về danh mục CTĐT', async () => {
     m12Api();
     renderApp(DETAIL_PATH);
 
-    expect(
-      await screen.findByText('Tỷ lệ không phản ánh khả năng được tuyển dụng.'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Danh mục theo CTĐT K68 – 2026 do nhóm tổng hợp; tín chỉ, tiên quyết là giả định.',
-      ),
-    ).toBeInTheDocument();
+    await screen.findByRole('heading', { level: 1 });
+    expect(screen.queryByText('Tỷ lệ không phản ánh khả năng được tuyển dụng.')).toBeNull();
+    expect(screen.queryByText(/Danh mục theo CTĐT K68/)).toBeNull();
+    expect(document.querySelector('.career-disclaimer')).toBeNull();
   });
 
-  it('profile test: không có chip phù hợp, câu định hướng, câu K68; vẫn có câu tuyển dụng', async () => {
+  it('profile test: không có chip phù hợp, câu định hướng, câu K68 (D-325: bỏ câu tuyển dụng)', async () => {
     m12Api('student', {
       [DETAIL_API]: () =>
         jsonResponse(
@@ -465,7 +461,8 @@ describe('trang chi tiết nghề: Hero', () => {
     });
     renderApp(DETAIL_PATH);
 
-    await screen.findByText('Tỷ lệ không phản ánh khả năng được tuyển dụng.');
+    await screen.findByRole('heading', { level: 1 });
+    expect(screen.queryByText('Tỷ lệ không phản ánh khả năng được tuyển dụng.')).toBeNull();
     expect(screen.queryByText(/Phù hợp với ngành của bạn/)).toBeNull();
     expect(screen.queryByText(/Danh mục theo CTĐT K68/)).toBeNull();
     expect(screen.queryByText(/Mục tiêu đầu ra/)).toBeNull();
