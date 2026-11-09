@@ -4343,7 +4343,8 @@ Tuần là tuần **của môn** (từ ngày buổi k tới ngày trước buổ
 | `GET /api/lms/calendar?student_id&course_id&as_of` | admin, advisor | Tuần của môn và các buổi đã diễn ra tới `as_of` |
 | `GET /api/lms/form-options` | admin, advisor | Sinh viên trong phạm vi, các môn đang học kỳ hiện tại, lịch học, tuần hiện tại |
 | `GET /api/lms/snapshots/latest?student_id&course_id` | admin, advisor | Bản chụp tuần mới nhất; chưa có: `{"snapshot": null}` |
-| `GET /api/m11/current-courses?student_id` | student, advisor, admin | Các môn đang học kỳ hiện tại kèm số tổng của bản LMS mới nhất (`latest` null khi chưa có) và tổng hợp báo cáo tuần `weekly_reports` (D-312; null khi môn chưa có lịch). Chưa có dự đoán (CR-13) |
+| `GET /api/m11/current-courses?student_id` | student, advisor, admin | Các môn đang học kỳ hiện tại kèm số tổng của bản LMS mới nhất (`latest` null khi chưa có) và tổng hợp báo cáo tuần `weekly_reports` (D-312; null khi môn chưa có lịch), điểm dự kiến `prediction` (CR-13, D-314). Xếp theo mức cảnh báo nặng trước, cùng mức thì điểm dự kiến thấp trước, rồi theo mã môn |
+| `GET /api/m11/courses/{course_id}/prediction?student_id` | student, advisor, admin | Trang chi tiết môn đang học (CR-13, D-314). Môn không phải môn sinh viên đang học kỳ hiện tại: 404; sinh viên ngoài phạm vi: 404; support_staff 403; cố vấn, quản trị thiếu `student_id`: 422 |
 
 Body của `sync` và `preview` (client **không** gửi số tổng; trường lạ bị 422):
 
@@ -4395,6 +4396,14 @@ Body của `sync` và `preview` (client **không** gửi số tổng; trường 
     {
       "course": {"code": "CNT303", "credits": 3, "id": "CNT303", "name": "Hệ thống phân tán"},
       "latest": null,
+      "prediction": {
+        "confidence": "medium",
+        "letter": "C+",
+        "level": "high",
+        "range": {"high": "8.25", "low": "5.32"},
+        "reasons": [{"code": "assignments_missing", "level": "high", "text": "Thiếu 3/7 bài đã quá hạn"}],
+        "score": "6.78"
+      },
       "schedule": null,
       "weekly_reports": null
     }
@@ -4421,6 +4430,72 @@ Body của `sync` và `preview` (client **không** gửi số tổng; trường 
 ```
 
 `weekly_reports` của một môn có lịch (profile demo-k68, `thiennhan`, ngày 26/10/2026): `{"submitted": 5, "expected": 7, "missed": 2, "open": 0, "latest": {"week_no": 6, "submitted_on": "2026-10-14"}}`. `expected` = số báo cáo đã hết hạn + số đã nộp; báo cáo đang mở chưa nộp không tính là thiếu.
+
+## Điểm dự kiến và cảnh báo từng môn (CR-13, D-314)
+
+Không dùng AI; mọi ngưỡng, hệ số là giá trị mẫu (`app/services/prediction_config.py`, đè bằng cấu hình `PREDICTION_OVERRIDES`). Số trả dạng chuỗi 2 chữ số. Cache theo `data_version` của sinh viên và ngày hệ thống.
+
+`prediction` (trong `current-courses`, bản gọn):
+
+- `level`: `barred` (Không đủ điều kiện dự thi), `high` (Nguy cơ cao), `watch` (Cần chú ý), `ok` (Ổn), `insufficient` (Chưa đủ dữ liệu: chưa có bản LMS hoặc chưa có buổi học nào).
+- `score`, `letter`, `range` {`low`, `high`}: null khi `barred` hoặc `insufficient`. Điểm chữ theo thang của khóa (D-308).
+- `confidence`: `low` (phần đã biết < 0,15), `medium` (0,15–0,30), `high` (> 0,30).
+- `reasons`: lý do sinh từ quy tắc đã kích hoạt, nặng trước; `code` thuộc `attendance_absent`, `attendance_excused`, `assignments_missing`, `assignments_rate`, `score_low`, `upper_low`, `score_watch`, `missed_reports`, `declining`. Mức `ok` không có lý do.
+
+Bản đầy đủ ở trang chi tiết thêm:
+
+- `components`: Chuyên cần (`kind: "assumed"`, giả định giữ tỷ lệ có mặt tới cuối kỳ), Quá trình (`kind: "partial"`, `current` là điểm quá trình hiện tại D-313, `items` = n, `value` đã kéo về mức nền), Cuối kỳ (`kind: "estimate"`), mỗi phần có `weight`.
+- `baseline` {`value`, `source`: `group` | `all` | `default`, `courses`, `group_name`}; `adjustments` (điều chỉnh Cuối kỳ, `value` có dấu) và `adjust_total` (đã giới hạn ±1,5).
+- `targets`: điểm Cuối kỳ cần để đạt C 5,5 / B 7,0 / A 8,5; `status` `needed` (kèm `needed`), `unreachable` (> 10), `secured` (≤ 0).
+- `known_share`, `half_width`; `attendance` {`held`, `present`, `absent`, `excused`, `total_sessions`}; `weekly`: điểm dự kiến tính lại trên từng bản chụp LMS (`week_no`, `as_of`, `score`, `level`; `plot` là số nguyên = điểm × 100, chỉ để vẽ biểu đồ nhỏ, Q78), bản cuối dùng báo cáo tuần tới hôm nay.
+- Ngoài `prediction`: `course`, `schedule`, `latest` (bản LMS mới nhất đủ điểm danh, bài tập, bài kiểm tra, số tổng), `weekly_reports`, `today`, `semester`.
+
+Ví dụ dưới là CNTT1188 của `thiennhan` (demo-k68, 26/10/2026), cắt bớt; test hợp đồng so cấu trúc với phản hồi của `sv01` (profile test, môn chưa có dữ liệu).
+
+<!-- contract: sv01 GET /api/m11/courses/CNT303/prediction -->
+```json
+{
+  "course": {"code": "CNTT1188", "credits": 3, "id": "CNTT1188", "name": "Lập trình Web"},
+  "latest": {
+    "as_of": "2026-10-26",
+    "assessments": [{"code": "KT1", "kind": "quiz", "name": "Kiểm tra 1", "score_10": "7.50", "taken_on": "2026-09-23", "weight": "1.00"}],
+    "assignments": [{"code": "BT2", "due_date": "2026-09-15", "late": false, "name": "Bài tập lập trình Web 2", "score_10": null, "status": "overdue", "submitted_on": null, "weight": "1.00"}],
+    "attendance": [{"session_date": "2026-09-02", "session_no": 1, "status": "present"}],
+    "received_at": "2026-10-26T10:00:05Z",
+    "summary": {"process_score": "4.81"},
+    "week": {"end": "2026-10-27", "start": "2026-10-21", "week_no": 8}
+  },
+  "prediction": {
+    "adjust_total": "-0.30",
+    "adjustments": [{"code": "submit_rate_low", "text": "Đã nộp 4/7 bài đến hạn", "value": "-0.50"}],
+    "as_of": "2026-10-26",
+    "attendance": {"absent": 0, "excused": 0, "held": 8, "present": 8, "total_sessions": 15},
+    "baseline": {"courses": 28, "group_name": null, "source": "all", "value": "7.58"},
+    "components": [
+      {"key": "attendance", "kind": "assumed", "value": "10.00", "weight": "0.10"},
+      {"current": "4.81", "items": 8, "key": "process", "kind": "partial", "value": "5.37", "weight": "0.40"},
+      {"key": "final", "kind": "estimate", "value": "7.28", "weight": "0.50"}
+    ],
+    "confidence": "medium",
+    "half_width": "1.47",
+    "known_share": "0.27",
+    "letter": "C+",
+    "level": "high",
+    "range": {"high": "8.25", "low": "5.32"},
+    "reasons": [{"code": "assignments_missing", "level": "high", "text": "Thiếu 3/7 bài đã quá hạn"}],
+    "score": "6.78",
+    "targets": [
+      {"letter": "C", "needed": "4.71", "score": "5.50", "status": "needed"},
+      {"letter": "A", "needed": null, "score": "8.50", "status": "unreachable"}
+    ],
+    "weekly": [{"as_of": "2026-10-26", "level": "high", "plot": 678, "score": "6.78", "week_no": 8}]
+  },
+  "schedule": {"current_week": {"end": "2026-10-27", "start": "2026-10-21", "week_no": 8}, "first_session_date": "2026-09-02", "sessions_held": 8, "total_sessions": 15, "weekday": 3},
+  "semester": {"id": "S5", "name": "HK1 2026-2027"},
+  "today": "2026-10-26",
+  "weekly_reports": {"expected": 7, "latest": {"submitted_on": "2026-10-20", "week_no": 7}, "missed": 0, "open": 0, "submitted": 7}
+}
+```
 
 ## Báo cáo tuần (CR-12, D-312)
 

@@ -481,3 +481,26 @@ Test cũ đổi theo D-313 (commit test riêng): `test_lms_summary.py` (6,00 tha
 | Câu 1 có Có mặt, Vắng có phép, Vắng không phép, không còn "Vắng" trơn; nhãn trùng form LMS Demo | `frontend/src/features/weeklyReport/absenceLabel.test.jsx` |
 
 Test cũ đổi theo bổ sung D-312 (commit test riêng): `test_migration_0016.py` (206 thay 32 báo cáo), `lmsDemo.test.jsx` và e2e `lmsCr11.spec.mjs` (nhãn "Vắng không phép").
+
+## CR-13: Điểm dự kiến, cảnh báo từng môn, trang chi tiết môn (D-314)
+
+| Yêu cầu | Test |
+|---|---|
+| Công thức theo số tính tay (CNTT1188: QT 5,37; CK 7,28; 6,78 C); QT kéo về mức nền, n gồm bài quá hạn tính 0; chưa có mục thì QT = mức nền; CC tính vắng có phép như vắng; trọng số theo môn từ cấu hình; điểm chữ theo số đã làm tròn | `backend/tests/unit/test_prediction_rules.py` |
+| Từng điều chỉnh Cuối kỳ ở đúng biên: hiểu bài 4 / 3,75 và 2 / 2,25; tỷ lệ nộp 90% / 88,9% và 60% / 58%; tự học 2 / 2,01 và 1 / 0,99 giờ; không nộp 1 / 2 báo cáo; tự tin giảm ngặt 3 báo cáo; giới hạn ±1,5 | `test_prediction_rules.py` |
+| Phần đã biết theo thời gian, biên độ tin cậy 0,10 / 0,15 / 0,30 / 0,35; điểm giữa kỳ cộng vào phần đã biết; nửa khoảng tối thiểu 0,3; khoảng cắt trong [0; 10] | `test_prediction_rules.py` |
+| Mức theo điểm 4,49 / 4,494 / 4,495 / 4,50 / 5,49 / 5,50; cận trên 4,99 / 5,00; chuyên cần không phép 0–3 và có phép 0–4 tính riêng; bài tập thiếu 1/2/3 bài, tỷ lệ 80% / 79% / 60% / 59%; không nộp báo cáo; giảm 2 tuần 0,30 / 0,29, không giảm liên tiếp, chưa đủ 2 tuần; mức cao nhất, lý do nặng trước | `test_prediction_rules.py` |
+| Không đủ điều kiện dự thi không có điểm, khoảng, mốc; chưa có buổi học là Chưa đủ dữ liệu | `test_prediction_rules.py` |
+| Cuối kỳ cần bao nhiêu: số, > 10 "Không đạt được", ≤ 0 "Đã chắc chắn", đúng 10 vẫn đạt được, trọng số Cuối kỳ 0 thì không có mốc | `test_prediction_rules.py` |
+| Tính chất: vắng thêm (không phép hoặc có phép) hoặc thiếu thêm bài không bao giờ làm điểm dự kiến tăng (hơn 300 cặp trạng thái) | `test_prediction_rules.py` |
+| 5 môn của thiennhan ngày demo khớp bảng tính tay (điểm, chữ, khoảng, mức, độ tin cậy, lý do) và đúng thứ tự | `backend/tests/acceptance/test_cr13_predictions.py` |
+| Trang chi tiết CNTT1188: thành phần, mức nền "mọi môn" 7,58 (28 môn), điều chỉnh, mốc 4,71 / 7,71 / Không đạt được, chuỗi 8 tuần; CNTT1180 mức nền nhóm 8,00, 7 buổi; CNTT1140 giảm 8,03 → 7,93 → 7,68 | `test_cr13_predictions.py` |
+| Quyền trang chi tiết 4 vai trò (sinh viên, cố vấn được phân công, cố vấn khác 404, quản trị, nhân sự hỗ trợ 403, thiếu student_id 422); môn không đang học của sinh viên 404 | `test_cr13_predictions.py`; e2e `predictionCr13.spec.mjs` |
+| Chưa có dữ liệu LMS, môn chưa có lịch (profile test), mức nền mặc định 6,0 từ cấu hình; nhóm môn cần đủ số môn | `test_cr13_predictions.py` |
+| Cache theo data_version (chưa tăng thì giữ kết quả, tăng thì vắng 3 buổi thành Không đủ điều kiện dự thi); cấu hình và LMS_LATE_PENALTY đổi kết quả; trọng số riêng từng môn | `test_cr13_predictions.py` |
+| Luật mã nguồn: hàm tính thuần, không float, đọc M11 chỉ qua m11_public, không thư viện AI | `backend/tests/unit/test_cr13_source.py` |
+| Bảng 2 cột, tên đậm, mã chữ nhỏ, giữ thứ tự API; ô điểm có icon kèm chữ chỉ khi có cảnh báo; cả dòng bấm được, giữ ?student=; khối Cảnh báo học vụ giữ nguyên | `frontend/src/features/m11/courseDetailCr13.test.jsx` |
+| Trang chi tiết a–g; không đủ điều kiện, chưa đủ dữ liệu, lỗi 404, liên kết quay lại; trọng số thành phần trăm không qua số | `courseDetailCr13.test.jsx` |
+| 1440 và 375: bảng 2 cột trên cùng một dòng, đúng thứ tự và điểm 5 môn, bấm ô điểm mở chi tiết, axe không lỗi nghiêm trọng, không cuộn ngang | e2e `predictionCr13.spec.mjs` |
+
+Test cũ đổi theo D-314 (commit test riêng): `test_auth_guard.py` (thêm route chi tiết môn), `analysisCr11.test.jsx` và `m11Pages.test.jsx` (bảng 2 cột; tìm "Chưa đủ dữ liệu" trong khối cảnh báo), `scoresCr12b.test.jsx` và `weeklyReport.test.jsx` (3 điểm và báo cáo tuần chuyển sang trang chi tiết), `testData.js` (thêm `prediction`, dữ liệu trang chi tiết), e2e `lmsCr11.spec.mjs` và `weeklyReportCr12.spec.mjs` (tuần, vắng, báo cáo tuần xem ở trang chi tiết; vắng 3 buổi thành Không đủ điều kiện dự thi).

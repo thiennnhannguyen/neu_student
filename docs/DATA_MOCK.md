@@ -452,3 +452,19 @@ Thời điểm nhập điểm (`grade_attempts.recorded_at`, CR-05): profile tes
 
 Sinh viên demo khác (`demo01`–`demo08`, bổ sung D-312 ở commit đầu CR-13) có **174 báo cáo trung tính** từ `NEUTRAL_REPORT`: đã nộp mọi báo cáo đã mở tới ngày demo 26/10/2026 (các tuần đã hết hạn và các báo cáo đang mở hôm đó), nộp ngày mở, 20:00 giờ Việt Nam. Câu 1 "Có mặt" (chưa có LMS nên khớp lịch, cờ để trống là chưa đối chiếu), tự học 1–2 giờ, mức hiểu bài xen kẽ 3 (tuần lẻ) và 4 (tuần chẵn), bài tập "Xong", tự tin 3, cản trở "Không có", tuần tới "Giữ như hiện tại". Ở ngày demo không ai trong số này có báo cáo đang mở hay "Không nộp"; chạy theo ngày thật (sau 26/10/2026) thì các tuần sau vẫn hiện "Không nộp", đúng thiết kế. Tổng `weekly_reports`: 206.
 
+
+## 13. Điểm dự kiến của dữ liệu mẫu (profile demo-k68, CR-13, D-314)
+
+Không có bảng mới: điểm dự kiến tính từ LMS mẫu (mục 11), báo cáo tuần mẫu (mục 12) và kết quả các kỳ trước. Mọi hệ số là giá trị mẫu (`prediction_config.py`). Số dưới đây là bảng tính tay quản lý dự án đã duyệt, test `test_cr13_predictions.py` kiểm đúng từng số.
+
+Mức nền của `thiennhan`: nhóm Ngành 5 môn (CNTT1112 7,0; CNTT1114 8,0; CNTT1131 8,5; CNTT1152 9,0; CNTT1192 7,5) = **8,00**, dùng cho CNTT1180, CNTT1117, CNTT1140. Nhóm Tự chọn chỉ 2 môn nên CNTT1188, CNTT1159 dùng mọi môn: 606 ÷ 80 tín chỉ = **7,575** (28 lần học hiệu lực tính GPA).
+
+| Môn | CC | QT (n = 8) | Điều chỉnh CK | CK | Dự kiến | Khoảng | Mức, lý do |
+|-----|----|-----------|---------------|----|---------|--------|------------|
+| CNTT1188 | 10 | (38,5 + 15,15) ÷ 10 = 5,37 | hiểu bài +0,5; tự học 0,5 giờ −0,3; nộp 4/7 −0,5 | 7,28 | **6,78 C+** | 5,32–8,25 | Nguy cơ cao: "Thiếu 3/7 bài đã quá hạn" |
+| CNTT1159 | 6/8 → 7,5 | (66 + 15,15) ÷ 10 = 8,12 | +0,5; +0,2; +0,3 | 8,58 | **8,28 B+** | 6,82–9,75 | Nguy cơ cao: "Vắng 2 buổi không phép – vắng thêm 1 buổi sẽ không được dự thi" |
+| CNTT1140 | 10 | (51 + 16) ÷ 10 = 6,70 | nộp 7/7 +0,3; không nộp 2 báo cáo −0,3 | 8,00 | **7,68 B** | 6,21–9,15 | Cần chú ý: không nộp 2 báo cáo; giảm 0,35 qua 2 tuần (8,03 → 7,93 → 7,68) |
+| CNTT1117 | 10 | (52,5 + 16) ÷ 10 = 6,85 | nộp 7/7 +0,3 | 8,30 | **7,89 B** | 6,42–9,36 | Ổn |
+| CNTT1180 | 7/7 → 10 | (71 + 16) ÷ 10 = 8,70 | +0,5; +0,2; +0,3 | 9,00 | **8,98 A** | 7,45–10,00 | Ổn |
+
+Phần đã biết: 0,5 × 8 ÷ 15 = 0,27 (CNTT1180 học Thứ 2, mới 7 buổi: 0,23); cả 5 môn độ tin cậy Trung bình. demo01–demo08 chưa có LMS nên mọi môn là "Chưa đủ dữ liệu".

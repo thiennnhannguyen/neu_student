@@ -22,7 +22,7 @@ make demo          # seed profile demo-k68 rồi chạy Flask 5001 + Vite 5173 �
 
 Mở http://localhost:5173. `make demo` = `make seed-demo` rồi `DEMO_TODAY=2026-10-26 make dev`. **Sau mỗi lần pull, chạy lại `make demo`** để seed lại: CSDL cũ không tự cập nhật theo dữ liệu mẫu mới (ví dụ điểm kiểm tra của CR-12b, báo cáo mẫu của demo01–demo08). Chạy theo ngày thật: `make seed-demo && make dev`. Dùng `make seed` thay cho `make seed-demo` để có profile test.
 
-Dữ liệu LMS mẫu của `thiennhan` là "tuần này" ở ngày demo 26/10/2026, nên demo dùng `make demo` (hoặc ghi `DEMO_TODAY=2026-10-26` vào `backend/.env`). Không đặt thì hệ thống dùng ngày thật. Khi có ngày demo, giờ hệ thống (lúc tính số liệu, lúc nộp, thông báo) vẫn là giờ thật và được ghi "(giờ thật)". Điểm trừ mỗi bài tập nộp muộn đặt bằng `LMS_LATE_PENALTY` (mặc định 0, D-313). Quản trị và cố vấn nhập thêm dữ liệu LMS ở **Quản trị → LMS Demo** (form giả lập, gửi đúng API mà LMS thật sẽ gọi).
+Dữ liệu LMS mẫu của `thiennhan` là "tuần này" ở ngày demo 26/10/2026, nên demo dùng `make demo` (hoặc ghi `DEMO_TODAY=2026-10-26` vào `backend/.env`). Không đặt thì hệ thống dùng ngày thật. Khi có ngày demo, giờ hệ thống (lúc tính số liệu, lúc nộp, thông báo) vẫn là giờ thật và được ghi "(giờ thật)". Điểm trừ mỗi bài tập nộp muộn đặt bằng `LMS_LATE_PENALTY` (mặc định 0, D-313). Điểm dự kiến và cảnh báo từng môn (CR-13, D-314) không dùng AI; mọi ngưỡng, hệ số là giá trị mẫu trong `backend/app/services/prediction_config.py`, đè từng khóa bằng cấu hình `PREDICTION_OVERRIDES`. Quản trị và cố vấn nhập thêm dữ liệu LMS ở **Quản trị → LMS Demo** (form giả lập, gửi đúng API mà LMS thật sẽ gọi).
 
 | Profile | Lệnh | Nội dung | Dùng để |
 |---------|------|----------|---------|

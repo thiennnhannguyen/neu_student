@@ -4,7 +4,7 @@ Sinh tự động từ `app.url_map` bằng `python -m scripts.list_routes`, kh�
 Chính sách `public` là không cần đăng nhập. Còn lại là các vai trò được gọi; ngoài phạm vi dữ liệu
 thì service trả 404. Route ghi (POST, PUT, PATCH, DELETE) còn cần header `X-Requested-With: fetch`.
 
-Tổng 118 route, 7 route công khai.
+Tổng 119 route, 7 route công khai.
 
 ## Route công khai
 
@@ -70,6 +70,7 @@ Tổng 118 route, 7 route công khai.
 | `/api/lms/snapshots/latest` | GET | admin, advisor |
 | `/api/lms/sync` | POST | admin, advisor |
 | `/api/m11/compare` | GET | admin, advisor, student |
+| `/api/m11/courses/<course_id>/prediction` | GET | admin, advisor, student |
 | `/api/m11/credits` | GET | admin, advisor, student |
 | `/api/m11/current-courses` | GET | admin, advisor, student |
 | `/api/m11/curriculum-check` | GET | admin, advisor, student |

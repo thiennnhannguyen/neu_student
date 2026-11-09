@@ -8,10 +8,6 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 Nguồn: quản lý dự án, CR-12 (D-312). Chưa có đề cương theo tuần của từng môn nên câu 4 của báo cáo tuần hiện là ô ghi chú ngắn, tùy chọn (tối đa 300 ký tự). Khi có đề cương theo tuần, có thể đổi thành danh sách chủ đề để chọn. Cần quản lý dự án cho biết nguồn đề cương.
 
-### Q88. Vắng có phép có tính vào số buổi vắng để cấm thi không (CR-13)
-
-Nguồn: quản lý dự án, CR-11 (D-311). Mặc định **có tính**, để trong cấu hình để đổi không cần sửa mã. Cần quản lý dự án xác nhận trước khi làm CR-13.
-
 ### Q87. Sàn tín chỉ mỗi kỳ của thuật toán lộ trình (dự kiến CR-10, chưa làm)
 
 Nguồn: quản lý dự án, phản hồi kế hoạch CR-09 (D-307).
@@ -115,3 +111,4 @@ Nội dung đầy đủ nằm trong [DECISIONS.md](DECISIONS.md).
 | Q84 | Yêu cầu sao chép vào draft có cần duyệt lại | D-198 |
 | Q85 | Sửa kỹ năng đang nằm trong bản published | D-199 |
 | Q86 | API duyệt ánh xạ môn và kỹ năng | D-200 |
+| Q88 | Vắng có phép có tính để cấm thi không | Chốt ở CR-13: vắng không phép và có phép tính riêng (không phép 1/2/≥3 = Cần chú ý / Nguy cơ cao / Không đủ điều kiện dự thi; có phép 2/3/≥4), ngưỡng trong cấu hình (D-314) |
