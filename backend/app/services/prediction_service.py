@@ -261,11 +261,13 @@ def detail_json(result: CourseResult) -> dict:
                 "key": "attendance",
                 "weight": _dec(weights.attendance),
                 "value": _dec(prediction.attendance_score),
-                # D-316: số thật, 10 − điểm trừ theo số buổi vắng đã xảy ra (không ngoại suy).
+                # D-316, D-330: số thật, 10 − trừ không phép − trừ có phép (không ngoại suy).
                 "kind": "actual",
                 "deduction": _dec(prediction.attendance_deduction),
-                "deducted_absences": prediction.deducted_absences,
-                "excused_deducts": bool(settings()["excused_deducts"]),
+                "absent": prediction.absent,
+                "absent_deduction": _dec(prediction.absent_deduction),
+                "excused": prediction.excused,
+                "excused_deduction": _dec(prediction.excused_deduction),
             },
             {
                 "key": "process",

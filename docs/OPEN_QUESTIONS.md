@@ -4,9 +4,9 @@ Giữ nguyên số Q để tra lại. Mọi ngưỡng trong đề xuất là gi�
 
 ## Đang mở
 
-### Q90. Vắng có phép có trừ điểm chuyên cần không (CR-13b)
+### Q111. Hai mức trừ "tạm" của vắng có phép (D-330)
 
-Nguồn: quản lý dự án, CR-13b (D-316). Tạm thời **không trừ**; ngưỡng cấm thi của vắng có phép giữ (từ 4 buổi). Đổi bằng cấu hình `excused_deducts` (bật thì vắng có phép cộng vào số buổi tính trừ theo cùng bảng). Cần quản lý dự án xác nhận.
+Nguồn: quản lý dự án, chốt Q90 (D-330). Bảng trừ vắng có phép: 0 → 0; **1 buổi → 0 (tạm)**; 2 → −1; **3 buổi → −2 (tạm)**; 4 → −3; từ 5 → Không đủ điều kiện dự thi. Hai giá trị in đậm chờ quản lý dự án xác nhận. Đổi bằng cấu hình `excused_deductions`, không cần sửa mã.
 
 ### Q89. Danh sách chủ đề "Nội dung chưa hiểu" theo tuần (CR-12)
 
@@ -116,3 +116,4 @@ Nội dung đầy đủ nằm trong [DECISIONS.md](DECISIONS.md).
 | Q85 | Sửa kỹ năng đang nằm trong bản published | D-199 |
 | Q86 | API duyệt ánh xạ môn và kỹ năng | D-200 |
 | Q88 | Vắng có phép có tính để cấm thi không | Chốt ở CR-13: vắng không phép và có phép tính riêng (không phép 1/2/≥3 = Cần chú ý / Nguy cơ cao / Không đủ điều kiện dự thi; có phép 2/3/≥4), ngưỡng trong cấu hình (D-314) |
+| Q90 | Vắng có phép có trừ điểm chuyên cần không | Chốt: có trừ, nhẹ hơn vắng không phép; cấm thi từ 5 buổi có phép (D-330). Hai mức "tạm" chuyển sang Q111. |

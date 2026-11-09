@@ -1,18 +1,27 @@
-/** CR-13b (D-316): dòng Chuyên cần "10 − 3 (vắng 2 buổi không phép) = 7" ở trang chi tiết môn. */
+/** CR-13b (D-316), D-330: dòng Chuyên cần "10 − 3 (vắng 2 buổi không phép) = 7" ở trang chi tiết môn. */
 import { screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { jsonResponse, renderApp } from '../../test/fakeApi';
 import { attendanceBasis, shortDecimal } from './CourseDetailPage';
 import { COURSE_DETAIL, m11Api } from './testData';
 
-const component = (deduction, value, counted, excusedDeducts = false) => ({
+// D-330: thành phần Chuyên cần có số buổi và mức trừ riêng từng loại vắng.
+const component = (
+  value,
+  absent = 0,
+  absentDeduction = '0.00',
+  excused = 0,
+  excusedDeduction = '0.00',
+) => ({
   key: 'attendance',
   weight: '0.10',
   value,
   kind: 'actual',
-  deduction,
-  deducted_absences: counted,
-  excused_deducts: excusedDeducts,
+  deduction: '0.00',
+  absent,
+  absent_deduction: absentDeduction,
+  excused,
+  excused_deduction: excusedDeduction,
 });
 
 describe('công thức chuyên cần trên trang chi tiết (D-316)', () => {
@@ -27,20 +36,26 @@ describe('công thức chuyên cần trên trang chi tiết (D-316)', () => {
   });
 
   it('2 buổi không phép: 10 − 3 = 7, không ngoại suy', () => {
-    expect(attendanceBasis(component('3.00', '7.00', 2), { excused: 0 })).toBe(
+    expect(attendanceBasis(component('7.00', 2, '3.00'))).toBe(
       'Số thật: 10 − 3 (vắng 2 buổi không phép) = 7; không ngoại suy tới cuối kỳ.',
     );
   });
 
-  it('vắng có phép không trừ thì ghi rõ', () => {
-    expect(attendanceBasis(component('1.00', '9.00', 1), { excused: 2 })).toBe(
-      'Số thật: 10 − 1 (vắng 1 buổi không phép) = 9; không ngoại suy tới cuối kỳ. Vắng có phép (2 buổi) tạm thời không trừ điểm.',
+  it('D-330: trộn hai loại vắng ghi đủ phép tính', () => {
+    expect(attendanceBasis(component('8.00', 1, '1.00', 2, '1.00'))).toBe(
+      'Số thật: 10 − 1 (vắng 1 buổi không phép) − 1 (vắng 2 buổi có phép) = 8; không ngoại suy tới cuối kỳ.',
     );
   });
 
-  it('cấu hình cho vắng có phép bị trừ: không ghi "không phép", không có câu tạm thời', () => {
-    expect(attendanceBasis(component('3.00', '7.00', 2, true), { excused: 1 })).toBe(
-      'Số thật: 10 − 3 (vắng 2 buổi) = 7; không ngoại suy tới cuối kỳ.',
+  it('D-330: chỉ vắng có phép, kể cả 1 buổi trừ 0, vẫn ghi', () => {
+    expect(attendanceBasis(component('10.00', 0, '0.00', 1, '0.00'))).toBe(
+      'Số thật: 10 − 0 (vắng 1 buổi có phép) = 10; không ngoại suy tới cuối kỳ.',
+    );
+  });
+
+  it('chưa vắng buổi nào', () => {
+    expect(attendanceBasis(component('10.00'))).toBe(
+      'Số thật: 10 − 0 (chưa vắng buổi nào) = 10; không ngoại suy tới cuối kỳ.',
     );
   });
 
@@ -49,7 +64,7 @@ describe('công thức chuyên cần trên trang chi tiết (D-316)', () => {
       ...COURSE_DETAIL,
       prediction: {
         ...COURSE_DETAIL.prediction,
-        components: [component('3.00', '7.00', 2), ...COURSE_DETAIL.prediction.components.slice(1)],
+        components: [component('7.00', 2, '3.00'), ...COURSE_DETAIL.prediction.components.slice(1)],
         attendance: { held: 8, present: 6, absent: 2, excused: 0, total_sessions: 15 },
       },
     };

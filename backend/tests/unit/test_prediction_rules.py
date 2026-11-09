@@ -111,9 +111,8 @@ def test_no_process_items_uses_baseline():
     assert result.process_now is None
 
 
-def test_attendance_score_does_not_deduct_excused_by_default():
-    # D-316 thay H9 ("vắng có phép tính như vắng", 10 × 6 ÷ 7 = 8,57): vắng có phép tạm thời không
-    # trừ điểm chuyên cần (Q90).
+def test_attendance_score_one_excused_absence_deducts_nothing():
+    # D-316 thay H9 (10 × 6 ÷ 7 = 8,57); D-330: 1 buổi có phép trừ 0 (giá trị tạm, Q111).
     result = predict(
         make(weights=rules.Weights(D(1), D(0), D(0)), attendance=["present"] * 6 + ["excused"] * 1)
     )
@@ -287,8 +286,10 @@ def test_upper_bound_below_five(score, level):
         (3, 0, rules.BARRED),
         (0, 1, rules.OK),
         (0, 2, rules.WATCH),
-        (0, 3, rules.HIGH),
-        (0, 4, rules.BARRED),
+        # D-330 thay D-311 cho vắng có phép: 2–3 Cần chú ý, 4 Nguy cơ cao, từ 5 cấm thi.
+        (0, 3, rules.WATCH),
+        (0, 4, rules.HIGH),
+        (0, 5, rules.BARRED),
         (1, 1, rules.WATCH),
         (2, 3, rules.HIGH),
     ],
@@ -304,7 +305,10 @@ def test_attendance_reason_text_says_how_many_more_absences_bar_the_exam():
     two = predict(make(baseline="9", attendance=["absent", "absent"] + ["present"] * 6))
     assert two.reasons[0].text == "Vắng 2 buổi không phép – vắng thêm 1 buổi sẽ không được dự thi"
     excused = predict(make(baseline="9", attendance=["excused"] * 2 + ["present"] * 6))
-    assert excused.reasons[0].text == "Vắng 2 buổi có phép – vắng thêm 2 buổi sẽ không được dự thi"
+    # D-330: ngưỡng cấm thi có phép là 5, câu ghi rõ "vắng có phép thêm".
+    assert excused.reasons[0].text == (
+        "Vắng 2 buổi có phép – vắng có phép thêm 3 buổi sẽ không được dự thi"
+    )
 
 
 def test_barred_hides_score_and_shows_reason():
@@ -416,7 +420,7 @@ def test_target_exactly_ten_is_reachable_and_zero_is_secured():
 
 def _states():
     for absent in range(0, 3):
-        for excused in range(0, 3):
+        for excused in range(0, 5):  # D-330: đủ 0–4 buổi có phép (5 là cấm thi)
             for graded in range(0, 5):
                 for missing in range(0, 5):
                     if graded + missing:

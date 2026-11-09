@@ -120,7 +120,8 @@ class Prediction:
     confidence: str | None
     attendance_score: Decimal | None
     attendance_deduction: Decimal | None
-    deducted_absences: int
+    absent_deduction: Decimal | None
+    excused_deduction: Decimal | None
     process_now: Decimal | None
     process_items: int
     process_score: Decimal | None
@@ -171,9 +172,9 @@ def letter_of(scale: tuple[tuple[str, Decimal], ...], score: Decimal) -> str | N
 def attendance_level(settings: dict, absent: int, excused: int) -> tuple[str, list[Reason]]:
     """D-311, Q88: không phép và có phép tính riêng, lấy mức cao nhất."""
     reasons = []
-    for kind, count, label in (
-        ("absent", absent, "không phép"),
-        ("excused", excused, "có phép"),
+    for kind, count, label, more in (
+        ("absent", absent, "không phép", "vắng thêm"),
+        ("excused", excused, "có phép", "vắng có phép thêm"),
     ):
         barred = settings[f"{kind}_barred_from"]
         if count >= barred:
@@ -191,18 +192,20 @@ def attendance_level(settings: dict, absent: int, excused: int) -> tuple[str, li
                 Reason(
                     f"attendance_{kind}",
                     level,
-                    f"Vắng {count} buổi {label} – vắng thêm {left} buổi sẽ không được dự thi",
+                    f"Vắng {count} buổi {label} – {more} {left} buổi sẽ không được dự thi",
                 )
             )
     return _highest(reasons), reasons
 
 
-def attendance_deduction(settings: dict, absences: int) -> Decimal:
-    """D-316: điểm trừ chuyên cần theo số buổi vắng tính trừ; vượt bảng thì lấy mức lớn nhất."""
-    table = {
-        int(count): Decimal(str(value))
-        for count, value in settings["attendance_deductions"].items()
-    }
+def attendance_deduction(
+    settings: dict, absences: int, table_key: str = "attendance_deductions"
+) -> Decimal:
+    """D-316, D-330: điểm trừ theo số buổi vắng của một loại; vượt bảng thì lấy mức lớn nhất.
+
+    table_key: "attendance_deductions" (không phép) hoặc "excused_deductions" (có phép).
+    """
+    table = {int(count): Decimal(str(value)) for count, value in settings[table_key].items()}
     return table[min(absences, max(table))]
 
 
@@ -433,7 +436,8 @@ def _without_score(
         confidence=None,
         attendance_score=None,
         attendance_deduction=None,
-        deducted_absences=0,
+        absent_deduction=None,
+        excused_deduction=None,
         process_now=None,
         process_items=0,
         process_score=None,
@@ -462,8 +466,9 @@ def predict(settings: dict, inputs: CourseInputs, history: tuple[Decimal, ...] =
         return _without_score(BARRED, attendance_reasons, absent, excused, present, held)
     weights = inputs.weights
     baseline = inputs.baseline.value
-    counted = absent + (excused if settings["excused_deducts"] else 0)
-    deduction = attendance_deduction(settings, counted)
+    absent_deduction = attendance_deduction(settings, absent)
+    excused_deduction = attendance_deduction(settings, excused, "excused_deductions")
+    deduction = absent_deduction + excused_deduction
     cc = max(ZERO, TEN - deduction)
     n = len(inputs.process_items)
     now = weighted_average(inputs.process_items)
@@ -493,7 +498,8 @@ def predict(settings: dict, inputs: CourseInputs, history: tuple[Decimal, ...] =
         confidence=confidence_of(settings, known),
         attendance_score=cc,
         attendance_deduction=deduction,
-        deducted_absences=counted,
+        absent_deduction=absent_deduction,
+        excused_deduction=excused_deduction,
         process_now=now,
         process_items=n,
         process_score=qt,

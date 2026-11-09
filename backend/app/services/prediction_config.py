@@ -13,8 +13,9 @@ DEFAULTS: dict = {
     # kỳ). Khóa là số buổi vắng; số buổi vượt bảng (chưa tới ngưỡng cấm thi) dùng mức trừ lớn nhất.
     # Từ "absent_barred_from" buổi là Không đủ điều kiện dự thi, không tính điểm.
     "attendance_deductions": {"0": "0", "1": "1", "2": "3"},
-    # Vắng có phép tạm thời không trừ điểm chuyên cần (chờ quản lý dự án xác nhận, Q90).
-    "excused_deducts": False,
+    # D-330 (đóng Q90): vắng có phép trừ nhẹ hơn, bảng riêng; CC = 10 − trừ không phép − trừ có
+    # phép, không dưới 0, không giới hạn tổng. Giá trị 1 buổi → 0 và 3 buổi → 2 là TẠM (Q111).
+    "excused_deductions": {"0": "0", "1": "0", "2": "1", "3": "2", "4": "3"},
     # QT = (n × QT hiện tại + k × mức nền) ÷ (n + k), n = số mục đã vào điểm quá trình (H1).
     "prior_strength": "2",
     # Mức nền: TB hệ 10 có trọng số tín chỉ các lần học hiệu lực; nhóm môn đủ số môn thì dùng nhóm.
@@ -62,9 +63,10 @@ DEFAULTS: dict = {
     "absent_watch_from": 1,
     "absent_high_from": 2,
     "absent_barred_from": 3,
+    # D-330: vắng có phép 2–3 buổi Cần chú ý, 4 buổi Nguy cơ cao, từ 5 buổi cấm thi.
     "excused_watch_from": 2,
-    "excused_high_from": 3,
-    "excused_barred_from": 4,
+    "excused_high_from": 4,
+    "excused_barred_from": 5,
     # Bài tập (phản hồi kế hoạch CR-13, mục a): tính trên bài đã quá hạn.
     "missing_high_from": 3,
     "missing_watch_from": 2,

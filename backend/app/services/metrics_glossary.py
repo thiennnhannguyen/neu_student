@@ -83,9 +83,10 @@ GLOSSARY = (
         "name": "Điểm dự kiến của môn đang học",
         "formula": (
             "0,1 × Chuyên cần + 0,4 × Quá trình + 0,5 × Cuối kỳ (trọng số theo môn). "
-            "Chuyên cần = 10 − điểm trừ theo số buổi vắng không phép đã xảy ra (0 buổi: 10; "
-            "1 buổi: 9; 2 buổi: 7; từ 3 buổi: không đủ điều kiện dự thi), không ngoại suy tới "
-            "cuối kỳ; vắng có phép tạm thời không trừ. "
+            "Chuyên cần = 10 − trừ vắng không phép − trừ vắng có phép, không dưới 0, tính trên "
+            "số buổi đã xảy ra, không ngoại suy tới cuối kỳ. Vắng không phép: 1 buổi trừ 1; "
+            "2 buổi trừ 3; từ 3 buổi không đủ điều kiện dự thi. Vắng có phép: 1 buổi trừ 0; "
+            "2 buổi trừ 1; 3 buổi trừ 2; 4 buổi trừ 3; từ 5 buổi không đủ điều kiện dự thi. "
             "Quá trình = (n × điểm quá trình hiện tại + 2 × mức nền) "
             "÷ (n + 2), n = số bài tập, bài kiểm tra đã vào điểm quá trình (bài quá hạn chưa nộp "
             "tính 0). Cuối kỳ = mức nền + điều chỉnh, tổng điều chỉnh trong ±1,5: mức hiểu bài TB "
@@ -117,12 +118,12 @@ GLOSSARY = (
         "key": "course_warning",
         "name": "Cảnh báo từng môn",
         "formula": (
-            "Lấy mức cao nhất. Không đủ điều kiện dự thi: vắng từ 3 buổi không phép hoặc từ 4 buổi "
+            "Lấy mức cao nhất. Không đủ điều kiện dự thi: vắng từ 3 buổi không phép hoặc từ 5 buổi "
             "có phép. Nguy cơ cao: dự kiến dưới 4,5; cận trên của khoảng dưới 5,0; vắng 2 buổi "
-            "không phép hoặc 3 buổi có phép; thiếu từ 3 bài quá hạn hoặc tỷ lệ nộp dưới 60%. "
-            "Cần chú ý: dự kiến dưới 5,5; vắng 1 buổi không phép hoặc 2 buổi có phép; thiếu 2 bài "
-            "quá hạn hoặc tỷ lệ nộp dưới 80%; không nộp từ 2 báo cáo tuần; dự kiến giảm 2 tuần "
-            "liên tiếp với tổng mức giảm từ 0,3. Còn lại: Ổn."
+            "không phép hoặc 4 buổi có phép; thiếu từ 3 bài quá hạn hoặc tỷ lệ nộp dưới 60%. "
+            "Cần chú ý: dự kiến dưới 5,5; vắng 1 buổi không phép hoặc 2–3 buổi có phép; "
+            "thiếu 2 bài quá hạn hoặc tỷ lệ nộp dưới 80%; không nộp từ 2 báo cáo tuần; "
+            "dự kiến giảm 2 tuần liên tiếp với tổng mức giảm từ 0,3. Còn lại: Ổn."
         ),
         "source": "Dữ liệu LMS, báo cáo tuần, điểm dự kiến theo từng bản chụp LMS",
         "note": (
