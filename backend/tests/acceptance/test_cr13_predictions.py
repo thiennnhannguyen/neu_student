@@ -37,11 +37,12 @@ def detail(client, course_id, **query):
 HAND = {
     # mã: (điểm, chữ, thấp, cao, mức, lý do)
     "CNTT1188": ("6.78", "C+", "5.32", "8.25", "high", ["Thiếu 3/7 bài đã quá hạn"]),
+    # D-316: CC 10 − 3 (vắng 2 buổi không phép) = 7 thay 7,5 → 0,7 + 3,246 + 4,2875 = 8,23.
     "CNTT1159": (
-        "8.28",
+        "8.23",
         "B+",
-        "6.82",
-        "9.75",
+        "6.77",
+        "9.70",
         "high",
         ["Vắng 2 buổi không phép – vắng thêm 1 buổi sẽ không được dự thi"],
     ),

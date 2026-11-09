@@ -111,11 +111,13 @@ def test_no_process_items_uses_baseline():
     assert result.process_now is None
 
 
-def test_attendance_score_counts_excused_as_absent():
+def test_attendance_score_does_not_deduct_excused_by_default():
+    # D-316 thay H9 ("vắng có phép tính như vắng", 10 × 6 ÷ 7 = 8,57): vắng có phép tạm thời không
+    # trừ điểm chuyên cần (Q90).
     result = predict(
         make(weights=rules.Weights(D(1), D(0), D(0)), attendance=["present"] * 6 + ["excused"] * 1)
     )
-    assert rules.r2(result.attendance_score) == D("8.57")  # 10 × 6 ÷ 7
+    assert result.attendance_score == D(10)
 
 
 def test_course_weights_from_config():

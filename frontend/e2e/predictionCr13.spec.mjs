@@ -23,7 +23,8 @@ async function horizontalOverflow(page) {
 const TABLE = 'Môn đang học và điểm dự kiến';
 const EXPECTED = [
   ['CNTT1188', '6,78 C+Nguy cơ cao'],
-  ['CNTT1159', '8,28 B+Nguy cơ cao'],
+  // D-316: CNTT1159 CC 10 − 3 = 7 thay 7,5.
+  ['CNTT1159', '8,23 B+Nguy cơ cao'],
   ['CNTT1140', '7,68 BCần chú ý'],
   ['CNTT1117', '7,89 B'],
   ['CNTT1180', '8,98 A'],
@@ -147,4 +148,15 @@ test('CR-13b: đường dẫn phân cấp có tên môn, biểu đồ trục 0�
   const box = await plot.boundingBox();
   const block = await page.locator('.weekly-chart').boundingBox();
   expect(Math.abs(box.width - block.width)).toBeLessThan(2);
+});
+
+test('D-316: CNTT1159 ghi trừ điểm chuyên cần; 375px có liên kết quay lại', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await login(page, 'thiennhan');
+  await page.goto('/m11/phan-tich/mon/CNTT1159');
+  const table = page.getByRole('table', { name: 'Thành phần điểm dự kiến' });
+  await expect(table).toContainText('Số thật: 10 − 3 (vắng 2 buổi không phép) = 7');
+  await expect(page.locator('.prediction-summary')).toContainText('8,23');
+  await expect(page.locator('.back-link')).toBeVisible();
+  expect(await seriousViolations(page)).toEqual([]);
 });

@@ -429,7 +429,16 @@ export const COURSE_DETAIL = {
     half_width: '1.47',
     known_share: '0.27',
     components: [
-      { key: 'attendance', weight: '0.10', value: '10.00', kind: 'assumed' },
+      // D-316: CC = 10 − điểm trừ theo số buổi vắng không phép.
+      {
+        key: 'attendance',
+        weight: '0.10',
+        value: '10.00',
+        kind: 'actual',
+        deduction: '0.00',
+        deducted_absences: 0,
+        excused_deducts: false,
+      },
       {
         key: 'process',
         weight: '0.40',

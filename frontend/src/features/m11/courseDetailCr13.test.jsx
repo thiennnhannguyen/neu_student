@@ -143,7 +143,10 @@ describe('Trang chi tiết môn (D-314)', () => {
     const table = screen.getByRole('table', { name: 'Thành phần điểm dự kiến' });
     const rows = within(table).getAllByRole('row').slice(1);
     expect(rows.map((row) => row.textContent)).toEqual([
-      expect.stringMatching(/^Chuyên cần10%10,00Ước lượng từ số thật: có mặt 8\/8 buổi đã học/),
+      // D-316: CC là số thật 10 − điểm trừ, không còn "ước lượng từ tỷ lệ có mặt".
+      expect.stringMatching(
+        /^Chuyên cần10%10,00Số thật: 10 − 0 \(chưa vắng buổi không phép nào\) = 10/,
+      ),
       expect.stringMatching(
         /^Quá trình40%5,37Số thật và ước lượng: điểm quá trình hiện tại 4,81 trên 8 bài tập, bài kiểm tra; kéo về mức nền 7,58/,
       ),
