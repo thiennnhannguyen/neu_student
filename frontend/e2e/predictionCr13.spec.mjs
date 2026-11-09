@@ -92,7 +92,11 @@ test('cố vấn được phân công xem qua ?student=, quay lại giữ sinh v
   await expect(page.locator('.prediction-summary')).toContainText(
     'Vắng 2 buổi không phép – vắng thêm 1 buổi sẽ không được dự thi',
   );
-  await page.locator('.back-link').click();
+  // D-315 (CR-13b): từ 768px quay lại bằng đường dẫn phân cấp; liên kết riêng chỉ có ở điện thoại.
+  await page
+    .getByRole('navigation', { name: 'Vị trí trang' })
+    .getByRole('link', { name: 'Phân tích & Cảnh báo' })
+    .click();
   await expect(page).toHaveURL(/\/m11\/phan-tich\?student=NEU-KHMT-001$/);
 });
 
@@ -113,4 +117,34 @@ test('môn không thuộc sinh viên và cố vấn không được phân công:
     '/api/m11/courses/CNTT1188/prediction?student_id=NEU-KHMT-001',
   );
   expect(support.status()).toBe(403);
+});
+
+test('CR-13b: đường dẫn phân cấp có tên môn, biểu đồ trục 0–10 có ngưỡng và nhãn tuần', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await login(page, 'gv2');
+  await page.goto('/m11/phan-tich/mon/CNTT1188?student=NEU-KHMT-001');
+  const trail = page.getByRole('navigation', { name: 'Vị trí trang' });
+  await expect(trail.getByRole('listitem')).toHaveText([
+    'Tổng quan',
+    'Học tập',
+    'Phân tích & Cảnh báo',
+    'Lập trình Web',
+  ]);
+  await expect(trail.getByRole('link', { name: 'Phân tích & Cảnh báo' })).toHaveAttribute(
+    'href',
+    '/m11/phan-tich?student=NEU-KHMT-001',
+  );
+  // Từ 768px đã có đường dẫn phân cấp: không có liên kết quay lại riêng.
+  await expect(page.locator('.back-link')).toBeHidden();
+  const plot = page.getByRole('img', { name: /^Điểm dự kiến theo tuần/ });
+  const svg = plot.locator('svg.recharts-surface');
+  for (const text of ['0', '2', '4', '6', '8', '10', 'T1', 'T8', 'Ngưỡng đạt 4,5', 'Mức C 5,5']) {
+    await expect(svg.getByText(text, { exact: true }).first()).toBeVisible();
+  }
+  await expect(svg.locator('.recharts-line-dot')).toHaveCount(8);
+  const box = await plot.boundingBox();
+  const block = await page.locator('.weekly-chart').boundingBox();
+  expect(Math.abs(box.width - block.width)).toBeLessThan(2);
 });

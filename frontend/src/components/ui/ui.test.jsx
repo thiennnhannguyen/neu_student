@@ -925,7 +925,8 @@ describe('CR-02b', () => {
   it('MetricCard: có status thì có viền theo mức và nhãn nhỏ; không có thì không', () => {
     const { container, rerender } = render(<MetricCard label="L" value="1" status="watch" />);
     expect(container.firstChild).toHaveClass('metric-card--watch');
-    expect(screen.getByText('Chú ý')).toHaveClass('status-text');
+    // D-315: "Chú ý" thành "Cần chú ý".
+    expect(screen.getByText('Cần chú ý')).toHaveClass('status-text');
 
     rerender(<MetricCard label="L" value="1" />);
     expect(container.firstChild.className).toBe('metric-card');

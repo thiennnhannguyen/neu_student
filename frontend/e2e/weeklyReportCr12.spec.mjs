@@ -83,7 +83,11 @@ test('Làm sau, nộp môn 2/2, tải lại thì hiện lại không còn Làm s
   await expect(weeklySection(page)).toContainText('Đã nộp 8/8 · gần nhất tuần 8 (26/10/2026)');
   await expect(page.getByRole('dialog')).toHaveCount(0);
   // Quay lại bảng bằng liên kết trong trang (không tải lại, nên CNTT1180 vẫn đang "Làm sau").
-  await page.locator('.back-link').click();
+  // D-315 (CR-13b): từ 768px quay lại bằng đường dẫn phân cấp.
+  await page
+    .getByRole('navigation', { name: 'Vị trí trang' })
+    .getByRole('link', { name: 'Phân tích & Cảnh báo' })
+    .click();
   await page.getByRole('link', { name: /CNTT1180\s*: điểm dự kiến/ }).click();
   await expect(weeklySection(page)).toContainText('Đã nộp 6/6 · gần nhất tuần 6');
   await expect(weeklySection(page)).toContainText('1 đang mở');

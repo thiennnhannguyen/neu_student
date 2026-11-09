@@ -211,8 +211,11 @@ describe('Trang chi tiết môn (D-314)', () => {
 
   it('e) biểu đồ nhỏ theo tuần có nhãn và bảng cho trình đọc màn hình', async () => {
     await openDetail();
-    const chart = screen.getByRole('img', { name: /^Điểm dự kiến theo tuần: tuần 1: 8,07;/ });
-    expect(chart.querySelectorAll('circle')).toHaveLength(8);
+    // D-315 (CR-13b): biểu đồ vẽ bằng Recharts; jsdom không có kích thước nên không có SVG để đếm
+    // điểm. Trục 0–10, ngưỡng và nhãn tuần kiểm ở e2e (predictionCr13.spec.mjs).
+    expect(
+      screen.getByRole('img', { name: /^Điểm dự kiến theo tuần: tuần 1: 8,07;/ }),
+    ).toBeInTheDocument();
     const table = screen.getByRole('table', { name: 'Điểm dự kiến theo tuần' });
     expect(within(table).getAllByRole('row')).toHaveLength(9);
     expect(table).toHaveTextContent('Tuần 86,78');

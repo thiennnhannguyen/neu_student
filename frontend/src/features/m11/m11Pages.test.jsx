@@ -899,7 +899,8 @@ describe('Cảnh báo', () => {
     expect(screen.queryByText(/Phiên bản quy chế/)).toBeNull();
     expect(screen.getByText(/Quy chế K66-mau-v1/).closest('article')).toBeNull();
     expect(screen.getByText('Không áp dụng')).toBeInTheDocument();
-    expect(screen.getByText('Chú ý')).toBeInTheDocument();
+    // D-315: "Chú ý" thành "Cần chú ý".
+    expect(screen.getByText('Cần chú ý')).toBeInTheDocument();
   });
 
   it('mức có chữ và biểu tượng, không chỉ dựa vào màu', async () => {

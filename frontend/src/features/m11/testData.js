@@ -252,7 +252,8 @@ export const RISKS = {
     {
       rule_code: 'gpa',
       level: 'warning',
-      reason: 'GPA tích lũy 1,81 dưới ngưỡng cảnh báo 2,00.',
+      // D-315: câu lý do theo bộ từ mới.
+      reason: 'GPA tích lũy 1,81 dưới ngưỡng Nguy cơ cao 2,00.',
       summary: 'GPA tích lũy 1,81, dưới ngưỡng 2,00',
       evidence: {
         numerator: '43.50',
