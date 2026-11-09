@@ -4,8 +4,29 @@ import CareerMeter from './CareerMeter';
 import GoalStar from './GoalStar';
 import { lowCoverageText, percentText } from './labels';
 
-/** Cả thẻ là một liên kết. Hai tỷ lệ tách riêng, không gộp (R8). */
+/**
+ * Cả thẻ là một liên kết. Hai tỷ lệ tách riêng, không gộp (R8).
+ * Nghề có trang giới thiệu (CR-14) thì thêm liên kết nhỏ ngay dưới thẻ, không lồng trong thẻ.
+ */
 export default function CareerCard({ item, link }) {
+  const { career } = item;
+  return (
+    <div className="career-card-item">
+      <CardLink item={item} link={link} />
+      {career.has_landing && (
+        <Link
+          to={link(`/m12/dinh-huong/nghe/${career.slug}/gioi-thieu`)}
+          className="career-card-item__intro"
+        >
+          Giới thiệu nghề <span className="visually-hidden">{career.display_name}</span>
+          <span aria-hidden="true">→</span>
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function CardLink({ item, link }) {
   const { career, course_progress: course, skill_progress: skill } = item;
   return (
     <Link

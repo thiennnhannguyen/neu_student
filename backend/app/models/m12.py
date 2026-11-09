@@ -531,3 +531,22 @@ class Certificate(MockMixin, db.Model):
     issued_at = db.Column(db.DateTime, nullable=False)
     revoked_at = db.Column(db.DateTime)
     __table_args__ = (db.UniqueConstraint("student_id", "module_id", name="uq_certificate_module"),)
+
+
+class CareerLanding(MockMixin, db.Model):
+    """Nội dung trang giới thiệu nghề (CR-14). API chỉ đọc bản published mới nhất của mỗi nghề."""
+
+    __tablename__ = "career_landings"
+    id = pk()
+    career_id = fk("careers.id", index=True)
+    version = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.String(16), nullable=False, default="draft")
+    # Ngành dùng cho phần môn học và mô-đun; ngành khác cập nhật sau.
+    program_id = fk("programs.id")
+    content = db.Column(db.JSON, nullable=False)
+    sources = db.Column(db.JSON, nullable=False)
+    updated_at = db.Column(db.DateTime, nullable=False)
+    __table_args__ = (
+        db.UniqueConstraint("career_id", "version"),
+        db.CheckConstraint("status IN ('draft', 'published')", name="status_valid"),
+    )

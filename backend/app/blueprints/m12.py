@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user
 
 from app.common.auth_guard import (
+    ALL_ROLES,
     ROLE_ADMIN,
     ROLE_ADVISOR,
     ROLE_STUDENT,
@@ -29,6 +30,7 @@ from app.schemas.m12 import (
 from app.services import (
     career_api_service,
     career_goal_service,
+    career_landing_service,
     career_progress_service,
     related_career_service,
     roadmap_api_service,
@@ -56,6 +58,13 @@ def get_career(career_id):
 @require_roles(*READER_ROLES)
 def get_career_by_slug(slug):
     return jsonify(career_api_service.career_detail_by_slug(slug))
+
+
+@m12_bp.get("/careers/slug/<slug>/landing")
+@require_roles(*ALL_ROLES)
+def get_career_landing(slug):
+    """Trang giới thiệu nghề: mọi vai trò đã đăng nhập, kể cả nhân viên hỗ trợ (D-322)."""
+    return jsonify(career_landing_service.landing_by_slug(slug))
 
 
 @m12_bp.get("/careers/<career_id>/tree")

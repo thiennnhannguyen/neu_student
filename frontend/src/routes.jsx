@@ -13,6 +13,7 @@ import RoleRoute from './features/auth/RoleRoute';
 import HomeRoute from './features/m11/HomeRoute';
 import ResultsPage from './features/m11/ResultsPage';
 import CareerDetailPage from './features/m12/CareerDetailPage';
+import CareerLandingPage from './features/m12/landing/CareerLandingPage';
 import CareersPage from './features/m12/CareersPage';
 import { CertificatePage, CertificatesPage } from './features/m12/framework/Certificates';
 import QuizPage from './features/m12/framework/QuizPage';
@@ -125,6 +126,8 @@ export default function AppRoutes() {
               <Route path="/m12/on-tap/:moduleId" element={<QuizReviewPage />} />
             </Route>
             <Route path="/m12/yeu-cau-ho-tro/:id" element={<SupportDetailPage />} />
+            {/* CR-14 (D-322): mọi vai trò đã đăng nhập xem được trang giới thiệu nghề. */}
+            <Route path="/m12/dinh-huong/nghe/:slug/gioi-thieu" element={<CareerLandingPage />} />
             {PENDING_ITEMS.map((item) => (
               <Route key={item.path} element={<RoleRoute roles={item.roles} />}>
                 <Route path={item.path} element={<ComingSoonPage title={item.label} />} />

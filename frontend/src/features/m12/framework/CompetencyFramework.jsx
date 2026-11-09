@@ -1,6 +1,6 @@
 import { Award, BookOpenCheck, ClipboardCheck } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import { apiRequest } from '../../../api/client';
 import { Button, Card, Disclosure, StatusChip } from '../../../components/ui';
 import { courseCode } from '../../m11/format';
@@ -41,7 +41,7 @@ function ModuleCard({ module, student, onChanged }) {
   }
 
   return (
-    <Card as="article" className="module-card">
+    <Card as="article" className="module-card" id={`module-${module.order}`} tabIndex={-1}>
       <p className="module-card__order">Mô-đun {module.order}</p>
       <h3>{module.title}</h3>
       <p className="module-card__progress">
@@ -170,7 +170,21 @@ function Milestones({ rows }) {
 }
 
 /** Tab Khung năng lực. Nội dung môn là phần cần nắm do nhóm biên soạn, không phải đề cương. */
+/** Mở từ trang giới thiệu nghề (CR-14) với #module-N thì cuộn tới và đặt tiêu điểm vào mô-đun đó. */
+function useModuleAnchor() {
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (!/^#module-\d+$/.test(hash)) {
+      return;
+    }
+    const target = document.getElementById(hash.slice(1));
+    target?.scrollIntoView?.({ block: 'start' });
+    target?.focus({ preventScroll: true });
+  }, [hash]);
+}
+
 export default function CompetencyFramework({ data, student, onChanged }) {
+  useModuleAnchor();
   return (
     <div className="framework">
       <p className="framework__source">

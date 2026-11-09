@@ -1,4 +1,4 @@
-import { CalendarRange } from 'lucide-react';
+import { BookOpenText, CalendarRange } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { Navigate, useParams, useSearchParams } from 'react-router';
 import { Button, EmptyState, PageHeader, Tabs } from '../../components/ui';
@@ -108,6 +108,15 @@ function Detail({ student, data, reload, slug }) {
                 to={student.link('/m12/ke-hoach')}
               >
                 Xem lộ trình theo học kỳ
+              </Button>
+            )}
+            {profile.has_landing && (
+              <Button
+                variant="secondary"
+                iconLeft={BookOpenText}
+                to={student.link(`/m12/dinh-huong/nghe/${slug}/gioi-thieu`)}
+              >
+                Giới thiệu nghề
               </Button>
             )}
           </div>

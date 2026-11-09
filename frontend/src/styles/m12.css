@@ -1610,3 +1610,400 @@
   background: var(--success-text);
   color: var(--neu-white);
 }
+
+/* Trang giới thiệu nghề (CR-14). Mục lục neo chỉ hiện từ 1200px; bảng rộng cuộn ngang được. */
+.landing-back {
+  margin-bottom: var(--space-3);
+}
+
+.landing-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-32);
+}
+
+.landing-toc {
+  display: none;
+}
+
+.landing-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  min-width: 0;
+}
+
+.landing-intro {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-20);
+  overflow: hidden;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.landing-intro__media {
+  max-width: 360px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.landing-intro__body {
+  position: relative;
+}
+
+.landing-intro__group,
+.landing-intro__en {
+  margin: 0;
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.landing-intro h1 {
+  margin: var(--space-1) 0;
+  font-size: var(--font-30);
+  line-height: var(--line-tight);
+}
+
+.landing-intro__summary {
+  max-width: 60ch;
+  margin: var(--space-12) 0 var(--space-2);
+  font-size: var(--font-18);
+}
+
+.landing-section {
+  padding: var(--space-20);
+  scroll-margin-top: var(--space-20);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.landing-section h2 {
+  margin: 0 0 var(--space-12);
+  font-size: var(--font-24);
+  line-height: var(--line-tight);
+}
+
+.landing-section h3 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-18);
+}
+
+.landing-section p {
+  margin: 0 0 var(--space-2);
+}
+
+.landing-note {
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.landing-source {
+  display: block;
+  font-size: var(--font-12);
+  color: var(--text-secondary);
+}
+
+.landing-list,
+.landing-modules,
+.landing-stages,
+.landing-courses,
+.landing-projects,
+.landing-sources {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: 0;
+  margin: 0 0 var(--space-12);
+  list-style: none;
+}
+
+.landing-list {
+  padding-left: var(--space-20);
+  list-style: decimal;
+}
+
+.landing-list p {
+  margin: 0;
+}
+
+.landing-table-wrap {
+  overflow-x: auto;
+}
+
+.landing-table-wrap:focus-visible {
+  outline: 3px solid var(--neu-accent);
+  outline-offset: 2px;
+}
+
+.landing-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-14);
+}
+
+.landing-table th,
+.landing-table td {
+  padding: var(--space-2) var(--space-12);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.landing-table thead th {
+  font-weight: 600;
+  background: var(--surface-sunken);
+}
+
+.landing-table--compare {
+  min-width: 760px;
+}
+
+.landing-table--compare tbody th {
+  width: 160px;
+}
+
+.landing-table__number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.landing-table .landing-table__number {
+  text-align: right;
+}
+
+.landing-modules li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
+  padding-bottom: var(--space-12);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.landing-modules li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.landing-modules__order {
+  font-size: var(--font-12);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.landing-modules__title {
+  font-weight: 600;
+}
+
+.landing-modules__summary {
+  font-size: var(--font-14);
+}
+
+.landing-stage {
+  padding: var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.landing-stage__deliverable {
+  font-size: var(--font-14);
+}
+
+.landing-courses {
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.landing-courses li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px var(--space-12);
+  justify-content: space-between;
+}
+
+.landing-courses__code {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.landing-courses__meta {
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+}
+
+.landing-courses abbr {
+  text-decoration: none;
+}
+
+.landing-projects {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.landing-project {
+  padding: var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.landing-project__level {
+  font-size: var(--font-12);
+  font-weight: 600;
+  color: var(--neu-primary);
+}
+
+.landing-project__skills-title {
+  font-size: var(--font-14);
+  font-weight: 600;
+}
+
+.landing-project__skills {
+  padding-left: var(--space-20);
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-14);
+}
+
+.landing-income__caveat {
+  font-weight: 600;
+}
+
+.landing-income {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-20);
+  margin-bottom: var(--space-12);
+}
+
+.landing-income__levels ol {
+  padding-left: var(--space-20);
+  margin: 0;
+}
+
+.landing-income__levels li + li {
+  margin-top: var(--space-1);
+}
+
+.landing-external {
+  margin-left: 2px;
+  vertical-align: -2px;
+}
+
+.landing-faq {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.landing-faq__item + .landing-faq__item {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.landing-progress__rings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-12);
+}
+
+.landing-progress__facts {
+  padding-left: var(--space-20);
+  margin: 0 0 var(--space-12);
+}
+
+.landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.landing-sources {
+  gap: var(--space-2);
+  font-size: var(--font-14);
+}
+
+.landing-sources li {
+  scroll-margin-top: var(--space-20);
+}
+
+.landing-sources li:target {
+  outline: 2px solid var(--neu-accent);
+  outline-offset: 2px;
+}
+
+/* Liên kết nhỏ dưới thẻ nghề, tách khỏi vùng bấm của thẻ. */
+.career-card-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.career-card-item > .career-card {
+  flex: 1;
+}
+
+.career-card-item__intro {
+  align-self: flex-end;
+  display: inline-flex;
+  gap: var(--space-1);
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-1);
+  font-size: var(--font-14);
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .landing-intro {
+    grid-template-columns: 280px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .landing-projects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .landing-income {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .landing-note--hint {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .landing-layout {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+
+  .landing-toc {
+    position: sticky;
+    top: var(--space-20);
+    display: block;
+    align-self: start;
+    font-size: var(--font-14);
+  }
+
+  .landing-toc__title {
+    margin: 0 0 var(--space-2);
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .landing-toc ol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+}

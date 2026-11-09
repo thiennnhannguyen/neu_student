@@ -2,6 +2,7 @@
 
 from datetime import datetime
 
+from flask import g
 from sqlalchemy import case, func, or_, select
 
 from app.common.errors import ApiError
@@ -9,7 +10,7 @@ from app.common.pagination import paginate
 from app.common.result_cache import ResultCache, app_cache
 from app.common.text import normalize_name
 from app.extensions import db
-from app.models.m12 import Career, CareerRequirement, CareerVersion
+from app.models.m12 import Career, CareerLanding, CareerRequirement, CareerVersion
 from app.models.shared import Course, CourseEquivalency, CoursePrerequisite
 from app.services.career_graph_service import build_tree
 from app.services.career_loader import load_career_version
@@ -71,6 +72,17 @@ def display_name(career: Career) -> str:
     return career.name
 
 
+def landing_career_ids() -> frozenset[str]:
+    """Nghề có trang giới thiệu đã công bố (CR-14). Mỗi request chỉ truy vấn 1 lần."""
+    if "landing_career_ids" not in g:
+        g.landing_career_ids = frozenset(
+            db.session.scalars(
+                select(CareerLanding.career_id).where(CareerLanding.status == "published")
+            )
+        )
+    return g.landing_career_ids
+
+
 def career_card(career: Career) -> dict:
     return {
         **career_summary(career),
@@ -80,6 +92,7 @@ def career_card(career: Career) -> dict:
         "illustration_key": career.illustration_key,
         "tagline": career.tagline,
         "is_mock": career.is_mock,
+        "has_landing": career.id in landing_career_ids(),
     }
 
 

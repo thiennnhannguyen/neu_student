@@ -19,6 +19,7 @@ from app.services import course_calendar as calendar
 from app.services import weekly_report_rules as report_rules
 from app.services.grade_components import COMPONENT_KEYS, score_from_components
 from scripts import backend_modules as modules
+from scripts import career_landing_content as landings
 from scripts import demo_k68_content as content
 from scripts import khmt_official as official
 
@@ -1246,6 +1247,8 @@ class Builder:
         self._add_components()
         self.build_lms(semesters["semesters"])
         self.build_weekly_reports()
+        # CR-14: nội dung trang giới thiệu nghề, viết sẵn ở scripts/career_landing_content.py.
+        self.tables["career_landings"] = landings.ROWS
         self.tables["roles"] = accounts["roles"]
         return {
             "academic.json": academic,
@@ -1298,6 +1301,7 @@ class Builder:
                     "career_nodes",
                     "career_requirements",
                     "skills",
+                    "career_landings",
                 )
             },
             "framework.json": {
