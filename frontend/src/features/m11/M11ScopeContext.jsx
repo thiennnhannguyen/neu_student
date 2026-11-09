@@ -11,8 +11,14 @@ const M11_PAGES = {
   '/m11/phan-tich': false,
 };
 
+// Trang chi tiết môn đang học (CR-13, D-314): cùng phạm vi sinh viên, không có "Tất cả các kỳ".
+const M11_PAGE_PREFIXES = ['/m11/phan-tich/mon/'];
+
 export function isM11Page(pathname) {
-  return Object.hasOwn(M11_PAGES, pathname);
+  return (
+    Object.hasOwn(M11_PAGES, pathname) ||
+    M11_PAGE_PREFIXES.some((prefix) => pathname.startsWith(prefix))
+  );
 }
 
 const M11ScopeContext = createContext(null);
@@ -26,7 +32,7 @@ export function M11ScopeProvider({ children }) {
   const { role } = useAuth();
   const path = pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname;
   const enabled = isM11Page(path) && M11_READERS.includes(role);
-  const scope = useM11Scope({ enabled, allowAll: enabled && M11_PAGES[path] });
+  const scope = useM11Scope({ enabled, allowAll: enabled && M11_PAGES[path] === true });
   return (
     <M11ScopeContext.Provider value={enabled ? scope : null}>{children}</M11ScopeContext.Provider>
   );

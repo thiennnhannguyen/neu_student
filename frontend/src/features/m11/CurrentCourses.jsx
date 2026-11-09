@@ -1,119 +1,92 @@
-import { useState } from 'react';
-import { Button, DataTable, EmptyState } from '../../components/ui';
-import WeeklyReportHistory, { weeklySummaryText } from '../weeklyReport/WeeklyReportHistory';
-import {
-  courseCode,
-  formatCount,
-  formatDay,
-  formatDecimal,
-  weekdayName,
-  withQuery,
-} from './format';
-import { ASSIGNMENT_SCORE, PROCESS_SCORE, ScoreHelp, TEST_SCORE } from './scoreHelp';
+import { ChevronRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router';
+import { EmptyState } from '../../components/ui';
+import { courseCode, formatDay, withQuery } from './format';
+import MetricInfo from './MetricInfo';
+import { DISCLAIMER, LEVELS, PredictionCell, scoreText } from './prediction';
 import useApiResource from './useApiResource';
 import { ResourceView } from './ui';
 
-/** Tuần của môn tính theo lịch học của môn (D-309), không theo ngày đầu học kỳ. */
-function weekText(latest) {
-  const { week } = latest;
-  return `Tuần ${week.week_no} (${formatDay(week.start)}–${formatDay(week.end)})`;
+/** Trang chi tiết môn, giữ ?student= cho cố vấn và quản trị. */
+export function courseDetailPath(courseId, studentId) {
+  return withQuery(`/m11/phan-tich/mon/${encodeURIComponent(courseId)}`, { student: studentId });
 }
 
-function absenceText(summary) {
-  const excused = summary.excused > 0 ? `, ${formatCount(summary.excused)} có phép` : '';
-  return `${formatCount(summary.absent + summary.excused)}/${formatCount(summary.sessions_held)} buổi${excused}`;
+/** Phần đọc thêm cho trình đọc màn hình, nối sau chữ hiển thị (tên, mã) để nhãn chứa chữ thấy được. */
+function rowSuffix(row) {
+  const { prediction } = row;
+  const level = ['high', 'watch'].includes(prediction.level)
+    ? ` · ${LEVELS[prediction.level].label}`
+    : '';
+  return `: điểm dự kiến ${scoreText(prediction)}${level}`;
 }
 
-function assignmentText(summary) {
-  const parts = [
-    `${formatCount(summary.submitted)}/${formatCount(summary.assignments_total)} đã nộp`,
-  ];
-  if (summary.overdue > 0) {
-    parts.push(`${formatCount(summary.overdue)} quá hạn`);
-  }
-  if (summary.late > 0) {
-    parts.push(`${formatCount(summary.late)} nộp muộn`);
-  }
-  return parts.join(' · ');
-}
-
-const NO_DATA = 'Chưa có dữ liệu LMS';
-
-const LMS_COLUMNS = [
-  { key: 'code', header: 'Mã môn', render: (row) => courseCode(row.course.code) },
-  { key: 'name', header: 'Tên môn', rowHeader: true, render: (row) => row.course.name },
-  {
-    key: 'schedule',
-    header: 'Lịch học',
-    render: (row) => (row.schedule ? weekdayName(row.schedule.weekday) : 'Chưa có lịch'),
-  },
-  {
-    key: 'week',
-    header: 'Dữ liệu tới',
-    render: (row) => (row.latest ? weekText(row.latest) : NO_DATA),
-  },
-  {
-    key: 'absent',
-    header: 'Vắng',
-    render: (row) => (row.latest ? absenceText(row.latest.summary) : '—'),
-  },
-  {
-    key: 'assignments',
-    header: 'Bài tập',
-    render: (row) => (row.latest ? assignmentText(row.latest.summary) : '—'),
-  },
-  {
-    key: 'assignment_score',
-    header: ASSIGNMENT_SCORE,
-    render: (row) => formatDecimal(row.latest?.summary.assignment_score),
-  },
-  {
-    key: 'tests',
-    header: TEST_SCORE,
-    render: (row) => formatDecimal(row.latest?.summary.assessment_average),
-  },
-  {
-    key: 'process_score',
-    header: PROCESS_SCORE,
-    render: (row) => formatDecimal(row.latest?.summary.process_score),
-  },
-];
-
-/** D-312: cột "Báo cáo tuần" – đã nộp x/y, lần gần nhất; "Xem" mở bản chỉ đọc. */
-function weeklyColumn(onOpen) {
-  return {
-    key: 'weekly',
-    header: 'Báo cáo tuần',
-    render: (row) => (
-      <span className="weekly-cell">
-        <span>{weeklySummaryText(row.weekly_reports)}</span>
-        {row.weekly_reports && row.weekly_reports.submitted + row.weekly_reports.missed > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            aria-label={`Xem báo cáo tuần môn ${courseCode(row.course.code)}`}
-            onClick={() => onOpen(row.course)}
-          >
-            Xem
-          </Button>
-        )}
-      </span>
-    ),
+/**
+ * Bảng "Môn đang học kỳ này" (CR-13, D-314): 2 cột Môn học · Điểm dự kiến, cả dòng bấm được.
+ * Thứ tự do backend xếp: Không đủ điều kiện dự thi → Nguy cơ cao → Cần chú ý → Ổn, cùng mức thì
+ * điểm thấp trước. Ở 375px vẫn giữ 2 cột (không đổi thành thẻ như DataTable).
+ */
+function CoursesTable({ items, studentId }) {
+  const navigate = useNavigate();
+  // Chuột bấm chỗ nào trên dòng cũng mở trang chi tiết; bàn phím và trình đọc màn hình dùng liên kết
+  // ở ô tên môn (dòng không nhận focus riêng).
+  const openRow = (event, path) => {
+    if (!event.target.closest('a')) {
+      navigate(path);
+    }
   };
+  return (
+    <table className="course-table">
+      <caption className="visually-hidden">Môn đang học và điểm dự kiến</caption>
+      <thead>
+        <tr>
+          <th scope="col">Môn học</th>
+          <th scope="col" className="course-table__score">
+            Điểm dự kiến
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((row) => (
+          <tr
+            key={row.course.id}
+            className={`course-row course-row--${row.prediction.level}`}
+            onClick={(event) => openRow(event, courseDetailPath(row.course.id, studentId))}
+          >
+            <th scope="row">
+              <Link className="course-row__link" to={courseDetailPath(row.course.id, studentId)}>
+                <span className="course-row__name">{row.course.name}</span>{' '}
+                <span className="course-row__code">{courseCode(row.course.code)}</span>
+                <span className="visually-hidden">{rowSuffix(row)}</span>
+              </Link>
+            </th>
+            <td className="course-table__score">
+              <span className="course-table__score-inner">
+                <PredictionCell prediction={row.prediction} />
+                <ChevronRight className="course-row__arrow" size={18} aria-hidden="true" />
+              </span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
-/** Các môn đang học kỳ hiện tại kèm bản LMS mới nhất. Chưa có dự đoán điểm (CR-13). */
 export default function CurrentCourses({ scope }) {
   const resource = useApiResource(
     withQuery('/api/m11/current-courses', { student_id: scope.studentId }),
   );
-  const [opened, setOpened] = useState(null);
-  const columns = [...LMS_COLUMNS, weeklyColumn(setOpened)];
   const currentId = scope.semesters.data.current_id;
   return (
     <section className="current-courses" aria-labelledby="current-courses-title">
       <h2 id="current-courses-title" className="section-heading">
         Môn đang học kỳ này
+        <MetricInfo
+          metricKey="course_prediction"
+          label="Điểm dự kiến của môn đang học"
+          studentId={scope.studentId}
+        />
       </h2>
       {scope.semesterId !== currentId ? (
         <p className="reference-line">
@@ -136,28 +109,10 @@ export default function CurrentCourses({ scope }) {
               />
             ) : (
               <>
-                <DataTable
-                  caption="Môn đang học và dữ liệu LMS mới nhất"
-                  columns={columns}
-                  rows={data.items}
-                  rowKey={(row) => row.course.id}
-                />
+                <CoursesTable items={data.items} studentId={scope.studentId} />
                 <p className="reference-line">
-                  Số liệu lấy từ LMS, tính tới ngày cập nhật của từng môn; tuần tính theo lịch học
-                  của môn. Báo cáo tuần: số đã nộp trên số báo cáo đã hết hạn hoặc đã nộp. Ngày hệ
-                  thống: {formatDay(data.today)}.
+                  {DISCLAIMER} Bấm vào môn để xem chi tiết. Ngày hệ thống: {formatDay(data.today)}.
                 </p>
-                <p className="reference-line score-help-line">
-                  Cách tính {ASSIGNMENT_SCORE.toLowerCase()} và {PROCESS_SCORE.toLowerCase()}
-                  <ScoreHelp />
-                </p>
-                {opened && (
-                  <WeeklyReportHistory
-                    studentId={scope.studentId}
-                    course={opened}
-                    onClose={() => setOpened(null)}
-                  />
-                )}
               </>
             )
           }

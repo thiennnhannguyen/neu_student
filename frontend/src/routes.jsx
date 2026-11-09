@@ -28,6 +28,8 @@ import ProfilePage from './features/profile/ProfilePage';
 
 // Tải riêng khi mở trang Phân tích & Cảnh báo (D-310).
 const AnalysisPage = lazy(() => import('./features/m11/AnalysisPage'));
+// Trang chi tiết môn đang học (CR-13, D-314).
+const CourseDetailPage = lazy(() => import('./features/m11/CourseDetailPage'));
 
 // Chỉ có khi chạy dev; bản production loại hẳn, npm run check:bundle kiểm tra.
 const StyleguidePage = import.meta.env.DEV
@@ -107,6 +109,14 @@ export default function AppRoutes() {
               <Route path="/m12/dinh-huong/tat-ca" element={<OldAllCareersRedirect />} />
               <Route path="/m12/dinh-huong/nghe/:slug" element={<CareerDetailPage />} />
               <Route path="/m12/ke-hoach/khac-biet" element={<PlanDiffPage />} />
+              <Route
+                path="/m11/phan-tich/mon/:courseId"
+                element={
+                  <Suspense fallback={<p role="status">Đang tải trang...</p>}>
+                    <CourseDetailPage />
+                  </Suspense>
+                }
+              />
               <Route path="/m11/canh-bao" element={<OldRisksRedirect />} />
               <Route path="/m11/canh-bao/ke-hoach" element={<ImprovementPlanPage />} />
               <Route path="/m12/chung-chi" element={<CertificatesPage />} />

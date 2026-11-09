@@ -942,3 +942,212 @@
   align-items: center;
   gap: var(--space-1);
 }
+
+/* --- CR-13 (D-314): bảng 2 cột Môn học · Điểm dự kiến, cả dòng bấm được, giữ 2 cột ở 375px --- */
+.course-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.course-table th,
+.course-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.course-table thead th {
+  font-size: var(--font-14);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.course-table tbody tr:last-child th,
+.course-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.course-table .course-table__score {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.course-row {
+  cursor: pointer;
+}
+
+.course-table__score-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.course-row:hover,
+.course-row:focus-within {
+  background: var(--surface-sunken);
+}
+
+.course-row th {
+  font-weight: 400;
+}
+
+.course-row__link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.course-row__link:focus-visible {
+  outline: none;
+}
+
+.course-row:has(.course-row__link:focus-visible) {
+  outline: 2px solid var(--neu-primary);
+  outline-offset: -2px;
+}
+
+.course-row__name {
+  font-weight: 700;
+}
+
+.course-row__code {
+  font-size: var(--font-12);
+  color: var(--text-secondary);
+}
+
+.course-row__arrow {
+  flex: none;
+  margin-left: var(--space-2);
+  color: var(--text-secondary);
+}
+
+.prediction-cell {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  vertical-align: middle;
+}
+
+.prediction-cell__score {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.level-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-14);
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .course-table th,
+  .course-table td {
+    padding: var(--space-3) var(--space-2);
+  }
+
+  .course-table .course-table__score {
+    white-space: normal;
+  }
+
+  .course-row__arrow {
+    margin-left: var(--space-1);
+  }
+}
+
+/* --- Trang chi tiết môn --- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text-link);
+  font-size: var(--font-14);
+}
+
+.prediction-summary__score {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: var(--space-2) 0;
+  font-size: var(--font-20);
+  font-weight: 700;
+}
+
+.prediction-summary__value {
+  font-size: var(--font-36);
+  font-variant-numeric: tabular-nums;
+}
+
+.prediction-summary__letter {
+  font-size: var(--font-24);
+  color: var(--text-secondary);
+}
+
+.prediction-reasons,
+.adjustment-list {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.prediction-reasons li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.adjustment-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.adjustment-list__value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.weekly-chart {
+  margin: 0;
+  max-width: 480px;
+}
+
+.weekly-chart svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.weekly-chart__line {
+  fill: none;
+  stroke: var(--neu-primary);
+  stroke-width: 2;
+}
+
+.weekly-chart__dot {
+  fill: var(--neu-primary);
+}
+
+.weekly-chart__ends {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-12);
+  color: var(--text-secondary);
+}
+
+.coming-soon-card {
+  border-style: dashed;
+}
