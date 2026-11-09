@@ -110,6 +110,19 @@ def _assessment_items(assessments: list[Assessment]) -> list[tuple[Decimal, Deci
     return [(row.score_10, row.weight) for row in assessments if row.score_10 is not None]
 
 
+def process_items(
+    assignments: list[Assignment], assessments: list[Assessment], as_of: date, late_penalty: Decimal
+) -> list[tuple[str, Decimal, Decimal]]:
+    """Các mục của điểm quá trình hiện tại (D-313), kèm loại: (loại, điểm, trọng số). CR-13 dùng."""
+    scored = [
+        ("assignment", score, weight)
+        for score, weight in assignment_items(assignments, as_of, late_penalty)
+    ]
+    return scored + [
+        (row.kind, row.score_10, row.weight) for row in assessments if row.score_10 is not None
+    ]
+
+
 def _ratio(numerator: int, denominator: int) -> dict:
     if denominator == 0:
         return {"numerator": 0, "denominator": 0, "value": None, "percent": None}
@@ -477,9 +490,10 @@ def _meta(snapshot: LmsSnapshot) -> dict:
     }
 
 
-def snapshot_body(snapshot: LmsSnapshot) -> dict:
-    """Đọc lại một bản chụp đã lưu, tính số tổng như lúc nhận."""
-    schedule = schedule_of(snapshot.course_id, snapshot.semester_id)
+def snapshot_rows(
+    snapshot: LmsSnapshot,
+) -> tuple[list[tuple[int, str]], list[Assignment], list[Assessment]]:
+    """Dữ liệu gốc của một bản chụp: điểm danh (buổi, trạng thái), bài tập, bài kiểm tra."""
     attendance = db.session.scalars(
         select(LmsAttendance)
         .where(LmsAttendance.snapshot_id == snapshot.id)
@@ -495,22 +509,48 @@ def snapshot_body(snapshot: LmsSnapshot) -> dict:
         .where(LmsAssessment.snapshot_id == snapshot.id)
         .order_by(LmsAssessment.taken_on, LmsAssessment.code)
     )
+    return (
+        [(row.session_no, row.status) for row in attendance],
+        [
+            Assignment(row.code, row.name, row.due_date, row.submitted_on, row.score_10, row.weight)
+            for row in assignments
+        ],
+        [
+            Assessment(row.kind, row.code, row.name, row.taken_on, row.score_10, row.weight)
+            for row in assessments
+        ],
+    )
+
+
+def snapshot_body(snapshot: LmsSnapshot) -> dict:
+    """Đọc lại một bản chụp đã lưu, tính số tổng như lúc nhận."""
+    schedule = schedule_of(snapshot.course_id, snapshot.semester_id)
+    attendance, assignments, assessments = snapshot_rows(snapshot)
     return _snapshot_body(
         student=db.session.get(Student, snapshot.student_id),
         course=db.session.get(Course, snapshot.course_id),
         schedule=schedule,
         week=course_calendar.week_range(schedule, snapshot.week_no),
         as_of=snapshot.as_of,
-        attendance=[(row.session_no, row.status) for row in attendance],
-        assignments=[
-            Assignment(row.code, row.name, row.due_date, row.submitted_on, row.score_10, row.weight)
-            for row in assignments
-        ],
-        assessments=[
-            Assessment(row.kind, row.code, row.name, row.taken_on, row.score_10, row.weight)
-            for row in assessments
-        ],
+        attendance=attendance,
+        assignments=assignments,
+        assessments=assessments,
         extra=_meta(snapshot),
+    )
+
+
+def snapshots_of(student_id: str, course_id: str, semester_id: str) -> list[LmsSnapshot]:
+    """Mọi bản chụp của một môn, tuần tăng dần (điểm dự kiến theo tuần, CR-13)."""
+    return list(
+        db.session.scalars(
+            select(LmsSnapshot)
+            .where(
+                LmsSnapshot.student_id == student_id,
+                LmsSnapshot.course_id == course_id,
+                LmsSnapshot.semester_id == semester_id,
+            )
+            .order_by(LmsSnapshot.week_no)
+        )
     )
 
 
@@ -542,6 +582,10 @@ def _course_calendar(schedule: Schedule, today: date) -> dict:
         "current_week": None if week is None else _week_json(week),
         "sessions_held": course_calendar.sessions_held(schedule, today),
     }
+
+
+def course_calendar_json(schedule: Schedule, today: date) -> dict:
+    return _course_calendar(schedule, today)
 
 
 def calendar(actor: User, student_id: str, course_id: str, as_of: date) -> dict:
@@ -605,15 +649,23 @@ def form_options(actor: User) -> dict:
 
 
 def current_courses(student: Student) -> dict:
-    """Các môn đang học kỳ hiện tại của sinh viên, kèm bản LMS mới nhất và tổng hợp báo cáo tuần
-    (D-312). Chưa dự đoán (CR-13)."""
-    from app.services import weekly_report_service
+    """Các môn đang học kỳ hiện tại của sinh viên, kèm bản LMS mới nhất, tổng hợp báo cáo tuần
+    (D-312) và điểm dự kiến (CR-13, D-314). Xếp theo mức cảnh báo nặng trước, cùng mức thì điểm
+    dự kiến thấp trước."""
+    from app.services import prediction_service, weekly_report_service
 
     semester = current_semester()
     today = clock.today()
     items = []
     if semester is not None:
-        for course_id in in_progress_course_ids(student.id, semester.id):
+        results = prediction_service.predictions(student, semester)
+        ordered = sorted(
+            in_progress_course_ids(student.id, semester.id),
+            key=lambda course_id: prediction_service.sort_key(
+                results[course_id], db.session.get(Course, course_id).code
+            ),
+        )
+        for course_id in ordered:
             course = db.session.get(Course, course_id)
             schedule = schedule_of(course_id, semester.id)
             snapshot = latest_snapshot(student.id, course_id, semester.id)
@@ -641,6 +693,7 @@ def current_courses(student: Student) -> dict:
                     else weekly_report_service.summary(
                         student.id, course_id, semester.id, schedule
                     ),
+                    "prediction": prediction_service.summary_json(results[course_id]),
                 }
             )
     return {

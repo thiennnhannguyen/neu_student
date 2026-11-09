@@ -71,6 +71,56 @@ GLOSSARY = (
         "source": "Kết quả các lần học, nhóm môn, quy chế của khóa",
         "note": "Chỉ mô tả điểm số theo nhóm môn, không suy ra năng lực nghề.",
     },
+    # CR-13 (D-314): mọi ngưỡng, hệ số là GIÁ TRỊ MẪU (prediction_config.DEFAULTS), không dùng AI.
+    {
+        "key": "course_prediction",
+        "name": "Điểm dự kiến của môn đang học",
+        "formula": (
+            "0,1 × Chuyên cần + 0,4 × Quá trình + 0,5 × Cuối kỳ (trọng số theo môn). "
+            "Chuyên cần = 10 × buổi có mặt ÷ buổi đã học, giả định giữ tỷ lệ tới cuối kỳ; "
+            "vắng có phép tính như vắng. Quá trình = (n × điểm quá trình hiện tại + 2 × mức nền) "
+            "÷ (n + 2), n = số bài tập, bài kiểm tra đã vào điểm quá trình (bài quá hạn chưa nộp "
+            "tính 0). Cuối kỳ = mức nền + điều chỉnh, tổng điều chỉnh trong ±1,5: mức hiểu bài TB "
+            "4 báo cáo gần nhất ≥ 4 thì +0,5, ≤ 2 thì −0,5; tỷ lệ nộp bài ≥ 90% thì +0,3, "
+            "dưới 60% thì −0,5; tự học trên 2 giờ/tuần thì +0,2, dưới 1 giờ thì −0,3; không nộp "
+            "từ 2 báo cáo tuần thì −0,3; mức tự tin giảm 3 báo cáo liên tiếp thì −0,2."
+        ),
+        "source": "LMS (điểm danh, bài tập, bài kiểm tra), báo cáo tuần, kết quả các lần học",
+        "note": (
+            "Mức nền = điểm trung bình hệ 10 (trọng số tín chỉ) các lần học hiệu lực; nhóm môn có "
+            "từ 3 môn thì dùng nhóm đó; chưa có môn nào thì 6,0 (mức nền mặc định). Điểm chữ theo "
+            "thang của khóa. Mọi hệ số, ngưỡng là giá trị mẫu. Dự kiến chỉ mang tính tham khảo, "
+            "dựa trên dữ liệu mô phỏng."
+        ),
+    },
+    {
+        "key": "prediction_range",
+        "name": "Khoảng dự kiến và độ tin cậy",
+        "formula": (
+            "Phần đã biết = 0,5 × buổi đã học ÷ số buổi của môn, cộng 0,4 × phần trọng số của "
+            "điểm giữa kỳ (nếu đã có) trong phần Quá trình. Nửa khoảng = 2,0 × (1 − phần đã biết), "
+            "tối thiểu 0,3. Độ tin cậy: dưới 0,15 Thấp; 0,15–0,30 Trung bình; trên 0,30 Cao."
+        ),
+        "source": "Lịch học của môn, dữ liệu LMS",
+        "note": "Các hệ số, ngưỡng là giá trị mẫu.",
+    },
+    {
+        "key": "course_warning",
+        "name": "Cảnh báo từng môn",
+        "formula": (
+            "Lấy mức cao nhất. Không đủ điều kiện dự thi: vắng từ 3 buổi không phép hoặc từ 4 buổi "
+            "có phép. Nguy cơ cao: dự kiến dưới 4,5; cận trên của khoảng dưới 5,0; vắng 2 buổi "
+            "không phép hoặc 3 buổi có phép; thiếu từ 3 bài quá hạn hoặc tỷ lệ nộp dưới 60%. "
+            "Cần chú ý: dự kiến dưới 5,5; vắng 1 buổi không phép hoặc 2 buổi có phép; thiếu 2 bài "
+            "quá hạn hoặc tỷ lệ nộp dưới 80%; không nộp từ 2 báo cáo tuần; dự kiến giảm 2 tuần "
+            "liên tiếp với tổng mức giảm từ 0,3. Còn lại: Ổn."
+        ),
+        "source": "Dữ liệu LMS, báo cáo tuần, điểm dự kiến theo từng bản chụp LMS",
+        "note": (
+            "Hai loại vắng tính riêng (D-311). Không đủ điều kiện dự thi thì không hiện điểm. "
+            "Các ngưỡng là giá trị mẫu. Cảnh báo chỉ để tham khảo."
+        ),
+    },
 )
 
 

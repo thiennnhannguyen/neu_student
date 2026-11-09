@@ -17,7 +17,7 @@ from app.schemas.m11 import (
     SemesterQuerySchema,
     TargetQuerySchema,
 )
-from app.services import lms_service, m11_api_service
+from app.services import lms_service, m11_api_service, prediction_service
 
 m11_bp = Blueprint("m11", __name__, url_prefix="/api/m11")
 READER_ROLES = (ROLE_STUDENT, ROLE_ADVISOR, ROLE_ADMIN)
@@ -107,6 +107,14 @@ def metrics_glossary():
 @m11_bp.get("/current-courses")
 @require_roles(*READER_ROLES)
 def current_courses():
-    """Các môn đang học kỳ hiện tại kèm bản LMS mới nhất (CR-11; dự đoán ở CR-13)."""
+    """Các môn đang học kỳ hiện tại kèm bản LMS mới nhất và điểm dự kiến (CR-11, CR-13)."""
     student, _args = _target(TargetQuerySchema())
     return jsonify(lms_service.current_courses(student))
+
+
+@m11_bp.get("/courses/<course_id>/prediction")
+@require_roles(*READER_ROLES)
+def course_prediction(course_id):
+    """Trang chi tiết môn đang học: điểm dự kiến, thành phần, cảnh báo, dữ liệu LMS (CR-13)."""
+    student, _args = _target(TargetQuerySchema())
+    return jsonify(prediction_service.course_detail(student, course_id))

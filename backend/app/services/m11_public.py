@@ -2,6 +2,7 @@
 
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
+from decimal import Decimal
 
 from app.common.errors import ApiError
 from app.services.curriculum_service import curriculum_course_ids
@@ -14,6 +15,7 @@ from app.services.effective_attempt_service import (
     in_progress_course_ids,
     passed_course_ids,
 )
+from app.services.gpa_service import split_for_gpa
 from app.services.m11_loader import load_rule_version, load_student_data
 from app.services.m11_types import StudentData
 from app.services.risk_service import assess_risk
@@ -199,3 +201,63 @@ def get_risk_levels(student_id: str) -> tuple[tuple[str, str], ...]:
 def get_rule_version(cohort: str) -> str | None:
     """Khóa cache của M12 cần giá trị này, vì trạng thái môn phụ thuộc quy chế (Q91)."""
     return load_rule_version(cohort)
+
+
+@dataclass(frozen=True)
+class BaselineFact:
+    """Mức nền của một môn đang học (CR-13, D-314). value None: chưa có lần học nào có điểm."""
+
+    value: Decimal | None
+    source: str  # "group", "all", "none"
+    courses: int
+    group_name: str | None
+
+
+@dataclass(frozen=True)
+class PredictionFacts:
+    baselines: Mapping[str, BaselineFact]
+    scale: tuple[tuple[str, Decimal], ...]
+
+
+def _credit_mean(items: list[tuple[Decimal, int]]) -> Decimal:
+    numerator = sum((score * credits for score, credits in items), Decimal(0))
+    return numerator / sum(credits for _score, credits in items)
+
+
+def get_prediction_facts(
+    student_id: str, course_ids: Iterable[str], group_min_courses: int
+) -> PredictionFacts:
+    """Mức nền = trung bình hệ 10 có trọng số tín chỉ các lần học hiệu lực, cùng phạm vi môn như
+    GPA (bỏ môn miễn, môn không tính GPA). Nhóm môn của môn đang học có từ group_min_courses môn
+    thì dùng nhóm đó, không thì dùng mọi môn (H2). Kèm thang điểm chữ của khóa (D-308)."""
+    data = load_student_data(student_id)
+    attempts = {effective.attempt.id: effective.attempt for effective in effective_attempts(data)}
+    included, _excluded = split_for_gpa(data, tuple(attempts.values()))
+    scored = [
+        (data.course_by_id[item.course_id].group_id, attempts[item.attempt_id])
+        for item in included
+        if attempts[item.attempt_id].score_10 is not None
+    ]
+    every = [(attempt.score_10, attempt.credits) for _group, attempt in scored]
+    baselines = {}
+    for course_id in course_ids:
+        course = data.course_by_id.get(course_id)
+        group = [
+            (attempt.score_10, attempt.credits)
+            for group_id, attempt in scored
+            if course is not None and group_id == course.group_id
+        ]
+        if len(group) >= group_min_courses:
+            baselines[course_id] = BaselineFact(
+                _credit_mean(group), "group", len(group), course.group_name
+            )
+        elif every:
+            baselines[course_id] = BaselineFact(_credit_mean(every), "all", len(every), None)
+        else:
+            baselines[course_id] = BaselineFact(None, "none", 0, None)
+    scale = (
+        ()
+        if data.scale is None
+        else tuple((level.letter, level.min_score) for level in data.scale.levels)
+    )
+    return PredictionFacts(baselines, scale)

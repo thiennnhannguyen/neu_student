@@ -51,6 +51,11 @@ def _rows(student_id: str, course_id: str, semester_id: str) -> dict[int, Weekly
     return {row.week_no: row for row in rows}
 
 
+def report_rows(student_id: str, course_id: str, semester_id: str) -> dict[int, WeeklyReport]:
+    """Báo cáo đã lưu của một môn theo tuần (điểm dự kiến CR-13 đọc câu trả lời)."""
+    return _rows(student_id, course_id, semester_id)
+
+
 def _course_json(course: Course) -> dict:
     return {"id": course.id, "code": course.code, "name": course.name}
 
