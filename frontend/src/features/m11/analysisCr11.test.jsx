@@ -18,30 +18,23 @@ describe('Phân tích & Cảnh báo', () => {
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
     expect(screen.getByRole('heading', { name: 'Cảnh báo học vụ' })).toBeInTheDocument();
     expect(await screen.findByText('Mức chung')).toBeInTheDocument();
-    const table = await screen.findByRole('table', {
-      name: 'Môn đang học và dữ liệu LMS mới nhất',
-    });
+    // D-314: bảng chỉ còn 2 cột Môn học · Điểm dự kiến. Lịch, tuần, vắng, bài tập và 3 điểm của
+    // D-313 chuyển sang trang chi tiết môn (courseDetailCr13.test.jsx, mục d).
+    const table = await screen.findByRole('table', { name: 'Môn đang học và điểm dự kiến' });
     const rows = within(table).getAllByRole('row').slice(1);
     expect(rows).toHaveLength(2);
-    expect(rows[0]).toHaveTextContent('CNTT1188');
-    expect(rows[0]).toHaveTextContent('Thứ 4');
-    expect(rows[0]).toHaveTextContent('Tuần 8 (21/10/2026–27/10/2026)');
-    expect(rows[0]).toHaveTextContent('1/8 buổi, 1 có phép');
-    expect(rows[0]).toHaveTextContent('4/7 đã nộp · 3 quá hạn · 1 nộp muộn');
-    // D-313: điểm bài tập hiện tại tính bài quá hạn là 0 (không còn 7,75).
-    expect(rows[0]).toHaveTextContent('4,43');
-    expect(rows[0]).toHaveTextContent('7,50');
-    expect(rows[0]).toHaveTextContent('4,81');
+    expect(rows[0]).toHaveTextContent('Lập trình Web CNTT1188');
+    expect(rows[0]).toHaveTextContent('6,78 C+Nguy cơ cao');
     expect(rows[1]).toHaveTextContent('Chưa có mã');
-    expect(rows[1]).toHaveTextContent('Chưa có dữ liệu LMS');
-    expect(rows[1]).toHaveTextContent('Chưa có lịch');
+    expect(rows[1]).toHaveTextContent('Chưa đủ dữ liệu');
     expect(screen.getByText(/Ngày hệ thống: 26\/10\/2026/)).toBeInTheDocument();
   });
 
   it('không còn các khối M11-04 đến M11-08, không gọi API của chúng', async () => {
     const fetchMock = m11Api('student');
     renderApp('/m11/phan-tich');
-    await screen.findByRole('table', { name: 'Môn đang học và dữ liệu LMS mới nhất' });
+    // D-314: tên bảng mới.
+    await screen.findByRole('table', { name: 'Môn đang học và điểm dự kiến' });
 
     for (const title of [
       'Xu hướng GPA',

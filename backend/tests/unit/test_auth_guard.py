@@ -315,6 +315,7 @@ def test_route_registry_covers_all_expected_api_routes():
         ("GET", "/api/m11/compare"),
         ("GET", "/api/m11/metrics-glossary"),
         ("GET", "/api/m11/current-courses"),
+        ("GET", "/api/m11/courses/<course_id>/prediction"),  # D-314
         *LMS_ROUTES,
         *WEEKLY_REPORT_STUDENT_ROUTES,
         WEEKLY_REPORT_READ_ROUTE,
@@ -347,6 +348,7 @@ def test_m11_and_grade_entry_routes_declare_exact_roles():
         14
         + 1
         + 1  # GET /api/m11/current-courses (D-309)
+        + 1  # GET /api/m11/courses/<course_id>/prediction (D-314)
         + len(LMS_ROUTES)
         + len(M12_USER_ROUTES)
         + len(new_writes)

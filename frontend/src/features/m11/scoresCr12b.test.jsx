@@ -3,23 +3,26 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { jsonResponse, renderApp } from '../../test/fakeApi';
-import { CURRENT_COURSES, m11Api } from './testData';
+import { COURSE_DETAIL, CURRENT_COURSES, m11Api } from './testData';
 
+// D-314: bảng môn đang học chỉ còn 2 cột; 3 điểm của D-313 và ⓘ chuyển sang mục "Điểm hiện tại
+// từ LMS" của trang chi tiết môn.
 function withScores(summary) {
-  const [first, second] = CURRENT_COURSES.items;
   return {
-    ...CURRENT_COURSES,
-    items: [
-      { ...first, latest: { ...first.latest, summary: { ...first.latest.summary, ...summary } } },
-      second,
-    ],
+    ...COURSE_DETAIL,
+    latest: { ...COURSE_DETAIL.latest, summary: { ...COURSE_DETAIL.latest.summary, ...summary } },
   };
 }
 
+async function lmsScores() {
+  await screen.findByRole('heading', { level: 1, name: 'Lập trình Web' });
+  return screen.getByRole('heading', { name: /Điểm hiện tại từ LMS/ }).parentElement;
+}
+
 describe('Điểm bài tập và điểm quá trình (D-313)', () => {
-  it('bảng có đủ 3 cột điểm đúng tên, mỗi cột đúng trường của API', async () => {
+  it('trang chi tiết môn có đủ 3 điểm đúng tên, mỗi điểm đúng trường của API', async () => {
     m11Api('student', {
-      'GET /api/m11/current-courses': () =>
+      'GET /api/m11/courses/CNTT1188/prediction': () =>
         jsonResponse(
           200,
           withScores({
@@ -29,33 +32,20 @@ describe('Điểm bài tập và điểm quá trình (D-313)', () => {
           }),
         ),
     });
-    renderApp('/m11/phan-tich');
-    const table = await screen.findByRole('table', { name: /Môn đang học/ });
-    const headers = within(table)
-      .getAllByRole('columnheader')
-      .map((cell) => cell.textContent);
-    expect(headers).toEqual(
-      expect.arrayContaining(['Điểm bài tập hiện tại', 'Điểm kiểm tra', 'Điểm quá trình hiện tại']),
-    );
-    expect(headers).not.toContain('Điểm TB bài tập');
-    const cells = within(within(table).getAllByRole('row')[1]).getAllByRole('cell');
-    const valueOf = (name) => cells[headers.indexOf(name) - 1]?.textContent;
-    // Cột đầu (Tên môn) là ô tiêu đề hàng nên lệch 1 với các ô thường.
-    const rowHeaderIndex = headers.indexOf('Tên môn');
-    const at = (name) =>
-      headers.indexOf(name) > rowHeaderIndex
-        ? valueOf(name)
-        : cells[headers.indexOf(name)]?.textContent;
-    expect(at('Điểm bài tập hiện tại')).toBe('4,43');
-    expect(at('Điểm kiểm tra')).toBe('7,50');
-    expect(at('Điểm quá trình hiện tại')).toBe('4,81');
+    renderApp('/m11/phan-tich/mon/CNTT1188');
+    const list = (await lmsScores()).querySelector('dl');
+    const value = (name) => within(list).getByText(name).nextElementSibling.textContent;
+    expect(value('Điểm bài tập hiện tại')).toBe('4,43');
+    expect(value('Điểm kiểm tra')).toBe('7,50');
+    expect(value('Điểm quá trình hiện tại')).toBe('4,81');
+    expect(list).not.toHaveTextContent('Điểm TB bài tập');
   });
 
   it('ⓘ ghi cách tính: quá hạn = 0, chưa tới hạn và chờ chấm không tính, nộp muộn, gộp kiểm tra', async () => {
     const user = userEvent.setup();
     m11Api('student');
-    renderApp('/m11/phan-tich');
-    await screen.findByRole('table', { name: /Môn đang học/ });
+    renderApp('/m11/phan-tich/mon/CNTT1188');
+    await lmsScores();
     await user.click(
       screen.getByRole('button', { name: 'Cách tính điểm bài tập và điểm quá trình' }),
     );

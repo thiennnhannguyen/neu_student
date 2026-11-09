@@ -334,13 +334,145 @@ export const CURRENT_COURSES = {
           assessment_average: '7.50',
         },
       },
+      // D-314: điểm dự kiến (bản gọn), đúng số CNTT1188 của thiennhan ở ngày demo.
+      prediction: {
+        level: 'high',
+        score: '6.78',
+        letter: 'C+',
+        range: { low: '5.32', high: '8.25' },
+        confidence: 'medium',
+        reasons: [{ code: 'assignments_missing', level: 'high', text: 'Thiếu 3/7 bài đã quá hạn' }],
+      },
     },
     {
       course: { id: 'CNTT1159', code: null, name: 'Quản lý dự án', credits: 3 },
       schedule: null,
       latest: null,
+      prediction: {
+        level: 'insufficient',
+        score: null,
+        letter: null,
+        range: null,
+        confidence: null,
+        reasons: [],
+      },
     },
   ],
+};
+
+/** Trang chi tiết môn (CR-13, D-314): CNTT1188 của thiennhan ở ngày demo, cắt bớt danh sách. */
+export const COURSE_DETAIL = {
+  today: '2026-10-26',
+  semester: { id: 'S5', name: 'HK1 2026-2027' },
+  course: { id: 'CNTT1188', code: 'CNTT1188', name: 'Lập trình Web', credits: 3 },
+  schedule: CURRENT_COURSES.items[0].schedule,
+  latest: {
+    week: { week_no: 8, start: '2026-10-21', end: '2026-10-27' },
+    as_of: '2026-10-26',
+    received_at: '2026-10-26T10:00:05Z',
+    attendance: [{ session_no: 1, session_date: '2026-09-02', status: 'present' }],
+    assignments: [
+      {
+        code: 'BT1',
+        name: 'Bài tập lập trình Web 1',
+        due_date: '2026-09-08',
+        submitted_on: '2026-09-07',
+        score_10: '8.00',
+        weight: '1.00',
+        status: 'graded',
+        late: false,
+      },
+      {
+        code: 'BT2',
+        name: 'Bài tập lập trình Web 2',
+        due_date: '2026-09-15',
+        submitted_on: null,
+        score_10: null,
+        weight: '1.00',
+        status: 'overdue',
+        late: false,
+      },
+      {
+        code: 'BT3',
+        name: 'Bài tập lập trình Web 3',
+        due_date: '2026-09-22',
+        submitted_on: '2026-09-24',
+        score_10: '7.50',
+        weight: '1.00',
+        status: 'graded',
+        late: true,
+      },
+    ],
+    assessments: [
+      {
+        kind: 'quiz',
+        code: 'KT1',
+        name: 'Kiểm tra 1',
+        taken_on: '2026-09-23',
+        score_10: '7.50',
+        weight: '1.00',
+      },
+    ],
+    summary: CURRENT_COURSES.items[0].latest.summary,
+  },
+  weekly_reports: {
+    submitted: 7,
+    expected: 7,
+    missed: 0,
+    open: 0,
+    latest: { week_no: 7, submitted_on: '2026-10-20' },
+  },
+  prediction: {
+    ...CURRENT_COURSES.items[0].prediction,
+    as_of: '2026-10-26',
+    half_width: '1.47',
+    known_share: '0.27',
+    components: [
+      { key: 'attendance', weight: '0.10', value: '10.00', kind: 'assumed' },
+      {
+        key: 'process',
+        weight: '0.40',
+        value: '5.37',
+        current: '4.81',
+        items: 8,
+        kind: 'partial',
+      },
+      { key: 'final', weight: '0.50', value: '7.28', kind: 'estimate' },
+    ],
+    baseline: { value: '7.58', source: 'all', courses: 28, group_name: null },
+    adjustments: [
+      {
+        code: 'understanding_high',
+        value: '0.50',
+        text: 'Mức hiểu bài trung bình 4,00 (4 báo cáo gần nhất)',
+      },
+      { code: 'self_study_low', value: '-0.30', text: 'Tự học khoảng 0,50 giờ/tuần' },
+      { code: 'submit_rate_low', value: '-0.50', text: 'Đã nộp 4/7 bài đến hạn' },
+    ],
+    adjust_total: '-0.30',
+    targets: [
+      { letter: 'C', score: '5.50', status: 'needed', needed: '4.71' },
+      { letter: 'B', score: '7.00', status: 'needed', needed: '7.71' },
+      { letter: 'A', score: '8.50', status: 'unreachable', needed: null },
+    ],
+    attendance: { held: 8, present: 8, absent: 0, excused: 0, total_sessions: 15 },
+    weekly: [
+      ['2026-09-08', '8.07', 807, 'ok'],
+      ['2026-09-15', '8.12', 812, 'ok'],
+      ['2026-09-22', '6.95', 695, 'high'],
+      ['2026-09-29', '7.43', 743, 'watch'],
+      ['2026-10-06', '7.07', 707, 'watch'],
+      ['2026-10-13', '7.20', 720, 'watch'],
+      ['2026-10-20', '6.69', 669, 'high'],
+      ['2026-10-26', '6.78', 678, 'high'],
+    ].map(([asOf, score, plot, level], index) => ({
+      week_no: index + 1,
+      as_of: asOf,
+      score,
+      plot,
+      level,
+    })),
+  },
 };
 
 const respond = (body) => () => jsonResponse(200, body);
@@ -367,6 +499,7 @@ export function m11Api(role = 'student', extra = {}) {
     'GET /api/m11/compare': respond(COMPARE),
     'GET /api/m11/metrics-glossary': respond(GLOSSARY),
     'GET /api/m11/current-courses': respond(CURRENT_COURSES),
+    'GET /api/m11/courses/CNTT1188/prediction': respond(COURSE_DETAIL),
     ...extra,
   });
 }

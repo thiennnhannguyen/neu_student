@@ -30,11 +30,9 @@ async function answerAll(dialog) {
   }
 }
 
-function courseRow(page, code) {
-  return page
-    .getByRole('table', { name: 'Môn đang học và dữ liệu LMS mới nhất' })
-    .locator('tbody tr')
-    .filter({ hasText: code });
+// D-314: cột "Báo cáo tuần" chuyển vào mục "Báo cáo tuần" của trang chi tiết môn.
+function weeklySection(page) {
+  return page.getByRole('region', { name: 'Báo cáo tuần', exact: true });
 }
 
 for (const width of [1440, 375]) {
@@ -80,11 +78,15 @@ test('Làm sau, nộp môn 2/2, tải lại thì hiện lại không còn Làm s
       name: 'Phân tích & Cảnh báo',
     })
     .click();
-  await expect(courseRow(page, 'CNTT1117')).toContainText(
-    'Đã nộp 8/8 · gần nhất tuần 8 (26/10/2026)',
-  );
-  await expect(courseRow(page, 'CNTT1180')).toContainText('Đã nộp 6/6 · gần nhất tuần 6');
-  await expect(courseRow(page, 'CNTT1180')).toContainText('1 đang mở');
+  // Bấm dòng của môn trong bảng để mở trang chi tiết.
+  await page.getByRole('link', { name: /CNTT1117\s*: điểm dự kiến/ }).click();
+  await expect(weeklySection(page)).toContainText('Đã nộp 8/8 · gần nhất tuần 8 (26/10/2026)');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  // Quay lại bảng bằng liên kết trong trang (không tải lại, nên CNTT1180 vẫn đang "Làm sau").
+  await page.locator('.back-link').click();
+  await page.getByRole('link', { name: /CNTT1180\s*: điểm dự kiến/ }).click();
+  await expect(weeklySection(page)).toContainText('Đã nộp 6/6 · gần nhất tuần 6');
+  await expect(weeklySection(page)).toContainText('1 đang mở');
   await expect(page.getByRole('dialog')).toHaveCount(0);
 
   // Tải lại trang: hiện lại CNTT1180, không còn "Làm sau", Esc không đóng.
@@ -106,9 +108,9 @@ test('không chặn Yêu cầu hỗ trợ', async ({ page }) => {
 
 test('cố vấn xem lại báo cáo tuần của sinh viên được phân công, chỉ đọc', async ({ page }) => {
   await login(page, 'gv2');
-  await page.goto('/m11/phan-tich?student=NEU-KHMT-001');
+  await page.goto('/m11/phan-tich/mon/CNTT1140?student=NEU-KHMT-001');
   await expect(page.getByRole('dialog')).toHaveCount(0);
-  const row = courseRow(page, 'CNTT1140');
+  const row = weeklySection(page);
   await expect(row).toContainText('Đã nộp 5/7 · gần nhất tuần 6 (14/10/2026)');
   await row.getByRole('button', { name: 'Xem báo cáo tuần môn CNTT1140' }).click();
   const panel = page.getByRole('dialog', { name: /Báo cáo tuần CNTT1140/ });

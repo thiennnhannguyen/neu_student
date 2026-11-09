@@ -3,7 +3,7 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { apiError, jsonResponse, renderApp } from '../../test/fakeApi';
-import { CURRENT_COURSES, callsTo, m11Api } from '../m11/testData';
+import { COURSE_DETAIL, callsTo, m11Api } from '../m11/testData';
 import { PRIVACY_NOTE } from './questions';
 
 function report(code, weekNo, due, extra = {}) {
@@ -272,21 +272,25 @@ const HISTORY = {
   ],
 };
 
+// D-314: cột "Báo cáo tuần" của bảng chuyển vào mục "Báo cáo tuần" của trang chi tiết môn.
 function withWeekly(summary) {
-  return {
-    ...CURRENT_COURSES,
-    items: [{ ...CURRENT_COURSES.items[0], weekly_reports: summary }, CURRENT_COURSES.items[1]],
-  };
+  return { ...COURSE_DETAIL, weekly_reports: summary };
 }
 
-describe('Cột "Báo cáo tuần" (D-312)', () => {
+const DETAIL = 'GET /api/m11/courses/CNTT1188/prediction';
+
+function weeklySection() {
+  return screen.getByRole('heading', { name: 'Báo cáo tuần' }).parentElement;
+}
+
+describe('Báo cáo tuần ở trang chi tiết môn (D-312, chuyển chỗ theo D-314)', () => {
   it('đã nộp x/y, lần gần nhất, số đang mở; "Xem" mở bản chỉ đọc', async () => {
     const user = userEvent.setup();
     const fetchMock = api({
       items: [],
       role: 'advisor',
       extra: {
-        'GET /api/m11/current-courses': () =>
+        [DETAIL]: () =>
           jsonResponse(
             200,
             withWeekly({
@@ -300,15 +304,13 @@ describe('Cột "Báo cáo tuần" (D-312)', () => {
         'GET /api/weekly-reports': () => jsonResponse(200, HISTORY),
       },
     });
-    renderApp('/m11/phan-tich?student=SV04');
-    const table = await screen.findByRole('table', { name: /Môn đang học/ });
-    const rows = within(table).getAllByRole('row');
-    expect(rows[0]).toHaveTextContent('Báo cáo tuần');
-    expect(rows[1]).toHaveTextContent('Đã nộp 5/7 · gần nhất tuần 6 (14/10/2026) · 1 đang mở');
-    expect(rows[2]).toHaveTextContent('—');
+    renderApp('/m11/phan-tich/mon/CNTT1188?student=SV04');
+    await screen.findByRole('heading', { level: 1, name: 'Lập trình Web' });
+    const section = weeklySection();
+    expect(section).toHaveTextContent('Đã nộp 5/7 · gần nhất tuần 6 (14/10/2026) · 1 đang mở');
 
     await user.click(
-      within(rows[1]).getByRole('button', { name: 'Xem báo cáo tuần môn CNTT1188' }),
+      within(section).getByRole('button', { name: 'Xem báo cáo tuần môn CNTT1188' }),
     );
     const panel = await screen.findByRole('dialog', { name: /Báo cáo tuần CNTT1188/ });
     const query = callsTo(fetchMock, '/api/weekly-reports').at(-1);
@@ -329,17 +331,16 @@ describe('Cột "Báo cáo tuần" (D-312)', () => {
     api({
       items: [],
       extra: {
-        'GET /api/m11/current-courses': () =>
+        [DETAIL]: () =>
           jsonResponse(
             200,
             withWeekly({ submitted: 0, expected: 0, missed: 0, open: 1, latest: null }),
           ),
       },
     });
-    renderApp('/m11/phan-tich');
-    const table = await screen.findByRole('table', { name: /Môn đang học/ });
-    const row = within(table).getAllByRole('row')[1];
-    expect(row).toHaveTextContent('Đã nộp 0/0 · 1 đang mở');
-    expect(within(row).queryByRole('button', { name: /Xem báo cáo/ })).toBeNull();
+    renderApp('/m11/phan-tich/mon/CNTT1188');
+    await screen.findByRole('heading', { level: 1, name: 'Lập trình Web' });
+    expect(weeklySection()).toHaveTextContent('Đã nộp 0/0 · 1 đang mở');
+    expect(within(weeklySection()).queryByRole('button', { name: /Xem báo cáo/ })).toBeNull();
   });
 });

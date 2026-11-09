@@ -14,11 +14,16 @@ async function seriousViolations(page) {
     .map((item) => item.id);
 }
 
+// D-314: bảng chỉ còn 2 cột Môn học · Điểm dự kiến; tuần, vắng, bài tập xem ở trang chi tiết môn.
 function courseRow(page, code) {
   return page
-    .getByRole('table', { name: 'Môn đang học và dữ liệu LMS mới nhất' })
+    .getByRole('table', { name: 'Môn đang học và điểm dự kiến' })
     .locator('tbody tr')
     .filter({ hasText: code });
+}
+
+function section(page, name) {
+  return page.getByRole('region', { name });
 }
 
 test('thiennhan: 5 môn đang học, tuần 8 của từng môn ở ngày demo 26/10/2026', async ({ page }) => {
@@ -27,7 +32,7 @@ test('thiennhan: 5 môn đang học, tuần 8 của từng môn ở ngày demo 2
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Phân tích & Cảnh báo');
   await expect(page.getByRole('heading', { name: 'Cảnh báo học vụ' })).toBeVisible();
   const rows = page
-    .getByRole('table', { name: 'Môn đang học và dữ liệu LMS mới nhất' })
+    .getByRole('table', { name: 'Môn đang học và điểm dự kiến' })
     .locator('tbody tr');
   await expect(rows).toHaveCount(5);
   const weeks = {
@@ -38,10 +43,16 @@ test('thiennhan: 5 môn đang học, tuần 8 của từng môn ở ngày demo 2
     CNTT1188: 'Tuần 8 (21/10/2026–27/10/2026)',
   };
   for (const [code, week] of Object.entries(weeks)) {
-    await expect(courseRow(page, code)).toContainText(week);
+    await page.goto(`/m11/phan-tich/mon/${code}`);
+    await expect(section(page, 'Lịch học')).toContainText(week);
   }
-  await expect(courseRow(page, 'CNTT1159')).toContainText('2/8 buổi');
-  await expect(courseRow(page, 'CNTT1188')).toContainText('4/7 đã nộp · 3 quá hạn · 1 nộp muộn');
+  await page.goto('/m11/phan-tich/mon/CNTT1159');
+  await expect(section(page, 'Chuyên cần')).toContainText('Vắng không phép2');
+  await page.goto('/m11/phan-tich/mon/CNTT1188');
+  await expect(section(page, /^Điểm hiện tại từ LMS/)).toContainText(
+    'Bài đã nộp4/7 · 3 quá hạn · 1 nộp muộn',
+  );
+  await page.goto('/m11/phan-tich');
   for (const old of ['Xu hướng GPA', 'So sánh hai kỳ', 'Đối chiếu chương trình đào tạo']) {
     await expect(page.getByText(old, { exact: true })).toHaveCount(0);
   }
@@ -80,7 +91,10 @@ test('admin gửi dữ liệu LMS Demo: số tổng do backend tính, sinh viên
 
   await login(page, 'thiennhan');
   await page.goto('/m11/phan-tich');
-  await expect(courseRow(page, 'CNTT1159')).toContainText('3/8 buổi');
+  // D-314: vắng 3 buổi không phép thì không đủ điều kiện dự thi, lên đầu bảng.
+  await expect(courseRow(page, 'CNTT1159')).toContainText('Không đủ điều kiện dự thi');
+  await page.goto('/m11/phan-tich/mon/CNTT1159');
+  await expect(section(page, 'Chuyên cần')).toContainText('Vắng không phép3');
 });
 
 test('sinh viên không mở được LMS Demo, API trả 403', async ({ page }) => {

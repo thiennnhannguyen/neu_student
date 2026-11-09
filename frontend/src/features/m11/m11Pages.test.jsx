@@ -928,7 +928,9 @@ describe('Cảnh báo', () => {
 
     renderApp('/m11/canh-bao');
 
-    expect(await screen.findByText('Chưa đủ dữ liệu')).toHaveClass('status-text');
+    // D-314: bảng môn đang học cũng có "Chưa đủ dữ liệu" (điểm dự kiến), nên tìm trong khối cảnh báo.
+    const risks = (await screen.findByRole('heading', { name: 'Cảnh báo học vụ' })).parentElement;
+    expect(await within(risks).findByText('Chưa đủ dữ liệu')).toHaveClass('status-text');
     expect(screen.getByRole('heading', { name: 'GPA tích lũy' })).toBeInTheDocument();
   });
 
