@@ -48,7 +48,7 @@ Cột cuối ghi các câu nhóm A, B trong OPEN_QUESTIONS.md phải chốt trư
 | CR-13b | Một bộ từ chỉ mức Ổn / Cần chú ý / Nguy cơ cao, câu ⓘ về mức cảnh báo, đường dẫn phân cấp và biểu đồ trục 0–10 ở trang chi tiết môn; chuyên cần trừ điểm theo số buổi vắng không phép; xóa dòng chú thích lộ trình nghề | Xong phần code, chờ quản lý dự án nghiệm thu (D-315, D-316, D-317, Q90) | Máy 1 |
 | CR-14 | Trang giới thiệu nghề Backend `/m12/dinh-huong/nghe/:slug/gioi-thieu`: nội dung ở bảng `career_landings` (migration 0017), API theo slug cho 4 vai trò, phần môn học và mô-đun lấy từ dữ liệu sẵn có, khối Thu nhập tham khảo có nguồn, phần cá nhân hóa chỉ sinh viên | Xong phần code, chờ quản lý dự án nghiệm thu (D-319 đến D-323); chưa gắn tag `cr-14` | Máy 2 |
 | Sửa nhỏ 09/11 | D-324 → D-329: link học W3Schools, bỏ 2 dòng chú thích trang nghề, icon tick tròn xanh, bỏ hộp tài khoản demo, sửa trang trắng khi hủy request, mã hiển thị 11243794 | Đã gộp vào main, chờ nghiệm thu | Máy 1 |
-| Q90 | Vắng có phép trừ điểm chuyên cần (D-330, đóng Q90, mở Q111 cho 2 mức tạm), nhánh `cr-q90-vang-co-phep` | Xong phần code, PR chờ CI và nghiệm thu | Máy 1 |
+| Q90 | Vắng có phép trừ điểm chuyên cần (D-330, đóng Q90, mở Q111 cho 2 mức tạm) | Đã gộp (PR #4), chờ nghiệm thu và trả lời Q111 | Máy 1 |
 | D-331 | Tài liệu chính thức cho ô tự học W3Schools không có bài | Đã gộp (PR #3), chờ nghiệm thu | Máy 1 |
 | CI | Artifact báo cáo Playwright khi e2e đỏ, action Node 24, `ubuntu-24.04` | Đã gộp (PR #1) | Máy 1 |
 | Quy tắc hai máy | Mục "Làm việc song song" trong AGENTS.md, cột Máy, theo dõi CI | Đã gộp (PR #2) | Máy 1 |
@@ -61,8 +61,8 @@ Máy 1 = máy gửi báo cáo 09/11, Máy 2 = máy còn lại (AGENTS.md, mục 
 |-----|--------|-----|---------|--------------------|
 | 1 | `47a5270` (PR #1) | [42589198400](https://github.com/thiennnhannguyen/neu_student/actions/runs/42589198400) | Xanh (backend, frontend, e2e) | |
 | 2 | `5d04dc6` (PR #2) | [42592264598](https://github.com/thiennnhannguyen/neu_student/actions/runs/42592264598) | Xanh (backend, frontend, e2e) | |
-| 3 | | | | |
-| 4 | | | | |
+| 3 | `22003aa` (PR #3) | [42595371814](https://github.com/thiennnhannguyen/neu_student/actions/runs/42595371814) | Xanh (backend, frontend, e2e) | |
+| 4 | `d4710cc` (PR #4) | [42600060445](https://github.com/thiennnhannguyen/neu_student/actions/runs/42600060445) | Đang chạy lúc mở PR #5 (frontend xanh) | |
 | 5 | | | | |
 
 ## Việc tồn đọng giao diện
