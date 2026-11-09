@@ -1059,20 +1059,3 @@ describe('chuông thông báo', () => {
     );
   });
 });
-
-describe('hộp tài khoản demo', () => {
-  it('có nhãn của nhân viên hỗ trợ', async () => {
-    const { stubApi } = await import('../../test/fakeApi');
-    stubApi({
-      'GET /api/auth/me': () => apiError(401, 'UNAUTHENTICATED', 'x'),
-      'GET /api/health': () => jsonResponse(200, { status: 'ok' }),
-      'GET /api/auth/demo-accounts': () =>
-        jsonResponse(200, {
-          accounts: [{ username: 'ht1', full_name: 'Nhân sự hỗ trợ 1', role: 'support_staff' }],
-        }),
-    });
-    renderApp('/login');
-
-    expect(await screen.findByText('Hỗ trợ')).toBeInTheDocument();
-  });
-});

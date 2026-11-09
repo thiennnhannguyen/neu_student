@@ -28,7 +28,12 @@ export class ApiError extends Error {
 async function readJson(response) {
   try {
     return await response.json();
-  } catch {
+  } catch (cause) {
+    // D-328: hủy giữa lúc đọc thân phản hồi (đổi trang, chuyển hướng) vẫn là AbortError, không
+    // thành dữ liệu null; nơi gọi đã bỏ qua AbortError.
+    if (cause?.name === 'AbortError') {
+      throw cause;
+    }
     return null;
   }
 }

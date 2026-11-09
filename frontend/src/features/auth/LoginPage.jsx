@@ -11,7 +11,6 @@ import {
 } from '../../components/brand/mosaicLayouts';
 import { IMAGES } from '../../constants/images';
 import { useAuth } from './AuthContext';
-import DemoAccounts from './DemoAccounts';
 import LoginForm from './LoginForm';
 import { safeRedirectPath } from './redirect';
 
@@ -48,12 +47,6 @@ export default function LoginPage() {
       </div>
       <div className="login-panel">
         <LoginForm username={username} setUsername={setUsername} passwordRef={passwordRef} />
-        <DemoAccounts
-          onPick={(value) => {
-            setUsername(value);
-            passwordRef.current?.focus();
-          }}
-        />
         <MockNotice />
       </div>
     </main>

@@ -563,3 +563,16 @@ Test cũ đổi theo D-320 (commit test riêng): `tests/helpers.py` (thêm `TABL
 | Yêu cầu | Test |
 |---|---|
 | Icon tròn đặc màu token, tick trắng; Đạt, Đạt qua tương đương, Đã chấm, chú giải, Checklist Đã đạt, Đáp án đúng, yêu cầu Hoàn thành, toast thành công dùng icon mới; Chưa đạt, toast lỗi giữ icon cũ | `frontend/src/components/ui/checkBadge.test.jsx` |
+
+## D-327: Bỏ hộp "Tài khoản demo" ở trang đăng nhập
+
+| Yêu cầu | Test |
+|---|---|
+| Không có hộp và nút tài khoản demo, giao diện không gọi `GET /api/auth/demo-accounts` kể cả khi API trả danh sách | `frontend/src/features/auth/LoginForm.test.jsx` |
+
+## D-328: Hủy request lúc đang đọc phản hồi không làm sập trang
+
+| Yêu cầu | Test |
+|---|---|
+| Hủy lúc đọc thân phản hồi vẫn là AbortError, không trả null; thân không phải JSON vẫn trả null | `frontend/src/api/client.test.js` |
+| Đường dẫn cũ `/m11/canh-bao` chuyển hướng không trắng trang ở 375/768/1280px | `frontend/e2e/sweep.spec.mjs` (có sẵn) |

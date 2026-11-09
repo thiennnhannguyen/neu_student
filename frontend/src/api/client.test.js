@@ -85,6 +85,21 @@ describe('apiRequest', () => {
     await expect(apiRequest('/api/x')).rejects.toBe(abort);
   });
 
+  it('D-328: hủy lúc đang đọc thân phản hồi vẫn là AbortError, không trả null', async () => {
+    const abort = new DOMException('Aborted', 'AbortError');
+    const response = jsonResponse(200, { unread_count: 1 });
+    response.json = () => Promise.reject(abort);
+    fetchMock.mockResolvedValue(response);
+
+    await expect(apiRequest('/api/x')).rejects.toBe(abort);
+  });
+
+  it('thân phản hồi không phải JSON (không do hủy) vẫn trả null', async () => {
+    fetchMock.mockResolvedValue(new Response('không phải json', { status: 200 }));
+
+    await expect(apiRequest('/api/x')).resolves.toBeNull();
+  });
+
   it('gửi body dạng JSON và trả dữ liệu', async () => {
     const data = await apiRequest('/api/x', { method: 'POST', body: { a: 1 } });
 
