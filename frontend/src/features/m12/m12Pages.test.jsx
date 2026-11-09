@@ -525,7 +525,7 @@ describe('trang chi tiết nghề: Hero', () => {
 });
 
 describe('tab Lộ trình học', () => {
-  it('tab mặc định; có 2 nhãn khác nhau về học kỳ chính thức và thứ tự khuyến nghị', async () => {
+  it('tab mặc định; không còn dòng chú thích học kỳ chính thức và thứ tự khuyến nghị (D-317)', async () => {
     m12Api();
     await openRoadmap();
 
@@ -533,8 +533,9 @@ describe('tab Lộ trình học', () => {
       'aria-selected',
       'true',
     );
-    expect(screen.getByText('Học kỳ chính thức theo CTĐT:')).toBeInTheDocument();
-    expect(screen.getByText('Thứ tự học khuyến nghị:')).toBeInTheDocument();
+    // D-317: quản lý dự án yêu cầu xóa dòng chú thích phía trên lộ trình.
+    expect(screen.queryByText('Học kỳ chính thức theo CTĐT:')).toBeNull();
+    expect(screen.queryByText('Thứ tự học khuyến nghị:')).toBeNull();
   });
 
   it('timeline: mỗi giai đoạn có %, sản phẩm cần đạt; mẫu số 0 hiện "—" và ghi là dự án', async () => {
